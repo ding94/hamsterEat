@@ -1,6 +1,6 @@
 <?php
 return [
     'adminEmail' => 'cheonghong@alishop.my',
-    'supportEmail' => 'homecookdelicacies@hotmail.com',
+    'supportEmail' => 'cheonghong@alishop.my',
     'user.passwordResetTokenExpire' => 3600,
 ];

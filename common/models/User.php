@@ -81,8 +81,19 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-       return static::find()->where('username = :username',[':username' => $username])->andWhere(['between', 'status', self::STATUS_UNVERIFIED, self::STATUS_ACTIVE])->one();
+        return static::find()->where('username = :username',[':username' => $username])->andWhere(['between', 'status', self::STATUS_UNVERIFIED, self::STATUS_ACTIVE])->one();
     }
+
+    /**
+     * Finds user by email
+     *
+     * @param string $email
+     * @return static|null
+     */
+     public static function findByEmail($email)
+     {
+         return static::find()->where('email = :email',[':email' => $email])->andWhere(['between', 'status', self::STATUS_UNVERIFIED, self::STATUS_ACTIVE])->one();
+     }
 
     /**
      * Finds user by password reset token

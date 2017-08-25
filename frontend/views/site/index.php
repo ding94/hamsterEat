@@ -17,7 +17,7 @@ $this->title = 'My Yii Application';
         <?php if( $postcode['detectArea'] == 1) :?>
         <?= $form->field($postcode, 'Area_Area')->dropDownList($list) ?>
         <?php endif ;?>
-        <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+        <?= Html::submitButton('Proceed', ['class' => 'btn btn-primary', 'name' => 'proceed-button']) ?>
 
         <?php ActiveForm::end(); ?>
 

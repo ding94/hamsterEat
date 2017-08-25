@@ -14,6 +14,8 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\User;
 use common\models\User\Userdetails;
+use common\models\Area;
+use yii\helpers\ArrayHelper;
 
 /**
  * Site controller
@@ -74,7 +76,25 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $postcode = new Area();
+        $list =array();
+        $postcode->detectArea = 0;
+        if(Yii::$app->request->isPost)
+        {
+            $postcode->detectArea = 1;
+            $area = Yii::$app->request->post('Area');
+            $postcode->Area_Postcode = $area['Area_Postcode'];
+            $dataArea = Area::find()->where(['like','Area_Postcode' , $area['Area_Postcode']])->all();
+            $list = ArrayHelper::map($dataArea,'Area_Area' ,'Area_Area');
+            
+            if(empty($list)) {
+                $postcode->detectArea = 0;
+                Yii::$app->session->setFlash('error', 'There is no available area under that postcode.');
+            }
+           
+        }
+        
+        return $this->render('index',['postcode'=>$postcode ,'list'=>$list]);
     }
 
     /**

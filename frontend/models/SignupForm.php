@@ -32,7 +32,22 @@ class SignupForm extends Model
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
 
             ['password', 'required'],
-            ['password', 'string', 'min' => 6],
+            ['password', 'string', 'min' => 6, 'max' => 20],
+        ];
+    }
+
+    /**
+     * Returns the attribute labels.
+     *
+     * See Model class for more details
+     *  
+     * @return array attribute labels (name => label).
+     */
+    public function attributeLabels()
+    {
+        return [
+        'username' => 'Username',
+        'password' => 'Password',
         ];
     }
 

@@ -14,6 +14,8 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\User;
 use common\models\User\Userdetails;
+use common\models\User\Useraddress;
+use common\models\User\Rmanager;
 use common\models\Area;
 use yii\helpers\ArrayHelper;
 
@@ -232,6 +234,10 @@ class SiteController extends Controller
             $userdetails = new Userdetails();
             $userdetails->User_Username=$user->username;
             $userdetails->save();
+
+            $useraddress = new Useraddress();
+            $useraddress->User_Username=$user->username;
+            $useraddress->save();
             
 
             Yii::$app->getSession()->setFlash('success','Success!');

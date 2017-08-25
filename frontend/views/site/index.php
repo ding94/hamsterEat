@@ -10,9 +10,11 @@ $this->title = 'My Yii Application';
 
     <div class="jumbotron">
         <h1>Select Your Location</h1>
-
-        <?php $form = ActiveForm::begin(['id' => 'selectarea']); ?>
-
+        <?php if($postcode['detectArea'] == 0) :?>
+        <?php $form = ActiveForm::begin(['id' => 'area']); ?>
+        <?php else :?>
+        <?php $form = ActiveForm::begin(['action' =>['site/search-restaurant-by-area'],'id' => 'area']); ?>
+        <?php endif ;?>
         <?= $form->field($postcode, 'Area_Postcode')->textInput(['autofocus' => true])->label('Postcode') ?>
         <?php if( $postcode['detectArea'] == 1) :?>
         <?= $form->field($postcode, 'Area_Area')->dropDownList($list) ?>

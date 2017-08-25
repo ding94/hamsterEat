@@ -92,9 +92,19 @@ class SiteController extends Controller
                 Yii::$app->session->setFlash('error', 'There is no available area under that postcode.');
             }
            
-        }
+        }   
         
         return $this->render('index',['postcode'=>$postcode ,'list'=>$list]);
+
+      
+    }
+
+    public function actionSearchRestaurantByArea()
+    {
+        $area = Yii::$app->request->post('Area');
+        $groupArea = Area::find()->where('Area_Postcode = :area_postcode and Area_Area = :area_area',[':area_postcode'=> $area['Area_Postcode'] , ':area_area'=>$area['Area_Area']])->one();
+        
+        return $this->render('',['']);
     }
 
     /**

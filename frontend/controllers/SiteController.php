@@ -13,6 +13,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use common\models\User;
+use common\models\User\Userdetails;
 
 /**
  * Site controller
@@ -150,6 +151,7 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
+        
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
@@ -160,6 +162,7 @@ class SiteController extends Controller
                 ->send();
                 if($email){
                     if (Yii::$app->getUser()->login($user)) {
+
                         Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
                         return $this->render('validation');
                     }
@@ -205,9 +208,15 @@ class SiteController extends Controller
         if(!empty($user)){
             $user->status=10;
             $user->save();
+
+            $userdetails = new Userdetails();
+            $userdetails->User_Username=$user->username;
+            $userdetails->save();
+            
+
             Yii::$app->getSession()->setFlash('success','Success!');
             if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
+                  return $this->redirect(['user/user-profile']);
             }
         } else{
             Yii::$app->getSession()->setFlash('warning','Failed!');

@@ -28,13 +28,17 @@ class Userdetails extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+     public static function primaryKey()
+{
+    return ['User_Username'];
+}
     public function rules()
     {
         return [
             [['User_Username'], 'required'],
-            [['User_MemberPoints'], 'integer'],
+            [['User_MemberPoints','User_ContactNo'], 'integer'],
             [['User_AccountBalance'], 'number'],
-            [['User_Username', 'User_FirstName', 'User_LastName', 'User_PicPath', 'User_ContactNo'], 'string', 'max' => 255],
+            [['User_Username', 'User_FirstName', 'User_LastName', 'User_PicPath' ], 'string', 'max' => 255],
         ];
     }
 

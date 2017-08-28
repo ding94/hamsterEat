@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models\order;
+namespace common\models;
 
 use Yii;
 

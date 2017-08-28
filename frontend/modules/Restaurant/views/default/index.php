@@ -11,6 +11,8 @@
     <div class = "table table-restaurant-details">
 
         <?php foreach($restaurant as $data) :?>
+        <br>
+        <br>
         <table>
         <tr>
             <td> Restaurant Name: </td>
@@ -27,6 +29,8 @@
             <td> <?php echo $data['Restaurant_UnitNo'] . ", " . $data['Restaurant_Street'] . ", " . $data['Restaurant_Area'] . ", " . $data['Restaurant_Postcode']."."; ?></td>
         </tr>   
         </table>
+        <br>
+        <br>
         <?php endforeach;?>
     </div>
 

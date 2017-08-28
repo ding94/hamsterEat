@@ -6,6 +6,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use common\models\Upload;
 
 $this->title = 'Enter details';
 $this->params['breadcrumbs'][] = $this->title;
@@ -33,6 +34,24 @@ $this->params['breadcrumbs'][] = $this->title;
                  <?= $form->field($address, 'User_HouseNo1')->textInput()->label('House Number') ?>
 
                  <?= $form->field($address, 'User_Postcode1')->textInput()->label('Postcode') ?>
+
+                 <?= $form->field($address, 'User_Area2')->textInput()->label('Area') ?>
+
+                 <?= $form->field($address, 'User_Street2')->textInput()->label('Street') ?>
+
+                 <?= $form->field($address, 'User_HouseNo2')->textInput()->label('House Number') ?>
+
+                 <?= $form->field($address, 'User_Postcode2')->textInput()->label('Postcode') ?>
+
+                 <?= $form->field($address, 'User_Area3')->textInput()->label('Area') ?>
+
+                 <?= $form->field($address, 'User_Street3')->textInput()->label('Street') ?>
+
+                 <?= $form->field($address, 'User_HouseNo3')->textInput()->label('House Number') ?>
+
+                 <?= $form->field($address, 'User_Postcode3')->textInput()->label('Postcode') ?>
+
+              
 
                 <div class="form-group">
                     <?= Html::submitButton('Done', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>

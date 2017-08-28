@@ -28,6 +28,10 @@ class Userdetails extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+     public static function primaryKey()
+{
+    return ['User_Username'];
+}
     public function rules()
     {
         return [

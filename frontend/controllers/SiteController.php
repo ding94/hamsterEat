@@ -104,8 +104,11 @@ class SiteController extends Controller
     {
         $area = Yii::$app->request->post('Area');
         $groupArea = Area::find()->where('Area_Postcode = :area_postcode and Area_Area = :area_area',[':area_postcode'=> $area['Area_Postcode'] , ':area_area'=>$area['Area_Area']])->one();
-        
-        return $this->render('',['']);
+
+        $groupArea = $groupArea['Area_Group'];
+        //var_dump($groupArea);exit;
+        return $this->redirect(['Restaurant/default/index','groupArea'=>$groupArea]);
+
     }
 
     /**

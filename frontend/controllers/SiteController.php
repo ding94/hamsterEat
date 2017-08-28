@@ -31,12 +31,12 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup','index'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['index'],
                         'allow' => true,
-                        'roles' => ['?'],
+                        'roles' => ['restaurant manager'],
                     ],
                     [
                         'actions' => ['logout'],

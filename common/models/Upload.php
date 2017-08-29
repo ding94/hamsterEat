@@ -9,17 +9,19 @@ class Upload extends Model
      * @var UploadedFile
      */
     public $imageFile;
+
     public function rules()
     {
         return [
             [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
         ];
     }
-     public function upload()
+     public function upload($location)
     {
+        //default location = 'imageLocation/'
         if ($this->validate()) {
-            $this->imageFile->saveAs('imageLocation/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
-		
+            $this->imageFile->saveAs( $location . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+        
             return true;
         } else {
             return false;

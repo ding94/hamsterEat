@@ -39,6 +39,11 @@ class SiteController extends Controller
                         'roles' => ['restaurant manager'],
                     ],
                     [
+                        'actions' => ['signup'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                    [
                         'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],

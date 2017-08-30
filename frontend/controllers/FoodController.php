@@ -8,7 +8,7 @@ use yii\web\UploadedFile;
 
 class FoodController extends Controller
 {
-        public function actionFoodDetails()
+    public function actionFoodDetails()
     {
         $food = food::find()->where('Food_ID = :id' ,[':id' => 1])->one();
 

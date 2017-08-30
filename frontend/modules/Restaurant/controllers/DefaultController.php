@@ -19,14 +19,15 @@ class DefaultController extends Controller
     {
         //$aa = Yii::$app->request->get();
         $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group' ,[':group' => $groupArea])->all();
-        $restaurantno = restaurant::find()->where('Restaurant_AreaGroup = :group' ,[':group' => $groupArea])->count();
 
-        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'restaurantno'=>$restaurantno]);
+        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea]);
     }
 
-
-    public function actionSelected($groupArea)
+    public function actionRestaurantDetails($rid)
     {
-        
+        $id = restaurant::find()->where('Restaurant_ID = :id' ,[':id' => $rid])->one();
+
+        return $this->render('RestaurantDetails',['id'=>$id]);
     }
+
 }

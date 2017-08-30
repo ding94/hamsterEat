@@ -8,7 +8,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use common\models\Upload;
 
-$this->title = 'Enter details';
+$this->title = 'New Food Item';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">

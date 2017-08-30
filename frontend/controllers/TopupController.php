@@ -1,7 +1,7 @@
 <?php
 
 namespace frontend\controllers;
-use app\models\Accounttopup;
+use frontend\models\Accounttopup;
 use common\models\User;
 use common\models\Upload;
 use yii\helpers\ArrayHelper;
@@ -22,13 +22,13 @@ class TopupController extends \yii\web\Controller
     		$post = Yii::$app->request->post();
     		$model->User_Username = User::find()->where('id = :id',[':id' => Yii::$app->user->identity->id])->one()->username;
 
-			// $model->action = 1;
-			// $model->action_before=1;
+			$model->Account_Action = 1;
+			$model->Account_ActionBefore=1;
     		$upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
     		$upload->imageFile->name = time().'.'.$upload->imageFile->extension;
 			
     		$post['Accounttopup']['Account_ReceiptPicPath'] = $path.'/'.$upload->imageFile->name;
-    		$upload->upload();
+    		$upload->upload('imageLocation');
 			//var_dump($upload->imageFile);exit;
     		$model->load($post);
     		$model->save(false);

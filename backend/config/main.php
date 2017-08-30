@@ -11,7 +11,11 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'finance' => [
+            'class' => 'app\modules\finance\finance',
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
@@ -37,6 +41,11 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+
+        'urlManagerFrontEnd'=>[
+            'class' => 'yii\web\urlManager',
+            'baseUrl' => '/hamsterEat/frontend/web',
+        ]
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

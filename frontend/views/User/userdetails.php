@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
+            
                 <?= $form->field($detail, 'User_PicPath')->fileInput()->label('Picture') ?>
 
                 <?= $form->field($detail, 'User_FirstName')->textInput()->label('First Name') ?>
@@ -35,21 +36,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
                  <?= $form->field($address, 'User_Postcode1')->textInput()->label('Postcode') ?>
 
-                 <?= $form->field($address, 'User_Area2')->textInput()->label('Area') ?>
+                 <?= $form->field($address, 'User_Area2')->textInput()->label('Area (Adress 2)') ?>
 
-                 <?= $form->field($address, 'User_Street2')->textInput()->label('Street') ?>
+                 <?= $form->field($address, 'User_Street2')->textInput()->label('Street (Adress 2)') ?>
 
-                 <?= $form->field($address, 'User_HouseNo2')->textInput()->label('House Number') ?>
+                 <?= $form->field($address, 'User_HouseNo2')->textInput()->label('House Number (Adress 2)') ?>
 
-                 <?= $form->field($address, 'User_Postcode2')->textInput()->label('Postcode') ?>
+                 <?= $form->field($address, 'User_Postcode2')->textInput()->label('Postcode (Adress 2)') ?>
 
-                 <?= $form->field($address, 'User_Area3')->textInput()->label('Area') ?>
+                 <?= $form->field($address, 'User_Area3')->textInput()->label('Area (Adress 3)') ?>
 
-                 <?= $form->field($address, 'User_Street3')->textInput()->label('Street') ?>
+                 <?= $form->field($address, 'User_Street3')->textInput()->label('Street (Adress 3)') ?>
 
-                 <?= $form->field($address, 'User_HouseNo3')->textInput()->label('House Number') ?>
+                 <?= $form->field($address, 'User_HouseNo3')->textInput()->label('House Number (Adress 3)') ?>
 
-                 <?= $form->field($address, 'User_Postcode3')->textInput()->label('Postcode') ?>
+                 <?= $form->field($address, 'User_Postcode3')->textInput()->label('Postcode (Adress 3)') ?>
 
               
 

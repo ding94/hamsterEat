@@ -37,12 +37,12 @@ class SiteController extends Controller
                     [
                         'actions' => ['signup','index'],
                         'allow' => true,
-                        'roles' => ['?','restaurant manager','rider'],
+                        'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['index'],
                         'allow' => true,
-                        'roles' => ['?'],
+                        'roles' => ['?','@'],
                     ],
                     [
                         'actions' => ['signup'],
@@ -326,7 +326,7 @@ class SiteController extends Controller
         ]);
     }
     
-    public function actionRmanager($model)
+    public function actionRmanager()
     {
         $model = new SignupForm();
          $model1 = new Rmanager();

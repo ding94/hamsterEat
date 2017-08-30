@@ -25,7 +25,7 @@ class UserController extends Controller
     {
       
         $upload = new Upload();
-        $path = Yii::$app->request->baseUrl.'/imageLocation';
+        $path = Yii::$app->request->baseUrl.'/imageLocation/';
        //var_dump($path);exit;
      
 
@@ -61,7 +61,7 @@ class UserController extends Controller
 
         
                     Yii::$app->session->setFlash('success', "Update completed");
-                    return $this->redirect(['index']);
+                    return $this->redirect(['user/user-profile']);
                 
                     }
                     else{

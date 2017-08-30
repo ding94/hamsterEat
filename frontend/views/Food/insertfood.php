@@ -11,14 +11,14 @@ use common\models\Upload;
 $this->title = 'New Food Item';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-signup">
+<div class="site-newfood">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to details:</p>
+    <p>Please insert your food's details:</p>
 
     <div class="row">
         <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
+            <?php $form = ActiveForm::begin(['id' => 'form-newfood']); ?>
                 <?= $form->field($food, 'Food_FoodPicPath')->fileInput()->label('Picture') ?>
 
                 <?= $form->field($food, 'Food_Name')->textInput()->label('Food Name') ?>
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                  <?= $form->field($food, 'Food_Desc')->textInput()->label('Food Description') ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Done', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                    <?= Html::submitButton('Done', ['class' => 'btn btn-primary', 'name' => 'insert-button']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

@@ -16,14 +16,15 @@ class Upload extends Model
             [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
         ];
     }
-     public function upload($location)
+     public function upload()
     {
         //default location = 'imageLocation/'
         if ($this->validate()) {
-            $this->imageFile->saveAs( $location . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+            $this->imageFile->saveAs( 'imageLocation/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
         
             return true;
-        } else {
+        } else 
+        {
             return false;
         }
     }

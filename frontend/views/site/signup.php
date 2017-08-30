@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     
                 </div>
 
-         <?= Html::a('Sign up as Restaurant Manager', ['/site/rmanager'], ['class'=>'btn btn-primary']) ?>
+                    <?= Html::a('Sign up as Restaurant Manager', ['/site/rmanager'], ['class'=>'btn btn-primary']) ?>
                     
                     <?= Html::a('Sign up as Delivery man', ['/site/deliveryman'], ['class'=>'btn btn-primary']) ?>  
           

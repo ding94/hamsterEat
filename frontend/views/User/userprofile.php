@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
              <tr>
             
-            <td> <img class="img-rounded img-responsive" style="height:250px" src="<?php echo $userdetails->User_PicPath; ?>"></td>
+            <td> <img class="img-rounded img-responsive" style="height:250px;" src=<?php echo $userdetails->User_PicPath; ?>></td>
             </tr>
             <tr>
             <td>User Name:</td>

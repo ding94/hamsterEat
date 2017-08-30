@@ -23,7 +23,8 @@ class Upload extends Model
             $this->imageFile->saveAs( 'imageLocation/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
         
             return true;
-        } else {
+        } else 
+        {
             return false;
         }
     }

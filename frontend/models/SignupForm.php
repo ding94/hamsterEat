@@ -12,7 +12,7 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
-
+    public $type;
 
     /**
      * @inheritdoc
@@ -67,6 +67,25 @@ class SignupForm extends Model
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
+        $user->save();
+
+      
+         
+        
+       if($this->type == 2){
+               $auth = \Yii::$app->authManager;
+        $authorRole = $auth->getRole('rider');
+        $auth->assign($authorRole, $user->getId());
+       }
+       else if($this->type == 1)
+       {
+         $auth = \Yii::$app->authManager;
+        $authorRole = $auth->getRole('restaurant manager');
+        $auth->assign($authorRole, $user->getId());
+       }
+     
+
+        
         
         return $user->save() ? $user : null;
     }

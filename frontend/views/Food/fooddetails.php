@@ -3,36 +3,38 @@ use yii\helpers\Html;
 ?>
 
 <div class="container">
-	<div class="tab-content col-md-7 col-md-offset-1" id="userprofile">
-		<table class="table table-user-information"><h1>Food details</h1>
+      <h1><center>Food details</h1>
+      <br>
+	<div class="tab-content col-md-12" id="fooddetails">
+		<table class="table table-user-information" style="width:60%; margin:auto;">
 
             <tr>         
-            <td> <img class="img-rounded img-responsive" style="height:250px" src="<?php echo $food->Food_FoodPicPath; ?>"></td>
+                  <td> <img class="img-rounded img-responsive" style="height:250px; width:350px; margin-left: 25%;" src="<?php echo "/hamsterEat/frontend/web/imageLocation/".$fooddata->Food_FoodPicPath; ?>"></td>
             </tr>
 
             <tr>
-            <td>Food Name:</td>
-            <td> <?php echo $food->Food_Name;?></td>
+                  <td>Food Name:</td>
+                  <td> <?php echo $fooddata->Food_Name;?></td>
             </tr>
 
             <tr>
-            <td>Food Type:</td>
-            <td> <?php echo $food->Food_Type;?></td>
+                  <td>Food Type:</td>
+                  <td> <?php echo $fooddata->Food_Type;?></td>
             </tr>
 
             <tr>
-            <td>Food Price:</td>
-            <td> <?php echo $food->Food_Price;?></td>
+                  <td>Food Price (RM):</td>
+                  <td> <?php echo $fooddata->Food_Price;?></td>
             </tr>
 
             <tr>
-            <td>Food Description:</td>
-            <td> <?php echo $food->Food_Desc;?></td>
+                  <td>Food Description:</td>
+                  <td> <?php echo $fooddata->Food_Desc;?></td>
             </tr>
 
             <tr>				
-            <td> <?= Html::a('Add to Cart', [''], ['class'=>'btn btn-primary']) ?> </td>
+                  <td> <?= Html::a('Add to Cart', [''], ['class'=>'btn btn-primary']) ?> </td>
             </tr>
             </table>
-            </div>
-            </div>
+      </div>
+</div>

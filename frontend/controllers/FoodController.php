@@ -8,11 +8,11 @@ use yii\web\UploadedFile;
 
 class FoodController extends Controller
 {
-    public function actionFoodDetails()
+    public function actionFoodDetails($foodid)
     {
-        $food = food::find()->where('Food_ID = :id' ,[':id' => 1])->one();
+        $fooddata = food::find()->where('Food_ID = :id' ,[':id' => $foodid])->one();
 
-         return $this->render('fooddetails',['food' => $food,]);
+         return $this->render('fooddetails',['fooddata' => $fooddata,]);
     }
     public function actionInsertFood()
     {
@@ -22,5 +22,7 @@ class FoodController extends Controller
 
         return $this->render('insertfood',['food'=>$food]);
     }
+
+
 
 }

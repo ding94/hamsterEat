@@ -7,8 +7,6 @@ use yii\helpers\Html;
 
     <?php
     {
-    $id = isset($_GET['id']) ? $_GET['id'] : '';
-    
     foreach($restaurant as $data) :
     echo "<a href="?> <?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$data['Restaurant_ID']]); ?> <?php echo ">";
     echo "<table class = 'table table-restaurant-details'>";

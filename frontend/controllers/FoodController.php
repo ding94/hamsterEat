@@ -16,7 +16,11 @@ class FoodController extends Controller
     }
     public function actionInsertFood()
     {
-          $upload = new Upload();
+        $upload = new Upload();
+        $food = new Food();
         $path = Yii::$app->request->baseUrl.'/imageLocation';
+
+        return $this->render('insertfood',['food'=>$food]);
     }
+
 }

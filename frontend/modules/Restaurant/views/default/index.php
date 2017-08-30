@@ -1,36 +1,50 @@
+<?php
+use yii\helpers\Html;
+?>
+
 <div class="container">
-    <h1>Available Restaurants In Your Area</h1>
+    <h1>Showing Available Restaurants In Your Area</h1>
 
-    <p>
-        <h2>Viewing restaurants under group : <?php echo $groupArea; ?></h2>
-    </p>
+    <?php
+    {
+    $id = isset($_GET['id']) ? $_GET['id'] : '';
+    
+    foreach($restaurant as $data) :
+    echo "<a href="?> <?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$data['Restaurant_ID']]); ?> <?php echo ">";
+    echo "<table class = 'table table-restaurant-details'>";
+    echo "<br>";
+    echo "<br>";
 
-        <?php foreach($restaurant as $data) :?>
-        <table class = "table table-restaurant-details">
-        <br>
-        <br>
+    echo "<tr>";
+        $picpath = $data['Restaurant_RestaurantPicPath'];
 
-        <tr>
-            <th rowspan="4"> RESTPIC </th>
-            <td> Restaurant ID: </td>
-            <td> <?php echo $data['Restaurant_ID'] ?></td>
-        </tr>
-        <tr>
-            <td> Restaurant Name: </td>
-            <td> <?php echo $data['Restaurant_Name'] ?></td>
-        </tr>
-        <tr>
-            <td> Restaurant Owner: </td>
-            <td> <?php echo $data['Restaurant_Manager']; ?></td>
-        </tr>
-        <tr>
-            <td> Restaurant Address: </td>
-            <td> <?php echo $data['Restaurant_UnitNo'] . ", " . $data['Restaurant_Street'] . ", " . $data['Restaurant_Area'] . ", " . $data['Restaurant_Postcode']."."; ?></td>
-        </tr>
-        </table>
-        <br>
-        <br>
-        <?php endforeach;?>
+        if (is_null($data['Restaurant_RestaurantPicPath'])){
+            $picpath = "DefaultRestaurant.jpg";
+        }
+        echo '<th rowspan = "4">' ?> <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'pull-left img-responsive','style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>";
+        echo "<td> Restaurant ID: </td>";
+        echo '<td> '.$data['Restaurant_ID'].'</td>';
+    echo "</tr>";
+    echo "<tr>";
+        echo "<td> Restaurant Name: </td>";
+        echo '<td>'.$data['Restaurant_Name'].'</td>';
+    echo "</tr>";
+    echo "<tr>";
+        echo "<td> Restaurant Owner: </td>";
+        echo '<td>'.$data['Restaurant_Manager'].'</td>';
+    echo "</tr>";
+    echo "<tr>";
+        echo "<td> Restaurant Address: </td>";
+        echo '<td>'.$data['Restaurant_UnitNo'].', '.$data['Restaurant_Street'].', '.$data['Restaurant_Area'].', '.$data['Restaurant_Postcode'].'.</td>';
+    echo "</tr>";
+    echo "</table>";
+    echo "<br>";
+    echo "<br>";
+    echo "</a>";
+    ?>
+    <?php endforeach;
+    }
+    ?>
     </div>
 
 </div>

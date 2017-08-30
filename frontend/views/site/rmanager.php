@@ -20,22 +20,22 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                
+                <?= $form->field($model, 'password')->passwordInput() ?>
+                <?= $form->field($model,'type')->hiddenInput(['value'=> '1'])?>
+                <?= $form->field($model1, 'Rmanager_NRIC')->label('I.C')?>
 
                 <?= $form->field($model, 'email') ?>
 
-                <?= $form->field($model, 'password')->passwordInput() ?>
+                
+
+                
+
+            
 
                 <div class="form-group">
                     <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
-
-                    
                 </div>
-
-         <?= Html::a('Sign up as Restaurant Manager', ['/site/rmanager'], ['class'=>'btn btn-primary']) ?>
-                    
-                    <?= Html::a('Sign up as Delivery man', ['/site/deliveryman'], ['class'=>'btn btn-primary']) ?>  
-          
-               
                 
 
             <?php ActiveForm::end(); ?>

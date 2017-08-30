@@ -321,7 +321,7 @@ class SiteController extends Controller
         ]);
     }
     
-    public function actionRmanager($model)
+    public function actionRmanager()
     {
         $model = new SignupForm();
          $model1 = new Rmanager();

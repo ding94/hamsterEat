@@ -2,10 +2,13 @@
 namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
+use yii\helpers\ArrayHelper;
 use common\models\User\Userdetails;
 use common\models\User\Useraddress;;
 use common\models\User;
 use common\models\Upload;
+use common\models\Ticket;
+use common\models\Ticketcategorytypes;
 use yii\web\UploadedFile;
 
 class UserController extends Controller
@@ -76,9 +79,41 @@ class UserController extends Controller
     public function actionUseraddress()
     {
         
-		//$this->view->title = 'Update Profile';
-		//$this->layout = 'user';
-		return $this->render("useraddress",['address' => $address]);
+        //$this->view->title = 'Update Profile';
+        //$this->layout = 'user';
+        return $this->render("useraddress",['address' => $address]);
+    }
+
+    public function actionSubmitTicket()
+    {
+        $model = new Ticket;
+        $type = Ticketcategorytypes::find()->all();
+        $data = ArrayHelper::map($type,'Category_Name','Category_Name');
+        $path = Yii::$app->params['submitticket'];
+        $upload = new Upload;
+        if (Yii::$app->request->post()) {
+            
+            $post = Yii::$app->request->post();
+
+            $upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
+            $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
+            $post['Ticket']['Ticket_PicPath'] = $path.'/'.$upload->imageFile->name;
+            $location = 'imageLocation/submitticket/';
+            $upload->upload($location);
+
+            $model->User_Username = Yii::$app->user->identity->username;
+            $model->Ticket_DateTime = time();
+            $model->Ticket_Status = 'Submitted';
+            $model->load($post);
+            $model->save(false);
+            Yii::$app->session->setFlash('success', 'Upload Successful');
+            return $this->redirect(['/user/submit-ticket']);
+        }
+
+
+
+
+        return $this->render("ticket",['model' => $model, 'data' => $data,'upload'=>$upload]);
     }
     
 }

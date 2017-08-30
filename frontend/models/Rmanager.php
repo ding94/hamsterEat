@@ -23,7 +23,10 @@ class Rmanager extends \yii\db\ActiveRecord
     {
         return 'rmanager';
     }
-
+          public static function primaryKey()
+{
+    return ['User_Username'];
+}
     /**
      * @inheritdoc
      */

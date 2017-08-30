@@ -23,9 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 
                 <?= $form->field($model, 'password')->passwordInput() ?>
                
-                <?= $form->field($model1, 'Rmanager_NRIC')->label('I.C')?>
-
                 <?= $form->field($model, 'email') ?>
+
+                <?= $form->field($model1, 'DeliveryMan_CarPlate')->label('Car Plate')?>
+
+                <?= $form->field($model1, 'DeliveryMan_LicenseNo')->label('License Number')?>
+
+                <?= $form->field($model1, 'DeliveryMan_VehicleType')->dropdownList([ 'M'=>'Motorcycle', 'C'=>'Car', 'V'=>'Van'],['prompt' => 'Select Vehicle Type'])->label('Vehicle Type')?>
 
                 
 

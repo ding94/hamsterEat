@@ -13,6 +13,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use frontend\models\Rmanager;
+use frontend\models\Deliveryman;
 use common\models\User;
 use common\models\User\Userdetails;
 use common\models\User\Useraddress;
@@ -332,9 +333,12 @@ class SiteController extends Controller
     {
         $model = new SignupForm();
          $model1 = new Rmanager();
-
+        
+        
          if ($model->load(Yii::$app->request->post()) &&  $model1->load(Yii::$app->request->post())) {
-          
+         
+            $model->type = 1;
+            
             if ($user = $model->signup()) {
                 $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
                     ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
@@ -358,5 +362,38 @@ class SiteController extends Controller
             }
         
           return $this->render('rmanager',['model1'=>$model1,'model'=>$model]);
+    }
+    
+    public function actionDeliveryman(){
+         $model = new SignupForm();
+         $model1 = new Deliveryman();
+
+         if ($model->load(Yii::$app->request->post()) &&  $model1->load(Yii::$app->request->post())) {
+         
+            $model->type = 2;
+            
+            if ($user = $model->signup()) {
+                $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
+                    ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
+                ->setTo($user->email)
+                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                ->setSubject('Signup Confirmation')
+                ->send();
+                if($email){
+                    if (Yii::$app->getUser()->login($user)) {
+                        $model1->User_Username=$user->username;
+                        $model1->save();
+                        Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
+                        return $this->render('validation');
+                    }
+                }
+                else{
+                Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
+                }
+                return $this->goHome();
+                }
+            }
+        
+          return $this->render('deliveryman',['model1'=>$model1,'model'=>$model]);
     }
 }

@@ -20,6 +20,7 @@ class TopupController extends \yii\web\Controller
        $searchModel = new Accounttopup();
        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,0);
 		$list = ArrayHelper::map(AccounttopupStatus::find()->all() ,'title' ,'title');
+
         return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel , 'list'=>$list]);
     }
 
@@ -158,7 +159,7 @@ class TopupController extends \yii\web\Controller
     	{
     		return $data;
     	}
-        $statusDesription = AccounttopupstatusController::getStatusType($status,2);
+        $statusDesription = AccounttopupstatusController::getStatusType($status,1);
         $data->Account_Action =  $statusDesription;
     	return $data;
     }
@@ -242,7 +243,7 @@ class TopupController extends \yii\web\Controller
     {
 	  
 	   $searchModel = new Accounttopup();
-       $dataProvider = $searchModel->search(Yii::$app->request->queryParams,Yii::$app->request->post('action'));
+       $dataProvider = $searchModel->search(Yii::$app->request->queryParams,Yii::$app->request->post('Account_Action'));
 		$list = ArrayHelper::map(AccounttopupStatus::find()->all() ,'title' ,'title');
 		//var_dump($list);exit;
        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel,'list'=>$list]);

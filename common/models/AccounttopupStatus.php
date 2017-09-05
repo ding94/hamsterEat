@@ -45,7 +45,7 @@ class AccounttopupStatus extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getAccounttopupstatus()
+    public function getAccounttopup_status()
     {
         return $this->hasOne(Accounttopup::className(),['Account_Action' => 'id']); 
     }

@@ -98,23 +98,14 @@ use kartik\widgets\ActiveForm;
 				
               ],
 			 ],
-			 
-			         [
-                        'attribute' => 'User_Username',
-                        'filterInputOptions' => [
-                            'class'       => 'form-control',
-                            'placeholder' => 'Search Username',
-                         ],
-                     ],
 
     	            'User_Username',
     	            'Account_TopUpAmount',
 					'Account_ChosenBank',
-					 [
+					[
 						'label' => 'Status',
 						'attribute' => 'accounttopup_status.title',
 						'value' => 'accounttopup_status.title',
-						
 						'filter' => $list,
 					],
     	            'Account_InCharge',

@@ -31,7 +31,7 @@ use yii\helpers\Html;
                   <td>Food Description:</td>
                   <td> <?php echo $fooddata->Food_Desc;?></td>
             </tr>
-
+      
             <tr>				
                   <td> <?= Html::a('Add to Cart', [''], ['class'=>'btn btn-primary']) ?> </td>
             </tr>

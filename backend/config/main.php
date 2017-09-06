@@ -21,7 +21,7 @@ return [
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'backend\models\Admin',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
@@ -55,5 +55,26 @@ return [
         ],
         */
     ],
+
+    /*
+     *deny all guest to view page
+    */
+    'as beforeRequest' =>[
+        'class' => 'yii\filters\AccessControl',
+        'rules' => [
+            [
+                'actions' => ['login'],
+                'allow' => true,
+            ],
+            [
+                'allow' => true,
+                'roles' => ['@'],
+            ],
+        ],
+        'denyCallback' => function () {
+            return Yii::$app->response->redirect(['site/login']);
+        },
+    ],
+    
     'params' => $params,
 ];

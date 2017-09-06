@@ -22,7 +22,12 @@ class FoodController extends Controller
         $food = new Food();
 
       $foodselection = new Foodselection();
-
+       if($food->load(Yii::$app->request->post()))
+       {
+           $food->save();
+       }
+      
+        // $foodselection->save();
         return $this->render('insertfood',['food'=>$food,'foodselection'=>$foodselection]);
     }
 }

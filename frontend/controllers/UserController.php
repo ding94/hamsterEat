@@ -21,6 +21,7 @@ class UserController extends Controller
         return $this->render('userprofile',['user' => $user,'userdetails' => $userdetails,'useraddress'=>$useraddress]);
        
     }
+
     public function actionUserdetails()
     {
       
@@ -37,7 +38,7 @@ class UserController extends Controller
             if($detail->load(Yii::$app->request->post()) && $address->load(Yii::$app->request->post()))
             {
                     $post = Yii::$app->request->post();
-    		        $model = Userdetails::find()->where('User_Username = :uname',[':uname' => Yii::$app->user->identity->username])->one();
+    		        $model = Userdetails::find()->where('User_Username = :uname',[':uname' => Yii::$app->user->identity->username])->one(); 
                     
 			
 			        //$model->action = 1;

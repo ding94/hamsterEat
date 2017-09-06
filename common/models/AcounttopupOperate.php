@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use common\Accounttopup;
+use frontend\models\Accounttopup;
 
 /**
  * This is the model class for table "acounttopup_operate".
@@ -55,7 +55,7 @@ class AcounttopupOperate extends \yii\db\ActiveRecord
             [['tid'],'exist',
                 'skipOnError' => true,
                 'targetClass' => Accounttopup::className(),
-                'targetAttribute' => ['tid' => 'id']
+                'targetAttribute' => ['tid' => 'Account_TransactionID']
             ]
         ];
     }

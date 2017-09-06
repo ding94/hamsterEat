@@ -15,6 +15,7 @@ class FoodController extends Controller
 
          return $this->render('fooddetails',['fooddata' => $fooddata,]);
     }
+
     public function actionInsertFood()
     {
         
@@ -24,7 +25,4 @@ class FoodController extends Controller
 
         return $this->render('insertfood',['food'=>$food,'foodselection'=>$foodselection]);
     }
-
-
-
 }

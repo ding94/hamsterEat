@@ -20,8 +20,17 @@ return [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'cache' => 'cache',
+            //these configuratio allow to rename the auth table  
+            'itemTable' => 'admin_auth_item',
+            'assignmentTable' => 'admin_auth_assignment',
+            'itemChildTable' => 'admin_auth_item_child',
+            'ruleTable' => 'admin_auth_rule',
+        ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'backend\models\Admin',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
@@ -55,5 +64,26 @@ return [
         ],
         */
     ],
+
+    /*
+     *deny all guest to view page
+    */
+    'as beforeRequest' =>[
+        'class' => 'yii\filters\AccessControl',
+        'rules' => [
+            [
+                'actions' => ['login'],
+                'allow' => true,
+            ],
+            [
+                'allow' => true,
+                'roles' => ['@'],
+            ],
+        ],
+        'denyCallback' => function () {
+            return Yii::$app->response->redirect(['site/login']);
+        },
+    ],
+    
     'params' => $params,
 ];

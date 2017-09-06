@@ -25,6 +25,7 @@ use yii\helpers\ArrayHelper;
  */
 class SiteController extends Controller
 {
+    
     /**
      * @inheritdoc
      */

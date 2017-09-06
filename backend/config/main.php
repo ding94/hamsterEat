@@ -20,6 +20,15 @@ return [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'cache' => 'cache',
+            //these configuratio allow to rename the auth table  
+            'itemTable' => 'admin_auth_item',
+            'assignmentTable' => 'admin_auth_assignment',
+            'itemChildTable' => 'admin_auth_item_child',
+            'ruleTable' => 'admin_auth_rule',
+        ],
         'user' => [
             'identityClass' => 'backend\models\Admin',
             'enableAutoLogin' => true,

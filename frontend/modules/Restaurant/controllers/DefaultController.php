@@ -8,6 +8,9 @@ use common\models\Restaurant;
 use common\models\Food;
 Use common\models\Area;
 use yii\helpers\ArrayHelper;
+use common\models\Upload;
+use yii\web\UploadedFile;
+use common\models\Rmanager;
 
 /**
  * Default controller for the `Restaurant` module
@@ -80,17 +83,40 @@ class DefaultController extends Controller
     {
         $restaurant = new Restaurant();
 
+        $upload = new Upload();
+        $path = Yii::$app->request->baseUrl.'/imageLocation/';
+
         if ($restaurant->load(Yii::$app->request->post()) && $restaurant->save())
             {
+                $post = Yii::$app->request->post();
+
+                $upload->imageFile =  UploadedFile::getInstance($restaurant, 'Restaurant_RestaurantPicPath');
+                $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
+               // $post['User_PicPath'] = 
+                $upload->upload();
+                
+                $restaurant->load($post);
+            
+                $restaurant->Restaurant_RestaurantPicPath = $upload->imageFile->name;
                 $restaurant->Restaurant_Manager=Yii::$app->user->identity->username;
 
                 $restaurant->Restaurant_AreaGroup = Yii::$app->request->post('restArea');
                 $restaurant->Restaurant_Postcode = Yii::$app->request->post('postcodechosen');
                 $restaurant->Restaurant_Area = Yii::$app->request->post('areachosen');
                 $restaurant->Restaurant_DateTimeCreated = time();
+                $restaurant->Restaurant_Status = 'Under Renovation';
+                $restaurant->Restaurant_Rating = "0";
 
+                $rid = Yii::$app->request->get('Restaurant_ID');
+                $asd = restaurant::find()->where(['Restaurant_ID'=>$rid])->one();
+                $rmanager = new Rmanager();
+                $rmanager->Restaurant_ID=$asd->Restaurant_ID;
+
+                $rmanager->save();
                 $restaurant->save();
-                return $this->redirect(['new-restaurant-location', 'restaurant'=> $restaurant, 'restArea'=>Yii::$app->request->post('restArea'), 'postcodechosen'=>Yii::$app->request->post('postcodechosen'), 'areachosen'=>Yii::$app->request->post('areachosen')]);           
+                Yii::$app->session->setFlash('success', 'Congratulations! Your restaurant has been set up and is currently waiting for a menu to be set up.');
+                
+                return $this->redirect(['/site/index', 'restaurant'=> $restaurant, 'restArea'=>Yii::$app->request->post('restArea'), 'postcodechosen'=>Yii::$app->request->post('postcodechosen'), 'areachosen'=>Yii::$app->request->post('areachosen')]);           
             }
         else 
             {

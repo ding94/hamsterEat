@@ -7,7 +7,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-use backend\models\auth\AuthAssignment;
+use backend\models\auth\AdminAuthAssignment;
 
 /**
  * This is the model class for table "admin".
@@ -71,16 +71,16 @@ class Admin extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['adminname', 'trim' ],
-            ['adminname', 'required' ],
-            ['adminname', 'unique', 'targetClass' => '\backend\models\Admin', 'message' => 'This username has already been taken.' ],
-            ['adminname', 'string', 'min' => 2, 'max' => 255 ],
+           ['adminname', 'trim' ,'on' => ['changeAdmin']],
+            ['adminname', 'required' , 'on' => ['changeAdmin']],
+            ['adminname', 'unique', 'targetClass' => '\backend\models\Admin', 'message' => 'This username has already been taken.' , 'on' => ['changeAdmin']],
+            ['adminname', 'string', 'min' => 2, 'max' => 255 , 'on' => ['changeAdmin']],
 
-            ['email', 'trim' ],
-            ['email', 'required' ],
-            ['email', 'email' ],
-            ['email', 'string', 'max' => 255 ],
-            ['email', 'unique', 'targetClass' => '\backend\models\Admin', 'message' => 'This email address has already been taken.'],
+            ['email', 'trim' , 'on' => ['changeAdmin']],
+            ['email', 'required' , 'on' => ['changeAdmin']],
+            ['email', 'email' , 'on' => ['changeAdmin']],
+            ['email', 'string', 'max' => 255 , 'on' => ['changeAdmin']],
+            ['email', 'unique', 'targetClass' => '\backend\models\Admin', 'message' => 'This email address has already been taken.' , 'on' => ['changeAdmin']],
 
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
@@ -217,9 +217,9 @@ class Admin extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
 
-    public function getAuthAssignment()
+    public function getAdminAuthAssignment()
     {
-        return $this->hasOne(AuthAssignment::className(),['user_id' => 'id']);
+        return $this->hasOne(AdminAuthAssignment::className(),['user_id' => 'id']);
     }
 
 }

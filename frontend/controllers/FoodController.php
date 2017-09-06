@@ -5,6 +5,7 @@ use yii\web\Controller;
 use common\models\Food;
 use common\models\Upload;
 use yii\web\UploadedFile;
+use common\models\Foodselection;
 
 class FoodController extends Controller
 {
@@ -14,15 +15,14 @@ class FoodController extends Controller
 
          return $this->render('fooddetails',['fooddata' => $fooddata,]);
     }
+
     public function actionInsertFood()
     {
-        $upload = new Upload();
+        
         $food = new Food();
-        $path = Yii::$app->request->baseUrl.'/imageLocation';
 
-        return $this->render('insertfood',['food'=>$food]);
+      $foodselection = new Foodselection();
+
+        return $this->render('insertfood',['food'=>$food,'foodselection'=>$foodselection]);
     }
-
-
-
 }

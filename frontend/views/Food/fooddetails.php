@@ -31,9 +31,12 @@ use yii\helpers\Html;
                   <td>Food Description:</td>
                   <td> <?php echo $fooddata->Food_Desc;?></td>
             </tr>
-      
-            <tr>				
-                  <td> <?= Html::a('Add to Cart', [''], ['class'=>'btn btn-primary']) ?> </td>
+
+
+            <tr>	
+            <td> <input type="number" value="<?=$fooddata->Food_ID?>" name="Quantity"><td>			
+                  <td> <?= Html::a('Add to Cart', ['/cart/addto-cart','Food_ID' => $fooddata->Food_ID,'Quantity'=>'value'], ['class'=>'btn btn-primary']) ?> </td>
+
             </tr>
             </table>
       </div>

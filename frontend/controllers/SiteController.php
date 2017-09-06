@@ -25,6 +25,7 @@ use yii\helpers\ArrayHelper;
  */
 class SiteController extends Controller
 {
+    
     /**
      * @inheritdoc
      */
@@ -226,6 +227,7 @@ class SiteController extends Controller
 
         return $this->render('signup', ['model' => $model]);
     }
+    
     public function actionResendconfirmlink()
     {
         $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html'],//html file, word file in email
@@ -396,4 +398,5 @@ class SiteController extends Controller
         
           return $this->render('deliveryman',['model1'=>$model1,'model'=>$model]);
     }
+
 }

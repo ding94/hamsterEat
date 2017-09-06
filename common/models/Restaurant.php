@@ -40,7 +40,7 @@ class Restaurant extends \yii\db\ActiveRecord
     {
         return [
             [['Restaurant_Postcode', 'Restaurant_Pricing', 'Restaurant_Rating', 'Restaurant_DateTimeCreated', 'Restaurant_AreaGroup'], 'integer'],
-            [['Restaurant_Manager', 'Restaurant_Name', 'Restaurant_RestaurantPicPath', 'Restaurant_Tag', 'Restaurant_Status', 'Restaurant_LicenseNo'], 'string', 'max' => 255],
+            [['Restaurant_Manager', 'Restaurant_RestaurantPicPath', 'Restaurant_Name', 'Restaurant_Tag', 'Restaurant_Status', 'Restaurant_LicenseNo'], 'string', 'max' => 255,],
             [['Restaurant_Area', 'Restaurant_Street', 'Restaurant_UnitNo'], 'string', 'max' => 50],
         ];
     }

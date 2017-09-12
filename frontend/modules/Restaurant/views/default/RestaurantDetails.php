@@ -13,6 +13,11 @@ use yii\helpers\Html;
         }
          echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>"; ?>
     <h1><center><?php echo $id['Restaurant_Name']; ?></h1>
+    <?php if ($id['Restaurant_Manager'] == Yii::$app->user->identity->username)
+    {
+        echo "<center>".Html::a('Edit', ['edit-restaurant-details', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary']);
+    }
+    ?>
     <hr>
     <br>
 
@@ -31,9 +36,11 @@ use yii\helpers\Html;
                 echo "<tr>";
                 $picpath = $data['Food_FoodPicPath'];
 
-                if (is_null($data['Food_FoodPicPath'])){
-                $picpath = "DefaultRestaurant.jpg";
+                if (is_null($data['Food_FoodPicPath']))
+                {
+                    $picpath = "DefaultRestaurant.jpg";
                 }
+
                 echo '<th rowspan = "4">' ?> <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'pull-left img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?> <?php echo "</th>";
                 echo "<td> Food Name: </td>";
                 echo '<td>'.$data['Food_Name'].'</td>';

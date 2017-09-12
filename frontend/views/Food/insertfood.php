@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($food, 'Food_Halal')->inline(true)->radioList(['N'=>'Non-Halal','H'=>'Halal'])->label('Halal') ?>
 
-                <?= $form->field($food, 'Food_Type')->inline(true)->checkboxList([ 'Cu'=>'Curry', 'F'=>'Fish', 'M'=>'Meat', 'R'=>'Rice', 'N'=>'Noodles', 'D'=>'Dim Sum', 'F'=>'Fast Food', 'Fi'=>'Finger Foods', 'G'=>'Gluten-Free', 'Ma'=>'Malay', 'P'=>'Pasta', 'S'=>'Salad', 'Sa'=>'Sashimi', 'So'=>'Soup', 'Sw'=>'Sweets', 'T'=>'Tacos', 'W'=>'Waffle'])->label('Food Type') ?>
+                <?= $form->field($food, 'Food_Type')->inline(true)->checkboxList([ 'Cu'=>'Curry', 'D'=>'Dim Sum', 'F'=>'Fast Food', 'Fi'=>'Finger Foods', 'F'=>'Fish', 'G'=>'Gluten-Free', 'Ma'=>'Malay', 'M'=>'Meat', 'N'=>'Noodles', 'P'=>'Pasta', 'R'=>'Rice', 'S'=>'Salad', 'Sa'=>'Sashimi', 'So'=>'Soup', 'Sw'=>'Sweets', 'T'=>'Tacos', 'W'=>'Waffle'])->label('Food Type') ?>
 
                 <?= $form->field($food, 'Food_Price')->textInput()->label('Food Price') ?>
 

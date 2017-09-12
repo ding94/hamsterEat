@@ -106,6 +106,7 @@ class DefaultController extends Controller
                 $restaurant->Restaurant_DateTimeCreated = time();
                 $restaurant->Restaurant_Status = 'Under Renovation';
                 $restaurant->Restaurant_Rating = "0";
+                $restaurant->save();
 
                 $rid = Yii::$app->request->get('Restaurant_ID');
                 $asd = restaurant::find()->where(['Restaurant_ID'=>$rid])->one();
@@ -113,7 +114,7 @@ class DefaultController extends Controller
                 $rmanager->Restaurant_ID=$asd->Restaurant_ID;
 
                 $rmanager->save();
-                $restaurant->save();
+                
                 Yii::$app->session->setFlash('success', 'Congratulations! Your restaurant has been set up and is currently waiting for a menu to be set up.');
                 
                 return $this->redirect(['/site/index', 'restaurant'=> $restaurant, 'restArea'=>Yii::$app->request->post('restArea'), 'postcodechosen'=>Yii::$app->request->post('postcodechosen'), 'areachosen'=>Yii::$app->request->post('areachosen')]);           

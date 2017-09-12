@@ -25,6 +25,7 @@ class FoodController extends Controller
        if($food->load(Yii::$app->request->post()))
        {
            $food->save();
+           $foodselection->save();
        }
       
         // $foodselection->save();

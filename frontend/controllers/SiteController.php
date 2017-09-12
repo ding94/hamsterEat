@@ -247,6 +247,7 @@ class SiteController extends Controller
     public function actionConfirm()
     {   
         $id = Yii::$app->request->get('id');
+        
         $key = Yii::$app->request->get('auth_key');
         $user = User::find()->where([
         'id'=>$id,

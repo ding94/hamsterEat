@@ -11,6 +11,30 @@ use common\models\Upload;
 $this->title = 'New Food Item';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> 
+
+
+<script>  
+ $(document).ready(function(){  
+$(".add").click(function(){
+$(".new-fields").append('<div class="table-responsive">  <table class="table table-bordered" id="dynamic_field">
+                                        <?php $form = ActiveForm::begin(['id' => 'form-newfood']); ?>
+                                        <tr>  
+                                        <td>Selection Type:</td>
+                                        <td colspan="2">  <?= $form->field($foodselection, 'Selection_Type')->textInput()->label(false) ?></td>
+                                        </tr>
+                                        <tr>
+                                        <td>Selection Name:</td><td>Selection Price:</td><td>Selection Description:</td>
+                                        </tr>
+                                        <tr>
+                                        <td>  <?= $form->field($foodselection, 'Selection_Name')->textInput()->label(false) ?></td><td>  <?= $form->field($foodselection, 'Selection_Price')->textInput()->label(false) ?></td><td>  <?= $form->field($foodselection, 'Selection_Desc')->textInput()->label(false) ?></td>
+                                        </tr></table>
+                                        <?php ActiveForm::end(); ?>
+                                         ');
+});
+ });  
+ </script>
 <div class="site-newfood">
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -25,13 +49,38 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($food, 'Food_Halal')->inline(true)->radioList(['N'=>'Non-Halal','H'=>'Halal'])->label('Halal') ?>
 
-                <?= $form->field($food, 'Food_Type')->inline(true)->checkboxList([ 'Cu'=>'Curry', 'D'=>'Dim Sum', 'F'=>'Fast Food', 'Fi'=>'Finger Foods', 'F'=>'Fish', 'G'=>'Gluten-Free', 'Ma'=>'Malay', 'M'=>'Meat', 'N'=>'Noodles', 'P'=>'Pasta', 'R'=>'Rice', 'S'=>'Salad', 'Sa'=>'Sashimi', 'So'=>'Soup', 'Sw'=>'Sweets', 'T'=>'Tacos', 'W'=>'Waffle'])->label('Food Type') ?>
+                <?= $form->field($food, 'Food_Type')->inline(true)->checkboxList([ 'Curry'=>'Curry', 'Dim Sum'=>'Dim Sum', 'Fast Food'=>'Fast Food', 'Finger Foods'=>'Finger Foods', 'Fish'=>'Fish', 'Gluten-Free'=>'Gluten-Free', 'Malay'=>'Malay', 'Meat'=>'Meat', 'Noodles'=>'Noodles', 'Pasta'=>'Pasta', 'Rice'=>'Rice', 'Salad'=>'Salad', 'Sashimi'=>'Sashimi', 'Soup'=>'Soup', 'Sweets'=>'Sweets', 'Tacos'=>'Tacos', 'Waffle'=>'Waffle'])->label('Food Type') ?>
 
                 <?= $form->field($food, 'Food_Price')->textInput()->label('Food Price') ?>
 
                  <?= $form->field($food, 'Food_Desc')->textInput()->label('Food Description') ?>
 
-                
+                  <?= $form->field($foodselection, 'Food_ID',['template' => '{label}{error}'])->textInput()->label('Food Option') ?>
+                <form action ="my-result.php" method="post">
+                <div class="data-div">
+                <div class="button-div">
+                <input type="button" value="add" class="add"> <input type="button" value="remove" class="remove">
+                </div>
+                 <div class="table-responsive">  
+                               <table class="table table-bordered" id="dynamic_field">
+                                        <tr>  
+                                        <td>Selection Type:</td>
+                                        <td colspan="2">  <?= $form->field($foodselection, 'Selection_Type')->textInput()->label(false) ?></td>
+                                        </tr>
+                                        <tr>
+                                        <td>Selection Name:</td><td>Selection Price:</td><td>Selection Description:</td>
+                                        </tr>
+                                        <tr>
+                                        <td>  <?= $form->field($foodselection, 'Selection_Name')->textInput()->label(false) ?></td><td>  <?= $form->field($foodselection, 'Selection_Price')->textInput()->label(false) ?></td><td>  <?= $form->field($foodselection, 'Selection_Desc')->textInput()->label(false) ?></td>
+                                        </tr>
+                               </table>  
+                               
+                          </div>
+                          <div class="new-fields">
+                          </div>
+                          </div>  
+                     </form>  
+            
 
                 <div class="form-group">
                     <?= Html::submitButton('Done', ['class' => 'btn btn-primary', 'name' => 'insert-button']) ?>

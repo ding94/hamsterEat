@@ -31,18 +31,12 @@ class Useraddress extends \yii\db\ActiveRecord
         return 'useraddress';
     }
 
-    /**
-     * @inheritdoc
-     */
-          public static function primaryKey()
-{
-    return ['User_Username'];
-}
     public function rules()
     {
         return [
-            [['User_Postcode1', 'User_Postcode2', 'User_Postcode3'], 'integer'],
-            [['User_Username', 'User_Area1', 'User_Street1', 'User_HouseNo1', 'User_Area2', 'User_Street2', 'User_HouseNo2', 'User_Area3', 'User_Street3', 'User_HouseNo3'], 'string', 'max' => 255],
+            [['User_id'], 'required'],
+            [['User_Postcode1', 'User_Postcode2', 'User_Postcode3' ,'User_id'], 'integer'],
+            [['User_Area1', 'User_Street1', 'User_HouseNo1', 'User_Area2', 'User_Street2', 'User_HouseNo2', 'User_Area3', 'User_Street3', 'User_HouseNo3'], 'string', 'max' => 255],
         ];
     }
 
@@ -52,7 +46,7 @@ class Useraddress extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'User_Username' => 'User  Username',
+            'User_id' => 'User  Id',
             'User_Postcode1' => 'User  Postcode1',
             'User_Area1' => 'User  Area1',
             'User_Street1' => 'User  Street1',

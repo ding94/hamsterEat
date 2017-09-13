@@ -15,16 +15,15 @@ class UserController extends Controller
 {
     public function actionUserProfile()
     {
-        $user = User::find()->where('username = :id' ,[':id' => Yii::$app->user->identity->username])->one();
-        $userdetails = Userdetails::find()->where('User_Username = :id' ,[':id' => Yii::$app->user->identity->username])->one();
-       $useraddress = Useraddress::find()->where('User_Username = :id' ,[':id' => Yii::$app->user->identity->username])->one();
-        return $this->render('userprofile',['user' => $user,'userdetails' => $userdetails,'useraddress'=>$useraddress]);
+        $user = User::find()->where('id = :id' ,[':id' => Yii::$app->user->id])->joinWith(['useraddress','userdetails'])->one();
+        
+        return $this->render('userprofile',['user' => $user]);
        
     }
 
     public function actionUserdetails()
     {
-      
+     
         $upload = new Upload();
         $path = Yii::$app->request->baseUrl.'/imageLocation/';
        //var_dump($path);exit;
@@ -32,9 +31,9 @@ class UserController extends Controller
 
        // return $this->render('upload', ['detail' => $detail]);
 
-        $detail = UserDetails::find()->where('User_Username = :uname'  , [':uname' => Yii::$app->user->identity->username])->one();
+        $detail = UserDetails::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one();
         
-        $address = Useraddress::find()->where('User_Username = :uname'  , [':uname' => Yii::$app->user->identity->username])->one();  
+        $address = Useraddress::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one();  
             if($detail->load(Yii::$app->request->post()) && $address->load(Yii::$app->request->post()))
             {
                     $post = Yii::$app->request->post();
@@ -50,7 +49,7 @@ class UserController extends Controller
                 
                     $detail->User_PicPath =$path.'/'.$upload->imageFile->name;
                      
-    		        $model->save();
+    		        //$model->save();
 			        Yii::$app->session->setFlash('success', 'Upload Successful');
 
 				     $isValid = $detail->validate() && $address->validate();

@@ -70,6 +70,35 @@ Class AdminController extends CommonController
 		return $this->render('addEdit', ['model' => $model ,'list' => $list]);
 	}
 
+	public function actionDelete($id)
+	{
+		$model =self::findModel($id);
+		$model->status = 0;
+		if($model->update(false) !== false)
+		{
+			Yii::$app->session->setFlash('warning', "Delete completed");
+		}
+		else{
+			Yii::$app->session->setFlash('warning', "Fail to delete");
+		}
+       return $this->redirect(Yii::$app->request->referrer);
+	}
+
+	public function actionActive($id)
+	{
+		$model = $this->findModel($id);
+		$model->status = 10;
+		if($model->update(false) !== false)
+		{
+			Yii::$app->session->setFlash('success', "Active completed");
+		}
+		else{
+			Yii::$app->session->setFlash('warning', "Fail to Active");
+		}
+        return $this->redirect(Yii::$app->request->referrer);
+
+	}
+
 	public static function permission($role,$id)
 	{
 		$auth = \Yii::$app->authManager;

@@ -38,17 +38,20 @@ class UserController extends Controller
             if($detail->load(Yii::$app->request->post()) && $address->load(Yii::$app->request->post()))
             {
                     $post = Yii::$app->request->post();
+    		        $model = Userdetails::find()->where('User_Username = :uname',[':uname' => Yii::$app->user->identity->username])->one(); 
+                    
 			
 			        //$model->action = 1;
 			        //$model->action_before=1;
     		        $upload->imageFile =  UploadedFile::getInstance($detail, 'User_PicPath');
     		        $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
     		       // $post['User_PicPath'] = 
-    		        $upload->upload();
+                    $location = 'imageLocation/';
+    		        $upload->upload($location);
 			        
-    		        //$model->load($post);
+    		        $model->load($post);
                 
-                    $detail->User_PicPath =$path.'/'.$upload->imageFile->name;
+                   $model->User_PicPath =$path.'/'.$upload->imageFile->name;
                      
     		        $model->save();
 			        Yii::$app->session->setFlash('success', 'Upload Successful');
@@ -97,8 +100,8 @@ class UserController extends Controller
             $upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
             $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
             $post['Ticket']['Ticket_PicPath'] = $path.'/'.$upload->imageFile->name;
-            $location = 'imageLocation/submitticket/';
-            $upload->upload($location);
+            
+            $upload->upload($path.'/');
 
             $model->User_Username = Yii::$app->user->identity->username;
             $model->Ticket_DateTime = time();

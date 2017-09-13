@@ -20,6 +20,15 @@ return [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
+        'frontendAuthManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'cache' => 'cache',
+            //these configuratio allow to rename the auth table  
+            'itemTable' => 'auth_item',
+            'assignmentTable' => 'auth_assignment',
+            'itemChildTable' => 'adminitem_child',
+            'ruleTable' => 'auth_rule',
+        ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
             'cache' => 'cache',

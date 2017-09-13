@@ -24,6 +24,10 @@ class Userdetails extends \yii\db\ActiveRecord
     {
         return 'userdetails';
     }
+
+    public function getFullname() {
+        return $this->User_FirstName . ' ' . $this->User_LastName;
+    }
     
     public function rules()
     {

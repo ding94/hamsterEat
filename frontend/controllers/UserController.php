@@ -71,9 +71,7 @@ class UserController extends Controller
                     }
 
 			}
-
-           
-				
+	
 		//$this->view->title = 'Update Profile';
 		//$this->layout = 'user';
 		return $this->render("userdetails",['detail' => $detail,'address'=>$address]);

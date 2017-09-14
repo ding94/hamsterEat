@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
+use common\models\Accounttopupstatus;
 
 /**
  * This is the model class for table "withdraw".
@@ -80,5 +81,41 @@ class Withdraw extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function attributes()
+    {
+        return array_merge(parent::attributes(),['accounttopup_status.id','accounttopup_status.title']);
+    }
+    
+    public function getAccounttopup_status()
+    {
+        return $this->hasOne(Accounttopupstatus::className(),['id' => 'action']); 
+    }
+
+    public function search($params,$action)
+    {
+        if ($action == 0){
+            $query = self::find();
+        }
+        elseif ($action >= 1){
+            $query = self::find()->where('action = :act',[':act' => $action]);
+        }
+
+        $query->joinWith(['accounttopup_status']);
+        $dataProvider = new ActiveDataProvider(['query' => $query,
+        ]);
+        $this->load($params);
+        $query->andFilterWhere([
+            'title' => $this->getAttribute('accounttopup_status.title'),
+        ]);
+
+        $query->andFilterWhere(['like','acc_name' ,  $this->acc_name])
+                ->andFilterWhere(['like','withdraw_amount' ,  $this->withdraw_amount])
+                ->andFilterWhere(['like','to_bank' ,  $this->to_bank])
+                ->andFilterWhere(['like','bank_name' ,  $this->bank_name])
+                ->andFilterWhere(['like','inCharge' ,  $this->inCharge])
+                ->andFilterWhere(['like','reason' ,  $this->reason]);
+        return $dataProvider;
     }
 }

@@ -21,10 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(); ?>
-
+                <?= $form->field($model, 'Ticket_Subject')->textInput(['autofocus' => true]) ?>
                 <?= $form->field($model, 'Ticket_Category')->dropDownList($data) ?>
 
-                <?= $form->field($model, 'Ticket_Content')->textarea(['rows' => 6,'autofocus' => true]) ?>
+                <?= $form->field($model, 'Ticket_Content')->textarea(['rows' => 6]) ?>
 
                  <?= $form->field($upload, 'imageFile')->fileInput() ?>
 

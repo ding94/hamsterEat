@@ -6,6 +6,9 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use common\models\user\Useraddress;
+use common\models\user\Userdetails;
+use backend\models\auth\AuthAssignment;
 
 /**
  * User model
@@ -26,7 +29,7 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_UNVERIFIED = 1;
     const STATUS_ACTIVE = 10;
-
+     public $role;
 
     /**
      * @inheritdoc
@@ -52,6 +55,17 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+            ['username', 'trim' ,'on' => ['changeAdmin']],
+            ['username', 'required' , 'on' => ['changeAdmin']],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.' , 'on' => ['changeAdmin']],
+            ['username', 'string', 'min' => 2, 'max' => 255 , 'on' => ['changeAdmin']],
+
+            ['email', 'trim' , 'on' => ['changeAdmin']],
+            ['email', 'required' , 'on' => ['changeAdmin']],
+            ['email', 'email' , 'on' => ['changeAdmin']],
+            ['email', 'string', 'max' => 255 , 'on' => ['changeAdmin']],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.' , 'on' => ['changeAdmin']],
+            
             ['status', 'default', 'value' => self::STATUS_UNVERIFIED],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE,self::STATUS_UNVERIFIED, self::STATUS_DELETED]],
         ];
@@ -197,5 +211,20 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function getUseraddress()
+    {
+        return $this->hasOne(Useraddress::className(),['User_id' => 'id']);
+    }
+
+    public function getUserdetails()
+    {
+        return $this->hasOne(Userdetails::className(),['User_id' => 'id']);
+    }
+
+    public function getAuthAssignment()
+    {
+        return $this->hasOne(AuthAssignment::className(),['user_id' => 'id']);
     }
 }

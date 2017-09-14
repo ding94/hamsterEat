@@ -54,7 +54,6 @@ use yii\bootstrap\Modal;
                                 return Html::a(FA::icon('pencil lg'), $url, [
                                         'title' => Yii::t('yii', 'Update'),
                                 ]);                                
-            
                               }
 			 ],
            

@@ -25,20 +25,17 @@ class Userdetails extends \yii\db\ActiveRecord
         return 'userdetails';
     }
 
-    /**
-     * @inheritdoc
-     */
-     public static function primaryKey()
-{
-    return ['User_Username'];
-}
+    public function getFullname() {
+        return $this->User_FirstName . ' ' . $this->User_LastName;
+    }
+    
     public function rules()
     {
         return [
-            [['User_Username'], 'required'],
-            [['User_MemberPoints','User_ContactNo'], 'integer'],
+            [['User_id'], 'required'],
+            [['User_MemberPoints','User_ContactNo','User_id'], 'integer'],
             [['User_AccountBalance'], 'number'],
-            [['User_Username', 'User_FirstName', 'User_LastName', 'User_PicPath' ], 'string', 'max' => 255],
+            [[ 'User_FirstName', 'User_LastName', 'User_PicPath' ], 'string', 'max' => 255],
         ];
     }
 
@@ -48,7 +45,7 @@ class Userdetails extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'User_Username' => 'User  Username',
+            'User_id' => 'User  ID',
             'User_FirstName' => 'User  First Name',
             'User_LastName' => 'User  Last Name',
             'User_PicPath' => 'User  Pic Path',

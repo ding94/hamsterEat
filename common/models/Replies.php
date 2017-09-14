@@ -29,9 +29,9 @@ class Replies extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-        [['Replies_ReplyContent', 'Replies_ReplyPerson'], 'required'],
-            [['Ticket_ID', 'Replies_DateTime'], 'integer'],
-            [['Replies_ReplyContent', 'Replies_ReplyPerson', 'Replies_PicPath'], 'string', 'max' => 255],
+            [['Replies_ReplyContent', 'Replies_ReplyPerson'], 'required'],
+            [['Ticket_ID', 'Replies_ReplyPerson','Replies_DateTime'], 'integer'],
+            [['Replies_ReplyContent',  'Replies_PicPath'], 'string', 'max' => 255],
         ];
     }
 

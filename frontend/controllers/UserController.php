@@ -25,6 +25,7 @@ class UserController extends Controller
     {
      
         $upload = new Upload();
+        $upload->scenario = 'ticket';
         $path = Yii::$app->request->baseUrl.'/imageLocation/';
        //var_dump($path);exit;
      
@@ -92,6 +93,7 @@ class UserController extends Controller
         $data = ArrayHelper::map($type,'Category_Name','Category_Name');
         $path = Yii::$app->params['submitticket'];
         $upload = new Upload;
+        $upload->scenario = 'ticket';
         if (Yii::$app->request->post()) {
             
             $post = Yii::$app->request->post();
@@ -104,7 +106,7 @@ class UserController extends Controller
 
             $model->User_Username = Yii::$app->user->identity->username;
             $model->Ticket_DateTime = time();
-            $model->Ticket_Status = 'Submitted';
+            $model->Ticket_Status = 1;
             $model->load($post);
             $model->save(false);
             Yii::$app->session->setFlash('success', 'Upload Successful');

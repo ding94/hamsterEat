@@ -15,6 +15,7 @@ class TopupController extends \yii\web\Controller
     {
     	$model = new Accounttopup;
     	$upload = new Upload;
+        $upload->scenario = 'ticket';
     	$path = Yii::$app->params['imageLocation'];
 		// $items = ArrayHelper::map(BankDetails::find()->all(), 'bank_name', 'bank_name');
     	if(Yii::$app->request->post())
@@ -28,7 +29,7 @@ class TopupController extends \yii\web\Controller
     		$upload->imageFile->name = time().'.'.$upload->imageFile->extension;
 			
     		$post['Accounttopup']['Account_ReceiptPicPath'] = $path.'/'.$upload->imageFile->name;
-    		$upload->upload('imageLocation');
+    		$upload->upload('imageLocation/');
 			//var_dump($upload->imageFile);exit;
     		$model->load($post);
     		$model->save(false);

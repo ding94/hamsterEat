@@ -27,3 +27,14 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php ActiveForm::end(); ?>
         </div>
     </div>
+
+   <br>
+
+   <div>
+	   	<div>
+	   		<H3>Subject : <?php echo $model->Ticket_Subject; ?> </H3>
+	   	</div>
+	   	<div>
+	   		<p><?php echo $model->User_Username; ?>	 :  <?php echo $model->Ticket_Content; ?></p>
+	   	</div>
+   </div>

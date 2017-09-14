@@ -35,8 +35,8 @@ class Ticket extends \yii\db\ActiveRecord
     {
         return [
         [['User_Username','Ticket_Subject','Ticket_Content','Ticket_Category'], 'required'],
-            [['Ticket_DateTime'], 'integer'],
-            [['User_Username', 'Ticket_Subject', 'Ticket_Content', 'Ticket_Category', 'Ticket_Status', 'Ticket_PicPath'], 'string', 'max' => 255],
+            [['Ticket_Status','Ticket_DateTime'], 'integer'],
+            [['User_Username', 'Ticket_Subject', 'Ticket_Content', 'Ticket_Category',  'Ticket_PicPath'], 'string', 'max' => 255],
         ];
     }
 

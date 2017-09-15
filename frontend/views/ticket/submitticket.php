@@ -12,6 +12,19 @@ $this->title = 'Submit Ticket';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-contact">
+    <div class="tableHeader">
+        <ul>
+            <li class="hover">
+                <a href="index.php?r=ticket/submit-ticket">Create Ticket </a>
+            </li>
+            <li>
+                <a href="index.php?r=ticket/in-progress"> Ticket In Process</a>
+            </li>
+            <li>
+                <a href="index.php?r=ticket/completed">Completed</a>
+            </li>
+        </ul>
+    </div>
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>

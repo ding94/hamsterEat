@@ -8,7 +8,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
-$this->title = 'Reply to '.$model->User_Username;
+$this->title = 'Reply to '.$name;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -35,6 +35,14 @@ $this->params['breadcrumbs'][] = $this->title;
 	   		<H3>Subject : <?php echo $model->Ticket_Subject; ?> </H3>
 	   	</div>
 	   	<div>
-	   		<p><?php echo $model->User_Username; ?>	 :  <?php echo $model->Ticket_Content; ?></p>
+	   		<p><?php echo $name; ?>	 :  <?php echo $model->Ticket_Content; ?></p>
 	   	</div>
+
+      <?php 
+      foreach ($chat as $chatt) { 
+        echo '<p>'.$chatt->Replies_ReplyPerson.' : '.$chatt->Replies_ReplyContent.'</p>';
+
+      }
+
+      ?>
    </div>

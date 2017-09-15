@@ -1,3 +1,4 @@
+
 <?php
 
 /* @var $this yii\web\View */
@@ -23,7 +24,7 @@ use yii\helpers\ArrayHelper;
 
             //[ 'class' => 'yii\grid\SerialColumn',],
             'Ticket_ID',
-            'User_Username',
+            'User_id',
             'Ticket_Category',
             'Ticket_Content',
             'Ticket_Status',

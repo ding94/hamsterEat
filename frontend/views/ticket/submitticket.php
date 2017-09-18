@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <a href="index.php?r=ticket/submit-ticket">Create Ticket </a>
             </li>
             <li>
-                <a href="index.php?r=ticket/in-progress"> Ticket In Process</a>
+                <a href="index.php?r=ticket/index"> Ticket In Process</a>
             </li>
             <li>
                 <a href="index.php?r=ticket/completed">Completed</a>

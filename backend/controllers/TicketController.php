@@ -20,7 +20,7 @@ class TicketController extends Controller
 	public function actionIndex()
     {
     	$searchModel = new Ticket();
-       	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,1);
+       	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,2);
 
         return $this->render('index',['model'=>$dataProvider, 'searchModel'=>$searchModel]);
     }
@@ -77,6 +77,15 @@ class TicketController extends Controller
 
 
     	return $this->render('staffreply',['model'=>$model,'reply'=>$reply,'upload'=>$upload,'chat'=>$chat,'name'=>$name]);
+    }
+
+    public function actionComplete()
+    {
+        $searchModel = new Ticket();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,3);
+        $complete = 1;
+        return $this->render('index',['model'=>$dataProvider, 'searchModel'=>$searchModel,'comeplete'=>$complete]);
+        
     }
 
 }

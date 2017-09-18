@@ -9,6 +9,9 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use kartik\widgets\SideNav;
+use yii\helpers\Url;
+use iutbay\yii2fontawesome\FontAwesome as FA;
 
 AppAsset::register($this);
 ?>
@@ -65,6 +68,42 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
+<div class="row">
+    <div class="sidenav col-md-3" >
+        <div class="navbar-left">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+            <span class="sr-only">Toggle navigation</span> Side Menu <i class="fa fa-bars"></i>
+        </button>
+        </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+    <?php echo SideNav::widget([
+    'encodeLabels' => false,
+    'options' => ['class' => 'in'],
+    'items' => [
+        ['label' => '<i class="glyphicon glyphicon-list-alt"></i> My Order', 'options' => ['class' => 'active'], 'items' => [
+            ['label' => 'My Order'],
+           
+        ]],
+        ['label' => 'My account','icon' => '','options' => ['class' => 'active'], 'items' => [
+            ['label' => 'Top up', 'url' => Url::to(['topup/index'])],
+            ['label' => 'Withdraw Money', 'url' => Url::to(['withdraw/index'])],
+        ]],
+         ['label' => '<i class="glyphicon glyphicon-cog"></i> Member Settings','options' => ['class' => 'active'], 'items' => [
+            ['label' => 'User Profile', 'url' => Url::to(['user/user-profile'])],
+        ]],
+        ['label' => 'Customer Service', 'options' => ['class' => 'active'], 'items' => [
+           ['label' => 'Submit Ticket', 'url' => Url::to(['ticket/submit-ticket'])],
+        ]],
+]]);     
+?>
+</div>
+</div>
+
+
+
+
+    
+
     <div class="container" style="width: 100%; height: 100%;">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -72,6 +111,7 @@ AppAsset::register($this);
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
+</div>
 </div>
 
 <footer class="footer">

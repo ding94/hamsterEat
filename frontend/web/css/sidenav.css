@@ -1,0 +1,14 @@
+#bs-example-navbar-collapse-2{
+   padding-top: 80px;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+   color:#428bca;
+    background-color: white;
+}
+
+a{
+    color:black;
+}
+.kv-sidenav .nav a {
+    background-color: white;
+}

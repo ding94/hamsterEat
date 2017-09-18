@@ -16,7 +16,6 @@ use yii\helpers\ArrayHelper;
     
 ?>
 
-
 <?= GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,
@@ -44,6 +43,18 @@ use yii\helpers\ArrayHelper;
                 'reply' => function($url , $model)
                 {
                     return  Html::a(FA::icon('comment 2x') , $url , ['title' => 'Reply Problem']);
+                },
+              ]
+            ],
+
+            ['class' => 'yii\grid\ActionColumn' ,
+             'template'=>'{complete}',
+             'buttons' => [
+                'complete' => function($url , $model)
+                {
+                    return  if($complete > 1) {
+                        Html::a(FA::icon('check 2x') , $url , ['title' => 'Problem Solved','data-confirm'=>"Complete this ticket? Ticket ID: ".$model->Ticket_ID])
+                    };
                 },
               ]
             ],

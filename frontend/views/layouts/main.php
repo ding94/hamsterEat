@@ -46,6 +46,7 @@ AppAsset::register($this);
     } else {
         $menuItems[] = ['label' => 'My Profile', 'url' => ['/user/user-profile']];
         $menuItems[] = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location']];
+        $menuItems[] = ['label' => 'Ticket', 'url' => ['/ticket']];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(

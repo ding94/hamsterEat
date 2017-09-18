@@ -23,7 +23,7 @@ use backend\models\Admin;
                 <a href="index.php?r=ticket/submit-ticket">Create Ticket </a>
             </li>
             <li>
-                <a href="index.php?r=ticket/in-progress"> Ticket In Process</a>
+                <a href="index.php?r=ticket/index"> Ticket In Process</a>
             </li>
             <li>
                 <a href="index.php?r=ticket/completed">Completed</a>
@@ -46,8 +46,10 @@ use backend\models\Admin;
               <th>
                   <?php echo date('d/M/Y h:i:s',($ticket->Ticket_DateTime)); ?>
               </th>
+              <th><?php if(!empty($ticket->Ticket_PicPath)){ echo Html::a('Picture',Yii::$app->urlManager->baseUrl.'/'.$ticket->Ticket_PicPath,['target'=>'_blank']); }?></th>
           </tr>
-          <?php foreach ($model as $k => $modell)  { ?> 
+
+        <?php foreach ($model as $k => $modell)  { ?> 
           <tr>
               <td>
                   <?php echo '<p>'.$modell->Replies_ReplyPerson.' </td><td>'.$modell->Replies_ReplyContent.'</p>'; ?>
@@ -55,21 +57,24 @@ use backend\models\Admin;
               <td>
                   <?php echo date('d/M/Y h:i:s',($modell->Replies_DateTime)); ?>
               </td>
+              <td>
+              <?php if(!empty($modell->Replies_PicPath)){ echo Html::a('Picture',Yii::$app->urlManager->baseUrl.'/'.$modell->Replies_PicPath,['target'=>'_blank']); }?>
+              </td>
           </tr>
-          <?php } ?>
+        <?php } ?>
+
       </table>
 
-      <?php $form = ActiveForm::begin(); ?>
-      <?= $form->field($reply, 'Replies_ReplyContent')->textarea(['rows' => 6]) ?>
+      <?php if ($ticket->Ticket_Status <3): ?>
+        <?php $form = ActiveForm::begin(); ?>
+        <?= $form->field($reply, 'Replies_ReplyContent')->textarea(['rows' => 6]) ?>
         <?= $form->field($upload, 'imageFile')->fileInput() ?>
 
-      <div class="form-group">
+        <div class="form-group">
              <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
-      </div>
-      <?php ActiveForm::end(); ?>
+        </div>
+        <?php ActiveForm::end(); ?>
+      <?php endif ?>
 
-      <div>
-          
-      </div>
 </div>
 </html>

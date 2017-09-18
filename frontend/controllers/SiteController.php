@@ -25,7 +25,6 @@ use yii\helpers\ArrayHelper;
  */
 class SiteController extends Controller
 {
-    
     /**
      * @inheritdoc
      */
@@ -257,26 +256,31 @@ class SiteController extends Controller
         
         if(!empty($user)){
             $user->status=10;
-            $user->save();
-
+    
             $userdetails = new Userdetails();
-            $userdetails->User_Username=$user->username;
-            $userdetails->save();
-
+            $userdetails->User_id= Yii::$app->user->identity->id;
+          
             $useraddress = new Useraddress();
-            $useraddress->User_Username=$user->username;
-            $useraddress->save();
-
-           
-
-                      
+            $useraddress->User_id= Yii::$app->user->identity->id;
+                 
             
-            
-
-            Yii::$app->getSession()->setFlash('success','Success!');
-            if (Yii::$app->getUser()->login($user)) {
-                  return $this->redirect(['user/user-profile']);
+            $isValid = $user->validate() && $userdetails->validate() && $useraddress->validate();
+            if($isValid)
+            {
+                $user->save();
+                $userdetails->save();
+                $useraddress->save();
+                
+                Yii::$app->getSession()->setFlash('success','Success!');
+                Yii::$app->getUser()->login($user);
+                return $this->redirect(['user/user-profile']);
             }
+            else
+            {
+                Yii::$app->getSession()->setFlash('warning','Failed!');
+                return $this->goHome();
+            }
+            
         } else{
             Yii::$app->getSession()->setFlash('warning','Failed!');
             return $this->goHome();

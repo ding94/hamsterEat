@@ -2,5 +2,5 @@
 return [
     'adminEmail' => 'cheonghong@alishop.my',
     'imageLocation' =>  'img',
-    'submitticket' =>  'img/submitticket',
+    'submitticket' =>  'imageLocation/submitticket',
 ];

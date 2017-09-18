@@ -34,7 +34,7 @@ Class AccounttopupoperateController extends Controller
 		}
 
 		$operate = new AcounttopupOperate;
-		$operate->adminname = Yii::$app->user->identity->username;
+		$operate->adminname = Yii::$app->user->identity->adminname;
     	$operate->tid = $tid;
     	$operate->oldVal = $old;
 

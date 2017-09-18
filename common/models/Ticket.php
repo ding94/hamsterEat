@@ -3,6 +3,9 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\data\ActiveDataProvider;
+use common\models\Replies;
 
 /**
  * This is the model class for table "ticket".
@@ -26,15 +29,20 @@ class Ticket extends \yii\db\ActiveRecord
         return 'ticket';
     }
 
+    public function getAdminreply()
+    {
+        return $this->hasMany(Replies::className(),['Ticket_ID' => 'Ticket_ID'])->andOnCondition(['Replies_ReplyBy' => 2]);; 
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-        [['User_Username','Ticket_Content','Ticket_Category'], 'required'],
-            [['Ticket_DateTime'], 'integer'],
-            [['User_Username', 'Ticket_Subject', 'Ticket_Content', 'Ticket_Category', 'Ticket_Status', 'Ticket_PicPath'], 'string', 'max' => 255],
+            [['User_id','Ticket_Subject','Ticket_Content','Ticket_Category'], 'required'],
+            [['User_id','Ticket_Status','Ticket_DateTime'], 'integer'],
+            [['Ticket_Subject', 'Ticket_Content', 'Ticket_Category',  'Ticket_PicPath'], 'string', 'max' => 255],
         ];
     }
 
@@ -53,5 +61,19 @@ class Ticket extends \yii\db\ActiveRecord
             'Ticket_Status' => 'Ticket  Status',
             'Ticket_PicPath' => 'Picture',
         ];
+    }
+
+    public function search($params,$action)
+    {
+
+        $query = self::find();
+    
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        return $dataProvider;
     }
 }

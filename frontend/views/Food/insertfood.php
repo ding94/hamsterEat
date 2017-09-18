@@ -8,46 +8,25 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use common\models\Upload;
 
+use wbraganca\dynamicform\DynamicFormWidget;
 $this->title = 'New Food Item';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> 
 
 
-<script>  
- $(document).ready(function(){  
-$(".add").click(function(){
-$(".new-fields").append('<div class="table-responsive">  <table class="table table-bordered" id="dynamic_field">
-                                        <?php $form = ActiveForm::begin(['id' => 'form-newfood']); ?>
-                                        <tr>  
-                                        <td>Selection Type:</td>
-                                        <td colspan="2">  <?= $form->field($foodselection, 'Selection_Type')->textInput()->label(false) ?></td>
-                                        </tr>
-                                        <tr>
-                                        <td>Selection Name:</td><td>Selection Price:</td><td>Selection Description:</td>
-                                        </tr>
-                                        <tr>
-                                        <td>  <?= $form->field($foodselection, 'Selection_Name')->textInput()->label(false) ?></td><td>  <?= $form->field($foodselection, 'Selection_Price')->textInput()->label(false) ?></td><td>  <?= $form->field($foodselection, 'Selection_Desc')->textInput()->label(false) ?></td>
-                                        </tr></table>
-                                        <?php ActiveForm::end(); ?>
-                                         ');
-});
- });  
- </script>
 <div class="site-newfood">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Please insert your food's details:</p>
 
     <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'form-newfood']); ?>
+        <div class="">
+            <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
                 <?= $form->field($food, 'Food_FoodPicPath')->fileInput()->label('Picture') ?>
 
                 <?= $form->field($food, 'Food_Name')->textInput()->label('Food Name') ?>
 
-                <?= $form->field($food, 'Food_Halal')->inline(true)->radioList(['N'=>'Non-Halal','H'=>'Halal'])->label('Halal') ?>
+                <?= $form->field($food, 'Food_Halal')->inline(true)->radioList(['Non-Halal'=>'Non-Halal','Halal'=>'Halal'])->label('Halal') ?>
 
                 <?= $form->field($food, 'Food_Type')->inline(true)->checkboxList([ 'Curry'=>'Curry', 'Dim Sum'=>'Dim Sum', 'Fast Food'=>'Fast Food', 'Finger Foods'=>'Finger Foods', 'Fish'=>'Fish', 'Gluten-Free'=>'Gluten-Free', 'Malay'=>'Malay', 'Meat'=>'Meat', 'Noodles'=>'Noodles', 'Pasta'=>'Pasta', 'Rice'=>'Rice', 'Salad'=>'Salad', 'Sashimi'=>'Sashimi', 'Soup'=>'Soup', 'Sweets'=>'Sweets', 'Tacos'=>'Tacos', 'Waffle'=>'Waffle'])->label('Food Type') ?>
 
@@ -55,33 +34,66 @@ $(".new-fields").append('<div class="table-responsive">  <table class="table tab
 
                  <?= $form->field($food, 'Food_Desc')->textInput()->label('Food Description') ?>
 
-                  <?= $form->field($foodselection, 'Food_ID',['template' => '{label}{error}'])->textInput()->label('Food Option') ?>
-                <form action ="my-result.php" method="post">
-                <div class="data-div">
-                <div class="button-div">
-                <input type="button" value="add" class="add"> <input type="button" value="remove" class="remove">
-                </div>
-                 <div class="table-responsive">  
-                               <table class="table table-bordered" id="dynamic_field">
-                                        <tr>  
-                                        <td>Selection Type:</td>
-                                        <td colspan="2">  <?= $form->field($foodselection, 'Selection_Type')->textInput()->label(false) ?></td>
-                                        </tr>
-                                        <tr>
-                                        <td>Selection Name:</td><td>Selection Price:</td><td>Selection Description:</td>
-                                        </tr>
-                                        <tr>
-                                        <td>  <?= $form->field($foodselection, 'Selection_Name')->textInput()->label(false) ?></td><td>  <?= $form->field($foodselection, 'Selection_Price')->textInput()->label(false) ?></td><td>  <?= $form->field($foodselection, 'Selection_Desc')->textInput()->label(false) ?></td>
-                                        </tr>
-                               </table>  
-                               
-                          </div>
-                          <div class="new-fields">
-                          </div>
-                          </div>  
-                     </form>  
-            
+                  
+               <?php DynamicFormWidget::begin([
+                    'widgetContainer' => 'dynamicform_wrapper',
+                    'widgetBody' => '.container-items',
+                    'widgetItem' => '.house-item',
+                    'limit' => 3,
+                    'min' => 1,
+                    'insertButton' => '.add-house',
+                    'deleteButton' => '.remove-house',
+                    'model' => $foodtype[0],
+                    'formId' => 'dynamic-form',
+                    'formFields' => [
+                    'FoodType_ID',
+                    'Food_ID',
+                    'Selection_Type',
+        ],
+    ]); ?>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Food Option</th>
+                <th style="width: 842px;">Rooms</th>
+                <th class="text-center" style="width: 90px;">
+                    <button type="button" class="add-house btn btn-success btn-xs"><span class="glyphicon glyphicon-plus"></span></button>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="container-items">
+        <?php foreach ($foodtype as $i => $foodtype): ?>
+            <tr class="house-item">
+                <td class="vcenter">
+                    <?php
+                        // necessary for update action.
+                        if (! $foodtype->isNewRecord) {
+                            echo Html::activeHiddenInput($foodtype, "[{$i}]id");
+                        }
+                    ?>
+                    <?= $form->field($foodtype, "[{$i}]Selection_Type")->label(false)->textInput(['maxlength' => true]) ?>
+                </td>
+                <td>
+                     <?= $this->render('foodselection', [
+                        'form' => $form,
+                        'i' => $i,
+                        'foodselection' => $foodselection[$i],
+                    ]) ?>
+                </td>
+                <td class="text-center vcenter" style="width: 90px; verti">
+                    <button type="button" class="remove-house btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span></button>
+                </td>
+            </tr>
+         <?php endforeach; ?>
+        </tbody>
+    </table>
+    <?php DynamicFormWidget::end(); ?>
+    
+ 
 
+
+
+</div>
                 <div class="form-group">
                     <?= Html::submitButton('Done', ['class' => 'btn btn-primary', 'name' => 'insert-button']) ?>
                 </div>
@@ -89,4 +101,3 @@ $(".new-fields").append('<div class="table-responsive">  <table class="table tab
             <?php ActiveForm::end(); ?>
         </div>
     </div>
-</div>

@@ -9,10 +9,18 @@ body {
     margin: 0 auto -60px;
     padding: 0 0 60px;
 }
+.wrap > .topnav.navbar-fixed-top {
+    background-color:orange;
 
-.wrap > .container {
-    padding: 70px 15px 20px;
 }
+.navbar-brand {
+    color:white;
+}
+.navbar-nav > li > a {
+    color:white;
+}
+
+
 
 .footer {
     height: 60px;
@@ -99,6 +107,7 @@ a.desc:after {
 .nav li > form > button.logout {
     padding: 15px;
     border: none;
+    color:white;
 }
 
 @media(max-width:767px) {
@@ -113,6 +122,7 @@ a.desc:after {
 .nav > li > form > button.logout:focus,
 .nav > li > form > button.logout:hover {
     text-decoration: none;
+    
 }
 
 .nav > li > form > button.logout:focus {

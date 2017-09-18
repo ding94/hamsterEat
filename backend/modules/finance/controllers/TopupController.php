@@ -34,7 +34,7 @@ class TopupController extends \yii\web\Controller
 			 
 			self::updateAllTopup($id,3);
 			$model->Account_Action = 3;
-			$model->Account_InCharge = Yii::$app->user->identity->username;
+			$model->Account_InCharge = Yii::$app->user->identity->adminname;
 			//var_dump($balance); exit; 
 			if($model->update(false) !== false)
 			{
@@ -59,8 +59,7 @@ class TopupController extends \yii\web\Controller
 		$balance =Accountbalance::find()->where('User_Username = :name',[':name'=>$uid])->one();
 		//var_dump($uid);exit;
 		$balance ->AB_topup += $model->Account_TopUpAmount;
-		$balance ->AB_minus += $model->Account_TopUpAmount;
-		
+
 		return $balance;
 	}
 
@@ -105,7 +104,7 @@ class TopupController extends \yii\web\Controller
 				//var_dump($model->update()); exit;
 			self::updateAllTopup($id,4);
 			$model->Account_Action =4;
-			$model->Account_InCharge = Yii::$app->user->identity->username;
+			$model->Account_InCharge = Yii::$app->user->identity->adminname;
 			$model->save();
 			
 			Yii::$app->session->setFlash('success', "Cancel success");
@@ -169,7 +168,6 @@ class TopupController extends \yii\web\Controller
 		$uid = User::find()->where('username = :name',[':name'=>$model->User_Username])->one()->username;
 		$balance =Accountbalance::find()->where('User_Username = :name',[':name'=>$uid])->one();
 		$balance ->AB_topup -= $model->Account_TopUpAmount;
-		$balance ->AB_minus -= $model->Account_TopUpAmount;
 		
 		return $balance;
 	}
@@ -220,7 +218,7 @@ class TopupController extends \yii\web\Controller
 			
 			//var_dump($model->update()); exit;
 			//$model->action =4;
-			$model->Account_InCharge = Yii::$app->user->identity->username;
+			$model->Account_InCharge = Yii::$app->user->identity->adminname;
 			$model->save();
 			
 			Yii::$app->session->setFlash('success', "Update success");

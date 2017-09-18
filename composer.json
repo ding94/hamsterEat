@@ -28,7 +28,8 @@
         "machour/yii2-notifications": "@dev",
         "kartik-v/yii2-money": "*",
         "rinvex/country": "^2.0",
-        "akavov/yii2-countries": "*"
+        "akavov/yii2-countries": "*",
+        "wbraganca/yii2-dynamicform": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

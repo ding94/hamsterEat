@@ -12,6 +12,7 @@ use common\models\Upload;
 use yii\web\UploadedFile;
 use common\models\Rmanager;
 use common\models\Rmanagerlevel;
+use yii\filters\AccessControl;
 
 /**
  * Default controller for the `Restaurant` module
@@ -22,6 +23,31 @@ class DefaultController extends Controller
      * Renders the index view for the module
      * @return string
      */
+
+    public function behaviors()
+    {
+         return [
+             'access' => [
+                 'class' => AccessControl::className(),
+                 //'only' => ['logout', 'signup','index'],
+                 'rules' => [
+                     [
+                         'actions' => ['new-restaurant-location','new-restaurant-details','new-restaurant','edit-restaurant-details','edit-restaurant-area','edited-location-details','edit-restaurant-details2','manage-restaurant-staff','delete-restaurant-staff'],
+                         'allow' => true,
+                         'roles' => ['restaurant manager'],
+ 
+                     ],
+                     [
+                        'actions' => ['index','restaurant-details'],
+                        'allow' => true,
+                        'roles' => ['?','@'],
+
+                    ]
+                 ]
+             ]
+        ];
+    }
+
     public function actionIndex($groupArea)
     {
         //$aa = Yii::$app->request->get();
@@ -133,12 +159,17 @@ class DefaultController extends Controller
             }
     }
 
-    public function actionEditRestaurantDetails($rid)
+    public function actionEditRestaurantDetails($rid, $postcodechosen, $areachosen, $restArea)
     {
         $upload = new Upload();
         $path = Yii::$app->request->baseUrl.'/imageLocation/';
 
         $restaurantdetails = restaurant::find()->where('Restaurant_ID = :rid'  , [':rid' => $rid])->one();
+        $rpicpath = $restaurantdetails['Restaurant_RestaurantPicPath'];
+        $restArea = $restArea;
+        $postcodechosen = $postcodechosen;
+        $areachosen = $areachosen;
+        //var_dump($restArea,$areachosen,$postcodechosen,$rid);exit;
 
         if($restaurantdetails->load(Yii::$app->request->post()))
         {
@@ -147,15 +178,28 @@ class DefaultController extends Controller
                 //$model->action = 1;
                 //$model->action_before=1;
                 $upload->imageFile =  UploadedFile::getInstance($restaurantdetails, 'Restaurant_RestaurantPicPath');
-                $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-               // $post['User_PicPath'] = 
-                $upload->upload();
-                
-                //$restaurantdetails->load($post);
-            
-                $restaurantdetails->Restaurant_RestaurantPicPath = $upload->imageFile->name;
 
-                Yii::$app->session->setFlash('success', 'Upload Successful');
+                if (!is_null($upload->imageFile))
+                {
+                    $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
+                    // $post['User_PicPath'] = 
+                     $upload->upload();
+                     
+                     //$restaurantdetails->load($post);
+                 
+                     $restaurantdetails->Restaurant_RestaurantPicPath = $upload->imageFile->name;
+     
+                     Yii::$app->session->setFlash('success', 'Upload Successful');
+                }
+                else
+                {
+                    $restaurantdetails->Restaurant_RestaurantPicPath = $rpicpath;
+                }
+
+                $restaurantdetails->Restaurant_Tag = implode(',',$restaurantdetails->Restaurant_Tag);
+                $restaurantdetails->Restaurant_Postcode = $postcodechosen;
+                $restaurantdetails->Restaurant_Area = $areachosen;
+                $restaurantdetails->Restaurant_AreaGroup = $restArea;
 
                  $isValid = $restaurantdetails->validate();
                 if($isValid){
@@ -174,7 +218,78 @@ class DefaultController extends Controller
       
     //$this->view->title = 'Update Profile';
     //$this->layout = 'user';
-    return $this->render('EditRestaurantDetails', ['restaurantdetails'=>$restaurantdetails]);
+    return $this->render('EditRestaurantDetails', ['restaurantdetails'=>$restaurantdetails, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen, 'restArea'=>$restArea]);
+    }
+
+    public function actionEditRestaurantArea($rid)
+    {
+        $restaurantdetails = restaurant::find()->where('Restaurant_ID = :rid'  , [':rid' => $rid])->one();
+        $rid = $restaurantdetails['Restaurant_ID'];
+        $postcode = new Area();
+        $list =array();
+        $postcode->detectArea = 0;
+        if(Yii::$app->request->isPost)
+        {
+            $postcode->detectArea = 1;
+            $area = Yii::$app->request->post('Area');
+            $postcode->Area_Postcode = $area['Area_Postcode'];
+            $dataArea = Area::find()->where(['like','Area_Postcode' , $area['Area_Postcode']])->all();
+            $list = ArrayHelper::map($dataArea,'Area_Area' ,'Area_Area');
+            
+            if(empty($list)) {
+                $postcode->detectArea = 0;
+                Yii::$app->session->setFlash('error', 'There is no available area under that postcode.');
+            }
+        }
+
+        return $this->render('EditRestaurantLocation',['restaurantdetails'=>$restaurantdetails, 'postcode'=>$postcode ,'list'=>$list, 'rid'=>$rid]);
+    }
+
+    public function actionEditedLocationDetails($rid)
+    {
+        $area = Yii::$app->request->post('Area');
+        $postcodechosen = $area['Area_Postcode'];
+        $areachosen = $area['Area_Area'];
+        $restArea = Area::find()->where('Area_Postcode = :area_postcode and Area_Area = :area_area',[':area_postcode'=> $area['Area_Postcode'] , ':area_area'=>$area['Area_Area']])->one();        
+        $restArea = $restArea['Area_Group'];
+        $rid = $rid;
+        //var_dump($restArea,$areachosen,$postcodechosen,$rid);exit;
+
+        return $this->actionEditRestaurantDetails2($restArea, $postcodechosen, $areachosen, $rid);
+    }
+
+    public function actionEditRestaurantDetails2($restArea, $postcodechosen, $areachosen, $rid)
+    {
+        $restArea = $restArea;
+        $postcodechosen = $postcodechosen;
+        $areachosen = $areachosen;
+        $rid = $rid;
+        //var_dump($restArea,$areachosen,$postcodechosen,$rid);exit;
+
+        return $this->redirect(['edit-restaurant-details', 'restArea'=>$restArea, 'postcodechosen'=>$postcodechosen, 'rid'=>$rid, 'areachosen'=>$areachosen]);
+    }
+
+    public function actionManageRestaurantStaff($rid)
+    {
+        $rid = $rid;
+
+        $rstaff = rmanagerlevel::find()->where('Restaurant_ID = :rid',[':rid'=>$rid])->all();
+
+        $id = restaurant::find()->where('Restaurant_ID = :rid',[':rid'=>$rid])->one();
+        //var_dump($rstaff);exit;
+
+        return $this->render('ManageRestaurantStaff',['rid'=>$rid, 'rstaff'=>$rstaff, 'id'=>$id]);
+    }
+
+    public function actionDeleteRestaurantStaff($rid, $uname)
+    {
+        $sql = "DELETE FROM rmanagerlevel WHERE User_Username = '$uname' AND Restaurant_ID = $rid";
+        Yii::$app->db->createCommand($sql)->execute();
+        $rid = $rid;
+        $id = restaurant::find()->where('Restaurant_ID = :rid',[':rid'=>$rid])->one();
+        $rstaff = rmanagerlevel::find()->where('Restaurant_ID = :rid',[':rid'=>$rid])->all();
+
+        return $this->render('ManageRestaurantStaff',['rid'=>$rid, 'id'=>$id,'rstaff'=>$rstaff]);
     }
 
 }

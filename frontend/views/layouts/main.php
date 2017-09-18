@@ -41,14 +41,15 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
-        ['label' => 'Cart', 'url' => ['/site/contact']],
-        ['label' => 'Dropdown','items' => ['label' => 'Hello']],
+        //['label' => 'Cart', 'url' => ['/site/contact']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
-        $menuItems[] = ['label' => 'User Profile', 'url' => ['/user/user-profile']];
+        $menuItems[] = ['label' => 'My Profile', 'url' => ['/user/user-profile']];
+        $menuItems[] = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location']];
+        $menuItems[] = ['label' => 'Ticket', 'url' => ['/ticket']];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
@@ -57,6 +58,8 @@ AppAsset::register($this);
             )
             . Html::endForm()
             . '</li>';
+            ['label' => 'My Profile', 'url' => ['/user/user-profile']];
+            
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

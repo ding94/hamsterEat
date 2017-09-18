@@ -52,6 +52,13 @@
                         'options' => ['class' => 'active'],
 
                     ],
+                    [   'label' => 'Ticket Controller' , 'icon' => 'cog' ,'url' => '#',
+                        'items' =>  [
+                                        ['label' => 'Ticket List' ,'icon' => 'circle-o' , 'url' => ['/ticket/index']],
+                                        ['label' => 'Completed Ticket List' ,'icon' => 'circle-o' , 'url' => ['/ticket/complete']],
+                                    ],
+                        'options' => ['class' => 'active'],
+                    ],
                     [   'label' => 'Auth Controller' , 'icon' => 'cog' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Auth List' ,'icon' => 'circle-o' , 'url' => ['/auth/index']],

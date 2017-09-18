@@ -67,12 +67,27 @@ class Ticket extends \yii\db\ActiveRecord
     {
 
         $query = self::find();
-    
+
+        if (!empty($action)) {
+            if ($action == 2) {
+             $query = self::find()->andWhere('Ticket_Status <3')->orderBy('Ticket_ID DESC');
+            }
+            elseif ($action ==3 ) {
+                $query = self::find()->andWhere('Ticket_Status =3')->orderBy('Ticket_ID DESC');
+            }
+        }
+        
+
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
         $this->load($params);
+
+
+
+
 
         return $dataProvider;
     }

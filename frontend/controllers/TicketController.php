@@ -16,7 +16,14 @@ use yii\web\UploadedFile;
 class TicketController extends Controller
 {
 
-public function actionSubmitTicket()
+
+    public function actionIndex()
+    {
+        $model = Ticket::find()->joinWith('adminreply')->where('User_id = :id ', [':id'=>Yii::$app->user->identity->id])->andWhere('Ticket_Status <3')->orderBy('Ticket_ID DESC')->all();
+        return $this->render('processticket', ['model'=>$model]);
+    }
+
+    public function actionSubmitTicket()
     {
         $model = new Ticket;
         $type = Ticketcategorytypes::find()->all();
@@ -47,21 +54,11 @@ public function actionSubmitTicket()
             return $this->redirect(['/ticket/submit-ticket']);
         }
 
-
-
-
         return $this->render("submitticket",['model' => $model, 'data' => $data,'upload'=>$upload]);
     }
 
-    public function actionInProgress()
-    {
-        $model = Ticket::find()->joinWith('adminreply')->where('User_id = :id ', [':id'=>Yii::$app->user->identity->id])->orderBy('Ticket_ID DESC')->all();
-        //var_dump($model['0']['adminreply']);exit;
 
-        return $this->render('processticket', ['model'=>$model]);
-    }
-
-     public function actionChatting($sid,$tid)
+    public function actionChatting($sid,$tid)
     {
         $model= Replies::find()->where('Ticket_ID = :tid ', [':tid'=>$tid])->orderBy('Replies_DateTime ASC')->all();
         $reply = new Replies;
@@ -88,7 +85,7 @@ public function actionSubmitTicket()
             $reply->Replies_DateTime = time();
             $reply->Replies_ReplyBy = 1;
             $reply->Replies_ReplyPerson = Yii::$app->user->identity->id;
-            
+            $ticket->Ticket_Status = 1;
             $path = Yii::$app->params['submitticket'];
             $upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
 
@@ -100,8 +97,9 @@ public function actionSubmitTicket()
 
             }
 
-           if ($reply->validate()) {
+           if ($reply->validate() && $ticket->validate()) {
                $reply->save();
+               $ticket->save();
                Yii::$app->session->setFlash('success', 'Submitted!');
                return $this->redirect(['/ticket/chatting','sid'=>$sid,'tid'=>$tid]);
            }
@@ -110,13 +108,13 @@ public function actionSubmitTicket()
                 Yii::$app->session->setFlash('error', 'Upload Failed, Something went wrong');
            }
 
-
-
         }
-
-
-        
-
         return $this->render('chat',['model'=>$model,'reply'=>$reply,'ticket'=>$ticket,'name'=>$name,'sid'=>$sid,'upload'=>$upload]);
+    }
+
+    public function actionCompleted()
+    {
+        $model = Ticket::find()->joinWith('adminreply')->where('User_id = :id ', [':id'=>Yii::$app->user->identity->id])->andWhere('Ticket_Status =3')->orderBy('Ticket_ID DESC')->all();
+        return $this->render('completed', ['model'=>$model]);
     }
 }

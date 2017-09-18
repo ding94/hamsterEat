@@ -9,13 +9,12 @@ use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use backend\models\Admin;
 
-    $this->title = 'My Questions';
+    $this->title = 'My Completed Questions';
     $this->params['breadcrumbs'][] = $this->title;
     
 ?>
-<html>
+
 <div class="site-contact">
     <div class="tableHeader">
         <ul>
@@ -33,7 +32,7 @@ use backend\models\Admin;
 
     <h1><?= Html::encode($this->title) ?></h1>  
 
-    <div>
+<div>
         <table class="table table-inverse">
             <tr >
                 <th>Serial No.</th>
@@ -57,12 +56,9 @@ use backend\models\Admin;
                             <?php echo $model['Ticket_Subject']; ?>
                         </td>
                         <td>
-                             <?php if ($model['Ticket_Status'] == 1) {
-                                    echo "Submitted";
+                             <?php if ($model['Ticket_Status'] == 3) {
+                                    echo "Completed";
                                 }
-                                elseif ($model['Ticket_Status'] == 2) {
-                                     echo "Replied";
-                                 }
                                  else {
                                       echo "error";
                                   } 
@@ -71,7 +67,7 @@ use backend\models\Admin;
                         
                         <td>
                             <a href=<?php echo  Url::to(['ticket/chatting','sid'=>$k,'tid'=>$model['Ticket_ID']]); ?> >
-                                Go Chat
+                                See Chat Record
                             </a>
                         </td>
 
@@ -90,9 +86,4 @@ use backend\models\Admin;
         </table>
         
     </div>
-
-
-
 </div>
-
-</html>

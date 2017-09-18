@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "useraddress".
  *
- * @property string $User_Username
+ * @property integer $user_id
  * @property integer $User_Postcode1
  * @property string $User_Area1
  * @property string $User_Street1
@@ -31,11 +31,14 @@ class Useraddress extends \yii\db\ActiveRecord
         return 'useraddress';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
             [['User_id'], 'required'],
-            [['User_Postcode1', 'User_Postcode2', 'User_Postcode3' ,'User_id'], 'integer'],
+            [['User_Postcode1', 'User_Postcode2', 'User_Postcode3'], 'integer'],
             [['User_Area1', 'User_Street1', 'User_HouseNo1', 'User_Area2', 'User_Street2', 'User_HouseNo2', 'User_Area3', 'User_Street3', 'User_HouseNo3'], 'string', 'max' => 255],
         ];
     }
@@ -46,7 +49,7 @@ class Useraddress extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'User_id' => 'User  Id',
+            'user_id' => 'User ID',
             'User_Postcode1' => 'User  Postcode1',
             'User_Area1' => 'User  Area1',
             'User_Street1' => 'User  Street1',

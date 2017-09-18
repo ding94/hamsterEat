@@ -10,6 +10,7 @@ use Yii;
  * @property integer $Food_ID
  * @property integer $Restaurant_ID
  * @property string $Food_Name
+ * @property string $Food_Halal
  * @property string $Food_Type
  * @property double $Food_Price
  * @property string $Food_Desc
@@ -18,7 +19,7 @@ use Yii;
  * @property integer $Food_TotalBought
  * @property integer $Food_TotalRated
  */
-class food extends \yii\db\ActiveRecord
+class Food extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -36,7 +37,8 @@ class food extends \yii\db\ActiveRecord
         return [
             [['Restaurant_ID', 'FoodRating', 'Food_TotalBought', 'Food_TotalRated'], 'integer'],
             [['Food_Price'], 'number'],
-            [['Food_Name', 'Food_Type', 'Food_Desc', 'Food_FoodPicPath'], 'string', 'max' => 255],
+            [['Food_Name', 'Food_Halal', 'Food_Type', 'Food_Desc', 'Food_FoodPicPath'], 'string', 'max' => 255],
+            [['Food_Type'],'safe']
         ];
     }
 
@@ -49,6 +51,7 @@ class food extends \yii\db\ActiveRecord
             'Food_ID' => 'Food  ID',
             'Restaurant_ID' => 'Restaurant  ID',
             'Food_Name' => 'Food  Name',
+            'Food_Halal' => 'Food  Halal',
             'Food_Type' => 'Food  Type',
             'Food_Price' => 'Food  Price',
             'Food_Desc' => 'Food  Desc',

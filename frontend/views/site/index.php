@@ -8,7 +8,18 @@ $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
 
-    <div class="jumbotron">
+    
+        <div id="SlideShowContainer" class="container-fluid">
+     <div id="SSCrow1" class="row">
+        <div class="mySlides">
+        <img src="SysImg/Img1-1200x400.jpg" style="width:100%;height:600px !important;">
+        </div>
+        </div>
+         </div>
+
+        <div id="SSCrow2" class="row">
+        <div class="col-sm-7">
+            <div class="loginform col-sm-4">
         <h1>Select Your Location</h1>
         <?php if($postcode['detectArea'] == 0) :?>
         <?php $form = ActiveForm::begin(['id' => 'area']); ?>
@@ -20,10 +31,13 @@ $this->title = 'My Yii Application';
         <?= $form->field($postcode, 'Area_Area')->dropDownList($list) ?>
         <?php endif ;?>
         <?= Html::submitButton('Proceed', ['class' => 'btn btn-primary', 'name' => 'proceed-button']) ?>
-
+        </div>
+        </div>
+        </div>
+        </div>
         <?php ActiveForm::end(); ?>
-
-    </div>
+    
+    
 
     <div class="body-content">
 

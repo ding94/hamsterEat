@@ -13,6 +13,9 @@ use yii\web\UploadedFile;
 use common\models\Rmanager;
 use common\models\Rmanagerlevel;
 use yii\filters\AccessControl;
+use common\models\User;
+use common\models\AuthAssignment;
+use common\models\user\Userdetails;
 
 /**
  * Default controller for the `Restaurant` module
@@ -32,7 +35,8 @@ class DefaultController extends Controller
                  //'only' => ['logout', 'signup','index'],
                  'rules' => [
                      [
-                         'actions' => ['new-restaurant-location','new-restaurant-details','new-restaurant','edit-restaurant-details','edit-restaurant-area','edited-location-details','edit-restaurant-details2','manage-restaurant-staff','delete-restaurant-staff'],
+                         'actions' => ['new-restaurant-location','new-restaurant-details','new-restaurant','edit-restaurant-details','edit-restaurant-area','edited-location-details','edit-restaurant-details2','manage-restaurant-staff','delete-restaurant-staff','add-staff','add-as-owner',
+                        'add-as-manager', 'add-as-operator'],
                          'allow' => true,
                          'roles' => ['restaurant manager'],
  
@@ -272,7 +276,6 @@ class DefaultController extends Controller
     public function actionManageRestaurantStaff($rid)
     {
         $rid = $rid;
-
         $rstaff = rmanagerlevel::find()->where('Restaurant_ID = :rid',[':rid'=>$rid])->all();
 
         $id = restaurant::find()->where('Restaurant_ID = :rid',[':rid'=>$rid])->one();
@@ -292,4 +295,46 @@ class DefaultController extends Controller
         return $this->render('ManageRestaurantStaff',['rid'=>$rid, 'id'=>$id,'rstaff'=>$rstaff]);
     }
 
+    public function actionAddStaff($rid, $num)
+    {
+        $search = user::find()->innerJoinWith('authAssignment','user.id = authAssignment.user_id')->where(['auth_assignment.item_name' => "restaurant manager"])->all();
+
+        $rid = $rid;
+        $num = $num;
+
+        return $this->render('addstaff',['search'=>$search, 'rid'=>$rid, 'num'=>$num]);
+    }
+
+    public function actionAddAsOwner($rid, $uname)
+    {
+        $time = time();
+        $sql = "INSERT INTO rmanagerlevel (User_Username, Restaurant_ID, RmanagerLevel_Level, Rmanager_DateTimeAdded) VALUES ('$uname', $rid, 'Owner', $time)";
+        Yii::$app->db->createCommand($sql)->execute();
+
+        $rid = $rid;
+
+        return $this->redirect(['manage-restaurant-staff','rid'=>$rid]);
+    }
+
+    public function actionAddAsManager($rid, $uname)
+    {
+        $time = time();
+        $sql = "INSERT INTO rmanagerlevel (User_Username, Restaurant_ID, RmanagerLevel_Level, Rmanager_DateTimeAdded) VALUES ('$uname', $rid, 'Manager', $time)";
+        Yii::$app->db->createCommand($sql)->execute();
+
+        $rid = $rid;
+
+        return $this->redirect(['manage-restaurant-staff','rid'=>$rid]);
+    }
+
+    public function actionAddAsOperator($rid, $uname)
+    {
+        $time = time();
+        $sql = "INSERT INTO rmanagerlevel (User_Username, Restaurant_ID, RmanagerLevel_Level, Rmanager_DateTimeAdded) VALUES ('$uname', $rid, 'Operator', $time)";
+        Yii::$app->db->createCommand($sql)->execute();
+
+        $rid = $rid;
+
+        return $this->redirect(['manage-restaurant-staff','rid'=>$rid]);
+    }
 }

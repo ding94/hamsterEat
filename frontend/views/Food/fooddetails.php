@@ -34,7 +34,7 @@ use yii\helpers\Html;
 
 
             <tr>	
-            <td> <input type="number" value="1" name="Quantity"><td>			
+            <td> <input type="number" value="1z" name="Quantity"><td>			
                   <td> <?= Html::a('Add to Cart', ['/cart/addto-cart','Food_ID' => $fooddata->Food_ID,'Quantity'=>'value'], ['class'=>'btn btn-primary']) ?> </td>
 
             </tr>

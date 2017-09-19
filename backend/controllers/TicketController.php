@@ -83,9 +83,25 @@ class TicketController extends Controller
     {
         $searchModel = new Ticket();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,3);
-        $complete = 1;
-        return $this->render('index',['model'=>$dataProvider, 'searchModel'=>$searchModel,'comeplete'=>$complete]);
         
+        return $this->render('index',['model'=>$dataProvider, 'searchModel'=>$searchModel]);
+        
+    }
+
+    public function actionConfirm($id)
+    {
+        if (!empty($id)) {
+           $model = Ticket::find()->where('Ticket_Id = :t',[':t' => $id])->one();
+           $model->Ticket_Status = 3;
+           if ($model->validate()) {
+               $model->save();
+               Yii::$app->session->setFlash('success', "Confirmed!");
+           }
+           else{
+            Yii::$app->session->setFlash('error', "Error");
+           }
+        }
+        return $this->redirect(['/ticket/index']);
     }
 
 }

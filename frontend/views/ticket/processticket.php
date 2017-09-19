@@ -74,24 +74,13 @@ use backend\models\Admin;
                                 Go Chat
                             </a>
                         </td>
-
                     </tr>
-
-
-
-
-
             <?php   }   ?>
-
-
-
-
-            
         </table>
         
     </div>
 
-
+<div> <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'btn btn-primary']) ?></div>
 
 </div>
 

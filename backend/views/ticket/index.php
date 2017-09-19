@@ -26,7 +26,7 @@ use yii\helpers\ArrayHelper;
             'User_id',
             'Ticket_Category',
             'Ticket_Content',
-            'Ticket_Status',
+            'ticket_status.description',
             ['class' => 'yii\grid\ActionColumn' , 
                  'template'=>' {img}',
                  'buttons' => [
@@ -48,13 +48,11 @@ use yii\helpers\ArrayHelper;
             ],
 
             ['class' => 'yii\grid\ActionColumn' ,
-             'template'=>'{complete}',
+             'template'=>'{confirm}',
              'buttons' => [
-                'complete' => function($url , $model)
+                'confirm' => function($url , $model)
                 {
-                    return  if($complete > 1) {
-                        Html::a(FA::icon('check 2x') , $url , ['title' => 'Problem Solved','data-confirm'=>"Complete this ticket? Ticket ID: ".$model->Ticket_ID])
-                    };
+                    return $model->Ticket_Status <2 ?  Html::a(FA::icon('check 2x') , $url , ['title' => 'Problem Solved','data-confirm'=>"Complete this ticket? Ticket ID: ".$model->Ticket_ID]) : "";
                 },
               ]
             ],

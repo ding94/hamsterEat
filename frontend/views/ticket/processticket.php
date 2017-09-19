@@ -15,7 +15,7 @@ use backend\models\Admin;
     $this->params['breadcrumbs'][] = $this->title;
     
 ?>
-<html>
+<div class="container">
 <div class="site-contact">
     <div class="tableHeader">
         <ul>
@@ -33,7 +33,7 @@ use backend\models\Admin;
 
     <h1><?= Html::encode($this->title) ?></h1>  
 
-    <div>
+    <div class="col-md-8 col-md-offset-1">
         <table class="table table-inverse">
             <tr >
                 <th>Serial No.</th>
@@ -74,25 +74,13 @@ use backend\models\Admin;
                                 Go Chat
                             </a>
                         </td>
-
                     </tr>
-
-
-
-
-
             <?php   }   ?>
-
-
-
-
-            
         </table>
-        
+        <div style="padding-left: 35%"> <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'btn btn-primary']) ?></div>
     </div>
 
 
 
 </div>
-
-</html>
+</div>

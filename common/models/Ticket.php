@@ -6,7 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
 use common\models\Replies;
-
+use common\models\TicketStatus;
 /**
  * This is the model class for table "ticket".
  *
@@ -34,6 +34,16 @@ class Ticket extends \yii\db\ActiveRecord
         return $this->hasMany(Replies::className(),['Ticket_ID' => 'Ticket_ID'])->andOnCondition(['Replies_ReplyBy' => 2]);; 
     }
 
+    public function attributes()
+    {
+        return array_merge(parent::attributes(),['ticket_status.description']);
+    }
+
+    public function getTicket_status()
+    {
+        return $this->hasOne(TicketStatus::className(),['id' => 'Ticket_Status']); 
+    }
+
     /**
      * @inheritdoc
      */
@@ -43,6 +53,7 @@ class Ticket extends \yii\db\ActiveRecord
             [['User_id','Ticket_Subject','Ticket_Content','Ticket_Category'], 'required'],
             [['User_id','Ticket_Status','Ticket_DateTime'], 'integer'],
             [['Ticket_Subject', 'Ticket_Content', 'Ticket_Category',  'Ticket_PicPath'], 'string', 'max' => 255],
+            [['ticket_status.description'], 'safe'],
         ];
     }
 
@@ -62,6 +73,7 @@ class Ticket extends \yii\db\ActiveRecord
             'Ticket_PicPath' => 'Picture',
         ];
     }
+    
 
     public function search($params,$action)
     {
@@ -78,14 +90,14 @@ class Ticket extends \yii\db\ActiveRecord
         }
         
 
-
+        $query->joinWith(['ticket_status']);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
         $this->load($params);
 
-
+        $query->andFilterWhere(['like','description' , $this->getAttribute('ticket_status.description')]);
 
 
 

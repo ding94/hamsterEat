@@ -13,14 +13,14 @@ use common\models\Model;
 
 class FoodController extends Controller
 {
-    public function actionFoodDetails($foodid)
+    public function actionFoodDetails($id)
     {
-        $fooddata = food::find()->where('Food_ID = :id' ,[':id' => $foodid])->one();
+        $fooddata = food::find()->where('Food_ID = :id' ,[':id' => $id])->one();
 
          return $this->render('fooddetails',['fooddata' => $fooddata,]);
     }
 
-    public function actionInsertFood()
+    public function actionInsertFood($rid)
     {
          
         $food = new Food();
@@ -39,7 +39,7 @@ class FoodController extends Controller
          
 			        
     		//$model->load($post);
-                
+            $food->Restaurant_ID = $rid;
             $food->Food_FoodPicPath = $upload->imageFile->name;
             $food->Food_Type = implode(',',$food->Food_Type);
            

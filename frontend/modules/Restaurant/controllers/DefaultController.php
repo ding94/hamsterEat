@@ -36,7 +36,7 @@ class DefaultController extends Controller
                  'rules' => [
                      [
                          'actions' => ['new-restaurant-location','new-restaurant-details','new-restaurant','edit-restaurant-details','edit-restaurant-area','edited-location-details','edit-restaurant-details2','manage-restaurant-staff','delete-restaurant-staff','add-staff','add-as-owner',
-                        'add-as-manager', 'add-as-operator'],
+                        'add-as-manager', 'add-as-operator','food-details'],
                          'allow' => true,
                          'roles' => ['restaurant manager'],
  
@@ -74,7 +74,7 @@ class DefaultController extends Controller
         $fooddata = food::find()->where('Food_ID=:id',[':id'=>$fid])->one();
         $foodid = $fooddata['Food_ID'];
 
-        return $this->redirect(['/food/food-details', 'foodid'=>$foodid]);
+        return $this->redirect(['/food/food-details', 'id'=>$foodid]);
     }
 
     public function actionNewRestaurantLocation()

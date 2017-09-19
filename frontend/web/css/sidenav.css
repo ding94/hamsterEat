@@ -12,3 +12,7 @@ a{
 .kv-sidenav .nav a {
     background-color: white;
 }
+#sideNav{
+  margin: 100px 5px 0px 5px;
+  border-right: 1px solid #ddd;
+}

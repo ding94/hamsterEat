@@ -14,6 +14,7 @@ class UserController extends Controller
     public function actionUserProfile()
     {
         $user = User::find()->where('id = :id' ,[':id' => Yii::$app->user->id])->joinWith(['useraddress','userdetails'])->one();
+        $this->layout = 'user';
         
         return $this->render('userprofile',['user' => $user]);
        

@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 ?>
 
-<div class="container">
+<div class="container" id="index">
     <h1>Showing Available Restaurants In Your Area</h1>
 
     <?php

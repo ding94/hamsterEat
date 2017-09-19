@@ -52,7 +52,7 @@ use yii\helpers\ArrayHelper;
              'buttons' => [
                 'confirm' => function($url , $model)
                 {
-                    return $model->Ticket_Status <2 ?  Html::a(FA::icon('check 2x') , $url , ['title' => 'Problem Solved','data-confirm'=>"Complete this ticket? Ticket ID: ".$model->Ticket_ID]) : "";
+                    return $model->Ticket_Status <=2 ?  Html::a(FA::icon('check 2x') , $url , ['title' => 'Problem Solved','data-confirm'=>"Complete this ticket? Ticket ID: ".$model->Ticket_ID]) : "";
                 },
               ]
             ],

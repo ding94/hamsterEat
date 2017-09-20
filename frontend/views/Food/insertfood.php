@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>Please insert your food's details:</p>
 
     <div class="row">
-        <div class="">
+        <div class="col-sm-6">
             <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
                 <?= $form->field($food, 'Food_FoodPicPath')->fileInput()->label('Picture') ?>
 
@@ -49,13 +49,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     'FoodType_ID',
                     'Food_ID',
                     'Selection_Type',
+                    'FoodType_Min',
+                    'FoodType_Max',
         ],
     ]); ?>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Food Option</th>
-                <th style="width: 842px;">Rooms</th>
+                <th class="col-md-3">Food Option</th>
+                <th style="width: 842px;">Selection</th>
                 <th class="text-center" style="width: 90px;">
                     <button type="button" class="add-house btn btn-success btn-xs"><span class="glyphicon glyphicon-plus"></span></button>
                 </th>
@@ -63,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </thead>
         <tbody class="container-items">
         <?php foreach ($foodtype as $i => $foodtype): ?>
-            <tr class="house-item">
+            <tr class="house-item" >
                 <td class="vcenter">
                     <?php
                         // necessary for update action.
@@ -72,6 +74,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                     ?>
                     <?= $form->field($foodtype, "[{$i}]Selection_Type")->label(false)->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($foodtype, "[{$i}]FoodType_Min")->label(false)->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($foodtype, "[{$i}]FoodType_Max")->label(false)->textInput(['maxlength' => true]) ?>
                 </td>
                 <td>
                      <?= $this->render('foodselection', [
@@ -93,9 +97,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-</div>
+
                 <div class="form-group">
                     <?= Html::submitButton('Done', ['class' => 'btn btn-primary', 'name' => 'insert-button']) ?>
+                </div>
                 </div>
 
             <?php ActiveForm::end(); ?>

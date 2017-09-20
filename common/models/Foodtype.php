@@ -10,6 +10,8 @@ use Yii;
  * @property integer $FoodType_ID
  * @property integer $Food_ID
  * @property string $Selection_Type
+ * @property integer $FoodType_Min
+ * @property integer $FoodType_Max
  */
 class Foodtype extends \yii\db\ActiveRecord
 {
@@ -28,7 +30,7 @@ class Foodtype extends \yii\db\ActiveRecord
     {
         return [
             [['Food_ID', 'Selection_Type'], 'required'],
-            [['Food_ID'], 'integer'],
+            [['Food_ID', 'FoodType_Min', 'FoodType_Max'], 'integer'],
             [['Selection_Type'], 'string', 'max' => 255],
         ];
     }
@@ -42,6 +44,8 @@ class Foodtype extends \yii\db\ActiveRecord
             'FoodType_ID' => 'Food Type  ID',
             'Food_ID' => 'Food  ID',
             'Selection_Type' => 'Selection  Type',
+            'FoodType_Min' => 'Food Type  Min',
+            'FoodType_Max' => 'Food Type  Max',
         ];
     }
 }

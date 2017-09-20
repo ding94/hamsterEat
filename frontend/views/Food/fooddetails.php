@@ -40,7 +40,6 @@ use yii\bootstrap\ActiveForm;
                   <td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart-button', 'style'=>'margin-top:25px;']) ?></td>
             </tr>
 
-
         <?php ActiveForm::end(); ?>
             </table>
       </div>

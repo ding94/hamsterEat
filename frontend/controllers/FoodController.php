@@ -17,6 +17,8 @@ class FoodController extends Controller
     public function actionFoodDetails($id)
     {
         $fooddata = food::find()->where('Food_ID = :id' ,[':id' => $id])->one();
+        $foodtype = foodtype::find()->where('Food_ID = :id' ,[':id' => $id])->one();
+        $foodselection = foodselection::find()->where('Food_ID = :id' ,[':id' => $id])->one();
 
         $orderitem = new Orderitem;
 
@@ -27,7 +29,8 @@ class FoodController extends Controller
             return $this->redirect(array('cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id));
         }
 
-        return $this->render('fooddetails',['fooddata' => $fooddata, 'orderitem'=>$orderitem]);
+        return $this->render('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype,'foodselection' => $foodselection, 'orderitem'=>$orderitem]);
+         
     }
 
     public function actionInsertFood($rid)
@@ -113,6 +116,7 @@ class FoodController extends Controller
                 }
             }
         }
+        $this->layout = 'user';
       
         return $this->render('insertfood',['food' => $food,'foodtype' => (empty($foodtype)) ? [new Foodtype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection]);
     }

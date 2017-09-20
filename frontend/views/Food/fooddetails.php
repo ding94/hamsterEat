@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
 ?>
 
 <div class="container">
@@ -32,12 +33,15 @@ use yii\helpers\Html;
                   <td> <?php echo $fooddata->Food_Desc;?></td>
             </tr>
 
-
-            <tr>	
-            <td> <input type="number" value="1z" name="Quantity"><td>			
-                  <td> <?= Html::a('Add to Cart', ['/cart/addto-cart','Food_ID' => $fooddata->Food_ID,'Quantity'=>'value'], ['class'=>'btn btn-primary']) ?> </td>
-
+            <?php $form = ActiveForm::begin(['id' => 'form-newrestaurant']); ?>
+            
+            <tr>
+                  <td><?= $form->field($orderitem, 'OrderItem_Quantity')->textInput(['type' => 'number', 'value' => "1"])?></td>
+                  <td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart-button', 'style'=>'margin-top:25px;']) ?></td>
             </tr>
+
+
+        <?php ActiveForm::end(); ?>
             </table>
       </div>
 </div>

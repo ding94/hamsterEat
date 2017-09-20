@@ -337,4 +337,9 @@ class DefaultController extends Controller
 
         return $this->redirect(['manage-restaurant-staff','rid'=>$rid]);
     }
+
+    public function actionShowByFood()
+    {
+        
+    }
 }

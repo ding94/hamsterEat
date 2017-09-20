@@ -10,6 +10,7 @@ use common\models\Foodtype;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\Model;
+use common\models\Orderitem;
 
 class FoodController extends Controller
 {
@@ -17,7 +18,16 @@ class FoodController extends Controller
     {
         $fooddata = food::find()->where('Food_ID = :id' ,[':id' => $id])->one();
 
-         return $this->render('fooddetails',['fooddata' => $fooddata,]);
+        $orderitem = new Orderitem;
+
+        if ($orderitem->load(Yii::$app->request->post()))
+        {
+            $quantity = $orderitem->OrderItem_Quantity;
+
+            return $this->redirect(array('cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id));
+        }
+
+        return $this->render('fooddetails',['fooddata' => $fooddata, 'orderitem'=>$orderitem]);
     }
 
     public function actionInsertFood($rid)

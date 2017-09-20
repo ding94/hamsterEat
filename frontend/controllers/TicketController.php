@@ -20,6 +20,7 @@ class TicketController extends Controller
     public function actionIndex()
     {
         $model = Ticket::find()->joinWith('adminreply')->where('User_id = :id ', [':id'=>Yii::$app->user->identity->id])->andWhere('Ticket_Status <3')->orderBy('Ticket_ID DESC')->all();
+        $this->layout = 'user';
         return $this->render('processticket', ['model'=>$model]);
     }
 
@@ -53,7 +54,7 @@ class TicketController extends Controller
             Yii::$app->session->setFlash('success', 'Upload Successful');
             return $this->redirect(['/ticket/submit-ticket']);
         }
-
+        $this->layout = 'user';
         return $this->render("submitticket",['model' => $model, 'data' => $data,'upload'=>$upload]);
     }
 
@@ -115,6 +116,7 @@ class TicketController extends Controller
     public function actionCompleted()
     {
         $model = Ticket::find()->joinWith('adminreply')->where('User_id = :id ', [':id'=>Yii::$app->user->identity->id])->andWhere('Ticket_Status =3')->orderBy('Ticket_ID DESC')->all();
+        $this->layout = 'user';
         return $this->render('completed', ['model'=>$model]);
     }
 }

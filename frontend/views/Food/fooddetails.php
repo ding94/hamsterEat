@@ -31,7 +31,7 @@ use yii\helpers\Html;
                   <td>Food Description:</td>
                   <td> <?php echo $fooddata->Food_Desc;?></td>
             </tr>
-
+          
 
             <tr>	
             <td> <input type="number" value="1" name="Quantity"><td>			

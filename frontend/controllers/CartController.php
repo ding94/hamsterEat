@@ -6,11 +6,12 @@ use common\models\Orderitem;
 use common\models\User;
 use common\models\food;
 use common\models\Orders;
+use common\models\Orderitemselection;
 
 
 class CartController extends Controller
 {
-    public function actionAddtoCart($Food_ID,$quantity)
+    public function actionAddtoCart($Food_ID,$quantity,$selection,$foodtypeid)
     {
         $session = Yii::$app->session;
         $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
@@ -27,6 +28,8 @@ class CartController extends Controller
         }
 
         $orderitem = new Orderitem;
+        $orderitemselection = new orderitemselection;
+
         $findfood = food::find()->where('Food_ID = :fid', [':fid'=>$Food_ID])->one();
         $findfoodprice = $findfood['Food_Price'];
         $orderitem->Delivery_ID = $cart['Delivery_ID'];

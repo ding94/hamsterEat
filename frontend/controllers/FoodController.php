@@ -30,8 +30,11 @@ class FoodController extends Controller
         if ($orderitem->load(Yii::$app->request->post()))
         {
             $quantity = $orderitem->OrderItem_Quantity;
+            $selection = $orderItemSelection->FoodType_ID;
 
-            return $this->redirect(array('cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id));
+            var_dump($selection);exit;
+
+            return $this->redirect(array('cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'selection' => $selection, 'foodtypeid'=>$foodtypeid));
         }
 
         return $this->render('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);

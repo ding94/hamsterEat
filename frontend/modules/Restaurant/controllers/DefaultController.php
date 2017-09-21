@@ -17,6 +17,7 @@ use common\models\User;
 use common\models\AuthAssignment;
 use common\models\user\Userdetails;
 
+
 /**
  * Default controller for the `Restaurant` module
  */
@@ -36,13 +37,13 @@ class DefaultController extends Controller
                  'rules' => [
                      [
                          'actions' => ['new-restaurant-location','new-restaurant-details','new-restaurant','edit-restaurant-details','edit-restaurant-area','edited-location-details','edit-restaurant-details2','manage-restaurant-staff','delete-restaurant-staff','add-staff','add-as-owner',
-                        'add-as-manager', 'add-as-operator','food-details'],
+                        'add-as-manager', 'add-as-operator'],
                          'allow' => true,
                          'roles' => ['restaurant manager'],
  
                      ],
                      [
-                        'actions' => ['index','restaurant-details'],
+                        'actions' => ['index','restaurant-details','food-details'],
                         'allow' => true,
                         'roles' => ['?','@'],
 
@@ -115,7 +116,7 @@ class DefaultController extends Controller
         $restaurant = new Restaurant();
 
         $upload = new Upload();
-        $path = Yii::$app->request->baseUrl.'/imageLocation/';
+        //$path = Yii::$app->request->baseUrl.'/imageLocation/';
 
         if ($restaurant->load(Yii::$app->request->post()))
             {
@@ -124,7 +125,7 @@ class DefaultController extends Controller
                 $upload->imageFile =  UploadedFile::getInstance($restaurant, 'Restaurant_RestaurantPicPath');
                 $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
                 //$post['User_PicPath'] = 
-                $upload->upload();
+                $upload->upload('imageLocation/');
                 
                 // $restaurant->load($post);
             
@@ -166,7 +167,7 @@ class DefaultController extends Controller
     public function actionEditRestaurantDetails($rid, $postcodechosen, $areachosen, $restArea)
     {
         $upload = new Upload();
-        $path = Yii::$app->request->baseUrl.'/imageLocation/';
+        //$path = Yii::$app->request->baseUrl.'/imageLocation/';
 
         $restaurantdetails = restaurant::find()->where('Restaurant_ID = :rid'  , [':rid' => $rid])->one();
         $rpicpath = $restaurantdetails['Restaurant_RestaurantPicPath'];
@@ -187,7 +188,7 @@ class DefaultController extends Controller
                 {
                     $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
                     // $post['User_PicPath'] = 
-                     $upload->upload();
+                     $upload->upload('imageLocation/');
                      
                      //$restaurantdetails->load($post);
                  

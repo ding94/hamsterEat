@@ -21,8 +21,8 @@ class Upload extends Model
     {
         //default location = 'imageLocation/'
         if ($this->validate()) {
-            
-            $this->imageFile->saveAs($path.$this->imageFile->baseName . '.' . $this->imageFile->extension);
+            //var_dump($path);exit;
+            $this->imageFile->saveAs($path.$this->imageFile->baseName.'.'.$this->imageFile->extension);
         
             return true;
         } else 

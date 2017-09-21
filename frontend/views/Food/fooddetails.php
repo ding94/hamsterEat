@@ -41,16 +41,16 @@ use yii\helpers\ArrayHelper;
                <?php $form = ActiveForm::begin(['id' => 'fooddetails']); ?>
            
             <?php
-            foreach($foodtype as $foodtype) : 
+            foreach($foodtype as $k=> $foodtype) : 
             $selection = Foodselection::find()->where('FoodType_ID = :ftid',[':ftid'=>$foodtype['FoodType_ID']])->all();
             $data = ArrayHelper::map($selection,'Selection_ID','typeprice');
-            if($foodtype['FoodType_Min'] == 0 && $foodtype ['FoodType_Max'] < 2)
+            if($foodtype['FoodType_Min'] == 0 && $foodtype ['FoodType_Max'] < 2 || $foodtype['FoodType_Min'] == 1 && $foodtype ['FoodType_Max'] < 2 )
             { 
                                  
                  echo "<tr>";           
                  echo '<td>'.$foodtype['Selection_Type'].'</td>';
                  echo "<td>";     
-                 echo $form->field($orderItemSelection,'FoodType_ID')->radioList($data)->label(false); 
+                 echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->radioList($data)->label(false); 
                  echo "<td>";
                  echo "</tr>";
 
@@ -59,7 +59,7 @@ use yii\helpers\ArrayHelper;
                  echo "<tr>";           
                  echo '<td>'.$foodtype['Selection_Type'].'</td>';
                  echo "<td>";     
-                 echo $form->field($orderItemSelection,'FoodType_ID')->checkboxlist($data)->label(false);
+                 echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->checkboxlist($data)->label(false);
                  echo "<td>";
                  echo "</tr>";
             }

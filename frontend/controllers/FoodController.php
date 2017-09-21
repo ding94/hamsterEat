@@ -22,6 +22,7 @@ class FoodController extends Controller
         $foodtype = foodtype::find()->where('Food_ID = :id',[':id' => $id])->all();
          
         $orderItemSelection =new Orderitemselection;
+        
         $orderitem = new Orderitem;
        
        
@@ -125,7 +126,7 @@ class FoodController extends Controller
         return $this->render('insertfood',['food' => $food,'foodtype' => (empty($foodtype)) ? [new Foodtype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection]);
     }
     
- 
-   
-    
+     public function actionEditFood(){
+
+     }
 }

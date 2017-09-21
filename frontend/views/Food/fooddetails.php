@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use common\models\Foodselection;
 use yii\helpers\ArrayHelper;
+use common\models\Orderitemselection;
 
 
 ?>
@@ -38,7 +39,7 @@ use yii\helpers\ArrayHelper;
             </tr>
               
      
-               <?php $form = ActiveForm::begin(['id' => 'fooddetails']); ?>
+            <?php $form = ActiveForm::begin(['id' => 'fooddetails']); ?>
            
             <?php
             foreach($foodtype as $foodtype) : 
@@ -46,29 +47,40 @@ use yii\helpers\ArrayHelper;
             $data = ArrayHelper::map($selection,'Selection_ID','typeprice');
             if($foodtype['FoodType_Min'] == 0 && $foodtype ['FoodType_Max'] < 2)
             { 
-                                 
+                 $foodtypeid = $foodtype['FoodType_ID'];
                  echo "<tr>";           
                  echo '<td>'.$foodtype['Selection_Type'].'</td>';
                  echo "<td>";     
-                 echo $form->field($orderItemSelection,'FoodType_ID')->radioList($data)->label(false); 
-                 echo "<td>";
+                 echo $form->field($orderItemSelection,'Selection_ID')->radioList($data)->label(false);
+                 echo "</td>";
                  echo "</tr>";
-
+                 Html::hiddenInput("foodtypeid", $foodtypeid);
             }
-            else {
+            elseif ($foodtype['FoodType_Min'] == 1 && $foodtype ['FoodType_Max'] < 2)
+            {
+                  $foodtypeid = $foodtype['FoodType_ID'];
+                  echo "<tr>";           
+                  echo '<td>'.$foodtype['Selection_Type'].'</td>';
+                  echo "<td>";     
+                  echo $form->field($orderItemSelection,'Selection_ID')->radioList($data)->label(false);
+                  echo "</td>";
+                  echo "</tr>";
+                  Html::hiddenInput("foodtypeid", $foodtypeid);
+            }
+            else 
+            {
+                 $foodtypeid = $foodtype['FoodType_ID'];
                  echo "<tr>";           
                  echo '<td>'.$foodtype['Selection_Type'].'</td>';
                  echo "<td>";     
-                 echo $form->field($orderItemSelection,'FoodType_ID')->checkboxlist($data)->label(false);
-                 echo "<td>";
+                 echo $form->field($orderItemSelection,'Selection_ID')->checkboxlist($data)->label(false);
+                 echo "</td>";
                  echo "</tr>";
+                 Html::hiddenInput("foodtypeid", $foodtypeid);
             }
              endforeach; 
                  ?> 
             
-               
-    
-
             <tr>
                   <td><?= $form->field($orderitem, 'OrderItem_Quantity')->textInput(['type' => 'number', 'value' => "1"])?></td>
                   <td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart-button', 'style'=>'margin-top:25px;']) ?></td>

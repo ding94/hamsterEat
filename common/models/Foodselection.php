@@ -51,4 +51,9 @@ class Foodselection extends \yii\db\ActiveRecord
             'Selection_Desc' => 'Selection  Desc',
         ];
     }
+
+    public function getTypeprice()
+    {
+        return $this->Selection_Name.'&nbsp; (+ RM'.$this->Selection_Price.')';
+    }
 }

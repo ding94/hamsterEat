@@ -42,7 +42,7 @@ class DefaultController extends Controller
  
                      ],
                      [
-                        'actions' => ['index','restaurant-details'],
+                        'actions' => ['index','restaurant-details','food-details'],
                         'allow' => true,
                         'roles' => ['?','@'],
 

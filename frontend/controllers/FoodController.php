@@ -11,17 +11,20 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\Model;
 use common\models\Orderitem;
+use common\models\Orderitemselection;
 
 class FoodController extends Controller
 {
     public function actionFoodDetails($id)
     {
         $fooddata = food::find()->where('Food_ID = :id' ,[':id' => $id])->one();
-        $foodtype = foodtype::find()->where('Food_ID = :id' ,[':id' => $id])->one();
-        $foodselection = foodselection::find()->where('Food_ID = :id' ,[':id' => $id])->one();
-
+        $foodtype = foodtype::find()->where('Food_ID = :id',[':id' => $id])->all();
+         
+        $orderItemSelection =new Orderitemselection;
         $orderitem = new Orderitem;
-
+       
+       
+          
         if ($orderitem->load(Yii::$app->request->post()))
         {
             $quantity = $orderitem->OrderItem_Quantity;
@@ -29,7 +32,7 @@ class FoodController extends Controller
             return $this->redirect(array('cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id));
         }
 
-        return $this->render('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype,'foodselection' => $foodselection, 'orderitem'=>$orderitem]);
+        return $this->render('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);
          
     }
 

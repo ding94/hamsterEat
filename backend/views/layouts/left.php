@@ -59,6 +59,12 @@
                                     ],
                         'options' => ['class' => 'active'],
                     ],
+                    [   'label' => 'Voucher Controller' , 'icon' => 'cog' ,'url' => '#',
+                        'items' =>  [
+                                        ['label' => 'Voucher List' ,'icon' => 'circle-o' , 'url' => ['/vouchers/index']],
+                                    ],
+                        'options' => ['class' => 'active'],
+                    ],
                     [   'label' => 'Auth Controller' , 'icon' => 'cog' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Auth List' ,'icon' => 'circle-o' , 'url' => ['/auth/index']],

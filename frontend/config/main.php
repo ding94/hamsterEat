@@ -14,6 +14,9 @@ return [
         'Restaurant' => [
             'class' => 'frontend\modules\Restaurant\Restaurant',
         ],
+        'Delivery' => [
+            'class' => 'frontend\modules\delivery\delivery',
+        ],
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [

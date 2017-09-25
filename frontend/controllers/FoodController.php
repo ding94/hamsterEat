@@ -10,17 +10,38 @@ use common\models\Foodtype;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\Model;
+use common\models\Orderitem;
+use common\models\Orderitemselection;
+
 
 class FoodController extends Controller
 {
-    public function actionFoodDetails($foodid)
+    public function actionFoodDetails($id)
     {
-        $fooddata = food::find()->where('Food_ID = :id' ,[':id' => $foodid])->one();
+        $fooddata = food::find()->where('Food_ID = :id' ,[':id' => $id])->one();
+        $foodtype = foodtype::find()->where('Food_ID = :id',[':id' => $id])->all();
+         
+        $orderItemSelection =new Orderitemselection;
+        
+        $orderitem = new Orderitem;
+       
+       
+          
+        if ($orderitem->load(Yii::$app->request->post()))
+        {
+            $quantity = $orderitem->OrderItem_Quantity;
+            $selection = $orderItemSelection->FoodType_ID;
 
-         return $this->render('fooddetails',['fooddata' => $fooddata,]);
+            var_dump($selection);exit;
+
+            return $this->redirect(array('cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'selection' => $selection, 'foodtypeid'=>$foodtypeid));
+        }
+
+        return $this->render('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);
+         
     }
 
-    public function actionInsertFood()
+    public function actionInsertFood($rid)
     {
          
         $food = new Food();
@@ -39,7 +60,7 @@ class FoodController extends Controller
          
 			        
     		//$model->load($post);
-                
+            $food->Restaurant_ID = $rid;
             $food->Food_FoodPicPath = $upload->imageFile->name;
             $food->Food_Type = implode(',',$food->Food_Type);
            
@@ -103,11 +124,12 @@ class FoodController extends Controller
                 }
             }
         }
+        $this->layout = 'user';
       
         return $this->render('insertfood',['food' => $food,'foodtype' => (empty($foodtype)) ? [new Foodtype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection]);
     }
     
- 
-   
-    
+     public function actionEditFood(){
+
+     }
 }

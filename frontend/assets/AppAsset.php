@@ -16,12 +16,12 @@ class AppAsset extends AssetBundle
         'css/slider.css',
         'css/user.css',
         'css/sidenav.css',
-        
     ];
     public $js = [
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
+        'iutbay\yii2fontawesome\FontAwesomeAsset'
     ];
 }

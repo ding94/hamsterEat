@@ -8,6 +8,7 @@ body {
     height: auto;
     margin: 0 auto -60px;
     padding: 0 0 60px;
+     margin-top:4%;
 }
 .wrap > .topnav.navbar-fixed-top {
     background-color:orange;
@@ -32,6 +33,7 @@ body {
 .jumbotron {
     text-align: center;
     background-color: transparent;
+    
 }
 
 .jumbotron .btn {

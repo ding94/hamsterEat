@@ -35,7 +35,7 @@ class DailySignInController extends Controller
     public function actionIndex()
     {
     	$record = self::getDailyData(1);
-    	var_dump($record);exit;
+    	
         return $this->render('index',['record' => $record]);
     }
 

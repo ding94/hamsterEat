@@ -19,6 +19,7 @@ use common\models\User\Userdetails;
 use common\models\User\Useraddress;
 use common\models\Area;
 use yii\helpers\ArrayHelper;
+use yii\web\Session;
 
 /**
  * Site controller
@@ -118,7 +119,11 @@ class SiteController extends Controller
     {
         $area = Yii::$app->request->post('Area');
         $groupArea = Area::find()->where('Area_Postcode = :area_postcode and Area_Area = :area_area',[':area_postcode'=> $area['Area_Postcode'] , ':area_area'=>$area['Area_Area']])->one();
-
+        $session = new Session;
+        $session->open();
+        $session['postcode'] = $area['Area_Postcode'];
+        $session['area'] = $area['Area_Area'];
+        //var_dump($session['postcode']);exit;
         $groupArea = $groupArea['Area_Group'];
         //var_dump($groupArea);exit;
         return $this->redirect(['Restaurant/default/index','groupArea'=>$groupArea]);

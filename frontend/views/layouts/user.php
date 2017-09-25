@@ -72,51 +72,50 @@ AppAsset::register($this);
 <div class="row">
     <div class="sidenav col-md-3" >
         <div class="navbar-left">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
-                <span class="sr-only">Toggle navigation</span> Side Menu <i class="fa fa-bars"></i>
-            </button>
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+            <span class="sr-only">Toggle navigation</span> Side Menu <i class="fa fa-bars"></i>
+        </button>
         </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-            <?php echo SideNav::widget([
-                'encodeLabels' => false,
-                'options' => ['class' => 'in'],
-                'items' => [
-                    ['label' => '<i class="glyphicon glyphicon-list-alt"></i> My Order', 'options' => ['class' => 'active'], 'items' => [
-                        ['label' => 'My Order'],
-                       
-                    ]],
-                    ['label' => 'My account','icon' => '','options' => ['class' => 'active'], 'items' => [
-                        ['label' => 'Top up', 'url' => Url::to(['/topup/index'])],
-                        ['label' => 'Withdraw Money', 'url' => Url::to(['/withdraw/index'])],
-                    ]],
-                     ['label' => '<i class="glyphicon glyphicon-cog"></i> Member Settings','options' => ['class' => 'active'], 'items' => [
-                        ['label' => 'User Profile', 'url' => Url::to(['/user/user-profile'])],
-                    ]],
-                    ['label' => 'Customer Service', 'options' => ['class' => 'active'], 'items' => [
-                       ['label' => 'Submit Ticket', 'url' => Url::to(['/ticket/submit-ticket'])],
-                    ]],
-                     ['label' => 'Delivery Man', 'options' => ['class' =>'active'],'items'=>[
-                        ['label' => 'Dailt Sign In' , 'url' => Url::to(['/Delivery/daily-sign-in/index'])],
-                        ]
-                    ]
-            ]]);     
-            ?>
-        </div>
-    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+    <?php echo SideNav::widget([
+    'encodeLabels' => false,
+    'options' => ['class' => 'in'],
+    'items' => [
+        ['label' => '<i class="glyphicon glyphicon-list-alt"></i> My Order', 'options' => ['class' => 'active'], 'items' => [
+            ['label' => 'My Order'],
+           
+        ]],
+        ['label' =>'<i class="fa fa-money"></i> My account','icon' => '','options' => ['class' => 'active'], 'items' => [
+            ['label' => 'Top up', 'url' => Url::to(['topup/index'])],
+            ['label' => 'Withdraw Money', 'url' => Url::to(['withdraw/index'])],
+        ]],
+         ['label' => '<i class="glyphicon glyphicon-cog"></i> Member Settings','options' => ['class' => 'active'], 'items' => [
+            ['label' => 'User Profile', 'url' => Url::to(['user/user-profile'])],
+        ]],
+        ['label' => '<i class="fa fa-comments"></i> Customer Service', 'options' => ['class' => 'active'], 'items' => [
+           ['label' => 'Submit Ticket', 'url' => Url::to(['ticket/submit-ticket'])],
+        ]],
+]]);     
+?>
+</div>
+</div>
 
 
-    <div class="container col-md-9" style="padding-top: 5%;">
+
+
+    
+
+    <div class="container" style="width: 100%; height: 100%;">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
         <div class="content">
-            <?= $content ?>
-        </div>
+        <?= $content ?>
     </div>
     </div>
 </div>
-
+</div>
 
 <footer class="footer">
     <div class="container">

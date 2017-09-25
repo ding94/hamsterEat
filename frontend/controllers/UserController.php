@@ -14,6 +14,7 @@ class UserController extends Controller
     public function actionUserProfile()
     {
         $user = User::find()->where('id = :id' ,[':id' => Yii::$app->user->id])->joinWith(['useraddress','userdetails'])->one();
+        $this->layout = 'user';
         
         return $this->render('userprofile',['user' => $user]);
        
@@ -71,7 +72,7 @@ class UserController extends Controller
 			}
 	
 		//$this->view->title = 'Update Profile';
-		//$this->layout = 'user';
+		$this->layout = 'user';
 		return $this->render("userdetails",['detail' => $detail,'address'=>$address]);
     }
     public function actionUseraddress()

@@ -19,6 +19,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/2amigos/yii2-selectize-widget/zipball/9a276016e34817fb8be80cdfabfa3a77ef927408",
                 "reference": "9a276016e34817fb8be80cdfabfa3a77ef927408",
+
                 "shasum": ""
             },
             "require": {
@@ -63,6 +64,7 @@
                 "yii2"
             ],
             "time": "2017-08-04 15:30:03"
+
         },
         {
             "name": "akavov/yii2-countries",
@@ -1146,7 +1148,8 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2017-09-13 12:37:07"
+
+            "time": "2017-09-13T12:37:07+00:00"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -1409,22 +1412,27 @@
         },
         {
             "name": "kartik-v/yii2-widget-alert",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-alert.git",
-                "reference": "5b312eeaf429c2affe6a96217d79f0c761159643"
+                "reference": "7348b0d047695a3e552888c481ce250cbc1f9d0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-alert/zipball/5b312eeaf429c2affe6a96217d79f0c761159643",
-                "reference": "5b312eeaf429c2affe6a96217d79f0c761159643",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-alert/zipball/7348b0d047695a3e552888c481ce250cbc1f9d0d",
+                "reference": "7348b0d047695a3e552888c481ce250cbc1f9d0d",
                 "shasum": ""
             },
             "require": {
                 "kartik-v/yii2-krajee-base": "*"
             },
             "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "kartik\\alert\\": ""
@@ -1455,7 +1463,8 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-11-19 06:44:12"
+
+            "time": "2017-03-10T17:08:52+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-colorinput",
@@ -2780,7 +2789,8 @@
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "https://symfony.com",
-            "time": "2017-09-11 15:55:22"
+
+            "time": "2017-09-11T15:55:22+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -5239,7 +5249,9 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2017-09-01 13:23:39"
+
+            "time": "2017-09-01T13:23:39+00:00"
+
         },
         {
             "name": "symfony/event-dispatcher",

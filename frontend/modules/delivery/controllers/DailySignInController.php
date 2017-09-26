@@ -61,7 +61,26 @@ class DailySignInController extends Controller
     	return $this->redirect(Yii::$app->request->referrer);	
     }
 
-    public static function getDailyData($type)
+    public static function getAllDailyRecord()
+    {
+    	$today = date("Y-m");
+    	$date = date("d");
+
+    	$all ="";
+    	$signData = DeliveryAttendence::find()->where(' month = :month',[':month' => $today])->all();
+
+    	foreach($signData as $data)
+    	{
+    		$allDate = json_decode($data->day);
+    		if($allDate->$date->result == 1)
+    		{
+    			$all[] = $allDate->$date->result;
+    		}
+    	}
+    	return $all;
+    }
+
+    protected static function getDailyData($type)
     {
     	$today = date("Y-m");
     	$date = date("d");

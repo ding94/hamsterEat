@@ -708,20 +708,20 @@
         },
         {
             "name": "dmstr/yii2-adminlte-asset",
-            "version": "2.4.3",
+            "version": "2.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dmstr/yii2-adminlte-asset.git",
-                "reference": "2cff40e951c47d02667617833465e09abdac45da"
+                "reference": "7195b4c7833af6774ac0e5958de4a5d56f3251ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dmstr/yii2-adminlte-asset/zipball/2cff40e951c47d02667617833465e09abdac45da",
-                "reference": "2cff40e951c47d02667617833465e09abdac45da",
+                "url": "https://api.github.com/repos/dmstr/yii2-adminlte-asset/zipball/7195b4c7833af6774ac0e5958de4a5d56f3251ba",
+                "reference": "7195b4c7833af6774ac0e5958de4a5d56f3251ba",
                 "shasum": ""
             },
             "require": {
-                "almasaeed2010/adminlte": "~2.0",
+                "almasaeed2010/adminlte": "~2.0 <2.4.0",
                 "cebe/yii2-gravatar": "1.*",
                 "rmrevin/yii2-fontawesome": "~2.9",
                 "yiisoft/yii2": "2.*",
@@ -764,7 +764,7 @@
                 "theme",
                 "yii2"
             ],
-            "time": "2017-08-31T16:21:44+00:00"
+            "time": "2017-09-25T11:47:24+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -900,16 +900,16 @@
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
-            "version": "v4.4.3",
+            "version": "v4.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "e35391eb28e6c8d2f280d5d2b025437733058131"
+                "reference": "a34efc2739157969c74c320715871ee2a2ab49c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/e35391eb28e6c8d2f280d5d2b025437733058131",
-                "reference": "e35391eb28e6c8d2f280d5d2b025437733058131",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/a34efc2739157969c74c320715871ee2a2ab49c8",
+                "reference": "a34efc2739157969c74c320715871ee2a2ab49c8",
                 "shasum": ""
             },
             "type": "library",
@@ -949,7 +949,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2017-08-27T18:51:18+00:00"
+            "time": "2017-09-21T16:53:00+00:00"
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
@@ -1145,7 +1145,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2017-09-13T12:37:07+00:00"
+            "time": "2017-09-13 12:37:07"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -4119,16 +4119,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.7.21",
+            "version": "5.7.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3b91adfb64264ddec5a2dee9851f354aa66327db"
+                "reference": "10df877596c9906d4110b5b905313829043f2ada"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3b91adfb64264ddec5a2dee9851f354aa66327db",
-                "reference": "3b91adfb64264ddec5a2dee9851f354aa66327db",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/10df877596c9906d4110b5b905313829043f2ada",
+                "reference": "10df877596c9906d4110b5b905313829043f2ada",
                 "shasum": ""
             },
             "require": {
@@ -4197,7 +4197,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-06-21T08:11:54+00:00"
+            "time": "2017-09-24T07:23:38+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

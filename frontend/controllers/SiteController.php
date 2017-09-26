@@ -13,7 +13,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use frontend\models\Rmanager;
-use frontend\models\Deliveryman;
+use common\models\Deliveryman;
 use common\models\User;
 use common\models\User\Userdetails;
 use common\models\User\Useraddress;

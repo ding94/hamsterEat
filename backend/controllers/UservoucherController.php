@@ -40,24 +40,28 @@ class UservoucherController extends Controller
        		$model->load(Yii::$app->request->post());
        		$model->uid = $id;
        		$voucher->load(Yii::$app->request->post());
-       		
+       		$valid = ValidController::UserVoucherCheckValid($model,$voucher,1);
 
-       		if (empty(Vouchers::find()->where('code = :c',[':c' => $model['code']])->one())) 
-       		{
-       			$valid = self::actionCreateVoucher($model,$voucher,$id,1);
-				if ($valid == true ) {
-					Yii::$app->session->setFlash('success', "Voucher created and given to user.");
-					return $this->redirect(['/uservoucher/addvoucher','id'=>$id]);
-				}
-			}
-			elseif (!empty(Vouchers::find()->where('code = :c',[':c' => $model['code']])->one())) 
+			if ($valid == true ) 
 			{
-				$valid = self::actionAssign($model,$voucher,$id);
-				if ($valid ==true) {
-					Yii::$app->session->setFlash('success', "Voucher created and given to user.");
-					return $this->redirect(['/uservoucher/addvoucher','id'=>$id]);
+				if (empty(Vouchers::find()->where('code = :c',[':c' => $model['code']])->one())) 
+       			{
+       			$valid = self::actionCreateVoucher($model,$voucher,$id,1);
+					if ($valid == true ) {
+						Yii::$app->session->setFlash('success', "Voucher created and given to user.");
+						return $this->redirect(['/uservoucher/addvoucher','id'=>$id]);
+					}
+				}
+				elseif (!empty(Vouchers::find()->where('code = :c',[':c' => $model['code']])->one())) 
+				{
+					$valid = self::actionAssign($model,$voucher,$id);
+					if ($valid ==true) {
+						Yii::$app->session->setFlash('success', "Voucher created and given to user.");
+						return $this->redirect(['/uservoucher/addvoucher','id'=>$id]);
+					}
 				}
 			}
+       		
        		
        		
        	}
@@ -91,6 +95,7 @@ class UservoucherController extends Controller
 	{
 		$voucher = Vouchers::find()->where('code = :c', [':c'=>$model->code])->one();
 		$voucher->discount_type = $voucher->discount_type + 1;
+		$voucher->endDate = time($model->endDate);
 		$valid = ValidController::SaveValidCheck($voucher,2);
 		if ($valid ==true)
 		{

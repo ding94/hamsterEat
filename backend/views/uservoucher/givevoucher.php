@@ -24,9 +24,11 @@ use kartik\widgets\DatePicker;
         <?= $form->field($model, 'endDate')->widget(DatePicker::classname(), [
             'options' => ['placeholder' => 'Date voucher deactived'],
             'pluginOptions' => [
-            'format' => 'yyyy-mm-dd',
-            'todayHighlight' => true,
-            'todayBtn' => true,]]) 
+                'format' => 'yyyy-mm-dd',
+                'todayHighlight' => true,
+                'startDate' => date('Y-m-d h:i:s'), 
+                'todayBtn' => true,
+            ]]) 
         ?>
 
     <div class="form-group">

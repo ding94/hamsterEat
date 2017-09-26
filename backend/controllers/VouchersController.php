@@ -17,7 +17,7 @@ class VouchersController extends Controller
 	public function actionIndex()
 	{
 		$searchModel = new Vouchers();
-       	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,2);
+       	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,1);
        	if (Yii::$app->request->post()) {
        		$selection=Yii::$app->request->post('selection'); //拿取选择的checkbox + 他的 id
     		if (!empty($selection)) {
@@ -32,7 +32,7 @@ class VouchersController extends Controller
           		 		Yii::$app->session->setFlash('success', "Deleted!");
         			}
     	 	}
-    	 	else
+    	 	elseif(empty($selection))
     	 	{
     	 		Yii::$app->session->setFlash('error', "No Voucher/Record was selected!");
     	 	}

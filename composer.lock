@@ -2337,7 +2337,7 @@
                 "noty",
                 "yii"
             ],
-            "time": "2017-08-31 13:21:13"
+            "time": "2017-08-31T13:21:13+00:00"
         },
         {
             "name": "mdmsoft/yii2-admin",
@@ -2891,7 +2891,7 @@
                 "yii2 dynamic form",
                 "yii2-dynamicform"
             ],
-            "time": "2016-09-29 16:38:47"
+            "time": "2016-09-29T16:38:47+00:00"
         },
         {
             "name": "yiisoft/yii2",

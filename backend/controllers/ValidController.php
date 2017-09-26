@@ -37,7 +37,6 @@ class ValidController extends Controller
 				break;
 			
 			case 2:
-				
 				if ($post->discount_type == 1 && $post->discount >=101) 
 				{
 					Yii::$app->session->setFlash('error','Discount cannot higher than 100% !');
@@ -57,27 +56,10 @@ class ValidController extends Controller
 			case 3:
 				return true;
 				break;
-
-			case 4:
-				$check = Vouchers::find()->where('code = :c',[':c' => $post['code']])->one();
-				if (!empty($check)) {
-					if ($check->discount_type!=1 && $check->discount_type !=4) {
-						Yii::$app->session->setFlash('error','Voucher assigned or used!');
-						return false;
-					}
-				}
-				elseif(empty($check))
-				{
-					if (empty($post->dscount)) {
-						Yii::$app->session->setFlash('error','Lack of discount amount!');
-						return false;
-					}
-				}
-				return true;
-				break;
-
+				
 			default:
-				var_dump('false');exit;
+				Yii::$app->session->setFlash('error','Something went wrong');
+				return false;
 				break;
 		}
 	}
@@ -101,6 +83,49 @@ class ValidController extends Controller
 		else
 		{
 			return false;
+		}
+	}
+
+	public static function userVoucherCheckValid($model,$voucher,$case)
+	{
+		switch ($case) 
+		{
+			case 1:
+				$check = Vouchers::find()->where('code = :c',[':c' => $model['code']])->one();
+				if (!empty($check)) 
+				{
+					if ($check->discount_type!=1 && $check->discount_type !=4) 
+					{
+						Yii::$app->session->setFlash('error','Voucher assigned or used!');
+						return false;
+					}
+				}
+				elseif(empty($check))
+				{
+					if (empty($voucher['discount'])) 
+					{
+						Yii::$app->session->setFlash('error','Lack of discount amount!');
+						return false;
+					}
+					$valid = self::VoucherCheckValid($voucher,2);
+					if ($valid==false) {
+						if ($voucher->discount_type == 1) {
+							Yii::$app->session->setFlash('error','Discount cannot higher than 100% !');
+							return false;
+						}
+						elseif ($voucher->discount_type == 4) {
+							Yii::$app->session->setFlash('error','Discount cannot higher than RM500 !');
+							return false;
+						}
+					}
+				}
+				return true;
+				break;
+			
+			default:
+				Yii::$app->session->setFlash('error','Something went wrong');
+				return false;
+				break;
 		}
 	}
 }

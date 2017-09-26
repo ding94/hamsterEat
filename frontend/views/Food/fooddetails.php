@@ -42,36 +42,25 @@ use common\models\Orderitemselection;
             <?php $form = ActiveForm::begin(['id' => 'fooddetails']); ?>
            
             <?php
+            $ftids = "";
             foreach($foodtype as $k=> $foodtype) : 
             $selection = Foodselection::find()->where('FoodType_ID = :ftid',[':ftid'=>$foodtype['FoodType_ID']])->all();
             $data = ArrayHelper::map($selection,'Selection_ID','typeprice');
+
             if($foodtype['FoodType_Min'] == 0 && $foodtype ['FoodType_Max'] < 2 || $foodtype['FoodType_Min'] == 1 && $foodtype ['FoodType_Max'] < 2 )
-            { 
-                 $foodtypeid = $foodtype['FoodType_ID'];
+            {
                  echo "<tr>";           
                  echo '<td>'.$foodtype['Selection_Type'].'</td>';
                  echo "<td>";     
 
-                 echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->radioList($data)->label(false); 
+                 echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->radioList($data)->label(false);
                  echo "</td>";
 
                  echo "</tr>";
-                 Html::hiddenInput("foodtypeid", $foodtypeid);
-            }
-            elseif ($foodtype['FoodType_Min'] == 1 && $foodtype ['FoodType_Max'] < 2)
-            {
-                  $foodtypeid = $foodtype['FoodType_ID'];
-                  echo "<tr>";           
-                  echo '<td>'.$foodtype['Selection_Type'].'</td>';
-                  echo "<td>";     
-                  echo $form->field($orderItemSelection,'Selection_ID')->radioList($data)->label(false);
-                  echo "</td>";
-                  echo "</tr>";
-                  Html::hiddenInput("foodtypeid", $foodtypeid);
+                 
             }
             else 
             {
-                 $foodtypeid = $foodtype['FoodType_ID'];
                  echo "<tr>";           
                  echo '<td>'.$foodtype['Selection_Type'].'</td>';
                  echo "<td>";     
@@ -80,7 +69,7 @@ use common\models\Orderitemselection;
                  echo "</td>";
 
                  echo "</tr>";
-                 Html::hiddenInput("foodtypeid", $foodtypeid);
+                 
             }
              endforeach; 
                  ?> 

@@ -25,6 +25,7 @@ use Yii;
  * @property double $Orders_DiscountEarlyAmount
  * @property double $Orders_DiscountTotalAmount
  * @property string $Orders_InvoiceURL
+  * @property string $Orders_PaymentMethod
  */
 class Orders extends \yii\db\ActiveRecord
 {
@@ -45,7 +46,7 @@ class Orders extends \yii\db\ActiveRecord
             [['Orders_Subtotal', 'Orders_DeliveryCharge', 'Orders_TotalPrice', 'Orders_DiscountCodeAmount', 'Orders_DiscountVoucherAmount', 'Orders_DiscountEarlyAmount', 'Orders_DiscountTotalAmount'], 'number'],
             [['Orders_Date', 'Orders_Time'], 'safe'],
             [['Orders_Postcode', 'Orders_DateTimeMade'], 'integer'],
-            [['User_Username', 'Orders_Deliveryman', 'Orders_InvoiceURL'], 'string', 'max' => 255],
+            [['User_Username', 'Orders_Deliveryman', 'Orders_InvoiceURL', 'Orders_PaymentMethod'], 'string', 'max' => 255],
             [['Orders_Location', 'Orders_Area', 'Orders_Status'], 'string', 'max' => 50],
         ];
     }
@@ -74,6 +75,7 @@ class Orders extends \yii\db\ActiveRecord
             'Orders_DiscountEarlyAmount' => 'Orders  Discount Early Amount',
             'Orders_DiscountTotalAmount' => 'Orders  Discount Total Amount',
             'Orders_InvoiceURL' => 'Orders  Invoice Url',
+            'Orders_PaymentMethod' => 'Orders  Payment  Method',
         ];
     }
 }

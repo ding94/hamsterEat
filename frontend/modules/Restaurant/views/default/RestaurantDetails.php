@@ -1,9 +1,6 @@
 <?php
 use yii\helpers\Html;
 ?>
-<head>
-<title>LOL</title>
-</head>
 <body>
 <div class = "container">
     <?php $picpath = $id['Restaurant_RestaurantPicPath'];

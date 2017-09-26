@@ -1,5 +1,6 @@
 <?php
 namespace frontend\controllers;
+
 use Yii;
 use yii\web\Controller;
 use common\models\Food;
@@ -27,14 +28,24 @@ class FoodController extends Controller
        
        
           
-        if ($orderitem->load(Yii::$app->request->post()))
+        if ($orderItemSelection->load(Yii::$app->request->post()))
         {
+            $orderitem->load(Yii::$app->request->post());
             $quantity = $orderitem->OrderItem_Quantity;
-            $selection = $orderItemSelection->FoodType_ID;
+            $selected = $orderItemSelection->FoodType_ID;
+            $glue = "','";
+            function implode_all($glue, $selected){            
+                for ($i=0; $i<count($selected); $i++) {
+                    if (@is_array($selected[$i])) 
+                        $selected[$i] = implode_all ($glue, $selected[$i]);
+                }            
+                return implode($glue, $selected);
+            }
 
-            var_dump($selection);exit;
+            //var_dump(implode_all($glue, $selected));exit;
+            $finalselected = implode_all(',', $selected);
 
-            return $this->redirect(array('cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'selection' => $selection, 'foodtypeid'=>$foodtypeid));
+            return $this->redirect(array('cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected));
         }
 
         return $this->render('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);
@@ -129,7 +140,8 @@ class FoodController extends Controller
         return $this->render('insertfood',['food' => $food,'foodtype' => (empty($foodtype)) ? [new Foodtype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection]);
     }
     
-     public function actionEditFood(){
+     public function actionEditFood()
+     {
 
      }
 }

@@ -62,6 +62,7 @@
                     [   'label' => 'Voucher Controller' , 'icon' => 'cog' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Voucher List' ,'icon' => 'circle-o' , 'url' => ['/vouchers/index']],
+                                        ['label' => 'User Voucher List' ,'icon' => 'circle-o' , 'url' => ['/uservoucher/index']],
                                     ],
                         'options' => ['class' => 'active'],
                     ],

@@ -10,17 +10,18 @@ $this->title = 'My Yii Application';
 
     
         <div id="SlideShowContainer" class="container-fluid">
-     <div id="SSCrow1" class="row">
+     <div id="SSCrow1" class="container" >
         <div class="mySlides">
-        <img src="SysImg/Img1-1200x400.jpg" style="width:100%;height:720px !important;">
+        <img src="SysImg/Img1-1200x400.jpg" style="width:140%;height:720px !important;">
         </div>
         </div>
          </div>
 
-        <div id="SSCrow2" class="row">
-         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
-         
+        <div id="SSCrow2" class="container">
+         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 " >
+               
         <div class="col-md-12 col-lg-12">
+		
             <div class="loginform">
         <h1>Select Your Location</h1>
         <?php if($postcode['detectArea'] == 0) :?>

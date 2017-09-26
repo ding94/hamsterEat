@@ -69,10 +69,10 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
-<div class="row">
+
    
 
-    <div class="container col-md-9" style="padding-top: 5%;">
+    <div class="container-fluid" style="padding-top: 5%;">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
@@ -80,7 +80,6 @@ AppAsset::register($this);
         <div class="content">
             <?= $content ?>
         </div>
-    </div>
     </div>
 </div>
 

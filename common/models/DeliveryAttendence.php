@@ -3,7 +3,10 @@
 namespace common\models;
 
 use Yii;
-
+use common\models\User;
+use yii\helpers\Json;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 /**
  * This is the model class for table "delivery_attendence".
  *
@@ -22,6 +25,20 @@ class DeliveryAttendence extends \yii\db\ActiveRecord
         return 'delivery_attendence';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],   
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -29,7 +46,7 @@ class DeliveryAttendence extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'day', 'month'], 'required'],
-            [['uid'], 'integer'],
+            [['uid','created_at','updated_at'], 'integer'],
             [['day'], 'string'],
             [['month'], 'string', 'max' => 30],
         ];
@@ -47,4 +64,26 @@ class DeliveryAttendence extends \yii\db\ActiveRecord
             'month' => 'Month',
         ];
     }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(),['id' => 'uid']);
+    }
+
+    public function getTodaySign($data,$date)
+    {
+       $data = json_decode($data);
+
+       $result = $data->$date->result;
+       if($result == 1)
+       {
+            return "Already Sign In";
+       }
+       else
+        {
+             return "Not Sign In";
+        }
+      
+    }
+
 }

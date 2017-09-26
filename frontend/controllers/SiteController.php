@@ -393,7 +393,7 @@ class SiteController extends Controller
                 ->send();
                 if($email){
                     if (Yii::$app->getUser()->login($user)) {
-                        $model1->User_Username=$user->username;
+                        $model1->User_id=$user->id;
                         $model1->save();
                         Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
                         return $this->render('validation');

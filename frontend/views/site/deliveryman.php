@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model1, 'DeliveryMan_LicenseNo')->label('License Number')?>
 
-                <?= $form->field($model1, 'DeliveryMan_VehicleType')->dropdownList([ 'M'=>'Motorcycle', 'C'=>'Car', 'V'=>'Van'],['prompt' => 'Select Vehicle Type'])->label('Vehicle Type')?>
+                <?= $form->field($model1, 'DeliveryMan_VehicleType')->dropdownList([ 'Motorcycle'=>'Motorcycle', 'Car'=>'Car', 'Van'=>'Van'],['prompt' => 'Select Vehicle Type'])->label('Vehicle Type')?>
 
                 
 

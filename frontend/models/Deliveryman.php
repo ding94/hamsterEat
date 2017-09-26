@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "deliveryman".
  *
- * @property string $User_Username
+ * @property integer $User_id
  * @property string $DeliveryMan_CarPlate
  * @property integer $DeliveryMan_LicenseNo
  * @property integer $DeliveryMan_Approval
@@ -34,8 +34,8 @@ class Deliveryman extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['DeliveryMan_LicenseNo', 'DeliveryMan_Approval', 'DeliveryMan_Assignment', 'DeliveryMan_DateTimeApplied', 'DeliveryMan_DateTimeApproved'], 'integer'],
-            [['User_Username', 'DeliveryMan_CarPlate', 'User_Firstname', 'User_Lastname', 'DeliveryMan_VehicleType'], 'string', 'max' => 255],
+            [['User_id', 'DeliveryMan_LicenseNo', 'DeliveryMan_Approval', 'DeliveryMan_Assignment', 'DeliveryMan_DateTimeApplied', 'DeliveryMan_DateTimeApproved'], 'integer'],
+            [['DeliveryMan_CarPlate', 'User_Firstname', 'User_Lastname', 'DeliveryMan_VehicleType'], 'string', 'max' => 255],
         ];
     }
 
@@ -45,7 +45,7 @@ class Deliveryman extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'User_Username' => 'User  Username',
+            'User_id' => 'User ID',
             'DeliveryMan_CarPlate' => 'Delivery Man  Car Plate',
             'DeliveryMan_LicenseNo' => 'Delivery Man  License No',
             'DeliveryMan_Approval' => 'Delivery Man  Approval',

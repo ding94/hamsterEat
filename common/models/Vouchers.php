@@ -35,7 +35,7 @@ class Vouchers extends \yii\db\ActiveRecord
 
     public function attributes()
     {
-        return array_merge(parent::attributes(),['voucher_type.description']);
+        return array_merge(parent::attributes(),['voucher_type.description','voucher_item.description']);
     }
 
     public function getVoucher_type()
@@ -70,6 +70,8 @@ class Vouchers extends \yii\db\ActiveRecord
             ['digit', 'integer','min'=> 8,'max'=> 20],
             ['amount','integer','min'=> 1,'max'=> 100],
             ['discount','integer','min'=> 1],
+
+            [['id','voucher_type.description','voucher_item.description','endDate'], 'safe'],
         ];
     }
 
@@ -89,7 +91,7 @@ class Vouchers extends \yii\db\ActiveRecord
             'inCharge' => 'In Charge',
             'startDate' => 'Start Date',
             'endDate' => 'End Date',
-            'voucher_type.description' => 'Discount type',
+            'voucher_type.description' => 'Status',
             'voucher_item.description' => 'Discount from',
 
         ];
@@ -111,10 +113,29 @@ class Vouchers extends \yii\db\ActiveRecord
             'query' => $query,
         ]);
 
+        $dataProvider->sort->attributes['voucher_type.description'] = [
+            'asc'=>['discount_type'=>SORT_ASC],
+            'desc'=>['discount_type'=>SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['voucher_item.description'] = [
+            'asc'=>['discount_item'=>SORT_ASC],
+            'desc'=>['discount_item'=>SORT_DESC],
+        ];
+
         $this->load($params);
 
-        //$query->andFilterWhere(['like','description' , $this->getAttribute('ticket_status.description')]);
+        $query
+        ->andFilterWhere(['like','id' , $this->getAttribute('id')])
+        ->andFilterWhere(['like','code' , $this->getAttribute('code')])
+        ->andFilterWhere(['like','discount' , $this->getAttribute('discount')])
+        ->andFilterWhere(['like','discount_type' , $this->getAttribute('voucher_type.description')])
+        ->andFilterWhere(['like','discount_item' , $this->getAttribute('voucher_item.description')])
+        ->andFilterWhere(['like','FROM_UNIXTIME(startDate, "%Y-%m-%d")' , $this->startDate])
+        ->andFilterWhere(['like','FROM_UNIXTIME(endDate, "%Y-%m-%d")' , $this->endDate])
+        ;
 
         return $dataProvider;
     }
 }
+    

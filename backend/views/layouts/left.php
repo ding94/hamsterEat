@@ -66,6 +66,14 @@
                                     ],
                         'options' => ['class' => 'active'],
                     ],
+                    [
+                        'label' => 'Delivery Controller' ,'icon' => 'car' ,   'url' => '#',
+                        'items' => [
+                                        ['label' => 'Daily Sign In ' , 'icon' => 'circle-o' , 'url' => ['/deliveryman/daily-signin' ,'month' => date("Y-m"),'day' => date("d")]],
+                                   ],
+                        'options' => ['class' => 'active'],
+
+                    ],
                     [   'label' => 'Auth Controller' , 'icon' => 'cog' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Auth List' ,'icon' => 'circle-o' , 'url' => ['/auth/index']],

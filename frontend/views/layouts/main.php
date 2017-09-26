@@ -70,8 +70,6 @@ AppAsset::register($this);
     ?>
 
 
-   
-
     <div class="container-fluid" style="padding-top: 5%;">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

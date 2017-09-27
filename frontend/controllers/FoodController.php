@@ -56,7 +56,6 @@ class FoodController extends Controller
                 }         
                 return implode($glue, $selected);
             }
-            // var_dump(implode_all(',', $selected));exit;
             //var_dump(implode_all($glue, $selected));exit;
             $finalselected = implode_all(',', $selected);
 

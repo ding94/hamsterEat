@@ -6,6 +6,8 @@ use yii\helpers\Html;
 
 $this->title = 'My Yii Application';
 ?>
+
+<body>
 <div class="site-index">
 
     
@@ -52,7 +54,7 @@ $this->title = 'My Yii Application';
                          <i class="fa fa-cutlery fa-stack-1x fa-inverse"></i>
                     </span>
                     <h4 class="service-heading">Convenient</h4>  
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Find Out More &raquo;</a></p>
+                <p><a class="btn btn-default" href="../web/index.php?r=site%2Fabout">Find Out More &raquo;</a></p>
             </div>
             <div class="col-lg-4" style="text-align:center">
 			<span class="fa-stack fa-4x">
@@ -60,7 +62,7 @@ $this->title = 'My Yii Application';
                          <i class="fa fa-credit-card fa-stack-1x fa-inverse"></i>
                     </span>
                     <h4 class="service-heading">Easy Payment</h4> 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Find Out More &raquo;</a></p>
+                <p><a class="btn btn-default" href="../web/index.php?r=site%2Fabout">Find Out More &raquo;</a></p>
              </div>
             <div class="col-lg-4" style="text-align:center">
 			<span class="fa-stack fa-4x">
@@ -68,7 +70,7 @@ $this->title = 'My Yii Application';
                          <i class="fa fa-clock-o fa-stack-1x fa-inverse"></i>
                     </span>
                     <h4 class="service-heading">High Efficiency</h4> 
-               <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Find Out More &raquo;</a></p>
+               <p><a class="btn btn-default" href="../web/index.php?r=site%2Fabout">Find Out More &raquo;</a></p>
             </div>
         </div>
 

@@ -12,15 +12,15 @@ $this->title = 'Contact';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">
-  <div class="col-lg-7 col-lg-offset-3" style="text-align:center">
+  <div class="col-lg-6 col-lg-offset-3" style="text-align:center">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        If you have business inquiries or other questions, please fill out the following form to contact us. <br>Thank you.
+        If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
     </p>
   </div>
     <div class="row" >
-        <div class="col-lg-5 col-lg-offset-4">
+        <div class="col-lg-6 col-lg-offset-3">
             <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
 
                 <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>

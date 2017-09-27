@@ -16,6 +16,7 @@ class VouchersController extends Controller
 {
 	public function actionIndex()
 	{
+		
 		$searchModel = new Vouchers();
        	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,1);
        	if (Yii::$app->request->post()) {
@@ -40,6 +41,13 @@ class VouchersController extends Controller
        	}
         return $this->render('index',['model'=>$dataProvider, 'searchModel'=>$searchModel]);
 	}
+
+	public function actionPage($page)
+	{
+		$searchModel = new Vouchers();
+       	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$page);
+       	return $this->render('index',['model'=>$dataProvider, 'searchModel'=>$searchModel]);
+	}	
 
 	public function actionAdd()
 	{

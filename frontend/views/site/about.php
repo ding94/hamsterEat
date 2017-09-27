@@ -7,10 +7,11 @@ use yii\helpers\Html;
 $this->title = 'About';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="container">
+<div class="container" style="text-align:center">
+
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>This is the About page. You may modify the following file to customize its content:</p>
+    <p>Welcome to hamsterEat! </p>
 
-    <code><?= __FILE__ ?></code>
+  
 </div>

@@ -31,19 +31,35 @@ class FoodController extends Controller
         if ($orderItemSelection->load(Yii::$app->request->post()))
         {
             $orderitem->load(Yii::$app->request->post());
+            foreach ($foodtype as $k => $foodtype) {
+                if ($foodtype->FoodType_Min > 0 && $foodtype->FoodType_Max == $foodtype->FoodType_Max){
+                    if ($orderItemSelection->FoodType_ID[$k] == '' || count($orderItemSelection->FoodType_ID[$k]) > $foodtype->FoodType_Max){
+                        Yii::$app->session->setFlash('danger', 'Please select at least '.$foodtype->FoodType_Min.' items and most '.$foodtype->FoodType_Max.' items.');
+                        return $this->redirect(Yii::$app->request->referrer);
+                    }
+                }
+                else if ($foodtype->FoodType_Min == $foodtype->FoodType_Min && $foodtype->FoodType_Max == $foodtype->FoodType_Max) {
+                    if(count($orderItemSelection->FoodType_ID[$k]) > $foodtype->FoodType_Max || count($orderItemSelection->FoodType_ID[$k]) < $foodtype->FoodType_Min ){
+                        Yii::$app->session->setFlash('danger', 'Please select at least '.$foodtype->FoodType_Min.' items and most '.$foodtype->FoodType_Max.' items.');
+                        return $this->redirect(Yii::$app->request->referrer);
+                    } 
+                }
+            }
             $quantity = $orderitem->OrderItem_Quantity;
             $selected = $orderItemSelection->FoodType_ID;
+
             $glue = "','";
             function implode_all($glue, $selected){            
                 for ($i=0; $i<count($selected); $i++) {
                     if (@is_array($selected[$i])) 
                         $selected[$i] = implode_all ($glue, $selected[$i]);
-                }            
+                }         
                 return implode($glue, $selected);
             }
-
+            // var_dump(implode_all(',', $selected));exit;
             //var_dump(implode_all($glue, $selected));exit;
             $finalselected = implode_all(',', $selected);
+
 
             return $this->redirect(array('cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected));
         }

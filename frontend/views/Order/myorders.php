@@ -1,5 +1,6 @@
 <?php
 /* @var $this yii\web\View */
+$this->title = "My Orders";
 ?>
 <div class = "container">
     <div>
@@ -15,12 +16,12 @@
         foreach ($orders as $orders) : 
 
                 echo "<tr>";
-                    echo "<a href=".yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]).">";
-                    echo "<td><center>".$orders['Delivery_ID']."</td>";
-                    echo "<td><center>".$orders['Orders_Status']."</td>";
+                    //echo "<a href=".yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]).">";
+                    echo "<td><center><a href=".yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]).">".$orders['Delivery_ID']."</a></td>";
+                    echo "<td><center><a href=".yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]).">".$orders['Orders_Status']."</a></td>";
                     date_default_timezone_set("Asia/Kuala_Lumpur");
-                    echo "<td><center>".date('d/m/Y H:i:s', $orders['Orders_DateTimeMade'])."</td>";
-                    echo "</a>";
+                    echo "<td><center><a href=".yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]).">".date('d/m/Y H:i:s', $orders['Orders_DateTimeMade'])."</a></td>";
+                    //echo "</a>";
                 echo "</tr>";
             endforeach;
         echo "</table>"; ?>

@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models;
+namespace frontend\models;
 
 use Yii;
 
@@ -35,7 +35,6 @@ class Deliveryman extends \yii\db\ActiveRecord
     {
         return [
             [['User_id'], 'required'],
-
             [['User_id', 'DeliveryMan_LicenseNo', 'DeliveryMan_Approval', 'DeliveryMan_Assignment', 'DeliveryMan_DateTimeApplied', 'DeliveryMan_DateTimeApproved'], 'integer'],
             [['DeliveryMan_CarPlate', 'User_Firstname', 'User_Lastname', 'DeliveryMan_VehicleType'], 'string', 'max' => 255],
         ];

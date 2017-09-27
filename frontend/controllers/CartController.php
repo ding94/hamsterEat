@@ -69,7 +69,9 @@ class CartController extends Controller
 
      public function actionAssignDeliveryMan()
    {
-        $sql= User::find()->innerJoinWith('auth_assignment','user.id = auth_assignment.user_id')->andWhere(['auth_assignment.item_name'=>'rider'])->innerJoinWith('deliveryman','user.id = deliveryman.User_id')->all();
-        var_dump($sql);exit;
+       //$user = User::find()->where('Restaurant_Manager = :restaurantowner and Restaurant_DateTimeCreated = :timecreated',[':restaurantowner'=>Yii::$app->user->identity->username, ':timecreated'=>$time])->one();
+        $sql= User::find()->JoinWith(['authAssignment','deliveryman'])->all();
+        
+  
    }
 }

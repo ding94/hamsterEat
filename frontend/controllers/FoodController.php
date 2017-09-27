@@ -32,7 +32,7 @@ class FoodController extends Controller
             $quantity = $orderitem->OrderItem_Quantity;
             $selection = $orderItemSelection->FoodType_ID;
 
-            var_dump($selection);exit;
+           
 
             return $this->redirect(array('cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'selection' => $selection, 'foodtypeid'=>$foodtypeid));
         }

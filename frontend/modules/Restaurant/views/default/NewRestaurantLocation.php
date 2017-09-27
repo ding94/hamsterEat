@@ -8,7 +8,7 @@ $this->title = 'Restaurant Location';
 ?>
 <div class="site-index">
 
-    <div class="jumbotron">
+    <div class="container">
         <h1>Enter Your Restaurant's Location</h1>
         <?php if($postcode['detectArea'] == 0) :?>
         <?php $form = ActiveForm::begin(['id' => 'area']); ?>

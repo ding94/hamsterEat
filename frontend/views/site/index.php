@@ -18,9 +18,9 @@ $this->title = 'My Yii Application';
          </div>
 
         <div id="SSCrow2" class="container">
-<!--          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 " >
-                -->
-        <div class="col-md-8">
+      <!--    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 " >
+              -->
+        <div class="col-md-8 col-md-offset-2">  
 		
             <div class="loginform">
         <h1>Select Your Location</h1>

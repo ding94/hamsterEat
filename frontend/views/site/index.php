@@ -8,12 +8,11 @@ $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
 
-
+    
         <div id="SlideShowContainer">
 
         <div class="mySlides">
-        <img src="SysImg/Img1-1200x400.jpg" style="width: 98.5vw; height:100vh; !important;">
-
+        <img src="SysImg/Img1-1200x400.jpg" style="width: 96vw; height:100vh; !important;">
         </div>
     
          </div>

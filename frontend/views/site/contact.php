@@ -12,7 +12,7 @@ $this->title = 'Contact';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container">
-  <div class="col-lg-5 col-lg-offset-4">
+  <div class="col-lg-6 col-lg-offset-3" style="text-align:center">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
   </div>
     <div class="row" >
-        <div class="col-lg-5 col-lg-offset-4">
+        <div class="col-lg-6 col-lg-offset-3">
             <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
 
                 <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>

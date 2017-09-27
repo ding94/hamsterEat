@@ -28,12 +28,13 @@ if (!is_null($areachosen))
 }
 ?>
 <div class="site-signup">
+           <div class="col-lg-5 col-lg-offset-4">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Please fill out the following fields to details:</p>
-
+</div>
     <div class="row">
-        <div class="col-lg-5">
+              <div class="col-lg-5 col-lg-offset-4">
 
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
@@ -52,7 +53,7 @@ if (!is_null($areachosen))
                 <?= $form->field($restaurantdetails, 'Restaurant_Pricing')->radioList(["1"=>'Less than RM 10',"2"=>'More than RM 10', "3"=>'More Than RM 100'])->label('Average Food Prices') ?>
 
                 <?= $form->field($restaurantdetails, 'Restaurant_Tag')->inline(true)->checkboxList(['American'=>'American', 'Asian'=>'Asian', 'Beverages'=>'Beverages', 'Chinese'=>'Chinese', 'Desserts'=>'Desserts', 'Fast Food'=>'Fast Food', 'Healthy Food'=>'Healthy Food', 'Indian'=>'Indian', 'Indonesian'=>'Indonesian', 'Italian'=>'Italian', 'Japanese'=>'Japanese', 'Korean'=>'Korean', 'Malaysian Food'=>'Malaysian Food', 'Mexican'=>'Mexican', 'Middle Eastern'=>'Middle Eastern', 'Pizza'=>'Pizza', 'Seafood'=>'Seafood', 'Sushi'=>'Sushi', 'Thai'=>'Thai', 'Vegetarian'=>'Vegetarian', 'Western'=>'Western'])->label('Restaurant Type (Select Up to 3)') ?>
-
+          
                 <?= $form->field($restaurantdetails, 'Restaurant_RestaurantPicPath')->fileInput()->label('Picture') ?>
 
                 <div class="form-group">

@@ -2,7 +2,9 @@
 
 namespace common\models;
 
+use common\models\Foodtype;
 use Yii;
+use yii\base\Model;
 
 /**
  * This is the model class for table "food".
@@ -61,4 +63,11 @@ class Food extends \yii\db\ActiveRecord
             'Food_TotalRated' => 'Food  Total Rated',
         ];
     }
+
+    public function getfoodTypes()
+    {
+        return $this->hasMany(Foodtype::className(),['Food_ID' => 'Food_ID']);
+        
+    }
+
 }

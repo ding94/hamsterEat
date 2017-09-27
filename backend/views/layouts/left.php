@@ -59,6 +59,21 @@
                                     ],
                         'options' => ['class' => 'active'],
                     ],
+                    [   'label' => 'Voucher Controller' , 'icon' => 'cog' ,'url' => '#',
+                        'items' =>  [
+                                        ['label' => 'Voucher List' ,'icon' => 'circle-o' , 'url' => ['/vouchers/index']],
+                                        ['label' => 'User Voucher List' ,'icon' => 'circle-o' , 'url' => ['/uservoucher/index']],
+                                    ],
+                        'options' => ['class' => 'active'],
+                    ],
+                    [
+                        'label' => 'Delivery Controller' ,'icon' => 'car' ,   'url' => '#',
+                        'items' => [
+                                        ['label' => 'Daily Sign In ' , 'icon' => 'circle-o' , 'url' => ['/deliveryman/daily-signin' ,'month' => date("Y-m"),'day' => date("d")]],
+                                   ],
+                        'options' => ['class' => 'active'],
+
+                    ],
                     [   'label' => 'Auth Controller' , 'icon' => 'cog' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Auth List' ,'icon' => 'circle-o' , 'url' => ['/auth/index']],

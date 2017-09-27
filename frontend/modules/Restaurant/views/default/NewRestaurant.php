@@ -11,12 +11,13 @@ $this->title = 'New Restaurant';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">
+            <div class="col-lg-8 col-lg-offset-4">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Please enter the details of your Restaurant:</p>
-
+   </div>
     <div class="row">
-        <div class="col-lg-5">
+            <div class="col-lg-5 col-lg-offset-4">
             <?php $form = ActiveForm::begin(['id' => 'form-newrestaurant']); ?>
                 
                 <?= $form->field($restaurant, 'Restaurant_Name')->textInput(['autofocus' => true]) ?>

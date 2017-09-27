@@ -132,4 +132,11 @@ class CartController extends Controller
         }
         return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
     }
+
+    public function actionAssignDeliveryMan()
+    {
+        $sql= User::find()->innerJoinWith('auth_assignment','user.id = auth_assignment.user_id')->andWhere(['auth_assignment.item_name'=>'rider'])->innerJoinWith('deliveryman','user.id = deliveryman.User_id')->all();
+        var_dump($sql);exit;
+    }
+
 }

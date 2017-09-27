@@ -35,7 +35,6 @@ Class AuthController extends Controller
 	public function actionView($id)
 	{
 		$model = new AdminAuthItemChild();
-
 		$auth = \Yii::$app->authManager;
 
 		$verify = $auth->getPermission($id);
@@ -53,6 +52,7 @@ Class AuthController extends Controller
 		$listAvailabe =  self::groupBycontrol($available);
 
 		$listOfControl = ArrayHelper::map(ControllerList::find()->all(),'id','name');
+
 		
 		return $this->render('view' ,['model' => $model ,'listAvailabe' => $listAvailabe , 'listAll' => $notAvailable , 'controlList'=>$listOfControl,'id' => $id]);
 	}

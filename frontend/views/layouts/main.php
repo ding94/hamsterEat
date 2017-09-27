@@ -71,20 +71,21 @@ AppAsset::register($this);
 
 
 
+    <div class="container-fluid" style="padding-top: 5%;">
 
 
-    
-
-    <div class="container" style="width: 100%; height: 100%;">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
         <div class="content">
-        <?= $content ?>
+            <?= $content ?>
+        </div>
+
     </div>
-    </div>
-</div>
+
+
+
 
 
 <footer class="footer">

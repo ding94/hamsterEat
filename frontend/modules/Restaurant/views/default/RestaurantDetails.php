@@ -31,7 +31,7 @@ use yii\helpers\Html;
     <div class = "foodItems">
         <?php
             {
-                echo "<center>".Html::a('Manage Menu', ['/food/insert-food', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary']);
+                echo "<center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary']);
                 $id = isset($_GET['foodid']) ? $_GET['foodid'] : '';
 
                 foreach($rowfood as $data) :

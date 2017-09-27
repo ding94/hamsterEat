@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\base\Model;
+use common\models\Foodselection;
 
 /**
  * This is the model class for table "foodtype".
@@ -47,5 +49,11 @@ class Foodtype extends \yii\db\ActiveRecord
             'FoodType_Min' => 'Food Type  Min',
             'FoodType_Max' => 'Food Type  Max',
         ];
+    }
+
+    public function getfoodSelection()
+    {
+        return $this->hasMany(Foodselection::className(),['FoodType_ID' => 'FoodType_ID']);
+        
     }
 }

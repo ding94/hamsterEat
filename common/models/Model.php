@@ -22,7 +22,7 @@ class Model extends \yii\base\Model
         $models   = [];
 
         if (! empty($multipleModels)) {
-            $keys = array_keys(ArrayHelper::map($multipleModels, 'id', 'id'));
+            $keys = array_keys(ArrayHelper::map($multipleModels, 'FoodType_ID', 'FoodType_ID'));
             $multipleModels = array_combine($keys, $multipleModels);
         }
 

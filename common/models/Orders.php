@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use common\models\Orderitem;
 
 /**
  * This is the model class for table "orders".
@@ -77,5 +78,10 @@ class Orders extends \yii\db\ActiveRecord
             'Orders_InvoiceURL' => 'Orders  Invoice Url',
             'Orders_PaymentMethod' => 'Orders  Payment  Method',
         ];
+    }
+
+    public function getOrderitem()
+    {
+        return $this->hasMany(Orderitem::className(),['Delivery_ID'=>'Delivery_ID']);
     }
 }

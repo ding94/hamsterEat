@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-use common\models\food;
+use common\models\Food;
 use common\models\Orderitemselection;
 use common\models\Foodtype;
 Use common\models\Foodselection;
@@ -26,7 +26,7 @@ $this->title = "My Cart";
 
       <?php
       foreach ($cartitems as $cartitems) :
-        $fooddetails = food::find()->where('Food_ID = :fid',[':fid'=>$cartitems['Food_ID']])->one();
+        $fooddetails = Food::find()->where('Food_ID = :fid',[':fid'=>$cartitems['Food_ID']])->one();
 
         echo "<tr>";
         ?>

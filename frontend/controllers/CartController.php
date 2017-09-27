@@ -4,7 +4,7 @@ use Yii;
 use yii\web\Controller;
 use common\models\Orderitem;
 use common\models\User;
-use common\models\food;
+use common\models\Food;
 use common\models\Orders;
 use common\models\Orderitemselection;
 use common\models\Foodtype;
@@ -32,7 +32,7 @@ class CartController extends Controller
 
         $orderitem = new Orderitem;
 
-        $findfood = food::find()->where('Food_ID = :fid', [':fid'=>$Food_ID])->one();
+        $findfood = Food::find()->where('Food_ID = :fid', [':fid'=>$Food_ID])->one();
         $findfoodprice = $findfood['Food_Price'];
         $orderitem->Delivery_ID = $cart['Delivery_ID'];
         $orderitem->Food_ID = $Food_ID;

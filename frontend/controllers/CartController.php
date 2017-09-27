@@ -103,15 +103,17 @@ class CartController extends Controller
    {
        // $purchaser = orders::find()->where('User_Username = :id',[':id'=>Yii::$app->user->identity->username])->one();
         $sql= User::find()->JoinWith(['authAssignment','deliveryman'])->where('item_name = :item_name',[':item_name' => 'rider'])->orderBy(['deliveryman.DeliveryMan_Assignment'=>SORT_ASC])->all();
-        Yii::$app->db->query($sql)->execute();
+
         foreach ($sql as $i) {
            
             $deliveryman = $i->deliveryman[0]->User_id;
            
             $assign = $i->deliveryman[0]->DeliveryMan_Assignment + 1;
-           
+          break;
         }
+      
             $sql1 = "UPDATE deliveryman SET DeliveryMan_Assignment = ".$assign." WHERE User_id = '".$deliveryman."'";
+           
            Yii::$app->db->createCommand($sql1)->execute();
        
            

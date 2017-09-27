@@ -29,7 +29,8 @@
         "kartik-v/yii2-money": "*",
         "rinvex/country": "^2.0",
         "akavov/yii2-countries": "*",
-        "wbraganca/yii2-dynamicform": "dev-master"
+        "wbraganca/yii2-dynamicform": "dev-master",
+        "kartik-v/yii2-widget-datepicker": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

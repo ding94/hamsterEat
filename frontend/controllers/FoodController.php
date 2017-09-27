@@ -1,5 +1,6 @@
 <?php
 namespace frontend\controllers;
+
 use Yii;
 use yii\web\Controller;
 use common\models\Food;
@@ -27,14 +28,28 @@ class FoodController extends Controller
        
        
           
-        if ($orderitem->load(Yii::$app->request->post()))
+        if ($orderItemSelection->load(Yii::$app->request->post()))
         {
+            $orderitem->load(Yii::$app->request->post());
             $quantity = $orderitem->OrderItem_Quantity;
-            $selection = $orderItemSelection->FoodType_ID;
+            $selected = $orderItemSelection->FoodType_ID;
+            $glue = "','";
+            function implode_all($glue, $selected){            
+                for ($i=0; $i<count($selected); $i++) {
+                    if (@is_array($selected[$i])) 
+                        $selected[$i] = implode_all ($glue, $selected[$i]);
+                }            
+                return implode($glue, $selected);
+            }
+
 
            
 
-            return $this->redirect(array('cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'selection' => $selection, 'foodtypeid'=>$foodtypeid));
+            //var_dump(implode_all($glue, $selected));exit;
+            $finalselected = implode_all(',', $selected);
+
+
+            return $this->redirect(array('cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected));
         }
 
         return $this->render('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);
@@ -129,7 +144,8 @@ class FoodController extends Controller
         return $this->render('insertfood',['food' => $food,'foodtype' => (empty($foodtype)) ? [new Foodtype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection]);
     }
     
-     public function actionMenu($rid){
+     public function actionMenu($rid)
+     {
          $menu = food::find()->where('Restaurant_ID = :id' ,[':id' => $rid])->andWhere('Food_Deleted = :dlt',[':dlt' => 0])->all();
        
 
@@ -138,7 +154,9 @@ class FoodController extends Controller
          return $this->render('menu',['menu'=>$menu]);
 
      }
-     public function actionDelete($rid,$id){
+
+    public function actionDelete($rid,$id)
+    {
          $sql = "UPDATE food SET Food_Deleted = true WHERE Food_ID ='$id' AND Restaurant_ID = $rid";
          Yii::$app->db->createCommand($sql)->execute();
          $rid = $rid;
@@ -147,8 +165,10 @@ class FoodController extends Controller
 
          return $this->redirect(['menu','menu'=>$menu,'id'=>$id,'rid'=>$rid]);
 
-}
-     public function actionEditFood($id){
+    }
+
+     public function actionEditFood($id)
+     {
          
         $food = $this->findModel($id);
         $foodtype =$food->foodTypes;
@@ -280,7 +300,4 @@ class FoodController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
-
-
 }

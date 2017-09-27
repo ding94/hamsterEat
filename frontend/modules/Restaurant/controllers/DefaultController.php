@@ -17,7 +17,6 @@ use common\models\User;
 use common\models\AuthAssignment;
 use common\models\user\Userdetails;
 
-
 /**
  * Default controller for the `Restaurant` module
  */

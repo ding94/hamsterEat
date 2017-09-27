@@ -16,6 +16,20 @@ use common\models\Vouchers;
     $this->params['breadcrumbs'][] = $this->title;
     
 ?>
+<head>
+    
+</head>
+    <div class="container" id="page-change-container">
+        <table class="table table-user-information" id="display">
+            <tr>
+                <td id="active" onclick="window.document.location='../web/index.php?r=vouchers/index';">Show All</td>
+                <td id="deactive" onclick="window.document.location='<?php echo Url::to(['vouchers/page','page'=>2]);?>'">Show Activated</td>
+                <td id="deactive" onclick="window.document.location='<?php echo Url::to(['vouchers/page','page'=>3]);?>'">Show Assigned</td>
+                <td id="deactive" onclick="window.document.location='<?php echo Url::to(['vouchers/page','page'=>4]);?>'">Show Deactivated</td>
+            </tr>   
+        </table>
+    </div>
+
 	<?php $form = ActiveForm::begin();?>
     	<?= Html::a('Add New Voucher', ['/vouchers/add'], ['class'=>'btn btn-success']) ?>
         <?= Html::submitButton('Remove Vouchers',  [
@@ -27,7 +41,7 @@ use common\models\Vouchers;
             
         <?= Html::a('Generate new Vouchers', ['/vouchers/generate'], ['class'=>'btn btn-warning']);?>
     <?php ActiveForm::end();?> 
-
+    <br>
 	<?= GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,

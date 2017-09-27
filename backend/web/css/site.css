@@ -118,3 +118,30 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+/* CSS for backend voucher lsit */
+#page-change-container table, 
+#page-change-container th,
+#page-change-container td{
+  border:1px solid #000000;
+  padding: 5px;
+}
+
+
+#page-change-container #display tr{
+  text-align: center; 
+  height:60px; 
+  font-size:20px;
+}
+
+#page-change-container td:hover{
+  background-color: #ffdd99;
+}
+
+#page-change-container td:active{
+    background-color: #ffaa00;
+}
+
+#page-change-container #display tr{
+    background-color: #d9d9d9;
+}

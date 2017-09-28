@@ -103,7 +103,7 @@ class CartController extends Controller
         $cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
         $voucher = new Vouchers;
         if (Yii::$app->request->post()) {
-            var_dump('aaaa');exit;
+            
         }
         return $this->render('cart', ['did'=>$did, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
     }

@@ -48,7 +48,7 @@ use common\models\Orderitemselection;
             if($foodtype['FoodType_Min'] == 0 && $foodtype ['FoodType_Max'] < 2 || $foodtype['FoodType_Min'] == 1 && $foodtype ['FoodType_Max'] < 2 )
             {
                  echo "<tr>";           
-                 echo '<td>'.$foodtype['Selection_Type'].'</td>';
+                 echo '<td>'.$foodtype['Selection_Type'].'<br><span>Select at least '.$foodtype['FoodType_Min'].' item and at most '.$foodtype ['FoodType_Max'].' items</span></td>';
                  echo "<td>";     
 
                  echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->radioList($data)->label(false);
@@ -60,7 +60,7 @@ use common\models\Orderitemselection;
             else 
             {
                  echo "<tr>";           
-                 echo '<td>'.$foodtype['Selection_Type'].'</td>';
+                 echo '<td>'.$foodtype['Selection_Type'].'<br><span>Select at least '.$foodtype['FoodType_Min'].' item and at most '.$foodtype ['FoodType_Max'].' items</span></td>';
                  echo "<td>";     
 
                  echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->checkboxlist($data)->label(false);

@@ -29,15 +29,15 @@ class FoodController extends Controller
         {
             $quantity = $orderitem->OrderItem_Quantity;
             $selected = $orderItemSelection->FoodType_ID;
+
             $glue = "','";
             function implode_all($glue, $selected){            
                 for ($i=0; $i<count($selected); $i++) {
                     if (@is_array($selected[$i])) 
                         $selected[$i] = implode_all ($glue, $selected[$i]);
-                }            
+                }         
                 return implode($glue, $selected);
             }
-
             //var_dump(implode_all($glue, $selected));exit;
             $finalselected = implode_all(',', $selected);
 

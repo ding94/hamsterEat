@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use common\models\Food;
 
 /**
  * This is the model class for table "orderitem".
@@ -51,5 +52,10 @@ class Orderitem extends \yii\db\ActiveRecord
             'OrderItem_Status' => 'Order Item  Status',
             'OrderItem_Remark' => 'Order Item  Remark',
         ];
+    }
+
+    public function getFood()
+    {
+         return $this->hasOne(Food::className(),['Food_ID'=>'Food_ID']);
     }
 }

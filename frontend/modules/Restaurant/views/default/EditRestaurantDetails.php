@@ -28,13 +28,13 @@ if (!is_null($areachosen))
 }
 ?>
 <div class="site-signup">
-           <div class="col-lg-5 col-lg-offset-4">
+           <div class="col-lg-6 col-lg-offset-3">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Please fill out the following fields to details:</p>
 </div>
     <div class="row">
-              <div class="col-lg-5 col-lg-offset-4">
+             <div class="col-lg-6 col-lg-offset-3">
 
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 

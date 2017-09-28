@@ -4,7 +4,7 @@ use Yii;
 use yii\web\Controller;
 use common\models\Orderitem;
 use common\models\User;
-use common\models\food;
+use common\models\Food;
 use common\models\Orders;
 use common\models\Orderitemselection;
 use common\models\Foodtype;
@@ -12,7 +12,7 @@ use common\models\Foodselection;
 use common\models\user\Userdetails;
 use common\models\Ordersstatuschange;
 use common\models\Orderitemstatuschange;
-
+use frontend\models\Deliveryman;
 
 class CartController extends Controller
 {
@@ -34,7 +34,7 @@ class CartController extends Controller
 
         $orderitem = new Orderitem;
 
-        $findfood = food::find()->where('Food_ID = :fid', [':fid'=>$Food_ID])->one();
+        $findfood = Food::find()->where('Food_ID = :fid', [':fid'=>$Food_ID])->one();
         $findfoodprice = $findfood['Food_Price'];
         $orderitem->Delivery_ID = $cart['Delivery_ID'];
         $orderitem->Food_ID = $Food_ID;
@@ -100,6 +100,30 @@ class CartController extends Controller
         return $this->render('cart', ['deliveryid'=>$deliveryid, 'cartitems'=>$cartitems]);
     }
 
+
+     public function actionAssignDeliveryMan()
+   {
+       // $purchaser = orders::find()->where('User_Username = :id',[':id'=>Yii::$app->user->identity->username])->one();
+        $sql= User::find()->JoinWith(['authAssignment','deliveryman'])->where('item_name = :item_name',[':item_name' => 'rider'])->orderBy(['deliveryman.DeliveryMan_Assignment'=>SORT_ASC])->all();
+
+        foreach ($sql as $i) {
+           
+            $deliveryman = $i->deliveryman[0]->User_id;
+           
+            $assign = $i->deliveryman[0]->DeliveryMan_Assignment + 1;
+          break;
+        }
+      
+            $sql1 = "UPDATE deliveryman SET DeliveryMan_Assignment = ".$assign." WHERE User_id = '".$deliveryman."'";
+           
+           Yii::$app->db->createCommand($sql1)->execute();
+       
+           
+           
+          
+             echo "<script type='text/javascript'>alert('The delivery man assigned to this order is ".$deliveryman."');</script>";
+  
+   }
     public function actionCheckout($did)
     {
         $mycontact = Userdetails::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->one();
@@ -152,11 +176,4 @@ class CartController extends Controller
         }
         return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
     }
-
-    public function actionAssignDeliveryMan()
-    {
-        $sql= User::find()->innerJoinWith('auth_assignment','user.id = auth_assignment.user_id')->andWhere(['auth_assignment.item_name'=>'rider'])->innerJoinWith('deliveryman','user.id = deliveryman.User_id')->all();
-        var_dump($sql);exit;
-    }
-
 }

@@ -49,7 +49,7 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
         $menuItems[] = ['label' => 'My Profile', 'url' => ['/user/user-profile']];
-        $menuItems[] = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location']];
+        $menuItems[] = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];
         $menuItems[] = ['label' => 'Ticket', 'url' => ['/ticket']];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
@@ -60,7 +60,7 @@ AppAsset::register($this);
             . Html::endForm()
             . '</li>';
             ['label' => 'My Profile', 'url' => ['/user/user-profile']];
-            
+         
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
@@ -69,10 +69,7 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
-
-
-    <div class="container-fluid" style="padding-top: 5%;">
-
+<div class="container-fluid" ">
 
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -81,11 +78,8 @@ AppAsset::register($this);
         <div class="content">
             <?= $content ?>
         </div>
-
-    </div>
-
-
-
+    
+</div>
 
 
 <footer class="footer">

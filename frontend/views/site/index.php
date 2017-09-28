@@ -4,16 +4,17 @@
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
-$this->title = 'My Yii Application';
+$this->title = 'hamsterEat';
 ?>
+
+<body>
 <div class="site-index">
 
-
-        <div id="SlideShowContainer">
+    
+        <div >
 
         <div class="mySlides">
-        <img src="SysImg/Img1-1200x400.jpg" style="width: 98.5vw; height:100vh; !important;">
-
+        <img src="SysImg/1.jpg" >
         </div>
     
          </div>
@@ -47,35 +48,29 @@ $this->title = 'My Yii Application';
     <div class="body-content">
 
         <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+            <div class="col-lg-4" style="text-align:center">
+              <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary" style="color:orange;"></i>
+                         <i class="fa fa-cutlery fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Convenient</h4>  
+                <p><a class="btn btn-default" href="../web/index.php?r=site%2Fabout">Find Out More &raquo;</a></p>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+            <div class="col-lg-4" style="text-align:center">
+			<span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary" style="color:orange;"></i>
+                         <i class="fa fa-credit-card fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Easy Payment</h4> 
+                <p><a class="btn btn-default" href="../web/index.php?r=site%2Fabout">Find Out More &raquo;</a></p>
+             </div>
+            <div class="col-lg-4" style="text-align:center">
+			<span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary" style="color:orange;"></i>
+                         <i class="fa fa-clock-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">High Efficiency</h4> 
+               <p><a class="btn btn-default" href="../web/index.php?r=site%2Fabout">Find Out More &raquo;</a></p>
             </div>
         </div>
 

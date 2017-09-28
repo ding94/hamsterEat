@@ -11,18 +11,17 @@ $this->title = 'hamsterEat';
 <!--<div class="site-index">-->
 
     
-       
+          <!--<div class="container"> -->
 
         <div class="mySlides">
-            <img src="SysImg/Img1-1200x400.jpg" >
+            <img src="SysImg/rimg1-1200x400.jpg" width="1280" height="800" >
         </div>
     
       
        <!--<div class="container"> -->
       <!--    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 " >
               -->
-       <!-- <div class="col-md-8 col-md-offset-2">  -->
-		
+      <!--  <div class="col-md-8 col-md-offset-2"> -->
             <div class="loginform">
         <h1>Select Your Location</h1>
         <?php if($postcode['detectArea'] == 0) :?>
@@ -30,7 +29,7 @@ $this->title = 'hamsterEat';
         <?php else :?>
         <?php $form = ActiveForm::begin(['action' =>['site/search-restaurant-by-area'],'id' => 'area']); ?>
         <?php endif ;?>
-        <?= $form->field($postcode, 'Area_Postcode')->textInput(['autofocus' => true, 'placeholder'=>'Your postcode'])->label(false) ?>
+        <?= $form->field($postcode, 'Area_Postcode')->textInput(['autofocus' => true])->label('Postcode') ?>
         <?php if( $postcode['detectArea'] == 1) :?>
         <?= $form->field($postcode, 'Area_Area')->dropDownList($list) ?>
         <?php endif ;?>
@@ -38,7 +37,7 @@ $this->title = 'hamsterEat';
         </div>
         <!-- </div> -->
         <!-- </div> -->
-		     <!-- </div> -->
+		 <!--     </div> -->
         
         
         <?php ActiveForm::end(); ?>

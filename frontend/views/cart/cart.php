@@ -59,8 +59,8 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
-        echo "<td><center><strong> Subtotal (RM): </strong></td>";
-        echo "<td align="."right>".$did['Orders_Subtotal']."</td>";
+        echo "<td><center><strong> Subtotal (RM): </strong></td>"; ?>
+        <td align=right> <p id="subtotal">$did['Orders_Subtotal']</p></td>;<?php
       echo "</tr>";
       echo "<tr>";
         echo "<td> </td>";
@@ -91,10 +91,10 @@ $this->title = "My Cart";
         <td id ="extend"> </td>
         <td  id ="label" style="display: none"><strong> Discount Code: </strong></td>
         <?php $form = ActiveForm::begin(); ?>
-        <td><div > <input id ="input" style="display: none"></input> </div></td>
+        <td><div > <input id ="input" style="display: none" value ="VKL88RJY8GEPOKQ70"></div></td>
         <?php ActiveForm::end(); ?>
-        <td style="display: none" id="apply"><div ><a font="color: blue">Apply</a></div></td>
-        <td id ="hide2"><a onclick="showHidden()">Have a coupon ? Click Me</a></td>
+        <td style="display: none" id="apply"><div ><a onclick="discount()"><font color="blue">Apply</font></a></div></td>
+        <td id ="hide2"><a onclick="showHidden()"><font color="blue">Have a coupon ? Click Me</font></a></td>
         
           <?php
       echo "</tr>";
@@ -121,6 +121,38 @@ $this->title = "My Cart";
       document.getElementById("apply").style.display ='block';
       document.getElementById("hide2").style.display ='none';
       document.getElementById("extend").style.display ='none';
+  }
+
+  function discount()
+  { 
+    $.ajax({
+   url :"index.php?r=cart/getdiscount",
+   type: "get",
+   data :{
+        dis: document.getElementById("input").value,
+   },
+   success: function (data) {
+      var obj = JSON.parse(data);
+      console.log(obj);
+      if (obj['discount_item'] ==7) 
+      {
+        alert(document.getElementById("subtotal").value);
+      }
+      else if (obj['discount_item'] ==8) 
+      {
+
+      }
+      else if (obj['discount_item'] ==9) 
+      {
+
+      }
+
+   },
+   error: function (request, status, error) {
+    //alert(request.responseText);
+   }
+
+   });
   }
 
 </script>

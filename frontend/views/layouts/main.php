@@ -35,8 +35,9 @@ AppAsset::register($this);
     NavBar::begin([
         'brandLabel' => 'hamsterEat',
         'brandUrl' => Yii::$app->homeUrl,
+        'innerContainerOptions' => ['class' => 'container-fluid'],
         'options' => [
-            'class' => 'topnav navbar-fixed-top',
+            'class' => 'topnav navbar-fixed-top MainNav',
         ],
     ]);
     $menuItems = [

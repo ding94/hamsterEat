@@ -49,7 +49,7 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
         $menuItems[] = ['label' => 'My Profile', 'url' => ['/user/user-profile']];
-        $menuItems[] = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location']];
+        $menuItems[] = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];
         $menuItems[] = ['label' => 'Ticket', 'url' => ['/ticket']];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
@@ -96,6 +96,10 @@ AppAsset::register($this);
         ['label' => '<i class="fa fa-comments"></i> Customer Service', 'options' => ['class' => 'active'], 'items' => [
            ['label' => 'Submit Ticket', 'url' => Url::to(['ticket/submit-ticket'])],
         ]],
+         ['label' => 'Delivery Man', 'options' => ['class' =>'active'],'items'=>[
+                        ['label' => 'Daily Sign In' , 'url' => Url::to(['/Delivery/daily-sign-in/index'])],
+            ]
+        ]
 ]]);     
 ?>
 </div>

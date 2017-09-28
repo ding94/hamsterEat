@@ -1,0 +1,108 @@
+<?php
+/* @var $this yii\web\View */
+$this->title = "Order Details";
+use common\models\Food;
+use common\models\Orderitemselection;
+use common\models\Foodselection;
+use common\models\Foodtype;
+use common\models\Orders;
+?>
+
+<div class = "container">
+    <div>
+        <?php echo "<h1> Details for Delivery ID: $did </h1>";
+        echo "<br>";
+        echo "<br>";
+        echo "<table class= table table-user-info style= width:80%;>";
+            echo "<tr>";
+                echo "<th><center> Address </th>";
+                echo "<td><center> $address </td>";
+                echo "<th><center> Status </th>";
+                echo "<td><center> $status </td>";
+            echo "</tr>";
+            echo "<tr>";
+                echo "<th><center> Receiving Date </th>";
+                echo "<td><center> $date </td>";
+                echo "<th><center> Receiving Time </th>";
+                echo "<td><center> $time </td>";
+            echo "</tr>";
+            echo "<tr>";
+                echo "<th><center> Payment Method </th>";
+                echo "<td><center> $paymethod </td>";
+                echo "<th><center> Time Placed </th>";
+                echo "<td><center> $timeplaced </td>";
+            echo "</tr>";
+        echo "</table>";
+        echo "<br>";
+        echo "<br>";
+
+        echo "<table class= table table-user-info style= width:80%;>";
+            echo "<tr>";
+                echo "<th colspan = 2><center>Food Name</th>";
+                echo "<th><center>Unit Price (RM)</th>";
+                echo "<th><center>Quantity</th>";
+                echo "<th><center>Selections</th>";
+                echo "<th><center>Selections Price (RM)</th>";
+                echo "<th><center>LineTotal (RM)</th>";
+                echo "<th><center>Remarks</th>";
+            echo "</tr>";
+        foreach ($orderitemdetails as $orderitemdetails) :
+            $fooddetails = food::find()->where('Food_ID = :fid',[':fid'=>$orderitemdetails['Food_ID']])->one();
+
+            echo "<tr>";
+            ?>
+            <td><center><img class="img-rounded img-responsive" style="height:60px; width:70px;;" src="<?php echo "/hamsterEat/frontend/web/imageLocation/".$fooddetails['Food_FoodPicPath']; ?>"></td>
+            <?php
+            echo "<td><center>".$fooddetails['Food_Name']."</td>";
+            echo "<td align="."right>".$fooddetails['Food_Price']."</td>";
+            echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";
+            $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$orderitemdetails['Order_ID']])->all();
+            echo "<td><center>";
+            foreach ($selections as $selections) :
+              $selectionname = Foodselection::find()->where('Selection_ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
+              $selectiontype = Foodtype::find()->where('FoodType_ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
+              echo $selectiontype['Selection_Type'].': &nbsp;'.$selectionname['Selection_Name'];
+              echo "<br>";
+            endforeach;
+            echo "</td>";
+            echo "<td align="."right>".$orderitemdetails['OrderItem_SelectionTotal']."</td>";
+            echo "<td align="."right>".$orderitemdetails['OrderItem_LineTotal']."</td>";
+            echo "<td><center> </td>";
+            echo "</tr>";
+          endforeach;
+          $did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();
+          //var_dump($did);exit;
+          echo "<tr>";
+            echo "<td> </td>";
+            echo "<td> </td>";
+            echo "<td> </td>";
+            echo "<td> </td>";
+            echo "<td> </td>";
+            echo "<td> </td>";
+            echo "<td><center><strong> Subtotal (RM): </strong></td>";
+            echo "<td align="."right>".$did['Orders_Subtotal']."</td>";
+          echo "</tr>";
+          echo "<tr>";
+            echo "<td> </td>";
+            echo "<td> </td>";
+            echo "<td> </td>";
+            echo "<td> </td>";
+            echo "<td> </td>";
+            echo "<td> </td>";
+            echo "<td><center><strong> Delivery Charge (RM): </strong></td>";
+            echo "<td align="."right>".$did['Orders_DeliveryCharge']."</td>";
+          echo "</tr>";
+          echo "<tr>";
+            echo "<td> </td>";
+            echo "<td> </td>";
+            echo "<td> </td>";
+            echo "<td> </td>";
+            echo "<td> </td>";
+            echo "<td> </td>";
+            echo "<td><center><strong> Total (RM): </strong></td>";
+            echo "<td align="."right><strong>".$did['Orders_TotalPrice']."</strong></td>";
+          echo "</tr>";
+          echo "</table>";
+        ?>
+    </div>
+</div>

@@ -14,7 +14,7 @@ $this->title = 'hamsterEat';
         <div >
 
         <div class="mySlides">
-        <img src="SysImg/1.jpg" >
+            <img src="SysImg/Img1-1200x400.jpg" >
         </div>
     
          </div>
@@ -40,9 +40,9 @@ $this->title = 'hamsterEat';
         </div>
         <!-- </div> -->
         </div>
-        </div>
+        
         <?php ActiveForm::end(); ?>
-    
+    </div>
     
 <div id="DescContainer" class="container">
     <div class="body-content">

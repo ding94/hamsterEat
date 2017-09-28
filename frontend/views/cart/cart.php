@@ -50,7 +50,7 @@ $this->title = "My Cart";
         echo "<td><center> </td>";
         echo "</tr>";
       endforeach;
-      $did = Orders::find()->where('Delivery_ID = :did',[':did'=>$deliveryid])->one();
+      $did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();
       //var_dump($did);exit;
       echo "<tr>";
         echo "<td> </td>";
@@ -106,7 +106,7 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
-        echo "<td align="."right><strong>".Html::a('Checkout', ['checkout', 'did'=>$deliveryid], ['class'=>'btn btn-primary'])."</strong></td>";
+        echo "<td align="."right><strong>".Html::a('Checkout', ['checkout', 'did'=>$did], ['class'=>'btn btn-primary'])."</strong></td>";
       echo "</tr>";
       ?>
     </table>

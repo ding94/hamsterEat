@@ -9,7 +9,10 @@ use common\models\Orders;
 use common\models\Orderitemselection;
 use common\models\Foodtype;
 use common\models\Foodselection;
+use common\models\Vouchers;
 use common\models\user\Userdetails;
+use common\models\Ordersstatuschange;
+use common\models\Orderitemstatuschange;
 use frontend\models\Deliveryman;
 
 class CartController extends Controller
@@ -94,8 +97,11 @@ class CartController extends Controller
     public function actionViewCart($deliveryid)
     {
         $cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$deliveryid])->all();
-
-        return $this->render('cart', ['deliveryid'=>$deliveryid, 'cartitems'=>$cartitems]);
+        $voucher = new Vouchers;
+        if (Yii::$app->request->post()) {
+            var_dump('aaaa');exit;
+        }
+        return $this->render('cart', ['deliveryid'=>$deliveryid, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
     }
 
 
@@ -152,12 +158,26 @@ class CartController extends Controller
             Yii::$app->db->createCommand($sql2)->execute();
 
             $timedate = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
+
+            $ordersstatuschange = new Ordersstatuschange();
+
+            $ordersstatuschange->Delivery_ID = $did;
+            $ordersstatuschange->OChange_PendingDateTime = $time;
+
+            $ordersstatuschange->save();
+
+            $orderitems = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
+            foreach ($orderitems as $orderitems) :
+                $orderitemstatuschange = new Orderitemstatuschange;
+
+                $orderitemstatuschange->Order_ID = $orderitems['Order_ID'];
+                $orderitemstatuschange->Change_PendingDateTime = $time;
+
+                $orderitemstatuschange->save();
+            endforeach;
+
             return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate]);
         }
         return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
     }
-
-
-
-
 }

@@ -30,7 +30,7 @@ use common\models\Vouchers;
         </table>
     </div>
 
-	<?php $form = ActiveForm::begin();?>
+	<?=Html::beginForm(['vouchers/index'],'post'); ?>
     	<?= Html::a('Add New Voucher', ['/vouchers/add'], ['class'=>'btn btn-success']) ?>
         <?= Html::submitButton('Remove Vouchers',  [
             'class' => 'btn btn-danger', 
@@ -40,7 +40,7 @@ use common\models\Vouchers;
                 ]]);?>
             
         <?= Html::a('Generate new Vouchers', ['/vouchers/generate'], ['class'=>'btn btn-warning']);?>
-    <?php ActiveForm::end();?> 
+    
     <br>
 	<?= GridView::widget([
         'dataProvider' => $model,
@@ -97,4 +97,4 @@ use common\models\Vouchers;
         ],
     ])?>
 
-  
+  <?= Html::endForm();?> 

@@ -20,23 +20,29 @@ class VouchersController extends Controller
 		$searchModel = new Vouchers();
        	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,1);
        	if (Yii::$app->request->post()) {
-       		$selection=Yii::$app->request->post('selection'); //拿取选择的checkbox + 他的 id
-    		if (!empty($selection)) {
-    	 			foreach($selection as $id){
-                        if (UserVoucher::find()->where('vid = :id', [':id' => $id])->one()) {
-                            $del = UserVoucher::find()->where('vid = :id', [':id' => $id])->one();
-                            $del->delete();
-                        }
-                        
-           			 	$delete=Vouchers::findOne((int)$id);//make a typecasting //找一个删一个
-          		 		$delete->delete();
-          		 		Yii::$app->session->setFlash('success', "Deleted!");
+       		if (Yii::$app->request->post('selection')) {
+       			$selection=Yii::$app->request->post('selection'); //拿取选择的checkbox + 他的 id
+    			if (!empty($selection)) 
+    			{
+	    	 		foreach($selection as $id)
+	    	 		{
+	                       if (UserVoucher::find()->where('vid = :id', [':id' => $id])->one()) 
+	                       {
+	                           $del = UserVoucher::find()->where('vid = :id', [':id' => $id])->one();
+	                           $del->delete();
+	                       }
+	                       
+	           				$delete=Vouchers::findOne((int)$id);//make a typecasting //找一个删一个
+		          		 	$delete->delete();
+		          		 	Yii::$app->session->setFlash('success', "Deleted!");
         			}
-    	 	}
-    	 	elseif(empty($selection))
-    	 	{
-    	 		Yii::$app->session->setFlash('error', "No Voucher/Record was selected!");
-    	 	}
+	    	 	}
+	    	 	elseif(empty($selection))
+	    	 	{
+	    	 		Yii::$app->session->setFlash('error', "No Voucher/Record was selected!");
+	    	 	}
+       		}
+       		
        		
        	}
         return $this->render('index',['model'=>$dataProvider, 'searchModel'=>$searchModel]);

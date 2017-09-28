@@ -6,6 +6,7 @@ use Yii;
 use common\models\Rating\Servicerating;
 use common\models\Rating\Foodrating;
 use common\models\Food;
+use common\models\Rating\RatingStatus;
 /**
  * This is the model class for table "orders".
  *
@@ -89,6 +90,11 @@ class Orders extends \yii\db\ActiveRecord
     public function getFoodrating()
     {
         return $this->hasMany(Foodrating::className(),['delivery_id' =>'Delivery_ID']);
+    }
+
+    public function getFoodstatus()
+    {
+        return $this->hasOne(RatingStatus::className(),['id' => $this->foodrating->FoodRating_Rating]);
     }
 
     public function getFoods()

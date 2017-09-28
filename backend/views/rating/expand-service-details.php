@@ -11,10 +11,10 @@ use yii\data\ArrayDataProvider
     <?= DetailView::widget([
         'model' => $model->servicerating,
         'attributes' => [
-            'ServiceRating_DeliverySpeed',
-            'ServiceRating_Service',
-            'ServiceRating_UserExperience',
-            'ServiceRating_Comment',
+            'DeliverySpeed',
+            'Service',
+            'UserExperience',
+            'Comment',
         ],
     ]) ?>
     <?php
@@ -27,7 +27,7 @@ use yii\data\ArrayDataProvider
         'dataProvider' => $dataProvider,
         'columns' => [
             'foods.Food_Name',
-            'FoodRating_Rating'
+            'foodstatus.title'
         ],
     ]); ?>
 

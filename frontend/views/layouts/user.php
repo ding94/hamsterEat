@@ -11,7 +11,7 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use kartik\widgets\SideNav;
 use yii\helpers\Url;
-use iutbay\yii2fontawesome\FontAwesome as FA;
+
 
 AppAsset::register($this);
 ?>
@@ -43,14 +43,16 @@ AppAsset::register($this);
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
         //['label' => 'Cart', 'url' => ['/site/contact']],
+      //  ['label' => 'dropdown', 'items' => ['label' => 'My Profile', 'url' => ['/user/user-profile']]],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
+        
         $menuItems[] = ['label' => 'My Profile', 'url' => ['/user/user-profile']];
         $menuItems[] = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];
-        $menuItems[] = ['label' => 'Ticket', 'url' => ['/ticket']];
+        //$menuItems[] = ['label' => 'Ticket', 'url' => ['/ticket']];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
@@ -62,9 +64,11 @@ AppAsset::register($this);
             ['label' => 'My Profile', 'url' => ['/user/user-profile']];
             
     }
+     
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
+        
     ]);
     NavBar::end();
     ?>
@@ -94,7 +98,7 @@ AppAsset::register($this);
             ['label' => 'Discount Codes', 'url' => Url::to(['vouchers/index'])],
         ]],
         ['label' => '<i class="fa fa-comments"></i> Customer Service', 'options' => ['class' => 'active'], 'items' => [
-           ['label' => 'Submit Ticket', 'url' => Url::to(['ticket/submit-ticket'])],
+           ['label' => 'Ticket', 'url' => Url::to(['ticket/index'])],
         ]],
          ['label' => 'Delivery Man', 'options' => ['class' =>'active'],'items'=>[
                         ['label' => 'Daily Sign In' , 'url' => Url::to(['/Delivery/daily-sign-in/index'])],

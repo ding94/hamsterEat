@@ -26,7 +26,11 @@ class UserController extends Controller
         $upload = new Upload();
         $upload->scenario = 'ticket';
         $path = Yii::$app->request->baseUrl.'/imageLocation';
-       //var_dump($path);exit;
+
+       // $picpath = $detail['Food_FoodPicPath'];
+
+
+       
      
 
        // return $this->render('upload', ['detail' => $detail]);
@@ -47,9 +51,13 @@ class UserController extends Controller
                     $location = 'imageLocation/';
     		        $upload->upload($location);
 			        
+
+ 
+                   
+
                     $model->load($post);
                     $model->User_PicPath =$path.'/'.$upload->imageFile->name;
-                    
+                   
     		        $model->save();
 			        Yii::$app->session->setFlash('success', 'Upload Successful');
 

@@ -14,7 +14,7 @@ use yii\bootstrap\ActiveForm;
 		<div class="panel panel-primary">
 			<div class="panel-heading">Service Rating</div>
 			<div class="panel-body">
-				<?= $form->field($servicerating, 'ServiceRating_DeliverySpeed')->inline()->radioList($ratingLevel,
+				<?= $form->field($servicerating, 'DeliverySpeed')->inline()->radioList($ratingLevel,
 							[
                                 'item' => function($index, $label, $name, $checked, $value) {
                                     $return = '<label class="radio-inline">';
@@ -26,7 +26,7 @@ use yii\bootstrap\ActiveForm;
                                     return $return;
                                 }
                             ]) ?>
-				<?= $form->field($servicerating, 'ServiceRating_UserExperience')->inline()->radioList($ratingLevel,[
+				<?= $form->field($servicerating, 'UserExperience')->inline()->radioList($ratingLevel,[
                                 'item' => function($index, $label, $name, $checked, $value) {
                                     $return = '<label class="radio-inline">';
                                     $return .= '<input type="radio" name="' . $name . '" value="' . $value . '">';
@@ -37,7 +37,7 @@ use yii\bootstrap\ActiveForm;
                                     return $return;
                                 }
                             ])?>
-				<?= $form->field($servicerating, 'ServiceRating_Service')->inline()->radioList($ratingLevel,[
+				<?= $form->field($servicerating, 'Service')->inline()->radioList($ratingLevel,[
                                 'item' => function($index, $label, $name, $checked, $value) {
                                     $return = '<label class="radio-inline">';
                                     $return .= '<input type="radio" name="' . $name . '" value="' . $value . '">';
@@ -48,7 +48,7 @@ use yii\bootstrap\ActiveForm;
                                     return $return;
                                 }
                             ]) ?>
-				<?= $form->field($servicerating,'ServiceRating_Comment')->textInput() ?>
+				<?= $form->field($servicerating,'Comment')->textInput() ?>
 			</div>
 		</div>
 		<div class="panel panel-success">

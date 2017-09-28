@@ -97,19 +97,21 @@ class CartController extends Controller
         return $this->redirect(['view-cart', 'deliveryid'=>$cart['Delivery_ID']]);
     }
 
-    public function actionViewCart($deliveryid)
+    public function actionViewCart()
     {
-        $cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$deliveryid])->all();
+        $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
+        $did = $cart['Delivery_ID'];
+        $cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
         $voucher = new Vouchers;
-        if (Yii::$app->request->post()) {
-            var_dump('aaaa');exit;
+        if (Yii::$app->request->post()) 
+        {
+            return $this->redirect(['checkout', 'did'=>$did]);
         }
-        return $this->render('cart', ['deliveryid'=>$deliveryid, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
+        return $this->render('cart', ['did'=>$did, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
     }
 
-
-     public function actionAssignDeliveryMan($did)
-   {
+    public function actionAssignDeliveryMan($did)
+    {
        // $purchaser = orders::find()->where('User_Username = :id',[':id'=>Yii::$app->user->identity->username])->one();
         $sql= User::find()->JoinWith(['authAssignment','deliveryman'])->where('item_name = :item_name',[':item_name' => 'rider'])->orderBy(['deliveryman.DeliveryMan_Assignment'=>SORT_ASC])->all();
 
@@ -133,7 +135,7 @@ class CartController extends Controller
             Yii::$app->db->createCommand($sql6)->execute();
 
             return $dname;
-   }
+    }
 
     public function actionCheckout($did)
     {
@@ -148,6 +150,7 @@ class CartController extends Controller
 
         if ($checkout->load(Yii::$app->request->post()))
         {
+
             $unitno = $checkout->Orders_Location;
             $street = $checkout->Orders_Area;
             $paymethod = $checkout->Orders_PaymentMethod;
@@ -158,7 +161,7 @@ class CartController extends Controller
             date_default_timezone_set("Asia/Kuala_Lumpur");
             $setdate = date("Y-m-d");
             $settime = "13:00:00";
-
+             var_dump($checkout);exit;
             $this->actionAssignDeliveryMan($did);
             // $payment = PaymentController::Payment($did,$checkout);
 

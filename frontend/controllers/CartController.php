@@ -96,14 +96,16 @@ class CartController extends Controller
         return $this->redirect(['view-cart', 'deliveryid'=>$cart['Delivery_ID']]);
     }
 
-    public function actionViewCart($deliveryid)
+    public function actionViewCart()
     {
-        $cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$deliveryid])->all();
+        $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
+        $did = $cart['Delivery_ID'];
+        $cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
         $voucher = new Vouchers;
         if (Yii::$app->request->post()) {
             var_dump('aaaa');exit;
         }
-        return $this->render('cart', ['deliveryid'=>$deliveryid, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
+        return $this->render('cart', ['did'=>$did, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
     }
 
 

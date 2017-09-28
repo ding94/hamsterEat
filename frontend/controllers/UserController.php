@@ -52,7 +52,7 @@ class UserController extends Controller
                 
                    $model->User_PicPath =$path.'/'.$upload->imageFile->name;
                      
-    		        //$model->save();
+    		        $model->save();
 			        Yii::$app->session->setFlash('success', 'Upload Successful');
 
 				     $isValid = $detail->validate() && $address->validate();

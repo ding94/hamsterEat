@@ -27,7 +27,7 @@ class UserController extends Controller
         $upload->scenario = 'ticket';
         $path = Yii::$app->request->baseUrl.'/imageLocation';
 
-       // $picpath = $detail['Food_FoodPicPath'];
+        
 
 
        
@@ -37,7 +37,8 @@ class UserController extends Controller
 
         $detail = UserDetails::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one();
         
-        $address = Useraddress::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one();  
+        $address = Useraddress::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one(); 
+             $picpath = $detail['User_PicPath']; 
             if($detail->load(Yii::$app->request->post()) && $address->load(Yii::$app->request->post()))
             {
                     $post = Yii::$app->request->post();
@@ -46,6 +47,8 @@ class UserController extends Controller
 			        //$model->action = 1;
 			        //$model->action_before=1;
     		        $upload->imageFile =  UploadedFile::getInstance($detail, 'User_PicPath');
+                          if (!is_null($upload->imageFile))
+                {
     		        $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
     		       // $post['User_PicPath'] = 
                     $location = 'imageLocation/';
@@ -58,14 +61,21 @@ class UserController extends Controller
                     $model->load($post);
                     $model->User_PicPath =$path.'/'.$upload->imageFile->name;
                    
-    		        $model->save();
-			        Yii::$app->session->setFlash('success', 'Upload Successful');
-
-				     $isValid = $detail->validate() && $address->validate();
+    		        //$model->save();
+			      
+                }
+                else{
+                    $detail->User_PicPath = $picpath;
+                   
+                     
+                }
+               
+				     $isValid = $detail->validate() && $address->validate() && $model->validate();
                     if($isValid){
                         $detail->save();
                         $address->save();
-
+                      
+                        $model->save();
         
                     Yii::$app->session->setFlash('success', "Update completed");
                     return $this->redirect(['user/user-profile']);

@@ -10,7 +10,19 @@ use yii\helpers\Html;
 
              <tr>
             
-            <td> <img class="img-rounded img-responsive" style="height:250px;" src=<?php if(!empty($user->userdetails->User_PicPath)){ echo $user->userdetails->User_PicPath;}else{echo '';} ?>></td>
+            <td> 
+            <img class="img-rounded img-responsive" style="height:250px;" src=<?php 
+            $picpath = $user->userdetails->User_PicPath;
+            if(is_null($user->userdetails->User_PicPath))
+            { 
+              echo $picpath= "/hamstereat/frontend/web/imageLocation/Default.png";
+           
+              }
+            else
+            {
+            echo $user->userdetails->User_PicPath;
+            } ?>>
+            </td>
             </tr>
             <tr>
             <td>User Name:</td>

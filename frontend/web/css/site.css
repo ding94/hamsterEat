@@ -2,7 +2,16 @@ html,
 body {
     height: 100%;
 }
-
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 500;
+}
 .wrap {
   
     height: auto;
@@ -23,7 +32,9 @@ body {
     color:white;
 }
 
-
+.form-group{
+	margin-bottom: 35px;
+}
 
 .footer {
 	border-top: 1px solid #ddd;

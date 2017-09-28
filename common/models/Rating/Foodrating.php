@@ -5,6 +5,7 @@ namespace common\models\Rating;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use common\models\Food;
 /**
  * This is the model class for table "foodrating".
  *
@@ -60,10 +61,15 @@ class Foodrating extends \yii\db\ActiveRecord
             'id' => 'ID',
             'delivery_id' => 'Delivery ID',
             'Food_ID' => 'Food  ID',
-            'FoodRating_Rating' => 'Food Rating  Rating',
+            'FoodRating_Rating' => 'Rating',
             'User_Id' => 'User  ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function getFoods()
+    {
+        return $this->hasOne(Food::className(),['Food_ID'=>'Food_ID']); 
     }
 }

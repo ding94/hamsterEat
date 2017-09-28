@@ -22,6 +22,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <?= Html::csrfMetaTags() ?>
     <!--<link rel="stylesheet" href="\frontend\web\css\font-awesome.min.css">-->
     <title><?= Html::encode($this->title) ?></title>
@@ -51,7 +52,7 @@ AppAsset::register($this);
     } else {
         $menuItems[] = ['label' => 'My Profile', 'url' => ['/user/user-profile']];
         $menuItems[] = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];
-       // $menuItems[] = ['label' => 'Ticket', 'url' => ['/ticket']];
+        $menuItems[] = ['label' => 'Ticket', 'url' => ['/ticket']];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(

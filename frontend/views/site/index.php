@@ -4,7 +4,7 @@
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
-$this->title = 'My Yii Application';
+$this->title = 'hamsterEat';
 ?>
 
 <body>

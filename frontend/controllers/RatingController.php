@@ -8,11 +8,14 @@ use common\models\Orders;
 use common\models\Orderitem;
 use common\models\Rating\Foodrating;
 use common\models\Rating\Servicerating;
+use common\models\Rating\RatingStatus;
+use yii\helpers\ArrayHelper;
 
 Class RatingController extends Controller
 {
 	public function actionIndex($id)
 	{
+		$label = RatingStatus::find()->asArray()->all();
 		$done = self::completedRating($id);
 		if($done == true)
 		{
@@ -21,7 +24,7 @@ Class RatingController extends Controller
 		$orderitem = Orderitem::find()->where('Delivery_id = :id' ,[':id' => $id])->joinWith('food')->select('food.Food_ID')->distinct()->asArray()->all();
 		$foodrating = new Foodrating;
 		$servicerating = new Servicerating;
-		$ratingLevel = [1=>'Very Bad',2=>'Bad',3=>'Average',4=>'Good',5=>'Very Good'];
+		$ratingLevel = ArrayHelper::map($label, 'id', 'labelName');
 
 
 		return $this->render('index',['orderitem' => $orderitem , 'foodrating' => $foodrating ,'servicerating' => $servicerating ,'ratingLevel' => $ratingLevel, 'id' =>$id]);

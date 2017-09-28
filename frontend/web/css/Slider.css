@@ -9,6 +9,10 @@
 
 }
 
+.mySlides img{
+  width: 100%;
+}
+
 #SSCrow2{
 
  position:absolute;

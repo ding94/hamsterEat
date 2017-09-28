@@ -14,7 +14,7 @@ $this->title = 'hamsterEat';
           <!--<div class="container"> -->
 
         <div class="mySlides">
-            <img src="SysImg/Img1-1200x400.jpg" >
+            <img src="SysImg/rimg1-1200x400.jpg" width="1280" height="800" >
         </div>
     
       

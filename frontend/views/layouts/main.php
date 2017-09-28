@@ -50,18 +50,25 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
-        $menuItems[] = ['label' => 'My Profile', 'url' => ['/user/user-profile']];
+        $menuItems = [
+            ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
+            ['label' => 'Profile', 'url' => ['/user/user-profile']],
+            '<li class="divider"></li>',
+            ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']],
+        ]],
+        ];
+        //$menuItems[] = ['label' => 'My Profile', 'url' => ['/user/user-profile']];
         $menuItems[] = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];
-        $menuItems[] = ['label' => 'Ticket', 'url' => ['/ticket']];
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-            ['label' => 'My Profile', 'url' => ['/user/user-profile']];
+        //$menuItems[] = ['label' => 'Ticket', 'url' => ['/ticket']];
+        // $menuItems[] = '<li>'
+        //     . Html::beginForm(['/site/logout'], 'post')
+        //     . Html::submitButton(
+        //         'Logout (' . Yii::$app->user->identity->username . ')',
+        //         ['class' => 'btn btn-link logout']
+        //     )
+        //     . Html::endForm()
+        //     . '</li>';
+        //     ['label' => 'My Profile', 'url' => ['/user/user-profile']];
          
     }
     echo Nav::widget([

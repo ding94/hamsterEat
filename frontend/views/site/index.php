@@ -12,11 +12,11 @@ $this->title = 'hamsterEat';
 
     
           <!--<div class="container"> -->
-
-        <div class="mySlides">
+ <header class="intro-header">
+      <!--  <div class="mySlides">
             <img src="SysImg/rimg1-1200x400.jpg" width="1280" height="800" >
         </div>
-    
+    -->
       
        <!--<div class="container"> -->
       <!--    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 " >
@@ -42,7 +42,7 @@ $this->title = 'hamsterEat';
         
         <?php ActiveForm::end(); ?>
     </div>
-    
+      </header>
 <div id="DescContainer" class="container">
     <div class="body-content">
 

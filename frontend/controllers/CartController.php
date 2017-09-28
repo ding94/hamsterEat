@@ -107,7 +107,7 @@ class CartController extends Controller
     }
 
 
-     public function actionAssignDeliveryMan()
+     public function actionAssignDeliveryMan($did)
    {
        // $purchaser = orders::find()->where('User_Username = :id',[':id'=>Yii::$app->user->identity->username])->one();
         $sql= User::find()->JoinWith(['authAssignment','deliveryman'])->where('item_name = :item_name',[':item_name' => 'rider'])->orderBy(['deliveryman.DeliveryMan_Assignment'=>SORT_ASC])->all();
@@ -122,14 +122,18 @@ class CartController extends Controller
       
             $sql1 = "UPDATE deliveryman SET DeliveryMan_Assignment = ".$assign." WHERE User_id = '".$deliveryman."'";
            
-           Yii::$app->db->createCommand($sql1)->execute();
+            Yii::$app->db->createCommand($sql1)->execute();
        
-           
-           
-          
-             echo "<script type='text/javascript'>alert('The delivery man assigned to this order is ".$deliveryman."');</script>";
-  
+            echo "<script type='text/javascript'>alert('The delivery man assigned to this order is ".$deliveryman."');</script>";
+            $dname = user::find()->where('id = :uid', [':uid'=>$deliveryman])->one();
+            $dname = $dname['username'];
+
+            $sql6 = "UPDATE orders SET Orders_DeliveryMan = '".$dname."' WHERE Delivery_ID = ".$did."";
+            Yii::$app->db->createCommand($sql6)->execute();
+
+            return $dname;
    }
+
     public function actionCheckout($did)
     {
         $mycontact = Userdetails::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->one();
@@ -154,6 +158,8 @@ class CartController extends Controller
             $setdate = date("Y-m-d");
             $settime = "13:00:00";
 
+            $this->actionAssignDeliveryMan($did);
+
             $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = ".$session['postcode'].", Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = ".$time.", Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = ".$did."";
             Yii::$app->db->createCommand($sql)->execute();
             $sql2 = "UPDATE orderitem SET OrderItem_Status = 'Pending' WHERE Delivery_ID = '".$did."'";
@@ -177,6 +183,7 @@ class CartController extends Controller
 
                 $orderitemstatuschange->save();
             endforeach;
+
 
             return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate]);
         }

@@ -60,7 +60,7 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td><center><strong> Subtotal (RM): </strong></td>"; ?>
-        <td align=right> <p id="subtotal">$did['Orders_Subtotal']</p></td>;<?php
+        <td align=right> <font id="subtotal"><?php echo $did['Orders_Subtotal']; ?></font></td>;<?php
       echo "</tr>";
       echo "<tr>";
         echo "<td> </td>";
@@ -69,8 +69,8 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
-        echo "<td><center><strong> Delivery Charge (RM): </strong></td>";
-        echo "<td align="."right>".$did['Orders_DeliveryCharge']."</td>";
+        echo "<td><center><strong> Delivery Charge (RM): </strong></td>";?>
+        <td align=right> <font id="delivery"><?php echo $did['Orders_DeliveryCharge']; ?></font></td>;<?php
       echo "</tr>";
       echo "<tr>";
         echo "<td> </td>";
@@ -79,8 +79,8 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
-        echo "<td><center><strong> Total (RM): </strong></td>";
-        echo "<td align="."right><strong>".$did['Orders_TotalPrice']."</strong></td>";
+        echo "<td><center><strong> Total (RM): </strong></td>";?>
+        <td align=right> <font id="total"><?php echo $did['Orders_TotalPrice']; ?></font></td>;<?php
       echo "</tr>";
       echo "<tr>";
         echo "<td> </td>";
@@ -91,7 +91,7 @@ $this->title = "My Cart";
         <td id ="extend"> </td>
         <td  id ="label" style="display: none"><strong> Discount Code: </strong></td>
         <?php $form = ActiveForm::begin(); ?>
-        <td><div > <input id ="input" style="display: none" value ="VKL88RJY8GEPOKQ70"></div></td>
+        <td><div > <input id ="input" style="display: none"></div></td>
         <?php ActiveForm::end(); ?>
         <td style="display: none" id="apply"><div ><a onclick="discount()"><font color="blue">Apply</font></a></div></td>
         <td id ="hide2"><a onclick="showHidden()"><font color="blue">Have a coupon ? Click Me</font></a></td>
@@ -133,20 +133,46 @@ $this->title = "My Cart";
    },
    success: function (data) {
       var obj = JSON.parse(data);
-      console.log(obj);
       if (obj['discount_item'] ==7) 
       {
-        alert(document.getElementById("subtotal").value);
+        if (obj['discount_type'] >=1 && obj['discount_type'] <=3) 
+        {
+          document.getElementById("subtotal").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) *( (100 - obj['discount']) /100); 
+        }
+        else if (obj['discount_type'] >=4 && obj['discount_type'] <=6) 
+        {
+          document.getElementById("subtotal").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) - obj['discount']; 
+        }
+        
       }
       else if (obj['discount_item'] ==8) 
       {
-
+        if (obj['discount_type'] >=1 && obj['discount_type'] <=3) 
+        {
+          document.getElementById("delivery").innerHTML = parseInt(document.getElementById("delivery").innerHTML) *( (100 - obj['discount']) /100); 
+        }
+        else if (obj['discount_type'] >=4 && obj['discount_type'] <=6) 
+        {
+          document.getElementById("delivery").innerHTML = parseInt(document.getElementById("delivery").innerHTML) - obj['discount']; 
+        }
       }
       else if (obj['discount_item'] ==9) 
       {
-
+        if (obj['discount_type'] >=1 && obj['discount_type'] <=3) 
+        {
+          document.getElementById("total").innerHTML = parseInt(document.getElementById("total").innerHTML) *( (100 - obj['discount']) /100); 
+        }
+        else if (obj['discount_type'] >=4 && obj['discount_type'] <=6) 
+        {
+          document.getElementById("total").innerHTML = parseInt(document.getElementById("total").innerHTML) - obj['discount']; 
+        }
       }
 
+      document.getElementById("label").style.display ='none';
+      document.getElementById("input").style.display ='none';
+      document.getElementById("apply").style.display ='none';
+      document.getElementById("hide2").style.display ='none';
+      document.getElementById("extend").style.display ='none';
    },
    error: function (request, status, error) {
     //alert(request.responseText);

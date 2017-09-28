@@ -8,21 +8,12 @@ $this->title = 'hamsterEat';
 ?>
 
 <body>
-<!--<div class="site-index">-->
-
-    
-          <!--<div class="container"> -->
-
-        <div class="mySlides">
-            <img src="SysImg/rimg1-1200x400.jpg" width="1280" height="800" >
-        </div>
-    
-      
-       <!--<div class="container"> -->
-      <!--    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 " >
-              -->
+<!--<div class="site-index">-->      
+ <header class="intro-header">
+ <!--<div class="container"> -->
+      <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 " >-->
       <!--  <div class="col-md-8 col-md-offset-2"> -->
-            <div class="loginform">
+        <div class="loginform">
         <h1>Select Your Location</h1>
         <?php if($postcode['detectArea'] == 0) :?>
         <?php $form = ActiveForm::begin(['id' => 'area']); ?>
@@ -37,12 +28,12 @@ $this->title = 'hamsterEat';
         </div>
         <!-- </div> -->
         <!-- </div> -->
-		 <!--     </div> -->
-        
-        
-        <?php ActiveForm::end(); ?>
+		<!-- </div> -->
+       
+	   <?php ActiveForm::end(); ?>
     </div>
-    
+      </header>
+	  
 <div id="DescContainer" class="container">
     <div class="body-content">
 

@@ -34,7 +34,11 @@ Class RatingController extends Controller
 		if($servicerating == true)
 		{
 			$foodvalidate = self::allFoodRating($post['Foodrating'],$id);
-			if($foodvalidate == false)
+			if($foodvalidate == true)
+			{
+				self::changeStatus($id);
+			}
+			else
 			{
 				Servicerating::deleteAll('delivery_id = :id',[':id' => $id]);
 			}
@@ -46,23 +50,33 @@ Class RatingController extends Controller
 		return $this->redirect(['site/index']);
 	}
 
+	protected static function changeStatus($id)
+	{
+		$order = Orders::findOne($id);
+		$order->Orders_Status = "Rating Done";
+		$order->update();
+	}
+
 	protected static function completedRating($id)
 	{
 		$completed = Orders::find()->where('Delivery_ID = :did and User_Username = :name',[':did' => $id , ':name' =>Yii::$app->user->identity->username])->one();
 		if(is_null($completed))
 		{
-			Yii::$app->session->setFlash('warning', "Wrong Person");
-			return true;
-		}
-		$data = Servicerating::find()->where('delivery_id = :did and User_Id = :uid',[':did' => $id , ':uid' =>Yii::$app->user->identity->id ])->one();
-		if($data)
-		{
-			Yii::$app->session->setFlash('warning', "You Already take part in");
+			Yii::$app->session->setFlash('warning', "Not the right person");
 			return true;
 		}
 		else
 		{
-			return false;
+			switch ($completed->Orders_Status) {
+				case 'Rating Done':
+					Yii::$app->session->setFlash('warning', "You Already take part in");
+					return true;
+					break;
+				
+				default:
+					return false;
+					break;
+			}
 		}
 	}
 

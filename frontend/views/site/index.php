@@ -31,7 +31,7 @@ $this->title = 'hamsterEat';
         <?php else :?>
         <?php $form = ActiveForm::begin(['action' =>['site/search-restaurant-by-area'],'id' => 'area']); ?>
         <?php endif ;?>
-        <?= $form->field($postcode, 'Area_Postcode')->textInput(['autofocus' => true])->label('Postcode') ?>
+        <?= $form->field($postcode, 'Area_Postcode')->textInput(['autofocus' => true, 'placeholder'=>'Your postcode'])->label(false) ?>
         <?php if( $postcode['detectArea'] == 1) :?>
         <?= $form->field($postcode, 'Area_Area')->dropDownList($list) ?>
         <?php endif ;?>

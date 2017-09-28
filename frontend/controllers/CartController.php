@@ -104,7 +104,7 @@ class CartController extends Controller
         $voucher = new Vouchers;
         if (Yii::$app->request->post()) 
         {
-            
+            return $this->redirect(['checkout', 'did'=>$did]);
         }
         return $this->render('cart', ['did'=>$did, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
     }

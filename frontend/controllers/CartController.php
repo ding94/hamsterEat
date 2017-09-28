@@ -10,10 +10,12 @@ use common\models\Orderitemselection;
 use common\models\Foodtype;
 use common\models\Foodselection;
 use common\models\Vouchers;
+use common\models\UserVoucher;
 use common\models\user\Userdetails;
 use common\models\Ordersstatuschange;
 use common\models\Orderitemstatuschange;
 use frontend\models\Deliveryman;
+use yii\helpers\Json;
 
 class CartController extends Controller
 {
@@ -179,5 +181,22 @@ class CartController extends Controller
             return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate]);
         }
         return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
+    }
+
+    public function actionGetdiscount($dis)
+    {
+       $valid = UserVoucher::find()->where('code = :c',[':c'=>$dis])->one();
+       if (!empty($valid)) {
+          $value = Vouchers::find()->where('code = :c',[':c'=>$dis])->one();
+
+       }
+       elseif(empty($valid)) {
+       
+        $value = 0;
+       }
+       $value = Json::encode($value);
+
+       return $value;
+
     }
 }

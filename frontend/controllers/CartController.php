@@ -149,6 +149,7 @@ class CartController extends Controller
 
         if ($checkout->load(Yii::$app->request->post()))
         {
+
             $unitno = $checkout->Orders_Location;
             $street = $checkout->Orders_Area;
             $paymethod = $checkout->Orders_PaymentMethod;
@@ -159,7 +160,7 @@ class CartController extends Controller
             date_default_timezone_set("Asia/Kuala_Lumpur");
             $setdate = date("Y-m-d");
             $settime = "13:00:00";
-
+             var_dump($checkout);exit;
             $this->actionAssignDeliveryMan($did);
 
             $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = ".$session['postcode'].", Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = ".$time.", Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = ".$did."";

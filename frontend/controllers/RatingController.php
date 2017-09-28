@@ -16,13 +16,13 @@ Class RatingController extends Controller
 		$done = self::completedRating($id);
 		if($done == true)
 		{
-			Yii::$app->session->setFlash('warning', "You Already Take Part or Wrong Person");
 			 return $this->redirect(['site/index']);
 		}
 		$orderitem = Orderitem::find()->where('Delivery_id = :id' ,[':id' => $id])->joinWith('food')->select('food.Food_ID')->distinct()->asArray()->all();
 		$foodrating = new Foodrating;
 		$servicerating = new Servicerating;
-		$ratingLevel = [1=>1,2=>2,3=>3,4=>4,5=>5];
+		$ratingLevel = [1=>'Very Bad',2=>'Bad',3=>'Average',4=>'Good',5=>'Very Good'];
+
 
 		return $this->render('index',['orderitem' => $orderitem , 'foodrating' => $foodrating ,'servicerating' => $servicerating ,'ratingLevel' => $ratingLevel, 'id' =>$id]);
 	}
@@ -33,8 +33,11 @@ Class RatingController extends Controller
 		$servicerating = self::serviceRating($post,$id);
 		if($servicerating == true)
 		{
-			self::allFoodRating($post['Foodrating'],$id);
-			Yii::$app->session->setFlash('success', "Thank You for completed");
+			$foodvalidate = self::allFoodRating($post['Foodrating'],$id);
+			if($foodvalidate == false)
+			{
+				Servicerating::deleteAll('delivery_id = :id',[':id' => $id]);
+			}
 		}
 		else
 		{
@@ -48,11 +51,13 @@ Class RatingController extends Controller
 		$completed = Orders::find()->where('Delivery_ID = :did and User_Username = :name',[':did' => $id , ':name' =>Yii::$app->user->identity->username])->one();
 		if(is_null($completed))
 		{
+			Yii::$app->session->setFlash('warning', "Wrong Person");
 			return true;
 		}
 		$data = Servicerating::find()->where('delivery_id = :did and User_Id = :uid',[':did' => $id , ':uid' =>Yii::$app->user->identity->id ])->one();
 		if($data)
 		{
+			Yii::$app->session->setFlash('warning', "You Already take part in");
 			return true;
 		}
 		else
@@ -81,8 +86,16 @@ Class RatingController extends Controller
 	{
 		foreach($post as $data)
 		{
-			self::foodrating($data['FoodRating_Rating'],$data['Food_ID'],$id);
+			$validate = self::foodrating($data['FoodRating_Rating'],$data['Food_ID'],$id);
+			if($validate == false)
+			{
+				Foodrating::deleteAll('delivery_id = :id',[':id' => $id]);
+				Yii::$app->session->setFlash('warning', "Food Rating Fail");
+				return false;
+			}
 		}
+		Yii::$app->session->setFlash('success', "Thank You for completed");
+		return true;
 	}
 
 	protected static function foodRating($rating,$foodID,$id)
@@ -92,7 +105,14 @@ Class RatingController extends Controller
 		$foodrating->Food_ID =$foodID;
 		$foodrating->delivery_id = $id;
 		$foodrating->User_Id = Yii::$app->user->identity->id;
-		$foodrating->save();
+		if($foodrating->save())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 }

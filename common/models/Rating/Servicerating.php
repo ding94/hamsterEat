@@ -47,7 +47,7 @@ class Servicerating extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['delivery_id', 'User_Id'], 'required'],
+            [['delivery_id', 'User_Id', 'ServiceRating_DeliverySpeed', 'ServiceRating_Service', 'ServiceRating_UserExperience'], 'required'],
             [['delivery_id', 'ServiceRating_DeliverySpeed', 'ServiceRating_Service', 'ServiceRating_UserExperience', 'User_Id', 'created_at', 'updated_at'], 'integer'],
             [['ServiceRating_Comment'], 'string'],
         

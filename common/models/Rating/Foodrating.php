@@ -46,8 +46,8 @@ class Foodrating extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['delivery_id', 'User_Id'], 'required'],
-            [['delivery_id', 'Food_ID', 'FoodRating_Rating', 'User_Id', 'created_at', 'updated_at'], 'integer'],
+            [['delivery_id', 'User_Id' , 'FoodRating_Rating','User_Id' ,'Food_ID'], 'required'],
+            [['delivery_id', 'Food_ID', 'User_Id', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 

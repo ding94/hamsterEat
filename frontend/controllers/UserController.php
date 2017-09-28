@@ -37,7 +37,12 @@ class UserController extends Controller
             if($detail->load(Yii::$app->request->post()) && $address->load(Yii::$app->request->post()))
             {
                     $post = Yii::$app->request->post();
-    		        $model = Userdetails::find()->where('User_Username = :uname',[':uname' => Yii::$app->user->identity->username])->one(); 
+                    $model = UserDetails::find()->where('User_Username = :uname',[':uname' => Yii::$app->user->identity->username])->one(); 
+                    
+                    if(empty($model)){
+                        $model = new UserDetails();
+                        $model->User_Username = Yii::$app->user->identity->username;
+                    }
                     
 			
 			        //$model->action = 1;
@@ -48,9 +53,9 @@ class UserController extends Controller
                     $location = 'imageLocation/';
     		        $upload->upload($location);
 			        
-    		        $model->load($post);
-                
-                   $model->User_PicPath =$path.'/'.$upload->imageFile->name;
+                    $model->load($post);
+                    $model->User_Username = Yii::$app->user->identity->username;
+                    $model->User_PicPath =$path.'/'.$upload->imageFile->name;
                      
     		        //$model->save();
 			        Yii::$app->session->setFlash('success', 'Upload Successful');

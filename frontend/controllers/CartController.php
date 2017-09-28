@@ -93,10 +93,6 @@ class CartController extends Controller
         $sql = "UPDATE orders SET Orders_SubTotal = ".$subtotal.", Orders_DeliveryCharge = ".$deliverycharge.", Orders_TotalPrice = ".$totalcharge." WHERE Delivery_ID = ".$cart['Delivery_ID']."";
         Yii::$app->db->createCommand($sql)->execute();
 
-        if (Yii::$app->request->post())
-        {
-            var_dump(Yii::$app->request->post());exit;
-        }
         return $this->redirect(['view-cart', 'deliveryid'=>$cart['Delivery_ID']]);
     }
 
@@ -106,15 +102,15 @@ class CartController extends Controller
         $did = $cart['Delivery_ID'];
         $cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
         $voucher = new Vouchers;
-        if (Yii::$app->request->post()) {
-            var_dump(Yii::$app->request->post());exit;
+        if (Yii::$app->request->post()) 
+        {
+            
         }
         return $this->render('cart', ['did'=>$did, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
     }
 
-
-     public function actionAssignDeliveryMan($did)
-   {
+    public function actionAssignDeliveryMan($did)
+    {
        // $purchaser = orders::find()->where('User_Username = :id',[':id'=>Yii::$app->user->identity->username])->one();
         $sql= User::find()->JoinWith(['authAssignment','deliveryman'])->where('item_name = :item_name',[':item_name' => 'rider'])->orderBy(['deliveryman.DeliveryMan_Assignment'=>SORT_ASC])->all();
 
@@ -138,7 +134,7 @@ class CartController extends Controller
             Yii::$app->db->createCommand($sql6)->execute();
 
             return $dname;
-   }
+    }
 
     public function actionCheckout($did)
     {

@@ -408,5 +408,9 @@ class SiteController extends Controller
         
           return $this->render('deliveryman',['model1'=>$model1,'model'=>$model]);
     }
+	public function actionRuser()
+    {
+        return $this->render('ruser');
+    }
 
 }

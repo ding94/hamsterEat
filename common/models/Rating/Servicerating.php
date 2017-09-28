@@ -5,15 +5,16 @@ namespace common\models\Rating;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use common\models\Rating\RatingStatus;
 /**
  * This is the model class for table "servicerating".
  *
  * @property integer $delivery_id
- * @property integer $ServiceRating_DeliverySpeed
- * @property integer $ServiceRating_Service
- * @property integer $ServiceRating_UserExperience
+ * @property integer $DeliverySpeed
+ * @property integer $Service
+ * @property integer $UserExperience
  * @property integer $User_Id
- * @property string $ServiceRating_Comment
+ * @property string $Comment
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -47,10 +48,9 @@ class Servicerating extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['delivery_id', 'User_Id', 'ServiceRating_DeliverySpeed', 'ServiceRating_Service', 'ServiceRating_UserExperience'], 'required'],
-            [['delivery_id', 'ServiceRating_DeliverySpeed', 'ServiceRating_Service', 'ServiceRating_UserExperience', 'User_Id', 'created_at', 'updated_at'], 'integer'],
-            [['ServiceRating_Comment'], 'string'],
-        
+            [['delivery_id', 'DeliverySpeed', 'Service', 'UserExperience', 'User_Id'], 'required'],
+            [['delivery_id', 'DeliverySpeed', 'Service', 'UserExperience', 'User_Id', 'created_at', 'updated_at'], 'integer'],
+            [['Comment'], 'string'],
         ];
     }
 
@@ -61,11 +61,11 @@ class Servicerating extends \yii\db\ActiveRecord
     {
         return [
             'delivery_id' => 'Delivery ID',
-            'ServiceRating_DeliverySpeed' => 'Delivery Speed',
-            'ServiceRating_Service' => 'Service Provide',
-            'ServiceRating_UserExperience' => 'User Experience',
+            'DeliverySpeed' => 'Delivery Speed',
+            'Service' => 'Service',
+            'UserExperience' => 'User Experience',
             'User_Id' => 'User  ID',
-            'ServiceRating_Comment' => 'Comment',
+            'Comment' => 'Comment',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

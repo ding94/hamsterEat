@@ -22,7 +22,6 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <?= Html::csrfMetaTags() ?>
     <!--<link rel="stylesheet" href="\frontend\web\css\font-awesome.min.css">-->
     <title><?= Html::encode($this->title) ?></title>
@@ -44,22 +43,20 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
-        //['label' => 'Cart', 'url' => ['/site/contact']],
+        ['label' => 'Cart', 'url' => ['/cart/view-cart']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/ruser']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
-        $menuItems = [
-            ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
-            ['label' => 'Profile', 'url' => ['/user/user-profile']],
-            '<li class="divider"></li>',
-            ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']],
-        ]],
-        ];
-        //$menuItems[] = ['label' => 'My Profile', 'url' => ['/user/user-profile']];
-        $menuItems[] = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];
-        //$menuItems[] = ['label' => 'Ticket', 'url' => ['/ticket']];
+        $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
+                       ['label' => 'Profile', 'url' => ['/user/user-profile']],
+                        '<li class="divider"></li>',
+                       ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']],
+                    ]];
+        
+       //  $menuItems = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];
+      
         // $menuItems[] = '<li>'
         //     . Html::beginForm(['/site/logout'], 'post')
         //     . Html::submitButton(

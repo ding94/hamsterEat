@@ -11,13 +11,13 @@ $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">
-     <div class="col-lg-6 col-lg-offset-3">
+     <div class="col-lg-6 col-lg-offset-3" style="text-align:center">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Please fill out the following fields to signup:</p>
-
-    <div class="row">
- 
+  </div>
+    <div class="container">
+   <div class="col-lg-6 col-lg-offset-3">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
@@ -27,18 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?> <br><br>
 
-                    
+                   
                 </div>
-
-                    <?= Html::a('Sign up as Restaurant Manager', ['/site/rmanager'], ['class'=>'btn btn-info']) ?>
-                    
-                    <?= Html::a('Sign up as Delivery man', ['/site/deliveryman'], ['class'=>'btn btn-primary']) ?>  
-          
-               
-                
-
             <?php ActiveForm::end(); ?>
         </div>
     </div>

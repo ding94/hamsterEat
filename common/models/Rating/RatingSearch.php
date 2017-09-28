@@ -16,12 +16,13 @@ class RatingSearch extends Orders
 	public function search($params)
 	{
 		$query = Orders::find()->where(['Orders_Status' => 'Rating Done']);
+
 	
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-		$query->joinWith(['servicerating','foodrating','foodrating.foods']);
+		$query->joinWith(['servicerating','foodrating','foodrating.foods','foodrating.foodstatus']);
 
 		$this->load($params);
 

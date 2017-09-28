@@ -67,7 +67,7 @@ use yii\helpers\ArrayHelper;
                         
                         <td>
                             <a href=<?php echo  Url::to(['ticket/chatting','sid'=>$k,'tid'=>$model['Ticket_ID']]); ?> >
-                                See Chat Record
+                                <font color="blue">See Chat Record </font>
                             </a>
                         </td>
                     </tr>

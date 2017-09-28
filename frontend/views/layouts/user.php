@@ -91,6 +91,7 @@ AppAsset::register($this);
         ]],
          ['label' => '<i class="glyphicon glyphicon-cog"></i> Member Settings','options' => ['class' => 'active'], 'items' => [
             ['label' => 'User Profile', 'url' => Url::to(['user/user-profile'])],
+            ['label' => 'Discount Codes', 'url' => Url::to(['vouchers/index'])],
         ]],
         ['label' => '<i class="fa fa-comments"></i> Customer Service', 'options' => ['class' => 'active'], 'items' => [
            ['label' => 'Submit Ticket', 'url' => Url::to(['ticket/submit-ticket'])],

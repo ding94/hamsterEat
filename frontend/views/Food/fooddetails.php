@@ -39,7 +39,7 @@ use common\models\Orderitemselection;
             </tr>
               
      
-            <?php $form = ActiveForm::begin(['id' => 'fooddetails']); ?>
+            <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
            
             <?php
             $ftids = "";

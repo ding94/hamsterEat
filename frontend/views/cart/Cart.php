@@ -5,6 +5,7 @@ use common\models\Orderitemselection;
 use common\models\Foodtype;
 Use common\models\Foodselection;
 Use common\models\Orders;
+use yii\bootstrap\ActiveForm;
 
 $this->title = "My Cart";
 ?>
@@ -86,6 +87,22 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
+        echo "<td> </td>";?>
+        <td id ="extend"> </td>
+        <td  id ="label" style="display: none"><strong> Discount Code: </strong></td>
+        <?php $form = ActiveForm::begin(); ?>
+        <td><div > <input id ="input" style="display: none"></input> </div></td>
+        <?php ActiveForm::end(); ?>
+        <td style="display: none" id="apply"><div ><a font="color: blue">Apply</a></div></td>
+        <td id ="hide2"><a onclick="showHidden()">Have a coupon ? Click Me</a></td>
+        
+          <?php
+      echo "</tr>";
+      echo "<tr>";
+        echo "<td> </td>";
+        echo "<td> </td>";
+        echo "<td> </td>";
+        echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
@@ -95,3 +112,15 @@ $this->title = "My Cart";
     </table>
   </div>
 </div>
+
+<script >
+  function showHidden()
+  {
+      document.getElementById("label").style.display ='block';
+      document.getElementById("input").style.display ='block';
+      document.getElementById("apply").style.display ='block';
+      document.getElementById("hide2").style.display ='none';
+      document.getElementById("extend").style.display ='none';
+  }
+
+</script>

@@ -3,8 +3,10 @@
 namespace common\models;
 
 use Yii;
-use common\models\Orderitem;
-
+use common\models\Rating\Servicerating;
+use common\models\Rating\Foodrating;
+use common\models\Food;
+use common\models\Rating\RatingStatus;
 /**
  * This is the model class for table "orders".
  *
@@ -59,7 +61,7 @@ class Orders extends \yii\db\ActiveRecord
     {
         return [
             'Delivery_ID' => 'Delivery  ID',
-            'User_Username' => 'User  Username',
+            'User_Username' => 'Username',
             'Orders_Subtotal' => 'Orders  Subtotal',
             'Orders_DeliveryCharge' => 'Orders  Delivery Charge',
             'Orders_TotalPrice' => 'Orders  Total Price',
@@ -80,8 +82,23 @@ class Orders extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getOrderitem()
+    public function getServicerating()
     {
-        return $this->hasMany(Orderitem::className(),['Delivery_ID'=>'Delivery_ID']);
+        return $this->hasOne(Servicerating::className(),['delivery_id'=>'Delivery_ID']);
+    }
+
+    public function getFoodrating()
+    {
+        return $this->hasMany(Foodrating::className(),['delivery_id' =>'Delivery_ID']);
+    }
+
+    public function getFoodstatus()
+    {
+        return $this->hasOne(RatingStatus::className(),['id' => $this->foodrating->FoodRating_Rating]);
+    }
+
+    public function getFoods()
+    {
+        return $this->hasOne(Food::className(),['Food_ID'=> $this->foodrating->Food_ID]);
     }
 }

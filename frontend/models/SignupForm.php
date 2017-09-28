@@ -80,11 +80,11 @@ class SignupForm extends Model
        }
        else if($this->type == 1)
        {
-           var_dump('a');exit;
+           
         $auth = \Yii::$app->authManager;
         $authorRole = $auth->getRole('restaurant manager');
         $auth->assign($authorRole, $user->getId());
-    
+      
        }
      
         

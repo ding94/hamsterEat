@@ -23,14 +23,10 @@ class FoodController extends Controller
         $foodtype = foodtype::find()->where('Food_ID = :id',[':id' => $id])->all();
          
         $orderItemSelection =new Orderitemselection;
-        
         $orderitem = new Orderitem;
        
-       
-          
-        if ($orderItemSelection->load(Yii::$app->request->post()))
+        if ($orderItemSelection->load(Yii::$app->request->post()) && $orderitem->load(Yii::$app->request->post()))
         {
-            $orderitem->load(Yii::$app->request->post());
             $quantity = $orderitem->OrderItem_Quantity;
             $selected = $orderItemSelection->FoodType_ID;
             $glue = "','";
@@ -45,7 +41,7 @@ class FoodController extends Controller
             //var_dump(implode_all($glue, $selected));exit;
             $finalselected = implode_all(',', $selected);
 
-            return $this->redirect(array('cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected));
+            return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected]);
         }
 
         return $this->render('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);

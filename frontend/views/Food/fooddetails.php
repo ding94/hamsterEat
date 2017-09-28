@@ -4,8 +4,6 @@ use yii\bootstrap\ActiveForm;
 use common\models\Foodselection;
 use yii\helpers\ArrayHelper;
 use common\models\Orderitemselection;
-
-
 ?>
 
 <div class="container">
@@ -39,7 +37,7 @@ use common\models\Orderitemselection;
             </tr>
               
      
-            <?php $form = ActiveForm::begin(['id' => 'fooddetails']); ?>
+            <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
            
             <?php
             $ftids = "";
@@ -76,7 +74,7 @@ use common\models\Orderitemselection;
             
             <tr>
                   <td><?= $form->field($orderitem, 'OrderItem_Quantity')->textInput(['type' => 'number', 'value' => "1"])?></td>
-                  <td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart-button', 'style'=>'margin-top:25px;']) ?></td>
+                  <td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart', 'style'=>'margin-top:25px;']) ?></td>
             </tr>
 
         <?php ActiveForm::end(); ?>

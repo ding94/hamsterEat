@@ -15,6 +15,7 @@ use common\models\user\Userdetails;
 use common\models\Ordersstatuschange;
 use common\models\Orderitemstatuschange;
 use frontend\models\Deliveryman;
+use frontend\controllers\PaymentController;
 use yii\helpers\Json;
 
 class CartController extends Controller
@@ -159,6 +160,7 @@ class CartController extends Controller
             $settime = "13:00:00";
 
             $this->actionAssignDeliveryMan($did);
+            // $payment = PaymentController::Payment($did,$checkout);
 
             $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = ".$session['postcode'].", Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = ".$time.", Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = ".$did."";
             Yii::$app->db->createCommand($sql)->execute();

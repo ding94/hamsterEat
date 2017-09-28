@@ -11,13 +11,10 @@ $this->title = 'hamsterEat';
 <div class="site-index">
 
     
-        <div >
 
         <div class="mySlides">
             <img src="SysImg/Img1-1200x400.jpg" >
         </div>
-    
-         </div>
 
         <div id="SSCrow2" class="container">
       <!--    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 " >

@@ -35,6 +35,7 @@ AppAsset::register($this);
     NavBar::begin([
         'brandLabel' => 'hamsterEat',
         'brandUrl' => Yii::$app->homeUrl,
+        'innerContainerOptions' => ['class' => 'container-fluid'],
         'options' => [
             'class' => 'topnav navbar-fixed-top',
         ],
@@ -80,7 +81,7 @@ AppAsset::register($this);
         </div>
     
 </div>
-
+</div>
 
 <footer class="footer">
     <div class="container">

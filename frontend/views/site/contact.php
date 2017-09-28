@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
     </p>
   </div>
-    <div class="row" >
+    <div class="container" >
         <div class="col-lg-6 col-lg-offset-3">
             <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
 

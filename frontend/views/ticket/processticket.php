@@ -71,7 +71,7 @@ use backend\models\Admin;
                         
                         <td>
                             <a href=<?php echo  Url::to(['ticket/chatting','sid'=>$k,'tid'=>$model['Ticket_ID']]); ?> >
-                                Go Chat
+                                <font color="blue">Go Chat</font>
                             </a>
                         </td>
                     </tr>

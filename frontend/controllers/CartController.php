@@ -9,6 +9,7 @@ use common\models\Orders;
 use common\models\Orderitemselection;
 use common\models\Foodtype;
 use common\models\Foodselection;
+use common\models\Vouchers;
 use common\models\user\Userdetails;
 use common\models\Ordersstatuschange;
 use common\models\Orderitemstatuschange;
@@ -96,8 +97,11 @@ class CartController extends Controller
     public function actionViewCart($deliveryid)
     {
         $cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$deliveryid])->all();
-
-        return $this->render('cart', ['deliveryid'=>$deliveryid, 'cartitems'=>$cartitems]);
+        $voucher = new Vouchers;
+        if (Yii::$app->request->post()) {
+            var_dump('aaaa');exit;
+        }
+        return $this->render('cart', ['deliveryid'=>$deliveryid, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
     }
 
 

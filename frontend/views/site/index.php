@@ -8,21 +8,20 @@ $this->title = 'hamsterEat';
 ?>
 
 <body>
-<div class="site-index">
+<!--<div class="site-index">-->
 
     
-        <div >
+       
 
         <div class="mySlides">
             <img src="SysImg/Img1-1200x400.jpg" >
         </div>
     
-         </div>
-
-        <div id="SSCrow2" class="container">
+      
+       <!--<div class="container"> -->
       <!--    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 " >
               -->
-        <div class="col-md-8 col-md-offset-2">  
+       <!-- <div class="col-md-8 col-md-offset-2">  -->
 		
             <div class="loginform">
         <h1>Select Your Location</h1>
@@ -31,15 +30,16 @@ $this->title = 'hamsterEat';
         <?php else :?>
         <?php $form = ActiveForm::begin(['action' =>['site/search-restaurant-by-area'],'id' => 'area']); ?>
         <?php endif ;?>
-        <?= $form->field($postcode, 'Area_Postcode')->textInput(['autofocus' => true])->label('Postcode') ?>
+        <?= $form->field($postcode, 'Area_Postcode')->textInput(['autofocus' => true, 'placeholder'=>'Your postcode'])->label(false) ?>
         <?php if( $postcode['detectArea'] == 1) :?>
         <?= $form->field($postcode, 'Area_Area')->dropDownList($list) ?>
         <?php endif ;?>
         <?= Html::submitButton('Proceed', ['class' => 'btn btn-primary', 'name' => 'proceed-button']) ?>
         </div>
-        </div>
         <!-- </div> -->
-        </div>
+        <!-- </div> -->
+		     <!-- </div> -->
+        
         
         <?php ActiveForm::end(); ?>
     </div>
@@ -76,4 +76,4 @@ $this->title = 'hamsterEat';
 
     </div>
     </div>
-</div>
+   <!-- </div> -->

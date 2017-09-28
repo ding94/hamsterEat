@@ -264,7 +264,7 @@ class SiteController extends Controller
     
             $userdetails = new Userdetails();
             $userdetails->User_id= Yii::$app->user->identity->id;
-          
+            $userdetails->User_Username= Yii::$app->user->identity->username;
             $useraddress = new Useraddress();
             $useraddress->User_id= Yii::$app->user->identity->id;
                  

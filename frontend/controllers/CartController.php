@@ -93,6 +93,10 @@ class CartController extends Controller
         $sql = "UPDATE orders SET Orders_SubTotal = ".$subtotal.", Orders_DeliveryCharge = ".$deliverycharge.", Orders_TotalPrice = ".$totalcharge." WHERE Delivery_ID = ".$cart['Delivery_ID']."";
         Yii::$app->db->createCommand($sql)->execute();
 
+        if (Yii::$app->request->post())
+        {
+            var_dump(Yii::$app->request->post());exit;
+        }
         return $this->redirect(['view-cart', 'deliveryid'=>$cart['Delivery_ID']]);
     }
 
@@ -103,7 +107,7 @@ class CartController extends Controller
         $cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
         $voucher = new Vouchers;
         if (Yii::$app->request->post()) {
-            var_dump('aaaa');exit;
+            var_dump(Yii::$app->request->post());exit;
         }
         return $this->render('cart', ['did'=>$did, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
     }

@@ -50,6 +50,13 @@ class OrderController extends \yii\web\Controller
         return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result]);
     }
 
+    public function actionDeliverymanOrders()
+    {
+        $dman = Orders::find()->where('Orders_DeliveryMan = :dman', [':dman'=>Yii::$app->user->identity->username])->all();
+
+        return $this->render('deliverymanorder', ['dman'=>$dman]);
+    }
+
     public function actionUpdatePreparing($oid, $rid)
     {
         $sql = "UPDATE orderitem SET OrderItem_Status = 'Preparing' WHERE Order_ID = ".$oid."";
@@ -87,4 +94,40 @@ class OrderController extends \yii\web\Controller
         return $this->redirect(['restaurant-orders', 'rid'=>$rid]);
     }
 
+    public function actionUpdatePickedup($oid, $did)
+    {
+        $sql = "UPDATE orderitem SET OrderItem_Status = 'Picked Up' WHERE Order_ID = ".$oid."";
+        Yii::$app->db->createCommand($sql)->execute();
+
+        $status = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
+        if ($status['Orders_Status'] == 'Preparing')
+        {
+            $sql1 = "UPDATE orders SET Orders_Status = 'Pick Up in Process' WHERE Delivery_ID = ".$did."";
+            Yii::$app->db->createCommand($sql1)->execute();
+            $time = time();
+            $sql3 = "UPDATE ordersstatuschange SET OChange_PickUpInProcessDateTime = ".$time." WHERE Delivery_ID = ".$did."";
+            Yii::$app->db->createCommand($sql3)->execute();
+        }
+
+        $time = time();
+        $sql2 = "UPDATE orderitemstatuschange SET Change_PickedUpDateTime = ".$time." WHERE Order_ID = ".$oid."";
+        Yii::$app->db->createCommand($sql2)->execute();
+
+        $result = "SELECT * FROM OrderItem WHERE Delivery_ID = ".$did."";
+        $results = Yii::$app->db->createCommand($result)->execute();
+
+        $result1 = "SELECT * FROM OrderItem WHERE Delivery_ID = ".$did." AND OrderItem_Status = 'Picked Up'";
+        $results1 = Yii::$app->db->createCommand($result1)->execute();
+        //var_dump($results1);exit;
+        if ($results == $results1)
+        {
+            $sql10 = "UPDATE orders SET Orders_Status = 'On The Way' WHERE Delivery_ID = ".$did."";
+            Yii::$app->db->createCommand($sql10)->execute();
+            $time1 = time();
+            $sql11 = "UPDATE ordersstatuschange SET OChange_OnTheWayDateTime = ".$time1." WHERE Delivery_ID = ".$did."";
+            Yii::$app->db->createCommand($sql11)->execute();
+        }
+
+        return $this->redirect(['deliveryman-orders']);
+    }
 }

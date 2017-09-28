@@ -96,7 +96,7 @@ AppAsset::register($this);
                        ['label' => 'Submit Ticket', 'url' => Url::to(['/ticket/submit-ticket'])],
                     ]],
                      ['label' => 'Delivery Man', 'options' => ['class' =>'active'],'items'=>[
-                        ['label' => 'Dailt Sign In' , 'url' => Url::to(['/Delivery/daily-sign-in/index'])],
+                        ['label' => 'Daily Sign In' , 'url' => Url::to(['/Delivery/daily-sign-in/index'])],
                         ]
                     ]
             ]]);     

@@ -95,6 +95,10 @@ AppAsset::register($this);
         ['label' => '<i class="fa fa-comments"></i> Customer Service', 'options' => ['class' => 'active'], 'items' => [
            ['label' => 'Submit Ticket', 'url' => Url::to(['ticket/submit-ticket'])],
         ]],
+         ['label' => 'Delivery Man', 'options' => ['class' =>'active'],'items'=>[
+                        ['label' => 'Daily Sign In' , 'url' => Url::to(['/Delivery/daily-sign-in/index'])],
+            ]
+        ]
 ]]);     
 ?>
 </div>

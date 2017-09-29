@@ -161,9 +161,12 @@ class CartController extends Controller
             date_default_timezone_set("Asia/Kuala_Lumpur");
             $setdate = date("Y-m-d");
             $settime = "13:00:00";
-             var_dump($checkout);exit;
+
             $this->actionAssignDeliveryMan($did);
-            // $payment = PaymentController::Payment($did,$checkout);
+            if ($checkout->Orders_PaymentMethod == 'Account Balance') {
+                // $payment = PaymentController::Payment($did,$checkout);
+            }
+            
 
             $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = ".$session['postcode'].", Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = ".$time.", Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = ".$did."";
             Yii::$app->db->createCommand($sql)->execute();

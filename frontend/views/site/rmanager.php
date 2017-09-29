@@ -7,8 +7,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Signup';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Restaurant Manager Signup';
 ?>
 <div class="site-signup">
   <div class="col-lg-6 col-lg-offset-3" style="text-align:center">

@@ -84,6 +84,7 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td><center><strong> Total (RM): </strong></td>";?>
+        <?php $form = ActiveForm::begin(); ?>
         <td align=right> <font id="total"><?php echo $did['Orders_TotalPrice']; ?></font></td>;<?php
       echo "</tr>";
       echo "<tr>";
@@ -94,9 +95,9 @@ $this->title = "My Cart";
         echo "<td> </td>";?>
         <td id ="extend"> </td>
         <td  id ="label" style="display: none"><strong> Discount Code: </strong></td>
-        <?php $form = ActiveForm::begin(); ?>
+
         <td><div > <input id ="input" style="display: none"></div></td>
-        <?php ActiveForm::end(); ?>
+
         <td style="display: none" id="apply"><div ><a onclick="discount()"><font color="blue">Apply</font></a></div></td>
         <td id ="hide2"><a onclick="showHidden()"><font color="blue">Have a coupon ? Click Me</font></a></td>
         
@@ -110,9 +111,14 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
-        echo "<td align="."right><strong>".Html::a('Checkout', ['checkout', 'did'=>$did], ['class'=>'btn btn-primary'])."</strong></td>";
+        //echo "<td align="."right><strong>".Html::a('Checkout', ['checkout', 'did'=>$did, 'total'=>$did['Orders_TotalPrice']], ['class'=>'btn btn-primary'])."</strong></td>";
+       // Html::hiddenInput("$did", 'Orders_Total');
+       ?>
+        <?= $form->field($did, 'Orders_TotalPrice')->hiddenInput()->label('') ?>
+       <?php
+        echo "<td align="."right>".Html::submitButton('Checkout', ['class' => 'btn btn-primary', 'name' => 'newrestaurant-button'])."</td>";    
       echo "</tr>";
-      ?>
+      ActiveForm::end(); ?>
     </table>
      
   </div>
@@ -195,6 +201,7 @@ $this->title = "My Cart";
       document.getElementById("apply").style.display ='none';
       document.getElementById("hide2").style.display ='none';
       document.getElementById("extend").style.display ='none';
+      document.getElementById("orders-orders_totalprice").value = obj['code'];
    },
    error: function (request, status, error) {
     //alert(request.responseText);

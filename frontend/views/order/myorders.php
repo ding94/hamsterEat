@@ -8,7 +8,7 @@ $this->title = "My Orders";
         <?php echo "<h1> My Orders </h1>";
         echo "<br>";
         echo "<br>";
-        echo "<table class= table table-user-info style= width:80%;>";
+        echo "<table class='table table-user-info orderTable' style='width:80%;'>";
             echo "<tr>";
                 echo "<th><center> Delivery ID </th>";
                 echo "<th><center> Current Status </th>";
@@ -17,7 +17,7 @@ $this->title = "My Orders";
             echo "</tr>";
         foreach ($orders as $orders) : 
 
-                echo "<tr>";
+                echo "<tr class='orderRow'>";
                     //echo "<a href=".yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]).">";
                     echo "<td><center><a href=".yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]).">".$orders['Delivery_ID']."</a></td>";
                     echo "<td><center><a href=".yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]).">".$orders['Orders_Status']."</a></td>";

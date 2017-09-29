@@ -12,8 +12,6 @@ use yii\helpers\ArrayHelper;
 use backend\models\Admin;
 
     $this->title = 'My Questions';
-    $this->params['breadcrumbs'][] = $this->title;
-    
 ?>
 <div class="container">
 <div class="site-contact">
@@ -80,7 +78,7 @@ use backend\models\Admin;
         <div style="padding-left: 35%"> <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'btn btn-primary']) ?></div>
     </div>
 
-
+</div>
 
 </div>
 </div>

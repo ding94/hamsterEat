@@ -54,7 +54,6 @@ AppAsset::register($this);
     } else {
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile']],
-					   ['label' => 'Cart', 'url' => ['/cart/view-cart']],
                         '<li class="divider"></li>',
                        ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']],
                     ]];

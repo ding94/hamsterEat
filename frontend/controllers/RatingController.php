@@ -26,7 +26,7 @@ Class RatingController extends Controller
 		$servicerating = new Servicerating;
 		$ratingLevel = ArrayHelper::map($label, 'id', 'labelName');
 
-
+		
 		return $this->render('index',['orderitem' => $orderitem , 'foodrating' => $foodrating ,'servicerating' => $servicerating ,'ratingLevel' => $ratingLevel, 'id' =>$id]);
 	}
 

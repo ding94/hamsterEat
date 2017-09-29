@@ -158,7 +158,7 @@ class FoodController extends Controller
 
          $this->layout = 'user';
          
-         return $this->render('menu',['menu'=>$menu]);
+         return $this->render('menu',['menu'=>$menu, 'rid'=>$rid]);
 
      }
 

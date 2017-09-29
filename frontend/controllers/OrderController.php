@@ -130,4 +130,16 @@ class OrderController extends \yii\web\Controller
 
         return $this->redirect(['deliveryman-orders']);
     }
+
+    public function actionUpdateCompleted($oid, $did)
+    {
+        $sql = "UPDATE orders SET Orders_Status = 'Completed' WHERE Delivery_ID = ".$did."";
+        Yii::$app->db->createCommand($sql)->execute();
+
+        $time = time();
+        $sql3 = "UPDATE ordersstatuschange SET OChange_CompletedDateTime = ".$time." WHERE Delivery_ID = ".$did."";
+        Yii::$app->db->createCommand($sql3)->execute();
+
+        return $this->redirect(['deliveryman-orders']);
+    }
 }

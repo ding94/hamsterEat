@@ -77,14 +77,13 @@ use yii\helpers\Html;
                             {
                                 echo "</tr>";
                             }
+                            else :
+                            {
+                                echo "<td><center>".Html::a('Completed', ['update-completed', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$dman['Delivery_ID']], ['class'=>'btn btn-primary'])."</td>";
+                                echo "</tr>";
+                            }
                             endif;
                     endforeach;
-                    if ($orderdetails['Orders_Status'] == 'On The Way') :
-                    {
-                    echo "<td rowspan = 3><center>".Html::a('Completed', ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$dman['Delivery_ID']], ['class'=>'btn btn-primary'])."</td>";
-                    echo "</tr>";
-                    }
-                    endif;
                 echo "</table>";
                 echo "<br>";
                 echo "<br>";

@@ -26,15 +26,15 @@ class WithdrawController extends \yii\web\Controller
 		
     		$model->load($post);
 			//var_dump($model->withdraw_amount > $balance->balance);exit;
-			if($model->withdraw_amount <= $balance->AB_topup -2)
+			if($model->withdraw_amount <= $balance->User_Balance -2)
 			{	
-				$balance ->AB_topup -= ($model->withdraw_amount+2);
+				$balance ->User_Balance -= ($model->withdraw_amount+2);
 				//var_dump($balance->save()); exit;
 				self::actionValidation($model,$balance);
 				Yii::$app->session->setFlash('success', 'Upload Successful');
 				return $this->redirect(['withdraw/index']);
 			}
-			elseif($model->withdraw_amount > $balance->AB_topup -2)
+			elseif($model->withdraw_amount > $balance->User_Balance -2)
 			{
 				Yii::$app->session->setFlash('error', 'Withdraw amount exceed balance!');
 			}

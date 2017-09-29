@@ -58,7 +58,7 @@ class WithdrawController extends \yii\web\Controller
 		
 		$balance =Accountbalance::find()->where('User_Username = :User_Username',[':User_Username'=>$username])->one();
 		$balance ->AB_minus += $model->withdraw_amount+2;
-		//$balance ->balance -= $model->withdraw_amount;
+		$balance ->User_Balance -= $model->withdraw_amount+2;
 		
 		return $balance;
 	}
@@ -97,8 +97,8 @@ class WithdrawController extends \yii\web\Controller
 		$username = User::find()->where('id = :id',[':id'=>$uid])->one()->username;
 		
 		$balance =Accountbalance::find()->where('User_Username = :User_Username',[':User_Username'=>$username])->one();
-		//$balance ->negative += $model->withdraw_amount;
-		$balance ->AB_topup += $model->withdraw_amount;
+		$balance ->AB_minus -= $model->withdraw_amount;
+		$balance ->User_Balance += $model->withdraw_amount;
 		
 		return $balance;
 	}

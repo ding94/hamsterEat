@@ -6,7 +6,7 @@ use common\models\Accountbalance;
 // use common\models\BankDetails;
 use common\models\User;
 use yii\data\ActiveDataProvider;
-use common\models\Accounttopupstatus;
+use common\models\AccounttopupStatus;
 use yii\helpers\ArrayHelper;
 use Yii;
 
@@ -18,7 +18,7 @@ class WithdrawController extends \yii\web\Controller
         $searchModel = new Withdraw();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,0);
 
-		$list = ArrayHelper::map(Accounttopupstatus::find()->all() ,'title' ,'title');
+		$list = ArrayHelper::map(AccounttopupStatus::find()->all() ,'title' ,'title');
 
         return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel, 'list'=>$list ]);
     }

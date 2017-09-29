@@ -121,7 +121,9 @@ class SiteController extends Controller
         $groupArea = Area::find()->where('Area_Postcode = :area_postcode and Area_Area = :area_area',[':area_postcode'=> $area['Area_Postcode'] , ':area_area'=>$area['Area_Area']])->one();
         $session = new Session;
         $session->open();
-        $session['postcode'] = $area['Area_Postcode'];
+        $pcode = Area::find()->where('Area_Area = :area', [':area'=>$area['Area_Area']])->one();
+        $pcode = $pcode['Area_Postcode'];
+        $session['postcode'] = $pcode;
         $session['area'] = $area['Area_Area'];
         //var_dump($session['postcode']);exit;
         $groupArea = $groupArea['Area_Group'];

@@ -59,7 +59,7 @@ class TopupController extends \yii\web\Controller
 		$balance =Accountbalance::find()->where('User_Username = :name',[':name'=>$uid])->one();
 		if(empty($balance)){
 			$balance = new Accountbalance();
-			$balance->User_Username = Yii::$app->user->identity->username;
+			$balance->User_Username = $uid;
 		}
 		//var_dump($uid);exit;
 		$balance ->AB_topup += $model->Account_TopUpAmount;

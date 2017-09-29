@@ -145,6 +145,8 @@ class FoodController extends Controller
                     $transaction->rollBack();
                 }
             }
+
+            $sql = "UPDATE restaurant SET Restaurant_Status = 'Operating' WHERE Restaurant_ID = ".$rid."";
         }
         $this->layout = 'user';
       

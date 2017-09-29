@@ -7,6 +7,7 @@ use common\models\Foodselection;
 use common\models\Foodtype;
 use common\models\Orders;
 use common\models\Orderitem;
+use common\models\Restaurant;
 use yii\helpers\Html;
 ?>
 
@@ -39,8 +40,8 @@ use yii\helpers\Html;
                     echo "</tr>";
                     echo "<tr>";
                         echo "<th><center> Order ID </th>";
-                        echo "<th><center> Food Name </th>";
-                        echo "<th><center> Selections </th>";
+                        echo "<th><center> Restaurant Name </th>";
+                        echo "<th><center> Restaurant Address </th>";
                         echo "<th><center> Quantity </th>";
                         echo "<th><center> Current Status </th>";
                         echo "<th><center> Update Status </th>";
@@ -52,16 +53,10 @@ use yii\helpers\Html;
                         echo "<tr>";
                             echo "<td><center>".$orderitemdetails['Order_ID']."</td>";
                             $foodname = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitemdetails['Food_ID']])->one();
-                            echo "<td><center>".$foodname['Food_Name']."</td>";
-                            $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$orderitemdetails['Order_ID']])->all();
-                            echo "<td><center>";
-                            foreach ($selections as $selections) :
-                                $selectionname = Foodselection::find()->where('Selection_ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
-                                $selectiontype = Foodtype::find()->where('FoodType_ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
-                                echo $selectiontype['Selection_Type'].': &nbsp;'.$selectionname['Selection_Name'];
-                                echo "<br>";
-                            endforeach;
-                            echo "</td>";
+                            $restname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$foodname['Restaurant_ID']])->one();
+                            echo "<td><center>".$restname['Restaurant_Name']."</td>";
+                            echo "<td><center>".$restname['Restaurant_UnitNo'].', '.$restname['Restaurant_Street'].', '.$restname['Restaurant_Area'].', '.$restname['Restaurant_Postcode'].'.'."</td>";
+
                             echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";
                             echo "<td><center>".$orderitemdetails['OrderItem_Status']."</td>";
                             if ($orderitemdetails['OrderItem_Status'] == 'Pending')
@@ -77,12 +72,8 @@ use yii\helpers\Html;
                                 echo "<td> Waiting for Pick Up </td>";
                             }
                         echo "</tr>";
+
                     endforeach;
-                    $count = count($orderitemdetails);
-                    if ($orderdetails['Orders_Status'] == 'On The Way')
-                    {
-                        echo "<td><center>".Html::a('Completed', ['update-completed', 'did'=>$orderdetails['Delivery_ID']], ['class'=>'btn btn-primary'])."</td>";
-                    }
                 echo "</table>";
                 echo "<br>";
                 echo "<br>";

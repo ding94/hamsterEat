@@ -1,7 +1,6 @@
 <?php
 use yii\helpers\Html;
  $this->title = 'My Profile';
-    $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="container">
@@ -11,7 +10,7 @@ use yii\helpers\Html;
              <tr>
             
             <td> 
-            <img class="img-rounded img-responsive" style="height:250px;" src=<?php 
+            <img class="img-rounded img-responsive"  src=<?php 
             $picpath = $user->userdetails->User_PicPath;
             if(is_null($user->userdetails->User_PicPath))
             { 

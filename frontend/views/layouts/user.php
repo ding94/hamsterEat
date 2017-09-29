@@ -51,7 +51,6 @@ AppAsset::register($this);
     } else {
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile']],
-					   ['label' => 'Cart', 'url' => ['/cart/view-cart']],
                         '<li class="divider"></li>',
                        ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']],
                     ]];
@@ -78,7 +77,7 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
-<div class="row">
+<div class="container1">
     <div class="sidenav col-md-3" >
         <div class="navbar-left">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">

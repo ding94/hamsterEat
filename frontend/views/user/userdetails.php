@@ -8,15 +8,15 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 $this->title = 'Enter details';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">
+  <div class="col-lg-6 col-lg-offset-1" style="text-align:center">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Please fill out the following fields to details:</p>
-
-    <div class="row">
-        <div class="col-lg-5">
+</div>
+    <div class="container">
+    <div class="col-lg-6 col-lg-offset-1">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
             
                 <?= $form->field($detail, 'User_PicPath')->fileInput()->label('Picture') ?>

@@ -105,7 +105,7 @@ Class AdminController extends CommonController
 		$item = $auth->getRole($role);
 		$item = $item ? : $auth->getPermission($role);
 		$auth->revoke($item,$id);
-
+		
 		$authorRole = $auth->getRole($role);
         if($auth->assign($authorRole, $id))
         {

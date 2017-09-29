@@ -11,10 +11,9 @@ use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
     $this->title = 'My Completed Questions';
-    $this->params['breadcrumbs'][] = $this->title;
     
 ?>
-
+<div class="container">
 <div class="site-contact">
     <div class="tableHeader">
         <ul>
@@ -75,4 +74,5 @@ use yii\helpers\ArrayHelper;
         </table>
         <div> <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'btn btn-primary']) ?></div>
     </div>
+</div>
 </div>

@@ -4,8 +4,8 @@ use yii\helpers\Html;
 ?>
 
 <div class="container">
-	<div class="tab-content col-md-7 col-md-offset-1" id="userprofile">
-		<table class="table table-user-information"><h1>User Profile</h1>
+	<div class="tab-content col-md-6 col-md-offset-3" id="userprofile">
+		<h1>User Profile</h1>
 
              <tr>
             
@@ -14,7 +14,7 @@ use yii\helpers\Html;
             $picpath = $user->userdetails->User_PicPath;
             if(is_null($user->userdetails->User_PicPath))
             { 
-              echo $picpath= "/hamstereat/frontend/web/imageLocation/Default.png";
+              echo $picpath= "/hamstereat/frontend/web/imageLocation/Default2.png";
            
               }
             else
@@ -23,6 +23,9 @@ use yii\helpers\Html;
             } ?>>
             </td>
             </tr>
+			  </div>
+			  <div class="col-lg-6 col-lg-offset-1">
+			<table class="table table-user-information" id="userdetails">
             <tr>
             <td>User Name:</td>
             <td> <?php echo $user->username;?></td>
@@ -58,5 +61,6 @@ use yii\helpers\Html;
                    
             </table>
             </div>
+			</div>
             </div>
         

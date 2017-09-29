@@ -11,11 +11,10 @@ use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use backend\models\Admin;
 
-    $this->title = 'My Questions';
-    $this->params['breadcrumbs'][] = $this->title;
-    
+    $this->title = 'My Questions';   
 ?>
 <html>
+<div class="container">
 <div class="site-contact">
     <div class="tableHeader">
         <ul>
@@ -77,4 +76,6 @@ use backend\models\Admin;
       <?php endif ?>
 
 </div>
+ </div>
+
 </html>

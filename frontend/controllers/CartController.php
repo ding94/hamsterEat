@@ -104,6 +104,29 @@ class CartController extends Controller
         $voucher = new Vouchers;
         if (Yii::$app->request->post()) 
         {
+            $data = Yii::$app->request->post();
+            $discountcode = $data['Orders']['Orders_TotalPrice'];
+
+            if ($discountcode != 'undefined')
+            {
+                $voucher = Vouchers::find()->where('code = :cd', [':cd'=>$discountcode])->one();
+
+                if ($voucher['discount_type'] == 5)
+                {
+                    $user = UserVoucher::find()->where('uid = :person and vid = :vid', [':person'=>Yii::$app->user->identity->id, ':vid'=>$voucher['id']])->one();
+
+                    if ($user['uid'] == Yii::$app->user->identity->id)
+                    {
+                        $totalprice = $cart['Orders_TotalPrice'];
+                        $discounttotal = $voucher['discount'];
+
+                        $totalprice = $totalprice - $discounttotal;
+                        $sql = "UPDATE orders SET Orders_TotalPrice = ".$totalprice.", Orders_DiscountVoucherAmount = ".$voucher['discount'].", Orders_DiscountTotalAmount = ".$discounttotal." WHERE Delivery_ID = ".$cart['Delivery_ID']."";
+                        Yii::$app->db->createCommand($sql)->execute();
+                    }
+                }
+            }
+
             return $this->redirect(['checkout', 'did'=>$did]);
         }
         return $this->render('cart', ['did'=>$did, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
@@ -160,7 +183,7 @@ class CartController extends Controller
             date_default_timezone_set("Asia/Kuala_Lumpur");
             $setdate = date("Y-m-d");
             $settime = "13:00:00";
-             var_dump($checkout);exit;
+             //var_dump($checkout);exit;
             $this->actionAssignDeliveryMan($did);
 
             $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = ".$session['postcode'].", Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = ".$time.", Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = ".$did."";

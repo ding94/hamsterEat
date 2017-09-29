@@ -59,21 +59,32 @@ use yii\helpers\Html;
 
                             echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";
                             echo "<td><center>".$orderitemdetails['OrderItem_Status']."</td>";
-                            if ($orderitemdetails['OrderItem_Status'] == 'Pending')
+                            if ($orderitemdetails['OrderItem_Status'] == 'Pending') :
                             {
-                                echo "<td><center>".Html::a('Preparing', ['update-preparing', 'oid'=>$orderitemdetails['Order_ID']], ['class'=>'btn btn-primary'])."</td>";
+                                echo "<td><center> Wait for Food to be Prepared </td>";
                             }
-                            elseif ($orderitemdetails['OrderItem_Status'] == 'Preparing')
+                            elseif ($orderitemdetails['OrderItem_Status'] == 'Preparing') :
                             {
-                                echo "<td><center>".Html::a('Ready for Pick Up', ['update-readyforpickup', 'oid'=>$orderitemdetails['Order_ID']], ['class'=>'btn btn-primary'])."</td>";
+                                echo "<td><center> Wait for Food to be Prepared </td>";
                             }
-                            elseif ($orderitemdetails['OrderItem_Status'] == 'Ready For Pick Up')
+                            elseif ($orderitemdetails['OrderItem_Status'] == 'Ready For Pick Up') :
                             {
-                                echo "<td> Waiting for Pick Up </td>";
+                                echo "<td><center>".Html::a('Picked Up', ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$dman['Delivery_ID']], ['class'=>'btn btn-primary'])."</td>";
                             }
-                        echo "</tr>";
+                            endif;
 
+                            if ($orderdetails['Orders_Status'] != 'On The Way') :
+                            {
+                                echo "</tr>";
+                            }
+                            endif;
                     endforeach;
+                    if ($orderdetails['Orders_Status'] == 'On The Way') :
+                    {
+                    echo "<td rowspan = 3><center>".Html::a('Completed', ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$dman['Delivery_ID']], ['class'=>'btn btn-primary'])."</td>";
+                    echo "</tr>";
+                    }
+                    endif;
                 echo "</table>";
                 echo "<br>";
                 echo "<br>";

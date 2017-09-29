@@ -52,7 +52,7 @@ class OrderController extends \yii\web\Controller
 
     public function actionDeliverymanOrders()
     {
-        $dman = Orders::find()->where('Orders_DeliveryMan = :dman', [':dman'=>Yii::$app->user->identity->username])->all();
+        $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status != :status', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed'])->all();
 
         return $this->render('deliverymanorder', ['dman'=>$dman]);
     }

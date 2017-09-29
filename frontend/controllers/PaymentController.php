@@ -21,7 +21,9 @@ class PaymentController extends \yii\web\Controller
                 $payment->original_price = $order->Orders_TotalPrice;
                 $payment->save();
                 $userbalance->AB_topup -= $order->Orders_TotalPrice; /* order price amount */
+                
                 $userbalance->save();
+
                 Yii::$app->session->setFlash('success', 'Payment Successful');
             } else {
                 Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');

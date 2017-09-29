@@ -11,12 +11,8 @@ use yii\helpers\Html;
 ?>
 
 <div class = "container">
-    <div>
-        <?php echo "<h1> Orders for ".$restaurantname['Restaurant_Name']."</h1>";
-        echo "<br>";
-        echo "<br>";
-
-            foreach ($result as $result) :
+    <div><?php
+            foreach ($dman as $dman) :
                 echo "<table class= table table-user-info style= width:80%;>";
                     echo "<tr>";
                         echo "<th><center> Delivery ID </th>";
@@ -27,7 +23,7 @@ use yii\helpers\Html;
                         echo "<th><center> Time Placed </th>";
                     echo "</tr>";
                     
-                    $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$result['Delivery_ID']])->one();
+                    $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$dman['Delivery_ID']])->one();
 
                     echo "<tr>";
                         echo "<td><center>".$orderdetails['Delivery_ID']."</td>";
@@ -70,11 +66,11 @@ use yii\helpers\Html;
                             echo "<td><center>".$orderitemdetails['OrderItem_Status']."</td>";
                             if ($orderitemdetails['OrderItem_Status'] == 'Pending')
                             {
-                                echo "<td><center>".Html::a('Preparing', ['update-preparing', 'oid'=>$orderitemdetails['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary'])."</td>";
+                                echo "<td><center>".Html::a('Preparing', ['update-preparing', 'oid'=>$orderitemdetails['Order_ID']], ['class'=>'btn btn-primary'])."</td>";
                             }
                             elseif ($orderitemdetails['OrderItem_Status'] == 'Preparing')
                             {
-                                echo "<td><center>".Html::a('Ready for Pick Up', ['update-readyforpickup', 'oid'=>$orderitemdetails['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary'])."</td>";
+                                echo "<td><center>".Html::a('Ready for Pick Up', ['update-readyforpickup', 'oid'=>$orderitemdetails['Order_ID']], ['class'=>'btn btn-primary'])."</td>";
                             }
                             elseif ($orderitemdetails['OrderItem_Status'] == 'Ready For Pick Up')
                             {
@@ -82,6 +78,11 @@ use yii\helpers\Html;
                             }
                         echo "</tr>";
                     endforeach;
+                    $count = count($orderitemdetails);
+                    if ($orderdetails['Orders_Status'] == 'On The Way')
+                    {
+                        echo "<td><center>".Html::a('Completed', ['update-completed', 'did'=>$orderdetails['Delivery_ID']], ['class'=>'btn btn-primary'])."</td>";
+                    }
                 echo "</table>";
                 echo "<br>";
                 echo "<br>";

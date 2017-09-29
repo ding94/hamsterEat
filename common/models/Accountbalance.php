@@ -30,6 +30,7 @@ class Accountbalance extends \yii\db\ActiveRecord
     {
         return [
             [['AB_topup', 'AB_minus', 'AB_DateTime'], 'integer'],
+            [['AB_topup', 'AB_minus','User Balance'],'number'],
             [['User_Username'], 'string', 'max' => 255],
         ];
     }

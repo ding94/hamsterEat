@@ -36,7 +36,7 @@ class DefaultController extends Controller
                  'rules' => [
                      [
                          'actions' => ['new-restaurant-location','new-restaurant-details','new-restaurant','edit-restaurant-details','edit-restaurant-area','edited-location-details','edit-restaurant-details2','manage-restaurant-staff','delete-restaurant-staff','add-staff','add-as-owner',
-                        'add-as-manager', 'add-as-operator'],
+                        'add-as-manager', 'add-as-operator','view-restaurant'],
                          'allow' => true,
                          'roles' => ['restaurant manager'],
  
@@ -341,5 +341,18 @@ class DefaultController extends Controller
     public function actionShowByFood()
     {
         
+    }
+      public function actionViewRestaurant()
+    {
+        
+        $uname = user::find()->where('username = :uname',[':uname' => Yii::$app->user->identity->username])->one();
+        $restaurant = restaurant::find()->where('Restaurant_Manager = :rmanager',[':rmanager' => $uname['username']])->all();
+     
+
+        
+       
+       
+         return $this->render('ViewRestaurant',['restaurant'=>$restaurant,'uname'=>$uname]);
+       
     }
 }

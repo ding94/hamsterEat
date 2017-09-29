@@ -94,7 +94,7 @@ AppAsset::register($this);
             ['label' => 'My Order'],
            
         ]],
-        ['label' =>'<i class="fa fa-money"></i> My account','icon' => '','options' => ['class' => 'active'], 'items' => [
+        ['label' =>'<i class="fa fa-money"></i> My Account','icon' => '','options' => ['class' => 'active'], 'items' => [
             ['label' => 'Top up', 'url' => Url::to(['topup/index'])],
             ['label' => 'Withdraw Money', 'url' => Url::to(['withdraw/index'])],
         ]],
@@ -108,7 +108,13 @@ AppAsset::register($this);
          ['label' => 'Delivery Man', 'options' => ['class' =>'active'],'items'=>[
                         ['label' => 'Daily Sign In' , 'url' => Url::to(['/Delivery/daily-sign-in/index'])],
             ]
-        ]
+        ],
+          ['label' => ' My Restaurant', 'options' => ['class' => 'active'], 'items' => [
+            ['label' => 'View Own Restaurant', 'url' => Url::to(['Restaurant/default/view-restaurant'])],
+            ['label' => 'Create New Restaurant', 'url' => Url::to(['Restaurant/default/new-restaurant-location'])],
+         
+           
+        ]],
 ]]);     
 ?>
 </div>

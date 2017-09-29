@@ -58,7 +58,7 @@ class UserController extends Controller
  
                    
 
-                    $model->load($post);
+                    //$model->load($post);
                     $model->User_PicPath =$path.'/'.$upload->imageFile->name;
                    
     		        //$model->save();

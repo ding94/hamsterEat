@@ -104,18 +104,19 @@ AppAsset::register($this);
         ['label' => '<i class="fa fa-comments"></i> Customer Service', 'options' => ['class' => 'active'], 'items' => [
            ['label' => 'Ticket', 'url' => Url::to(['ticket/index'])],
         ]],
-         ['label' => 'Delivery Man', 'options' => ['class' =>'active'],'items'=>[
+         ['label' => 'Delivery Man', 'options' => ['class' =>'active'],
+          'items'=>[
                         ['label' => 'Daily Sign In' , 'url' => Url::to(['/Delivery/daily-sign-in/index'])],
                         ['label' => 'Delivery Orders' , 'url' => Url::to(['/order/deliveryman-orders'])],
-            ]
-            'visible'=> Yii::$app->user->can('rider'), 
+                    ],
+             'visible'=> Yii::$app->user->can('rider'), 
         ],
           ['label' => ' My Restaurant', 'options' => ['class' => 'active'], 'items' => [
             ['label' => 'View Own Restaurant', 'url' => Url::to(['Restaurant/default/view-restaurant'])],
-            ['label' => 'Create New Restaurant', 'url' => Url::to(['Restaurant/default/new-restaurant-location'])]
+            ['label' => 'Create New Restaurant', 'url' => Url::to(['Restaurant/default/new-restaurant-location'])],
            ],
-           'visible'=> Yii::$app->user->can('restaurant manager'), 
-    ],
+             'visible'=> Yii::$app->user->can('restaurant manager'), 
+           ],
 ]]);     
 ?>
 </div>

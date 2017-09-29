@@ -113,10 +113,10 @@ class OrderController extends \yii\web\Controller
         $sql2 = "UPDATE orderitemstatuschange SET Change_PickedUpDateTime = ".$time." WHERE Order_ID = ".$oid."";
         Yii::$app->db->createCommand($sql2)->execute();
 
-        $result = "SELECT * FROM OrderItem WHERE Delivery_ID = ".$did."";
+        $result = "SELECT * FROM orderitem WHERE Delivery_ID = ".$did."";
         $results = Yii::$app->db->createCommand($result)->execute();
 
-        $result1 = "SELECT * FROM OrderItem WHERE Delivery_ID = ".$did." AND OrderItem_Status = 'Picked Up'";
+        $result1 = "SELECT * FROM orderitem WHERE Delivery_ID = ".$did." AND OrderItem_Status = 'Picked Up'";
         $results1 = Yii::$app->db->createCommand($result1)->execute();
         //var_dump($results1);exit;
         if ($results == $results1)

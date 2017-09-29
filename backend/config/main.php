@@ -70,7 +70,7 @@ return [
 
         'urlManagerFrontEnd'=>[
             'class' => 'yii\web\urlManager',
-            'baseUrl' => '/hamsterEat/frontend/web',
+            'baseUrl' => '/hasmterEat/frontend/web',
         ],
 
         'urlManagerBackEnd'=>[

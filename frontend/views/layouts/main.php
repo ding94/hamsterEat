@@ -43,7 +43,6 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
-        ['label' => 'Cart', 'url' => ['/cart/view-cart']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/ruser']];
@@ -51,6 +50,7 @@ AppAsset::register($this);
     } else {
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile']],
+					   ['label' => 'Cart', 'url' => ['/cart/view-cart']],
                         '<li class="divider"></li>',
                        ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']],
                     ]];

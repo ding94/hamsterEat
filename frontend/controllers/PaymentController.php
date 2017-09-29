@@ -20,7 +20,7 @@ class PaymentController extends \yii\web\Controller
                 $payment->item = $did;
                 $payment->original_price = $order->Orders_TotalPrice;
                 $payment->save();
-                $userbalance->AB_topup -= $order->Orders_TotalPrice; /* order price amount */
+                $userbalance->User_Balance -= $order->Orders_TotalPrice; /* order price amount */
                 $userbalance->save();
                 Yii::$app->session->setFlash('success', 'Payment Successful');
             } else {

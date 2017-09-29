@@ -168,6 +168,7 @@ class CartController extends Controller
         $myemail = $myemail['email'];
         $fullname = $mycontact['User_FirstName'].' '.$mycontact['User_LastName'];
         //var_dump($fullname);exit;
+        $order = Orders::find()->where('Delivery_ID = :Delivery_ID',[':Delivery_ID' => $did])->one();
         $checkout = new Orders;
         $session = Yii::$app->session;
 
@@ -187,9 +188,8 @@ class CartController extends Controller
 
             $this->actionAssignDeliveryMan($did);
             if ($checkout->Orders_PaymentMethod == 'Account Balance') {
-                // $payment = PaymentController::Payment($did,$checkout);
+                $payment = PaymentController::Payment($did,$order);
             }
-            
 
             $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = ".$session['postcode'].", Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = ".$time.", Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = ".$did."";
             Yii::$app->db->createCommand($sql)->execute();

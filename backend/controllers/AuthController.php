@@ -82,23 +82,16 @@ Class AuthController extends Controller
 
 	public function actionRemoveRole($id)
 	{
-		$data= Yii::$app->request->post('AdminAuthItemChild');
-		if(is_null($data))
+		$data= Yii::$app->request->post('AuthItemChild');
+
+		$data = self::detectEmptyNull($data);
+
+		if($data == 1)
 		{
-			Yii::$app->session->setFlash('warning', "Please Select One");
 			return $this->redirect(['view' ,'id' => $id]);
 		}
-		$allchild ="";
-		$data = array_filter($data['child']);
 
-		foreach($data as $k=>$row)
-		{
-			foreach($row as $value)
-			{
-				$allchild[] = $value;
-			}
-		}
-		$result = $this->modifyRole($id,$allchild,2);
+		$result = $this->modifyRole($id,$data,2);
 		if($result == true)
 		{
 			Yii::$app->session->setFlash('success', "Delete Completed");
@@ -113,25 +106,16 @@ Class AuthController extends Controller
 
 	public function actionAddRole($id)
 	{
-		$data= Yii::$app->request->post('AdminAuthItemChild');
-		if(is_null($data))
+		$data= Yii::$app->request->post('AuthItemChild');
+
+		$data = self::detectEmptyNull($data);
+
+		if($data == 1)
 		{
-			Yii::$app->session->setFlash('warning', "Please Select One");
 			return $this->redirect(['view' ,'id' => $id]);
 		}
-		$allchild ="";
-		$data = array_filter($data['child']);
 		
-		foreach($data as $k=>$row)
-		{
-			foreach($row as $value)
-			{
-				$allchild[] = $value;
-			}
-		}
-		
-	
-		$result = $this->modifyRole($id,$allchild,1);
+		$result = $this->modifyRole($id,$data,1);
 		
 		if($result == true)
 		{
@@ -143,6 +127,35 @@ Class AuthController extends Controller
 		}
 		
 	    return $this->redirect(['view' ,'id' => $id]);
+	}
+
+	protected static function detectEmptyNull($item)
+	{
+		if(empty($item))
+		{
+			Yii::$app->session->setFlash('warning', "Please Select One");
+			return 1;
+		}
+		
+		$data = array_filter($item['child']);	
+
+		if(empty($data))
+		{
+			Yii::$app->session->setFlash('warning', "Please Select One");
+			return 1;
+		}
+
+		$allchild ="";
+
+		foreach($data as $k=>$row)
+		{
+			foreach($row as $value)
+			{
+				$allchild[] = $value;
+			}
+		}
+
+		return $allchild;
 	}
 
 	protected function modifyRole($id,$childData,$type)

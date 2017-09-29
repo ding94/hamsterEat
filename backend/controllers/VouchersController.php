@@ -42,8 +42,7 @@ class VouchersController extends Controller
 	    	 		Yii::$app->session->setFlash('error', "No Voucher/Record was selected!");
 	    	 	}
        		}
-       		
-       		
+       		//return $this->redirect(Yii::$app->request->urlReferrer());
        	}
         return $this->render('index',['model'=>$dataProvider, 'searchModel'=>$searchModel]);
 	}
@@ -53,6 +52,7 @@ class VouchersController extends Controller
 		$searchModel = new Vouchers();
        	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$page);
        	return $this->render('index',['model'=>$dataProvider, 'searchModel'=>$searchModel]);
+
 	}	
 
 	public function actionAdd()

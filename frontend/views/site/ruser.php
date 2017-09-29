@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-lg-4" style="text-align:center">
 			<span class="fa-stack fa-4x">
                         <i class="fa fa-circle fa-stack-2x text-primary" style="color:orange;"></i>
-                         <i class="fa fa-user fa-stack-1x fa-inverse"></i>
+                         <i class="fa fa-address-card-o fa-stack-1x fa-inverse"></i>
                     </span>
                     <h4 class="service-heading">Restaurant Manager</h4> 
                 <p><a class="btn btn-default" href="../web/index.php?r=site%2Frmanager">Sign Up &raquo;</a></p>

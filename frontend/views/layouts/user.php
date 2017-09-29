@@ -43,11 +43,11 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
-        ['label' => 'Cart', 'url' => ['/cart/view-cart']],
+        ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Cart', 'url' => ['/cart/view-cart']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span> Signup', 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> Login', 'url' => ['/site/login']];
     } else {
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile']],
@@ -70,6 +70,7 @@ AppAsset::register($this);
      
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
+        'encodeLabels' => false,
         'items' => $menuItems,
         
     ]);

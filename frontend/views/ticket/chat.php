@@ -12,10 +12,10 @@ use yii\helpers\ArrayHelper;
 use backend\models\Admin;
 
     $this->title = 'My Questions';
-    $this->params['breadcrumbs'][] = $this->title;
     
 ?>
 <html>
+</div>
 <div class="site-contact">
     <div class="tableHeader">
         <ul>

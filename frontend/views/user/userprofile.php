@@ -1,7 +1,6 @@
 <?php
 use yii\helpers\Html;
  $this->title = 'My Profile';
-    $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="container">

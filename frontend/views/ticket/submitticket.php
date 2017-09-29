@@ -9,8 +9,8 @@ use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
 $this->title = 'Submit Ticket';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
+<div class="container">
 <div class="site-contact">
     <div class="tableHeader">
         <ul>
@@ -50,4 +50,5 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
+</div>
 </div>

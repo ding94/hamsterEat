@@ -52,7 +52,7 @@ class OrderController extends \yii\web\Controller
 
     public function actionDeliverymanOrders()
     {
-        $dman = Orders::find()->where('Orders_DeliveryMan = :dman', [':dman'=>Yii::$app->user->identity->username])->all();
+        $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status != :status', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed'])->all();
 
         return $this->render('deliverymanorder', ['dman'=>$dman]);
     }
@@ -113,10 +113,10 @@ class OrderController extends \yii\web\Controller
         $sql2 = "UPDATE orderitemstatuschange SET Change_PickedUpDateTime = ".$time." WHERE Order_ID = ".$oid."";
         Yii::$app->db->createCommand($sql2)->execute();
 
-        $result = "SELECT * FROM OrderItem WHERE Delivery_ID = ".$did."";
+        $result = "SELECT * FROM orderitem WHERE Delivery_ID = ".$did."";
         $results = Yii::$app->db->createCommand($result)->execute();
 
-        $result1 = "SELECT * FROM OrderItem WHERE Delivery_ID = ".$did." AND OrderItem_Status = 'Picked Up'";
+        $result1 = "SELECT * FROM orderitem WHERE Delivery_ID = ".$did." AND OrderItem_Status = 'Picked Up'";
         $results1 = Yii::$app->db->createCommand($result1)->execute();
         //var_dump($results1);exit;
         if ($results == $results1)
@@ -127,6 +127,18 @@ class OrderController extends \yii\web\Controller
             $sql11 = "UPDATE ordersstatuschange SET OChange_OnTheWayDateTime = ".$time1." WHERE Delivery_ID = ".$did."";
             Yii::$app->db->createCommand($sql11)->execute();
         }
+
+        return $this->redirect(['deliveryman-orders']);
+    }
+
+    public function actionUpdateCompleted($oid, $did)
+    {
+        $sql = "UPDATE orders SET Orders_Status = 'Completed' WHERE Delivery_ID = ".$did."";
+        Yii::$app->db->createCommand($sql)->execute();
+
+        $time = time();
+        $sql3 = "UPDATE ordersstatuschange SET OChange_CompletedDateTime = ".$time." WHERE Delivery_ID = ".$did."";
+        Yii::$app->db->createCommand($sql3)->execute();
 
         return $this->redirect(['deliveryman-orders']);
     }

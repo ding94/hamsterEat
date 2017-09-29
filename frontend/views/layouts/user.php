@@ -90,10 +90,10 @@ AppAsset::register($this);
     'options' => ['class' => 'in'],
     'items' => [
         ['label' => '<i class="glyphicon glyphicon-list-alt"></i> My Order', 'options' => ['class' => 'active'], 'items' => [
-            ['label' => 'My Order'],
+            ['label' => 'My Order','url' => Url::to(['order/my-orders'])],
            
         ]],
-        ['label' =>'<i class="fa fa-money"></i> My account','icon' => '','options' => ['class' => 'active'], 'items' => [
+        ['label' =>'<i class="fa fa-money"></i> My Account','icon' => '','options' => ['class' => 'active'], 'items' => [
             ['label' => 'Top up', 'url' => Url::to(['topup/index'])],
             ['label' => 'Withdraw Money', 'url' => Url::to(['withdraw/index'])],
         ]],
@@ -104,10 +104,19 @@ AppAsset::register($this);
         ['label' => '<i class="fa fa-comments"></i> Customer Service', 'options' => ['class' => 'active'], 'items' => [
            ['label' => 'Ticket', 'url' => Url::to(['ticket/index'])],
         ]],
-         ['label' => 'Delivery Man', 'options' => ['class' =>'active'],'items'=>[
+         ['label' => 'Delivery Man', 'options' => ['class' =>'active'],
+          'items'=>[
                         ['label' => 'Daily Sign In' , 'url' => Url::to(['/Delivery/daily-sign-in/index'])],
-            ]
-        ]
+                        ['label' => 'Delivery Orders' , 'url' => Url::to(['/order/deliveryman-orders'])],
+                    ],
+             'visible'=> Yii::$app->user->can('rider'), 
+        ],
+          ['label' => ' My Restaurant', 'options' => ['class' => 'active'], 'items' => [
+            ['label' => 'View Own Restaurant', 'url' => Url::to(['Restaurant/default/view-restaurant'])],
+            ['label' => 'Create New Restaurant', 'url' => Url::to(['Restaurant/default/new-restaurant-location'])],
+           ],
+             'visible'=> Yii::$app->user->can('restaurant manager'), 
+           ],
 ]]);     
 ?>
 </div>

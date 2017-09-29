@@ -1,0 +1,92 @@
+[29-Sep-2017 06:23:00 UTC] PHP Fatal error:  Class 'common\models\User\Userdetails' not found in /home/alishopm/public_html/hasmterEat/frontend/controllers/SiteController.php on line 265
+[29-Sep-2017 06:56:42 UTC] PHP Fatal error:  Call to undefined method Yii::app() in /home/alishopm/public_html/hasmterEat/frontend/views/layouts/user.php on line 111
+[29-Sep-2017 06:56:48 UTC] PHP Parse error:  syntax error, unexpected '->' (T_OBJECT_OPERATOR), expecting ']' in /home/alishopm/public_html/hasmterEat/frontend/views/layouts/user.php on line 111
+[29-Sep-2017 06:59:08 UTC] PHP Parse error:  syntax error, unexpected '->' (T_OBJECT_OPERATOR), expecting ']' in /home/alishopm/public_html/hasmterEat/frontend/views/layouts/user.php on line 108
+[29-Sep-2017 07:01:11 UTC] An Error occurred while handling another error:
+exception 'ReflectionException' with message 'Method yii\web\User::checkAccess() does not exist' in /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/web/ErrorHandler.php:195
+Stack trace:
+#0 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/web/ErrorHandler.php(195): ReflectionMethod->__construct('yii\\web\\User', 'checkAccess')
+#1 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/views/errorHandler/callStackItem.php(26): yii\web\ErrorHandler->addTypeLinks('yii\\web\\User::c...')
+#2 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/base/View.php(330): require('/home/alishopm/...')
+#3 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/base/View.php(250): yii\base\View->renderPhpFile('/home/alishopm/...', Array)
+#4 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/web/ErrorHandler.php(249): yii\base\View->renderFile('@yii/views/erro...', Array, Object(yii\web\ErrorHandler))
+#5 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/web/ErrorHandler.php(304): yii\web\ErrorHandler->renderFile('@yii/views/erro...', Array)
+#6 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/web/ErrorHandler.php(326): yii\web\ErrorHandler->renderCallStackItem('/home/alishopm/...', 112, 'yii\\web\\User', 'checkAccess', Array, 3)
+#7 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/views/errorHandler/exception.php(381): yii\web\ErrorHandler->renderCallStack(Object(yii\base\UnknownMethodException))
+#8 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/base/View.php(330): require('/home/alishopm/...')
+#9 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/base/View.php(250): yii\base\View->renderPhpFile('/home/alishopm/...', Array)
+#10 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/web/ErrorHandler.php(249): yii\base\View->renderFile('@yii/views/erro...', Array, Object(yii\web\ErrorHandler))
+#11 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/web/ErrorHandler.php(116): yii\web\ErrorHandler->renderFile('@yii/views/erro...', Array)
+#12 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/base/ErrorHandler.php(111): yii\web\ErrorHandler->renderException(Object(yii\base\UnknownMethodException))
+#13 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\base\UnknownMethodException))
+#14 {main}
+Previous exception:
+exception 'yii\base\UnknownMethodException' with message 'Calling unknown method: yii\web\User::checkAccess()' in /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/base/Component.php:290
+Stack trace:
+#0 /home/alishopm/public_html/hasmterEat/frontend/views/layouts/user.php(112): yii\base\Component->__call('checkAccess', Array)
+#1 /home/alishopm/public_html/hasmterEat/frontend/views/layouts/user.php(112): yii\web\User->checkAccess('rider')
+#2 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/base/View.php(330): require('/home/alishopm/...')
+#3 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/base/View.php(250): yii\base\View->renderPhpFile('/home/alishopm/...', Array)
+#4 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/base/Controller.php(396): yii\base\View->renderFile('/home/alishopm/...', Array, Object(frontend\controllers\TicketController))
+#5 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/base/Controller.php(382): yii\base\Controller->renderContent('<div class="sit...')
+#6 /home/alishopm/public_html/hasmterEat/frontend/controllers/TicketController.php(58): yii\base\Controller->render('submitticket', Array)
+#7 [internal function]: frontend\controllers\TicketController->actionSubmitTicket()
+#8 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('submit-ticket', Array)
+#11 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('ticket/submit-t...', Array)
+#12 /home/alishopm/public_html/hasmterEat/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /home/alishopm/public_html/hasmterEat/frontend/web/index.php(17): yii\base\Application->run()
+#14 {main}
+$_SERVER = [
+    'CONTEXT_DOCUMENT_ROOT' => '/home/alishopm/public_html',
+    'CONTEXT_PREFIX' => '',
+    'DOCUMENT_ROOT' => '/home/alishopm/public_html',
+    'GATEWAY_INTERFACE' => 'CGI/1.1',
+    'H2PUSH' => 'on',
+    'H2_PUSH' => 'on',
+    'H2_PUSHED' => '',
+    'H2_PUSHED_ON' => '',
+    'H2_STREAM_ID' => '1',
+    'H2_STREAM_TAG' => '459-1',
+    'HTTP2' => 'on',
+    'HTTPS' => 'on',
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br',
+    'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.8',
+    'HTTP_CACHE_CONTROL' => 'max-age=0',
+    'HTTP_COOKIE' => 'roundcube_cookies=enabled; session_locale=en; timezone=Asia/Shanghai; cpsession=alishopm%3ajO7vjpLaQB7u6_SJ%2c26b622f27a2d4f9986ca3600cd22924f; _csrf-frontend=1f7cb4648dbd1b01029b30f3755a8e0ae8c65ba9fb23bd0512402605d607f236a%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22%7B%CE%40%2C%DD%AC%08%9D%87+%8D%DD%1A%BC%28%2B%1B%0F4%EEa%BA%7D%21%9F%C7V%9AjF%B9%A6%22%3B%7D; advanced-frontend=d1cckgffrjpq3kv1vf1a7o7ke1; _csrf-backend=b1d007e8a0d1c767db42e07f75338a8678e743bade7a22011c32b891564582fca%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%221%B6n%E8%8F4%C8AQ%27%BEL%5D9%19h%11%AA%B1%8D%A2%8D%85%40%05%2Cw%D0%3E%C0a%98%22%3B%7D; advanced-backend=a6rjspqdtl2nrf0b3glcag2hk0',
+    'HTTP_HOST' => 'www.alishop.my',
+    'HTTP_REFERER' => 'https://www.alishop.my/hasmterEat/frontend/web/index.php?r=ticket%2Findex',
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1',
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
+    'HTTP_X_HTTPS' => '1',
+    'PATH' => '/bin:/usr/bin',
+    'QUERY_STRING' => 'r=ticket%2Fsubmit-ticket',
+    'REDIRECT_STATUS' => '200',
+    'REMOTE_ADDR' => '115.134.96.1',
+    'REMOTE_PORT' => '61219',
+    'REQUEST_METHOD' => 'GET',
+    'REQUEST_SCHEME' => 'https',
+    'REQUEST_URI' => '/hasmterEat/frontend/web/index.php?r=ticket%2Fsubmit-ticket',
+    'SCRIPT_FILENAME' => '/home/alishopm/public_html/hasmterEat/frontend/web/index.php',
+    'SCRIPT_NAME' => '/hasmterEat/frontend/web/index.php',
+    'SCRIPT_URI' => 'https://www.alishop.my/hasmterEat/frontend/web/index.php',
+    'SCRIPT_URL' => '/hasmterEat/frontend/web/index.php',
+    'SERVER_ADDR' => '103.6.198.180',
+    'SERVER_ADMIN' => 'webmaster@alishop.my',
+    'SERVER_NAME' => 'www.alishop.my',
+    'SERVER_PORT' => '443',
+    'SERVER_PROTOCOL' => 'HTTP/2.0',
+    'SERVER_SIGNATURE' => '',
+    'SERVER_SOFTWARE' => 'Apache',
+    'SSL_TLS_SNI' => 'www.alishop.my',
+    'UNIQUE_ID' => 'Wc3vtvB2M92qWKY0YE-LBQAAAAE',
+    'PHP_SELF' => '/hasmterEat/frontend/web/index.php',
+    'REQUEST_TIME_FLOAT' => 1506668471.0062129497528076171875,
+    'REQUEST_TIME' => 1506668471,
+    'argv' => [
+        'r=ticket%2Fsubmit-ticket',
+    ],
+    'argc' => 1,
+]

@@ -7,7 +7,7 @@ use yii\helpers\Html;
 		<h1>My Menu</h1>
             <?php
             {
-
+                 echo "<center>".Html::a('Insert Food', ['/food/insert-food','rid'=>$rid], ['class'=>'btn btn-primary']);
                
                     echo "<table class = 'table table-striped table-bordered table-list'>";
                  echo "<tr>";
@@ -29,8 +29,12 @@ use yii\helpers\Html;
                 echo "<center>".Html::a('', ['delete','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID']], ['class'=>'btn btn-danger fa fa-trash']);
                 echo'</td></tr>';
                 echo "</tr>";
+                
             }
+                 
                 echo "</table>";
+                
+                
             }
                    ?>
                 

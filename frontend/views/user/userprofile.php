@@ -11,6 +11,7 @@ use yii\helpers\Html;
             
             <td> 
             <img class="img-rounded img-responsive" src=<?php 
+            
             $picpath = $user->userdetails->User_PicPath;
             if(is_null($user->userdetails->User_PicPath))
             { 

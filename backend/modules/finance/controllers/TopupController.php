@@ -57,8 +57,13 @@ class TopupController extends \yii\web\Controller
 		$uid = User::find()->where('username = :name',[':name'=>$model->User_Username])->one()->username;
 		
 		$balance =Accountbalance::find()->where('User_Username = :name',[':name'=>$uid])->one();
+		if(empty($balance)){
+			$balance = new Accountbalance();
+			$balance->User_Username = $uid;
+		}
 		//var_dump($uid);exit;
 		$balance ->AB_topup += $model->Account_TopUpAmount;
+		$balance ->User_Balance += $model->Account_TopUpAmount;
 
 		return $balance;
 	}
@@ -168,6 +173,7 @@ class TopupController extends \yii\web\Controller
 		$uid = User::find()->where('username = :name',[':name'=>$model->User_Username])->one()->username;
 		$balance =Accountbalance::find()->where('User_Username = :name',[':name'=>$uid])->one();
 		$balance ->AB_topup -= $model->Account_TopUpAmount;
+		$balance ->User_Balance -= $model->Account_TopUpAmount;
 		
 		return $balance;
 	}

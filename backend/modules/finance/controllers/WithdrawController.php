@@ -6,7 +6,7 @@ use common\models\Accountbalance;
 // use common\models\BankDetails;
 use common\models\User;
 use yii\data\ActiveDataProvider;
-use common\models\Accounttopupstatus;
+use common\models\AccounttopupStatus;
 use yii\helpers\ArrayHelper;
 use Yii;
 
@@ -18,7 +18,7 @@ class WithdrawController extends \yii\web\Controller
         $searchModel = new Withdraw();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,0);
 
-		$list = ArrayHelper::map(Accounttopupstatus::find()->all() ,'title' ,'title');
+		$list = ArrayHelper::map(AccounttopupStatus::find()->all() ,'title' ,'title');
 
         return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel, 'list'=>$list ]);
     }
@@ -58,7 +58,7 @@ class WithdrawController extends \yii\web\Controller
 		
 		$balance =Accountbalance::find()->where('User_Username = :User_Username',[':User_Username'=>$username])->one();
 		$balance ->AB_minus += $model->withdraw_amount+2;
-		//$balance ->balance -= $model->withdraw_amount;
+		$balance ->User_Balance -= $model->withdraw_amount+2;
 		
 		return $balance;
 	}
@@ -97,8 +97,8 @@ class WithdrawController extends \yii\web\Controller
 		$username = User::find()->where('id = :id',[':id'=>$uid])->one()->username;
 		
 		$balance =Accountbalance::find()->where('User_Username = :User_Username',[':User_Username'=>$username])->one();
-		//$balance ->negative += $model->withdraw_amount;
-		$balance ->AB_topup += $model->withdraw_amount;
+		$balance ->AB_minus -= $model->withdraw_amount;
+		$balance ->User_Balance += $model->withdraw_amount;
 		
 		return $balance;
 	}

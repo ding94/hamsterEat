@@ -128,4 +128,9 @@ class ValidController extends Controller
 				break;
 		}
 	}
+
+	public static function dateValidCheck($post,$case)
+	{
+		var_dump('expression');exit;
+	}
 }

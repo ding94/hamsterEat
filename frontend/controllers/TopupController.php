@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 use frontend\models\Accounttopup;
+use common\models\Bank;
 use common\models\User;
 use common\models\Upload;
 use yii\helpers\ArrayHelper;
@@ -14,6 +15,8 @@ class TopupController extends \yii\web\Controller
     {
     	$model = new Accounttopup;
     	$upload = new Upload;
+        $bank = ArrayHelper::map(Bank::find()->all(),'Bank_Name','Bank_AccNo');
+        
         $upload->scenario = 'ticket';
     	$path = Yii::$app->params['imageLocation'];
 		// $items = ArrayHelper::map(BankDetails::find()->all(), 'bank_name', 'bank_name');
@@ -36,8 +39,8 @@ class TopupController extends \yii\web\Controller
     	}
 		//$model->amount ="";
 		//$model->description ="";
-		//$this->layout = 'user';
-		    	return $this->render('index' ,['model' => $model ,'upload' => $upload]);
+		$this->layout = 'user';
+		    	return $this->render('index' ,['model' => $model ,'upload' => $upload ,'bank' => $bank]);
 		//Yii::app()->end();
     }
 	

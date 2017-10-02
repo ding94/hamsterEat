@@ -77,11 +77,12 @@ class UservoucherController extends Controller
 		$voucher->usedTimes = 0;
 		$voucher->inCharge = Yii::$app->user->identity->adminname;
 		$voucher->startDate = time();
-		$voucher->endDate = time($model->endDate);
+		$voucher->endDate = strtotime($model->endDate);
+
 		$valid = ValidController::SaveValidCheck($voucher,2);
 		if ($valid == true) {
 			$model->scenario = 'save';
-			$model->endDate = time($model->endDate);
+			$model->endDate = strtotime($model->endDate);
 			$model->vid =$voucher->id;
 			$valid = ValidController::SaveValidCheck($model,2);
 			if ($valid == true) {
@@ -95,14 +96,14 @@ class UservoucherController extends Controller
 	{
 		$voucher = Vouchers::find()->where('code = :c', [':c'=>$model->code])->one();
 		$voucher->discount_type = $voucher->discount_type + 1;
-		$voucher->endDate = time($model->endDate);
+		$voucher->endDate = strtotime($model->endDate);
 		$valid = ValidController::SaveValidCheck($voucher,2);
 		if ($valid ==true)
 		{
 			$model->scenario = 'save';
 			$model->uid = $id;
 			$model->vid =$voucher->id;
-			$model->endDate = time($model->endDate);
+			$model->endDate = strtotime($model->endDate);
 			$valid = ValidController::SaveValidCheck($model,2);
 			if ($valid == true) 
 			{

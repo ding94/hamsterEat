@@ -75,9 +75,12 @@ Class RatingController extends Controller
 					Yii::$app->session->setFlash('warning', "You Already take part in");
 					return true;
 					break;
-				
-				default:
+				case 'Completed':
 					return false;
+					break;
+				default:
+					Yii::$app->session->setFlash('warning', "Food is In Process");
+					return true;
 					break;
 			}
 		}

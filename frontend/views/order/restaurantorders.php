@@ -24,7 +24,8 @@ use yii\helpers\Html;
                         echo "<th><center> Date to be Received </th>";
                         echo "<th><center> Time to be Received </th>";
                         echo "<th><center> Current Status </th>";
-                        echo "<th><center> Time Placed </th>";
+                        echo "<th colspan = 2><center> Time Placed </th>";
+                        echo "<th><center> </th>";
                     echo "</tr>";
                     
                     $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$result['Delivery_ID']])->one();
@@ -37,7 +38,7 @@ use yii\helpers\Html;
                         echo "<td><center>".$orderdetails['Orders_Status']."</td>";
                         date_default_timezone_set("Asia/Kuala_Lumpur");
                         $timeplaced = date('d/m/Y H:i:s', $orderdetails['Orders_DateTimeMade']);
-                        echo "<td><center> $timeplaced </td>";
+                        echo "<td colspan = 2><center> $timeplaced </td>";
                         echo "<td><center> </td>";
 
                     echo "</tr>";
@@ -46,6 +47,7 @@ use yii\helpers\Html;
                         echo "<th><center> Food Name </th>";
                         echo "<th><center> Selections </th>";
                         echo "<th><center> Quantity </th>";
+                        echo "<th><center> Remarks </th>";
                         echo "<th><center> Current Status </th>";
                         echo "<th><center> Update Status </th>";
                     echo "</tr>";
@@ -62,11 +64,15 @@ use yii\helpers\Html;
                             foreach ($selections as $selections) :
                                 $selectionname = Foodselection::find()->where('Selection_ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
                                 $selectiontype = Foodtype::find()->where('FoodType_ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
-                                echo $selectiontype['Selection_Type'].': &nbsp;'.$selectionname['Selection_Name'];
-                                echo "<br>";
+                                if (!is_null($selectionname['Selection_ID']))
+                                {
+                                    echo $selectiontype['Selection_Type'].': &nbsp;'.$selectionname['Selection_Name'];
+                                    echo "<br>";
+                                }
                             endforeach;
                             echo "</td>";
                             echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";
+                            echo "<td><center>".$orderitemdetails['OrderItem_Remark']."</td>";
                             echo "<td><center>".$orderitemdetails['OrderItem_Status']."</td>";
                             if ($orderitemdetails['OrderItem_Status'] == 'Pending')
                             {

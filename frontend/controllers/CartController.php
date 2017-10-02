@@ -20,7 +20,7 @@ use yii\helpers\Json;
 
 class CartController extends Controller
 {
-    public function actionAddtoCart($Food_ID,$quantity,$finalselected)
+    public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks)
     {
         $session = Yii::$app->session;
         $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
@@ -46,6 +46,7 @@ class CartController extends Controller
         $linetotal = $findfoodprice * $quantity;
         $orderitem->OrderItem_LineTotal = $linetotal;
         $orderitem->OrderItem_Status = 'Not Placed';
+        $orderitem->OrderItem_Remark = $remarks;
         $orderitem->save();
 
         $findorderid = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$cart['Delivery_ID']])->all();
@@ -213,7 +214,10 @@ class CartController extends Controller
                 $orderitemstatuschange->Change_PendingDateTime = $time;
 
                 $orderitemstatuschange->save();
+
+                
             endforeach;
+
 
 
             return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate]);

@@ -16,10 +16,7 @@ use common\models\Vouchers;
     $this->params['breadcrumbs'][] = $this->title;
     
 ?>
-<head>
-    
-</head>
-    <div class="container" id="page-change-container">
+    <!-- <div class="container" id="page-change-container">
         <table class="table table-user-information" id="display">
             <tr>
                 <td id="active" onclick="window.document.location='../web/index.php?r=vouchers/index';">Show All</td>
@@ -28,14 +25,14 @@ use common\models\Vouchers;
                 <td id="deactive" onclick="window.document.location='<?php echo Url::to(['vouchers/page','page'=>4]);?>'">Show Deactivated</td>
             </tr>   
         </table>
-    </div>
+    </div>-->
 
 	<?=Html::beginForm(['vouchers/index'],'post'); ?>
     	<?= Html::a('Add New Voucher', ['/vouchers/add'], ['class'=>'btn btn-success']) ?>
         <?= Html::submitButton('Remove Vouchers',  [
             'class' => 'btn btn-danger', 
             'data' => [
-                    'confirm' => 'Are you sure want to delete these vouchers?',
+                    'confirm' => 'Are you confirm to delete these vouchers?',
                     'method' => 'post',
                 ]]);?>
             

@@ -42,7 +42,7 @@ class WithdrawController extends \yii\web\Controller
 		$model->acc_name ="";
 		$model->withdraw_amount ="";
 		$model->to_bank ="";
-		
+		$this->layout = 'user';
     	return $this->render('index' ,['model' => $model,'balance'=>$balance]);
     }
 	

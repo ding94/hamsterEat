@@ -102,7 +102,8 @@ class DefaultController extends Controller
     public function actionNewRestaurantDetails()
     {
         $area = Yii::$app->request->post('Area');
-        $postcodechosen = $area['Area_Postcode'];
+        $pcode = Area::find()->where('Area_Area = :area', [':area'=>$area['Area_Area']])->one();
+        $postcodechosen = $pcode['Area_Postcode'];
         $areachosen = $area['Area_Area'];
         $restArea = Area::find()->where('Area_Postcode = :area_postcode and Area_Area = :area_area',[':area_postcode'=> $area['Area_Postcode'] , ':area_area'=>$area['Area_Area']])->one();        
         $restArea = $restArea['Area_Group'];

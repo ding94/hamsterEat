@@ -11,8 +11,11 @@ class VouchersController extends \yii\web\Controller
 {
 	public function actionIndex()
 	{
+
 		$model = UserVoucher::find()->where('uid = :id',[':id'=>Yii::$app->user->identity->id])->all();
-		foreach ($model as $k => $var) {
+		if (!empty($model)) {
+			foreach ($model as $k => $var) {
+
 			$voucher[$k] = Vouchers::find()->where('id = :id',[':id'=>$model[$k]['vid']])->one();
 			$voucher[$k]['endDate'] = date('Y-m-d', $voucher[$k]['endDate']);
 			$voucher[$k]['discount_item'] = VouchersType::find()->where('id=:id',[':id'=>$voucher[$k]['discount_item']])->one()->description;
@@ -24,9 +27,11 @@ class VouchersController extends \yii\web\Controller
 				$voucher[$k]['discount'] = $voucher[$k]['discount'].' %';
 			}
 		}
-		
-		//var_dump($voucher);exit;
+		$this->layout = 'user';
 		return $this->render("index",['model'=>$model,'voucher'=>$voucher]);
+		}
+		$this->layout = 'user';
+		return $this->render("index",['model'=>$model]);
 
 	}
 }

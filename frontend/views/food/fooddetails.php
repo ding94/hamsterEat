@@ -71,7 +71,10 @@ use common\models\Orderitemselection;
             }
              endforeach; 
                  ?> 
-            
+            <tr>
+                  <td colspan = 2><?= $form->field($orderitem, 'OrderItem_Remark')->label('Remarks'); ?></td>
+                  <td> </td>
+            </tr>
             <tr>
                   <td><?= $form->field($orderitem, 'OrderItem_Quantity')->textInput(['type' => 'number', 'value' => "1"])?></td>
                   <td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart', 'style'=>'margin-top:25px;']) ?></td>

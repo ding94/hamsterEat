@@ -26,13 +26,7 @@ class UserController extends Controller
         $upload = new Upload();
         $upload->scenario = 'ticket';
         $path = Yii::$app->request->baseUrl.'/imageLocation';
-
         
-
-
-       
-     
-
        // return $this->render('upload', ['detail' => $detail]);
 
         $detail = UserDetails::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one();

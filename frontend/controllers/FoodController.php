@@ -43,6 +43,7 @@ class FoodController extends Controller
                 }
             }
             $quantity = $orderitem->OrderItem_Quantity;
+            $remarks = $orderitem->OrderItem_Remark;
             $selected = $orderItemSelection->FoodType_ID;
 
             $glue = "','";
@@ -56,7 +57,7 @@ class FoodController extends Controller
             //var_dump(implode_all($glue, $selected));exit;
             $finalselected = implode_all(',', $selected);
 
-            return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected]);
+            return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks]);
         }
 
         return $this->render('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);
@@ -145,8 +146,12 @@ class FoodController extends Controller
                     $transaction->rollBack();
                 }
             }
-
-            $sql = "UPDATE restaurant SET Restaurant_Status = 'Operating' WHERE Restaurant_ID = ".$rid."";
+            $status = restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
+            if ($status['Restaurant_Status'] == 'Under Renovation')
+            {
+                $sql = "UPDATE restaurant SET Restaurant_Status = 'Operating' WHERE Restaurant_ID = ".$rid."";
+                Yii::$app->db->createCommand($sql)->execute();
+            }
         }
         $this->layout = 'user';
       

@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Payment;
-use common\models\Accountbalance;
+use common\models\Account\Accountbalance;
 
 use Yii;
 
@@ -11,6 +11,7 @@ class PaymentController extends \yii\web\Controller
 {
 	public static function Payment($did,$order)
 	{
+
 		$payment = new Payment();
 		$userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => $order->User_Username])->one();
 		$payment->uid = Yii::$app->user->identity->id;

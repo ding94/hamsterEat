@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+$this->title = $id['Restaurant_Name'];
 ?>
 <body>
 <div class = "container">
@@ -19,6 +20,8 @@ use yii\helpers\Html;
             echo "<center>".Html::a('Manage Staffs', ['manage-restaurant-staff', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary']);
             echo "<br> <br>";
             echo "<center>".Html::a('Restaurants Orders', ['/order/restaurant-orders', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary']);
+            echo "<br> <br>";
+            echo "<center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary']);
         }
     }
     ?>
@@ -29,7 +32,6 @@ use yii\helpers\Html;
     <div class = "foodItems">
         <?php
             {
-                echo "<center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary']);
                 $id = isset($_GET['foodid']) ? $_GET['foodid'] : '';
 
                 foreach($rowfood as $data) :

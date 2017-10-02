@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use common\models\user\Userdetails;
+$this->title = "Manage Staff";
 ?>
 <head>
 <title>LOL</title>

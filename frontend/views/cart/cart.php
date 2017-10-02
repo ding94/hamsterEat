@@ -35,7 +35,7 @@ $this->title = "My Cart";
 
         echo "<tr>";
         ?>
-        <td><center><img class="img-rounded img-responsive" style="height:60px; width:70px;;" src="<?php echo "/hamsterEat/frontend/web/imageLocation/".$fooddetails['Food_FoodPicPath']; ?>"></td>
+        <td><center><?php echo Html::img('@web/imageLocation/'.$fooddetails['Food_FoodPicPath'], ['class' => 'img-responsive','style'=>'height:60px; width:90px; margin:auto;']); ?></td>
         <?php
         echo "<td><center>".$fooddetails['Food_Name']."</td>";
         echo "<td align="."right>".$fooddetails['Food_Price']."</td>";

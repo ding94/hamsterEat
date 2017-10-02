@@ -54,7 +54,7 @@ use backend\models\Admin;
                         </tr>
                      
                 <?php  }} elseif (empty($model)) { ?>
-                <div><H4>Seems like you didn't have counpon yet..</H2></div>
+                <div><H4>Seems like you didn't have coupon yet..</H2></div>
            <?php }  ?>
         </table>
     </div>

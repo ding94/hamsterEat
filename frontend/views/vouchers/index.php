@@ -11,16 +11,14 @@ use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use backend\models\Admin;
 
-    $this->title = 'Usable Discount Codes';
-    $this->params['breadcrumbs'][] = $this->title;
-    
+    $this->title = 'Usable Discount Codes';    
 ?>
 <div class="container">
 <div class="site-contact">
-
+ <div class="col-lg-6 col-lg-offset-1" style="text-align:center">
     <h1><?= Html::encode($this->title) ?></h1>  
 
-    <div class="col-md-8 col-md-offset-1">
+     
         
             <?php $j = 0;?>
             <?php   

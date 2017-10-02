@@ -36,7 +36,7 @@ class TopupController extends \yii\web\Controller
     	}
 		//$model->amount ="";
 		//$model->description ="";
-		//$this->layout = 'user';
+		$this->layout = 'user';
 		    	return $this->render('index' ,['model' => $model ,'upload' => $upload]);
 		//Yii::app()->end();
     }

@@ -13,7 +13,7 @@ class OrderController extends \yii\web\Controller
     public function actionMyOrders()
     {
         $orders = Orders::find()->where('User_Username = :uname and Orders_Status != :status', [':uname'=>Yii::$app->user->identity->username, ':status'=>'Not Placed'])->all();
-        
+        $this->layout = 'user';
         return $this->render('myorders', ['orders'=>$orders]);
     }
 

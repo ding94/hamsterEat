@@ -30,7 +30,7 @@ class VouchersController extends \yii\web\Controller
 
 		return $this->render("index",['model'=>$model,'voucher'=>$voucher]);
 		}
-
+		$this->layout = 'user';
 		return $this->render("index",['model'=>$model]);
 
 	}

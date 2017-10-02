@@ -80,7 +80,7 @@ class TopupController extends \yii\web\Controller
 			$balance->save();
 			
 			//var_dump($balance->validate(); exit;
-				if($model->update() !== false)
+			if($model->update() !== false)
 			{
 				//var_dump($model);exit;
 				

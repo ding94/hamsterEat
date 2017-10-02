@@ -5,6 +5,7 @@ namespace frontend\modules\delivery\controllers;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use Yii;
+
 use common\models\DeliveryAttendence;
 /**
  * Default controller for the `delivery` module
@@ -64,7 +65,7 @@ class DailySignInController extends Controller
     public static function getAllDailyRecord()
     {
     	$today = date("Y-m");
-    	$date = date("d");
+    	$date = date("j");
 
     	$all ="";
     	$signData = DeliveryAttendence::find()->where(' month = :month',[':month' => $today])->all();
@@ -83,7 +84,7 @@ class DailySignInController extends Controller
     protected static function getDailyData($type)
     {
     	$today = date("Y-m");
-    	$date = date("d");
+    	$date = date("j");
     	
     	$signin = DeliveryAttendence::find()->where('uid = :uid and month = :month',[':uid' => Yii::$app->user->identity->id, ':month' => $today])->one();
     	if(empty($signin))
@@ -125,7 +126,7 @@ class DailySignInController extends Controller
 
     protected static function updateSignRecord()
     {
-    	$date = date("d");
+    	$date = date("j");
 
     	$time = Yii::$app->formatter->asTime(time());
 

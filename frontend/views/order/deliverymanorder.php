@@ -9,6 +9,7 @@ use common\models\Orders;
 use common\models\Orderitem;
 use common\models\Restaurant;
 use yii\helpers\Html;
+$this->title = "Delivery Orders";
 ?>
 
 <div class = "container">

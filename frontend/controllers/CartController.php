@@ -14,6 +14,7 @@ use common\models\UserVoucher;
 use common\models\user\Userdetails;
 use common\models\Ordersstatuschange;
 use common\models\Orderitemstatuschange;
+use common\models\Accountbalance;
 use frontend\models\Deliveryman;
 use frontend\controllers\PaymentController;
 use yii\helpers\Json;
@@ -171,6 +172,7 @@ class CartController extends Controller
         //var_dump($fullname);exit;
         $order = Orders::find()->where('Delivery_ID = :Delivery_ID',[':Delivery_ID' => $did])->one();
         $checkout = new Orders;
+        $userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => $order->User_Username])->one();
         $session = Yii::$app->session;
 
         if ($checkout->load(Yii::$app->request->post()))
@@ -187,10 +189,13 @@ class CartController extends Controller
             $setdate = date("Y-m-d");
             $settime = "13:00:00";
 
-            $this->actionAssignDeliveryMan($did);
-            if ($checkout->Orders_PaymentMethod == 'Account Balance') {
+            if ($checkout->Orders_PaymentMethod == 'Account Balance' && $userbalance->User_Balance >= $order->Orders_TotalPrice) {
                 $payment = PaymentController::Payment($did,$order);
+            } else {
+                Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
+                return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
             }
+            $this->actionAssignDeliveryMan($did);
 
             $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = ".$session['postcode'].", Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = ".$time.", Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = ".$did."";
             Yii::$app->db->createCommand($sql)->execute();

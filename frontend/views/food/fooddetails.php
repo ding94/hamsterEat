@@ -4,6 +4,7 @@ use yii\bootstrap\ActiveForm;
 use common\models\Foodselection;
 use yii\helpers\ArrayHelper;
 use common\models\Orderitemselection;
+$this->title = "Food Details";
 ?>
 
 <div class="container">

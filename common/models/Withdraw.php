@@ -6,7 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
-use common\models\Accounttopupstatus;
+use common\models\Account\Accounttopupstatus;
 
 /**
  * This is the model class for table "withdraw".

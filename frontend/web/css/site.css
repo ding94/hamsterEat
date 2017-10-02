@@ -6,7 +6,6 @@ h1,
 h2,
 h3 {
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
   font-weight: 500;
 }
 h4,
@@ -165,6 +164,13 @@ a.desc:after {
 .site-signup{
 	 margin-top:50px;
 }
+.site-login{
+	 margin-top:50px;
+}
+.site-request-password-reset{
+	 margin-top:50px;
+}
+
 .tableHeader{
 	 margin-top:30px;
 }

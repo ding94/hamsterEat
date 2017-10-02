@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Payment;
-use common\models\Accountbalance;
+use common\models\Account\Accountbalance;
 
 use Yii;
 

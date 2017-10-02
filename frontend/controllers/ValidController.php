@@ -32,5 +32,6 @@ class ValidController extends Controller
 				break;
 			}
 		}
+		return true;
 	}
 }

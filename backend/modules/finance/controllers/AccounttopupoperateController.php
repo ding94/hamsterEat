@@ -6,7 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
 use backend\modules\finance\controllers\AccounttopupstatusController;
-use common\models\AcounttopupOperate;
+use common\models\Account\AcounttopupOperate;
 
 Class AccounttopupoperateController extends Controller
 {

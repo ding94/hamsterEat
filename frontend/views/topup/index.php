@@ -8,9 +8,9 @@ use yii\grid\ActionColumn;
 ?>
 
 <div class="container">
- <div class="row">
-         <div class="col-md-7 col-md-offset-1 text-center" id="topup">
-		
+ 
+        
+		<div class="col-lg-6 col-lg-offset-1" style="text-align:center" id="topup">
      
 			<h1>Offline Topup</h1>
 			
@@ -27,4 +27,3 @@ use yii\grid\ActionColumn;
         </div>
    
 			</div>					
-</div>

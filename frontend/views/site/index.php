@@ -8,6 +8,7 @@ $this->title = 'hamsterEat';
 ?>
 
 <body>
+<link href="css/style.css" rel="stylesheet">	
 <!--<div class="site-index">-->      
  <header class="intro-header">
  <!--<div class="container"> -->
@@ -34,36 +35,61 @@ $this->title = 'hamsterEat';
     </div>
       </header>
 	  
-<div id="DescContainer" class="container">
-    <div class="body-content">
+<!--<div id="DescContainer" class="container">-->
+   <div class="container">
+		<div class="row">
+			<div class="boxs">				
+				<div class="col-md-4">
+					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="0.8s">
+						<div class="align-center">
+							<h4>Convenient</h4>					
+							<div class="icon">
+								<i class="fa fa-cutlery fa-3x"></i>
+							</div>
+							<p>
+							You can order food whenever and wherever you are!
+							</p>
+							<div class="ficon">
+								<a href="../web/index.php?r=site%2Fabout" alt="">View more</a> 
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
+						<div class="align-center">
+							<h4>Easy Payment</h4>				
+							<div class="icon">
+								<i class="fa fa-credit-card fa-3x"></i>
+							</div>
+							<p>
+							 You can select your favourite payment method!
+							</p>
+							<div class="ficon">
+								<a href="../web/index.php?r=site%2Fabout" alt="">View more</a> 
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
+						<div class="align-center">
+							<h4>High Efficiency</h4>					
+							<div class="icon">
+								<i class="fa fa-thumbs-o-up fa-3x"></i>
+							</div>
+							<p>
+							 We provide you the best services!
+							</p>
+							<div class="ficon">
+								<a href="" alt="../web/index.php?r=site%2Fabout">View more</a> 
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
 
-        <div class="row">
-            <div class="col-lg-4" style="text-align:center">
-              <span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary" style="color:orange;"></i>
-                         <i class="fa fa-cutlery fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <h4 class="service-heading">Convenient</h4>  
-                <p><a class="btn btn-default" href="../web/index.php?r=site%2Fabout">Find Out More &raquo;</a></p>
-            </div>
-            <div class="col-lg-4" style="text-align:center">
-			<span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary" style="color:orange;"></i>
-                         <i class="fa fa-credit-card fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <h4 class="service-heading">Easy Payment</h4> 
-                <p><a class="btn btn-default" href="../web/index.php?r=site%2Fabout">Find Out More &raquo;</a></p>
-             </div>
-            <div class="col-lg-4" style="text-align:center">
-			<span class="fa-stack fa-4x">
-                        <i class="fa fa-circle fa-stack-2x text-primary" style="color:orange;"></i>
-                         <i class="fa fa-clock-o fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <h4 class="service-heading">High Efficiency</h4> 
-               <p><a class="btn btn-default" href="../web/index.php?r=site%2Fabout">Find Out More &raquo;</a></p>
-            </div>
-        </div>
-
-    </div>
-    </div>
    <!-- </div> -->

@@ -2,10 +2,10 @@
 
 namespace app\modules\finance\controllers;
 use frontend\models\Accounttopup;
-use common\models\Accountbalance;
+use common\models\Account\Accountbalance;
 use common\models\User;
-use common\models\AccounttopupOperate;
-use common\models\AccounttopupStatus;
+use common\models\Account\AccounttopupOperate;
+use common\models\Account\AccounttopupStatus;
 use backend\modules\finance\controllers\AccounttopupstatusController;
 use backend\modules\finance\controllers\AccounttopupoperateController;
 use yii\data\ActiveDataProvider;

@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+$this->title = "Restaurant Menu";
 ?>
 
 <div class="container">

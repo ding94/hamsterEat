@@ -4,6 +4,7 @@ use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
+$this->title = "Withdraw money";
 ?>
 
 <div class="container">

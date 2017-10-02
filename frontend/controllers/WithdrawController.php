@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 use common\models\User;
 use common\models\Withdraw;
-use common\models\Accountbalance;
+use common\models\Account\Accountbalance;
 use Yii;
 use yii\helpers\ArrayHelper;
 

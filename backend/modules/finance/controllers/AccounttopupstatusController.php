@@ -6,7 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
-use common\models\AccounttopupStatus;
+use common\models\Account\AccounttopupStatus;
 
 Class AccounttopupstatusController extends Controller
 {

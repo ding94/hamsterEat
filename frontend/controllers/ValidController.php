@@ -30,8 +30,8 @@ class ValidController extends Controller
 					Yii::$app->session->setFlash('error','Something went wrong');
 					return false;
 				break;
+			}
 		}
-		}
-		
+		return true;
 	}
 }

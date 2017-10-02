@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+$this->title = $id['Restaurant_Name'];
 ?>
 <body>
 <div class = "container">
@@ -14,11 +15,17 @@ use yii\helpers\Html;
     {
         if ($id['Restaurant_Manager'] == Yii::$app->user->identity->username)
         {
-            echo "<center>".Html::a('Edit Details', ['edit-restaurant-details', 'rid'=>$id['Restaurant_ID'], 'restArea'=>$id['Restaurant_AreaGroup'], 'areachosen'=>$id['Restaurant_Area'], 'postcodechosen'=>$id['Restaurant_Postcode']], ['class'=>'btn btn-primary']);
-            echo "<br> <br>";
-            echo "<center>".Html::a('Manage Staffs', ['manage-restaurant-staff', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary']);
-            echo "<br> <br>";
-            echo "<center>".Html::a('Restaurants Orders', ['/order/restaurant-orders', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary']);
+            echo "<table class= table table-user-information style= width:100%; margin:auto;>";
+            echo "<tr>";
+                echo "<td><center>".Html::a('Edit Details', ['edit-restaurant-details', 'rid'=>$id['Restaurant_ID'], 'restArea'=>$id['Restaurant_AreaGroup'], 'areachosen'=>$id['Restaurant_Area'], 'postcodechosen'=>$id['Restaurant_Postcode']], ['class'=>'btn btn-primary'])."</td>";
+                echo "<br> <br>";
+                echo "<td><center>".Html::a('Manage Staffs', ['manage-restaurant-staff', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+                echo "<br> <br>";
+                echo "<td><center>".Html::a('Restaurants Orders', ['/order/restaurant-orders', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+                echo "<br> <br>";
+                echo "<td><center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+            echo "</tr>";
+            echo "</table>";
         }
     }
     ?>
@@ -29,7 +36,6 @@ use yii\helpers\Html;
     <div class = "foodItems">
         <?php
             {
-                echo "<center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary']);
                 $id = isset($_GET['foodid']) ? $_GET['foodid'] : '';
 
                 foreach($rowfood as $data) :

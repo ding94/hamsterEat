@@ -31,7 +31,8 @@ class ValidController extends Controller
 					return false;
 				break;
 		}
+
 		}
-		
+		return true;
 	}
 }

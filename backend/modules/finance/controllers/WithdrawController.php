@@ -2,11 +2,11 @@
 
 namespace app\modules\finance\controllers;
 use common\models\Withdraw;
-use common\models\Accountbalance;
+use common\models\Account\Accountbalance;
 // use common\models\BankDetails;
 use common\models\User;
 use yii\data\ActiveDataProvider;
-use common\models\AccounttopupStatus;
+use common\models\Account\AccounttopupStatus;
 use yii\helpers\ArrayHelper;
 use Yii;
 

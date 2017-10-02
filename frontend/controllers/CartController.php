@@ -14,7 +14,7 @@ use common\models\UserVoucher;
 use common\models\user\Userdetails;
 use common\models\Ordersstatuschange;
 use common\models\Orderitemstatuschange;
-use common\models\Accountbalance;
+use common\models\Account\Accountbalance;
 use frontend\models\Deliveryman;
 use frontend\controllers\PaymentController;
 use yii\helpers\Json;
@@ -200,7 +200,7 @@ class CartController extends Controller
             }
             $this->actionAssignDeliveryMan($did);
 
-            $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = ".$session['postcode'].", Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = ".$time.", Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = ".$did."";
+            $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = '".$session['postcode']."', Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = '".$time."', Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = '".$did."'";
             Yii::$app->db->createCommand($sql)->execute();
             $sql2 = "UPDATE orderitem SET OrderItem_Status = 'Pending' WHERE Delivery_ID = '".$did."'";
             Yii::$app->db->createCommand($sql2)->execute();

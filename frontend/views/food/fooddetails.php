@@ -14,7 +14,7 @@ $this->title = "Food Details";
 		<table class="table table-user-information" style="width:60%; margin:auto;">
 
             <tr>         
-                  <td> <img class="img-rounded img-responsive" style="height:250px; width:350px; margin-left: 25%;" src="<?php echo "/hamsterEat/frontend/web/imageLocation/".$fooddata->Food_FoodPicPath; ?>"></td>
+                  <td> <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'pull-left img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?></td>
             </tr>
 
             <tr>

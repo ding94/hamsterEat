@@ -197,7 +197,7 @@ class FoodController extends Controller
                  
                  $foodtypes = $ftype->foodSelection;
                  $foodselection[$i] = $foodtypes;
-               $oldRooms = ArrayHelper::merge(ArrayHelper::index($foodtypes, 'Selection_ID'), $oldRooms);
+               $oldRooms = ArrayHelper::merge(ArrayHelper::index($foodtypes, 'Food_ID'), $oldRooms);
          }
         }
 
@@ -226,10 +226,10 @@ class FoodController extends Controller
             // reset
             $foodselection = [];
             
-            $oldHouseIDs = ArrayHelper::map($foodtype, 'FoodType_ID', 'FoodType_ID');
+            $oldHouseIDs = ArrayHelper::map($foodtype, 'Food_ID', 'Food_ID');
             $foodtype = Model::createMultiple(Foodtype::classname(), $foodtype);
             Model::loadMultiple($foodtype, Yii::$app->request->post());
-            $deletedHouseIDs = array_diff($oldHouseIDs, array_filter(ArrayHelper::map($foodtype, 'FoodType_ID', 'FoodType_ID')));
+            $deletedHouseIDs = array_diff($oldHouseIDs, array_filter(ArrayHelper::map($foodtype, 'Food_ID', 'Food_ID')));
 
             // validate person and houses models
             $valid = $food->validate();
@@ -238,10 +238,10 @@ class FoodController extends Controller
             $foodsIDs = [];
              if (isset($_POST['Foodselection'][0][0])) {
                foreach ($_POST['Foodselection'] as $i => $foodtypes) {
-                    $foodsIDs = ArrayHelper::merge($foodsIDs, array_filter(ArrayHelper::getColumn($foodtypes, 'FoodType_ID')));
+                    $foodsIDs = ArrayHelper::merge($foodsIDs, array_filter(ArrayHelper::getColumn($foodtypes, 'Food_ID')));
                      foreach ($foodtypes as $ix => $foodselections) {
                          $data['Foodselection'] = $foodselections;
-                        $modelfoodselection = (isset($foodselections['Selection_ID']) && isset($oldRooms[$foodselections['Selection_ID']])) ? $oldRooms[$foodselections['Selection_ID']] : new Foodselection;
+                        $modelfoodselection = (isset($foodselections['Food_ID']) && isset($oldRooms[$foodselections['Food_ID']])) ? $oldRooms[$foodselections['Food_ID']] : new Foodselection;
                         $modelfoodselection->load($data);
                         $foodselection[$i][$ix] = $modelfoodselection;
                         $valid = $modelfoodselection->validate();                    
@@ -259,11 +259,11 @@ class FoodController extends Controller
                     if ($flag = $food->save(false)) {
 
                         if (! empty($deletedRoomsIDs)) {
-                            Foodselection::deleteAll(['Selection_ID' => $deletedRoomsIDs]);
+                            Foodselection::deleteAll(['Food_ID' => $deletedRoomsIDs]);
                         }
 
                         if (! empty($deletedHouseIDs)) {
-                            Foodtype::deleteAll(['FoodType_ID' => $deletedHouseIDs]);
+                            Foodtype::deleteAll(['Food_ID' => $deletedHouseIDs]);
                         }
 
                            foreach ($foodtype as $i => $modelfoodtype) {

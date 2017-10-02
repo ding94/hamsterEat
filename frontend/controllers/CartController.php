@@ -19,10 +19,18 @@ use frontend\models\Deliveryman;
 use frontend\controllers\PaymentController;
 use yii\helpers\Json;
 
+
 class CartController extends Controller
 {
     public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks)
     {
+        if (Yii::$app->user->isGuest) 
+        {
+            $this->redirect(['site/login']);
+        }
+
+        else
+        {
         $session = Yii::$app->session;
         $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
 
@@ -98,9 +106,17 @@ class CartController extends Controller
 
         return $this->redirect(['view-cart', 'deliveryid'=>$cart['Delivery_ID']]);
     }
+    }
 
     public function actionViewCart()
     {
+        if (Yii::$app->user->isGuest) 
+        {
+            $this->redirect(['site/login']);
+        }
+
+        else
+        {
         $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
         $did = $cart['Delivery_ID'];
         $cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
@@ -136,6 +152,7 @@ class CartController extends Controller
             
         }
         return $this->render('cart', ['did'=>$did, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
+    }
     }
 
     public function actionAssignDeliveryMan($did)

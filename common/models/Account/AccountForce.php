@@ -49,7 +49,7 @@ class AccountForce extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'amount', 'reduceOrPlus', 'reason', 'adminid'], 'required'],
-            [['uid', 'reduceOrPlus', 'adminid', 'create_at', 'updated_at'], 'integer'],
+            [['uid', 'reduceOrPlus', 'adminid', 'created_at', 'updated_at'], 'integer'],
             [['amount'], 'number'],
             ['amount' ,'compare','compareValue' => 500 ,'operator' => '<='],
             [['reason'], 'string', 'max' => 255],

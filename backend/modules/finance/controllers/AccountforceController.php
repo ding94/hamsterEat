@@ -5,14 +5,19 @@ namespace app\modules\finance\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
+use app\modules\finance\controllers\DefaultController;
 use common\models\Account\AccountForce;
 use common\models\User;
+use common\models\Account\AccountForceSearch;
 
 class AccountforceController extends Controller
 {
 	public function actionIndex()
 	{
+		$searchModel = new AccountForceSearch;
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+		return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
 	}
 
 	public function actionForce()
@@ -28,7 +33,11 @@ class AccountforceController extends Controller
 		$newForce = self::createForce($post['AccountForce']);
 		if($newForce == true)
 		{
-
+			return $this->redirect(['index']);
+		}
+		else
+		{
+			return $this->redirect(Yii::$app->request->referrer);
 		}
 	}
 
@@ -44,7 +53,7 @@ class AccountforceController extends Controller
 
 		if($minusOrplus == '-' )
 		{
-			if(Yii::$app->user->can('admina'))
+			if(Yii::$app->user->can('admin'))
 			{
 				$force->reduceOrPlus = 1;
 				$force->amount = (double)$amount;
@@ -62,9 +71,15 @@ class AccountforceController extends Controller
 			$force->amount = (double)$amount;
 		}
 
-		var_dump($force);exit;
-		if($force->save())
+		$userAccount = DefaultController::getAccountBalance($data['uid'],$force->reduceOrPlus,$force->amount);
+
+		$isValid = $force->validate() && $userAccount->validate();
+		
+		if($isValid == true)
 		{
+			$force->save();
+			$userAccount->save();
+			Yii::$app->session->setFlash('success', "Success Operate");
 			return true;
 		}
 		else

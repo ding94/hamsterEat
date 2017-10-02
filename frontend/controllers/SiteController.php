@@ -17,6 +17,7 @@ use frontend\models\Deliveryman;
 use common\models\User;
 use common\models\user\Userdetails;
 use common\models\user\Useraddress;
+use common\models\Accountbalance;
 use common\models\Area;
 use yii\helpers\ArrayHelper;
 use yii\web\Session;
@@ -269,7 +270,9 @@ class SiteController extends Controller
             $userdetails->User_Username= Yii::$app->user->identity->username;
             $useraddress = new Useraddress();
             $useraddress->User_id= Yii::$app->user->identity->id;
-                 
+            $userbalance = new Accountbalance;
+            $userbalance->User_Username = Yii::$app->user->identity->username;
+            $userbalance->User_Balance = 0;     
             
             $isValid = $user->validate() && $userdetails->validate() && $useraddress->validate();
             if($isValid)
@@ -277,6 +280,7 @@ class SiteController extends Controller
                 $user->save();
                 $userdetails->save();
                 $useraddress->save();
+                $userbalance->save();
                 
                 Yii::$app->getSession()->setFlash('success','Success!');
                 Yii::$app->getUser()->login($user);

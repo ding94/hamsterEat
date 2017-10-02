@@ -16,7 +16,8 @@ use yii\grid\ActionColumn;
 			
             <?php $form = ActiveForm::begin(); ?>
 
-				 <?= $form->field($model, 'Account_TopUpAmount') ?>
+                <?= $form->field($model,'Account_ChosenBank')->checkboxList($bank) ?>
+				<?= $form->field($model, 'Account_TopUpAmount') ?>
 								
                 <?= $form->field($upload, 'imageFile')->fileInput() ?>
                        <div class="form-group">

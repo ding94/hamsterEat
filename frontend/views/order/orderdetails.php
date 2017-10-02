@@ -44,7 +44,7 @@ use common\models\Orders;
                 echo "<th><center>Selections</th>";
                 echo "<th><center>Selections Price (RM)</th>";
                 echo "<th><center>LineTotal (RM)</th>";
-                echo "<th><center>Remarks</th>";
+                echo "<th colspan = 2><center>Remarks</th>";
             echo "</tr>";
         foreach ($orderitemdetails as $orderitemdetails) :
             $fooddetails = food::find()->where('Food_ID = :fid',[':fid'=>$orderitemdetails['Food_ID']])->one();
@@ -67,7 +67,7 @@ use common\models\Orders;
             echo "</td>";
             echo "<td align="."right>".$orderitemdetails['OrderItem_SelectionTotal']."</td>";
             echo "<td align="."right>".$orderitemdetails['OrderItem_LineTotal']."</td>";
-            echo "<td><center> </td>";
+            echo "<td colspan = 2><center>".$orderitemdetails['OrderItem_Remark']."</td>";
             echo "</tr>";
           endforeach;
           $did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();

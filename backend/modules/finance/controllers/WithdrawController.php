@@ -30,7 +30,7 @@ class WithdrawController extends \yii\web\Controller
 		  $model->scenario = 'negative'; // set senario
 		if ($model->action == 1)
 		{
-			$balance = self::deductBalance($model);
+			// $balance = self::deductBalance($model);
 			
 			$model->action = 3;
 			//$model->inCharge = Yii::$app->user->identity->adminname;

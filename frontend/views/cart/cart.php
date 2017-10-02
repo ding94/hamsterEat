@@ -45,13 +45,17 @@ $this->title = "My Cart";
         foreach ($selections as $selections) :
           $selectionname = Foodselection::find()->where('Selection_ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
           $selectiontype = Foodtype::find()->where('FoodType_ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
-          echo $selectiontype['Selection_Type'].': &nbsp;'.$selectionname['Selection_Name'];
-          echo "<br>";
+          if (!is_null($selectionname['Selection_ID']))
+          {
+            echo $selectiontype['Selection_Type'].': &nbsp;'.$selectionname['Selection_Name'];
+            echo "<br>";
+          }
         endforeach;
         echo "</td>";
         echo "<td align="."right>".$cartitems['OrderItem_SelectionTotal']."</td>";
         echo "<td align="."right>".$cartitems['OrderItem_LineTotal']."</td>";
-        echo "<td><center> </td>";
+        echo "<td><center>".$cartitems['OrderItem_Remark']."</td>";
+        echo "<td>".Html::a('', ['delete','oid'=>$cartitems['Order_ID']], ['class'=>'btn btn-danger fa fa-trash'])."</td>";
         echo "</tr>";
       endforeach;
       $did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();

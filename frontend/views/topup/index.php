@@ -8,15 +8,15 @@ use yii\grid\ActionColumn;
 ?>
 
 <div class="container">
- <div class="row">
-         <div class="col-md-7 col-md-offset-1 text-center" id="topup">
-		
+ 
+        
+		<div class="col-lg-6 col-lg-offset-1" style="text-align:center" id="topup">
      
 			<h1>Offline Topup</h1>
 			
             <?php $form = ActiveForm::begin(); ?>
-
-				 <?= $form->field($model, 'Account_TopUpAmount') ?>
+                <?= $form->field($model,'Account_ChosenBank')->inline(true)->radioList($bank)->label("MayBank") ?>
+				<?= $form->field($model, 'Account_TopUpAmount') ?>
 								
                 <?= $form->field($upload, 'imageFile')->fileInput() ?>
                        <div class="form-group">
@@ -27,4 +27,3 @@ use yii\grid\ActionColumn;
         </div>
    
 			</div>					
-</div>

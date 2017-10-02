@@ -17,7 +17,7 @@ use frontend\models\Deliveryman;
 use common\models\User;
 use common\models\user\Userdetails;
 use common\models\user\Useraddress;
-use common\models\Accountbalance;
+use common\models\Account\Accountbalance;
 use common\models\Area;
 use yii\helpers\ArrayHelper;
 use yii\web\Session;

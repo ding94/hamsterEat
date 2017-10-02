@@ -5,7 +5,7 @@ namespace frontend\models;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
 use Yii;
-use common\models\AccounttopupStatus;
+use common\models\Account\AccounttopupStatus;
 
 /**
  * This is the model class for table "accounttopup".

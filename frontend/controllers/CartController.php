@@ -14,6 +14,7 @@ use common\models\UserVoucher;
 use common\models\user\Userdetails;
 use common\models\Ordersstatuschange;
 use common\models\Orderitemstatuschange;
+use common\models\Account\Accountbalance;
 use frontend\models\Deliveryman;
 use frontend\controllers\PaymentController;
 use yii\helpers\Json;
@@ -108,28 +109,31 @@ class CartController extends Controller
         {
             $data = Yii::$app->request->post();
             $discountcode = $data['Orders']['Orders_TotalPrice'];
-
-            if ($discountcode != 'undefined')
-            {
-                $voucher = Vouchers::find()->where('code = :cd', [':cd'=>$discountcode])->one();
-
-                if ($voucher['discount_type'] == 5)
+            $valid = ValidController::DateValidCheck($data['Orders']['Orders_TotalPrice'],1);
+           if ($valid == true ) {
+               if ($discountcode != 'undefined')
                 {
-                    $user = UserVoucher::find()->where('uid = :person and vid = :vid', [':person'=>Yii::$app->user->identity->id, ':vid'=>$voucher['id']])->one();
+                    $voucher = Vouchers::find()->where('code = :cd', [':cd'=>$discountcode])->one();
 
-                    if ($user['uid'] == Yii::$app->user->identity->id)
+                    if ($voucher['discount_type'] == 5)
                     {
-                        $totalprice = $cart['Orders_TotalPrice'];
-                        $discounttotal = $voucher['discount'];
+                        $user = UserVoucher::find()->where('uid = :person and vid = :vid', [':person'=>Yii::$app->user->identity->id, ':vid'=>$voucher['id']])->one();
 
-                        $totalprice = $totalprice - $discounttotal;
-                        $sql = "UPDATE orders SET Orders_TotalPrice = ".$totalprice.", Orders_DiscountVoucherAmount = ".$voucher['discount'].", Orders_DiscountTotalAmount = ".$discounttotal." WHERE Delivery_ID = ".$cart['Delivery_ID']."";
-                        Yii::$app->db->createCommand($sql)->execute();
+                        if ($user['uid'] == Yii::$app->user->identity->id)
+                        {
+                            $totalprice = $cart['Orders_TotalPrice'];
+                            $discounttotal = $voucher['discount'];
+
+                            $totalprice = $totalprice - $discounttotal;
+                            $sql = "UPDATE orders SET Orders_TotalPrice = ".$totalprice.", Orders_DiscountVoucherAmount = ".$voucher['discount'].", Orders_DiscountTotalAmount = ".$discounttotal." WHERE Delivery_ID = ".$cart['Delivery_ID']."";
+                            Yii::$app->db->createCommand($sql)->execute();
+                        }
                     }
                 }
-            }
 
-            return $this->redirect(['checkout', 'did'=>$did]);
+                return $this->redirect(['checkout', 'did'=>$did]);
+           }
+            
         }
         return $this->render('cart', ['did'=>$did, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
     }
@@ -171,6 +175,7 @@ class CartController extends Controller
         //var_dump($fullname);exit;
         $order = Orders::find()->where('Delivery_ID = :Delivery_ID',[':Delivery_ID' => $did])->one();
         $checkout = new Orders;
+        $userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => $order->User_Username])->one();
         $session = Yii::$app->session;
 
         if ($checkout->load(Yii::$app->request->post()))
@@ -187,12 +192,15 @@ class CartController extends Controller
             $setdate = date("Y-m-d");
             $settime = "13:00:00";
 
-            $this->actionAssignDeliveryMan($did);
-            if ($checkout->Orders_PaymentMethod == 'Account Balance') {
+            if ($checkout->Orders_PaymentMethod == 'Account Balance' && $userbalance->User_Balance >= $order->Orders_TotalPrice) {
                 $payment = PaymentController::Payment($did,$order);
+            } else {
+                Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
+                return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
             }
+            $this->actionAssignDeliveryMan($did);
 
-            $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = ".$session['postcode'].", Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = ".$time.", Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = ".$did."";
+            $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = '".$session['postcode']."', Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = '".$time."', Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = '".$did."'";
             Yii::$app->db->createCommand($sql)->execute();
             $sql2 = "UPDATE orderitem SET OrderItem_Status = 'Pending' WHERE Delivery_ID = '".$did."'";
             Yii::$app->db->createCommand($sql2)->execute();

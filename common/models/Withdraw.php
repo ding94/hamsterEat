@@ -6,7 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
-use common\models\Accounttopupstatus;
+use common\models\Account\Accounttopupstatus;
 
 /**
  * This is the model class for table "withdraw".
@@ -74,8 +74,8 @@ class Withdraw extends \yii\db\ActiveRecord
             'action' => 'Action',
             'inCharge' => 'In Charge',
             'reason' => 'Reason',
-            'acc_name' => 'Acc Name',
-            'to_bank' => 'To Bank',
+            'acc_name' => 'Account Name',
+            'to_bank' => 'Bank Account Number',
             'bank_name' => 'Bank Name',
             'from_bank' => 'From Bank',
             'created_at' => 'Created At',

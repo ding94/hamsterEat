@@ -249,7 +249,7 @@ class FoodController extends Controller
                 }
             }
 
-            $oldRoomsIDs = ArrayHelper::getColumn($oldRooms, 'Selection_ID');
+            $oldRoomsIDs = ArrayHelper::getColumn($oldRooms, 'Food_ID');
             $deletedRoomsIDs = array_diff($oldRoomsIDs, $foodsIDs);
 
             if ($valid) {

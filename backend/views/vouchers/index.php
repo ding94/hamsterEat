@@ -16,6 +16,7 @@ use common\models\Vouchers;
     $this->params['breadcrumbs'][] = $this->title;
     
 ?>
+    <!-- Below div are not suitable to be used -->
     <!-- <div class="container" id="page-change-container">
         <table class="table table-user-information" id="display">
             <tr>

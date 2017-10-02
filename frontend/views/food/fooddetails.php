@@ -14,7 +14,7 @@ $this->title = "Food Details";
 		<table class="table table-user-information" style="width:60%; margin:auto;">
 
             <tr>         
-                  <td> <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'pull-left img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?></td>
+                  <td colspan = 2> <?php echo Html::img('@web/imageLocation/'.$fooddata->Food_FoodPicPath, ['class' => 'img-rounded img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?></td>
             </tr>
 
             <tr>

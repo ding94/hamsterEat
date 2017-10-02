@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Enter details';
+$this->title = 'Edit details';
 ?>
 <div class="site-signup">
   <div class="col-lg-6 col-lg-offset-1" style="text-align:center">

@@ -3,6 +3,8 @@
 namespace common\models\Account;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "account_force".
@@ -26,15 +28,30 @@ class AccountForce extends \yii\db\ActiveRecord
         return 'account_force';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at','updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],   
+        ];
+    }       
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['uid', 'amount', 'reduceOrPlus', 'reason', 'adminid', 'create_at', 'updated_at'], 'required'],
-            [['uid', 'reduceOrPlus', 'adminid', 'create_at', 'updated_at'], 'integer'],
+            [['uid', 'amount', 'reduceOrPlus', 'reason', 'adminid'], 'required'],
+            [['uid', 'reduceOrPlus', 'adminid', 'created_at', 'updated_at'], 'integer'],
             [['amount'], 'number'],
+            ['amount' ,'compare','compareValue' => 500 ,'operator' => '<='],
             [['reason'], 'string', 'max' => 255],
         ];
     }

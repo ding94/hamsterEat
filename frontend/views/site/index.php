@@ -82,7 +82,7 @@ $this->title = 'hamsterEat';
 							 We provide you the best services!
 							</p>
 							<div class="ficon">
-								<a href="" alt="../web/index.php?r=site%2Fabout">View more</a> 
+								<a href="../web/index.php?r=site%2Fabout" alt="">View more</a> 
 							</div>
 						</div>
 					</div>

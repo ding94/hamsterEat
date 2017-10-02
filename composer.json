@@ -30,7 +30,8 @@
         "rinvex/country": "^2.0",
         "akavov/yii2-countries": "*",
         "wbraganca/yii2-dynamicform": "dev-master",
-        "kartik-v/yii2-widget-datepicker": "@dev"
+        "kartik-v/yii2-widget-datepicker": "@dev",
+        "kartik-v/yii2-widget-select2": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

@@ -6,7 +6,9 @@ use yii\helpers\Html;
 
 $this->title = 'About';
 
+
 ?>
+	
 <div class="container" style="text-align:center">
 
     <h1><?= Html::encode($this->title) ?></h1>

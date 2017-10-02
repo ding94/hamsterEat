@@ -16,6 +16,7 @@ class AppAsset extends AssetBundle
         'css/Slider.css',
         'css/user.css',
         'css/sidenav.css',
+		'style.css',
     ];
     public $js = [
     ];

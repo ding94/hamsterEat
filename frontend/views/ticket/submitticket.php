@@ -25,14 +25,15 @@ $this->title = 'Submit Ticket';
             </li>
         </ul>
     </div>
+	  <div class="col-lg-6 col-lg-offset-1" style="text-align:center">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
     </p>
-
-    <div class="row">
-        <div class="col-lg-5">
+ </div>
+    <div class="container">
+     <div class="col-lg-6 col-lg-offset-1">
             <?php $form = ActiveForm::begin(); ?>
                 <?= $form->field($model, 'Ticket_Subject')->textInput(['autofocus' => true]) ?>
                 <?= $form->field($model, 'Ticket_Category')->dropDownList($data) ?>

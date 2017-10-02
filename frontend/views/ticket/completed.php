@@ -27,9 +27,9 @@ use yii\helpers\ArrayHelper;
             </li>
         </ul>
     </div>
-
+<div class="col-lg-6 col-lg-offset-1" style="text-align:center">
     <h1><?= Html::encode($this->title) ?></h1>  
-
+  </div>
 <div>
         <table class="table table-inverse">
             <tr >

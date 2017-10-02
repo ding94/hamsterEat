@@ -7,19 +7,22 @@ use yii\helpers\Html;
 
     <?php
     {
+        
     foreach($restaurant as $data) :
+    echo "<div class='gallery_product col-sm-4 col-xs-12'>";
     echo "<a href="?> <?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$data['Restaurant_ID']]); ?> <?php echo ">";
-    echo "<table class = 'table table-restaurant-details'>";
-    echo "<br>";
-    echo "<br>";
-
-    echo "<tr>";
-        $picpath = $data['Restaurant_RestaurantPicPath'];
+    
+      $picpath = $data['Restaurant_RestaurantPicPath'];
 
         if (is_null($data['Restaurant_RestaurantPicPath'])){
             $picpath = "DefaultRestaurant.jpg";
         }
         echo '<th rowspan = "5">' ?> <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'pull-left img-responsive','style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>";
+    echo "<table class = 'table table-restaurant-details'>";  
+    echo "<tbody>";
+
+    echo "<tr>";
+      
         echo "<td> Name: </td>";
         echo '<td> '.$data['Restaurant_Name'].'</td>';
     echo "</tr>";
@@ -56,11 +59,12 @@ use yii\helpers\Html;
         echo '<td>'.$data['Restaurant_UnitNo'].', '.$data['Restaurant_Street'].', '.$data['Restaurant_Area'].', '.$data['Restaurant_Postcode'].'.</td>';
     echo "</tr>";
     echo "</table>";
-    echo "<br>";
-    echo "<br>";
+    echo "</tbody>";
     echo "</a>";
+     echo "</div>";
     ?>
     <?php endforeach;
+   
     }
     ?>
     </div>

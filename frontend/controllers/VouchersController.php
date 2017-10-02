@@ -27,7 +27,7 @@ class VouchersController extends \yii\web\Controller
 				$voucher[$k]['discount'] = $voucher[$k]['discount'].' %';
 			}
 		}
-
+		$this->layout = 'user';
 		return $this->render("index",['model'=>$model,'voucher'=>$voucher]);
 		}
 		$this->layout = 'user';

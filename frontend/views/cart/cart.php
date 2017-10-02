@@ -53,7 +53,7 @@ $this->title = "My Cart";
         echo "<td align="."right>".$cartitems['OrderItem_LineTotal']."</td>";
          
         echo "<td><center> </td>";
-       echo "<td>".Html::a('', ['delete','id'=>$cartitems['Food_ID'],'oid'=>$cartitems['Order_ID']], ['class'=>'btn btn-danger fa fa-trash'])."</td>";
+       echo "<td>".Html::a('', ['delete','oid'=>$cartitems['Order_ID']], ['class'=>'btn btn-danger fa fa-trash'])."</td>";
         echo "</tr>";
       endforeach;
       $did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();

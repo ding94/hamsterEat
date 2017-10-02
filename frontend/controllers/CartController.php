@@ -238,16 +238,16 @@ class CartController extends Controller
 
     }
 
-      public function actionDelete($oid,$id)
+      public function actionDelete($oid)
     {
-         $sql = "DELETE FROM orderitem WHERE Order_ID = '$oid' AND Food_ID = $id";
+         $sql = "DELETE FROM orderitem WHERE Order_ID = '$oid'";
          
          Yii::$app->db->createCommand($sql)->execute();
          $oid = $oid;
          $menu = orderitem::find()->where('Order_ID = :id' ,[':id' => $oid])->all();
          
 
-         return $this->redirect(['view-cart','oid'=>$oid,'id'=>$id]);
+         return $this->redirect(['view-cart','oid'=>$oid]);
 
     }
     

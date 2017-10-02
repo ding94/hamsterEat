@@ -163,6 +163,7 @@ class CartController extends Controller
 
     public function actionCheckout($did,$valid,$discountcode)
     {
+        //var_dump($did);exit;
         $mycontact = Userdetails::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->one();
         $mycontactno = $mycontact['User_ContactNo'];
         $myemail = User::find()->where('username = :username',[':username'=>Yii::$app->user->identity->username])->one();

@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+$this->title = "Available Restaurants";
 ?>
 
 <div class="container" id="index">

@@ -44,15 +44,16 @@ class UservoucherController extends Controller
 
 			if ($valid == true ) 
 			{
-				if (empty(Vouchers::find()->where('code = :c',[':c' => $model['code']])->one())) 
+				$check = Vouchers::find()->where('code = :c',[':c' => $model['code']])->one();
+				if (empty($check)) 
        			{
-       			$valid = self::actionCreateVoucher($model,$voucher,$id,1);
+       				$valid = self::actionCreateVoucher($model,$voucher,$id,1);
 					if ($valid == true ) {
 						Yii::$app->session->setFlash('success', "Voucher created and given to user.");
 						return $this->redirect(['/uservoucher/addvoucher','id'=>$id]);
 					}
 				}
-				elseif (!empty(Vouchers::find()->where('code = :c',[':c' => $model['code']])->one())) 
+				elseif (!empty($check)) 
 				{
 					$valid = self::actionAssign($model,$voucher,$id);
 					if ($valid ==true) {
@@ -61,9 +62,6 @@ class UservoucherController extends Controller
 					}
 				}
 			}
-       		
-       		
-       		
        	}
 
 		return $this->render('givevoucher',['name'=>$name,'model'=>$model,'voucher'=>$voucher,'type'=>$type,'item'=>$item,'dataProvider'=>$dataProvider,'searchModel'=>$searchModel]);
@@ -89,6 +87,10 @@ class UservoucherController extends Controller
 				return true;
 			}
 		}
+		elseif ($valid == fasle)
+		{
+			$voucher->delete();
+		}
 		return false;
 	}
 
@@ -96,6 +98,7 @@ class UservoucherController extends Controller
 	{
 		$voucher = Vouchers::find()->where('code = :c', [':c'=>$model->code])->one();
 		$voucher->discount_type = $voucher->discount_type + 1;
+		$voucher->startDate = time();
 		$voucher->endDate = strtotime($model->endDate);
 		$valid = ValidController::SaveValidCheck($voucher,2);
 		if ($valid ==true)

@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
 use common\models\Model;
 use common\models\Orderitem;
 use common\models\Orderitemselection;
+use common\models\Restaurant;
 
 
 class FoodController extends Controller
@@ -86,6 +87,7 @@ class FoodController extends Controller
             $food->Restaurant_ID = $rid;
             $food->Food_FoodPicPath = $upload->imageFile->name;
             $food->Food_Type = implode(',',$food->Food_Type);
+            $food->Food_Deleted = "0";
            
            $foodtype = Model::createMultiple(Foodtype::classname());
            Model::loadMultiple($foodtype, Yii::$app->request->post());
@@ -138,6 +140,12 @@ class FoodController extends Controller
 
                     if ($flag) {
                         $transaction->commit();
+                        $status = restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
+                        if ($status['Restaurant_Status'] == 'Under Renovation')
+                        {
+                            $sql = "UPDATE restaurant SET Restaurant_Status = 'Operating' WHERE Restaurant_ID = ".$rid."";
+                            Yii::$app->db->createCommand($sql)->execute();
+                        }
                         return $this->redirect(['food/food-details', 'id' => $food->Food_ID]);
                     } else {
                         $transaction->rollBack();
@@ -145,12 +153,6 @@ class FoodController extends Controller
                 } catch (Exception $e) {
                     $transaction->rollBack();
                 }
-            }
-            $status = restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
-            if ($status['Restaurant_Status'] == 'Under Renovation')
-            {
-                $sql = "UPDATE restaurant SET Restaurant_Status = 'Operating' WHERE Restaurant_ID = ".$rid."";
-                Yii::$app->db->createCommand($sql)->execute();
             }
         }
         $this->layout = 'user';
@@ -162,10 +164,9 @@ class FoodController extends Controller
      {
          $menu = food::find()->where('Restaurant_ID = :id' ,[':id' => $rid])->andWhere('Food_Deleted = :dlt',[':dlt' => 0])->all();
        
-
          $this->layout = 'user';
          
-         return $this->render('menu',['menu'=>$menu, 'rid'=>$rid]);
+         return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid]);
 
      }
 

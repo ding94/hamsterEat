@@ -14,8 +14,8 @@ class ValidController extends Controller
 	public static function dateValidCheck($post,$case)
 	{
 		$voucher = Vouchers::find()->where('code = :c',[':c' => $post])->one();
-		
-		switch ($case) {
+		if (!empty($voucher)) {
+			switch ($case) {
 			case 1:
 				if ($voucher->endDate <= strtotime(date('Y-m-d h:i:s'))) {
 					Yii::$app->session->setFlash('error','Coupon was expired!');
@@ -27,9 +27,11 @@ class ValidController extends Controller
 				break;
 			
 			default:
-				Yii::$app->session->setFlash('error','Something went wrong');
+					Yii::$app->session->setFlash('error','Something went wrong');
 					return false;
 				break;
 		}
+		}
+		
 	}
 }

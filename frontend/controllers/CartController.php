@@ -109,28 +109,31 @@ class CartController extends Controller
         {
             $data = Yii::$app->request->post();
             $discountcode = $data['Orders']['Orders_TotalPrice'];
-
-            if ($discountcode != 'undefined')
-            {
-                $voucher = Vouchers::find()->where('code = :cd', [':cd'=>$discountcode])->one();
-
-                if ($voucher['discount_type'] == 5)
+            $valid = ValidController::DateValidCheck($data['Orders']['Orders_TotalPrice'],1);
+           if ($valid == true ) {
+               if ($discountcode != 'undefined')
                 {
-                    $user = UserVoucher::find()->where('uid = :person and vid = :vid', [':person'=>Yii::$app->user->identity->id, ':vid'=>$voucher['id']])->one();
+                    $voucher = Vouchers::find()->where('code = :cd', [':cd'=>$discountcode])->one();
 
-                    if ($user['uid'] == Yii::$app->user->identity->id)
+                    if ($voucher['discount_type'] == 5)
                     {
-                        $totalprice = $cart['Orders_TotalPrice'];
-                        $discounttotal = $voucher['discount'];
+                        $user = UserVoucher::find()->where('uid = :person and vid = :vid', [':person'=>Yii::$app->user->identity->id, ':vid'=>$voucher['id']])->one();
 
-                        $totalprice = $totalprice - $discounttotal;
-                        $sql = "UPDATE orders SET Orders_TotalPrice = ".$totalprice.", Orders_DiscountVoucherAmount = ".$voucher['discount'].", Orders_DiscountTotalAmount = ".$discounttotal." WHERE Delivery_ID = ".$cart['Delivery_ID']."";
-                        Yii::$app->db->createCommand($sql)->execute();
+                        if ($user['uid'] == Yii::$app->user->identity->id)
+                        {
+                            $totalprice = $cart['Orders_TotalPrice'];
+                            $discounttotal = $voucher['discount'];
+
+                            $totalprice = $totalprice - $discounttotal;
+                            $sql = "UPDATE orders SET Orders_TotalPrice = ".$totalprice.", Orders_DiscountVoucherAmount = ".$voucher['discount'].", Orders_DiscountTotalAmount = ".$discounttotal." WHERE Delivery_ID = ".$cart['Delivery_ID']."";
+                            Yii::$app->db->createCommand($sql)->execute();
+                        }
                     }
                 }
-            }
 
-            return $this->redirect(['checkout', 'did'=>$did]);
+                return $this->redirect(['checkout', 'did'=>$did]);
+           }
+            
         }
         return $this->render('cart', ['did'=>$did, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
     }

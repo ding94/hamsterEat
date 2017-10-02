@@ -9,7 +9,7 @@ use yii\helpers\Html;
 
              <tr>
             
-            <td> 
+            <td colspan = 2> 
             <img class="img-rounded img-responsive" src=<?php 
             
             $picpath = $user->userdetails->User_PicPath;
@@ -42,7 +42,11 @@ use yii\helpers\Html;
                </tr>
                   <tr>
                   <td>Address 1:</td>
-               <td> <?php echo $user->useraddress->User_HouseNo1.','.$user->useraddress->User_Street1.','.$user->useraddress->User_Area1.','.$user->useraddress->User_Postcode1	?></td>
+               <td> <?php if (!is_null($user->useraddress->User_HouseNo1) && !is_null($user->useraddress->User_Street1) && !is_null($user->useraddress->User_Postcode1))
+               {
+                 echo $user->useraddress->User_HouseNo1.','.$user->useraddress->User_Street1.','.$user->useraddress->User_Area1.','.$user->useraddress->User_Postcode1.'.';
+               }	
+               ?></td>
                </tr>
                <tr>
                   <td>Address 2:</td>
@@ -54,6 +58,7 @@ use yii\helpers\Html;
                </tr>
                   <tr>
                  <td> <?= Html::a('Edit', ['/user/userdetails'], ['class'=>'btn btn-primary']) ?> </td>
+                 <td> </td>
                     </tr>
                 
                    

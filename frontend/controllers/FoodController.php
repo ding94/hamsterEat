@@ -88,6 +88,9 @@ class FoodController extends Controller
             $food->Food_FoodPicPath = $upload->imageFile->name;
             $food->Food_Type = implode(',',$food->Food_Type);
             $food->Food_Deleted = "0";
+            $food->FoodRating = "0";
+            $food->Food_TotalBought = "0";
+            $food->Food_TotalRated = "0";
            
            $foodtype = Model::createMultiple(Foodtype::classname());
            Model::loadMultiple($foodtype, Yii::$app->request->post());

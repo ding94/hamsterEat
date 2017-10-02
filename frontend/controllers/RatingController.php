@@ -114,7 +114,7 @@ Class RatingController extends Controller
 				return false;
 			}
 		}
-		Yii::$app->session->setFlash('success', "Thank You for completed");
+		Yii::$app->session->setFlash('success', "Thank You for your feedback.");
 		return true;
 	}
 
@@ -127,6 +127,20 @@ Class RatingController extends Controller
 		$foodrating->User_Id = Yii::$app->user->identity->id;
 		if($foodrating->save())
 		{
+			$sql = "SELECT id FROM Foodrating WHERE Food_ID = ".$foodID."";
+			$result = Yii::$app->db->createCommand($sql)->execute();
+
+			$ratings = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$foodID])->all();
+			$rating = 0;
+			foreach ($ratings as $ratings) :
+				$rating = $ratings['FoodRating_Rating'] + $rating;
+			endforeach;
+
+			$averagerating = $rating / $result;
+
+			$sql1 = "UPDATE food SET FoodRating = ".$averagerating.", Food_TotalBought = ".$result." WHERE Food_ID = ".$foodID."";
+			$result = Yii::$app->db->createCommand($sql1)->execute();
+			
 			return true;
 		}
 		else

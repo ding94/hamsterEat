@@ -242,10 +242,22 @@ class CartController extends Controller
                 $orderitemstatuschange->Change_PendingDateTime = $time;
 
                 $orderitemstatuschange->save();
-
-                
             endforeach;
 
+            $orderitemquantity = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
+
+            foreach ($orderitemquantity as $orderitemquantity) :
+                $quantity = $orderitemquantity['OrderItem_Quantity'];
+
+                $foodprevbought = food::find()->where('Food_ID = :fid', [':fid'=>$orderitemquantity['Food_ID']])->one();
+                $foodprevbought = $foodprevbought['Food_TotalBought'];
+
+                $totalbought = $quantity + $foodprevbought;
+                $sqll = "UPDATE food SET Food_TotalBought = ".$totalbought." WHERE Food_ID = ".$orderitemquantity['Food_ID']."";
+                Yii::$app->db->createCommand($sqll)->execute();
+
+            endforeach;
+            
             return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate]);
         }
         return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);

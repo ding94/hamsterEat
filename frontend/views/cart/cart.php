@@ -14,7 +14,7 @@ $this->title = "My Cart";
 			{
 		?>
 <div class="container">
-  <div class="tab-content col-md-7 col-md-offset-1" id="userprofile">
+  <div class="tab-content col-md-7 col-md-offset-1" id="cart">
 
     <table class="table table-user-information" style="width:1100px; margin-left:-15%;">
     <h1 style = "margin-left: -10%; margin-top:-4%;">Cart</h1><br>
@@ -68,7 +68,7 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td><center><strong> Subtotal (RM): </strong></td>"; ?>
-        <td align=right> <font id="subtotal"><?php echo $did['Orders_Subtotal']; ?></font></td>;<?php
+        <td align=right> <font id="subtotal"><?php echo $did['Orders_Subtotal']; ?></font></td><?php
       echo "</tr>";
       echo "<tr>";
         echo "<td> </td>";
@@ -78,7 +78,7 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td><center><strong> Delivery Charge (RM): </strong></td>";?>
-        <td align=right> <font id="delivery"><?php echo $did['Orders_DeliveryCharge']; ?></font></td>;<?php
+        <td align=right> <font id="delivery"><?php echo $did['Orders_DeliveryCharge']; ?></font></td><?php
       echo "</tr>";
       echo "<tr>";
         echo "<td> </td>";
@@ -89,7 +89,7 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td><center><strong> Total (RM): </strong></td>";?>
         <?php $form = ActiveForm::begin(); ?>
-        <td align=right> <font id="total"><?php echo $did['Orders_TotalPrice']; ?></font></td>;<?php
+        <td align=right> <font id="total"><?php echo $did['Orders_TotalPrice']; ?></font></td><?php
       echo "</tr>";
       echo "<tr>";
         echo "<td> </td>";
@@ -115,8 +115,6 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
-        //echo "<td align="."right><strong>".Html::a('Checkout', ['checkout', 'did'=>$did, 'total'=>$did['Orders_TotalPrice']], ['class'=>'btn btn-primary'])."</strong></td>";
-       // Html::hiddenInput("$did", 'Orders_Total');
        ?>
         <?= $form->field($did, 'Orders_TotalPrice')->hiddenInput()->label('') ?>
        <?php

@@ -282,15 +282,33 @@ class CartController extends Controller
 
       public function actionDelete($oid)
     {
+        $menu = orderitem::find()->where('Order_ID = :id' ,[':id' => $oid])->one();
+        $linetotal = $menu['OrderItem_LineTotal'];
+        $orders = Orders::find()->where('Delivery_ID = :did', [':did'=>$menu['Delivery_ID']])->one();
+        $prevtotal = $orders['Orders_TotalPrice'];
+        $newtotal = $prevtotal - $linetotal;
+        $newsubtotal = $orders['Orders_Subtotal'] - $linetotal;
+
+        $sql1 = "UPDATE orders SET Orders_TotalPrice = ".$newtotal.", Orders_Subtotal = ".$newsubtotal." WHERE Delivery_ID = ".$menu['Delivery_ID']."";
+        Yii::$app->db->createCommand($sql1)->execute();
+
          $sql = "DELETE FROM orderitem WHERE Order_ID = '$oid'";
-         
          Yii::$app->db->createCommand($sql)->execute();
-         $oid = $oid;
-         $menu = orderitem::find()->where('Order_ID = :id' ,[':id' => $oid])->all();
-         
 
-         return $this->redirect(['view-cart','oid'=>$oid]);
+         $noofrestaurants = "SELECT DISTINCT food.Restaurant_ID FROM food INNER JOIN orderitem ON orderitem.Food_ID = food.Food_ID WHERE orderitem.Delivery_ID = ".$menu['Delivery_ID']."";
+         $result = Yii::$app->db->createCommand($noofrestaurants)->execute();
+         $deliverycharge = $result * 5;
 
+         $sql2 = "UPDATE orders SET Orders_DeliveryCharge = ".$deliverycharge." WHERE Delivery_ID = ".$menu['Delivery_ID']."";
+         Yii::$app->db->createCommand($sql2)->execute();
+
+         $neworders = Orders::find()->where('Delivery_ID = :did', [':did'=>$menu['Delivery_ID']])->one();
+         $newtotal = $neworders['Orders_Subtotal'] + $neworders['Orders_DeliveryCharge'];
+
+         $sql3 = "UPDATE orders SET Orders_TotalPrice = ".$newtotal." WHERE Delivery_ID = ".$menu['Delivery_ID']."";
+         Yii::$app->db->createCommand($sql3)->execute();
+
+         return $this->redirect(['view-cart']);
     }
     
 }

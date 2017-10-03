@@ -8,6 +8,7 @@ $this->title = 'About';
 
 
 ?>
+
 	<link href="css/bubble.css" rel="stylesheet">	
 <div class="container1" style="text-align:center" >
 
@@ -17,15 +18,15 @@ $this->title = 'About';
 	
 		<div class="row">
 
-            <div class="col-lg-4" style="text-align:center">
+            <div class="col-lg-4 element1" style="text-align:center">
 	 <div class="img-circular"></div>
 	  <h4 class="service-heading">Customer</h4>  
 	 </div>
-	  <div class="col-lg-4" style="text-align:center">
+	  <div class="col-lg-4 element2" style="text-align:center">
 	 <div class="img-circular"></div>
 	   <h4 class="service-heading">Customer</h4>  
 	 </div>
-	  <div class="col-lg-4" style="text-align:center">
+	  <div class="col-lg-4 element3" style="text-align:center">
 	 <div class="img-circular"></div>
 	   <h4 class="service-heading">Customer</h4>  
   </div>

@@ -14,9 +14,26 @@ $this->title = 'About';
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Welcome to hamsterEat! </p>
-	 
-  
+	
+		<div class="row">
+
+            <div class="col-lg-4" style="text-align:center">
+	 <div class="img-circular"></div>
+	  <h4 class="service-heading">Customer</h4>  
+	 </div>
+	  <div class="col-lg-4" style="text-align:center">
+	 <div class="img-circular"></div>
+	   <h4 class="service-heading">Customer</h4>  
+	 </div>
+	  <div class="col-lg-4" style="text-align:center">
+	 <div class="img-circular"></div>
+	   <h4 class="service-heading">Customer</h4>  
+  </div>
+</div>  
+
 </div>
+
+ 
 <div id="background-wrap">
     <div class="bubble x1"></div>
     <div class="bubble x2"></div>

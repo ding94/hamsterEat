@@ -29,6 +29,13 @@ class FoodController extends Controller
         if ($orderItemSelection->load(Yii::$app->request->post()) && $orderitem->load(Yii::$app->request->post()))
         {
             $orderitem->load(Yii::$app->request->post());
+            if ($orderitem->OrderItem_Quantity < 1)
+            {
+                Yii::$app->session->setFlash('error', 'You cannot order less than 1.');
+
+                return $this->redirect(['food-details', 'id'=>$id]);
+            }
+
             foreach ($foodtype as $k => $foodtype) {
                 if ($foodtype->FoodType_Min > 0 && $foodtype->FoodType_Max == $foodtype->FoodType_Max){
                     if ($orderItemSelection->FoodType_ID[$k] == '' || count($orderItemSelection->FoodType_ID[$k]) > $foodtype->FoodType_Max){

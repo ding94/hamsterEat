@@ -35,6 +35,7 @@ class Orderitem extends \yii\db\ActiveRecord
             [['Delivery_ID', 'Food_ID', 'OrderItem_Quantity'], 'integer'],
             [['OrderItem_LineTotal'], 'number'],
             [['OrderItem_Status', 'OrderItem_Remark'], 'string', 'max' => 255],
+            //[['OrderItem_Quantity'], 'min' => 1],
         ];
     }
 

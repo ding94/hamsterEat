@@ -13,11 +13,53 @@ use kartik\widgets\ActiveForm;
   $this->params['breadcrumbs'][] = $this->title;
   
 ?>
+  <?=Html::a('Add',['/finance/accountforce/force'],['class' => 'btn btn-success',]);?>
   <?= GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,
-        'showFooter'=>true,
-
-        
-               
+        'showFooter'=>true,   
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute' => 'id',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search ID',
+                ],
+            ],
+            [
+              'attribute' => 'user',
+              'value' => 'user.username',
+              'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search User Name',
+              ],
+            ],
+            [
+              'attribute' => 'operater',
+              'value' => 'admin.adminname',
+              'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Admin Name',
+                ],
+            ],
+            [
+              'attribute' => 'reduceOrPlus',
+              'value' => function($model)
+              {
+                  return $model->reduceOrPlus == 1 ? 'Deduct' : 'Plus';
+              },
+              'filter' => array( "1"=>"Deduct","0"=>"Plus"),
+            ],
+            [
+                'attribute' => 'amount',
+                'filterInputOptions' => [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Search Amount',
+                ],
+            ],
+            'reason',
+            'created_at:datetime',
+            'updated_at:datetime',
+        ],
     ]); ?>

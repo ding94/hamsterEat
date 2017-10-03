@@ -5,6 +5,8 @@ namespace common\models\Account;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use common\models\User;
+use backend\models\Admin;
 
 /**
  * This is the model class for table "account_force".
@@ -71,5 +73,15 @@ class AccountForce extends \yii\db\ActiveRecord
             'create_at' => 'Create At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(),['id'=>'uid']);
+    }
+
+    public function getAdmin()
+    {
+        return $this->hasOne(Admin::className(),['id'=>'adminid']);
     }
 }

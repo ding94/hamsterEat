@@ -49,6 +49,7 @@
                         'items' =>  [
                                         ['label' => 'Offline Topup', 'icon' => 'circle-o', 'url' => ['/finance/topup/index']],
                                         ['label' => 'Withdraw', 'icon' => 'circle-o', 'url' => ['/finance/withdraw/index']],
+                                        ['label' => 'Force Account', 'icon' => 'circle-o', 'url' => ['/finance/accountforce/index']],
                                     ],
                         'options' => ['class' => 'active'],
 

@@ -302,6 +302,12 @@ class CartController extends Controller
          $sql2 = "UPDATE orders SET Orders_DeliveryCharge = ".$deliverycharge." WHERE Delivery_ID = ".$menu['Delivery_ID']."";
          Yii::$app->db->createCommand($sql2)->execute();
 
+         $neworders = Orders::find()->where('Delivery_ID = :did', [':did'=>$menu['Delivery_ID']])->one();
+         $newtotal = $neworders['Orders_Subtotal'] + $neworders['Orders_DeliveryCharge'];
+
+         $sql3 = "UPDATE orders SET Orders_TotalPrice = ".$newtotal." WHERE Delivery_ID = ".$menu['Delivery_ID']."";
+         Yii::$app->db->createCommand($sql3)->execute();
+
          return $this->redirect(['view-cart']);
     }
     

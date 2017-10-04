@@ -17,25 +17,25 @@ $this->title = 'About';
 	
 		<div class="row">
 
-            <div class="col-lg-4 element1" style="text-align:center; position: relative;">
-	 <div class="img-circular" style="position: absolute; z-index: 10"></div>
-	  <div class="content-box" id="grad1">
+            <div class="col-sm-4 element1" style="text-align:center; position: relative;">
+	 <div class="img-circular" ></div>
+	  <div class="content-box" id="grad1" style="position: absolute; z-index: -10">
       <h4 class="service-heading">Insert</h4>
       <p>Enter Postcode</p>
       </div>  
 	 </div>
 	 
-	  <div class="col-lg-4 element2" style="text-align:center">
-	 <div class="img-circular" style="position: absolute; z-index: 10"></div>
-	   <div class="content-box" id="grad2">
+	  <div class="col-sm-4 element2" style="text-align:center">
+	 <div class="img-circular" ></div>
+	   <div class="content-box" id="grad2" style="position: absolute; z-index: -10">
        <h4 class="service-heading">Add</h4>
        <p>Add favourite foods to cart</p>
        </div>  
 	 </div>
 	 
-	  <div class="col-lg-4 element3" style="text-align:center">
-	 <div class="img-circular" style="position: absolute; z-index: 10"></div>
-	   <div class="content-box" id="grad3">
+	  <div class="col-sm-4 element3" style="text-align:center">
+	 <div class="img-circular"></div>
+	   <div class="content-box" id="grad3" style="position: absolute; z-index: -10">
        <h4 class="service-heading">Pay</h4>
        <p>Pay and enjoy your food</p>
        </div>  

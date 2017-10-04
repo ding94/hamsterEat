@@ -18,17 +18,26 @@ $this->title = 'About';
 	
 		<div class="row">
 
-            <div class="col-lg-4 element1" style="text-align:center">
-	 <div class="img-circular"></div>
-	  <h4 class="service-heading">Customer</h4>  
+            <div class="col-lg-4 element1" style="text-align:center; position: relative;">
+	 <div class="img-circular" style="position: absolute; z-index: 10"></div>
+	  <div class="content-box" style="position: absolute; width: 200px; height: 100px; border:1.5px solid crimson; top: 100px; left: 100px;">
+      <h4 class="service-heading">Customer</h4>
+      <p>testing content 123</p>
+      </div>  
 	 </div>
 	  <div class="col-lg-4 element2" style="text-align:center">
-	 <div class="img-circular"></div>
-	   <h4 class="service-heading">Customer</h4>  
+	 <div class="img-circular" style="position: absolute; z-index: 10"></div>
+	   <div class="content-box" style="position: absolute; width: 200px; height: 100px; border:1.5px solid green; top: 100px; left: 100px;">
+       <h4 class="service-heading">Customer</h4>
+       <p>testing content 123</p>
+       </div>  
 	 </div>
 	  <div class="col-lg-4 element3" style="text-align:center">
-	 <div class="img-circular"></div>
-	   <h4 class="service-heading">Customer</h4>  
+	 <div class="img-circular" style="position: absolute; z-index: 10"></div>
+	   <div class="content-box" style="position: absolute; width: 200px; height: 100px; border:1.5px solid yellow; top: 100px; left: 100px;">
+       <h4 class="service-heading">Customer</h4>
+       <p>testing content 123</p>
+       </div>  
   </div>
 </div>  
 

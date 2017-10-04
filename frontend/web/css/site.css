@@ -270,3 +270,24 @@ margin-top:30px;
     background: -moz-linear-gradient(bottom right, rgb(253, 255, 219),rgb(255, 255, 255)); /* For Firefox 3.6 to 15 */
     background: linear-gradient(to bottom right,   rgb(253, 255, 219),rgb(255, 255, 255)); /* Standard syntax (must be last) */
 }
+@import 'compass';
+
+
+div.dotted {
+  width:300px;
+  height:400px;
+  position:relative;
+}
+ svg.dotted  {
+  position:absolute;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
+  stroke: #ffa500; 
+  stroke-width: 3px;
+  stroke-dasharray:  0.25 4;
+  stroke-dashoffset: 8;
+  stroke-linecap:round;                                    
+	fill: none;
+}

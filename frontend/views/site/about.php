@@ -15,7 +15,7 @@ $this->title = 'About';
 
     <p>Welcome to hamsterEat! </p>
 	
-		<!--<div class="row">
+		<div class="row">
 
             <div class="col-sm-4 element1" style="text-align:center; position: relative;">
 	 <div class="img-circular" ></div>
@@ -40,13 +40,13 @@ $this->title = 'About';
        <p>Pay and enjoy your food</p>
        </div>  
   </div>
-</div>  -->
-<div class="dotted">
+</div>  
+<!--<div class="dotted">
   <svg viewBox="0 0 103 103" version="1.1"
   xmlns="http://www.w3.org/2000/svg"  class="dotted">
   <circle cx="50%" cy="50%" r="50" />
 </svg>
-</div>
+</div>-->
 </div>
 
  

@@ -29,7 +29,7 @@ use yii\helpers\Html;
 	text-align: center;
 }
 
-.password-reset a{
+.password-reset .verify-button a{
 	padding: 10px 15px;
 	background: #FF8300;
 	color: #FFF;

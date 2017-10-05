@@ -45,28 +45,34 @@ $this->title = $id['Restaurant_Name'];
                 echo "<br>";
 
                 echo "<tr>";
-                $picpath = $data['Food_FoodPicPath'];
+                $picpath = $data['PicPath'];
 
-                if (is_null($data['Food_FoodPicPath']))
+                if (is_null($data['PicPath']))
                 {
                     $picpath = "DefaultRestaurant.jpg";
                 }
 
                 echo '<th rowspan = "4">' ?> <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'pull-left img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?> <?php echo "</th>";
                 echo "<td> Food Name: </td>";
-                echo '<td>'.$data['Food_Name'].'</td>';
+                echo '<td>'.$data['Name'].'</td>';
                 echo "</tr>";
-                echo "<tr>";
-                echo "<td> Food Type: </td>";
-                echo '<td>'.$data['Food_Type'].'</td>';
-                echo "</tr>";
+                // echo "<tr>";
+                // echo "<td> Food Type: </td>";
+                // echo '<td>'.$data['Food_Type'].'</td>';
+                // echo "</tr>";
                 echo "<tr>";
                 echo "<td> Food Price (RM): </td>";
-                echo '<td>'.$data['Food_Price'].'</td>';
+                echo '<td>'.$data['Price'].'</td>';
+                echo "</tr>";
+                echo "<tr>";
+                echo "<td> Food Tags: </td>";
+                foreach($data['foodType']as $type) :
+                    echo "<td>".$type['Type_Desc']."</td>";
+                endforeach;
                 echo "</tr>";
                 echo "<tr>";
                 echo "<td> Food Desc: </td>";
-                echo '<td>'.$data['Food_Desc'].'</td>';
+                echo '<td>'.$data['Description'].'</td>';
                 echo "</tr>";
                 echo "</table>";
                 echo "<br>";

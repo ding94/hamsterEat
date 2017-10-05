@@ -10,7 +10,7 @@ use common\models\user\Useraddress;
 use common\models\user\Userdetails;
 use backend\models\auth\AuthAssignment;
 use frontend\models\Deliveryman;
-
+use common\models\DeliveryAttendence;
 /**
  * User model
  *
@@ -226,11 +226,12 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getAuthAssignment()
     {
-        return $this->hasMany(AuthAssignment::className(),['user_id' => 'id']);
+        return $this->hasOne(AuthAssignment::className(),['user_id' => 'id']);
     }
 
     public function getDeliveryman()
     {
-        return $this->hasMany(Deliveryman::className(),['User_id' => 'id']);
+        return $this->hasOne(Deliveryman::className(),['User_id' => 'id']);
     }
+
 }

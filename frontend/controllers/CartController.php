@@ -18,7 +18,8 @@ use common\models\Account\Accountbalance;
 use frontend\models\Deliveryman;
 use frontend\controllers\PaymentController;
 use yii\helpers\Json;
-
+use frontend\modules\delivery\controllers\DailySignInController;
+use yii\helpers\ArrayHelper;
 
 class CartController extends Controller
 {
@@ -137,22 +138,77 @@ class CartController extends Controller
     public function actionAssignDeliveryMan($did)
     {
        // $purchaser = orders::find()->where('User_Username = :id',[':id'=>Yii::$app->user->identity->username])->one();
-        $sql= User::find()->JoinWith(['authAssignment','deliveryman'])->where('item_name = :item_name',[':item_name' => 'rider'])->orderBy(['deliveryman.DeliveryMan_Assignment'=>SORT_ASC])->all();
-
-        foreach ($sql as $i) {
-           
-            $deliveryman = $i->deliveryman[0]->User_id;
-           
-            $assign = $i->deliveryman[0]->DeliveryMan_Assignment + 1;
-          break;
-        }
       
-            $sql1 = "UPDATE deliveryman SET DeliveryMan_Assignment = ".$assign." WHERE User_id = '".$deliveryman."'";
+     
+      // $get = deliveryman::find()->all();
+  
+       $data = DailySignInController::getAllDailyRecord();
+         
+       $allData ="" ;
+       foreach ($data as $id)
+       {
+             
+            $sql= User::find()->select(['id','deliveryman.DeliveryMan_Assignment'])->JoinWith(['authAssignment','deliveryman'])->where('item_name = :item_name and id = :id',[':item_name' => 'rider',':id'=>$id])->orderBy(['deliveryman.DeliveryMan_Assignment'=>SORT_ASC])->asArray()->one();
+            
+           $allData[] = $sql;
+         
+       }
+       
+        
+     
+      // $allData = ArrayHelper::getColumn($sql['deliveryman'],'DeliveryMan_Assignment'   );
+ 
+        $arr = "";
+        $arr2="";
+        foreach ($allData as $i) {
+            //var_dump($i);exit;
+            $arr = $i['DeliveryMan_Assignment'].'.'.$i['id'].','.$arr;
+        }
+        
+        $array = explode(',',$arr);
+        
+        for($a=1;$a<count($array);$a++)
+        {
+            for($j=count($array)-1;$j>=$a;$j--)
+            {
+                if($array[$j]<$array[$j-1])
+                { 
+                    $temp = $array[$j-1]; 
+                    $array[$j-1] = $array[$j]; 
+                    $array[$j] = $temp; 
+            }
+        }
+        }
+        foreach (array_keys($array, '',true) as $key)
+        {
+            unset($array[$key]);
+        }
+        //var_dump($array[1]);exit;
+        $chosendman = $array[1];
+    
+        
+        $assign = substr($chosendman, strpos($chosendman, ".") + 1);
+       
+        
+       
+
+        // foreach ($array as $x)
+        // {
+             
+        //      $deliveryman = $x['id'];
+           
+        //      $assign = $x['DeliveryMan_Assignment'] + 1;
+        // }
+        $find = deliveryman::find()->where('User_id = :id',[':id'=>$assign])->one();
+      
+      $task = $find['DeliveryMan_Assignment'] +1;
+     // var_dump($task);exit;
+            $sql1 = "UPDATE deliveryman SET DeliveryMan_Assignment = ".$task." WHERE User_id = '".$assign."'";
            
             Yii::$app->db->createCommand($sql1)->execute();
        
-            echo "<script type='text/javascript'>alert('The delivery man assigned to this order is ".$deliveryman."');</script>";
-            $dname = user::find()->where('id = :uid', [':uid'=>$deliveryman])->one();
+            echo "<script type='text/javascript'>alert('The delivery man assigned to this order is ".$assign."');</script>";
+            $dname = user::find()->where('id = :uid', [':uid'=>$assign])->one();
             $dname = $dname['username'];
 
             $sql6 = "UPDATE orders SET Orders_DeliveryMan = '".$dname."' WHERE Delivery_ID = ".$did."";

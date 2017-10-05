@@ -14,9 +14,9 @@ $this->title = 'Reset password';
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Please choose your new password:</p>
-
+ </div>
   <div class="container">
-  <div class="col-lg-6 col-lg-offset-3">
+  <div class="col-lg-6 col-lg-offset-1">
             <?php $form = ActiveForm::begin(['id' => 'reset-password-form']); ?>
 
                 <?= $form->field($model, 'password')->passwordInput(['autofocus' => true]) ?>
@@ -27,5 +27,6 @@ $this->title = 'Reset password';
 
             <?php ActiveForm::end(); ?>
         </div>
-    </div>
+   
 </div>
+

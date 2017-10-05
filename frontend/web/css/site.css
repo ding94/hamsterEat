@@ -291,3 +291,76 @@ div.dotted {
   stroke-linecap:round;                                    
 	fill: none;
 }
+@import "compass/css3";
+
+
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+
+
+.ima {
+  font-family: 'Asap', sans-serif;
+  font-size: 40px;
+  text-transform: uppercase;
+  color: #42eef4;
+  }
+.thoughts {
+  background-size: 1070px;
+  position: absolute;
+  display: block;
+}
+
+.contactcharacter {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+  .contentwrapper {
+    width: 1280px;
+    height: 750px;
+    margin: 10px auto 0;
+    position: relative;
+    transition: height 1s ease-in-out;
+  }
+
+
+  
+
+  
+
+  // THOUGHTS
+  .thoughts {
+   
+  
+    animation: bob 4s ease-in-out infinite alternate;
+    transition: all 1s cubic-bezier(0.760, -0.265, 0.195, 1.260);
+    transition-property: left, right, top, bottom;
+  }
+   
+
+.p {
+        font-size: 24px;
+line-height: 1.45em;}
+        &:nth-child(1) {
+          margin-bottom: 0;
+        }
+        &:nth-child(3) {
+          margin-top: 0;
+        }
+     
+    .imawhat {
+      display: none;
+    }
+    
+
+
+
+@keyframes bob {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(20px); }
+}

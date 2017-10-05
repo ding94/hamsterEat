@@ -16,3 +16,27 @@ $(document).ready(function() {
 }, 7000);
 		
 });
+
+
+//effect for text changing
+var cnt=0, texts=[];
+var $fclick = false;
+
+
+$(".imawhat").each(function() {
+  texts[cnt++]=$(this).text();
+});
+
+function fadeText() {
+  if (cnt>=texts.length) { cnt=0; }
+  $('.ima').html(texts[cnt++]);
+  $('.ima')
+    .fadeIn('fast').animate({opacity: 1.0}, 5000).fadeOut('fast',
+     function() {
+       return fadeText();
+     }
+  );
+}
+
+
+fadeText();

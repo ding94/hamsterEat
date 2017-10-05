@@ -27,3 +27,4 @@ class AppAsset extends AssetBundle
         'iutbay\yii2fontawesome\FontAwesomeAsset'
     ];
 }
+

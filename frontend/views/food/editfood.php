@@ -14,7 +14,6 @@ $this->title = 'New Food Item';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-
 <div class="site-newfood">
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -104,11 +103,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </tbody>
     </table>
     <?php DynamicFormWidget::end(); ?>
-    
- 
-
-
-
 
                 <div class="form-group">
                     <?= Html::submitButton('Save', ['class' => 'btn btn-primary', 'name' => 'insert-button']) ?>

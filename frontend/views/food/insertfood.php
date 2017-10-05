@@ -27,6 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($food, 'Name')->textInput()->label('Name') ?>
 
+                 <?= $form->field($food, 'Nickname')->textInput() ?>
+
+
                 <?= $form->field($food, 'Price')->textInput()->label('Price') ?>
 
                 <?php echo '<label class="control-label">Type</label>';

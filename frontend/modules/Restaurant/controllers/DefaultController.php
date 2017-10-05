@@ -69,7 +69,7 @@ class DefaultController extends Controller
         //var_dump($rowfood[0]['foodType'][0]);exit;
 
 
-        return $this->render('RestaurantDetails',['id'=>$id, 'rowfood'=>$rowfood]);
+        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood]);
     }
 
     public function actionFoodDetails($fid)
@@ -99,7 +99,7 @@ class DefaultController extends Controller
             }
         }
 
-        return $this->render('NewRestaurantLocation', ['postcode'=>$postcode ,'list'=>$list]);
+        return $this->render('newRestaurantLocation', ['postcode'=>$postcode ,'list'=>$list]);
     }
     
     public function actionNewRestaurantDetails()
@@ -163,7 +163,7 @@ class DefaultController extends Controller
             }
         else 
             {
-                return $this->render('NewRestaurant', ['restaurant' => $restaurant, 'restArea'=>$restArea, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen]);
+                return $this->render('newRestaurant', ['restaurant' => $restaurant, 'restArea'=>$restArea, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen]);
             }
     }
 
@@ -226,7 +226,7 @@ class DefaultController extends Controller
       
     //$this->view->title = 'Update Profile';
     //$this->layout = 'user';
-    return $this->render('EditRestaurantDetails', ['restaurantdetails'=>$restaurantdetails, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen, 'restArea'=>$restArea]);
+    return $this->render('editRestaurantdetails', ['restaurantdetails'=>$restaurantdetails, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen, 'restArea'=>$restArea]);
     }
 
     public function actionEditRestaurantArea($rid)
@@ -250,7 +250,7 @@ class DefaultController extends Controller
             }
         }
 
-        return $this->render('EditRestaurantLocation',['restaurantdetails'=>$restaurantdetails, 'postcode'=>$postcode ,'list'=>$list, 'rid'=>$rid]);
+        return $this->render('editRestaurantLocation',['restaurantdetails'=>$restaurantdetails, 'postcode'=>$postcode ,'list'=>$list, 'rid'=>$rid]);
     }
 
     public function actionEditedLocationDetails($rid)
@@ -285,7 +285,7 @@ class DefaultController extends Controller
         $id = restaurant::find()->where('Restaurant_ID = :rid',[':rid'=>$rid])->one();
         //var_dump($rstaff);exit;
 
-        return $this->render('ManageRestaurantStaff',['rid'=>$rid, 'rstaff'=>$rstaff, 'id'=>$id]);
+        return $this->render('manageRestaurantStaff',['rid'=>$rid, 'rstaff'=>$rstaff, 'id'=>$id]);
     }
 
     public function actionDeleteRestaurantStaff($rid, $uname)
@@ -346,13 +346,27 @@ class DefaultController extends Controller
     {
         
     }
-      public function actionViewRestaurant()
+    
+    public function actionViewRestaurant()
     {
-        
         $uname = user::find()->where('username = :uname',[':uname' => Yii::$app->user->identity->username])->one();
         $restaurant = restaurant::find()->where('Restaurant_Manager = :rmanager',[':rmanager' => $uname['username']])->all();
        
          return $this->render('ViewRestaurant',['restaurant'=>$restaurant,'uname'=>$uname]);
-       
+    }
+
+    public static function  updateRestaurant($rid)
+    {
+        $data = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
+        if($data->Restaurant_Status == 'Under Renovation')
+        {
+            $data->Restaurant_Status = "Operating";
+            if($data->save())
+            {
+                return true;
+            }
+            return false;
+        }
+        return true;
     }
 }

@@ -15,6 +15,9 @@ return [
         'finance' => [
             'class' => 'app\modules\finance\finance',
         ],
+        'order' => [
+            'class' => 'backend\modules\Order\order',
+        ],
         'gridview' =>  [
             'class' => '\kartik\grid\Module'
             // enter optional module parameters below - only if you need to  

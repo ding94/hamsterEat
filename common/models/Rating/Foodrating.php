@@ -5,7 +5,7 @@ namespace common\models\Rating;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use common\models\Food;
+use common\models\food\Food;
 use common\models\Rating\RatingStatus;
 
 /**

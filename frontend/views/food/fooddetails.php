@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use common\models\Foodselection;
+use common\models\food\Foodselection;
 use yii\helpers\ArrayHelper;
 use common\models\Orderitemselection;
 $this->title = "Food Details";
@@ -14,27 +14,22 @@ $this->title = "Food Details";
 		<table class="table table-user-information" style="width:60%; margin:auto;">
 
             <tr>         
-                  <td colspan = 2> <?php echo Html::img('@web/imageLocation/'.$fooddata->Food_FoodPicPath, ['class' => 'img-rounded img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?></td>
+                  <td colspan = 2> <?php echo Html::img('@web/imageLocation/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?></td>
             </tr>
 
             <tr>
                   <td>Food Name:</td>
-                  <td> <?php echo $fooddata->Food_Name;?></td>
-            </tr>
-
-            <tr>
-                  <td>Food Type:</td>
-                  <td> <?php echo $fooddata->Food_Type;?></td>
+                  <td> <?php echo $fooddata->Name;?></td>
             </tr>
 
             <tr>
                   <td>Food Price (RM):</td>
-                  <td> <?php echo $fooddata->Food_Price;?></td>
+                  <td> <?php echo $fooddata->Price;?></td>
             </tr>
 
             <tr>
                   <td>Food Description:</td>
-                  <td> <?php echo $fooddata->Food_Desc;?></td>
+                  <td> <?php echo $fooddata->Description;?></td>
             </tr>
               
      
@@ -43,13 +38,13 @@ $this->title = "Food Details";
             <?php
             $ftids = "";
             foreach($foodtype as $k=> $foodtype) : 
-            $selection = Foodselection::find()->where('FoodType_ID = :ftid',[':ftid'=>$foodtype['FoodType_ID']])->all();
-            $data = ArrayHelper::map($selection,'Selection_ID','typeprice');
+            $selection = Foodselection::find()->where('Type_ID = :ftid',[':ftid'=>$foodtype['ID']])->all();
+            $data = ArrayHelper::map($selection,'ID','typeprice');
 
-            if($foodtype['FoodType_Min'] == 0 && $foodtype ['FoodType_Max'] < 2 || $foodtype['FoodType_Min'] == 1 && $foodtype ['FoodType_Max'] < 2 )
+            if($foodtype['Min'] == 0 && $foodtype ['Max'] < 2 || $foodtype['Min'] == 1 && $foodtype ['Max'] < 2 )
             {
                  echo "<tr>";           
-                 echo '<td>'.$foodtype['Selection_Type'].'<br><span>Select at least '.$foodtype['FoodType_Min'].' item and at most '.$foodtype ['FoodType_Max'].' items</span></td>';
+                 echo '<td>'.$foodtype['TypeName'].'<br><span>Select at least '.$foodtype['Min'].' item and at most '.$foodtype ['Max'].' items</span></td>';
                  echo "<td>";     
 
                  echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->radioList($data)->label(false);
@@ -61,7 +56,7 @@ $this->title = "Food Details";
             else 
             {
                  echo "<tr>";           
-                 echo '<td>'.$foodtype['Selection_Type'].'<br><span>Select at least '.$foodtype['FoodType_Min'].' item and at most '.$foodtype ['FoodType_Max'].' items</span></td>';
+                 echo '<td>'.$foodtype['TypeName'].'<br><span>Select at least '.$foodtype['Min'].' item and at most '.$foodtype ['Max'].' items</span></td>';
                  echo "<td>";     
 
                  echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->checkboxlist($data)->label(false);

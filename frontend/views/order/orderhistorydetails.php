@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-$this->title = "Order Details";
+$this->title = "Invoice";
 use common\models\food\Food;
 use common\models\Orderitemselection;
 use common\models\food\Foodselection;
@@ -11,7 +11,7 @@ use yii\helpers\Html;
 
 <div class = "container">
     <div>
-        <?php echo "<h1> Details for Delivery ID: $did </h1>";
+        <?php echo "<h1><center> Invoice </h1>";
         echo "<br>";
         echo "<br>";
         echo "<table class= table table-user-info style= width:80%;>";

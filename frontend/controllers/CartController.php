@@ -4,11 +4,11 @@ use Yii;
 use yii\web\Controller;
 use common\models\Orderitem;
 use common\models\User;
-use common\models\Food;
+use common\models\food\Food;
 use common\models\Orders;
 use common\models\Orderitemselection;
-use common\models\Foodtype;
-use common\models\Foodselection;
+use common\models\food\Foodselectiontype;
+use common\models\food\Foodselection;
 use common\models\Vouchers;
 use common\models\UserVoucher;
 use common\models\user\Userdetails;
@@ -48,7 +48,7 @@ class CartController extends Controller
         $orderitem = new Orderitem;
 
         $findfood = Food::find()->where('Food_ID = :fid', [':fid'=>$Food_ID])->one();
-        $findfoodprice = $findfood['Food_Price'];
+        $findfoodprice = $findfood['Price'];
         $orderitem->Delivery_ID = $cart['Delivery_ID'];
         $orderitem->Food_ID = $Food_ID;
         $orderitem->OrderItem_Quantity = $quantity;
@@ -74,11 +74,11 @@ class CartController extends Controller
             $orderitemselection = new Orderitemselection;
             $orderitemselection->Order_ID = $oid;
             $orderitemselection->Selection_ID = $selected2;
-            $foodtypeid = Foodselection::find()->where('Selection_ID = :sid',[':sid'=>$selected2])->one();
-            $foodtypeid = $foodtypeid['FoodType_ID'];
+            $foodtypeid = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
+            $foodtypeid = $foodtypeid['Type_ID'];
             $orderitemselection->FoodType_ID = $foodtypeid;
-            $foodselectionprice = Foodselection::find()->where('Selection_ID = :sid',[':sid'=>$selected2])->one();
-            $selectiontotalprice = $selectiontotalprice + $foodselectionprice['Selection_Price'];
+            $foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
+            $selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
             $orderitemselection->save();
         endforeach;
         $selectiontotalprice = $selectiontotalprice * $quantity;
@@ -250,10 +250,10 @@ class CartController extends Controller
                 $quantity = $orderitemquantity['OrderItem_Quantity'];
 
                 $foodprevbought = food::find()->where('Food_ID = :fid', [':fid'=>$orderitemquantity['Food_ID']])->one();
-                $foodprevbought = $foodprevbought['Food_TotalBought'];
+                $foodprevbought = $foodprevbought['Sales'];
 
                 $totalbought = $quantity + $foodprevbought;
-                $sqll = "UPDATE food SET Food_TotalBought = ".$totalbought." WHERE Food_ID = ".$orderitemquantity['Food_ID']."";
+                $sqll = "UPDATE food SET Sales = ".$totalbought." WHERE Food_ID = ".$orderitemquantity['Food_ID']."";
                 Yii::$app->db->createCommand($sqll)->execute();
 
             endforeach;

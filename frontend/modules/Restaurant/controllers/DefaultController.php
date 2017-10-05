@@ -5,7 +5,7 @@ namespace frontend\modules\Restaurant\controllers;
 use yii;
 use yii\web\Controller;
 use common\models\Restaurant;
-use common\models\Food;
+use common\models\food\Food;
 Use common\models\Area;
 use yii\helpers\ArrayHelper;
 use common\models\Upload;
@@ -64,7 +64,10 @@ class DefaultController extends Controller
     {
         $id = restaurant::find()->where('Restaurant_ID = :id' ,[':id' => $rid])->one();
 
-        $rowfood = food::find()->where('Restaurant_ID=:id', [':id' => $rid])->all();
+        $rowfood = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+
+        //var_dump($rowfood[0]['foodType'][0]);exit;
+
 
         return $this->render('RestaurantDetails',['id'=>$id, 'rowfood'=>$rowfood]);
     }
@@ -348,10 +351,6 @@ class DefaultController extends Controller
         
         $uname = user::find()->where('username = :uname',[':uname' => Yii::$app->user->identity->username])->one();
         $restaurant = restaurant::find()->where('Restaurant_Manager = :rmanager',[':rmanager' => $uname['username']])->all();
-     
-
-        
-       
        
          return $this->render('ViewRestaurant',['restaurant'=>$restaurant,'uname'=>$uname]);
        

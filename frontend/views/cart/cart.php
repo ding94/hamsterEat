@@ -38,7 +38,7 @@ $this->title = "My Cart";
         <td><center><?php echo Html::img('@web/imageLocation/'.$fooddetails['PicPath'], ['class' => 'img-responsive','style'=>'height:60px; width:90px; margin:auto;']); ?></td>
         <?php
         echo "<td><center>".$fooddetails['Name']."</td>";
-        echo "<td align="."right>".$fooddetails['Price']."</td>";
+        echo "<td align="."right>".Display2decimal($fooddetails['Price'])."</td>";
         echo "<td><center>".$cartitems['OrderItem_Quantity']."</td>";
         $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$cartitems['Order_ID']])->all();
         echo "<td><center>";

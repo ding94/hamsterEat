@@ -69,7 +69,7 @@ class DailySignInController extends Controller
 		  }
         
       }
-	  var_dump($large);exit;
+	  
 	  $update = "UPDATE deliveryman SET DeliveryMan_Assignment = ".$large." WHERE User_id = '".Yii::$app->user->identity->id."'";
            
         Yii::$app->db->createCommand($update)->execute();

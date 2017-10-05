@@ -186,18 +186,24 @@ a.desc:after {
 .orderTable td a{
     display: block;
 }
-.container1{
-	background-color: rgba(192,192,192,0.3);
+.container2{
+	
     padding:50px;
     margin:auto;
 	position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    width:70%;
+    width:80%;
 	height:70%;
 }
-
+#grad {
+    background: orange; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* Standard syntax (must be last) */
+}
 @keyframes bounce {
     0%, 20%, 60%, 100% {
         -webkit-transform: translateY(0);
@@ -217,4 +223,144 @@ a.desc:after {
 
 .bounce{
     animation: bounce 1s;
+}
+.img-circular{
+margin-top:30px;
+ width: 120px;
+ height: 120px;
+ background-image: url('../SysImg/rimg1-1200x400.jpg');
+ background-size: cover;
+ display: block;
+ border-radius: 100px;
+ -webkit-border-radius: 100px;
+ -moz-border-radius: 100px;
+ 
+  
+}
+.content-box{
+	
+	position: absolute; 
+	width: 150px; 
+	height: 100px; 
+	border:1.5px; 
+	top: 100px; 
+	left: 100px; 
+	-webkit-border-radius: 15px; 
+	-moz-border-radius: 15px; 
+	border-radius: 15px;
+}
+#grad1 {
+    background: orange; /* For browsers that do not support gradients */    
+    background: -webkit-linear-gradient(left top,  rgb(214, 254, 255),rgb(255, 255, 255)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right,   rgb(214, 254, 255),rgb(255, 255, 255)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, rgb(214, 254, 255),rgb(255, 255, 255)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right,  rgb(214, 254, 255),rgb(255, 255, 255)); /* Standard syntax (must be last) */
+}
+#grad2 {
+    background: orange; /* For browsers that do not support gradients */    
+    background: -webkit-linear-gradient(left top,  rgb(255, 255, 255),rgb(242, 213, 241)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right,   rgb(255, 255, 255),rgb(242, 213, 241)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right,  rgb(255, 255, 255),rgb(242, 213, 241)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right,   rgb(255, 255, 255),rgb(242, 213, 241)); /* Standard syntax (must be last) */
+}
+#grad3 {
+    background: orange; /* For browsers that do not support gradients */    
+    background: -webkit-linear-gradient(left top,  rgb(253, 255, 219),rgb(255, 255, 255)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right,   rgb(253, 255, 219),rgb(255, 255, 255)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, rgb(253, 255, 219),rgb(255, 255, 255)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right,   rgb(253, 255, 219),rgb(255, 255, 255)); /* Standard syntax (must be last) */
+}
+@import 'compass';
+
+
+div.dotted {
+  width:300px;
+  height:400px;
+  position:relative;
+}
+ svg.dotted  {
+  position:absolute;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
+  stroke: #ffa500; 
+  stroke-width: 3px;
+  stroke-dasharray:  0.25 4;
+  stroke-dashoffset: 8;
+  stroke-linecap:round;                                    
+	fill: none;
+}
+@import "compass/css3";
+
+
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+
+
+.ima {
+  font-family: 'Asap', sans-serif;
+  font-size: 40px;
+  text-transform: uppercase;
+  color: #42eef4;
+  }
+.thoughts {
+  background-size: 1070px;
+  position: absolute;
+  display: block;
+}
+
+.contactcharacter {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+  .contentwrapper {
+    width: 1280px;
+    height: 750px;
+    margin: 10px auto 0;
+    position: relative;
+    transition: height 1s ease-in-out;
+  }
+
+
+  
+
+  
+
+  // THOUGHTS
+  .thoughts {
+   
+  
+    animation: bob 4s ease-in-out infinite alternate;
+    transition: all 1s cubic-bezier(0.760, -0.265, 0.195, 1.260);
+    transition-property: left, right, top, bottom;
+  }
+   
+
+.p {
+        font-size: 24px;
+line-height: 1.45em;}
+        &:nth-child(1) {
+          margin-bottom: 0;
+        }
+        &:nth-child(3) {
+          margin-top: 0;
+        }
+     
+    .imawhat {
+      display: none;
+    }
+    
+
+
+
+@keyframes bob {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(20px); }
 }

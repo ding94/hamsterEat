@@ -40,7 +40,7 @@ $this->title = $id['Restaurant_Name'];
 
                 foreach($rowfood as $data) :
                 echo "<a href="?> <?php echo yii\helpers\Url::to(['food-details','fid'=>$data['Food_ID']]); ?> <?php echo ">";
-                echo "<table class = 'table table-food-details'>";
+                echo "<table class = 'table table-food-details' style = 'border:none;'>";
                 echo "<br>";
                 echo "<br>";
 

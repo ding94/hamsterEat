@@ -7,6 +7,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use common\models\Upload;
+use kartik\widgets\Select2;
 
 use wbraganca\dynamicform\DynamicFormWidget;
 $this->title = 'New Food Item';
@@ -22,17 +23,31 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-sm-6">
             <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
-                <?= $form->field($food, 'Food_FoodPicPath')->fileInput()->label('Picture') ?>
+                <?= $form->field($food, 'PicPath')->fileInput()->label('Picture') ?>
 
-                <?= $form->field($food, 'Food_Name')->textInput()->label('Food Name') ?>
+                <?= $form->field($food, 'Name')->textInput()->label('Name') ?>
 
-                <?= $form->field($food, 'Food_Halal')->inline(true)->radioList(['Non-Halal'=>'Non-Halal','Halal'=>'Halal'])->label('Halal') ?>
+                 <?= $form->field($food, 'Nickname')->textInput() ?>
 
-                <?= $form->field($food, 'Food_Type')->inline(true)->checkboxList([ 'Curry'=>'Curry', 'Dim Sum'=>'Dim Sum', 'Fast Food'=>'Fast Food', 'Finger Foods'=>'Finger Foods', 'Fish'=>'Fish', 'Gluten-Free'=>'Gluten-Free', 'Malay'=>'Malay', 'Meat'=>'Meat', 'Noodles'=>'Noodles', 'Pasta'=>'Pasta', 'Rice'=>'Rice', 'Salad'=>'Salad', 'Sashimi'=>'Sashimi', 'Soup'=>'Soup', 'Sweets'=>'Sweets', 'Tacos'=>'Tacos', 'Waffle'=>'Waffle'])->label('Food Type') ?>
 
-                <?= $form->field($food, 'Food_Price')->textInput()->label('Food Price') ?>
+                <?= $form->field($food, 'Price')->textInput()->label('Price') ?>
 
-                 <?= $form->field($food, 'Food_Desc')->textInput()->label('Food Description') ?>
+                <?php echo '<label class="control-label">Type</label>';
+                        echo Select2::widget([
+                            'name' => 'Type_ID',
+                            'data' => $type,
+                            'showToggleAll' => false,
+                            'options' => ['placeholder' => 'Select a type ...', 'multiple' => true],
+                            'pluginOptions' => [
+                                'tags' => true,
+                                'maximumInputLength' => 10,
+                                'maximumSelectionLength' => 3,
+                            ],
+                        ]);
+                ?>
+                <br>
+                <br>
+                 <?= $form->field($food, 'Description')->textInput()->label('Description') ?>
 
                   
                <?php DynamicFormWidget::begin([
@@ -46,11 +61,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'model' => $foodtype[0],
                     'formId' => 'dynamic-form',
                     'formFields' => [
-                    'FoodType_ID',
+                    'ID',
                     'Food_ID',
-                    'Selection_Type',
-                    'FoodType_Min',
-                    'FoodType_Max',
+                    'TypeName',
+                    'Min',
+                    'Max',
         ],
     ]); ?>
     <table class="table table-bordered table-striped">
@@ -70,12 +85,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php
                         // necessary for update action.
                         if (! $foodtype->isNewRecord) {
-                            echo Html::activeHiddenInput($foodtype, "[{$i}]id");
+                            echo Html::activeHiddenInput($foodtype, "[{$i}]ID");
                         }
                     ?>
-                    <?= $form->field($foodtype, "[{$i}]Selection_Type")->label(false)->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($foodtype, "[{$i}]FoodType_Min")->label(false)->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($foodtype, "[{$i}]FoodType_Max")->label(false)->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($foodtype, "[{$i}]TypeName")->label(false)->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($foodtype, "[{$i}]Min")->label(false)->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($foodtype, "[{$i}]Max")->label(false)->textInput(['maxlength' => true]) ?>
                 </td>
                 <td>
                      <?= $this->render('foodselection', [

@@ -3,29 +3,34 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
-use common\models\Food;
+use common\models\food\Food;
 use common\models\Upload;
 use yii\web\UploadedFile;
-use common\models\Foodselection;
-use common\models\Foodtype;
+use common\models\food\Foodselectiontype;
+use common\models\food\Foodselection;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\Model;
 use common\models\Orderitem;
 use common\models\Orderitemselection;
 use common\models\Restaurant;
-
+use common\models\food\Foodtype;
+use common\models\food\Foodtypejunction;
+use common\models\food\Foodstatus;
+use frontend\modules\Restaurant\controllers\FoodselectionController;
+use frontend\modules\Restaurant\controllers\FoodtypeAndStatusController;
+use frontend\modules\Restaurant\controllers\DefaultController;
 
 class FoodController extends Controller
 {
     public function actionFoodDetails($id)
     {
-        $fooddata = food::find()->where('Food_ID = :id' ,[':id' => $id])->one();
-        $foodtype = foodtype::find()->where('Food_ID = :id',[':id' => $id])->all();
-         
+        $fooddata = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
+        
+        $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id' => $id])->all();
         $orderItemSelection =new Orderitemselection;
         $orderitem = new Orderitem;
-       
+        
         if ($orderItemSelection->load(Yii::$app->request->post()) && $orderitem->load(Yii::$app->request->post()))
         {
             $orderitem->load(Yii::$app->request->post());
@@ -37,15 +42,15 @@ class FoodController extends Controller
             }
 
             foreach ($foodtype as $k => $foodtype) {
-                if ($foodtype->FoodType_Min > 0 && $foodtype->FoodType_Max == $foodtype->FoodType_Max){
-                    if ($orderItemSelection->FoodType_ID[$k] == '' || count($orderItemSelection->FoodType_ID[$k]) > $foodtype->FoodType_Max){
-                        Yii::$app->session->setFlash('danger', 'Please select at least '.$foodtype->FoodType_Min.' items and most '.$foodtype->FoodType_Max.' items.');
+                if ($foodtype->Min > 0 && $foodtype->Max == $foodtype->Max){
+                    if ($orderItemSelection->FoodType_ID[$k] == '' || count($orderItemSelection->FoodType_ID[$k]) > $foodtype->Max){
+                        Yii::$app->session->setFlash('danger', 'Please select at least '.$foodtype->Min.' items and most '.$foodtype->Max.' items.');
                         return $this->redirect(Yii::$app->request->referrer);
                     }
                 }
-                else if ($foodtype->FoodType_Min == $foodtype->FoodType_Min && $foodtype->FoodType_Max == $foodtype->FoodType_Max) {
-                    if(count($orderItemSelection->FoodType_ID[$k]) > $foodtype->FoodType_Max || count($orderItemSelection->FoodType_ID[$k]) < $foodtype->FoodType_Min ){
-                        Yii::$app->session->setFlash('danger', 'Please select at least '.$foodtype->FoodType_Min.' items and most '.$foodtype->FoodType_Max.' items.');
+                else if ($foodtype->Min == $foodtype->Min && $foodtype->Max == $foodtype->Max) {
+                    if(count($orderItemSelection->FoodType_ID[$k]) > $foodtype->Max || count($orderItemSelection->FoodType_ID[$k]) < $foodtype->Min ){
+                        Yii::$app->session->setFlash('danger', 'Please select at least '.$foodtype->Min.' items and most '.$foodtype->Max.' items.');
                         return $this->redirect(Yii::$app->request->referrer);
                     } 
                 }
@@ -74,106 +79,74 @@ class FoodController extends Controller
 
     public function actionInsertFood($rid)
     {
-         
         $food = new Food();
-        $foodtype = [new Foodtype()];
+        $food->scenario = "new"; 
+        $foodtype = [new Foodselectiontype()];
         $foodselection = [[new Foodselection()]];
         $upload = new Upload();
-        $path = Yii::$app->request->baseUrl.'/imageLocation/';
+        
+        $foodjunction = new Foodtypejunction();
+        $type = ArrayHelper::map(FoodType::find()->all(),'ID','Type_Desc');
     
-       if($food->load(Yii::$app->request->post()))
+       if(Yii::$app->request->isPost)
        {
-           $post = Yii::$app->request->post();
-           $upload->imageFile =  UploadedFile::getInstance($food, 'Food_FoodPicPath');
-    		$upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-            $location = 'imageLocation/';
-    		$upload->upload($location);
-         
-			        
-    		//$model->load($post);
-            $food->Restaurant_ID = $rid;
-            $food->Food_FoodPicPath = $upload->imageFile->name;
-            $food->Food_Type = implode(',',$food->Food_Type);
-            $food->Food_Deleted = "0";
-            $food->FoodRating = "0";
-            $food->Food_TotalBought = "0";
-            $food->Food_TotalRated = "0";
-           
-           $foodtype = Model::createMultiple(Foodtype::classname());
-           Model::loadMultiple($foodtype, Yii::$app->request->post());
+            $post = Yii::$app->request->post();
+            
+            $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
+            $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
+            $location = 'imageLocation/foodImg/';
+            $upload->upload($location);
+    
+            $food = self::newFood($post,$rid,$upload->imageFile->name);
+    
+            $foodtype = Model::createMultiple(Foodselectiontype::classname());
 
-           // validate person and houses models
-            $valid = $food->validate();
-            //$valid = Model::validateMultiple($foodtype) && $valid;
+            Model::loadMultiple($foodtype, Yii::$app->request->post());
 
-             if (isset($_POST['Foodselection'][0][0])) {
-                foreach ($_POST['Foodselection'] as $i => $foodtypes) {
-                    foreach ($foodtypes as $ix => $foodselections) {
-                        $data['Foodselection'] = $foodselections;
-                        $modelfoodselection = new Foodselection;
-                        $modelfoodselection->load($data);
-                        $foodselection[$i][$ix] = $modelfoodselection;
-                        $valid = $modelfoodselection->validate();
-                    }
-                }
+            $valid =  Model::validateMultiple($foodtype) && $food->validate() && $upload;
+
+            if (isset($_POST['Foodselection'][0][0])) {
+
+                $foodselection = FoodselectionController::validatefoodselection($post['Foodselection']);
+                $valid =  $valid && $foodselection[1] ;
             }
-
-         if ($valid) {
+         
+             if ($valid) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
-                    
-                    if ($flag = $food->save(false)) {
-                        foreach ($foodtype as $i => $modelfoodtype) {
-                           
-                           // if ($flag === false) {
-                            //    break;
-                          //  }
+                        
+                    if ($flag = $food->save()) {
 
-                            $modelfoodtype->Food_ID = $food->Food_ID;
+                        FoodtypeAndStatusController::newFoodJuntion($post['Type_ID'],$food->Food_ID);
 
-                            if (!($flag = $modelfoodtype->save(false))) {
-                                
-                                break;
-                            }
+                        $isValid = FoodtypeAndStatusController::newStatus($food->Food_ID);
 
-                            if (isset($foodselection[$i]) && is_array($foodselection[$i])) {
-                                foreach ($foodselection[$i] as $ix => $modelfoodselection) {
-                                    $modelfoodselection->FoodType_ID = $modelfoodtype->FoodType_ID;
-                                    $modelfoodselection->Food_ID = $food->Food_ID;
-                                    if (!($flag = $modelfoodselection->save(false))) {
-                                        break;
-                                    }
-                                }
-                            }
+                        $flag = FoodselectionController::createfoodselection($foodtype,$foodselection[0],$food->Food_ID) && $isValid;
+
+                        if ($flag) {
+                            $transaction->commit();
+                            $status = DefaultController::updateRestaurant($rid);
+
+                            return $this->redirect(['food/food-details', 'id' => $food->Food_ID]);
+                        } 
+                        else {
+                            $transaction->rollBack();
                         }
                     }
-
-                    if ($flag) {
-                        $transaction->commit();
-                        $status = restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
-                        if ($status['Restaurant_Status'] == 'Under Renovation')
-                        {
-                            $sql = "UPDATE restaurant SET Restaurant_Status = 'Operating' WHERE Restaurant_ID = ".$rid."";
-                            Yii::$app->db->createCommand($sql)->execute();
-                        }
-                        return $this->redirect(['food/food-details', 'id' => $food->Food_ID]);
-                    } else {
-                        $transaction->rollBack();
-                    }
-                } catch (Exception $e) {
+                } 
+                catch (Exception $e) {
                     $transaction->rollBack();
                 }
             }
         }
         $this->layout = 'user';
       
-        return $this->render('insertfood',['food' => $food,'foodtype' => (empty($foodtype)) ? [new Foodtype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection]);
+        return $this->render('insertfood',['food' => $food,'foodjunction'=>$foodjunction,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection,'type' => $type]);
     }
     
      public function actionMenu($rid)
      {
-         $menu = food::find()->where('Restaurant_ID = :id' ,[':id' => $rid])->andWhere('Food_Deleted = :dlt',[':dlt' => 0])->all();
-       
+        $menu = food::find()->where('Restaurant_ID=:id', [':id' => $rid])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
          $this->layout = 'user';
          
          return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid]);
@@ -182,8 +155,17 @@ class FoodController extends Controller
 
     public function actionDelete($rid,$id)
     {
-         $sql = "UPDATE food SET Food_Deleted = true WHERE Food_ID ='$id' AND Restaurant_ID = $rid";
-         Yii::$app->db->createCommand($sql)->execute();
+        $status = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$id])->one();
+        if ($status['Status'] == true)
+        {
+            $sql = "UPDATE foodstatus SET status = false WHERE Food_ID ='$id'";
+            Yii::$app->db->createCommand($sql)->execute();
+        }
+        else
+        {
+            $sql = "UPDATE foodstatus SET status = true WHERE Food_ID ='$id'";
+            Yii::$app->db->createCommand($sql)->execute();
+        }
          $rid = $rid;
          $menu = food::find()->where('Restaurant_ID = :id' ,[':id' => $rid])->all();
          $this->layout = 'user';
@@ -194,135 +176,110 @@ class FoodController extends Controller
 
      public function actionEditFood($id)
      {
-         
-        $food = $this->findModel($id);
-        $foodtype =$food->foodTypes;
+        $food = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
+        $chosen = ArrayHelper::map($food['foodType'],'ID','ID');
+        $type = ArrayHelper::map(FoodType::find()->all(),'ID','Type_Desc');
+       
+        $foodtype =$food->foodselectiontypes;
         $foodselection = [];
         $oldRooms = [];
         $upload = new Upload();
-        $picpath = $food['Food_FoodPicPath'];
+        $picpath = $food['PicPath'];
+        $food->scenario = "edit";
 
-         if (!empty($foodtype)) {
-             foreach ($foodtype as $i => $ftype) {
+        if (!empty($foodtype)) {
+            foreach ($foodtype as $i => $ftype) {
                  
-                 $foodtypes = $ftype->foodSelection;
-                 $foodselection[$i] = $foodtypes;
-               $oldRooms = ArrayHelper::merge(ArrayHelper::index($foodtypes, 'Food_ID'), $oldRooms);
-         }
+                $foodselectiontypes = $ftype->foodSelection;
+                $foodselection[$i] = $foodselectiontypes;
+                $oldRooms = ArrayHelper::merge(ArrayHelper::index($foodselectiontypes, 'Food_ID'), $oldRooms);
+            }
         }
-
-        if ($food->load(Yii::$app->request->post())) {
+        
+        if (Yii::$app->request->isPost) {
            
-                $post = Yii::$app->request->post();               
-                $upload->imageFile =  UploadedFile::getInstance($food, 'Food_FoodPicPath');
-                 if (!is_null($upload->imageFile))
-                {
-                    $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-                    // $post['User_PicPath'] = 
-                     $upload->upload('imageLocation/');
-                     
-                     //$restaurantdetails->load($post);
-                 
-                     $food->Food_FoodPicPath = $upload->imageFile->name;
-     
-                     Yii::$app->session->setFlash('success', 'Upload Successful');
-                }
-                else
-                {
-                    $food->Food_FoodPicPath = $picpath;
-                }
+            $post = Yii::$app->request->post();  
+                            
+            $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
 
-            $food->Food_Type = implode(',',$food->Food_Type);
-            // reset
+            $food->load($post);
+
+            if (!is_null($upload->imageFile))
+            {
+                $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
+                  
+                $location = 'imageLocation/foodImg/';
+                 
+                $food->PicPath = $upload->imageFile->name;
+            }
+            else
+            {
+                $food->PicPath = $picpath;
+            }
+
             $foodselection = [];
             
-            $oldHouseIDs = ArrayHelper::map($foodtype, 'Food_ID', 'Food_ID');
-            $foodtype = Model::createMultiple(Foodtype::classname(), $foodtype);
-            Model::loadMultiple($foodtype, Yii::$app->request->post());
-            $deletedHouseIDs = array_diff($oldHouseIDs, array_filter(ArrayHelper::map($foodtype, 'Food_ID', 'Food_ID')));
+            $foodtype = Model::createMultiple(Foodselectiontype::classname(), $foodtype);
 
-            // validate person and houses models
+            Model::loadMultiple($foodtype, Yii::$app->request->post());
+        
             $valid = $food->validate();
-           // $valid = Model::validateMultiple($foodtype) && $valid;
 
             $foodsIDs = [];
              if (isset($_POST['Foodselection'][0][0])) {
-               foreach ($_POST['Foodselection'] as $i => $foodtypes) {
-                    $foodsIDs = ArrayHelper::merge($foodsIDs, array_filter(ArrayHelper::getColumn($foodtypes, 'Food_ID')));
-                     foreach ($foodtypes as $ix => $foodselections) {
-                         $data['Foodselection'] = $foodselections;
-                        $modelfoodselection = (isset($foodselections['Food_ID']) && isset($oldRooms[$foodselections['Food_ID']])) ? $oldRooms[$foodselections['Food_ID']] : new Foodselection;
-                        $modelfoodselection->load($data);
-                        $foodselection[$i][$ix] = $modelfoodselection;
-                        $valid = $modelfoodselection->validate();                    
-                    }
-                }
+                $foodselection = FoodselectionController::validatefoodselection($post['Foodselection']);
+                $valid =  $valid && $foodselection[1] ;
             }
-
-            $oldRoomsIDs = ArrayHelper::getColumn($oldRooms, 'Food_ID');
-            $deletedRoomsIDs = array_diff($oldRoomsIDs, $foodsIDs);
-
+            
             if ($valid) {
                 
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
-                    if ($flag = $food->save(false)) {
+                    if ($flag = $food->save()) {
 
-                        if (! empty($deletedRoomsIDs)) {
-                            Foodselection::deleteAll(['Food_ID' => $deletedRoomsIDs]);
-                        }
+                        Foodtypejunction::deleteAll(['Food_ID'=>$id]);
 
-                        if (! empty($deletedHouseIDs)) {
-                            Foodtype::deleteAll(['Food_ID' => $deletedHouseIDs]);
-                        }
+                        Foodselection::deleteAll(['Food_ID' => $id]);
+                       
+                        Foodselectiontype::deleteAll(['Food_ID' => $id]);
 
-                           foreach ($foodtype as $i => $modelfoodtype) {
+                        FoodtypeAndStatusController::newFoodJuntion($post['Type_ID'],$food->Food_ID);
 
-                            if ($flag === false) {
-                                break;
-                            }
+                        $isValid = FoodtypeAndStatusController::newStatus($food->Food_ID);
 
-                            $modelfoodtype->Food_ID = $food->Food_ID;
+                        $flag = FoodselectionController::createfoodselection($foodtype,$foodselection[0],$food->Food_ID);
 
-                            if (!($flag = $modelfoodtype->save(false))) {
-                                break;
-                            }
+                        if ($flag) {
 
-                            if (isset($foodselection[$i]) && is_array($foodselection[$i])) {
-                                foreach ($foodselection[$i] as $ix => $modelfoodselection) {
-                                   $modelfoodselection->FoodType_ID = $modelfoodtype->FoodType_ID;
-                                    $modelfoodselection->Food_ID = $food->Food_ID;
-                                    if (!($flag = $modelfoodselection->save(false))) {
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if ($flag) {
-                        $transaction->commit();
-                        return $this->redirect(['food/food-details', 'id' => $food->Food_ID]);
-                    } else {
+                            return $this->redirect(['food/food-details', 'id' => $food->Food_ID]);
+                        } 
+                         else {
                         $transaction->rollBack();
+                        }
                     }
+                   
                 } catch (Exception $e) {
                     $transaction->rollBack();
                 }
             }
         }
          $this->layout = 'user';
-         return $this->render('editfood',['food' => $food,'foodtype' => (empty($foodtype)) ? [new Foodtype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection]);
+         return $this->render('editfood',['food' => $food,'chosen'=> $chosen,'type' => $type,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection]);
 
         
        
-}
- protected function findModel($id)
+    }
+
+    protected static function newFood($post,$rid,$upload)
     {
-        if (($model = food::findOne($id)) !== null) {         
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+        $food = new Food();
+        $food->load($post);
+        
+        $food->Restaurant_ID = $rid;
+        $food->PicPath = $upload;
+           
+        $food->Ingredient = 'xD';
+        return $food;
     }
 }
+

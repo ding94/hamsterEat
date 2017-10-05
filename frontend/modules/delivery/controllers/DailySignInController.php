@@ -5,7 +5,8 @@ namespace frontend\modules\delivery\controllers;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use Yii;
-
+use yii\helpers\ArrayHelper;
+use frontend\models\Deliveryman;
 use common\models\DeliveryAttendence;
 /**
  * Default controller for the `delivery` module
@@ -59,6 +60,20 @@ class DailySignInController extends Controller
     			# code...
     			break;
     	}
+		 $get = ArrayHelper::getColumn( deliveryman::find()->asArray()->all(),'DeliveryMan_Assignment');
+		 $large = 0;
+		foreach($get as $k)
+      {
+		  if ($k > $large) {
+			$large = $k;
+		  }
+        
+      }
+	  
+	  $update = "UPDATE deliveryman SET DeliveryMan_Assignment = ".$large." WHERE User_id = '".Yii::$app->user->identity->id."'";
+           
+        Yii::$app->db->createCommand($update)->execute();
+        
     	return $this->redirect(Yii::$app->request->referrer);	
     }
 
@@ -69,15 +84,18 @@ class DailySignInController extends Controller
 
     	$all ="";
     	$signData = DeliveryAttendence::find()->where(' month = :month',[':month' => $today])->all();
-
-    	foreach($signData as $data)
+		
+    	foreach($signData as $k=> $data)
     	{
     		$allDate = json_decode($data->day);
     		if($allDate->$date->result == 1)
-    		{
-    			$all[] = $allDate->$date->result;
-    		}
+			{
+				$all[] = $data->uid;
+			}
+			
+				
     	}
+		
     	return $all;
     }
 
@@ -179,3 +197,4 @@ class DailySignInController extends Controller
     }
 
 }
+

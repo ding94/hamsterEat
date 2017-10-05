@@ -1,10 +1,10 @@
 <?php
 /* @var $this yii\web\View */
 $this->title = "Restaurant Orders";
-use common\models\Food;
+use common\models\food\Food;
 use common\models\Orderitemselection;
-use common\models\Foodselection;
-use common\models\Foodtype;
+use common\models\food\Foodselection;
+use common\models\food\Foodselectiontype;
 use common\models\Orders;
 use common\models\Orderitem;
 use yii\helpers\Html;
@@ -58,15 +58,15 @@ use yii\helpers\Html;
                         echo "<tr>";
                             echo "<td><center>".$orderitemdetails['Order_ID']."</td>";
                             $foodname = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitemdetails['Food_ID']])->one();
-                            echo "<td><center>".$foodname['Food_Name']."</td>";
+                            echo "<td><center>".$foodname['Name']."</td>";
                             $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$orderitemdetails['Order_ID']])->all();
                             echo "<td><center>";
                             foreach ($selections as $selections) :
-                                $selectionname = Foodselection::find()->where('Selection_ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
-                                $selectiontype = Foodtype::find()->where('FoodType_ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
-                                if (!is_null($selectionname['Selection_ID']))
+                                $selectionname = Foodselection::find()->where('ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
+                                $selectiontype = Foodselectiontype::find()->where('ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
+                                if (!is_null($selectionname['ID']))
                                 {
-                                    echo $selectiontype['Selection_Type'].': &nbsp;'.$selectionname['Selection_Name'];
+                                    echo $selectiontype['TypeName'].': &nbsp;'.$selectionname['Name'];
                                     echo "<br>";
                                 }
                             endforeach;

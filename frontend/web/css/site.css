@@ -1,3 +1,4 @@
+
 html,
 body {
     height: 100%;
@@ -186,15 +187,15 @@ a.desc:after {
 .orderTable td a{
     display: block;
 }
-.container2{
-	
+.container1{
+	background-color: rgba(192,192,192,0.3);
     padding:50px;
     margin:auto;
 	position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    width:80%;
+    width:70%;
 	height:70%;
 }
 #grad {
@@ -364,3 +365,4 @@ line-height: 1.45em;}
   0%   { transform: translateY(0); }
   100% { transform: translateY(20px); }
 }
+

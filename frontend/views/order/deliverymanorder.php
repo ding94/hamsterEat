@@ -1,10 +1,10 @@
 <?php
 /* @var $this yii\web\View */
 $this->title = "Restaurant Orders";
-use common\models\Food;
+use common\models\food\Food;
 use common\models\Orderitemselection;
-use common\models\Foodselection;
-use common\models\Foodtype;
+use common\models\food\Foodselection;
+use common\models\food\Foodselectiontype;
 use common\models\Orders;
 use common\models\Orderitem;
 use common\models\Restaurant;

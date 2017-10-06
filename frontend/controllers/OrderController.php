@@ -45,7 +45,7 @@ class OrderController extends \yii\web\Controller
 
         $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
 
-        $deliveryid = "SELECT DISTINCT orderitem.Delivery_ID FROM orderitem INNER JOIN food ON orderitem.Food_ID = food.Food_ID INNER JOIN orders on orderitem.Delivery_ID = orders.Delivery_ID WHERE food.Restaurant_ID = ".$restaurantname['Restaurant_ID']." AND orders.Orders_Status != 'Not Placed' ORDER BY orderitem.Delivery_ID";
+        $deliveryid = "SELECT DISTINCT orderitem.Delivery_ID FROM orderitem INNER JOIN food ON orderitem.Food_ID = food.Food_ID INNER JOIN orders on orderitem.Delivery_ID = orders.Delivery_ID WHERE food.Restaurant_ID = ".$restaurantname['Restaurant_ID']." AND orders.Orders_Status != 'Not Placed' AND orders.Orders_Status != 'Completed' AND orders.Orders_Status != 'Rating Done' ORDER BY orderitem.Delivery_ID";
         $result = Yii::$app->db->createCommand($deliveryid)->queryAll();
 
         return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result]);
@@ -53,7 +53,7 @@ class OrderController extends \yii\web\Controller
 
     public function actionDeliverymanOrders()
     {
-        $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status != :status and :status1', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status1'=>'Rating Done'])->all();
+        $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status != :status and Orders_Status != :status1', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status1'=>'Rating Done'])->all();
 
         return $this->render('deliverymanorder', ['dman'=>$dman]);
     }
@@ -170,7 +170,7 @@ class OrderController extends \yii\web\Controller
         
         $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
 
-        $deliveryid = "SELECT DISTINCT orderitem.Delivery_ID FROM orderitem INNER JOIN food ON orderitem.Food_ID = food.Food_ID INNER JOIN orders on orderitem.Delivery_ID = orders.Delivery_ID WHERE food.Restaurant_ID = ".$restaurantname['Restaurant_ID']." AND orders.Orders_Status != 'Not Placed' ORDER BY orderitem.Delivery_ID";
+        $deliveryid = "SELECT DISTINCT orderitem.Delivery_ID FROM orderitem INNER JOIN food ON orderitem.Food_ID = food.Food_ID INNER JOIN orders on orderitem.Delivery_ID = orders.Delivery_ID WHERE food.Restaurant_ID = ".$restaurantname['Restaurant_ID']." AND orders.Orders_Status = 'Completed' OR orders.Orders_Status = 'Rating Done' ORDER BY orderitem.Delivery_ID";
         $result = Yii::$app->db->createCommand($deliveryid)->queryAll();
 
         return $this->render('restaurantorderhistory', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result]);

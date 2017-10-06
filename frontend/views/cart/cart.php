@@ -6,6 +6,7 @@ use common\models\food\Foodselectiontype;
 Use common\models\food\Foodselection;
 Use common\models\Orders;
 use yii\bootstrap\ActiveForm;
+use frontend\controllers\CartController;
 
 $this->title = "My Cart";
 ?>
@@ -38,7 +39,7 @@ $this->title = "My Cart";
         <td><center><?php echo Html::img('@web/imageLocation/'.$fooddetails['PicPath'], ['class' => 'img-responsive','style'=>'height:60px; width:90px; margin:auto;']); ?></td>
         <?php
         echo "<td><center>".$fooddetails['Name']."</td>";
-        echo "<td align="."right>".Display2decimal($fooddetails['Price'])."</td>";
+        echo "<td align="."right>".CartController::actionRoundoff1decimal($fooddetails['Price'])."</td>"; 
         echo "<td><center>".$cartitems['OrderItem_Quantity']."</td>";
         $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$cartitems['Order_ID']])->all();
         echo "<td><center>";
@@ -52,8 +53,8 @@ $this->title = "My Cart";
           }
         endforeach;
         echo "</td>";
-        echo "<td align="."right>".$cartitems['OrderItem_SelectionTotal']."</td>";
-        echo "<td align="."right>".$cartitems['OrderItem_LineTotal']."</td>";
+        echo "<td align="."right>".CartController::actionRoundoff1decimal($cartitems['OrderItem_SelectionTotal'])."</td>";
+        echo "<td align="."right>".CartController::actionRoundoff1decimal($cartitems['OrderItem_LineTotal'])."</td>";
         echo "<td><center>".$cartitems['OrderItem_Remark']."</td>";
         echo "<td>".Html::a('', ['delete','oid'=>$cartitems['Order_ID']], ['class'=>'btn btn-danger fa fa-trash'])."</td>";
         echo "</tr>";
@@ -68,7 +69,7 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td><center><strong> Subtotal (RM): </strong></td>"; ?>
-        <td align=right> <font id="subtotal"><?php echo $did['Orders_Subtotal']; ?></font></td><?php
+        <td align=right> <font id="subtotal"><?php echo CartController::actionRoundoff1decimal($did['Orders_Subtotal']); ?></font></td><?php
       echo "</tr>";
       echo "<tr>";
         echo "<td> </td>";
@@ -78,7 +79,7 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td><center><strong> Delivery Charge (RM): </strong></td>";?>
-        <td align=right> <font id="delivery"><?php echo $did['Orders_DeliveryCharge']; ?></font></td><?php
+        <td align=right> <font id="delivery"><?php echo CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge']); ?></font></td><?php
       echo "</tr>";
       echo "<tr>";
         echo "<td> </td>";
@@ -89,7 +90,7 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td><center><strong> Total (RM): </strong></td>";?>
         <?php $form = ActiveForm::begin(); ?>
-        <td align=right> <font id="total"><?php echo $did['Orders_TotalPrice']; ?></font></td><?php
+        <td align=right> <font id="total"><?php echo CartController::actionRoundoff1decimal($did['Orders_TotalPrice']); ?></font></td><?php
       echo "</tr>";
       echo "<tr>";
         echo "<td> </td>";

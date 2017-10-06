@@ -7,6 +7,7 @@ use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
 use common\models\Orders;
 use yii\helpers\Html;
+use frontend\controllers\CartController;
 ?>
 
 <div class = "container">
@@ -58,7 +59,7 @@ use yii\helpers\Html;
             echo "<td><center>".$orderitemdetails['Order_ID']."</td>"; ?>
             <td><center><?php echo Html::img('@web/imageLocation/'.$fooddetails['PicPath'], ['class' => 'img-responsive','style'=>'height:60px; width:90px; margin:auto;']); ?></td><?php
             echo "<td><center>".$fooddetails['Name']."</td>";
-            echo "<td align="."right>".$fooddetails['Price']."</td>";
+            echo "<td align="."right>".CartController::actionRoundoff1decimal($fooddetails['Price'])."</td>";
             echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";
             $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$orderitemdetails['Order_ID']])->all();
             echo "<td><center>";
@@ -73,8 +74,8 @@ use yii\helpers\Html;
 
             endforeach;
             echo "</td>";
-            echo "<td align="."right>".$orderitemdetails['OrderItem_SelectionTotal']."</td>";
-            echo "<td align="."right>".$orderitemdetails['OrderItem_LineTotal']."</td>";
+            echo "<td align="."right>".CartController::actionRoundoff1decimal($orderitemdetails['OrderItem_SelectionTotal'])."</td>";
+            echo "<td align="."right>".CartController::actionRoundoff1decimal($orderitemdetails['OrderItem_LineTotal'])."</td>";
             echo "<td colspan = 2><center>".$orderitemdetails['OrderItem_Remark']."</td>";
             echo "</tr>";
           endforeach;
@@ -89,7 +90,7 @@ use yii\helpers\Html;
             echo "<td> </td>";
             echo "<td> </td>";
             echo "<td><center><strong> Subtotal (RM): </strong></td>";
-            echo "<td align="."right>".$did['Orders_Subtotal']."</td>";
+            echo "<td align="."right>".CartController::actionRoundoff1decimal($did['Orders_Subtotal'])."</td>";
           echo "</tr>";
           echo "<tr>";
             echo "<td> </td>";
@@ -100,7 +101,7 @@ use yii\helpers\Html;
             echo "<td> </td>";
             echo "<td> </td>";
             echo "<td><center><strong> Delivery Charge (RM): </strong></td>";
-            echo "<td align="."right>".$did['Orders_DeliveryCharge']."</td>";
+            echo "<td align="."right>".CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge'])."</td>";
           echo "</tr>";
           echo "<tr>";
             echo "<td> </td>";
@@ -111,7 +112,7 @@ use yii\helpers\Html;
             echo "<td> </td>";
             echo "<td> </td>";
             echo "<td><center><strong> Total (RM): </strong></td>";
-            echo "<td align="."right><strong>".$did['Orders_TotalPrice']."</strong></td>";
+            echo "<td align="."right><strong>".CartController::actionRoundoff1decimal($did['Orders_TotalPrice'])."</strong></td>";
           echo "</tr>";
           echo "</table>";
         ?>

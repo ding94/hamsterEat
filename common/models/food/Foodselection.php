@@ -2,6 +2,8 @@
 
 namespace common\models\food;
 
+use frontend\controllers\CartController;
+
 use Yii;
 
 /**
@@ -56,6 +58,6 @@ class Foodselection extends \yii\db\ActiveRecord
 
     public function getTypeprice()
     {
-        return $this->Name.'&nbsp; (+ RM'.$this->Price.')';
+        return $this->Name.'&nbsp; (+ RM'.CartController::actionRoundoff1decimal($this->Price).')';
     }
 }

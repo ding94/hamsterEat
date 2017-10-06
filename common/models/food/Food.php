@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use common\models\food\Foodtype;
 use common\models\food\Foodtypejunction;
+use frontend\controllers\CartController;
 
 /**
  * This is the model class for table "food".
@@ -97,5 +98,10 @@ class Food extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Foodselectiontype::className(),['Food_ID' => 'Food_ID']);
         
+    }
+
+    public function getRoundprice()
+    {
+        return CartController::actionRoundoff1decimal($this->Price);
     }
 }

@@ -67,6 +67,10 @@ $this->title = $id['Restaurant_Name'];
   height:168px;
 }
 
+.menu-container a:hover{
+    box-shadow: 0px 0px 20px -2px grey;
+}
+
 span.stars, span.stars span {
     display: block;
     background: url(imageLocation/stars.png) 0 -16px repeat-x;

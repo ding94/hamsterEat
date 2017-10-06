@@ -1,0 +1,110 @@
+<?php
+use yii\helpers\Html;
+$this->title = $id['Restaurant_Name'];
+?>
+<style>
+.outer-container{
+  display:flex;
+  align-items: center;
+  justify-content:center;
+}
+
+.menu-container{
+  display: grid;
+  width:1200px;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 15px;
+  grid-row-gap: 15px;
+  margin-bottom: 50px;
+  align-items: center;
+  justify-content:center;
+}
+
+.item{
+  font-size: 24px;
+  color: black;
+  background-color: white;
+  min-width: 300px;
+  min-height: 170px;
+  border: 1px solid grey;
+}
+
+.item p{
+  font-size:15px;
+  color:grey;
+}
+
+.item .inner-item{
+  margin:10px 0px 10px 30px;
+  float:left;
+}
+
+.item .tag{
+    font-size: 15px;
+    color: grey;
+}
+
+.item .img{
+  background-color: grey;
+  width:170px;
+  height:170px;
+  float:right;
+}
+</style>
+<body>
+<div class = "container">
+    <?php $picpath = $id['Restaurant_RestaurantPicPath'];
+
+        if (is_null($id['Restaurant_RestaurantPicPath'])){
+            $picpath = "DefaultRestaurant.jpg";
+        }
+         echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>"; ?>
+    <h1><center><?php echo $id['Restaurant_Name']; ?></h1>
+    <?php if (!Yii::$app->user->isGuest)
+    {
+        if ($id['Restaurant_Manager'] == Yii::$app->user->identity->username)
+        {
+            echo "<table class= table table-user-information style= width:100%; margin:auto;>";
+            echo "<tr>";
+                echo "<td><center>".Html::a('Edit Details', ['edit-restaurant-details', 'rid'=>$id['Restaurant_ID'], 'restArea'=>$id['Restaurant_AreaGroup'], 'areachosen'=>$id['Restaurant_Area'], 'postcodechosen'=>$id['Restaurant_Postcode']], ['class'=>'btn btn-primary'])."</td>";
+                echo "<br> <br>";
+                echo "<td><center>".Html::a('Manage Staffs', ['manage-restaurant-staff', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+                echo "<br> <br>";
+                echo "<td><center>".Html::a('Restaurants Orders', ['/order/restaurant-orders', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+                echo "<br> <br>";
+                echo "<td><center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+            echo "</tr>";
+            echo "</table>";
+        }
+    }
+    ?>
+    <hr>
+    <br>
+
+    <h2><center>Menu</h2>
+    <div class = "foodItems">
+    </div>
+    <?php $id = isset($_GET['foodid']) ? $_GET['foodid'] : ''; ?>
+    <div class="outer-container">
+    <div class="menu-container">
+            <?php foreach($rowfood as $data): ?>
+        <a href="<?php echo yii\helpers\Url::to(['food-details','fid'=>$data['Food_ID']]); ?>">
+        <div class="item">
+            <div class="inner-item">
+            <span><?php echo $data['Name']; ?></span>
+            <p><?php echo 'RM'.$data['Price']; ?></p>
+            <?php foreach($data['foodType']as $type): ?>
+            <span class="tag"><?php echo $type['Type_Desc'].','; ?></span>
+            <?php endforeach; ?>
+            <p><?php echo $data['Rating']; ?></p>
+            <p><?php echo $data['Description']; ?></p>
+            </div>
+            <div class="img"></div>
+        </div>
+        </a>
+        <?php endforeach; ?>
+    </div>
+    </div>
+
+</div>
+</body>

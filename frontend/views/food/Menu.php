@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use frontend\controllers\CartController;
 $this->title = "Restaurant Menu";
 ?>
 
@@ -31,7 +32,7 @@ $this->title = "Restaurant Menu";
                     echo "<br>";
                 endforeach;
                 echo "</td>";
-                echo '<td>'.$menu['Price'].'</td>';
+                echo '<td>'.CartController::actionRoundoff1decimal($menu['Price']).'</td>';
                 echo '<td>';
                 if ($menu['foodStatus']['Status'] == true)
                 {

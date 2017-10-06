@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-$this->title = "Restaurant Orders";
+$this->title = "Restaurant Orders History";
 use common\models\food\Food;
 use common\models\Orderitemselection;
 use common\models\food\Foodselection;
@@ -12,7 +12,7 @@ use yii\helpers\Html;
 
 <div class = "container">
     <div>
-        <?php echo "<h1> Orders for ".$restaurantname['Restaurant_Name']."</h1>";
+        <?php echo "<h1> Orders History for ".$restaurantname['Restaurant_Name']."</h1>";
         echo "<br>";
         echo "<br>";
 

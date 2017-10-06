@@ -367,16 +367,16 @@ class CartController extends Controller
          return $this->redirect(['view-cart']);
     }
 
+    public static function actionDisplay2decimal($price)
+    {
+        return number_format((float)$price,2,'.','');
+    }
+
+
     public static function actionRoundoff1decimal($price)
     {
-            return number_format((float)$price,2,'.','');
+
+        return self::actionDisplay2decimal(number_format((float)$price,1,'.',''));
+
     }
-
-
-    public function actionDisplay2decimal($price)
-    {
-            return self::actionRoundoff1decimal(number_format((float)$price,1,'.',''));
-    }
-
-
 }

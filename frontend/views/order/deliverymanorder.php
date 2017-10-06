@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-$this->title = "Restaurant Orders";
+$this->title = "Delivery Man Orders";
 use common\models\food\Food;
 use common\models\Orderitemselection;
 use common\models\food\Foodselection;
@@ -23,6 +23,7 @@ $this->title = "Delivery Orders";
                         echo "<th><center> Time to be Received </th>";
                         echo "<th><center> Current Status </th>";
                         echo "<th><center> Time Placed </th>";
+                        echo "<th><center> Collect (RM) </th>";
                     echo "</tr>";
                     
                     $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$dman['Delivery_ID']])->one();
@@ -36,13 +37,13 @@ $this->title = "Delivery Orders";
                         date_default_timezone_set("Asia/Kuala_Lumpur");
                         $timeplaced = date('d/m/Y H:i:s', $orderdetails['Orders_DateTimeMade']);
                         echo "<td><center> $timeplaced </td>";
-                        echo "<td><center> </td>";
+                        echo "<td><center>".$orderdetails['Orders_TotalPrice']."</td>";
 
                     echo "</tr>";
                     echo "<tr>";
                         echo "<th><center> Order ID </th>";
                         echo "<th><center> Restaurant Name </th>";
-                        echo "<th><center> Restaurant Address </th>";
+                        echo "<th colspan = 2><center> Restaurant Address </th>";
                         echo "<th><center> Quantity </th>";
                         echo "<th><center> Current Status </th>";
                         echo "<th><center> Update Status </th>";
@@ -56,7 +57,7 @@ $this->title = "Delivery Orders";
                             $foodname = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitemdetails['Food_ID']])->one();
                             $restname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$foodname['Restaurant_ID']])->one();
                             echo "<td><center>".$restname['Restaurant_Name']."</td>";
-                            echo "<td><center>".$restname['Restaurant_UnitNo'].', '.$restname['Restaurant_Street'].', '.$restname['Restaurant_Area'].', '.$restname['Restaurant_Postcode'].'.'."</td>";
+                            echo "<td colspan = 2><center>".$restname['Restaurant_UnitNo'].', '.$restname['Restaurant_Street'].', '.$restname['Restaurant_Area'].', '.$restname['Restaurant_Postcode'].'.'."</td>";
 
                             echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";
                             echo "<td><center>".$orderitemdetails['OrderItem_Status']."</td>";

@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-$this->title = "Delivery Man Orders";
+$this->title = "Delivery Man Orders History";
 use common\models\food\Food;
 use common\models\Orderitemselection;
 use common\models\food\Foodselection;
@@ -9,7 +9,6 @@ use common\models\Orders;
 use common\models\Orderitem;
 use common\models\Restaurant;
 use yii\helpers\Html;
-$this->title = "Delivery Orders";
 ?>
 
 <div class = "container">

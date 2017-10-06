@@ -367,5 +367,4 @@ class CartController extends Controller
          return $this->redirect(['view-cart']);
     }
     
->>>>>>> 316ffad68404297d712be86911eaa67c352713b9
 }

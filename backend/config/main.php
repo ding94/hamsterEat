@@ -18,6 +18,9 @@ return [
         'order' => [
             'class' => 'backend\modules\Order\order',
         ],
+        'restaurant' => [
+            'class' => 'backend\modules\Restaurant\restaurant',
+        ],
         'gridview' =>  [
             'class' => '\kartik\grid\Module'
             // enter optional module parameters below - only if you need to  

@@ -5,7 +5,7 @@ use common\models\Orders;
 use Yii;
 use yii\web\Controller;
 use common\models\Orderitem;
-use common\models\Food;
+use common\models\food\Food;
 use common\models\Restaurant;
 
 class OrderController extends \yii\web\Controller

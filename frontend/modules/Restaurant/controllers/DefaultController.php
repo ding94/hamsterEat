@@ -285,7 +285,7 @@ class DefaultController extends Controller
         $id = restaurant::find()->where('Restaurant_ID = :rid',[':rid'=>$rid])->one();
         //var_dump($rstaff);exit;
 
-        return $this->render('manageRestaurantStaff',['rid'=>$rid, 'rstaff'=>$rstaff, 'id'=>$id]);
+        return $this->render('managerestaurantstaff',['rid'=>$rid, 'rstaff'=>$rstaff, 'id'=>$id]);
     }
 
     public function actionDeleteRestaurantStaff($rid, $uname)

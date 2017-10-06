@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\bootstrap\Modal;
 $this->title = $id['Restaurant_Name'];
 ?>
 <style>
@@ -34,24 +35,47 @@ $this->title = $id['Restaurant_Name'];
   color:grey;
 }
 
+.item .small-text{
+   font-size:15px;
+  color:grey; 
+}
+
+.item .price{
+    font-size: 17px;
+    color: black;
+}
+
 .item .inner-item{
   margin:10px 0px 10px 30px;
   float:left;
 }
 
 .item .tag{
-    font-size: 15px;
+    font-size: 13px;
     color: grey;
 }
 
 .item .img{
-  background-color: grey;
-  width:170px;
-  height:170px;
+
   float:right;
+}
+
+.item img{
+    width:168px;
+  height:168px;
 }
 </style>
 <body>
+<?php Modal::begin([
+            'header' => '<h4>Item</h4>',
+            'id'     => 'model',
+            'size'   => 'model-lg',
+    ]);
+    
+    echo "<div id='modelContent'></div>";
+    
+    Modal::end(); ?>
+?>
 <div class = "container">
     <?php $picpath = $id['Restaurant_RestaurantPicPath'];
 
@@ -88,18 +112,17 @@ $this->title = $id['Restaurant_Name'];
     <div class="outer-container">
     <div class="menu-container">
             <?php foreach($rowfood as $data): ?>
-        <a href="<?php echo yii\helpers\Url::to(['food-details','fid'=>$data['Food_ID']]); ?>">
+        <a href="<?php echo yii\helpers\Url::to(['food-details','fid'=>$data['Food_ID']]); ?>" id="modelButton">
         <div class="item">
             <div class="inner-item">
             <span><?php echo $data['Name']; ?></span>
-            <p><?php echo 'RM'.$data['Price']; ?></p>
+            <span><p class="price"><?php echo 'RM'.$data['Price']; ?></p></span><span class="small-text pull-right"><?php echo $data['Rating']; ?></span>
+            <p><?php echo $data['Description']; ?></p>
             <?php foreach($data['foodType']as $type): ?>
             <span class="tag"><?php echo $type['Type_Desc'].','; ?></span>
             <?php endforeach; ?>
-            <p><?php echo $data['Rating']; ?></p>
-            <p><?php echo $data['Description']; ?></p>
             </div>
-            <div class="img"></div>
+            <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$data['PicPath']) ?></div>
         </div>
         </a>
         <?php endforeach; ?>

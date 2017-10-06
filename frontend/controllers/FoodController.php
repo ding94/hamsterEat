@@ -20,6 +20,7 @@ use common\models\food\Foodstatus;
 use frontend\modules\Restaurant\controllers\FoodselectionController;
 use frontend\modules\Restaurant\controllers\FoodtypeAndStatusController;
 use frontend\modules\Restaurant\controllers\DefaultController;
+use frontend\controllers\CartController;
 
 class FoodController extends Controller
 {
@@ -203,6 +204,7 @@ class FoodController extends Controller
             $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
 
             $food->load($post);
+            $food->Price = CartController::actionDisplay2decimal($post['Food']['roundprice']);
 
             if (!is_null($upload->imageFile))
             {
@@ -216,7 +218,7 @@ class FoodController extends Controller
             {
                 $food->PicPath = $picpath;
             }
-
+         
             $foodselection = [];
             
             $foodtype = Model::createMultiple(Foodselectiontype::classname(), $foodtype);
@@ -275,10 +277,9 @@ class FoodController extends Controller
     {
         $food = new Food();
         $food->load($post);
-        
+        $food->Price = CartController::actionDisplay2decimal($food->Price);
         $food->Restaurant_ID = $rid;
         $food->PicPath = $upload;
-           
         $food->Ingredient = 'xD';
         return $food;
     }

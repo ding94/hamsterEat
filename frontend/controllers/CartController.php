@@ -369,14 +369,12 @@ class CartController extends Controller
 
     public static function actionDisplay2decimal($price)
     {
-            return number_format((float)$price,2,'.','');
+        return number_format((float)$price,2,'.','');
     }
 
 
-       public static function actionRoundoff1decimal($price)
+    public static function actionRoundoff1decimal($price)
     {
-            return self::actionDisplay2decimal(number_format((float)$price,1,'.',''));
+        return self::actionDisplay2decimal(number_format((float)$price,1,'.',''));
     }
-
-
 }

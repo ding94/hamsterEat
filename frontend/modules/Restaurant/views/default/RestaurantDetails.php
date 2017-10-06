@@ -49,6 +49,7 @@ $this->title = $id['Restaurant_Name'];
 .item .inner-item{
   margin:10px 0px 10px 30px;
   float:left;
+  width: 50%;
 }
 
 .item .tag{
@@ -127,7 +128,7 @@ span.stars span {
         <div class="item">
             <div class="inner-item">
             <span><?php echo $data['Name']; ?></span>
-            <span class="small-text pull-right stars"><?php echo $data['Rating']; ?></span>
+            <span class="small-text pull-right stars" alt="<?php echo $data['Rating']; ?>"><?php echo $data['Rating']; ?></span>
             <span><p class="price"><?php echo 'RM'.$data['Price']; ?></p></span>
             <p><?php echo $data['Description']; ?></p>
             <?php foreach($data['foodType']as $type): ?>

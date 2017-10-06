@@ -78,9 +78,9 @@ use yii\bootstrap\Modal;
                 'buttons' => [
                     'fooddetail' => function($url , $model)
                     {
-                        $url =  Url::to(['parcel/confirmreceived' ,'id'=>$model->id,'status'=>$model->status]);
+                        //$url =  Url::to(['parcel/confirmreceived' ,'id'=>$model->id,'status'=>$model->status]);
 
-                        return $model->status == 3 ? Html::a('Confirm Received' , $url , ['class' => 'text-underline','title' => 'Confirm Received','data-confirm'=>"Confirm action?"]): '' ;
+                       // return $model->status == 3 ? Html::a('Confirm Received' , $url , ['class' => 'text-underline','title' => 'Confirm Received','data-confirm'=>"Confirm action?"]): '' ;
                     },
                 ],
             ],

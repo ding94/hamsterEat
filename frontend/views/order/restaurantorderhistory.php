@@ -49,7 +49,6 @@ use yii\helpers\Html;
                         echo "<th><center> Quantity </th>";
                         echo "<th><center> Remarks </th>";
                         echo "<th><center> Current Status </th>";
-                        echo "<th><center> Update Status </th>";
                     echo "</tr>";
 
                     $orderitemdetails = "SELECT * from orderitem INNER JOIN food ON orderitem.Food_ID = food.Food_ID INNER JOIN restaurant on restaurant.Restaurant_ID = food.Restaurant_ID WHERE food.Restaurant_ID = ".$restaurantname['Restaurant_ID']." AND orderitem.Delivery_ID = ".$orderdetails['Delivery_ID']."";

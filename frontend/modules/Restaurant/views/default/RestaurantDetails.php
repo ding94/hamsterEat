@@ -38,6 +38,7 @@ $this->title = $id['Restaurant_Name'];
 .item .small-text{
    font-size:15px;
   color:grey; 
+  margin-top: 10px;
 }
 
 .item .price{
@@ -48,6 +49,7 @@ $this->title = $id['Restaurant_Name'];
 .item .inner-item{
   margin:10px 0px 10px 30px;
   float:left;
+  width: 50%;
 }
 
 .item .tag{
@@ -63,6 +65,21 @@ $this->title = $id['Restaurant_Name'];
 .item img{
     width:168px;
   height:168px;
+}
+
+.menu-container a:hover{
+    box-shadow: 0px 0px 20px -2px grey;
+}
+
+span.stars, span.stars span {
+    display: block;
+    background: url(imageLocation/stars.png) 0 -16px repeat-x;
+    width: 80px;
+    height: 16px;
+}
+
+span.stars span {
+    background-position: 0 0;
 }
 </style>
 <body>
@@ -95,6 +112,8 @@ $this->title = $id['Restaurant_Name'];
                 echo "<br> <br>";
                 echo "<td><center>".Html::a('Restaurants Orders', ['/order/restaurant-orders', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
                 echo "<br> <br>";
+                echo "<td><center>".Html::a('Restaurants Orders History', ['/order/restaurant-order-history', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+                echo "<br> <br>";
                 echo "<td><center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
             echo "</tr>";
             echo "</table>";
@@ -115,12 +134,12 @@ $this->title = $id['Restaurant_Name'];
         <div class="item">
             <div class="inner-item">
             <span><?php echo $data['Name']; ?></span>
+            <span class="small-text pull-right stars" alt="<?php echo $data['Rating']; ?>"><?php echo $data['Rating']; ?></span>
             <span><p class="price"><?php echo 'RM'.$data['Price']; ?></p></span>
             <p><?php echo $data['Description']; ?></p>
             <?php foreach($data['foodType']as $type): ?>
             <span class="tag"><?php echo $type['Type_Desc'].','; ?></span>
             <?php endforeach; ?>
-            <span class="small-text"><?php echo $data['Rating']; ?></span>
             </div>
             <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$data['PicPath']) ?></div>
         </div>

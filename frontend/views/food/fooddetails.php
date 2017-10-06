@@ -4,6 +4,7 @@ use yii\bootstrap\ActiveForm;
 use common\models\food\Foodselection;
 use yii\helpers\ArrayHelper;
 use common\models\Orderitemselection;
+use frontend\controllers\CartController;
 $this->title = "Food Details";
 ?>
 
@@ -24,7 +25,7 @@ $this->title = "Food Details";
 
             <tr>
                   <td>Food Price (RM):</td>
-                  <td> <?php echo $fooddata->Price;?></td>
+                  <td> <?php echo CartController::actionRoundoff1decimal($fooddata->Price);?></td>
             </tr>
 
             <tr>

@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\web\Session;
-
+use frontend\controllers\CartController;
 $this->title = "Order Placed";
 ?>
 <body  >
@@ -27,7 +27,7 @@ $this->title = "Order Placed";
                     echo "<th><center> You have chosen Cash on Delivery payment method</th>";
                 echo "</tr>";
                 echo "<tr>";
-                    echo "<td><center> Please prepare a total of RM ".$timedate['Orders_TotalPrice']." for our rider.</td>";
+                    echo "<td><center> Please prepare a total of RM ".CartController::actionRoundoff1decimal($timedate['Orders_TotalPrice'])." for our rider.</td>";
                 echo "</tr>";
             }
             elseif ($timedate['Orders_PaymentMethod'] == "Account Balance")

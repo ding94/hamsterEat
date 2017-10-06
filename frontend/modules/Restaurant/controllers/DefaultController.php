@@ -99,7 +99,7 @@ class DefaultController extends Controller
             }
         }
 
-        return $this->render('newRestaurantLocation', ['postcode'=>$postcode ,'list'=>$list]);
+        return $this->render('newRestaurantlocation', ['postcode'=>$postcode ,'list'=>$list]);
     }
     
     public function actionNewRestaurantDetails()
@@ -163,7 +163,7 @@ class DefaultController extends Controller
             }
         else 
             {
-                return $this->render('newRestaurant', ['restaurant' => $restaurant, 'restArea'=>$restArea, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen]);
+                return $this->render('newrestaurant', ['restaurant' => $restaurant, 'restArea'=>$restArea, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen]);
             }
     }
 
@@ -226,7 +226,7 @@ class DefaultController extends Controller
       
     //$this->view->title = 'Update Profile';
     //$this->layout = 'user';
-    return $this->render('editRestaurantdetails', ['restaurantdetails'=>$restaurantdetails, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen, 'restArea'=>$restArea]);
+    return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen, 'restArea'=>$restArea]);
     }
 
     public function actionEditRestaurantArea($rid)
@@ -250,7 +250,7 @@ class DefaultController extends Controller
             }
         }
 
-        return $this->render('editRestaurantLocation',['restaurantdetails'=>$restaurantdetails, 'postcode'=>$postcode ,'list'=>$list, 'rid'=>$rid]);
+        return $this->render('editrestaurantlocation',['restaurantdetails'=>$restaurantdetails, 'postcode'=>$postcode ,'list'=>$list, 'rid'=>$rid]);
     }
 
     public function actionEditedLocationDetails($rid)
@@ -285,7 +285,7 @@ class DefaultController extends Controller
         $id = restaurant::find()->where('Restaurant_ID = :rid',[':rid'=>$rid])->one();
         //var_dump($rstaff);exit;
 
-        return $this->render('manageRestaurantStaff',['rid'=>$rid, 'rstaff'=>$rstaff, 'id'=>$id]);
+        return $this->render('managerestaurantstaff',['rid'=>$rid, 'rstaff'=>$rstaff, 'id'=>$id]);
     }
 
     public function actionDeleteRestaurantStaff($rid, $uname)
@@ -296,7 +296,7 @@ class DefaultController extends Controller
         $id = restaurant::find()->where('Restaurant_ID = :rid',[':rid'=>$rid])->one();
         $rstaff = rmanagerlevel::find()->where('Restaurant_ID = :rid',[':rid'=>$rid])->all();
 
-        return $this->render('ManageRestaurantStaff',['rid'=>$rid, 'id'=>$id,'rstaff'=>$rstaff]);
+        return $this->render('managerestaurantstaff',['rid'=>$rid, 'id'=>$id,'rstaff'=>$rstaff]);
     }
 
     public function actionAddStaff($rid, $num)

@@ -13,7 +13,7 @@ class OrderController extends \yii\web\Controller
 {
     public function actionMyOrders()
     {
-        $orders = Orders::find()->where('User_Username = :uname and Orders_Status != :status', [':uname'=>Yii::$app->user->identity->username, ':status'=>'Not Placed'])->all();
+        $orders = Orders::find()->where('User_Username = :uname and Orders_Status != :status and Orders_Status != :status1', [':uname'=>Yii::$app->user->identity->username, ':status'=>'Not Placed', ':status1'=>'Rating Done'])->all();
         $this->layout = 'user';
         return $this->render('myorders', ['orders'=>$orders]);
     }
@@ -53,7 +53,7 @@ class OrderController extends \yii\web\Controller
 
     public function actionDeliverymanOrders()
     {
-        $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status != :status', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed'])->all();
+        $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status != :status and :status1', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status1'=>'Rating Done'])->all();
 
         return $this->render('deliverymanorder', ['dman'=>$dman]);
     }
@@ -150,8 +150,8 @@ class OrderController extends \yii\web\Controller
         $orderitemdetails = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
         
         $pdf = new Pdf([
-            'mode' => Pdf::MODE_CORE,
-            'content' => $this->render('orderhistorydetails',['orderitemdetails' => $orderitemdetails ,'did'=>$did]),
+            'mode' => Pdf::MODE_UTF8,
+            'content' => $this->renderPartial('orderhistorydetails',['orderitemdetails' => $orderitemdetails ,'did'=>$did]),
             'options' => [
                 'title' => 'Invoice',
                 'subject' => 'Sample Subject',
@@ -162,5 +162,32 @@ class OrderController extends \yii\web\Controller
             ]
             ]);
         return $pdf->render();
+    }
+
+    public function actionRestaurantOrderHistory($rid)
+    {
+        $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
+        
+        $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
+
+        $deliveryid = "SELECT DISTINCT orderitem.Delivery_ID FROM orderitem INNER JOIN food ON orderitem.Food_ID = food.Food_ID INNER JOIN orders on orderitem.Delivery_ID = orders.Delivery_ID WHERE food.Restaurant_ID = ".$restaurantname['Restaurant_ID']." AND orders.Orders_Status != 'Not Placed' ORDER BY orderitem.Delivery_ID";
+        $result = Yii::$app->db->createCommand($deliveryid)->queryAll();
+
+        return $this->render('restaurantorderhistory', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result]);
+    }
+
+    public function actionDeliverymanOrderHistory()
+    {
+        $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status = :status or Orders_status = :status2', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status2'=>'Rating Done'])->all();
+
+        return $this->render('deliverymanorderhistory', ['dman'=>$dman]);
+    }
+
+    public function actionMyOrderHistory()
+    {
+        $orders = Orders::find()->where('User_Username = :uname and Orders_Status = :status', [':uname'=>Yii::$app->user->identity->username, ':status'=>'Rating Done'])->all();
+        $this->layout = 'user';
+
+        return $this->render('myordershistory', ['orders'=>$orders]);
     }
 }

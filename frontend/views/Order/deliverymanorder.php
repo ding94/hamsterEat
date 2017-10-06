@@ -12,9 +12,11 @@ $this->title = "Delivery Orders";
 ?>
 
 <div class = "container">
+<h1>Delivery Orders</h1>
     <div><?php
+   
             foreach ($dman as $dman) :
-                echo "<table class= table table-user-info style= width:80%;>";
+                echo "<table class= table table-user-info style= 'border:1px solid black;'>";
                     echo "<tr>";
                         echo "<th><center> Delivery ID </th>";
                         echo "<th><center> Username </th>";

@@ -262,6 +262,7 @@ class FoodController extends Controller
                     $transaction->rollBack();
                 }
             }
+
         }
          $this->layout = 'user';
          return $this->render('editfood',['food' => $food,'chosen'=> $chosen,'type' => $type,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection]);

@@ -10,7 +10,7 @@ use kartik\widgets\Select2;
 use common\models\Upload;
 
 use wbraganca\dynamicform\DynamicFormWidget;
-$this->title = 'Edit Food Item';
+$this->title = 'New Food Item';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

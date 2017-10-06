@@ -9,6 +9,7 @@ use common\models\Orderitem;
 use common\models\Rating\Foodrating;
 use common\models\Rating\Servicerating;
 use common\models\Rating\RatingStatus;
+use common\models\food\Food;
 use yii\helpers\ArrayHelper;
 
 Class RatingController extends Controller
@@ -125,6 +126,7 @@ Class RatingController extends Controller
 		$foodrating->Food_ID =$foodID;
 		$foodrating->delivery_id = $id;
 		$foodrating->User_Id = Yii::$app->user->identity->id;
+
 		if($foodrating->save())
 		{
 			$sql = "SELECT id FROM Foodrating WHERE Food_ID = ".$foodID."";
@@ -137,8 +139,8 @@ Class RatingController extends Controller
 			endforeach;
 
 			$averagerating = $rating / $result;
-
-			$sql1 = "UPDATE food SET FoodRating = ".$averagerating.", Food_TotalBought = ".$result." WHERE Food_ID = ".$foodID."";
+			//var_dump($averagerating,$result,$rating);exit;
+			$sql1 = "UPDATE food SET Rating = ".$averagerating." WHERE Food_ID = ".$foodID."";
 			$result = Yii::$app->db->createCommand($sql1)->execute();
 			
 			return true;

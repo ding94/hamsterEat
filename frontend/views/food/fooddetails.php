@@ -22,11 +22,6 @@ $this->title = "Food Details";
                   <td> <?php echo $fooddata->Name;?></td>
             </tr>
 
-            <!-- <tr>
-                  <td>Food Type:</td>
-                  <td>//php echo $fooddata->Food_Type;?></td>
-            </tr> -->
-
             <tr>
                   <td>Food Price (RM):</td>
                   <td> <?php echo $fooddata->Price;?></td>

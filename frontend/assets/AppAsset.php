@@ -20,7 +20,6 @@ class AppAsset extends AssetBundle
 		'bubble.css',
     ];
     public $js = [
-        'js/he.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

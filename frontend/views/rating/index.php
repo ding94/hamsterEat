@@ -65,7 +65,7 @@ use yii\bootstrap\ActiveForm;
 
                                     return $return;
                                 }
-                            ])->label($data['food']['Food_Name']) ?>
+                            ])->label($data['food']['Name']) ?>
 					<?= $form->field($foodrating,'['.$k.']Food_ID')->hiddenInput(['value' => $data['Food_ID']])->label(false) ?>
 				<?php endforeach ;?>
 			</div>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d2593a10e24638a0fd70c326a8189260",
+    "content-hash": "edcfffe4cd0f6d73927dfa435b89c899",
     "packages": [
         {
             "name": "2amigos/yii2-selectize-widget",
@@ -1145,7 +1145,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2017-10-02 12:38:32"
+            "time": "2017-10-02T12:38:32+00:00"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -1567,7 +1567,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2017-09-06 06:18:08"
+            "time": "2017-09-06T06:18:08+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-datetimepicker",
@@ -1927,7 +1927,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2017-09-04 15:30:52"
+            "time": "2017-09-04T15:30:52+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-sidenav",
@@ -2337,7 +2337,7 @@
                 "noty",
                 "yii"
             ],
-            "time": "2017-08-31 13:21:13"
+            "time": "2017-08-31T13:21:13+00:00"
         },
         {
             "name": "mdmsoft/yii2-admin",
@@ -2891,7 +2891,7 @@
                 "yii2 dynamic form",
                 "yii2-dynamicform"
             ],
-            "time": "2016-09-29 16:38:47"
+            "time": "2016-09-29T16:38:47+00:00"
         },
         {
             "name": "yiisoft/yii2",

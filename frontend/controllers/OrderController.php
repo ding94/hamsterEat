@@ -142,4 +142,3 @@ class OrderController extends \yii\web\Controller
 
         return $this->redirect(['deliveryman-orders']);
     }
-}

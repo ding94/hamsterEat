@@ -204,7 +204,7 @@ class FoodController extends Controller
             $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
 
             $food->load($post);
-            $food->Price = CartController::actionDisplay2decimal($food->Price);
+            $food->Price = CartController::actionDisplay2decimal($post['Food']['roundprice']);
 
             if (!is_null($upload->imageFile))
             {
@@ -218,7 +218,7 @@ class FoodController extends Controller
             {
                 $food->PicPath = $picpath;
             }
-           
+         
             $foodselection = [];
             
             $foodtype = Model::createMultiple(Foodselectiontype::classname(), $foodtype);
@@ -280,7 +280,6 @@ class FoodController extends Controller
         $food->Price = CartController::actionDisplay2decimal($food->Price);
         $food->Restaurant_ID = $rid;
         $food->PicPath = $upload;
-           
         $food->Ingredient = 'xD';
         return $food;
     }

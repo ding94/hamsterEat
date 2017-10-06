@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use frontend\controllers\CartController;
 $this->title = $id['Restaurant_Name'];
 ?>
 <body>
@@ -58,7 +59,7 @@ $this->title = $id['Restaurant_Name'];
                 echo "</tr>";
                 echo "<tr>";
                 echo "<td> Food Price (RM): </td>";
-                echo '<td>'.$data['Price'].'</td>';
+                echo '<td>'.CartController::actionRoundoff1decimal($data['Price']).'</td>';
                 echo "</tr>";
                 echo "<tr>";
                 echo "<td> Food Tags: </td>";

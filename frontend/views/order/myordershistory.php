@@ -19,7 +19,7 @@ $this->title = "My Orders History";
 
                 echo "<tr class='orderRow'>";
                     //echo "<a href=".yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]).">";
-                    echo "<td><center><a href=".yii\helpers\Url::to(['order-history-details','did'=>$orders['Delivery_ID']]).">".$orders['Delivery_ID']."</a></td>";
+                    echo "<td><center><a href=".yii\helpers\Url::to(['invoice-pdf','did'=>$orders['Delivery_ID']]).">".$orders['Delivery_ID']."</a></td>";
                     echo "<td><center><a href=".yii\helpers\Url::to(['order-history-details','did'=>$orders['Delivery_ID']]).">".$orders['Orders_Status']."</a></td>";
                     date_default_timezone_set("Asia/Kuala_Lumpur");
                     echo "<td><center><a href=".yii\helpers\Url::to(['order-history-details','did'=>$orders['Delivery_ID']]).">".date('d/m/Y H:i:s', $orders['Orders_DateTimeMade'])."</a></td>";

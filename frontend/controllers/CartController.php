@@ -371,11 +371,12 @@ class CartController extends Controller
     {
             return number_format((float)$price,2,'.','');
     }
-    
+
 
        public static function actionRoundoff1decimal($price)
     {
             return self::actionDisplay2decimal(number_format((float)$price,1,'.',''));
     }
+
 
 }

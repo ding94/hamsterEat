@@ -1,6 +1,5 @@
 <?php
 /* @var $this yii\web\View */
-$this->title = "Delivery Man Orders";
 use common\models\food\Food;
 use common\models\Orderitemselection;
 use common\models\food\Foodselection;

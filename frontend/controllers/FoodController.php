@@ -187,15 +187,6 @@ class FoodController extends Controller
         $upload = new Upload();
         $picpath = $food['PicPath'];
         $food->scenario = "edit";
-
-        if (!empty($foodtype)) {
-            foreach ($foodtype as $i => $ftype) {
-                 
-                $foodselectiontypes = $ftype->foodSelection;
-                $foodselection[$i] = $foodselectiontypes;
-                $oldRooms = ArrayHelper::merge(ArrayHelper::index($foodselectiontypes, 'Food_ID'), $oldRooms);
-            }
-        }
         
         if (Yii::$app->request->isPost) {
            
@@ -211,7 +202,9 @@ class FoodController extends Controller
                 $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
                   
                 $location = 'imageLocation/foodImg/';
-                 
+                
+                $upload->upload($location);
+
                 $food->PicPath = $upload->imageFile->name;
             }
             else

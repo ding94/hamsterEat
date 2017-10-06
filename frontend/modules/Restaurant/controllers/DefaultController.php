@@ -69,7 +69,7 @@ class DefaultController extends Controller
         //var_dump($rowfood[0]['foodType'][0]);exit;
 
 
-        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood]);
+        return $this->render('testrestaurantdetails',['id'=>$id, 'rowfood'=>$rowfood]);
     }
 
     public function actionFoodDetails($fid)

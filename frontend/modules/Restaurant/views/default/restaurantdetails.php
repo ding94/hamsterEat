@@ -67,6 +67,10 @@ $this->title = $id['Restaurant_Name'];
   height:168px;
 }
 
+.menu-container a:hover{
+    box-shadow: 0px 0px 20px -2px grey;
+}
+
 span.stars, span.stars span {
     display: block;
     background: url(imageLocation/stars.png) 0 -16px repeat-x;
@@ -107,6 +111,8 @@ span.stars span {
                 echo "<td><center>".Html::a('Manage Staffs', ['manage-restaurant-staff', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
                 echo "<br> <br>";
                 echo "<td><center>".Html::a('Restaurants Orders', ['/order/restaurant-orders', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+                echo "<br> <br>";
+                echo "<td><center>".Html::a('Restaurants Orders History', ['/order/restaurant-order-history', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
                 echo "<br> <br>";
                 echo "<td><center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
             echo "</tr>";

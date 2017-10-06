@@ -19,11 +19,11 @@ $this->title = "Delivery Orders";
                 echo "<table class= table table-user-info style= 'border:1px solid black;'>";
                     echo "<tr>";
                         echo "<th><center> Delivery ID </th>";
-                        echo "<th><center> Username </th>";
-                        echo "<th><center> Date to be Received </th>";
+                       // echo "<th><center> Username </th>";
+                       // echo "<th><center> Date to be Received </th>";
                         echo "<th><center> Time to be Received </th>";
-                        echo "<th><center> Current Status </th>";
-                        echo "<th><center> Time Placed </th>";
+                        //echo "<th><center> Current Status </th>";
+                       // echo "<th><center> Time Placed </th>";
                         echo "<th><center> Collect (RM) </th>";
                     echo "</tr>";
                     
@@ -31,20 +31,20 @@ $this->title = "Delivery Orders";
 
                     echo "<tr>";
                         echo "<td><center>".$orderdetails['Delivery_ID']."</td>";
-                        echo "<td><center>".$orderdetails['User_Username']."</td>";
-                        echo "<td><center>".$orderdetails['Orders_Date']."</td>";
+                        //echo "<td><center>".$orderdetails['User_Username']."</td>";
+                      //  echo "<td><center>".$orderdetails['Orders_Date']."</td>";
                         echo "<td><center>".$orderdetails['Orders_Time']."</td>";
-                        echo "<td><center>".$orderdetails['Orders_Status']."</td>";
-                        date_default_timezone_set("Asia/Kuala_Lumpur");
-                        $timeplaced = date('d/m/Y H:i:s', $orderdetails['Orders_DateTimeMade']);
-                        echo "<td><center> $timeplaced </td>";
+                        //echo "<td><center>".$orderdetails['Orders_Status']."</td>";
+                       // date_default_timezone_set("Asia/Kuala_Lumpur");
+                       // $timeplaced = date('d/m/Y H:i:s', $orderdetails['Orders_DateTimeMade']);
+                       // echo "<td><center> $timeplaced </td>";
                         echo "<td><center>".$orderdetails['Orders_TotalPrice']."</td>";
 
                     echo "</tr>";
                     echo "<tr>";
-                        echo "<th><center> Order ID </th>";
+                       // echo "<th><center> Order ID </th>";
                         echo "<th><center> Restaurant Name </th>";
-                        echo "<th colspan = 2><center> Restaurant Address </th>";
+                        echo "<th colspan = 2><center> Area </th>";
                         echo "<th><center> Quantity </th>";
                         echo "<th><center> Current Status </th>";
                         echo "<th><center> Update Status </th>";
@@ -54,11 +54,11 @@ $this->title = "Delivery Orders";
                     
                     foreach ($orderitemdetails as $orderitemdetails) :
                         echo "<tr>";
-                            echo "<td><center>".$orderitemdetails['Order_ID']."</td>";
+                           // echo "<td><center>".$orderitemdetails['Order_ID']."</td>";
                             $foodname = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitemdetails['Food_ID']])->one();
                             $restname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$foodname['Restaurant_ID']])->one();
                             echo "<td><center>".$restname['Restaurant_Name']."</td>";
-                            echo "<td colspan = 2><center>".$restname['Restaurant_UnitNo'].', '.$restname['Restaurant_Street'].', '.$restname['Restaurant_Area'].', '.$restname['Restaurant_Postcode'].'.'."</td>";
+                            echo "<td colspan = 2><center>".$restname['Restaurant_Area']."</td>";
 
                             echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";
                             echo "<td><center>".$orderitemdetails['OrderItem_Status']."</td>";

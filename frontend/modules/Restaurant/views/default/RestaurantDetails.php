@@ -115,11 +115,12 @@ $this->title = $id['Restaurant_Name'];
         <div class="item">
             <div class="inner-item">
             <span><?php echo $data['Name']; ?></span>
-            <span><p class="price"><?php echo 'RM'.$data['Price']; ?></p></span><span class="small-text pull-right"><?php echo $data['Rating']; ?></span>
+            <span><p class="price"><?php echo 'RM'.$data['Price']; ?></p></span>
             <p><?php echo $data['Description']; ?></p>
             <?php foreach($data['foodType']as $type): ?>
             <span class="tag"><?php echo $type['Type_Desc'].','; ?></span>
             <?php endforeach; ?>
+            <span class="small-text"><?php echo $data['Rating']; ?></span>
             </div>
             <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$data['PicPath']) ?></div>
         </div>

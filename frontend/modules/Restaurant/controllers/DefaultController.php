@@ -349,7 +349,7 @@ class DefaultController extends Controller
     
     public function actionViewRestaurant()
     {
-        $uname = user::find()->where('username = :uname',[':uname' => Yii::$app->user->identity->username])->one();
+		$uname = user::find()->where('username = :uname',[':uname' => Yii::$app->user->identity->username])->one();
         $restaurant = restaurant::find()->where('Restaurant_Manager = :rmanager',[':rmanager' => $uname['username']])->all();
        
          return $this->render('ViewRestaurant',['restaurant'=>$restaurant,'uname'=>$uname]);

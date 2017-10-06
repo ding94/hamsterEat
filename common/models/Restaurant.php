@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use common\models\Area;
 
 /**
  * This is the model class for table "restaurant".
@@ -53,8 +54,8 @@ class Restaurant extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'Restaurant_ID' => 'Restaurant  ID',
-            'Restaurant_Manager' => 'Restaurant  Manager',
+            'Restaurant_ID' => 'ID',
+            'Restaurant_Manager' => 'Manager',
             'Restaurant_Name' => 'Restaurant  Name',
             'Restaurant_Postcode' => 'Restaurant  Postcode',
             'Restaurant_Area' => 'Restaurant  Area',
@@ -62,12 +63,21 @@ class Restaurant extends \yii\db\ActiveRecord
             'Restaurant_UnitNo' => 'Restaurant  Unit No',
             'Restaurant_RestaurantPicPath' => 'Restaurant  Restaurant Pic Path',
             'Restaurant_Tag' => 'Restaurant  Tag',
-            'Restaurant_Pricing' => 'Restaurant  Pricing',
-            'Restaurant_Status' => 'Restaurant  Status',
-            'Restaurant_LicenseNo' => 'Restaurant  License No',
-            'Restaurant_Rating' => 'Restaurant  Rating',
-            'Restaurant_DateTimeCreated' => 'Restaurant  Date Time Created',
-            'Restaurant_AreaGroup' => 'Restaurant  Area Group',
+            'Restaurant_Pricing' => 'Pricing',
+            'Restaurant_Status' => 'Status',
+            'Restaurant_LicenseNo' => 'License No',
+            'Restaurant_Rating' => 'Rating',
+            'Restaurant_DateTimeCreated' => 'Created Time',
+            'Restaurant_AreaGroup' => 'Area Group',
         ];
+    }
+
+    public function getArea()
+    {
+        return $this->hasOne(Area::className(),['Area_ID' => 'Restaurant_AreaGroup']);
+    }
+
+    public function getFulladdress() {
+        return $this->Restaurant_UnitNo .','. $this->Restaurant_Street .','. $this->Restaurant_Area .','. $this->Restaurant_Postcode;
     }
 }

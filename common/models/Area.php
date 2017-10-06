@@ -3,7 +3,7 @@
 namespace common\models;
 
 use Yii;
-
+use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "area".
  *
@@ -31,7 +31,7 @@ class Area extends \yii\db\ActiveRecord
     {
         return [
             [['Area_Postcode'], 'required'],
-            [['Area_Postcode'], 'integer'],
+            [['Area_Postcode','Area_ID'], 'integer'],
             [['Area_Area', 'Area_State'], 'string', 'max' => 255],
         ];
     }
@@ -42,10 +42,15 @@ class Area extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'area_ID' => 'Area  ID',
+            'Area_ID' => 'Area  ID',
             'Area_Postcode' => 'Area  Postcode',
             'Area_Area' => 'Area ',
             'Area_State' => 'Area  State',
         ];
+    }
+
+    public function getAllstate()
+    {
+        return ArrayHelper::map(self::find()->all(),'Area_State','Area_State');
     }
 }

@@ -37,7 +37,7 @@ class AccountForceSearch extends AccountForce
 
 	    $this->load($params);
 
-	     $query->andFilterWhere([
+	    $query->andFilterWhere([
             AccountForce::tableName().'.id' => $this->id,
             'amount' => $this->amount,
             'reduceOrPlus' => $this->reduceOrPlus,

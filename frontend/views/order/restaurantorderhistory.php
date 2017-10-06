@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-$this->title = "Restaurant Orders";
+$this->title = "Restaurant Orders History";
 use common\models\food\Food;
 use common\models\Orderitemselection;
 use common\models\food\Foodselection;
@@ -12,15 +12,19 @@ use yii\helpers\Html;
 
 <div class = "container">
     <div>
-        <?php echo "<h1> Orders for ".$restaurantname['Restaurant_Name']."</h1>";
+        <?php echo "<h1> Orders History for ".$restaurantname['Restaurant_Name']."</h1>";
         echo "<br>";
         echo "<br>";
 
             foreach ($result as $result) :
-                echo "<table class= table table-hover style= 'border:1px solid black;'>";
+                echo "<table class= table table-user-info style= width:80%;>";
                     echo "<tr>";
                         echo "<th><center> Delivery ID </th>";
-        
+                        echo "<th><center> Username </th>";
+                        echo "<th><center> Date to be Received </th>";
+                        echo "<th><center> Time to be Received </th>";
+                        echo "<th><center> Current Status </th>";
+                        echo "<th colspan = 2><center> Time Placed </th>";
                         echo "<th><center> </th>";
                     echo "</tr>";
                     
@@ -28,11 +32,13 @@ use yii\helpers\Html;
 
                     echo "<tr>";
                         echo "<td><center>".$orderdetails['Delivery_ID']."</td>";
-                       
-                       
-                       
-                        
-                       
+                        echo "<td><center>".$orderdetails['User_Username']."</td>";
+                        echo "<td><center>".$orderdetails['Orders_Date']."</td>";
+                        echo "<td><center>".$orderdetails['Orders_Time']."</td>";
+                        echo "<td><center>".$orderdetails['Orders_Status']."</td>";
+                        date_default_timezone_set("Asia/Kuala_Lumpur");
+                        $timeplaced = date('d/m/Y H:i:s', $orderdetails['Orders_DateTimeMade']);
+                        echo "<td colspan = 2><center> $timeplaced </td>";
                         echo "<td><center> </td>";
 
                     echo "</tr>";
@@ -42,7 +48,7 @@ use yii\helpers\Html;
                         echo "<th><center> Selections </th>";
                         echo "<th><center> Quantity </th>";
                         echo "<th><center> Remarks </th>";
-                      
+                        echo "<th><center> Current Status </th>";
                         echo "<th><center> Update Status </th>";
                     echo "</tr>";
 
@@ -68,7 +74,7 @@ use yii\helpers\Html;
                             echo "</td>";
                             echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";
                             echo "<td><center>".$orderitemdetails['OrderItem_Remark']."</td>";
-                           
+                            echo "<td><center>".$orderitemdetails['OrderItem_Status']."</td>";
                             if ($orderitemdetails['OrderItem_Status'] == 'Pending')
                             {
                                 echo "<td><center>".Html::a('Preparing', ['update-preparing', 'oid'=>$orderitemdetails['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary'])."</td>";

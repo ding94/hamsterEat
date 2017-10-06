@@ -5,11 +5,9 @@
 use yii\helpers\Html;
 
 $this->title = 'About';
-
-
 ?>
 <link href='https://fonts.googleapis.com/css?family=Quicksand|Asap:700' rel='stylesheet' type='text/css'>
-<div class="container2" style="text-align:center" id="grad" >
+<div class="container" style="text-align:center" id="grad" >
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -24,13 +22,18 @@ $this->title = 'About';
       <p>Enter Postcode</p>
       </div>  
 	 </div>
-	  <div class="col-lg-4" style="text-align:center">
+	  <div class="col-sm-4 element2" style="text-align:center">
 	 <div class="img-circular"></div>
-	   <h4 class="service-heading">Customer</h4>  
+	  <div class="content-box" id="grad2" style="position: absolute; z-index: -10">
+	     <h4 class="service-heading">Add</h4>
+       <p>Add favourite foods to cart</p> 
 	 </div>
-	  <div class="col-lg-4" style="text-align:center">
+	 </div>
+	  <div class="col-sm-4 element3" style="text-align:center">
 	 <div class="img-circular"></div>
-	   <h4 class="service-heading">Customer</h4>  
+	   <div class="content-box" id="grad3" style="position: absolute; z-index: -10">
+	      <h4 class="service-heading">Pay</h4>
+       <p>Pay and enjoy your food</p>
   </div>
 </div>  
 <!--<div class="dotted">
@@ -66,6 +69,7 @@ $this->title = 'About';
   
   
 </section>-->
+
+
 </div>
-
-
+</div>

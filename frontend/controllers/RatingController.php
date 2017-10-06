@@ -11,6 +11,7 @@ use common\models\Rating\Servicerating;
 use common\models\Rating\RatingStatus;
 use common\models\food\Food;
 use yii\helpers\ArrayHelper;
+use frontend\controllers\CartController;
 
 Class RatingController extends Controller
 {
@@ -139,7 +140,8 @@ Class RatingController extends Controller
 			endforeach;
 
 			$averagerating = $rating / $result;
-			//var_dump($averagerating,$result,$rating);exit;
+			
+			$averagerating = CartController::actionDisplay2decimal($averagerating);
 			$sql1 = "UPDATE food SET Rating = ".$averagerating." WHERE Food_ID = ".$foodID."";
 			$result = Yii::$app->db->createCommand($sql1)->execute();
 			

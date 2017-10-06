@@ -3,7 +3,7 @@
 namespace common\models;
 
 use Yii;
-use common\models\Food;
+use common\models\food\Food;
 
 /**
  * This is the model class for table "orderitem".

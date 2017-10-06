@@ -88,9 +88,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             echo Html::activeHiddenInput($foodtype, "[{$i}]ID");
                         }
                     ?>
-                    <?= $form->field($foodtype, "[{$i}]TypeName")->label(false)->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($foodtype, "[{$i}]Min")->label(false)->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($foodtype, "[{$i}]Max")->label(false)->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($foodtype, "[{$i}]TypeName")->label('Type')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($foodtype, "[{$i}]Min")->label('Minimum')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($foodtype, "[{$i}]Max")->label('Maximum')->textInput(['maxlength' => true]) ?>
                 </td>
                 <td>
                      <?= $this->render('foodselection', [

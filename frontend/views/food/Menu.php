@@ -23,7 +23,7 @@ $this->title = "Restaurant Menu";
 
                 echo "<tr>";
                  $picpath = $menu['PicPath'];
-                 echo '<td>' ?> <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'pull-left img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?> <?php echo "</td>";
+                 echo '<td>' ?> <?php echo Html::img('@web/imageLocation/foodImg/'.$picpath, ['class' => 'pull-left img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?> <?php echo "</td>";
   
                 echo '<td>'.$menu['Name'].'</td>';
                 echo "<td><center>";

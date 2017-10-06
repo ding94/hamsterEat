@@ -53,7 +53,7 @@ $this->title = $id['Restaurant_Name'];
                     $picpath = "DefaultRestaurant.jpg";
                 }
 
-                echo '<th rowspan = "5">' ?> <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'pull-left img-responsive','style'=>'height:250px; width:300px; margin:auto;']) ?> <?php echo "</th>";
+                echo '<th rowspan = "5">' ?> <?php echo Html::img('@web/imageLocation/foodImg/'.$picpath, ['class' => 'pull-left img-responsive','style'=>'height:250px; width:300px; margin:auto;']) ?> <?php echo "</th>";
                 echo "<td> Food Name: </td>";
                 echo '<td>'.$data['Name'].'</td>';
                 echo "</tr>";

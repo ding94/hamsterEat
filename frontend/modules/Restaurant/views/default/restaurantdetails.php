@@ -27,7 +27,7 @@ $this->title = $id['Restaurant_Name'];
   background-color: white;
   min-width: 300px;
   min-height: 170px;
-  border: 1px solid grey;
+  border: 1px solid #e5e5e5;
 }
 
 .item p{

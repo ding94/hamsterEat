@@ -351,7 +351,7 @@ class DefaultController extends Controller
     {
 		$uname = user::find()->where('username = :uname',[':uname' => Yii::$app->user->identity->username])->one();
         $restaurant = restaurant::find()->where('Restaurant_Manager = :rmanager',[':rmanager' => $uname['username']])->all();
-       
+       $this->layout = '@app/views/layouts/user';
          return $this->render('ViewRestaurant',['restaurant'=>$restaurant,'uname'=>$uname]);
     }
 

@@ -41,10 +41,16 @@ function fadeText() {
 
 fadeText();
 
+
+/* JS function for modal creation in food menu */
 $(function(){
-    $('#modelButton').click(function(){
-        $('.modal').modal('show')
-            .find('#modelContent')
+    $('.modelButton').click(function(e){
+        e.preventDefault();
+        var foodid = $(this).attr('data-id');
+        var modelContent = '#modelContent'+foodid;
+        var modal = '#modal'+foodid;
+        $(modal).modal('show')
+            .find(modelContent)
             .load($(this).attr('value'));
     });
 });

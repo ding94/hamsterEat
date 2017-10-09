@@ -105,7 +105,7 @@ class FoodController extends Controller
             Model::loadMultiple($foodtype, Yii::$app->request->post());
 
             $valid =  Model::validateMultiple($foodtype) && $food->validate() && $upload;
-
+        
             if (isset($_POST['Foodselection'][0][0])) {
 
                 $foodselection = FoodselectionController::validatefoodselection($post['Foodselection']);
@@ -276,5 +276,6 @@ class FoodController extends Controller
         $food->Ingredient = 'xD';
         return $food;
     }
+    
 }
 

@@ -110,11 +110,8 @@ span.stars span {
             echo "<table class= table table-user-information style= width:100%; margin:auto;>";
             echo "<tr>";
                 echo "<td><center>".Html::a('Edit Details', ['edit-restaurant-details', 'rid'=>$id['Restaurant_ID'], 'restArea'=>$id['Restaurant_AreaGroup'], 'areachosen'=>$id['Restaurant_Area'], 'postcodechosen'=>$id['Restaurant_Postcode']], ['class'=>'btn btn-primary'])."</td>";
-                echo "<br> <br>";
                 echo "<td><center>".Html::a('Manage Staffs', ['manage-restaurant-staff', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
-                echo "<br> <br>";
                 echo "<td><center>".Html::a('Restaurants Orders', ['/order/restaurant-orders', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
-                echo "<br> <br>";
                 echo "<td><center>".Html::a('Restaurants Orders History', ['/order/restaurant-order-history', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
                 echo "<br> <br>";
                 echo "<td><center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
@@ -133,7 +130,7 @@ span.stars span {
     <div class="outer-container">
     <div class="menu-container">
             <?php foreach($rowfood as $data): ?>
-        <a value="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID']]); ?>" data-id="<?php echo $data['Food_ID']; ?>" class="modelButton">
+        <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID']]); ?>" data-id="<?php echo $data['Food_ID']; ?>" class="modelButton">
         <div class="item">
             <div class="inner-item">
             <span><?php echo $data['Name']; ?></span>

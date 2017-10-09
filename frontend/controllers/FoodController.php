@@ -31,7 +31,7 @@ class FoodController extends Controller
         $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id' => $id])->all();
         $orderItemSelection =new Orderitemselection;
         $orderitem = new Orderitem;
-        
+
         if ($orderItemSelection->load(Yii::$app->request->post()) && $orderitem->load(Yii::$app->request->post()))
         {
             $orderitem->load(Yii::$app->request->post());
@@ -74,7 +74,7 @@ class FoodController extends Controller
             return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks]);
         }
 
-        return $this->renderPartial('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);
+        return $this->render('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);
          
     }
 

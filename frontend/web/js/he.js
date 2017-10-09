@@ -51,9 +51,13 @@ $(function(){
         var modal = '#modal'+foodid;
         $(modal).modal('show')
             .find(modelContent)
-            .load($(this).attr('value'));
+            .load($(this).attr('href'));
     });
 });
+
+function form_submit() {
+    document.getElementById("a2cart").submit();
+   }    
 
 $.fn.stars = function() {
     return $(this).each(function() {

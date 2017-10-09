@@ -12,7 +12,6 @@ Class FoodController extends Controller
 	{
 		$searchModel = new FoodSearch();
     	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id);
-		
 		return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
 	}
 }

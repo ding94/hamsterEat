@@ -49,9 +49,8 @@ class Foodselectiontype extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getfoodSelection()
+    public function getFoodSelection()
     {
         return $this->hasMany(Foodselection::className(),['Type_ID' => 'ID']);
-        
     }
 }

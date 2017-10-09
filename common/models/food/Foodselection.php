@@ -60,4 +60,14 @@ class Foodselection extends \yii\db\ActiveRecord
     {
         return $this->Name.'&nbsp; (+ RM'.CartController::actionRoundoff1decimal($this->Price).')';
     }
+
+    public function getFoodselectiontype()
+    {
+        return $this->hasOne(Foodselectiontype::className(),['ID'=>'Type_ID']);
+    }
+
+    public function getFood()
+    {
+        return $this->hasOne(Food::className(),['Food_ID'=>'Food_ID']);
+    }
 }

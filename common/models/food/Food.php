@@ -97,7 +97,6 @@ class Food extends \yii\db\ActiveRecord
     public function getFoodselectiontypes()
     {
         return $this->hasMany(Foodselectiontype::className(),['Food_ID' => 'Food_ID']);
-        
     }
 
     public function getRoundprice()

@@ -3,6 +3,9 @@
 namespace common\models\food;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use frontend\controllers\CartController;
 
 /**
  * This is the model class for table "food".
@@ -31,16 +34,32 @@ class Food extends \yii\db\ActiveRecord
         return 'food';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at','updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ], 
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['Restaurant_ID', 'Name', 'Price', 'Description', 'Ingredient', 'Nickname', 'PicPath', 'created_at', 'updated_at'], 'required'],
+            [['Restaurant_ID', 'Name', 'Description', 'Ingredient', 'Nickname'], 'required'],
             [['Restaurant_ID', 'Sales', 'created_at', 'updated_at'], 'integer'],
             [['Rating', 'Price', 'BeforeMarkedUp'], 'number'],
             [['Name', 'Description', 'Ingredient', 'Nickname', 'PicPath'], 'string'],
+            ['PicPath','safe' ,'on' =>'edit'],
+            ['PicPath','required' , 'on' => 'new'],
         ];
     }
 
@@ -75,15 +94,15 @@ class Food extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Foodstatus::className(), ['Food_ID'=>'Food_ID']);
     }
-
+   
+    
     public function getFoodselectiontypes()
     {
         return $this->hasMany(Foodselectiontype::className(),['Food_ID' => 'Food_ID']);
-        
+           
     }
-
     public function getRoundprice()
     {
-        return CartController::actionRoundoff1decimal($this->Price);
+        return CartController::actionRoundoff1decimal($this->BeforeMarkedUp);
     }
 }

@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($food, 'Nickname')->textInput() ?>
 
-                <?= $form->field($food, 'Price')->textInput()->label('Price') ?>
+                <?= $form->field($food, 'BeforeMarkedUp')->textInput()->label('Price') ?>
 
                 <?php echo '<label class="control-label">Type</label>';
                         echo Select2::widget([
@@ -90,7 +90,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($foodtype, "[{$i}]Max")->label('Maximum')->textInput(['maxlength' => true]) ?>
                 </td>
                 <td>
+                        
                      <?= $this->render('foodselection', [
+                        
                         'form' => $form,
                         'i' => $i,
                         'foodselection' => $foodselection[$i],

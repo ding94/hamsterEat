@@ -19,10 +19,10 @@ class FoodselectionController extends Controller
                 $valid = $modelfoodselection->validate();
             }
         }
-        $returndata[0] = $foodselection;
-        $returndata[1] = $valid;
+       // $returndata[0] = $foodselection;
+        //$returndata[1] = $valid;
 
-        return $returndata;
+        return $foodselection;
 	}
 
 	public static function createfoodselection($foodtype,$foodselection,$id)
@@ -31,7 +31,7 @@ class FoodselectionController extends Controller
 
             $modelfoodtype->Food_ID = $id;
                                 
-            if (!($flag = $modelfoodtype->save())) {
+            if (!($flag = $modelfoodtype->save(false))) {
                                     
                 return false;
             }
@@ -41,6 +41,7 @@ class FoodselectionController extends Controller
                 foreach ($foodselection[$i] as $ix => $modelfoodselection) {
                     $modelfoodselection->Type_ID = $modelfoodtype->ID;
                     $modelfoodselection->Food_ID = $id;
+                   
                     if (!($flag = $modelfoodselection->save(false))) {
                         return false;
                     }

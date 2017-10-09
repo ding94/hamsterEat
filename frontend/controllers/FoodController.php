@@ -31,7 +31,7 @@ class FoodController extends Controller
         $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id' => $id])->all();
         $orderItemSelection =new Orderitemselection;
         $orderitem = new Orderitem;
-        
+
         if ($orderItemSelection->load(Yii::$app->request->post()) && $orderitem->load(Yii::$app->request->post()))
         {
             $orderitem->load(Yii::$app->request->post());
@@ -74,7 +74,7 @@ class FoodController extends Controller
             return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks]);
         }
 
-        return $this->renderPartial('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);
+        return $this->render('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);
          
     }
 
@@ -103,15 +103,18 @@ class FoodController extends Controller
             $foodtype = Model::createMultiple(Foodselectiontype::classname());
 
             Model::loadMultiple($foodtype, Yii::$app->request->post());
-
+            $foodprice = $food->BeforeMarkedUp;
+            $markedupprice = $foodprice * 1.3;
+            $markedupprice = CartController::actionRoundoff1decimal($markedupprice);
+            //var_dump($food->BeforeMarkedUp);exit;
+            $food->Price = $markedupprice;
             $valid =  Model::validateMultiple($foodtype) && $food->validate() && $upload;
-
+            
             if (isset($_POST['Foodselection'][0][0])) {
 
                 $foodselection = FoodselectionController::validatefoodselection($post['Foodselection']);
-                $valid =  $valid && $foodselection[1] ;
             }
-         
+           
              if ($valid) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
@@ -122,7 +125,7 @@ class FoodController extends Controller
 
                         $isValid = FoodtypeAndStatusController::newStatus($food->Food_ID);
 
-                        $flag = FoodselectionController::createfoodselection($foodtype,$foodselection[0],$food->Food_ID) && $isValid;
+                        $flag = FoodselectionController::createfoodselection($foodtype,$foodselection,$food->Food_ID) && $isValid;
 
                         if ($flag) {
                             $transaction->commit();
@@ -140,9 +143,11 @@ class FoodController extends Controller
                 }
             }
         }
+        //var_dump($foodselection[0][0]);exit;
         $this->layout = 'user';
       
         return $this->render('insertfood',['food' => $food,'foodjunction'=>$foodjunction,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection,'type' => $type]);
+        //return $this->render('insertfood',['food' => $food,'foodjunction'=>$foodjunction,'foodtype' => [new Foodselectiontype],'foodselection' => [ [new Foodselection]],'type' => $type]);
     }
     
      public function actionMenu($rid)
@@ -183,11 +188,19 @@ class FoodController extends Controller
        
         $foodtype =$food->foodselectiontypes;
         $foodselection = [];
+      
+        if (!empty($foodtype)) {
+            foreach ($foodtype as $i => $ftype) {                 
+                $foodtypes = $ftype->foodSelection;
+               // var_dump($foodtypes);exit;
+                $foodselection[$i] = $foodtypes;
+            }
+        }
         $oldRooms = [];
         $upload = new Upload();
         $picpath = $food['PicPath'];
         $food->scenario = "edit";
-        
+    
         if (Yii::$app->request->isPost) {
            
             $post = Yii::$app->request->post();  
@@ -195,8 +208,11 @@ class FoodController extends Controller
             $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
 
             $food->load($post);
-            $food->Price = CartController::actionDisplay2decimal($post['Food']['roundprice']);
-
+            $food->BeforeMarkedUp = CartController::actionDisplay2decimal($post['Food']['roundprice']);
+            $markedupprice = CartController::actionDisplay2decimal($post['Food']['roundprice']) * 1.3;
+            $markedupprice = CartController::actionRoundoff1decimal($markedupprice);
+            $food->Price = $markedupprice;
+    
             if (!is_null($upload->imageFile))
             {
                 $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
@@ -213,19 +229,18 @@ class FoodController extends Controller
             }
          
             $foodselection = [];
-            
+            //var_dump($isValid);exit;
             $foodtype = Model::createMultiple(Foodselectiontype::classname(), $foodtype);
 
             Model::loadMultiple($foodtype, Yii::$app->request->post());
         
             $valid = $food->validate();
-
+    
             $foodsIDs = [];
              if (isset($_POST['Foodselection'][0][0])) {
                 $foodselection = FoodselectionController::validatefoodselection($post['Foodselection']);
-                $valid =  $valid && $foodselection[1] ;
             }
-            
+           
             if ($valid) {
                 
                 $transaction = Yii::$app->db->beginTransaction();
@@ -235,14 +250,14 @@ class FoodController extends Controller
                         Foodtypejunction::deleteAll(['Food_ID'=>$id]);
 
                         Foodselection::deleteAll(['Food_ID' => $id]);
-                       
+
                         Foodselectiontype::deleteAll(['Food_ID' => $id]);
 
                         FoodtypeAndStatusController::newFoodJuntion($post['Type_ID'],$food->Food_ID);
 
                         $isValid = FoodtypeAndStatusController::newStatus($food->Food_ID);
 
-                        $flag = FoodselectionController::createfoodselection($foodtype,$foodselection[0],$food->Food_ID);
+                        $flag = FoodselectionController::createfoodselection($foodtype,$foodselection,$food->Food_ID);
 
                         if ($flag) {
 
@@ -270,11 +285,12 @@ class FoodController extends Controller
     {
         $food = new Food();
         $food->load($post);
-        $food->Price = CartController::actionDisplay2decimal($food->Price);
+        $food->BeforeMarkedUp = CartController::actionDisplay2decimal($food->BeforeMarkedUp);
         $food->Restaurant_ID = $rid;
         $food->PicPath = $upload;
         $food->Ingredient = 'xD';
         return $food;
     }
+    
 }
 

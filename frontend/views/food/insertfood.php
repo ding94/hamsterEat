@@ -14,10 +14,9 @@ $this->title = 'New Food Item';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-
 <div class="site-newfood">
     <h1><?= Html::encode($this->title) ?></h1>
-
+    
     <p>Please insert your food's details:</p>
 
     <div class="row">
@@ -27,10 +26,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($food, 'Name')->textInput()->label('Name') ?>
 
-                 <?= $form->field($food, 'Nickname')->textInput() ?>
+                <?= $form->field($food, 'Nickname')->textInput() ?>
 
-
-                <?= $form->field($food, 'Price')->textInput()->label('Price') ?>
+                <?= $form->field($food, 'BeforeMarkedUp')->textInput()->label('Price') ?>
 
                 <?php echo '<label class="control-label">Type</label>';
                         echo Select2::widget([
@@ -49,7 +47,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 <br>
                  <?= $form->field($food, 'Description')->textInput()->label('Description') ?>
 
-                  
                <?php DynamicFormWidget::begin([
                     'widgetContainer' => 'dynamicform_wrapper',
                     'widgetBody' => '.container-items',
@@ -93,7 +90,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($foodtype, "[{$i}]Max")->label('Maximum')->textInput(['maxlength' => true]) ?>
                 </td>
                 <td>
+                        
                      <?= $this->render('foodselection', [
+                        
                         'form' => $form,
                         'i' => $i,
                         'foodselection' => $foodselection[$i],
@@ -107,11 +106,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </tbody>
     </table>
     <?php DynamicFormWidget::end(); ?>
-    
- 
-
-
-
 
                 <div class="form-group">
                     <?= Html::submitButton('Save', ['class' => 'btn btn-primary', 'name' => 'insert-button']) ?>

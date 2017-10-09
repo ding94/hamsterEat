@@ -5,8 +5,6 @@ namespace common\models\food;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use common\models\food\Foodtype;
-use common\models\food\Foodtypejunction;
 use frontend\controllers\CartController;
 
 /**
@@ -17,6 +15,8 @@ use frontend\controllers\CartController;
  * @property double $Rating
  * @property integer $Sales
  * @property string $Name
+ * @property double $Price
+ * @property double $BeforeMarkedUp
  * @property string $Description
  * @property string $Ingredient
  * @property string $Nickname
@@ -56,8 +56,7 @@ class Food extends \yii\db\ActiveRecord
         return [
             [['Restaurant_ID', 'Name', 'Description', 'Ingredient', 'Nickname'], 'required'],
             [['Restaurant_ID', 'Sales', 'created_at', 'updated_at'], 'integer'],
-            [['Rating'], 'number'],
-            [['Price', 'MarkedUpPrice'], 'double'],
+            [['Rating', 'Price', 'BeforeMarkedUp'], 'number'],
             [['Name', 'Description', 'Ingredient', 'Nickname', 'PicPath'], 'string'],
             ['PicPath','safe' ,'on' =>'edit'],
             ['PicPath','required' , 'on' => 'new'],
@@ -75,6 +74,8 @@ class Food extends \yii\db\ActiveRecord
             'Rating' => 'Rating',
             'Sales' => 'Sales',
             'Name' => 'Name',
+            'Price' => 'Price',
+            'BeforeMarkedUp' => 'Before Marked Up',
             'Description' => 'Description',
             'Ingredient' => 'Ingredient',
             'Nickname' => 'Nickname',
@@ -93,14 +94,15 @@ class Food extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Foodstatus::className(), ['Food_ID'=>'Food_ID']);
     }
-
+   
+    
     public function getFoodselectiontypes()
     {
         return $this->hasMany(Foodselectiontype::className(),['Food_ID' => 'Food_ID']);
-    }
 
+    }
     public function getRoundprice()
     {
-        return CartController::actionRoundoff1decimal($this->Price);
+        return CartController::actionRoundoff1decimal($this->BeforeMarkedUp);
     }
 }

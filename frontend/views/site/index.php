@@ -1,8 +1,9 @@
 <?php
 
 /* @var $this yii\web\View */
-use yii\bootstrap\ActiveForm;
+use kartik\widgets\ActiveForm;
 use yii\helpers\Html;
+use kartik\widgets\Select2;
 
 $this->title = 'hamsterEat';
 ?>
@@ -21,7 +22,13 @@ $this->title = 'hamsterEat';
         <?php else :?>
         <?php $form = ActiveForm::begin(['action' =>['site/search-restaurant-by-area'],'id' => 'area']); ?>
         <?php endif ;?>
-        <?= $form->field($postcode, 'Area_Postcode')->textInput(['autofocus' => true])->label('Postcode') ?>
+        <?= $form->field($postcode, 'Area_Postcode')->widget(Select2::classname(), [
+	    'data' => $postcodeArray,
+	    'options' => ['placeholder' => 'Select a postcode ...'],
+	    'pluginOptions' => [
+	        'allowClear' => true
+	    ],
+	]); ?>
         <?php if( $postcode['detectArea'] == 1) :?>
         <?= $form->field($postcode, 'Area_Area')->dropDownList($list) ?>
         <?php endif ;?>

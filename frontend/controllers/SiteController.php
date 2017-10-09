@@ -94,6 +94,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $postcode = new Area();
+        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
         $list =array();
         $postcode->detectArea = 0;
         if(Yii::$app->request->isPost)
@@ -111,7 +112,7 @@ class SiteController extends Controller
            
         }   
         
-        return $this->render('index',['postcode'=>$postcode ,'list'=>$list]);
+        return $this->render('index',['postcode'=>$postcode ,'list'=>$list,'postcodeArray'=>$postcodeArray,]);
 
       
     }
@@ -366,6 +367,7 @@ class SiteController extends Controller
                 ->send();
                 if($email){
                     if (Yii::$app->getUser()->login($user)) {
+                        $model1->uid=$user->id;
                         $model1->User_Username=$user->username;
                         $model1->save();
                         Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');

@@ -27,7 +27,7 @@ $this->title = $id['Restaurant_Name'];
   background-color: white;
   min-width: 300px;
   min-height: 170px;
-  border: 1px solid grey;
+  border: 1px solid #e5e5e5;
 }
 
 .item p{
@@ -83,7 +83,7 @@ span.stars span {
 }
 </style>
 <body>
-  <?php foreach($rowfood as $data):
+  <?php /*foreach($rowfood as $data):
   Modal::begin([
             'header' => '<h2 class="modal-title">Food Details</h2>',
             'id'     => 'modal'.$data['Food_ID'],
@@ -94,7 +94,7 @@ span.stars span {
     echo "<div id='modelContent".$data['Food_ID']."'></div>";
     
     Modal::end() ?>
-  <?php endforeach; ?>
+  <?php endforeach;*/ ?>
 <div class = "container">
     <?php $picpath = $id['Restaurant_RestaurantPicPath'];
 
@@ -110,11 +110,8 @@ span.stars span {
             echo "<table class= table table-user-information style= width:100%; margin:auto;>";
             echo "<tr>";
                 echo "<td><center>".Html::a('Edit Details', ['edit-restaurant-details', 'rid'=>$id['Restaurant_ID'], 'restArea'=>$id['Restaurant_AreaGroup'], 'areachosen'=>$id['Restaurant_Area'], 'postcodechosen'=>$id['Restaurant_Postcode']], ['class'=>'btn btn-primary'])."</td>";
-                echo "<br> <br>";
                 echo "<td><center>".Html::a('Manage Staffs', ['manage-restaurant-staff', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
-                echo "<br> <br>";
                 echo "<td><center>".Html::a('Restaurants Orders', ['/order/restaurant-orders', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
-                echo "<br> <br>";
                 echo "<td><center>".Html::a('Restaurants Orders History', ['/order/restaurant-order-history', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
                 echo "<br> <br>";
                 echo "<td><center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
@@ -133,7 +130,7 @@ span.stars span {
     <div class="outer-container">
     <div class="menu-container">
             <?php foreach($rowfood as $data): ?>
-        <a value="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID']]); ?>" data-id="<?php echo $data['Food_ID']; ?>" class="modelButton">
+        <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID']]); ?>" data-id="<?php echo $data['Food_ID']; ?>">
         <div class="item">
             <div class="inner-item">
             <span><?php echo $data['Name']; ?></span>

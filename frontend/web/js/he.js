@@ -43,21 +43,26 @@ fadeText();
 
 
 /* JS function for modal creation in food menu */
-$(function(){
-    $('.modelButton').click(function(e){
-        e.preventDefault();
-        var foodid = $(this).attr('data-id');
-        var modelContent = '#modelContent'+foodid;
-        var modal = '#modal'+foodid;
-        $(modal).modal('show')
-            .find(modelContent)
-            .load($(this).attr('href'));
-    });
-});
+// $(function(){
+//     $('.modelButton').click(function(e){
+//         e.preventDefault();
+//         var foodid = $(this).attr('data-id');
+//         var modelContent = '#modelContent'+foodid;
+//         var modal = '#modal'+foodid;
+//         $(modal).modal('show')
+//             .find(modelContent)
+//             .load($(this).attr('href'));
+//     });
+// });
 
-function form_submit() {
-    document.getElementById("a2cart").submit();
-   }    
+// function form_submit() {
+//   var id = $(this).attr('data-id');
+//   console.log(id);
+  // $.ajax({
+  //   url:'localhost/hamsterEat/frontend/web/index.php?r=food%2Ffood-details&id='+ id;
+  // })
+    // document.getElementById("a2cart").submit();
+   // }    
 
 $.fn.stars = function() {
     return $(this).each(function() {

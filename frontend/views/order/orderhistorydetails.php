@@ -7,7 +7,7 @@ use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
 use common\models\Orders;
 use common\models\Ordersstatuschange;
-use common\models\User\Userdetails;
+use common\models\user\Userdetails;
 use yii\helpers\Html;
 
 ?>

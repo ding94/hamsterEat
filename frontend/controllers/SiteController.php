@@ -94,6 +94,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $postcode = new Area();
+        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
         $list =array();
         $postcode->detectArea = 0;
         if(Yii::$app->request->isPost)
@@ -111,7 +112,7 @@ class SiteController extends Controller
            
         }   
         
-        return $this->render('index',['postcode'=>$postcode ,'list'=>$list]);
+        return $this->render('index',['postcode'=>$postcode ,'list'=>$list,'postcodeArray'=>$postcodeArray,]);
 
       
     }

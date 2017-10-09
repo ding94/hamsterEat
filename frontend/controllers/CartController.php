@@ -333,7 +333,11 @@ class CartController extends Controller
     {
        $valid = UserVoucher::find()->where('code = :c',[':c'=>$dis])->one();
        if (!empty($valid)) {
-          $value = Vouchers::find()->where('code = :c',[':c'=>$dis])->one();
+          if ($valid->endDate > date('Y-m-d')) {
+            $value = Vouchers::find()->where('code = :c',[':c'=>$dis])->one();
+          }
+          elseif ($valid->endDate < date('Y-m-d')) {
+           $value = 0;
 
        }
        elseif(empty($valid)) {

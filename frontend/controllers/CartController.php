@@ -349,6 +349,7 @@ class CartController extends Controller
        return $value;
 
     }
+}
 
       public function actionDelete($oid)
     {

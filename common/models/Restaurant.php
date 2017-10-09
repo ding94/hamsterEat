@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use common\models\Area;
+use common\models\Rmanager;
 
 /**
  * This is the model class for table "restaurant".
@@ -75,6 +76,11 @@ class Restaurant extends \yii\db\ActiveRecord
     public function getArea()
     {
         return $this->hasOne(Area::className(),['Area_ID' => 'Restaurant_AreaGroup']);
+    }
+
+    public function getManager()
+    {
+        return $this->hasOne(Rmanager::className(),['User_Username' => 'Restaurant_Manager']);
     }
 
     public function getFulladdress() {

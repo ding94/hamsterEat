@@ -11,7 +11,7 @@ $this->title = "Food Details";
 <div class="container-fluid">
       <h1><center>Food details</h1>
       <br>
-	<div class="tab-content col-md-12" id="fooddetails">
+	<div class="tab-content col-md-12" id="fooddetails" data-id="<?php echo $fooddata->Food_ID ?>">
 		<table class="table table-user-information" style="width:60%; margin:auto;">
 
             <tr>         
@@ -19,17 +19,17 @@ $this->title = "Food Details";
             </tr>
 
             <tr>
-                  <td>Food Name:</td>
+                  <!--<td>Food Name:</td>-->
                   <td> <?php echo $fooddata->Name;?></td>
             </tr>
 
             <tr>
-                  <td>Food Price (RM):</td>
+                 <!-- <td>Food Price (RM):</td>-->
                   <td> <?php echo CartController::actionRoundoff1decimal($fooddata->Price);?></td>
             </tr>
 
             <tr>
-                  <td>Food Description:</td>
+                 <!-- <td>Food Description:</td>-->
                   <td> <?php echo $fooddata->Description;?></td>
             </tr>
               
@@ -45,7 +45,7 @@ $this->title = "Food Details";
             if($foodtype['Min'] == 0 && $foodtype ['Max'] < 2 || $foodtype['Min'] == 1 && $foodtype ['Max'] < 2 )
             {
                  echo "<tr>";           
-                 echo '<td>'.$foodtype['TypeName'].'<br><span>Select at least '.$foodtype['Min'].' item and at most '.$foodtype ['Max'].' items</span></td>';
+              //   echo '<td>'.$foodtype['TypeName'].'<br><span>Select at least '.$foodtype['Min'].' item and at most '.$foodtype ['Max'].' items</span></td>';
                  echo "<td>";     
 
                  echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->radioList($data)->label(false);
@@ -57,7 +57,7 @@ $this->title = "Food Details";
             else 
             {
                  echo "<tr>";           
-                 echo '<td>'.$foodtype['TypeName'].'<br><span>Select at least '.$foodtype['Min'].' item and at most '.$foodtype ['Max'].' items</span></td>';
+                // echo '<td>'.$foodtype['TypeName'].'<br><span>Select at least '.$foodtype['Min'].' item and at most '.$foodtype ['Max'].' items</span></td>';
                  echo "<td>";     
 
                  echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->checkboxlist($data)->label(false);
@@ -74,7 +74,7 @@ $this->title = "Food Details";
             </tr>
             <tr>
                   <td><?= $form->field($orderitem, 'OrderItem_Quantity')->textInput(['type' => 'number', 'value' => "1"])?></td>
-                  <td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart', 'style'=>'margin-top:25px;']) ?></td>
+                  <td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart', 'style'=>'margin-top:25px;','method'=>'post','onclick'=>'form_submit()']) ?></td>
             </tr>
 
         <?php ActiveForm::end(); ?>

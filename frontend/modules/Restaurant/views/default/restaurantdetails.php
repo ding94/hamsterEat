@@ -141,7 +141,7 @@ span.stars span {
             <span><p class="price"><?php echo 'RM'.$data['Price']; ?></p></span>
             <p><?php echo $data['Description']; ?></p>
             <?php foreach($data['foodType']as $type): ?>
-            <span class="tag"><?php echo $type['Type_Desc'].','; ?></span>
+            <span class="tag"><?php echo $type['Type_Desc'].'&nbsp;&nbsp;&nbsp;'; ?></span>
             <?php endforeach; ?>
             </div>
             <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$data['PicPath']) ?></div>

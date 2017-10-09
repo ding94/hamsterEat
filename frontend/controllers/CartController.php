@@ -233,7 +233,12 @@ class CartController extends Controller
 
         if ($checkout->load(Yii::$app->request->post()))
         {
+            $timenow = Yii::$app->formatter->asTime(time());
+            $early = date('08:00:00');
+            $last = date('11:00:59');
 
+            if ($early <= $timenow && $last >= $timenow)
+            {
             $unitno = $checkout->Orders_Location;
             $street = $checkout->Orders_Area;
             $paymethod = $checkout->Orders_PaymentMethod;
@@ -315,6 +320,11 @@ class CartController extends Controller
             endforeach;
             
             return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate]);
+        }
+        else
+        {
+            Yii::$app->session->setFlash('error', 'The allowed time to place order is over. Please place your order in between 8am and 11am daily.');
+        }
         }
         return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
     }

@@ -29,6 +29,7 @@ class Rmanager extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            ['User_Username','required'],
             [['Rmanager_Approval', 'Rmanager_DateTimeApplied', 'Rmanager_DateTimeApproved'], 'integer'],
             [['User_Username'], 'string', 'max' => 255],
             [['Rmanager_NRIC'], 'string', 'max' => 12],

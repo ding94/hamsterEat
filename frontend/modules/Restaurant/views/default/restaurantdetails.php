@@ -83,15 +83,18 @@ span.stars span {
 }
 </style>
 <body>
-<?php Modal::begin([
-            'header' => '<h4>Item</h4>',
-            'id'     => 'model',
-            'size'   => 'model-lg',
+  <?php foreach($rowfood as $data):
+  Modal::begin([
+            'header' => '<h2 class="modal-title">Food Details</h2>',
+            'id'     => 'modal'.$data['Food_ID'],
+            'size'   => 'modal-lg',
+            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
     
-    echo "<div id='modelContent'></div>";
+    echo "<div id='modelContent".$data['Food_ID']."'></div>";
     
-    Modal::end(); ?>
+    Modal::end() ?>
+  <?php endforeach; ?>
 <div class = "container">
     <?php $picpath = $id['Restaurant_RestaurantPicPath'];
 
@@ -130,7 +133,7 @@ span.stars span {
     <div class="outer-container">
     <div class="menu-container">
             <?php foreach($rowfood as $data): ?>
-        <a href="<?php echo yii\helpers\Url::to(['food-details','fid'=>$data['Food_ID']]); ?>" id="modelButton">
+        <a value="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID']]); ?>" data-id="<?php echo $data['Food_ID']; ?>" class="modelButton">
         <div class="item">
             <div class="inner-item">
             <span><?php echo $data['Name']; ?></span>

@@ -11,6 +11,7 @@ use common\models\user\Userdetails;
 use backend\models\auth\AuthAssignment;
 use frontend\models\Deliveryman;
 use common\models\DeliveryAttendence;
+use common\models\Rmanager;
 /**
  * User model
  *
@@ -232,6 +233,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function getDeliveryman()
     {
         return $this->hasOne(Deliveryman::className(),['User_id' => 'id']);
+    }
+
+    public function getManager()
+    {
+        return $this->hasOne(Rmanager::className(),['User_Username' => 'username']);
     }
 
 }

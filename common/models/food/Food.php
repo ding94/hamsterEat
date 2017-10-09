@@ -50,8 +50,8 @@ class Food extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'Food_ID' => 'Food  ID',
-            'Restaurant_ID' => 'Restaurant  ID',
+            'Food_ID' => 'Food ID',
+            'Restaurant_ID' => 'Restaurant ID',
             'Rating' => 'Rating',
             'Sales' => 'Sales',
             'Name' => 'Name',

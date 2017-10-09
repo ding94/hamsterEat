@@ -8,7 +8,7 @@ use frontend\controllers\CartController;
 $this->title = "Food Details";
 ?>
 
-<div class="container">
+<div class="container-fluid">
       <h1><center>Food details</h1>
       <br>
 	<div class="tab-content col-md-12" id="fooddetails">

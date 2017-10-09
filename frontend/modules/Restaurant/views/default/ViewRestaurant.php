@@ -3,6 +3,8 @@ use yii\helpers\Html;
 $this->title = "View Restaurant";
 ?>
 <style>
+
+
 .outer-container{
   display:flex;
   align-items: center;
@@ -23,12 +25,13 @@ $this->title = "View Restaurant";
   color: black;
   background-color: white;
   min-width: 300px;
-  min-height: 170px;
-  border-bottom:1px solid grey;
+  min-height: 160px;
+  border-bottom:1px solid orange;
+padding-right: 20px;
 }
 
 .item p{
-  font-size:15px;
+  font-size:16px;
   color:grey;
 }
 
@@ -60,41 +63,56 @@ $this->title = "View Restaurant";
 }
 
 .item img{
-    width:168px;
-  height:168px;
+	margin-top:15px;
+    width:130px;
+  height:130px;
+  
 }
 
-.menu-container a:hover{
-    box-shadow: 0px 0px 20px -2px grey;
+.menu-container :hover{
+   background-color: #fff6e5;
 }
-
+.menu-container a:hover,.menu-container p:hover {
+   color: #ffa500;
+}
 span.stars, span.stars span {
     display: block;
     background: url(imageLocation/stars.png) 0 -16px repeat-x;
     width: 80px;
     height: 16px;
+	
 }
 
 span.stars span {
     background-position: 0 0;
 }
-</style>
 
+#try #try1{
+  cursor:pointer;  
+  -webkit-box-shadow: inset -3px -3px 5px -3px black;
+  -moz-box-shadow: inset -3px -3px 5px -3px black;
+  box-shadow: inset -3px -3px 5px -3px black;
+}
+</style>
 <body>
 
 <div class = "container" ><h1>Restaurant</h1>
- <div class="outer-container">
-    <div class="menu-container">
+ <div class="outer-container"id="try" >
+    <div class="menu-container" id="try1">
             <?php foreach($restaurant as $restaurant): ?>
-        <a href=" <?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$restaurant['Restaurant_ID']]); ?> " id="modelButton">
-        <div class="item">
+        <a href=" <?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$restaurant['Restaurant_ID']]); ?> " style="display:block" >
+      
+	  <div class="item" onclick="window.document.location='<?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$restaurant['Restaurant_ID']]); ?>';">
 		<div class="img"><?php echo Html::img('@web/imageLocation/'.$restaurant['Restaurant_RestaurantPicPath']) ?></div>
             <div class="inner-item">
             <span><?php echo $restaurant['Restaurant_Name']; ?></span>
 
-            <p><?php echo $restaurant['Restaurant_UnitNo'].','.$restaurant['Restaurant_Street'].','.$restaurant['Restaurant_Area'].', '.$restaurant['Restaurant_Postcode'] ?></p>     
+            <p><?php echo $restaurant['Restaurant_UnitNo'].','.$restaurant['Restaurant_Street'].','.$restaurant['Restaurant_Area'].', '.$restaurant['Restaurant_Postcode'] ?></p>  
+    
         </div>
+		
         </a>
+		 <span class="small-text pull-right stars" alt="<?php echo $restaurant['Restaurant_Rating']; ?>"><?php echo $restaurant['Restaurant_Rating']; ?></span>			
     </div>
 	 <?php endforeach; ?>
     </div>

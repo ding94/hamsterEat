@@ -4,7 +4,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView
-  
+
 ?>
   
 <?php
@@ -13,8 +13,9 @@ use yii\widgets\DetailView
     'attributes' => [
        'username',
        'email',
+       'manager.Rmanager_NRIC',
        'created_at:datetime',
        'updated_at:datetime',                  
     ],
-])
+]);
 ?>

@@ -135,7 +135,7 @@ $this->title = "My Cart";
 		<div class="container" style="margin-top:2%;">
     		<div class="row">
         		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				 <div><img class="img-responsivecol-lg-12 col-md-12 col-sm-12 col-xs-12" src='/hamstereat/frontend/web/imageLocation/Img/empty_cart.png'>
+				 <div> <?php echo Html::img('@web/imageLocation/Img/empty_cart.png', ['class' => 'img-responsivecol-lg-12 col-md-12 col-sm-12 col-xs-12']); ?>
 		</div>
 				
 				</div>

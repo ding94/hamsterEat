@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use wbraganca\dynamicform\DynamicFormWidget;
 
 ?>           
-           
+  
              <?php DynamicFormWidget::begin([
                     'widgetContainer' => 'dynamicform_inner',
                     'widgetBody' => '.container-rooms',

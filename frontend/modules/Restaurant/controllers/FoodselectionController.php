@@ -6,6 +6,7 @@ use yii;
 use yii\web\Controller;
 use frontend\controllers\CartController;
 use common\models\food\Foodselection;
+use common\models\food\Foodselectiontype;
 
 class FoodselectionController extends Controller
 {

@@ -28,7 +28,8 @@ class FoodController extends Controller
     {
         $fooddata = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
         
-        $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id' => $id])->all();
+        $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id' => $id])->orderBy(['ID' => SORT_ASC])->all();
+        
         $orderItemSelection =new Orderitemselection;
         $orderitem = new Orderitem;
 
@@ -184,7 +185,7 @@ class FoodController extends Controller
         $food = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
         $chosen = ArrayHelper::map($food['foodType'],'ID','ID');
         $type = ArrayHelper::map(FoodType::find()->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
-       
+      
         $foodtype =$food->foodselectiontypes;
         $foodselection = [];
       
@@ -259,7 +260,7 @@ class FoodController extends Controller
                         $flag = FoodselectionController::createfoodselection($foodtype,$foodselection,$food->Food_ID);
 
                         if ($flag) {
-
+                            $transaction->commit();
                             return $this->redirect(['food/food-details', 'id' => $food->Food_ID]);
                         } 
                          else {

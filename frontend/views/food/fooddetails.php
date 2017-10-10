@@ -77,7 +77,8 @@ input[type=number]::-webkit-outer-spin-button {
             <?php
             $ftids = "";
             foreach($foodtype as $k=> $foodtype) : 
-            $selection = Foodselection::find()->where('Type_ID = :ftid',[':ftid'=>$foodtype['ID']])->all();
+            $selection = Foodselection::find()->where('Type_ID = :ftid',[':ftid'=>$foodtype['ID']])->orderBy(['Price' => SORT_ASC])->all();
+            //var_dump($selection);exit;
             $data = ArrayHelper::map($selection,'ID','typeprice');
 
             if($foodtype['Min'] == 0 && $foodtype ['Max'] < 2 || $foodtype['Min'] == 1 && $foodtype ['Max'] < 2 )

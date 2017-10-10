@@ -21,51 +21,41 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'pjax'=>true, // pjax is set to always true for this demo
         //'panel'=>['type'=>'primary', 'heading'=>'Rating List'],
         'columns'=>[
-            [
-                'attribute' => 'foodName',
-                'value' => function($model)
-                {
-                    return $model->food->Name;
-                },
-                'group' => true,
-            ],
-            [
-                'attribute' => 'foodPrice',
-                'value' => function($model)
-                {
-                    return $model->food->Price;
-                },
-                'group' => true,
-            ],
-            [
-                'attribute' => 'type',
-                'value' => function($model)
-                {
-                    return $model->foodselectiontype->TypeName;
-                },
-                'group' => true,
-            ],
             'Name',
+            'BeforeMarkedUp',
+            'Price',
+            'Description',
             [
-                'attribute' => 'Status',
+                'class'=>'kartik\grid\ExpandRowColumn',
+                'width'=>'50px',
+                'value'=>function ($model, $key, $index, $column) {
+                    return GridView::ROW_COLLAPSED;
+                },
+                'detail'=>function ($model, $key, $index, $column) {
+                    return Yii::$app->controller->renderPartial('detail', ['model'=>$model->foodSelection]);
+                },
+                'headerOptions'=>['class'=>'kartik-sheet-style'] ,
+                'expandOneOnly'=>true,
+            ],
+            [
+                'attribute' => 'status',
                 'format' => 'raw',
                 'value' => function($model)
                 {
-                     if($model->Status == 0)
+                    if($model->foodStatus['Status'] == 0)
                     {
-                        $url =Url::to(['food/active','name' =>$model->ID]);
+                        $url =Url::to(['food/food-control','id' =>$model->Food_ID ,'status' => 1]);
                     }
                     else
                     {
-                        $url = Url::to(['food/deactive','name' =>$model->ID]);
+                        $url =Url::to(['food/food-control','id' =>$model->Food_ID ,'status' => 0]);
                     }
-                
-                    return $model->Status == 0 ?  Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'ON']) :  Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'OFF']);
+                    return $model->foodStatus['Status'] == 0 ?  Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'ON']) :  Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'OFF']);
                 },
                 'filter' =>  array( 0=>"Close",1=>"Open"),
             ],
-            
-
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
         'panel'=>[
             'type'=>GridView::TYPE_SUCCESS,

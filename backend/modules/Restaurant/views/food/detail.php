@@ -44,6 +44,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             ],
             'Name',
             'Nickname',
+            'BeforeMarkedUp',
             'Price',
             [
                 'attribute' => 'tpyeStatus',

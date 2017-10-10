@@ -8,6 +8,8 @@ class FoodSearch extends Food
 {
 	public $status;
 	public $foodType;
+	public $foodName;
+	
 	public function rules()
 	{
 		return [
@@ -17,7 +19,14 @@ class FoodSearch extends Food
 
 	public function search($params,$id)
 	{
-		$query = Food::find()->where('Restaurant_ID = :id' ,[':id' => $id]);
+		if($id == 0)
+		{
+			$query = Food::find();
+		}
+		else
+		{
+			$query = Food::find()->where('Restaurant_ID = :id' ,[':id' => $id]);
+		}
 
 		$query->innerJoinWith('foodType',true);
 

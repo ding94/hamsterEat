@@ -92,7 +92,6 @@ class FoodController extends Controller
        if(Yii::$app->request->isPost)
        {
             $post = Yii::$app->request->post();
-            
             $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
             $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
             $location = 'imageLocation/foodImg/';
@@ -204,7 +203,7 @@ class FoodController extends Controller
         if (Yii::$app->request->isPost) {
            
             $post = Yii::$app->request->post();  
-                            
+                  
             $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
 
             $food->load($post);
@@ -247,11 +246,11 @@ class FoodController extends Controller
                 try {
                     if ($flag = $food->save()) {
 
-                        Foodtypejunction::deleteAll(['Food_ID'=>$id]);
+                        Foodtypejunction::deleteAll(['Food_ID'=>$food->Food_ID]);
 
-                        Foodselection::deleteAll(['Food_ID' => $id]);
+                        Foodselection::deleteAll(['Food_ID' => $food->Food_ID]);
 
-                        Foodselectiontype::deleteAll(['Food_ID' => $id]);
+                        Foodselectiontype::deleteAll(['Food_ID' => $food->Food_ID]);
 
                         FoodtypeAndStatusController::newFoodJuntion($post['Type_ID'],$food->Food_ID);
 

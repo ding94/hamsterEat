@@ -8,7 +8,7 @@ use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
-  $this->title = 'Food Detail';
+  $this->title = $searchModel->restaurant;
   $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Restuarant Detail '), 'url' => ['default/index']];
   $this->params['breadcrumbs'][] = $this->title;
 

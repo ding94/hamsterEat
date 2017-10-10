@@ -9,14 +9,9 @@ $this->title = "Food Details";
 ?>
 <style>
 .value-button {
-  display: inline-block;
   border: 1px solid #ddd;
   margin: 0px;
   width: 40px;
-  height: 40px;
-  text-align: center;
-  vertical-align: middle;
-  padding: 11px 0;
   background: #eee;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -29,14 +24,7 @@ $this->title = "Food Details";
 .value-button:hover {
   cursor: pointer;
 }
-#decrease {
-  margin-right: -4px;
-  border-radius: 8px 0px 0px 8px;
-}
-#increase {
-  margin-left:-4px;
-  border-radius: 0px 8px 8px 0px;
-}
+
 #input-wrap {
   margin: 0px;
   padding: 0px;
@@ -123,9 +111,9 @@ input[type=number]::-webkit-outer-spin-button {
                   <td> </td>
             </tr>
             <tr> <td><b>Order Item Quantity</b></td>
-				<td><div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
-				<?= $form->field($orderitem, 'OrderItem_Quantity')->textInput(['type' => 'number', 'value' => "1",'style'=>'width:80px'])->label(false)?></td>
-				<td> <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div></td>
+      				<td>
+      				<?= $form->field($orderitem, 'OrderItem_Quantity',['template' => '<div class="input-group"><span class="value-button input-group-addon" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</span>{input}{error}{hint}<span class="value-button input-group-addon" id="increase" onclick="increaseValue()" value="Increase Value">+</span></div>'])->textInput(['type' => 'number', 'value' => "1",'style'=>'width:80px'])->label(false)?>
+            </td>
             </tr>
 			
 			<tr><td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>

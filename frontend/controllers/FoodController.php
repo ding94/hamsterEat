@@ -207,8 +207,8 @@ class FoodController extends Controller
             $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
 
             $food->load($post);
-            $food->BeforeMarkedUp = CartController::actionDisplay2decimal($post['Food']['roundprice']);
-            $markedupprice = CartController::actionDisplay2decimal($post['Food']['roundprice']) * 1.3;
+            $food->BeforeMarkedUp = CartController::actionRoundoff1decimal($post['Food']['roundprice']);
+            $markedupprice = CartController::actionRoundoff1decimal($post['Food']['roundprice']) * 1.3;
             $markedupprice = CartController::actionRoundoff1decimal($markedupprice);
             $food->Price = $markedupprice;
     

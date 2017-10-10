@@ -10,8 +10,10 @@ use yii\bootstrap\ActiveForm;
 $this->title = "Edit Restaurant's Details";
 $this->params['breadcrumbs'][] = $this->title;
 $tags = explode(",",$restaurantdetails['Restaurant_Tag']);
-$tags2 = [$tags[0],$tags[1],$tags[2]];
-$restaurantdetails->Restaurant_Tag = $tags2;
+ foreach ($tags as $tags) :
+$tags = $tags;
+endforeach;
+$restaurantdetails->Restaurant_Tag = $tags;
 if (!is_null($restArea))
 {
     $restaurantdetails['Restaurant_AreaGroup']=$restArea;

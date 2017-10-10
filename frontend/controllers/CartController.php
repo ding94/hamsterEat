@@ -314,15 +314,15 @@ class CartController extends Controller
                     // -----save order-------
                     $voucher['discount_type'] += 1;
                     $voucher['usedTimes'] += 1;
-                    
+                    var_dump($voucher->validate());var_dump($voucher); exit;
                     if ($order->validate() && $voucher->validate()) {
                         $voucher->save();
                         $order->save();
                     }
                        
                 }
-                    
-                }
+
+            }
 
             $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = '".$session['postcode']."', Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = '".$time."', Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = '".$did."'";
             Yii::$app->db->createCommand($sql)->execute();

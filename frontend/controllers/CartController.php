@@ -238,13 +238,22 @@ class CartController extends Controller
 
             if ($early <= $timenow && $last >= $timenow)
             {
+                $earlydiscount = CartController::actionRoundoff1decimal($order['Orders_Subtotal']) * 0.2;
+                $earlydiscount = CartController::actionRoundoff1decimal($earlydiscount);
+                $newtotalprice = CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($order['Orders_Subtotal']) - $earlydiscount + CartController::actionRoundoff1decimal($order['Orders_DeliveryCharge']));
+                
+                $early = "UPDATE orders SET Orders_TotalPrice = ".$newtotalprice.", Orders_DiscountEarlyAmount = ".$earlydiscount." WHERE Delivery_ID = ".$did."";
+                Yii::$app->db->createCommand($early)->execute();
+
+                $order = Orders::find()->where('Delivery_ID = :Delivery_ID',[':Delivery_ID' => $did])->one();
+
             $unitno = $checkout->Orders_Location;
             $street = $checkout->Orders_Area;
             $paymethod = $checkout->Orders_PaymentMethod;
 
             $location = $unitno.', '.$street;
             $time = time();
-
+                //var_dump($order);exit;
             date_default_timezone_set("Asia/Kuala_Lumpur");
             $setdate = date("Y-m-d");
             $settime = "13:00:00";
@@ -358,6 +367,7 @@ class CartController extends Controller
         {
             Yii::$app->session->setFlash('error', 'The allowed time to place order is over. Please place your order in between 8am and 11am daily.');
         }
+        
         }
         return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
     }

@@ -17,6 +17,15 @@ Class FoodController extends Controller
 		$searchModel = new FoodSearch();
     	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id);
 
+    	if($id == 0)
+    	{
+    		$searchModel->restaurant = "All Food";
+    	}
+    	else
+    	{
+    		$searchModel->restaurant = "Food Detail";
+    	}
+    	
     	$typeList = ArrayHelper::map(Foodtype::find()->all(),'Type_Desc','Type_Desc');
 
 		return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel,'typeList' => $typeList]);

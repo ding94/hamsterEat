@@ -8,8 +8,8 @@ class FoodSearch extends Food
 {
 	public $status;
 	public $foodType;
-	public $foodName;
-	
+	public $restaurant;
+
 	public function rules()
 	{
 		return [

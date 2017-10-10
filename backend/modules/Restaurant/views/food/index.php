@@ -60,7 +60,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 'format' => 'raw',
                 'value' => function($model)
                 {
-                    if($model->foodStatus->Status == 0)
+                    if($model->foodStatus['Status'] == 0)
                     {
                         $url =Url::to(['food/food-control','id' =>$model->Food_ID ,'status' => 1]);
                     }
@@ -68,7 +68,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     {
                         $url =Url::to(['food/food-control','id' =>$model->Food_ID ,'status' => 0]);
                     }
-                    return $model->foodStatus->Status == 0 ?  Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'ON']) :  Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'OFF']);
+                    return $model->foodStatus['Status'] == 0 ?  Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'ON']) :  Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'OFF']);
                 },
                 'filter' =>  array( 0=>"Close",1=>"Open"),
             ],

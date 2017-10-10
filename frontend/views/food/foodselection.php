@@ -45,7 +45,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
                 
                 
             </td>
-             <td class="vcenter"><?= $form->field($foodselection, "[{$i}][{$ix}]Price")->label(false)->textInput(['maxlength' => true]) ?></td>
+             <td class="vcenter"><?= $form->field($foodselection, "[{$i}][{$ix}]BeforeMarkedUp")->label(false)->textInput(['maxlength' => true]) ?></td>
              <td class="vcenter"><?= $form->field($foodselection, "[{$i}][{$ix}]Nickname")->label(false)->textInput(['maxlength' => true]) ?></td>
             <td class="text-center vcenter" style="width: 90px;">
                 <button type="button" class="remove-room btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span></button>

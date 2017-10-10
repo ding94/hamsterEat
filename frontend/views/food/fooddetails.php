@@ -7,8 +7,58 @@ use common\models\Orderitemselection;
 use frontend\controllers\CartController;
 $this->title = "Food Details";
 ?>
+<style>
+.value-button {
+  display: inline-block;
+  border: 1px solid #ddd;
+  margin: 0px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 11px 0;
+  background: #eee;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
-<div class="container-fluid">
+.value-button:hover {
+  cursor: pointer;
+}
+#decrease {
+  margin-right: -4px;
+  border-radius: 8px 0px 0px 8px;
+}
+#increase {
+  margin-left:-4px;
+  border-radius: 0px 8px 8px 0px;
+}
+#input-wrap {
+  margin: 0px;
+  padding: 0px;
+}
+#number {
+  text-align: center;
+  border: none;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: 0px;
+  width: 40px;
+  height: 40px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+</style>
+<div class="container">
       <h1><center>Food details</h1>
       <br>
 	<div class="tab-content col-md-12" id="fooddetails">
@@ -19,17 +69,17 @@ $this->title = "Food Details";
             </tr>
 
             <tr>
-                  <!--<td>Food Name:</td>-->
+                  <td>Food Name:</td>
                   <td> <?php echo $fooddata->Name;?></td>
             </tr>
 
             <tr>
-                 <!-- <td>Food Price (RM):</td>-->
+                  <td>Food Price (RM):</td>
                   <td> <?php echo CartController::actionRoundoff1decimal($fooddata->Price);?></td>
             </tr>
 
             <tr>
-                 <!-- <td>Food Description:</td>-->
+                 <td>Food Description:</td>
                   <td> <?php echo $fooddata->Description;?></td>
             </tr>
               
@@ -45,7 +95,7 @@ $this->title = "Food Details";
             if($foodtype['Min'] == 0 && $foodtype ['Max'] < 2 || $foodtype['Min'] == 1 && $foodtype ['Max'] < 2 )
             {
                  echo "<tr>";           
-              //   echo '<td>'.$foodtype['TypeName'].'<br><span>Select at least '.$foodtype['Min'].' item and at most '.$foodtype ['Max'].' items</span></td>';
+                 echo '<td>'.$foodtype['TypeName'].'<br><span>Select at least '.$foodtype['Min'].' item and at most '.$foodtype ['Max'].' items</span></td>';
                  echo "<td>";     
 
                  echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->radioList($data)->label(false);
@@ -57,7 +107,7 @@ $this->title = "Food Details";
             else 
             {
                  echo "<tr>";           
-                // echo '<td>'.$foodtype['TypeName'].'<br><span>Select at least '.$foodtype['Min'].' item and at most '.$foodtype ['Max'].' items</span></td>';
+                 echo '<td>'.$foodtype['TypeName'].'<br><span>Select at least '.$foodtype['Min'].' item and at most '.$foodtype ['Max'].' items</span></td>';
                  echo "<td>";     
 
                  echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->checkboxlist($data)->label(false);
@@ -72,12 +122,31 @@ $this->title = "Food Details";
                   <td colspan = 2><?= $form->field($orderitem, 'OrderItem_Remark')->label('Remarks'); ?></td>
                   <td> </td>
             </tr>
-            <tr>
-                  <td><?= $form->field($orderitem, 'OrderItem_Quantity')->textInput(['type' => 'number', 'value' => "1"])?></td>
-                  <td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart', 'style'=>'margin-top:25px;']) ?></td>
+            <tr> <td><b>Order Item Quantity</b></td>
+				<td><div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+				<?= $form->field($orderitem, 'OrderItem_Quantity')->textInput(['type' => 'number', 'value' => "1",'style'=>'width:80px'])->label(false)?></td>
+				<td> <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div></td>
             </tr>
-
-        <?php ActiveForm::end(); ?>
+			
+			<tr><td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
+      </td> </tr> <?php ActiveForm::end(); ?>
             </table>
       </div>
 </div>
+
+<script>
+function increaseValue() {
+  var value = parseInt(document.getElementById('orderitem-orderitem_quantity').value, 10);
+  value = isNaN(value) ? 0 : value;
+  value++;
+  document.getElementById('orderitem-orderitem_quantity').value = value;
+}
+
+function decreaseValue() {
+  var value = parseInt(document.getElementById('orderitem-orderitem_quantity').value, 10);
+  value = isNaN(value) ? 0 : value;
+  value < 1 ? value = 1 : '';
+  value--;
+  document.getElementById('orderitem-orderitem_quantity').value = value;
+}
+</script>

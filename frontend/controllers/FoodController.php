@@ -114,7 +114,7 @@ class FoodController extends Controller
 
                 $foodselection = FoodselectionController::validatefoodselection($post['Foodselection']);
             }
-           
+           var_dump($post);exit;
              if ($valid) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {

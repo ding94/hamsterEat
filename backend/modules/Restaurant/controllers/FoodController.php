@@ -4,9 +4,11 @@ namespace backend\modules\Restaurant\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\helpers\ArrayHelper;
 use backend\models\FoodSearch;
 use common\models\food\Foodstatus;
 use common\models\food\Foodselection;
+use common\models\food\Foodtype;
 
 Class FoodController extends Controller
 {
@@ -15,7 +17,9 @@ Class FoodController extends Controller
 		$searchModel = new FoodSearch();
     	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,$id);
 
-		return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
+    	$typeList = ArrayHelper::map(Foodtype::find()->all(),'Type_Desc','Type_Desc');
+
+		return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel,'typeList' => $typeList]);
 	}
 
 	public function actionFoodControl($id,$status)

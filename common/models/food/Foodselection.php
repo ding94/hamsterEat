@@ -1,9 +1,7 @@
 <?php
 
 namespace common\models\food;
-
 use frontend\controllers\CartController;
-
 use Yii;
 
 /**
@@ -12,6 +10,7 @@ use Yii;
  * @property integer $ID
  * @property integer $Type_ID
  * @property string $Name
+ * @property double $BeforeMarkedUp
  * @property double $Price
  * @property integer $Status
  * @property string $Nickname
@@ -33,10 +32,10 @@ class Foodselection extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [[ 'Name', 'Price', 'Nickname'], 'required'],
+            [['Name', 'BeforeMarkedUp', 'Nickname'], 'required'],
             [['Type_ID', 'Status', 'Food_ID'], 'integer'],
             [['Name', 'Nickname'], 'string'],
-            [['Price'], 'number'],
+            [['BeforeMarkedUp', 'Price'], 'number'],
         ];
     }
 
@@ -49,6 +48,7 @@ class Foodselection extends \yii\db\ActiveRecord
             'ID' => 'ID',
             'Type_ID' => 'Type  ID',
             'Name' => 'Name',
+            'BeforeMarkedUp' => 'Before Marked Up',
             'Price' => 'Price',
             'Status' => 'Status',
             'Nickname' => 'Nickname',

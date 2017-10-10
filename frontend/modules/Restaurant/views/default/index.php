@@ -31,6 +31,13 @@ $this->title = "Available Restaurants";
  border: 1px solid grey;
 }
 
+.list .name{
+  margin: 0px 0px 0px 20px;
+}
+
+.list ul{
+  margin: 10px 10px 10px 0px;
+}
 
 .tag{
     margin-left:-20px;
@@ -51,6 +58,7 @@ span.stars, span.stars span {
     background: url(imageLocation/stars.png) 0 -16px repeat-x;
     width: 80px;
     height: 16px;
+    margin-right: 20px;
 }
 span.stars span {
     background-position: 0 0;
@@ -78,22 +86,14 @@ span.stars span {
                 }
               ?>
               <th rowspan = "5">
-                <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive','style'=>'height:240px; width:376px; margin:auto;']) ?>
+                <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive','style'=>'height:240px; width:376px; margin-bottom:20px;']) ?>
               </th>
-              <table class="table table-restaurant-details">
-                <tbody>
-                  <tr>
-                    <td>
                       <span class="name">
                         <?php echo $data['Restaurant_Name']; ?>
                       </span>
                       <span class="small-text pull-right stars">
                         <?php echo $data['Restaurant_Rating']; ?>
                       </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
                       <ul class="tag">
                         <?php $tags=explode(",",$data['Restaurant_Tag']);
                          if ($data['Restaurant_Pricing'] == 1){ 
@@ -109,10 +109,6 @@ span.stars span {
                         <li><?php echo $tags; ?></li>
                         <?php endforeach; ?>
                       </ul>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>  
             </div>
           </a>
         <?php endforeach; ?>

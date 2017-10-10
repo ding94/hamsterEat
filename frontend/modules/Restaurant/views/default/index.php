@@ -12,7 +12,7 @@ $this->title = "Available Restaurants";
 .menu-container{
   display: grid;
   width:775px;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 15px;
   grid-row-gap: 15px;
   margin-bottom: 50px;

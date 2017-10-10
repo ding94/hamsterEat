@@ -4,6 +4,7 @@ namespace frontend\modules\Restaurant\controllers;
 
 use yii;
 use yii\web\Controller;
+use frontend\controllers\CartController;
 use common\models\food\Foodselection;
 
 class FoodselectionController extends Controller
@@ -41,7 +42,12 @@ class FoodselectionController extends Controller
                 foreach ($foodselection[$i] as $ix => $modelfoodselection) {
                     $modelfoodselection->Type_ID = $modelfoodtype->ID;
                     $modelfoodselection->Food_ID = $id;
-                   
+                    $beforemarkedup = CartController::actionRoundoff1decimal($modelfoodselection->BeforeMarkedUp);
+                    $markedup = $beforemarkedup * 1.3;
+                    $markedup = CartController::actionRoundoff1decimal($markedup);
+                    $modelfoodselection->BeforeMarkedUp = $beforemarkedup;
+                    $modelfoodselection->Price = $markedup;
+
                     if (!($flag = $modelfoodselection->save(false))) {
                         return false;
                     }

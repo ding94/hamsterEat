@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 $this->title = "Available Restaurants";
+
 ?>
 <style>
 .outer-container{
@@ -66,72 +67,55 @@ span.stars span {
 <div class="container" id="index">
     <h1>Order Food for Delivery</h1>
 
-    <?php
-    {
-        echo "<div class='outer-container'>";
-    echo "<div class='menu-container'>";
-    foreach($restaurant as $data) :
-    
-    echo "<a href="?> <?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$data['Restaurant_ID']]); ?> <?php echo ">";
-    echo "<div class='list'>";
-      $picpath = $data['Restaurant_RestaurantPicPath'];
-
-        if (is_null($data['Restaurant_RestaurantPicPath'])){
-            $picpath = "DefaultRestaurant.jpg";
-        }
-        echo '<th rowspan = "5">' ?> <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive','style'=>'height:240px; width:376px; margin:auto;']) ?> <?php echo "</th>";
-    echo "<table class = 'table table-restaurant-details'>";  
-    echo "<tbody>";
-
-    echo "<tr>";
-      
-        
-        echo '<td><span class="name"> '.$data['Restaurant_Name'].'</span><span class="small-text pull-right stars">'.$data['Restaurant_Rating'].'</td>';
-    echo "</tr>";
-  
-     
-  
-    echo "<tr>";
-  
-        $tags=explode(",",$data['Restaurant_Tag']);
-    
-        echo '<td><ul class="tag">';
-            if ($data['Restaurant_Pricing'] == 1)
-    {
-       
-        echo '<li class= "none"> $ </li>';
-        
-    }
-    else if ($data['Restaurant_Pricing'] == 2)
-    {
-        
-        echo '<li class= "none"> $ $ </li>';
-        
-    }
-    else
-    {
-        
-        echo '<li class= "none"> $ $ $ </li>';
-       
-    }
-        foreach ($tags as $tags) :
-            echo "<li>".$tags."</li>";
-        endforeach;
-        echo "</ul></td>";
-   
-    echo "</tr>";
-     echo "</tbody>";
-    echo "</table>";
-   
-    echo "</a>";
-     echo "</div>";
-   
-    ?>
-    <?php endforeach;
-     echo "</div>";
-     echo "</div>";
-    }
-    ?>
+    <div class="outer-container">
+      <div class="menu-container">
+        <?php foreach($restaurant as $data) : ?>
+          <a href="<?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$data['Restaurant_ID']]); ?>">
+            <div class="list">
+              <?php $picpath = $data['Restaurant_RestaurantPicPath']; 
+                if (is_null($data['Restaurant_RestaurantPicPath'])){
+                  $picpath = "DefaultRestaurant.jpg";
+                }
+              ?>
+              <th rowspan = "5">
+                <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive','style'=>'height:240px; width:376px; margin:auto;']) ?>
+              </th>
+              <table class="table table-restaurant-details">
+                <tbody>
+                  <tr>
+                    <td>
+                      <span class="name">
+                        <?php echo $data['Restaurant_Name']; ?>
+                      </span>
+                      <span class="small-text pull-right stars">
+                        <?php echo $data['Restaurant_Rating']; ?>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <ul class="tag">
+                        <?php $tags=explode(",",$data['Restaurant_Tag']);
+                         if ($data['Restaurant_Pricing'] == 1){ 
+                        ?>
+                        <li class="none">$</li>
+                        <?php } else if ($data['Restaurant_Pricing'] == 2){ ?>
+                        <li class= "none"> $ $ </li>
+                        <?php } else { ?>
+                        <li class= "none"> $ $ $ </li>
+                        <?php } 
+                          foreach ($tags as $tags) :
+                        ?>
+                        <li><?php echo $tags; ?></li>
+                        <?php endforeach; ?>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>  
+            </div>
+          </a>
+        <?php endforeach; ?>
+      </div>
     </div>
-
-</div>
+  </div>

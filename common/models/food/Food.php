@@ -95,12 +95,21 @@ class Food extends \yii\db\ActiveRecord
         return $this->hasOne(Foodstatus::className(), ['Food_ID'=>'Food_ID']);
     }
    
-    
     public function getFoodselectiontypes()
     {
         return $this->hasMany(Foodselectiontype::className(),['Food_ID' => 'Food_ID']);
-
     }
+
+    public function getFoodSelection()
+    {
+        return $this->hasMany(Foodselection::className(),['Food_ID'=> 'Food_ID']);
+    }
+
+    public function getSelectedtpye()
+    {
+        return $this->hasOne(Foodselectiontype::className(),['ID' => $this->foodSelection->Type_ID]);
+    }
+
     public function getRoundprice()
     {
         return CartController::actionRoundoff1decimal($this->BeforeMarkedUp);

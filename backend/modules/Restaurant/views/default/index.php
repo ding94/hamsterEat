@@ -76,7 +76,7 @@ use yii\bootstrap\Modal;
                 'format' => 'raw',
                 'value' => function($model,$url)
                 {
-                    if($model->manager->Rmanager_Approval == 0)
+                    if($model->manager['Rmanager_Approval'] == 0)
                     {
                         $url =Url::to(['default/active','name' =>$model->Restaurant_Manager]);
                     }
@@ -85,7 +85,7 @@ use yii\bootstrap\Modal;
                         $url = Url::to(['default/deactive','name' =>$model->Restaurant_Manager]);
                     }
                 
-                    return $model->manager->Rmanager_Approval == 0 ?  Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'Activate']) :  Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'Deactivate']);
+                    return $model->manager['Rmanager_Approval'] == 0 ?  Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'Activate']) :  Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'Deactivate']);
                 },
                 'filter' =>  array( 0=>"Deactive",1=>"Active"),
             ],

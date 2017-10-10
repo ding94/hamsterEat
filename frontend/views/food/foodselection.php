@@ -43,7 +43,6 @@ use wbraganca\dynamicform\DynamicFormWidget;
                 ?>
                 <?= $form->field($foodselection, "[{$i}][{$ix}]Name")->label(false)->textInput(['maxlength' => true]) ?>
                 
-                
             </td>
              <td class="vcenter"><?= $form->field($foodselection, "[{$i}][{$ix}]BeforeMarkedUp")->label(false)->textInput(['maxlength' => true]) ?></td>
              <td class="vcenter"><?= $form->field($foodselection, "[{$i}][{$ix}]Nickname")->label(false)->textInput(['maxlength' => true]) ?></td>

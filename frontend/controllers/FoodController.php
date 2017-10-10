@@ -103,7 +103,7 @@ class FoodController extends Controller
             $foodtype = Model::createMultiple(Foodselectiontype::classname());
 
             Model::loadMultiple($foodtype, Yii::$app->request->post());
-            $foodprice = $food->BeforeMarkedUp;
+            $foodprice = CartController::actionRoundoff1decimal($food->BeforeMarkedUp);
             $markedupprice = $foodprice * 1.3;
             $markedupprice = CartController::actionRoundoff1decimal($markedupprice);
             //var_dump($food->BeforeMarkedUp);exit;
@@ -114,7 +114,7 @@ class FoodController extends Controller
 
                 $foodselection = FoodselectionController::validatefoodselection($post['Foodselection']);
             }
-           var_dump($post);exit;
+
              if ($valid) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {

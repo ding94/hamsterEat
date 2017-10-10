@@ -101,10 +101,11 @@ $this->title = "My Cart";
         <td id ="extend"> </td>
         <td  id ="label" style="display: none"><strong> Discount Code: </strong></td>
 
-        <td><div > <input id ="input" style="display: none"></div></td>
+        <td><div> <input id ="input" style="display: none"></div></td>
 
         <td style="display: none" id="apply"><div ><a onclick="discount()"><font color="blue">Apply</font></a></div></td>
         <td id ="hide2"><a onclick="showHidden()"><font color="blue">Have a coupon ? Click Me</font></a></td>
+        <td id="reset" style="display : none"><a onclick="refresh()"><font color="blue">Reset Coupon</font></a></td>
         
           <?php
       echo "</tr>";
@@ -171,22 +172,26 @@ $this->title = "My Cart";
           case 7:
             if (obj['discount_type'] >=1 && obj['discount_type'] <=3) 
             {
-              document.getElementById("subtotal").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) *( (100 - obj['discount']) /100); 
+              document.getElementById("subtotal").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) *( (100 - obj['discount']) /100);
+              document.getElementById("total").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) + parseInt(document.getElementById("delivery").innerHTML); 
             }
             else if (obj['discount_type'] >=4 && obj['discount_type'] <=6) 
             {
-              document.getElementById("subtotal").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) - obj['discount']; 
+              document.getElementById("subtotal").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) - obj['discount'];
+              document.getElementById("total").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) + parseInt(document.getElementById("delivery").innerHTML);  
             }
            break;
 
           case 8:
             if (obj['discount_type'] >=1 && obj['discount_type'] <=3) 
             {
-              document.getElementById("delivery").innerHTML = parseInt(document.getElementById("delivery").innerHTML) *( (100 - obj['discount']) /100); 
+              document.getElementById("delivery").innerHTML = parseInt(document.getElementById("delivery").innerHTML) *( (100 - obj['discount']) /100);
+              document.getElementById("total").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) + parseInt(document.getElementById("delivery").innerHTML); 
             }
             else if (obj['discount_type'] >=4 && obj['discount_type'] <=6) 
             {
-              document.getElementById("delivery").innerHTML = parseInt(document.getElementById("delivery").innerHTML) - obj['discount']; 
+              document.getElementById("delivery").innerHTML = parseInt(document.getElementById("delivery").innerHTML) - obj['discount'];
+              document.getElementById("total").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) + parseInt(document.getElementById("delivery").innerHTML); 
             }
           break;
 
@@ -208,7 +213,8 @@ $this->title = "My Cart";
         document.getElementById("input").style.display ='none';
         document.getElementById("apply").style.display ='none';
         document.getElementById("hide2").style.display ='none';
-        document.getElementById("extend").style.display ='none';
+        document.getElementById("extend").style.display ='block';
+        document.getElementById("reset").style.display ='block';
         document.getElementById("orders-orders_totalprice").value = obj['code'];
       }
 
@@ -222,6 +228,11 @@ $this->title = "My Cart";
    }
 
    });
+  }
+
+  function refresh()
+  {
+    location.reload();
   }
 
 </script>

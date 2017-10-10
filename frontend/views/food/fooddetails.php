@@ -11,7 +11,7 @@ $this->title = "Food Details";
 <div class="container-fluid">
       <h1><center>Food details</h1>
       <br>
-	<div class="tab-content col-md-12" id="fooddetails" data-id="<?php echo $fooddata->Food_ID ?>">
+	<div class="tab-content col-md-12" id="fooddetails">
 		<table class="table table-user-information" style="width:60%; margin:auto;">
 
             <tr>         
@@ -74,7 +74,7 @@ $this->title = "Food Details";
             </tr>
             <tr>
                   <td><?= $form->field($orderitem, 'OrderItem_Quantity')->textInput(['type' => 'number', 'value' => "1"])?></td>
-                  <td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart', 'style'=>'margin-top:25px;','method'=>'post','onclick'=>'form_submit()']) ?></td>
+                  <td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart', 'style'=>'margin-top:25px;']) ?></td>
             </tr>
 
         <?php ActiveForm::end(); ?>

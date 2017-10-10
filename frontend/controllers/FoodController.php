@@ -87,7 +87,7 @@ class FoodController extends Controller
         $upload = new Upload();
         
         $foodjunction = new Foodtypejunction();
-        $type = ArrayHelper::map(FoodType::find()->all(),'ID','Type_Desc');
+        $type = ArrayHelper::map(FoodType::find()->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
     
        if(Yii::$app->request->isPost)
        {
@@ -184,7 +184,7 @@ class FoodController extends Controller
      {
         $food = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
         $chosen = ArrayHelper::map($food['foodType'],'ID','ID');
-        $type = ArrayHelper::map(FoodType::find()->all(),'ID','Type_Desc');
+        $type = ArrayHelper::map(FoodType::find()->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
        
         $foodtype =$food->foodselectiontypes;
         $foodselection = [];

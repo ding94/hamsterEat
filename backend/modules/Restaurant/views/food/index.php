@@ -21,10 +21,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'pjax'=>true, // pjax is set to always true for this demo
         //'panel'=>['type'=>'primary', 'heading'=>'Rating List'],
         'columns'=>[
-            'Name',
-            'BeforeMarkedUp',
-            'Price',
-            'Description',
+            ['class'=>'kartik\grid\SerialColumn'],
             [
                 'class'=>'kartik\grid\ExpandRowColumn',
                 'width'=>'50px',
@@ -36,6 +33,27 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 },
                 'headerOptions'=>['class'=>'kartik-sheet-style'] ,
                 'expandOneOnly'=>true,
+            ],
+            'Name',
+            'BeforeMarkedUp',
+            'Price',
+            'Description',
+            [
+                'attribute' => 'foodType',
+                'value' => function($model)
+                {
+                    foreach($model->foodType as $type)
+                    {
+                        $data[] = $type->Type_Desc;;
+                    }
+                    return implode(",",$data);
+                },
+                'filterType'=>GridView::FILTER_SELECT2,
+                'filter' => $typeList,
+                'filterWidgetOptions'=>[
+                    'pluginOptions'=>['allowClear'=>true],
+                ],
+                'filterInputOptions'=>['placeholder'=>'Any Type'],
             ],
             [
                 'attribute' => 'status',

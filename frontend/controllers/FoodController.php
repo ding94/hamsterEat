@@ -192,7 +192,6 @@ class FoodController extends Controller
         if (!empty($foodtype)) {
             foreach ($foodtype as $i => $ftype) {                 
                 $foodtypes = $ftype->foodSelection;
-               // var_dump($foodtypes);exit;
                 $foodselection[$i] = $foodtypes;
             }
         }
@@ -201,84 +200,175 @@ class FoodController extends Controller
         $picpath = $food['PicPath'];
         $food->scenario = "edit";
     
-        if (Yii::$app->request->isPost) {
-           
-            $post = Yii::$app->request->post();  
-                  
-            $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
+       
+         $this->layout = 'user';
+         return $this->render('editfood',['food' => $food,'chosen'=> $chosen,'type' => $type,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection]);
+    }
 
-            $food->load($post);
-            $food->BeforeMarkedUp = CartController::actionRoundoff1decimal($post['Food']['roundprice']);
-            $markedupprice = CartController::actionRoundoff1decimal($post['Food']['roundprice']) * 1.3;
-            $markedupprice = CartController::actionRoundoff1decimal($markedupprice);
-            $food->Price = $markedupprice;
-    
-            if (!is_null($upload->imageFile))
+    public function actionPostedit($id)
+    {
+        $food = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
+        $modelSelectionType = $food->foodselectiontypes;
+        $modelSelect = [];
+        $oldSelect = [];
+        $selectionId = [];
+
+        $upload = new Upload();
+        $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
+
+        $post = Yii::$app->request->post();
+        $picpath = $food['PicPath'];
+        if (!empty($modelSelectionType)) {
+            foreach ($modelSelectionType as $i => $select) 
             {
-                $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
+                $foodSelection = $select->foodSelection;
+                $modelSelect[$i] = $foodSelection;
+                $oldSelect = ArrayHelper::merge(ArrayHelper::index($foodSelection, 'ID'), $oldSelect);
+            }
+        }
+
+        $modelSelect = [];
+
+        $food->load($post);
+
+        $food->BeforeMarkedUp = CartController::actionRoundoff1decimal($post['Food']['roundprice']);
+        $markedupprice = CartController::actionRoundoff1decimal($post['Food']['roundprice']) * 1.3;
+        $markedupprice = CartController::actionRoundoff1decimal($markedupprice);
+        $food->Price = $markedupprice;
+      
+
+        if (!is_null($upload->imageFile))
+        {
+            $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
                   
-                $location = 'imageLocation/foodImg/';
+            $location = 'imageLocation/foodImg/';
                 
-                $upload->upload($location);
+            $upload->upload($location);
 
-                $food->PicPath = $upload->imageFile->name;
-            }
-            else
+            $food->PicPath = $upload->imageFile->name;
+        }
+        else
+        {
+            $food->PicPath = $picpath;
+        }
+
+        $oldSelectionTypeId = ArrayHelper::map($modelSelectionType, 'ID', 'ID');
+
+        $modelSelectionType = Model::createMultiple(Foodselectiontype::classname(), $modelSelectionType);
+
+        \yii\base\Model::loadMultiple($modelSelectionType,Yii::$app->request->post());
+
+        $deletedSelectionTypeId = array_diff($oldSelectionTypeId, array_filter(ArrayHelper::map($modelSelectionType, 'ID', 'ID')));
+
+        $valid = $food->validate();
+
+        $valid = Model::validateMultiple($modelSelectionType) && $valid;
+       
+        if (isset($post['Foodselection'][0][0]))
+        {
+            foreach ($post['Foodselection'] as $i => $select) 
             {
-                $food->PicPath = $picpath;
+
+                $selectionId = ArrayHelper::merge($selectionId, array_filter(ArrayHelper::getColumn($select, 'ID')));
+
+                foreach ($select as $k => $selections) 
+                {
+
+                    $data['Foodselection'] = $selections;
+
+                    $modelSelects = (isset($selections['ID']) && isset($oldSelect[$selections['ID']])) ? $oldSelect[$selections['ID']] : new Foodselection;
+
+                    $modelSelects->load($data);
+
+                    $modelSelect[$i][$k] = $modelSelects;
+
+                    $valid = $modelSelects->validate();
+
+                } 
             }
-         
-            $foodselection = [];
-            //var_dump($isValid);exit;
-            $foodtype = Model::createMultiple(Foodselectiontype::classname(), $foodtype);
+        }
 
-            Model::loadMultiple($foodtype, Yii::$app->request->post());
-        
-            $valid = $food->validate();
-    
-            $foodsIDs = [];
-             if (isset($_POST['Foodselection'][0][0])) {
-                $foodselection = FoodselectionController::validatefoodselection($post['Foodselection']);
-            }
-           
-            if ($valid) {
-                
-                $transaction = Yii::$app->db->beginTransaction();
-                try {
-                    if ($flag = $food->save()) {
+        $oldSelectIds = ArrayHelper::getColumn($oldSelect,'ID');
+        $deletedSelect = array_diff($oldSelectIds,$selectionId);
+       
+        if($valid)
+        {
+            $transaction = Yii::$app->db->beginTransaction();
+            try
+            {
+                if($flag = $food->save())
+                {
+                    if(!empty($deletedSelectionTypeId))
+                    {
+                        Foodselectiontype::deleteAll(['ID' => $deletedSelectionTypeId]);
+                    }
 
-                        Foodtypejunction::deleteAll(['Food_ID'=>$food->Food_ID]);
+                    if(!empty($deletedSelect))
+                    {
+                        Foodselection::deleteAll(['ID' => $deletedSelect]);
+                    }
 
-                        Foodselection::deleteAll(['Food_ID' => $food->Food_ID]);
+                    Foodtypejunction::deleteAll(['Food_ID'=>$food->Food_ID]);
+                    FoodtypeAndStatusController::newFoodJuntion($post['Type_ID'],$food->Food_ID);
 
-                        Foodselectiontype::deleteAll(['Food_ID' => $food->Food_ID]);
+                    foreach($modelSelectionType as $i => $selectionType)
+                    {
+                        if($flag == false)
+                        {
+                            break;
+                        }
 
-                        FoodtypeAndStatusController::newFoodJuntion($post['Type_ID'],$food->Food_ID);
+                        $selectionType->Food_ID = $food->Food_ID;
 
-                        $isValid = FoodtypeAndStatusController::newStatus($food->Food_ID);
+                        if(!($flag = $selectionType->save()))
+                        {
+                            break;
+                        }
 
-                        $flag = FoodselectionController::createfoodselection($foodtype,$foodselection,$food->Food_ID);
-
-                        if ($flag) {
-                            $transaction->commit();
-                            return $this->redirect(['food/food-details', 'id' => $food->Food_ID]);
-                        } 
-                         else {
-                        $transaction->rollBack();
+                        if(isset($modelSelect[$i]) && is_array($modelSelect[$i]))
+                        {
+                            foreach($modelSelect[$i] as $k => $model)
+                            {
+                                $model->Type_ID = $selectionType->ID;
+                                $model->Food_ID = $food->Food_ID;
+                                $beforemarkedup = CartController::actionRoundoff1decimal($model->BeforeMarkedUp);
+                                $markedup = $beforemarkedup * 1.3;
+                                $markedup = CartController::actionRoundoff1decimal($markedup);
+                                $model->BeforeMarkedUp = $beforemarkedup;
+                                $model->Price = $markedup;
+                                if(!($flag = $model->save()))
+                                {
+                                    break;
+                                }
+                            }
                         }
                     }
-                   
-                } catch (Exception $e) {
-                    $transaction->rollBack();
+                    if($flag)
+                    {
+                        $transaction->commit();
+                         Yii::$app->session->setFlash('success', "Success edit");
+                        return $this->redirect(['food/food-details', 'id' => $food->Food_ID]);
+                    }
+                    else
+                    {
+                        $transaction->rollBack();
+                        Yii::$app->session->setFlash('warning', "Fail edit");
+                        return $this->redirect(Yii::$app->request->referrer);
+                    }
                 }
             }
-
+            catch(Exception $e)
+            {
+                $transaction->rollBack();
+            }
+            Yii::$app->session->setFlash('warning', "Fail edit");
+            return $this->redirect(Yii::$app->request->referrer);
         }
-         $this->layout = 'user';
-         return $this->renderPartial('editfood',['food' => $food,'chosen'=> $chosen,'type' => $type,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection]);
-
-        
-       
+        else
+        {
+            Yii::$app->session->setFlash('warning', "Fail edit");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
     }
 
     protected static function newFood($post,$rid,$upload)

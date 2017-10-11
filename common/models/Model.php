@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use common\models\food\Foodselectiontype;
 use yii\helpers\ArrayHelper;
 
 class Model extends \yii\base\Model
@@ -20,7 +21,7 @@ class Model extends \yii\base\Model
         $formName = $model->formName();
         $post     = Yii::$app->request->post($formName);
         $models   = [];
-      
+        
         if (! empty($multipleModels)) {
             $keys = array_keys(ArrayHelper::map($multipleModels, 'ID', 'ID'));
             $multipleModels = array_combine($keys, $multipleModels);
@@ -28,8 +29,8 @@ class Model extends \yii\base\Model
        
         if ($post && is_array($post)) {
             foreach ($post as $i => $item) {
-                if (isset($item['id']) && !empty($item['id']) && isset($multipleModels[$item['id']])) {
-                    $models[] = $multipleModels[$item['id']];
+                if (isset($item['ID']) && !empty($item['ID']) && isset($multipleModels[$item['ID']])) {
+                    $models[] = $multipleModels[$item['ID']];
                 } else {
                     $models[] = new $modelClass;
                 }

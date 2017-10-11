@@ -102,6 +102,7 @@ class SiteController extends Controller
             $postcode->detectArea = 1;
             $area = Yii::$app->request->post('Area');
             $postcode->Area_Postcode = $area['Area_Postcode'];
+           
             $dataArea = Area::find()->where(['like','Area_Postcode' , $area['Area_Postcode']])->all();
             $list = ArrayHelper::map($dataArea,'Area_Area' ,'Area_Area');
             

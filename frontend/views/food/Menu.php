@@ -1,12 +1,12 @@
 <?php
 use yii\helpers\Html;
 use frontend\controllers\CartController;
-$this->title = "Restaurant Menu";
+$this->title = $rname."'s"." Menu";
 ?>
 
 <div class="container">
 	<div class="col-md-8 col-md-offset-1" id="menu">
-		<h1>My Menu</h1>
+		<h1><?php echo $rname."'s";?> Menu</h1>
             <?php
             {   
                 echo "<br>";
@@ -21,7 +21,6 @@ $this->title = "Restaurant Menu";
                     echo "<td><center>".Html::a('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Menu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', ['/food/menu','rid'=>$rid,'page'=>'menu'], ['class'=>'btn btn-primary'])."</td>";
                  }
                  echo "</table>";
-                 echo "<br>";
                  echo "<br>";
                     echo "<table class = 'table table-striped table-bordered table-list'>";
                  echo "<tr>";

@@ -153,12 +153,22 @@ class FoodController extends Controller
         //return $this->render('insertfood',['food' => $food,'foodjunction'=>$foodjunction,'foodtype' => [new Foodselectiontype],'foodselection' => [ [new Foodselection]],'type' => $type]);
     }
     
-     public function actionMenu($rid)
+     public function actionMenu($rid,$page)
      {
-        $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+         if ($page == 'menu')
+         {
+            $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+         }
+         else
+         {
+            $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+         }
+
+         $rname = restaurant::find()->where('Restaurant_ID = :id', [':id'=>$rid])->one();
+         $rname = $rname['Restaurant_Name'];
         $this->layout = 'user';
          
-         return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>'menu']);
+         return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>$page, 'rname'=>$rname]);
 
      }
 

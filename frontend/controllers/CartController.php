@@ -235,8 +235,8 @@ class CartController extends Controller
         {
             $timenow = Yii::$app->formatter->asTime(time());
             $early = date('08:00:00');
-            //$last = date('11:00:59');
-            $last = date('23:00:59');
+            $last = date('11:00:59');
+            //$last = date('23:00:59');
 
             if ($early <= $timenow && $last >= $timenow)
             {
@@ -316,7 +316,9 @@ class CartController extends Controller
                     // -----save order-------
                     $voucher['discount_type'] += 1;
                     $voucher['usedTimes'] += 1;
-                    //var_dump($voucher->validate(),$voucher);exit;
+                    
+                    //var_dump($voucher->validate());var_dump($voucher); exit;
+
                     if ($order->validate() && $voucher->validate()) {
                         $voucher->save();
                         $order->save();

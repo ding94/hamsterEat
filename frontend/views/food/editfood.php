@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-sm-6">
-            <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
+            <?php $form = ActiveForm::begin(['action' => ['/food/postedit','id' => $food->Food_ID],'id' => 'dynamic-form']); ?>
                 <?= $form->field($food, 'PicPath')->fileInput()->label('Picture') ?>
 
                 <?= $form->field($food, 'Name')->textInput()->label('Name') ?>

@@ -20,7 +20,7 @@ $this->title = "Withdraw money";
 
              
 					<?= $form->field($model, 'withdraw_amount')->textInput() ?>
-					<?= $form->field($model, 'bank_name')->textInput()?>
+					<?= $form->field($model, 'bank_name')->dropDownList($bank)?>
 				    <?= $form->field($model, 'to_bank')->textInput() ?>		
 					<?= $form->field($model, 'acc_name')->textInput() ?>				   
 					

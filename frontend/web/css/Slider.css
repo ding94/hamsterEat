@@ -15,6 +15,7 @@
   /*padding-top: 500px;
   padding-bottom: 150px;*/
   text-align: center;
+  position: relative;
   /*background: url(../SysImg/rimg1-1200x400.jpg) no-repeat center center;
   background-size: cover;*/
 }
@@ -51,9 +52,10 @@ a:hover{
 .w3-display-bottommiddle {
   position: absolute;
     left: 50%;
-    bottom: 20%;
+    bottom: 1%;
     transform: translate(-50%,0%);
 }
+
 .dot {
   cursor:pointer;
   height: 13px;

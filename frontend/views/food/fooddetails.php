@@ -91,7 +91,7 @@ input[type=number]::-webkit-outer-spin-button {
                     <td>
                       <?php echo $foodtype['TypeName']; ?>
                       <br>
-                      <span>Please Select at least 1 item.</span>
+                      <span>Please Select only 1 item.</span>
                     </td>
                     <td>
                       <?= $form->field($orderItemSelection,'FoodType_ID['.$k.']')->radioList($data)->label(false); ?>
@@ -106,13 +106,17 @@ input[type=number]::-webkit-outer-spin-button {
                         Select at least<?php echo $foodtype['Min']; ?> item and at most <?php echo $foodtype ['Max']; ?> items.
                       </span>
                     </td>
+                    <td>
+                      <?= $form->field($orderItemSelection,'FoodType_ID['.$k.']')->checkboxlist($data)->label(false);?>
+                    </td>
                   </tr>
               <?php } endforeach; ?>
             <tr class="bordertop">
                   <td colspan = 2><?= $form->field($orderitem, 'OrderItem_Remark')->label('Remarks'); ?></td>
                   <td> </td>
             </tr>
-            <tr> <td><b>Order Item Quantity</b></td>
+            <tr class="bordertop"> 
+              <td><b>Order Item Quantity</b></td>
       				<td>
       				<?= $form->field($orderitem, 'OrderItem_Quantity',['template' => '<div class="input-group"><span class="value-button input-group-addon" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</span>{input}{error}{hint}<span class="value-button input-group-addon" id="increase" onclick="increaseValue()" value="Increase Value">+</span></div>'])->textInput(['type' => 'number', 'value' => "1",'style'=>'width:80px'])->label(false)?>
             </td>

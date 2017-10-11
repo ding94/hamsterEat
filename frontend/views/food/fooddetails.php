@@ -45,97 +45,103 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 
+#fooddetails td{
+  padding: 10px 0em 10px 0em;
+}
+
+.bordertop{
+  border-top: 1px solid #D3D3D3;
+}
+
 </style>
-<div class="container">
-      <h1><center>Food details</h1>
-      <br>
+
+<div class="row" style="padding-bottom: 0px">
 	<div class="tab-content col-md-12" id="fooddetails">
-		<table class="table table-user-information" style="width:60%; margin:auto;">
+    <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
+		<table class="table-user-information" style="width:60%; margin:auto;">
 
             <tr>         
                   <td colspan = 2> <?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?></td>
             </tr>
 
-            <tr>
+            <tr class="bordertop">
                   <td>Food Name:</td>
                   <td> <?php echo $fooddata->Name;?></td>
             </tr>
 
-            <tr>
+            <tr class="bordertop">
                   <td>Food Price (RM):</td>
                   <td> <?php echo CartController::actionRoundoff1decimal($fooddata->Price);?></td>
             </tr>
 
-            <tr>
+            <tr class="bordertop">
                  <td>Food Description:</td>
                   <td> <?php echo $fooddata->Description;?></td>
             </tr>
               
      
-            <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
-           
-            <?php
-            $ftids = "";
-            foreach($foodtype as $k=> $foodtype) : 
-            $selection = Foodselection::find()->where('Type_ID = :ftid',[':ftid'=>$foodtype['ID']])->orderBy(['Price' => SORT_ASC])->all();
-            //var_dump($selection);exit;
-            $data = ArrayHelper::map($selection,'ID','typeprice');
-
-            if($foodtype['Min'] == 0 && $foodtype ['Max'] < 2 || $foodtype['Min'] == 1 && $foodtype ['Max'] < 2 )
-            {
-                 echo "<tr>";           
-                 echo '<td>'.$foodtype['TypeName'].'<br><span>Select at least '.$foodtype['Min'].' item and at most '.$foodtype ['Max'].' items</span></td>';
-                 echo "<td>";     
-
-                 echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->radioList($data)->label(false);
-                 echo "</td>";
-
-                 echo "</tr>";
-                 
-            }
-            else 
-            {
-                 echo "<tr>";           
-                 echo '<td>'.$foodtype['TypeName'].'<br><span>Select at least '.$foodtype['Min'].' item and at most '.$foodtype ['Max'].' items</span></td>';
-                 echo "<td>";     
-
-                 echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->checkboxlist($data)->label(false);
-                 echo "</td>";
-
-                 echo "</tr>";
-                 
-            }
-             endforeach; 
-                 ?> 
-            <tr>
+            <?php  
+              $ftids = "";
+              foreach($foodtype as $k=> $foodtype) : 
+                $selection = Foodselection::find()->where('Type_ID = :ftid',[':ftid' => $foodtype['ID']])->orderBy(['Price' => SORT_ASC])->all();
+                $data = ArrayHelper::map($selection,'ID','typeprice');
+                if ($foodtype['Min'] == 1 && $foodtype ['Max'] < 2 ) {
+                  ?>
+                  <tr class="bordertop">
+                    <td>
+                      <?php echo $foodtype['TypeName']; ?>
+                      <br>
+                      <span>Please Select only 1 item.</span>
+                    </td>
+                    <td>
+                      <?= $form->field($orderItemSelection,'FoodType_ID['.$k.']')->radioList($data)->label(false); ?>
+                    </td>
+                  </tr>
+              <?php } else if ($foodtype['Min'] == 0){ ?>
+                  <tr class="bordertop">
+                    <td>
+                      <?php echo $foodtype['TypeName']; ?>
+                      <br>
+                      <span>
+                        Select at most <?php echo $foodtype ['Max']; ?> items.
+                      </span>
+                    </td>
+                    <td>
+                      <?= $form->field($orderItemSelection,'FoodType_ID['.$k.']')->checkboxlist($data)->label(false);?>
+                    </td>
+                  </tr>
+              <?php } else { ?>
+                  <tr class="bordertop">
+                    <td>
+                      <?php echo $foodtype['TypeName']; ?>
+                      <br>
+                      <span>
+                        Select at least<?php echo $foodtype['Min']; ?> item and at most <?php echo $foodtype ['Max']; ?> items.
+                      </span>
+                    </td>
+                    <td>
+                      <?= $form->field($orderItemSelection,'FoodType_ID['.$k.']')->checkboxlist($data)->label(false);?>
+                    </td>
+                  </tr>
+              <?php } endforeach; ?>
+            <tr class="bordertop">
                   <td colspan = 2><?= $form->field($orderitem, 'OrderItem_Remark')->label('Remarks'); ?></td>
                   <td> </td>
             </tr>
-            <tr> <td><b>Order Item Quantity</b></td>
+            <tr class="bordertop"> 
+              <td><b>Order Item Quantity</b></td>
       				<td>
       				<?= $form->field($orderitem, 'OrderItem_Quantity',['template' => '<div class="input-group"><span class="value-button input-group-addon" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</span>{input}{error}{hint}<span class="value-button input-group-addon" id="increase" onclick="increaseValue()" value="Increase Value">+</span></div>'])->textInput(['type' => 'number', 'value' => "1",'style'=>'width:80px'])->label(false)?>
             </td>
             </tr>
 			
 			<tr><td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
-      </td> </tr> <?php ActiveForm::end(); ?>
+      </td> </tr> 
             </table>
+            <?php ActiveForm::end(); ?>
       </div>
 </div>
 
 <script>
-function increaseValue() {
-  var value = parseInt(document.getElementById('orderitem-orderitem_quantity').value, 10);
-  value = isNaN(value) ? 0 : value;
-  value++;
-  document.getElementById('orderitem-orderitem_quantity').value = value;
-}
 
-function decreaseValue() {
-  var value = parseInt(document.getElementById('orderitem-orderitem_quantity').value, 10);
-  value = isNaN(value) ? 0 : value;
-  value < 1 ? value = 1 : '';
-  value--;
-  document.getElementById('orderitem-orderitem_quantity').value = value;
-}
 </script>

@@ -8,6 +8,8 @@ use common\models\User\Useraddress;;
 use common\models\User;
 use common\models\Upload;
 use yii\web\UploadedFile;
+use common\models\Account\Accountbalance;
+use frontend\models\Accounttopup;
 
 class UserController extends Controller
 {
@@ -87,7 +89,20 @@ class UserController extends Controller
         //$this->layout = 'user';
         return $this->render("useraddress",['address' => $address]);
     }
+	public function actionUserbalance()
+ 	{
+ 		
+		$model = Accountbalance::find()->where('User_Username = :User_Username' ,[':User_Username' => Yii::$app->user->identity->username])->one();
+		//var_dump($balance);exit;
+ 		$accounttopup = Accounttopup::find()->where('User_Username= :User_Username' ,[':User_Username' => Yii::$app->user->identity->username])->one();
+ 		if (empty($model)) 
+ 		{
+ 			$model = new Accountbalance();
+ 		}
 
+ 		$this->layout = 'user';
+		return $this->render('userbalance', ['model' => $model,'accounttopup' => $accounttopup]);
+ 	}
     
     
 }

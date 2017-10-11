@@ -20,14 +20,13 @@ $this->title = "My Cart";
     <table class="table table-user-information" style="width:1100px; margin-left:-15%;">
     <h1 style = "margin-left: -10%; margin-top:-4%;">Cart</h1><br>
       <tr>
-        <th><center>Picture</th>
-        <th><center>Food Name</th>
+        <th colspan = 2><center>Food Name</th>
         <th><center>Unit Price (RM)</th>
         <th><center>Quantity</th>
         <th><center>Selections</th>
         <th><center>Selections Price (RM)</th>
         <th><center>LineTotal (RM)</th>
-        <th><center>Remarks</th>
+        <th colspan = 2><center>Remarks</th>
       </tr>
 
       <?php
@@ -68,6 +67,7 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
+        echo "<td> </td>";
         echo "<td><center><strong> Subtotal (RM): </strong></td>"; ?>
         <td align=right> <font id="subtotal"><?php echo CartController::actionRoundoff1decimal($did['Orders_Subtotal']); ?></font></td><?php
       echo "</tr>";
@@ -78,10 +78,36 @@ $this->title = "My Cart";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
+        echo "<td> </td>";
         echo "<td><center><strong> Delivery Charge (RM): </strong></td>";?>
         <td align=right> <font id="delivery"><?php echo CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge']); ?></font></td><?php
       echo "</tr>";
+
+      $timenow = Yii::$app->formatter->asTime(time());
+      $early = date('08:00:00');
+      //$last = date('11:00:59');
+      $last = date('23:00:59');
+
+      if ($early <= $timenow && $last >= $timenow)
+      {
+        echo "<tr>";
+          echo "<td> </td>";
+          echo "<td> </td>";
+          echo "<td> </td>";
+          echo "<td> </td>";
+          echo "<td> </td>";
+          echo "<td> </td>";
+          echo "<td> </td>";
+          echo "<td><center><strong> Early Discount (RM): </strong></td>";
+          $discountamount = CartController::actionRoundoff1decimal($did['Orders_Subtotal']) * 0.2; ?>
+          <td align=right> <font id="delivery"><?php echo CartController::actionRoundoff1decimal($discountamount); ?></font></td><?php
+        echo "</tr>";
+
+        $did['Orders_TotalPrice'] = CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($did['Orders_Subtotal']) - CartController::actionRoundoff1decimal($discountamount) + CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge']));
+      }
+
       echo "<tr>";
+        echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
@@ -93,6 +119,7 @@ $this->title = "My Cart";
         <td align=right> <font id="total"><?php echo CartController::actionRoundoff1decimal($did['Orders_TotalPrice']); ?></font></td><?php
       echo "</tr>";
       echo "<tr>";
+        echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
@@ -110,6 +137,7 @@ $this->title = "My Cart";
           <?php
       echo "</tr>";
       echo "<tr>";
+        echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";

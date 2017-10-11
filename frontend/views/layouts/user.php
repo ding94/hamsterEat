@@ -94,8 +94,9 @@ AppAsset::register($this);
            
         ]],
         ['label' =>'<i class="fa fa-money"></i> My Account','icon' => '','options' => ['class' => 'active'], 'items' => [
-            ['label' => 'Top up', 'url' => Url::to(['topup/index'])],
-            ['label' => 'Withdraw Money', 'url' => Url::to(['withdraw/index'])],
+             ['label' => 'Account Balance', 'url' => Url::to(['user/userbalance'])],
+			['label' => 'Account History', 'url' => Url::to(['topup/index'])],
+           
         ]],
          ['label' => '<i class="glyphicon glyphicon-cog"></i> Member Settings','options' => ['class' => 'active'], 'items' => [
             ['label' => 'User Profile', 'url' => Url::to(['user/user-profile'])],

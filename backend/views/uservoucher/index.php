@@ -16,7 +16,11 @@ use yii\helpers\ArrayHelper;
     
 ?>
 	<?php $form = ActiveForm::begin();?>
-	
+	<?= Html::submitButton('Apply Creation Coupon to Users',  [
+        'class' => 'btn btn-success', 
+        'data' => [
+                'method' => 'post',
+            ]]);?>
 
 	<?= GridView::widget([
         'dataProvider' => $model,
@@ -24,6 +28,7 @@ use yii\helpers\ArrayHelper;
         'columns' => [
 
             // 'class' => 'yii\grid\SerialColumn',],
+            ['class' => 'yii\grid\CheckboxColumn',],
             ['class' => 'yii\grid\ActionColumn' ,
              'template'=>'{addvoucher}',
              'buttons' => [

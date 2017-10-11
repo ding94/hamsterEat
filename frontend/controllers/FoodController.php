@@ -24,7 +24,7 @@ use frontend\controllers\CartController;
 
 class FoodController extends Controller
 {
-    public function actionFoodDetails($id)
+    public function actionFoodDetails($id,$rid)
     {
         $fooddata = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
         
@@ -33,7 +33,7 @@ class FoodController extends Controller
         $orderItemSelection =new Orderitemselection;
         $orderitem = new Orderitem;
 
-        if ($orderItemSelection->load(Yii::$app->request->post()) && $orderitem->load(Yii::$app->request->post()))
+        if ($orderItemSelection->load(Yii::$app->request->post()) || $orderitem->load(Yii::$app->request->post()))
         {
             $orderitem->load(Yii::$app->request->post());
             if ($orderitem->OrderItem_Quantity < 1)
@@ -45,12 +45,12 @@ class FoodController extends Controller
 
             foreach ($foodtype as $k => $foodtype) {
                 if ($foodtype->Min > 0 && $foodtype->Max == $foodtype->Max){
-                    if ($orderItemSelection->FoodType_ID[$k] == '' || count($orderItemSelection->FoodType_ID[$k]) > $foodtype->Max){
+                    if (count($orderItemSelection->FoodType_ID[$k]) < $foodtype->Min || count($orderItemSelection->FoodType_ID[$k]) > $foodtype->Max){
                         Yii::$app->session->setFlash('danger', 'Please select at least '.$foodtype->Min.' items and most '.$foodtype->Max.' items.');
                         return $this->redirect(Yii::$app->request->referrer);
                     }
                 }
-                else if ($foodtype->Min == $foodtype->Min && $foodtype->Max == $foodtype->Max) {
+                else if ($foodtype->Min == $foodtype->Min && $foodtype->Max == $foodtype->Max) { 
                     if(count($orderItemSelection->FoodType_ID[$k]) > $foodtype->Max || count($orderItemSelection->FoodType_ID[$k]) < $foodtype->Min ){
                         Yii::$app->session->setFlash('danger', 'Please select at least '.$foodtype->Min.' items and most '.$foodtype->Max.' items.');
                         return $this->redirect(Yii::$app->request->referrer);
@@ -62,6 +62,7 @@ class FoodController extends Controller
             $selected = $orderItemSelection->FoodType_ID;
 
             $glue = "','";
+            if ($selected == !null){
             function implode_all($glue, $selected){            
                 for ($i=0; $i<count($selected); $i++) {
                     if (@is_array($selected[$i])) 
@@ -69,10 +70,12 @@ class FoodController extends Controller
                 }         
                 return implode($glue, $selected);
             }
-            //var_dump(implode_all($glue, $selected));exit;
             $finalselected = implode_all(',', $selected);
+        } else {
+            $finalselected = '';
+            }
 
-            return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks]);
+            return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks, 'rid'=>$rid]);
         }
 
         return $this->renderAjax('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);
@@ -131,7 +134,7 @@ class FoodController extends Controller
                             $transaction->commit();
                             $status = DefaultController::updateRestaurant($rid);
 
-                            return $this->redirect(['food/food-details', 'id' => $food->Food_ID]);
+                            return $this->redirect(['food/menu', 'id' => $food->Food_ID, 'rid'=>$rid]);
                         } 
                         else {
                             $transaction->rollBack();
@@ -150,33 +153,47 @@ class FoodController extends Controller
         //return $this->render('insertfood',['food' => $food,'foodjunction'=>$foodjunction,'foodtype' => [new Foodselectiontype],'foodselection' => [ [new Foodselection]],'type' => $type]);
     }
     
-     public function actionMenu($rid)
+     public function actionMenu($rid,$page)
      {
-        $menu = food::find()->where('Restaurant_ID=:id', [':id' => $rid])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
-         $this->layout = 'user';
+         if ($page == 'menu')
+         {
+            $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+         }
+         else
+         {
+            $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+         }
+
+         $rname = restaurant::find()->where('Restaurant_ID = :id', [':id'=>$rid])->one();
+         $rname = $rname['Restaurant_Name'];
+        $this->layout = 'user';
          
-         return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid]);
+         return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>$page, 'rname'=>$rname]);
 
      }
 
-    public function actionDelete($rid,$id)
+    public function actionDelete($rid,$id,$page)
     {
         $status = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$id])->one();
         if ($status['Status'] == true)
         {
             $sql = "UPDATE foodstatus SET status = false WHERE Food_ID ='$id'";
             Yii::$app->db->createCommand($sql)->execute();
+
+            $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
         }
         else
         {
             $sql = "UPDATE foodstatus SET status = true WHERE Food_ID ='$id'";
             Yii::$app->db->createCommand($sql)->execute();
+
+            $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
         }
          $rid = $rid;
-         $menu = food::find()->where('Restaurant_ID = :id' ,[':id' => $rid])->all();
+
          $this->layout = 'user';
 
-         return $this->redirect(['menu','menu'=>$menu,'id'=>$id,'rid'=>$rid]);
+         return $this->redirect(['menu','menu'=>$menu,'id'=>$id,'rid'=>$rid,'page'=>$page]);
 
     }
 
@@ -380,6 +397,37 @@ class FoodController extends Controller
         $food->PicPath = $upload;
         $food->Ingredient = 'xD';
         return $food;
+    }
+
+    public function actionRecycleBin($rid)
+    {
+        $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+        $this->layout = 'user';
+        
+        return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>'recyclebin']);
+    }
+
+    public function actionDeletePermanent($rid,$id,$page)
+    {
+        $status = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$id])->one();
+        if ($status['Status'] == true)
+        {
+            $sql = "UPDATE foodstatus SET status = false WHERE Food_ID ='$id'";
+            Yii::$app->db->createCommand($sql)->execute();
+        }
+        else
+        {
+            $sql = "UPDATE foodstatus SET status = -1 WHERE Food_ID ='$id'";
+            Yii::$app->db->createCommand($sql)->execute();
+        }
+         $rid = $rid;
+
+         $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+
+         $this->layout = 'user';
+
+         return $this->redirect(['menu','menu'=>$menu,'id'=>$id,'rid'=>$rid,'page'=>$page]);
+
     }
     
 }

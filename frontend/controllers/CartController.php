@@ -23,7 +23,7 @@ use yii\helpers\ArrayHelper;
 
 class CartController extends Controller
 {
-    public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks)
+    public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks,$rid)
     {
         if (Yii::$app->user->isGuest) 
         {
@@ -67,7 +67,7 @@ class CartController extends Controller
                 $oid = $orderid['Order_ID'];
             }
         endforeach;
-
+        if ($finalselected != ''){
         $selected = explode(',', $finalselected);
         $selectionprice = 0;
         $selectiontotalprice = 0;
@@ -86,6 +86,7 @@ class CartController extends Controller
         $linetotal = $linetotal + $selectiontotalprice;
         $linetotalupdate = "UPDATE orderitem SET OrderItem_LineTotal = ".$linetotal.", OrderItem_SelectionTotal = ".$selectiontotalprice." WHERE Order_ID = ".$oid."";
         Yii::$app->db->createCommand($linetotalupdate)->execute();
+        }
 
         $items = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$cart['Delivery_ID']])->all();
         $i = 0;
@@ -105,7 +106,8 @@ class CartController extends Controller
         $sql = "UPDATE orders SET Orders_SubTotal = ".$subtotal.", Orders_DeliveryCharge = ".$deliverycharge.", Orders_TotalPrice = ".$totalcharge." WHERE Delivery_ID = ".$cart['Delivery_ID']."";
         Yii::$app->db->createCommand($sql)->execute();
 
-        return $this->redirect(['view-cart', 'deliveryid'=>$cart['Delivery_ID']]);
+        Yii::$app->session->setFlash('success', 'Food item has been added to cart.');
+        return $this->redirect(['/Restaurant/default/restaurant-details', 'rid' => $rid]);
     }
     }
 
@@ -233,8 +235,8 @@ class CartController extends Controller
         {
             $timenow = Yii::$app->formatter->asTime(time());
             $early = date('08:00:00');
-            //$last = date('11:00:59');
-            $last = date('23:00:59');
+            $last = date('11:00:59');
+            //$last = date('23:00:59');
 
             if ($early <= $timenow && $last >= $timenow)
             {
@@ -314,7 +316,9 @@ class CartController extends Controller
                     // -----save order-------
                     $voucher['discount_type'] += 1;
                     $voucher['usedTimes'] += 1;
-                    //var_dump($voucher->validate(),$voucher);exit;
+                    
+                    //var_dump($voucher->validate());var_dump($voucher); exit;
+
                     if ($order->validate() && $voucher->validate()) {
                         $voucher->save();
                         $order->save();

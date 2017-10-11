@@ -12,10 +12,43 @@ $this->title = 'hamsterEat';
 <link href="css/style.css" rel="stylesheet">	
 <!--<div class="site-index">-->      
  <header class="intro-header">
+ <div id="SlideShowContainer" class="container-fluid">
+		<div id="SSCrow1" class="row">
+			<div class="mySlides">
+
+			<img src="SysImg/1.jpg" style="width:100%;height:670px !important;">
+
+			</div>
+
+			<div class="mySlides">
+
+			<img src="SysImg/2.jpg" style="width:100%; height:670px !important;">
+
+			</div>
+
+			<div class="mySlides">
+
+			<img src="SysImg/3.jpg" style="width:100%;height:670px !important;">
+
+			</div>
+
+			<div class="mySlides">
+
+			<img src="SysImg/4.jpg" style="width:100%;height:670px !important;">
+
+			</div>
+			
+			<div class="dotContainer w3-display-bottommiddle" >
+			<span id="dot1" class="dot" onclick="currentSlide(1)"></span>
+			<span id="dot2"class="dot" onclick="currentSlide(2)"></span>
+			<span id="dot3"class="dot" onclick="currentSlide(3)"></span>
+			<span id="dot4" class="dot" onclick="currentSlide(4)"></span>
+			</div> 
+		
  <!--<div class="container"> -->
       <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 " >-->
       <!--  <div class="col-md-8 col-md-offset-2"> -->
-        <div class="loginform">
+        <div class="form">
         <h1>Select Your Location</h1>
         <?php if($postcode['detectArea'] == 0) :?>
         <?php $form = ActiveForm::begin(['id' => 'area']); ?>
@@ -40,11 +73,13 @@ $this->title = 'hamsterEat';
        
 	   <?php ActiveForm::end(); ?>
     </div>
+	</div>
       </header>
 	  
 <!--<div id="DescContainer" class="container">-->
+	<div id="SSCrow2" class="row">
    <div class="container">
-		<div class="row">
+		
 			<div class="boxs">				
 				<div class="col-md-4">
 					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="0.8s">
@@ -98,5 +133,6 @@ $this->title = 'hamsterEat';
 			</div>
 		</div>
 	</div>
+
 
    <!-- </div> -->

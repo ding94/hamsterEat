@@ -114,7 +114,7 @@ span.stars span {
                 echo "<td><center>".Html::a('Restaurants Orders', ['/order/restaurant-orders', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
                 echo "<td><center>".Html::a('Restaurants Orders History', ['/order/restaurant-order-history', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
                 echo "<br> <br>";
-                echo "<td><center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+                echo "<td><center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID'],'page'=>'menu'], ['class'=>'btn btn-primary'])."</td>";
             echo "</tr>";
             echo "</table>";
         }
@@ -126,11 +126,16 @@ span.stars span {
     <h2><center>Menu</h2>
     <div class = "foodItems">
     </div>
-    <?php $id = isset($_GET['foodid']) ? $_GET['foodid'] : ''; ?>
+    <?php
+      $rid = $id['Restaurant_ID'];
+      $id = isset($_GET['foodid']) ? $_GET['foodid'] : ''; 
+    ?>
     <div class="outer-container">
     <div class="menu-container">
-            <?php foreach($rowfood as $data): ?>
-        <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID']]); ?>" data-id="<?php echo $data['Food_ID']; ?>" class="modelButton">
+            <?php
+              foreach($rowfood as $data): 
+            ?>
+        <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>" data-id="<?php echo $data['Food_ID']; ?>" class="modelButton">
         <div class="item">
             <div class="inner-item">
             <span><?php echo $data['Name']; ?></span>

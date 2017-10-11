@@ -26,7 +26,7 @@ $this->title = "View Restaurant";
   background-color: white;
   min-width: 300px;
   min-height: 160px;
-  border-bottom:1px solid orange;
+  border-bottom:1px solid #FFDA00;
 padding-right: 20px;
 }
 
@@ -70,10 +70,10 @@ padding-right: 20px;
 }
 
 .menu-container :hover{
-   background-color: #fff6e5;
+   background-color: #fffbe5;
 }
 .menu-container a:hover,.menu-container p:hover {
-   color: #ffa500;
+   /* color: #fffbe5; */
 }
 span.stars, span.stars span {
     display: block;
@@ -96,7 +96,7 @@ span.stars span {
 </style>
 <body>
 
-<div class = "container" ><h1>Restaurant</h1>
+<div class = "container" ><h1>My Restaurants</h1>
  <div class="outer-container"id="try" >
     <div class="menu-container" id="try1">
             <?php foreach($restaurant as $restaurant): ?>

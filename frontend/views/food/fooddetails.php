@@ -91,7 +91,7 @@ input[type=number]::-webkit-outer-spin-button {
                     <td>
                       <?php echo $foodtype['TypeName']; ?>
                       <br>
-                      <span>Please Select only 1 item.</span>
+                      <span>*Please Select only 1 item.</span>
                     </td>
                     <td>
                       <?= $form->field($orderItemSelection,'FoodType_ID['.$k.']')->radioList($data)->label(false); ?>
@@ -103,7 +103,7 @@ input[type=number]::-webkit-outer-spin-button {
                       <?php echo $foodtype['TypeName']; ?>
                       <br>
                       <span>
-                        Select at most <?php echo $foodtype ['Max']; ?> items.
+                        *Select at most <?php echo $foodtype ['Max']; ?> items.
                       </span>
                     </td>
                     <td>
@@ -116,7 +116,7 @@ input[type=number]::-webkit-outer-spin-button {
                       <?php echo $foodtype['TypeName']; ?>
                       <br>
                       <span>
-                        Select at least<?php echo $foodtype['Min']; ?> item and at most <?php echo $foodtype ['Max']; ?> items.
+                        *Select at least <?php echo $foodtype['Min']; ?> item and at most <?php echo $foodtype ['Max']; ?> items.
                       </span>
                     </td>
                     <td>
@@ -135,7 +135,7 @@ input[type=number]::-webkit-outer-spin-button {
             </td>
             </tr>
 			
-			<tr><td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
+			<tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
       </td> </tr> 
             </table>
             <?php ActiveForm::end(); ?>

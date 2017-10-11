@@ -85,7 +85,7 @@ input[type=number]::-webkit-outer-spin-button {
               foreach($foodtype as $k=> $foodtype) : 
                 $selection = Foodselection::find()->where('Type_ID = :ftid',[':ftid' => $foodtype['ID']])->orderBy(['Price' => SORT_ASC])->all();
                 $data = ArrayHelper::map($selection,'ID','typeprice');
-                if ($foodtype['Min'] == 0 && $foodtype ['Max'] < 2 || $foodtype['Min'] == 1 && $foodtype ['Max'] < 2 ) {
+                if ($foodtype['Min'] == 1 && $foodtype ['Max'] < 2 ) {
                   ?>
                   <tr class="bordertop">
                     <td>
@@ -95,6 +95,19 @@ input[type=number]::-webkit-outer-spin-button {
                     </td>
                     <td>
                       <?= $form->field($orderItemSelection,'FoodType_ID['.$k.']')->radioList($data)->label(false); ?>
+                    </td>
+                  </tr>
+              <?php } else if ($foodtype['Min'] == 0){ ?>
+                  <tr class="bordertop">
+                    <td>
+                      <?php echo $foodtype['TypeName']; ?>
+                      <br>
+                      <span>
+                        Select at most <?php echo $foodtype ['Max']; ?> items.
+                      </span>
+                    </td>
+                    <td>
+                      <?= $form->field($orderItemSelection,'FoodType_ID['.$k.']')->checkboxlist($data)->label(false);?>
                     </td>
                   </tr>
               <?php } else { ?>

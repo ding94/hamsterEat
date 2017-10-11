@@ -21,6 +21,7 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
 	'js/he.js',
+    'js/PhotoSlider.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

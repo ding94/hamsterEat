@@ -46,10 +46,12 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 </style>
-<div class="container">
+
+<div class="row" style="padding-bottom: 0px">
       <h1><center>Food details</h1>
       <br>
 	<div class="tab-content col-md-12" id="fooddetails">
+    <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
 		<table class="table table-user-information" style="width:60%; margin:auto;">
 
             <tr>         
@@ -72,7 +74,7 @@ input[type=number]::-webkit-outer-spin-button {
             </tr>
               
      
-            <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
+            
            
             <?php
             $ftids = "";
@@ -118,24 +120,12 @@ input[type=number]::-webkit-outer-spin-button {
             </tr>
 			
 			<tr><td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
-      </td> </tr> <?php ActiveForm::end(); ?>
+      </td> </tr> 
             </table>
+            <?php ActiveForm::end(); ?>
       </div>
 </div>
 
 <script>
-function increaseValue() {
-  var value = parseInt(document.getElementById('orderitem-orderitem_quantity').value, 10);
-  value = isNaN(value) ? 0 : value;
-  value++;
-  document.getElementById('orderitem-orderitem_quantity').value = value;
-}
 
-function decreaseValue() {
-  var value = parseInt(document.getElementById('orderitem-orderitem_quantity').value, 10);
-  value = isNaN(value) ? 0 : value;
-  value < 1 ? value = 1 : '';
-  value--;
-  document.getElementById('orderitem-orderitem_quantity').value = value;
-}
 </script>

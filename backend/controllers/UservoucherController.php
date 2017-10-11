@@ -19,8 +19,73 @@ class UservoucherController extends Controller
 	{
 		$searchModel = new Usersearch();
        	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,2);
+       	$uservoucher = new UserVoucher;
+       	$uservoucher->endDate = date('Y-m-d',strtotime('+30 day'));
+       	$voucher = new Vouchers;
+       	$voucher->scenario = 'generate';
+		$voucher->digit = 16;
+       	$type = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>1],['id'=>4]])->all(),'id','type');
+		$item = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>7],['id'=>8],['id'=>9]])->all(),'id','description');
 
+		if (Yii::$app->request->post()) {
+			if (Yii::$app->request->post('selection')) {
+       			return $this->render('mulgive',['users'=>Yii::$app->request->post('selection'),'uservoucher'=>$uservoucher,'voucher'=>$voucher,'type'=>$type,'item'=>$item]);
+       		}
+       		elseif (Yii::$app->request->post('selection')==false) {
+       			Yii::$app->session->setFlash('error', "No user was selected.");
+       		}
+		}
+       	
 		return $this->render('index',['model'=>$dataProvider,'searchModel'=>$searchModel]);
+	}
+
+	public function actionMultigive()
+	{
+
+		$post = Yii::$app->request->post();
+		$users = Yii::$app->request->post('result');
+		$count = count($users);
+		$end = strtotime(Yii::$app->request->post('UserVoucher')['endDate']);
+		$chars ="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";//code 包含字母
+		
+		foreach ($users as $k => $userid) 
+		{
+			$code ="";
+			for($i=0;$i<$post['Vouchers']['digit']; $i++)
+           	{
+       			$code .= $chars[rand(0,strlen($chars)-1)];
+    		}
+
+			$voucher = new Vouchers;
+			$voucher->load($post);
+			$voucher->code = $code;
+			$voucher->usedTimes = 0;
+			$voucher->inCharge = Yii::$app->user->identity->adminname;
+			$voucher->startDate = time(date('Y-m-d'));
+			$voucher->endDate = $end;
+			if ($voucher->validate()) {
+				$voucher->save();
+
+				$uservoucher = new UserVoucher;
+				$uservoucher->uid = $userid;
+				$uservoucher->vid = $voucher->id;
+				$uservoucher->code = $code;
+				$uservoucher->endDate = $end;
+				if ($uservoucher->validate()) {
+					$uservoucher->save();
+				}
+				else{
+					Yii::$app->session->setFlash('error', "Coupon create failed.");
+					return $this->redirect(['uservoucher/index']);
+				}
+			}
+			else{
+				Yii::$app->session->setFlash('error', "Coupon create failed.");
+				return $this->redirect(['uservoucher/index']);
+			}
+		}
+		Yii::$app->session->setFlash('success', "Coupons created and given to user.");
+		return $this->redirect(['uservoucher/index']);
 	}
 
 	public function actionAddvoucher($id)

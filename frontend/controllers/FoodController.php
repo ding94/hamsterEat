@@ -45,12 +45,12 @@ class FoodController extends Controller
 
             foreach ($foodtype as $k => $foodtype) {
                 if ($foodtype->Min > 0 && $foodtype->Max == $foodtype->Max){
-                    if ($orderItemSelection->FoodType_ID[$k] == '' || count($orderItemSelection->FoodType_ID[$k]) > $foodtype->Max){
+                    if (count($orderItemSelection->FoodType_ID[$k]) < $foodtype->Min || count($orderItemSelection->FoodType_ID[$k]) > $foodtype->Max){
                         Yii::$app->session->setFlash('danger', 'Please select at least '.$foodtype->Min.' items and most '.$foodtype->Max.' items.');
                         return $this->redirect(Yii::$app->request->referrer);
                     }
                 }
-                else if ($foodtype->Min == $foodtype->Min && $foodtype->Max == $foodtype->Max) {
+                else if ($foodtype->Min == $foodtype->Min && $foodtype->Max == $foodtype->Max) { 
                     if(count($orderItemSelection->FoodType_ID[$k]) > $foodtype->Max || count($orderItemSelection->FoodType_ID[$k]) < $foodtype->Min ){
                         Yii::$app->session->setFlash('danger', 'Please select at least '.$foodtype->Min.' items and most '.$foodtype->Max.' items.');
                         return $this->redirect(Yii::$app->request->referrer);

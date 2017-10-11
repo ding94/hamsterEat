@@ -96,7 +96,7 @@ span.stars span {
 </style>
 <body>
 
-<div class = "container" ><h1>Restaurant</h1>
+<div class = "container" ><h1>My Restaurants</h1>
  <div class="outer-container"id="try" >
     <div class="menu-container" id="try1">
             <?php foreach($restaurant as $restaurant): ?>

@@ -31,8 +31,7 @@ $this->title = "Manage Staff";
     <div>
     <table class = "table table-restaurant-staff" style="width:70%; margin:auto;">
     <tr>
-    <th><center> Picture </th>
-    <th><center> Username </th>
+    <th colspan = 2><center> Username </th>
     <th><center> Position </th>
     <th><center> Date Time Added </th>
     <th><center> Delete </th>
@@ -52,7 +51,7 @@ $this->title = "Manage Staff";
             if ($data['User_Username'] == $id['Restaurant_Manager'])
             {
                 echo "<tr>";
-                echo "<td>".Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;'])."</td>";
+                echo "<td>".Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])."</td>";
                 echo "<td><center>".$data['User_Username']."</td>";
                 echo "<td><center>".$data['RmanagerLevel_Level']."</td>";
                 $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
@@ -63,7 +62,7 @@ $this->title = "Manage Staff";
             else
             {
             echo "<tr>";
-            echo "<td>".Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;'])."</td>";
+            echo "<td>".Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])."</td>";
             echo "<td><center>".$data['User_Username']."</td>";
             echo "<td><center>".$data['RmanagerLevel_Level']."</td>";
             $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);

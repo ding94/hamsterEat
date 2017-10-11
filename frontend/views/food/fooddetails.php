@@ -49,6 +49,10 @@ input[type=number]::-webkit-outer-spin-button {
   padding: 10px 0em 10px 0em;
 }
 
+.bordertop{
+  border-top: 1px solid #D3D3D3;
+}
+
 </style>
 
 <div class="row" style="padding-bottom: 0px">
@@ -60,17 +64,17 @@ input[type=number]::-webkit-outer-spin-button {
                   <td colspan = 2> <?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?></td>
             </tr>
 
-            <tr>
+            <tr class="bordertop">
                   <td>Food Name:</td>
                   <td> <?php echo $fooddata->Name;?></td>
             </tr>
 
-            <tr>
+            <tr class="bordertop">
                   <td>Food Price (RM):</td>
                   <td> <?php echo CartController::actionRoundoff1decimal($fooddata->Price);?></td>
             </tr>
 
-            <tr>
+            <tr class="bordertop">
                  <td>Food Description:</td>
                   <td> <?php echo $fooddata->Description;?></td>
             </tr>
@@ -83,7 +87,7 @@ input[type=number]::-webkit-outer-spin-button {
                 $data = ArrayHelper::map($selection,'ID','typeprice');
                 if ($foodtype['Min'] == 0 && $foodtype ['Max'] < 2 || $foodtype['Min'] == 1 && $foodtype ['Max'] < 2 ) {
                   ?>
-                  <tr>
+                  <tr class="bordertop">
                     <td>
                       <?php echo $foodtype['TypeName']; ?>
                       <br>
@@ -94,7 +98,7 @@ input[type=number]::-webkit-outer-spin-button {
                     </td>
                   </tr>
               <?php } else { ?>
-                  <tr>
+                  <tr class="bordertop">
                     <td>
                       <?php echo $foodtype['TypeName']; ?>
                       <br>
@@ -104,7 +108,7 @@ input[type=number]::-webkit-outer-spin-button {
                     </td>
                   </tr>
               <?php } endforeach; ?>
-            <tr>
+            <tr class="bordertop">
                   <td colspan = 2><?= $form->field($orderitem, 'OrderItem_Remark')->label('Remarks'); ?></td>
                   <td> </td>
             </tr>

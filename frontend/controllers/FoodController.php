@@ -155,10 +155,10 @@ class FoodController extends Controller
     
      public function actionMenu($rid)
      {
-        $menu = food::find()->where('Restaurant_ID=:id', [':id' => $rid])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+        $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
          $this->layout = 'user';
          
-         return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid]);
+         return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>'menu']);
 
      }
 
@@ -293,6 +293,35 @@ class FoodController extends Controller
         $food->PicPath = $upload;
         $food->Ingredient = 'xD';
         return $food;
+    }
+
+    public function actionRecycleBin($rid)
+    {
+        $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+        $this->layout = 'user';
+        
+        return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>'recyclebin']);
+    }
+
+    public function actionDeletePermanent($rid,$id)
+    {
+        $status = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$id])->one();
+        if ($status['Status'] == true)
+        {
+            $sql = "UPDATE foodstatus SET status = false WHERE Food_ID ='$id'";
+            Yii::$app->db->createCommand($sql)->execute();
+        }
+        else
+        {
+            $sql = "UPDATE foodstatus SET status = true WHERE Food_ID ='$id'";
+            Yii::$app->db->createCommand($sql)->execute();
+        }
+         $rid = $rid;
+         $menu = food::find()->where('Restaurant_ID = :id' ,[':id' => $rid])->all();
+         $this->layout = 'user';
+
+         return $this->redirect(['menu','menu'=>$menu,'id'=>$id,'rid'=>$rid]);
+
     }
     
 }

@@ -140,7 +140,7 @@ class VouchersController extends Controller
       		$model->startDate = time($post->startDate);
     		if (!empty($post->endDate))
     		{
-				$model->endDate = time($post->endDate);
+				$model->endDate = strtotime($post->endDate);
 			}
 
            	for($i=0;$i<$post->digit; $i++)

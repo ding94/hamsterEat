@@ -24,7 +24,7 @@ use frontend\controllers\CartController;
 
 class FoodController extends Controller
 {
-    public function actionFoodDetails($id)
+    public function actionFoodDetails($id,$rid)
     {
         $fooddata = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
         
@@ -33,7 +33,7 @@ class FoodController extends Controller
         $orderItemSelection =new Orderitemselection;
         $orderitem = new Orderitem;
 
-        if ($orderItemSelection->load(Yii::$app->request->post()) && $orderitem->load(Yii::$app->request->post()))
+        if ($orderItemSelection->load(Yii::$app->request->post()) || $orderitem->load(Yii::$app->request->post()))
         {
             $orderitem->load(Yii::$app->request->post());
             if ($orderitem->OrderItem_Quantity < 1)
@@ -62,6 +62,7 @@ class FoodController extends Controller
             $selected = $orderItemSelection->FoodType_ID;
 
             $glue = "','";
+            if ($selected == !null){
             function implode_all($glue, $selected){            
                 for ($i=0; $i<count($selected); $i++) {
                     if (@is_array($selected[$i])) 
@@ -69,10 +70,12 @@ class FoodController extends Controller
                 }         
                 return implode($glue, $selected);
             }
-            //var_dump(implode_all($glue, $selected));exit;
             $finalselected = implode_all(',', $selected);
+        } else {
+            $finalselected = '';
+            }
 
-            return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks]);
+            return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks, 'rid'=>$rid]);
         }
 
         return $this->renderAjax('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);

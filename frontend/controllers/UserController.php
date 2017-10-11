@@ -31,7 +31,7 @@ class UserController extends Controller
         
        // return $this->render('upload', ['detail' => $detail]);
 
-        $detail = UserDetails::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one();
+        $detail = Userdetails::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one();
         
         $address = Useraddress::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one(); 
              $picpath = $detail['User_PicPath']; 

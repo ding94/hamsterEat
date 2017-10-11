@@ -45,14 +45,16 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 
+#fooddetails td{
+  padding: 10px 0em 10px 0em;
+}
+
 </style>
 
 <div class="row" style="padding-bottom: 0px">
-      <h1><center>Food details</h1>
-      <br>
 	<div class="tab-content col-md-12" id="fooddetails">
     <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
-		<table class="table table-user-information" style="width:60%; margin:auto;">
+		<table class="table-user-information" style="width:60%; margin:auto;">
 
             <tr>         
                   <td colspan = 2> <?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?></td>

@@ -15,6 +15,14 @@ use yii\bootstrap\ActiveForm;
         if ($num == "1")
         {
             echo "<h1>Add an Owner to Your Restaurant</h1>";
+
+            $form = ActiveForm::begin(['id' => 'dynamic-form']);
+            echo "<table class = table table-restaurant-staff style=width:35%; margin:auto;>";
+            echo "<td>".$form->field($food, 'Nickname')->textInput(['style'=>'width:300px', 'placeholder' => "Search Restaurant Managers"])->label('')."</td>";
+            echo "<td>".Html::submitButton('Search', ['class' => 'btn btn-primary', 'name' => 'search-button', 'style'=>'margin-top:19px;'])."</td>";
+            echo "</table>";
+            ActiveForm::end();
+
             echo "<table class = 'table table-restaurant-details'>";
             echo "<tr>";
                 echo "<th><center> Picture </th>";
@@ -23,7 +31,7 @@ use yii\bootstrap\ActiveForm;
                 echo "<th><center> Add as Owner </th>";
             echo "</tr>";
 
-            foreach ($search as $data) :
+            foreach ($allrmanagers as $data) :
             echo "<br>";
             echo "<br>";
             echo "<tr>";
@@ -42,7 +50,7 @@ use yii\bootstrap\ActiveForm;
                 echo "<td>".Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;'])."</td>";
                 echo "<td><center>".$data['username']."</td>";
                 echo "<td><center>".$name['User_FirstName'].' '.$name['User_LastName']."</td>";
-                echo "<td><center>".Html::a('Add', ['add-as-owner', 'rid'=>$rid, 'uname'=>$data['username']], ['class'=>'btn btn-primary'])."</td>";
+                echo "<td><center>".Html::a('Add', ['add-as-owner', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary'])."</td>";
                 echo "</tr>";
             }
             
@@ -53,6 +61,14 @@ use yii\bootstrap\ActiveForm;
         elseif ($num == "2")
         {
             echo "<h1>Add a Manager to Your Restaurant</h1>";
+            
+            $form = ActiveForm::begin(['id' => 'dynamic-form']);
+            echo "<table class = table table-restaurant-staff style=width:35%; margin:auto;>";
+            echo "<td>".$form->field($food, 'Nickname')->textInput(['style'=>'width:300px', 'placeholder' => "Search Restaurant Managers"])->label('')."</td>";
+            echo "<td>".Html::submitButton('Search', ['class' => 'btn btn-primary', 'name' => 'search-button', 'style'=>'margin-top:19px;'])."</td>";
+            echo "</table>";
+            ActiveForm::end();
+
             echo "<table class = 'table table-restaurant-details'>";
             echo "<tr>";
                 echo "<th><center> Picture </th>";
@@ -81,7 +97,7 @@ use yii\bootstrap\ActiveForm;
                 echo "<td>".Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;'])."</td>";
                 echo "<td><center>".$data['username']."</td>";
                 echo "<td><center>".$name['User_FirstName'].' '.$name['User_LastName']."</td>";
-                echo "<td><center>".Html::a('Add', ['add-as-manager', 'rid'=>$rid, 'uname'=>$data['username']], ['class'=>'btn btn-primary'])."</td>";
+                echo "<td><center>".Html::a('Add', ['add-as-manager', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary'])."</td>";
                 echo "</tr>";
             }
             
@@ -92,6 +108,14 @@ use yii\bootstrap\ActiveForm;
         else
         {
             echo "<h1>Add an Operator to Your Restaurant</h1>";
+            
+            $form = ActiveForm::begin(['id' => 'dynamic-form']);
+            echo "<table class = table table-restaurant-staff style=width:35%; margin:auto;>";
+            echo "<td>".$form->field($food, 'Nickname')->textInput(['style'=>'width:300px', 'placeholder' => "Search Restaurant Managers"])->label('')."</td>";
+            echo "<td>".Html::submitButton('Search', ['class' => 'btn btn-primary', 'name' => 'search-button', 'style'=>'margin-top:19px;'])."</td>";
+            echo "</table>";
+            ActiveForm::end();
+
             echo "<table class = 'table table-restaurant-details'>";
             echo "<tr>";
                 echo "<th><center> Picture </th>";
@@ -120,7 +144,7 @@ use yii\bootstrap\ActiveForm;
                 echo "<td>".Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;'])."</td>";
                 echo "<td><center>".$data['username']."</td>";
                 echo "<td><center>".$name['User_FirstName'].' '.$name['User_LastName']."</td>";
-                echo "<td><center>".Html::a('Add', ['add-as-operator', 'rid'=>$rid, 'uname'=>$data['username']], ['class'=>'btn btn-primary'])."</td>";
+                echo "<td><center>".Html::a('Add', ['add-as-operator', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary'])."</td>";
                 echo "</tr>";
             }
             

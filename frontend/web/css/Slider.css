@@ -51,7 +51,7 @@ a:hover{
 .w3-display-bottommiddle {
   position: absolute;
     left: 50%;
-    bottom: 10%;
+    bottom: 20%;
     transform: translate(-50%,0%);
 }
 .dot {

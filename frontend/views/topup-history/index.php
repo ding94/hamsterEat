@@ -10,7 +10,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use backend\models\Admin;
-
+use common\models\Bank;
 ?>
 
 <div class="container" id="topup-history-container">
@@ -39,15 +39,23 @@ use backend\models\Admin;
                          ],
                     ],
 					   
-                    [
-                    'attribute' => 'Account_ChosenBank',
-					
+                   [ 	'label' => 'Bank Name',
+					'attribute' => 'Account_ChosenBank',
+					'value'=> function($model){
+						$name ="";
+						if(!empty($model->Account_ChosenBank))
+						{
+							$name = Bank::findOne($model->Account_ChosenBank)->Bank_Name;
+						}
+						return $name;
+                    
+					},
+				
                     'filterInputOptions' => [
                             'class'       => 'form-control',
                             'placeholder' => 'Search Bank Name',
-                         ],
-						
-                    ],	
+                     ],
+            ],
 					/*[
 						'label' => 'Status',
                         'format' => 'raw',

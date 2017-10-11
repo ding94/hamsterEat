@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use common\models\User;
 use common\models\Withdraw;
 use common\models\Account\Accountbalance;
+use common\models\Bank;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -14,7 +15,7 @@ class WithdrawController extends \yii\web\Controller
         $model = new Withdraw;
     	//$upload = new Upload;
     	$balance = Accountbalance::find()->where('User_Username = :User_Username' ,[':User_Username' => Yii::$app->user->identity->username])->one();
-		
+		$bank = ArrayHelper::map(Bank::find()->all(),'Bank_ID','Bank_Name');
 		//$items = ArrayHelper::map(BankDetails::find()->all(), 'bank_name', 'bank_name');
 		//var_dump(Yii::$app->user->identity->id);exit;
     	if(Yii::$app->request->post())
@@ -43,7 +44,7 @@ class WithdrawController extends \yii\web\Controller
 		$model->withdraw_amount ="";
 		$model->to_bank ="";
 		$this->layout = 'user';
-    	return $this->render('index' ,['model' => $model,'balance'=>$balance]);
+    	return $this->render('index' ,['model' => $model,'balance'=>$balance,'bank' => $bank]);
     }
 	
 	public function actionValidation($model,$balance)

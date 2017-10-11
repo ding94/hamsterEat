@@ -74,12 +74,17 @@ class Accounttopup extends \yii\db\ActiveRecord
         if ($action == 0){
               $query = self::find(); //自己就是table,找一找资料
         }
-        elseif ($action >=1){
+        elseif ($action >=1 && $action <=4){
             $query= self::find()->where('Account_Action = :act',[':act' =>$action]);
             
             //$query = OfflineTopupStatus::find()->where(['offlinetopupstatus.description' => $action]);
 
         }
+		elseif($action==5){
+			$query =self::find()->where('User_Username = :User_Username' ,[':User_Username' => Yii::$app->user->identity->username]);
+			
+		}
+		
         $query->joinWith(['accounttopup_status' ]);
         //$query->joinWith(['company']);
 

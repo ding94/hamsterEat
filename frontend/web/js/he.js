@@ -43,27 +43,20 @@ fadeText();
 
 
 /* JS function for modal creation in food menu */
-// $(function(){
-//     $('.modelButton').click(function(e){
-//         e.preventDefault();
-//         var foodid = $(this).attr('data-id');
-//         var modelContent = '#modelContent'+foodid;
-//         var modal = '#modal'+foodid;
-//         $(modal).modal('show')
-//             .find(modelContent)
-//             .load($(this).attr('href'));
-//     });
-// });
+$(function(){
+    $('.modelButton').click(function(e){
+        e.preventDefault();
+        var foodid = $(this).attr('data-id');
+        var modelContent = '#modelContent'+foodid;
+        var modal = '#modal'+foodid;
+        $(modal).modal('show')
+            .find(modelContent)
+            .load($(this).attr('href'));
+    });
+});
 
-// function form_submit() {
-//   var id = $(this).attr('data-id');
-//   console.log(id);
-  // $.ajax({
-  //   url:'localhost/hamsterEat/frontend/web/index.php?r=food%2Ffood-details&id='+ id;
-  // })
-    // document.getElementById("a2cart").submit();
-   // }    
 
+/* JS function for display ratings as stars. */
 $.fn.stars = function() {
     return $(this).each(function() {
         // Get the value
@@ -80,3 +73,20 @@ $.fn.stars = function() {
 $(function() {
     $('span.stars').stars();
 });
+
+
+/* JS function for Food Details increase and decrease buttons. */
+function increaseValue() {
+  var value = parseInt(document.getElementById('orderitem-orderitem_quantity').value, 10);
+  value = isNaN(value) ? 0 : value;
+  value++;
+  document.getElementById('orderitem-orderitem_quantity').value = value;
+}
+
+function decreaseValue() {
+  var value = parseInt(document.getElementById('orderitem-orderitem_quantity').value, 10);
+  value = isNaN(value) ? 0 : value;
+  value < 1 ? value = 1 : '';
+  value--;
+  document.getElementById('orderitem-orderitem_quantity').value = value;
+}

@@ -46,10 +46,12 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 </style>
-<div class="container">
+
+<div class="row" style="padding-bottom: 0px">
       <h1><center>Food details</h1>
       <br>
 	<div class="tab-content col-md-12" id="fooddetails">
+    <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
 		<table class="table table-user-information" style="width:60%; margin:auto;">
 
             <tr>         
@@ -72,41 +74,34 @@ input[type=number]::-webkit-outer-spin-button {
             </tr>
               
      
-            <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
-           
-            <?php
-            $ftids = "";
-            foreach($foodtype as $k=> $foodtype) : 
-            $selection = Foodselection::find()->where('Type_ID = :ftid',[':ftid'=>$foodtype['ID']])->orderBy(['Price' => SORT_ASC])->all();
-            //var_dump($selection);exit;
-            $data = ArrayHelper::map($selection,'ID','typeprice');
-
-            if($foodtype['Min'] == 0 && $foodtype ['Max'] < 2 || $foodtype['Min'] == 1 && $foodtype ['Max'] < 2 )
-            {
-                 echo "<tr>";           
-                 echo '<td>'.$foodtype['TypeName'].'<br><span>Select at least '.$foodtype['Min'].' item and at most '.$foodtype ['Max'].' items</span></td>';
-                 echo "<td>";     
-
-                 echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->radioList($data)->label(false);
-                 echo "</td>";
-
-                 echo "</tr>";
-                 
-            }
-            else 
-            {
-                 echo "<tr>";           
-                 echo '<td>'.$foodtype['TypeName'].'<br><span>Select at least '.$foodtype['Min'].' item and at most '.$foodtype ['Max'].' items</span></td>';
-                 echo "<td>";     
-
-                 echo $form->field($orderItemSelection,'FoodType_ID['.$k.']')->checkboxlist($data)->label(false);
-                 echo "</td>";
-
-                 echo "</tr>";
-                 
-            }
-             endforeach; 
-                 ?> 
+            <?php  
+              $ftids = "";
+              foreach($foodtype as $k=> $foodtype) : 
+                $selection = Foodselection::find()->where('Type_ID = :ftid',[':ftid' => $foodtype['ID']])->orderBy(['Price' => SORT_ASC])->all();
+                $data = ArrayHelper::map($selection,'ID','typeprice');
+                if ($foodtype['Min'] == 0 && $foodtype ['Max'] < 2 || $foodtype['Min'] == 1 && $foodtype ['Max'] < 2 ) {
+                  ?>
+                  <tr>
+                    <td>
+                      <?php echo $foodtype['TypeName']; ?>
+                      <br>
+                      <span>Please Select at least 1 item.</span>
+                    </td>
+                    <td>
+                      <?= $form->field($orderItemSelection,'FoodType_ID['.$k.']')->radioList($data)->label(false); ?>
+                    </td>
+                  </tr>
+              <?php } else { ?>
+                  <tr>
+                    <td>
+                      <?php echo $foodtype['TypeName']; ?>
+                      <br>
+                      <span>
+                        Select at least<?php echo $foodtype['Min']; ?> item and at most <?php echo $foodtype ['Max']; ?> items.
+                      </span>
+                    </td>
+                  </tr>
+              <?php } endforeach; ?>
             <tr>
                   <td colspan = 2><?= $form->field($orderitem, 'OrderItem_Remark')->label('Remarks'); ?></td>
                   <td> </td>
@@ -118,24 +113,12 @@ input[type=number]::-webkit-outer-spin-button {
             </tr>
 			
 			<tr><td><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
-      </td> </tr> <?php ActiveForm::end(); ?>
+      </td> </tr> 
             </table>
+            <?php ActiveForm::end(); ?>
       </div>
 </div>
 
 <script>
-function increaseValue() {
-  var value = parseInt(document.getElementById('orderitem-orderitem_quantity').value, 10);
-  value = isNaN(value) ? 0 : value;
-  value++;
-  document.getElementById('orderitem-orderitem_quantity').value = value;
-}
 
-function decreaseValue() {
-  var value = parseInt(document.getElementById('orderitem-orderitem_quantity').value, 10);
-  value = isNaN(value) ? 0 : value;
-  value < 1 ? value = 1 : '';
-  value--;
-  document.getElementById('orderitem-orderitem_quantity').value = value;
-}
 </script>

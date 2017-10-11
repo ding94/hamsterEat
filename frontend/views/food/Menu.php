@@ -14,11 +14,11 @@ $this->title = "Restaurant Menu";
                  echo "<td><center>".Html::a('Insert Food', ['/food/insert-food','rid'=>$rid], ['class'=>'btn btn-primary'])."</td>";
                  if ($page == 'menu')
                  {
-                    echo "<td><center>".Html::a('Recycle Bin', ['/food/recycle-bin','rid'=>$rid], ['class'=>'btn btn-primary'])."</td>";
+                    echo "<td><center>".Html::a('Recycle Bin', ['/food/recycle-bin','rid'=>$rid,'page'=>'recyclebin'], ['class'=>'btn btn-primary'])."</td>";
                  }
                  else
                  {
-                    echo "<td><center>".Html::a('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Menu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', ['/food/menu','rid'=>$rid], ['class'=>'btn btn-primary'])."</td>";
+                    echo "<td><center>".Html::a('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Menu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', ['/food/menu','rid'=>$rid,'page'=>'menu'], ['class'=>'btn btn-primary'])."</td>";
                  }
                  echo "</table>";
                  echo "<br>";
@@ -47,12 +47,12 @@ $this->title = "Restaurant Menu";
                 echo "<center>".Html::a('', ['/food/edit-food','id'=>$menu['Food_ID']], ['class'=>'btn btn-default fa fa-pencil']);
                 if ($menu['foodStatus']['Status'] == true)
                 {
-                    echo "<center>".Html::a('', ['delete','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID']], ['class'=>'btn btn-danger fa fa-trash']);
+                    echo "<center>".Html::a('', ['delete','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID'],'page'=>$page], ['class'=>'btn btn-danger fa fa-trash']);
                 }
                 elseif ($menu['foodStatus']['Status'] == false)
                 {
-                    echo "<center>".Html::a('', ['delete','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID']], ['class'=>'btn btn-default fa fa-undo']);
-                    echo "<center>".Html::a('', ['delete-permanent','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID']], ['class'=>'btn btn-danger fa fa-remove']);
+                    echo "<center>".Html::a('', ['delete','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID'],'page'=>$page], ['class'=>'btn btn-default fa fa-undo']);
+                    echo "<center>".Html::a('', ['delete-permanent','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID'],'page'=>$page], ['class'=>'btn btn-danger fa fa-remove']);
                 }
                 echo'</td></tr>';
                 echo "</tr>";

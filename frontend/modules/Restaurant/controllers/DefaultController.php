@@ -35,8 +35,8 @@ class DefaultController extends Controller
                  //'only' => ['logout', 'signup','index'],
                  'rules' => [
                      [
-                         'actions' => ['new-restaurant-location','new-restaurant-details','new-restaurant','edit-restaurant-details','edit-restaurant-area','edited-location-details','edit-restaurant-details2','manage-restaurant-staff','delete-restaurant-staff','add-staff','add-as-owner',
-                        'add-as-manager', 'add-as-operator','view-restaurant'],
+                         'actions' => ['new-restaurant-location','new-restaurant-details','new-restaurant','edit-restaurant-details','edit-restaurant-area','edited-location-details','edit-restaurant-details2','manage-restaurant-staff','delete-restaurant-staff','add-staff',
+                        'view-restaurant', 'all-rmanagers'],
                          'allow' => true,
                          'roles' => ['restaurant manager'],
  
@@ -299,45 +299,45 @@ class DefaultController extends Controller
         return $this->render('managerestaurantstaff',['rid'=>$rid, 'id'=>$id,'rstaff'=>$rstaff]);
     }
 
-    public function actionAddStaff($rid, $num)
+    public function actionAllRmanagers($rid, $num)
     {
-        $search = user::find()->innerJoinWith('authAssignment','user.id = authAssignment.user_id')->where(['auth_assignment.item_name' => "restaurant manager"])->all();
+        $allrmanagers = user::find()->innerJoinWith('authAssignment','user.id = authAssignment.user_id')->where(['auth_assignment.item_name' => "restaurant manager"])->all();
 
         $rid = $rid;
         $num = $num;
 
-        return $this->render('addstaff',['search'=>$search, 'rid'=>$rid, 'num'=>$num]);
+        $food = new Food;
+
+        if ($food->load(Yii::$app->request->post()))
+        {
+            $keyword = $food->Nickname;
+
+            $allrmanagers = user::find()->innerJoinWith('authAssignment','user.id = authAssignment.user_id')->where(['auth_assignment.item_name' => "restaurant manager"])->andWhere(['like', 'user.username', $keyword])->all();
+
+            return $this->render('allrmanagers',['allrmanagers'=>$allrmanagers, 'rid'=>$rid, 'num'=>$num, 'food'=>$food]);
+            
+        }
+
+        return $this->render('allrmanagers',['allrmanagers'=>$allrmanagers, 'rid'=>$rid, 'num'=>$num, 'food'=>$food]);
     }
 
-    public function actionAddAsOwner($rid, $uname)
+    public function actionAddStaff($rid, $uname, $num)
     {
         $time = time();
-        $sql = "INSERT INTO rmanagerlevel (User_Username, Restaurant_ID, RmanagerLevel_Level, Rmanager_DateTimeAdded) VALUES ('$uname', $rid, 'Owner', $time)";
+        if ($num == "1")
+        {
+            $sql = "INSERT INTO rmanagerlevel (User_Username, Restaurant_ID, RmanagerLevel_Level, Rmanager_DateTimeAdded) VALUES ('$uname', $rid, 'Owner', $time)";
+        }
+        elseif ($num == "2")
+        {
+            $sql = "INSERT INTO rmanagerlevel (User_Username, Restaurant_ID, RmanagerLevel_Level, Rmanager_DateTimeAdded) VALUES ('$uname', $rid, 'Manager', $time)";
+        }
+        elseif ($num == "3")
+        {
+            $sql = "INSERT INTO rmanagerlevel (User_Username, Restaurant_ID, RmanagerLevel_Level, Rmanager_DateTimeAdded) VALUES ('$uname', $rid, 'Operator', $time)";
+        }
+
         Yii::$app->db->createCommand($sql)->execute();
-
-        $rid = $rid;
-
-        return $this->redirect(['manage-restaurant-staff','rid'=>$rid]);
-    }
-
-    public function actionAddAsManager($rid, $uname)
-    {
-        $time = time();
-        $sql = "INSERT INTO rmanagerlevel (User_Username, Restaurant_ID, RmanagerLevel_Level, Rmanager_DateTimeAdded) VALUES ('$uname', $rid, 'Manager', $time)";
-        Yii::$app->db->createCommand($sql)->execute();
-
-        $rid = $rid;
-
-        return $this->redirect(['manage-restaurant-staff','rid'=>$rid]);
-    }
-
-    public function actionAddAsOperator($rid, $uname)
-    {
-        $time = time();
-        $sql = "INSERT INTO rmanagerlevel (User_Username, Restaurant_ID, RmanagerLevel_Level, Rmanager_DateTimeAdded) VALUES ('$uname', $rid, 'Operator', $time)";
-        Yii::$app->db->createCommand($sql)->execute();
-
-        $rid = $rid;
 
         return $this->redirect(['manage-restaurant-staff','rid'=>$rid]);
     }
@@ -355,7 +355,7 @@ class DefaultController extends Controller
          return $this->render('ViewRestaurant',['restaurant'=>$restaurant,'uname'=>$uname]);
     }
 
-    public static function  updateRestaurant($rid)
+    public static function updateRestaurant($rid)
     {
         $data = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
         if($data->Restaurant_Status == 'Under Renovation')

@@ -364,7 +364,7 @@ class FoodController extends Controller
                     {
                         $transaction->commit();
                          Yii::$app->session->setFlash('success', "Success edit");
-                        return $this->redirect(['food/food-details', 'id' => $food->Food_ID]);
+                        return $this->redirect(['food/food-details', 'id' => $food->Food_ID, 'rid' => $food->Restaurant_ID]);
                     }
                     else
                     {

@@ -3,8 +3,8 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
-use common\models\User\Userdetails;
-use common\models\User\Useraddress;;
+use common\models\user\Userdetails;
+use common\models\user\Useraddress;;
 use common\models\User;
 use common\models\Upload;
 use yii\web\UploadedFile;
@@ -31,7 +31,7 @@ class UserController extends Controller
         
        // return $this->render('upload', ['detail' => $detail]);
 
-        $detail = UserDetails::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one();
+        $detail = Userdetails::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one();
         
         $address = Useraddress::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one(); 
              $picpath = $detail['User_PicPath']; 

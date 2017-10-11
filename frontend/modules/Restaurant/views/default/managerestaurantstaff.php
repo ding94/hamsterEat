@@ -21,9 +21,9 @@ $this->title = "Manage Staff";
 <br>
 <table class = "table table-add-staff" style="width:70%; margin:auto; border:0px solid;">
     <tr>
-        <td><?php echo "<center>".Html::a('Add Owner', ['add-staff', 'rid'=>$id['Restaurant_ID'], 'num'=>"1"], ['class'=>'btn btn-primary'])."</td>"; ?>
-        <td><?php echo "<center>".Html::a('Add Manager', ['add-staff', 'rid'=>$id['Restaurant_ID'], 'num'=>"2"], ['class'=>'btn btn-primary'])."</td>"; ?>
-        <td><?php echo "<center>".Html::a('Add Operator', ['add-staff', 'rid'=>$id['Restaurant_ID'], 'num'=>"3"], ['class'=>'btn btn-primary'])."</td>"; ?>
+        <td><?php echo "<center>".Html::a('Add Owner', ['all-rmanagers', 'rid'=>$id['Restaurant_ID'], 'num'=>"1"], ['class'=>'btn btn-primary'])."</td>"; ?>
+        <td><?php echo "<center>".Html::a('Add Manager', ['all-rmanagers', 'rid'=>$id['Restaurant_ID'], 'num'=>"2"], ['class'=>'btn btn-primary'])."</td>"; ?>
+        <td><?php echo "<center>".Html::a('Add Operator', ['all-rmanagers', 'rid'=>$id['Restaurant_ID'], 'num'=>"3"], ['class'=>'btn btn-primary'])."</td>"; ?>
     </tr>
     </table>
     <br>

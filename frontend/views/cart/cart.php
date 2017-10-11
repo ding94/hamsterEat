@@ -137,7 +137,7 @@ $this->title = "My Cart";
           <?php
       echo "</tr>";
       echo "<tr>";
-        echo "<td> </td>";
+        echo "<td>". Html::a('Back',Yii::$app->request->referrer,['class' => 'btn btn-primary']) ."</td>";
         echo "<td> </td>";
         echo "<td> </td>";
         echo "<td> </td>";

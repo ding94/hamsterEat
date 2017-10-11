@@ -55,6 +55,7 @@ a:hover{
     bottom: 1%;
     transform: translate(-50%,0%);
 }
+
 .dot {
   cursor:pointer;
   height: 13px;

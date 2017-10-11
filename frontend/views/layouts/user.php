@@ -90,19 +90,20 @@ AppAsset::register($this);
     'options' => ['class' => 'in'],
     'items' => [
         ['label' => '<i class="glyphicon glyphicon-list-alt"></i> My Order', 'options' => ['class' => 'active'], 'items' => [
-            ['label' => 'My Order','url' => Url::to(['order/my-orders'])],
+            ['label' => 'My Order','url' => Url::to(['/order/my-orders'])],
            
         ]],
         ['label' =>'<i class="fa fa-money"></i> My Account','icon' => '','options' => ['class' => 'active'], 'items' => [
-            ['label' => 'Top up', 'url' => Url::to(['topup/index'])],
-            ['label' => 'Withdraw Money', 'url' => Url::to(['withdraw/index'])],
+             ['label' => 'Account Balance', 'url' => Url::to(['/user/userbalance'])],
+			['label' => 'Account History', 'url' => Url::to(['/topup-history/index'])],
+           
         ]],
          ['label' => '<i class="glyphicon glyphicon-cog"></i> Member Settings','options' => ['class' => 'active'], 'items' => [
-            ['label' => 'User Profile', 'url' => Url::to(['user/user-profile'])],
-            ['label' => 'Discount Codes', 'url' => Url::to(['vouchers/index'])],
+            ['label' => 'User Profile', 'url' => Url::to(['/user/user-profile'])],
+            ['label' => 'Discount Codes', 'url' => Url::to(['/vouchers/index'])],
         ]],
         ['label' => '<i class="fa fa-comments"></i> Customer Service', 'options' => ['class' => 'active'], 'items' => [
-           ['label' => 'Ticket', 'url' => Url::to(['ticket/index'])],
+           ['label' => 'Ticket', 'url' => Url::to(['/ticket/index'])],
         ]],
          ['label' => 'Delivery Man', 'options' => ['class' =>'active'],
           'items'=>[
@@ -112,8 +113,8 @@ AppAsset::register($this);
              'visible'=> Yii::$app->user->can('rider'), 
         ],
           ['label' => ' My Restaurant', 'options' => ['class' => 'active'], 'items' => [
-            ['label' => 'View Own Restaurant', 'url' => Url::to(['Restaurant/default/view-restaurant'])],
-            ['label' => 'Create New Restaurant', 'url' => Url::to(['Restaurant/default/new-restaurant-location'])],
+            ['label' => 'View Own Restaurant', 'url' => Url::to(['/Restaurant/default/view-restaurant'])],
+            ['label' => 'Create New Restaurant', 'url' => Url::to(['/Restaurant/default/new-restaurant-location'])],
            ],
              'visible'=> Yii::$app->user->can('restaurant manager'), 
            ],

@@ -1,10 +1,23 @@
+.page-wrap{
+    min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -300px; 
+}
+
 #Footer{
     background-color:#333;
     color:#ffffff;
     margin-top:3%;
-
+    height: 300px;
 }
 
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+.page-wrap:after  {
+  height: 300px; 
+}
 
 .footer{
 padding-left:10%;

@@ -87,9 +87,9 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <!--<div class="container">-->
+        <div class="page-wrap">
             <?= $content ?>
-       <!-- </div>-->
+        </div>
 
 <!--
 <footer class="footer ">
@@ -100,9 +100,10 @@ AppAsset::register($this);
     </div>
 </footer>-->
 	<!--Footer-->
-	<footer id="Footer" class="container-fluid footer">
+	<footer id="Footer" class="footer">
+        <div class="container-fluid">
 		<!--Footer First Row-->
-		<div class="row">
+<!-- 		<div class="row"> -->
 			<div id="Box1" class = "col-sm-3 col-xs-12">
 				<h3 id="footertitle">HamsterEat</h3>
 				<hr>
@@ -139,8 +140,8 @@ AppAsset::register($this);
 				 </center>				 
 			</div>
 
-		</div>
-
+		<!-- </div> -->
+</div>
 		
 	</footer>
 

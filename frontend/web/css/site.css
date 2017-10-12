@@ -27,7 +27,7 @@ h6 {
 .wrap > .topnav.navbar-fixed-top {
 
     background-color:#FFDA00;
-
+    height: 64px;
 
 }
 
@@ -43,6 +43,7 @@ h6 {
 }
 .navbar-nav > li > a {
     color:white;
+    line-height: 33px
 }
 
 .form-group{

@@ -29,7 +29,7 @@ class WithdrawController extends \yii\web\Controller
 		  $model->scenario = 'negative'; // set senario
 		if ($model->action == 1)
 		{
-			// $balance = self::deductBalance($model);
+			$balance = self::deductBalance($model);
 			
 			$model->action = 3;
 			//$model->inCharge = Yii::$app->user->identity->adminname;
@@ -57,7 +57,7 @@ class WithdrawController extends \yii\web\Controller
 		
 		$balance =Accountbalance::find()->where('User_Username = :User_Username',[':User_Username'=>$username])->one();
 		$balance ->AB_minus += $model->withdraw_amount+2;
-		$balance ->User_Balance -= $model->withdraw_amount+2;
+		// $balance ->User_Balance -= $model->withdraw_amount+2;
 		
 		return $balance;
 	}
@@ -96,8 +96,8 @@ class WithdrawController extends \yii\web\Controller
 		$username = User::find()->where('id = :id',[':id'=>$uid])->one()->username;
 		
 		$balance =Accountbalance::find()->where('User_Username = :User_Username',[':User_Username'=>$username])->one();
-		$balance ->AB_minus -= $model->withdraw_amount;
-		$balance ->User_Balance += $model->withdraw_amount;
+		// $balance ->AB_minus -= $model->withdraw_amount;
+		$balance ->User_Balance += $model->withdraw_amount+2;
 		
 		return $balance;
 	}

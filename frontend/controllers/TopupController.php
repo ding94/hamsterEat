@@ -34,7 +34,7 @@ class TopupController extends \yii\web\Controller
     		$upload->upload('imageLocation/');
 			//var_dump($upload->imageFile);exit;
     		$model->load($post);
-			var_dump($model);exit;
+			// var_dump($model);exit;
     		$model->save(false);
 			Yii::$app->session->setFlash('success', 'Upload Successful');
     	}

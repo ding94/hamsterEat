@@ -9,6 +9,7 @@ use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
 use common\models\Bank;
+use backend\models\Admin;
 	$this->title = 'User Withdraw';
 	$this->params['breadcrumbs'][] = $this->title;
 	
@@ -94,6 +95,15 @@ use common\models\Bank;
 			
 			[
                 'attribute' => 'inCharge',
+                'value'=> function($model){
+						$name ="";
+						if(!empty($model->inCharge))
+						{
+							$name = Admin::findOne($model->inCharge)->adminname;
+						}
+						return $name;
+                    
+					},
                 'filterInputOptions' => [
                     'class'       => 'form-control',
                     'placeholder' => 'Search In Charge Person',

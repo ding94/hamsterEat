@@ -64,12 +64,16 @@ class DefaultController extends Controller
     {
         $id = restaurant::find()->where('Restaurant_ID = :id' ,[':id' => $rid])->one();
 
+        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
+
+        // var_dump($staff);exit;
+
         $rowfood = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
 
         //var_dump($rowfood[0]['foodType'][0]);exit;
 
 
-        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood]);
+        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood, 'staff'=>$staff]);
     }
 
     public function actionFoodDetails($fid)
@@ -280,12 +284,14 @@ class DefaultController extends Controller
     public function actionManageRestaurantStaff($rid)
     {
         $rid = $rid;
-        $rstaff = rmanagerlevel::find()->where('Restaurant_ID = :rid',[':rid'=>$rid])->all();
+        $rstaff = Rmanagerlevel::find()->where('Restaurant_ID = :rid',[':rid'=>$rid])->all();
 
-        $id = restaurant::find()->where('Restaurant_ID = :rid',[':rid'=>$rid])->one();
+        $id = Restaurant::find()->where('Restaurant_ID = :rid',[':rid'=>$rid])->one();
+
+        $me = Rmanagerlevel::find()->where('Restaurant_ID = :rid and User_Username = :uname', [':rid'=>$rid, ':uname'=>Yii::$app->user->identity->username])->one();
         //var_dump($rstaff);exit;
 
-        return $this->render('managerestaurantstaff',['rid'=>$rid, 'rstaff'=>$rstaff, 'id'=>$id]);
+        return $this->render('managerestaurantstaff',['rid'=>$rid, 'rstaff'=>$rstaff, 'id'=>$id, 'me'=>$me]);
     }
 
     public function actionDeleteRestaurantStaff($rid, $uname)

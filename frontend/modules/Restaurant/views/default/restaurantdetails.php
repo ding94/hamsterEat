@@ -103,20 +103,45 @@ span.stars span {
         }
          echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>"; ?>
     <h1><center><?php echo $id['Restaurant_Name']; ?></h1>
+    <br>
+    <br>
     <?php if (!Yii::$app->user->isGuest)
     {
-        if ($id['Restaurant_Manager'] == Yii::$app->user->identity->username)
+        if (!empty($staff))
         {
-            echo "<table class= table table-user-information style= width:100%; margin:auto;>";
-            echo "<tr>";
-                echo "<td><center>".Html::a('Edit Details', ['edit-restaurant-details', 'rid'=>$id['Restaurant_ID'], 'restArea'=>$id['Restaurant_AreaGroup'], 'areachosen'=>$id['Restaurant_Area'], 'postcodechosen'=>$id['Restaurant_Postcode']], ['class'=>'btn btn-primary'])."</td>";
-                echo "<td><center>".Html::a('Manage Staffs', ['manage-restaurant-staff', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
-                echo "<td><center>".Html::a('Restaurants Orders', ['/order/restaurant-orders', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
-                echo "<td><center>".Html::a('Restaurants Orders History', ['/order/restaurant-order-history', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
-                echo "<br> <br>";
-                echo "<td><center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID'],'page'=>'menu'], ['class'=>'btn btn-primary'])."</td>";
-            echo "</tr>";
-            echo "</table>";
+            if ($staff['RmanagerLevel_Level'] == 'Owner')
+            {
+                echo "<table class= table table-user-information style= width:100%; margin:auto;>";
+                echo "<tr>";
+                    echo "<td><center>".Html::a('Edit Details', ['edit-restaurant-details', 'rid'=>$id['Restaurant_ID'], 'restArea'=>$id['Restaurant_AreaGroup'], 'areachosen'=>$id['Restaurant_Area'], 'postcodechosen'=>$id['Restaurant_Postcode']], ['class'=>'btn btn-primary'])."</td>";
+                    echo "<td><center>".Html::a('Manage Staffs', ['manage-restaurant-staff', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+                    echo "<td><center>".Html::a('Restaurants Orders', ['/order/restaurant-orders', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+                    echo "<td><center>".Html::a('Restaurants Orders History', ['/order/restaurant-order-history', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+                    echo "<td><center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID'],'page'=>'menu'], ['class'=>'btn btn-primary'])."</td>";
+                echo "</tr>";
+                echo "</table>";
+            }
+            elseif ($staff['RmanagerLevel_Level'] == 'Manager')
+            {
+                echo "<table class= table table-user-information style= width:100%; margin:auto;>";
+                echo "<tr>";
+                    echo "<td><center>".Html::a('Edit Details', ['edit-restaurant-details', 'rid'=>$id['Restaurant_ID'], 'restArea'=>$id['Restaurant_AreaGroup'], 'areachosen'=>$id['Restaurant_Area'], 'postcodechosen'=>$id['Restaurant_Postcode']], ['class'=>'btn btn-primary'])."</td>";
+                    echo "<td><center>".Html::a('Manage Staffs', ['manage-restaurant-staff', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+                    echo "<td><center>".Html::a('Restaurants Orders', ['/order/restaurant-orders', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+                    echo "<td><center>".Html::a('Restaurants Orders History', ['/order/restaurant-order-history', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+                    echo "<td><center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID'],'page'=>'menu'], ['class'=>'btn btn-primary'])."</td>";
+                echo "</tr>";
+                echo "</table>";
+            }
+            elseif ($staff['RmanagerLevel_Level'] == 'Operator')
+            {
+                echo "<table class= table table-user-information style= width:100%; margin:auto;>";
+                echo "<tr>";
+                    echo "<td><center>".Html::a('Restaurants Orders', ['/order/restaurant-orders', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+                    echo "<td><center>".Html::a('Restaurants Orders History', ['/order/restaurant-order-history', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+                echo "</tr>";
+                echo "</table>";
+            }
         }
     }
     ?>

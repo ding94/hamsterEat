@@ -18,7 +18,11 @@ use kartik\widgets\ActiveForm;
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
-    	            'User_Username',
+                  'Report_ID',
+    	            [
+                    'label' => 'Username',
+                    'attribute' => 'User_Username',
+                  ],
     	            'Report_Category',
                   'Report_Reason',
                   'Report_PersonReported',

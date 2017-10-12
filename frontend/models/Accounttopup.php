@@ -32,7 +32,7 @@ class Accounttopup extends \yii\db\ActiveRecord
 
     public function attributes()
     {
-        return array_merge(parent::attributes(),['accounttopup_status.id','accounttopup_status.title','bank.Bank_ID','bank.Bank_Name']);
+        return array_merge(parent::attributes(),['accounttopup_status.id','accounttopup_status.title','accounttopup_status.labelName','bank.Bank_ID','bank.Bank_Name']);
     }
     
     public function getAccounttopup_status()
@@ -51,7 +51,7 @@ class Accounttopup extends \yii\db\ActiveRecord
         return [
             [['Account_TopUpAmount'], 'number'],
             [['Account_TransactionDate', 'Account_TransactionNumber', 'Account_SubmitDateTime','Account_Action','Account_ActionBefore'], 'integer'],
-            [['User_Username', 'Account_ChosenBank', 'Account_ReceiptPicPath','Account_InCharge'], 'string', 'max' => 255],
+            [['User_Username', 'Account_ChosenBank', 'Account_ReceiptPicPath','Account_InCharge','accounttopup_status.title'], 'string', 'max' => 255],
 			[['bank.Bank_Name'],'safe'],
         ];
     }

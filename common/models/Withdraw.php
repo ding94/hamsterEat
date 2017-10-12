@@ -55,7 +55,7 @@ class Withdraw extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'withdraw_amount', 'acc_name', 'to_bank'], 'required'],
-            [[ 'reason'], 'string'],
+            [[ 'reason','accounttopup_status.title'], 'string'],
             [['uid', 'action', 'inCharge','to_bank', 'created_at', 'updated_at'], 'integer'],
             [['withdraw_amount'], 'number','min'=>1],
             [['bank_name', 'from_bank'], 'string', 'max' => 255],
@@ -86,7 +86,7 @@ class Withdraw extends \yii\db\ActiveRecord
 
     public function attributes()
     {
-        return array_merge(parent::attributes(),['accounttopup_status.id','accounttopup_status.title','bank.Bank_ID','bank.Bank_Name']);
+        return array_merge(parent::attributes(),['accounttopup_status.id','accounttopup_status.title','accounttopup_status.labelName','bank.Bank_ID','bank.Bank_Name']);
     }
     
     public function getAccounttopup_status()

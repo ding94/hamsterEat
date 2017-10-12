@@ -29,6 +29,9 @@ use yii\helpers\ArrayHelper;
 
             // 'class' => 'yii\grid\SerialColumn',],
             ['class' => 'yii\grid\CheckboxColumn',],
+            'username',
+            'email',
+            
             ['class' => 'yii\grid\ActionColumn' ,
              'template'=>'{addvoucher}',
              'buttons' => [
@@ -38,8 +41,7 @@ use yii\helpers\ArrayHelper;
                 },
               ]
             ],
-            'username',
-            'email',
+
             ['class' => 'yii\grid\ActionColumn' ,
              'template'=>'{showuser}',
              'buttons' => [

@@ -91,23 +91,23 @@ class ValidController extends Controller
 		switch ($case) 
 		{
 			case 1:
-				$check = Vouchers::find()->where('code = :c',[':c' => $model['code']])->one();
+				$check = Vouchers::find()->where('code = :c',[':c' => $model['code']])->one(); // check voucer exist
 				if (!empty($check)) 
 				{
-					if ($check->discount_type!=1 && $check->discount_type !=4) 
+					if ($check->discount_type!=1 && $check->discount_type !=4) //check voucher status
 					{
 						Yii::$app->session->setFlash('error','Voucher assigned or used!');
 						return false;
 					}
 				}
-				elseif(empty($check))
+				elseif(empty($check)) 
 				{
-					if (empty($voucher['discount'])) 
+					if (empty($voucher['discount'])) //check discount
 					{
 						Yii::$app->session->setFlash('error','Lack of discount amount!');
 						return false;
 					}
-					$valid = self::VoucherCheckValid($voucher,2);
+					$valid = self::VoucherCheckValid($voucher,2); //check exceed amount
 					if ($valid==false) {
 						if ($voucher->discount_type == 1) {
 							Yii::$app->session->setFlash('error','Discount cannot higher than 100% !');

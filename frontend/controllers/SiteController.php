@@ -19,6 +19,7 @@ use common\models\user\Userdetails;
 use common\models\user\Useraddress;
 use common\models\Account\Accountbalance;
 use common\models\Area;
+use common\models\Account\Memberpoint;
 use yii\helpers\ArrayHelper;
 use yii\web\Session;
 
@@ -274,15 +275,18 @@ class SiteController extends Controller
             $useraddress->User_id= Yii::$app->user->identity->id;
             $userbalance = new Accountbalance;
             $userbalance->User_Username = Yii::$app->user->identity->username;
-            $userbalance->User_Balance = 0;     
-            
-            $isValid = $user->validate() && $userdetails->validate() && $useraddress->validate();
+            $userbalance->User_Balance = 0; 
+
+            $point = self::generateMemberPoint($id);
+
+            $isValid = $user->validate() && $userdetails->validate() && $useraddress->validate() && $point->validate();
             if($isValid)
             {
                 $user->save();
                 $userdetails->save();
                 $useraddress->save();
                 $userbalance->save();
+                $point->save();
                 
                 Yii::$app->getSession()->setFlash('success','Success!');
                 Yii::$app->getUser()->login($user);
@@ -420,6 +424,46 @@ class SiteController extends Controller
 	public function actionRuser()
     {
         return $this->render('ruser');
+    }
+
+    public static function generateMemberPoint($id)
+    {
+        $data = new Memberpoint;
+        $data->uid = $id;
+        $data->point = 0;
+        $data->positive = 0;
+        $data->negative = 0;
+        return $data;
+    }
+
+    public function actionAllmemberpoint()
+    {
+        $user = User::find()->all();
+      
+        foreach($user as $data)
+        {
+            if(empty($data['balance']))
+            {
+                $balance = new Accountbalance;
+                $balance->User_Username = $data->username;
+                $balance->User_Balance = 0;
+                $balance->AB_topup = 0;
+                $balance->AB_minus = 0;
+                $balance->AB_DateTime = time();
+                $balance->save();
+            }
+
+            if(empty($data['memberpoint']))
+            {
+                $point = new Memberpoint;
+                $point->uid = $data->id;
+                $point->point = 0;
+                $point->positive = 0;
+                $point->negative = 0;
+                $point->save();
+            }
+
+        }
     }
 
 }

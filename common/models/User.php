@@ -12,6 +12,8 @@ use backend\models\auth\AuthAssignment;
 use frontend\models\Deliveryman;
 use common\models\DeliveryAttendence;
 use common\models\Rmanager;
+use common\models\Account\Accountbalance;  
+use common\models\Account\Memberpoint;
 /**
  * User model
  *
@@ -238,6 +240,16 @@ class User extends ActiveRecord implements IdentityInterface
     public function getManager()
     {
         return $this->hasOne(Rmanager::className(),['User_Username' => 'username']);
+    }
+
+    public function getBalance()
+    {
+        return $this->hasOne(Accountbalance::className(),['User_Username' => 'username']);
+    }
+
+    public function getMemberpoint()
+    {
+        return $this->hasOne(Memberpoint::className(),['uid' => 'id']);
     }
 
 }

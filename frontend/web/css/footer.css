@@ -1,0 +1,54 @@
+.page-wrap{
+    min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -300px; 
+}
+
+#Footer{
+    background-color:#333;
+    color:#ffffff;
+    margin-top:3%;
+    height: 300px;
+}
+
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+.page-wrap:after  {
+  height: 300px; 
+}
+
+.footer{
+padding-left:10%;
+padding-right:10%;
+padding-top: 3%;
+padding-bottom:3%;
+}
+
+#Box1,#Box2,#Box3,{
+    padding:30px;
+
+}
+.list-unstyled>li>a{
+    color:#adadad
+}
+#Box2>p{
+    color:#adadad
+}
+
+
+#linklist a:hover{
+    text-decoration: none!important;
+    color:#ffffff;
+}
+
+.btn-twitter,.btn-facebook,.btn-google,.btn-instagram{
+	margin-right:5%;
+	margin-left:5%;
+}
+
+#Box4{
+	text-align: justify;
+    text-justify: inter-word;
+}

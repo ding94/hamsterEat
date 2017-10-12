@@ -47,13 +47,23 @@ use common\models\Bank;
                          ],
 						
                     ],
-					
-					[
+					  [
+						'label' => 'Status',
+                        'format' => 'raw',
+                        'headerOptions' => ['width' => "15px"],
+                        'contentOptions' => ['style' => 'font-size:20px;'],
+						'attribute' => 'accounttopup_status.title',
+						'value' => function($model){
+                            return Html::tag('span' , $model->accounttopup_status->title ,['class' => $model->accounttopup_status->labelName ]);
+                        },
+						'filter' => $list,
+					],
+				/*	[
 						'label' => 'Status',
 						'attribute' => 'accounttopup_status.title',
 						'value' => 'accounttopup_status.title',
 						'filter' => $list,
-					],
+					],*/
 					  ],])?>
 					  
 					  

@@ -10,7 +10,7 @@ use yii\helpers\Html;
              <tr>
             
             <td colspan = 2> 
-            <img class="img-rounded img-responsive" src=<?php 
+            <center><img class="img-rounded img-responsive" src=<?php 
             
             $picpath = $user->userdetails->User_PicPath;
             if(is_null($user->userdetails->User_PicPath))

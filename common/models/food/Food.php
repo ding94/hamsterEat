@@ -54,7 +54,7 @@ class Food extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Restaurant_ID', 'Name', 'Description', 'Ingredient', 'Nickname'], 'required'],
+            [['Restaurant_ID', 'Name', 'Description', 'Ingredient'], 'required'],
             [['Restaurant_ID', 'Sales', 'created_at', 'updated_at'], 'integer'],
             [['Rating', 'Price', 'BeforeMarkedUp'], 'number'],
             [['Name', 'Description', 'Ingredient', 'Nickname', 'PicPath'], 'string'],

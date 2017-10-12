@@ -31,11 +31,12 @@ margin-top:-30px;
     background-color:rgba(255, 255, 255,0.8);
     padding:50px;
     margin:auto;
-	position: absolute;
+	  position: absolute;
     top: 46%;
     left: 50%;
     transform: translate(-50%,-50%);
-    width:70%;
+   
+    width:55%;
 	
 }
 #DescContainer{

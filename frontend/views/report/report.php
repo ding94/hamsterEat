@@ -5,7 +5,7 @@ use kartik\widgets\Select2;
 
 ?>
 
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
 		<?php $form = ActiveForm::begin(); ?>
 		<?= $form->field($report, 'Report_Category')->widget(Select2::classname(), [

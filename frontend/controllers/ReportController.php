@@ -17,7 +17,12 @@ class ReportController extends Controller{
 			$report->Report_DateTime = date('Y-m-d H:i:s');
 			// $report->PersonReported = 
 			$report->save();
+			if ($report->save()) {
+				Yii::$app->session->setFlash('success', "Report has successfully been submitted!");
+				// return $this->render('report', ['report'=>$report,'categoryArray'=>$categoryArray]);
+				return $this->goBack();
+			}
 		}
-		return $this->render('report', ['report'=>$report,'categoryArray'=>$categoryArray]);
+		return $this->renderAjax('report', ['report'=>$report,'categoryArray'=>$categoryArray]);
 	}
 }

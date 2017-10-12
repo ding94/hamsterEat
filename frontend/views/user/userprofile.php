@@ -1,12 +1,22 @@
 <?php
 use yii\helpers\Html;
+use yii\bootstrap\Modal;
  $this->title = 'My Profile';
 ?>
 
 <div class="container">
 	<div class="tab-content col-md-7 col-md-offset-1" id="userprofile">
 		<table class="table table-user-information"><h1>User Profile</h1>
-
+            <?php Modal::begin([
+            'header' => '<h2 class="modal-title">Report</h2>',
+            'id'     => 'modal',
+            'size'   => 'modal-sm',
+            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    
+    echo "<div id='modelContent'></div>";
+    
+    Modal::end() ?>
              <tr>
             
             <td colspan = 2> 
@@ -58,7 +68,7 @@ use yii\helpers\Html;
                </tr>
                   <tr>
                  <td> <?= Html::a('Edit', ['/user/userdetails'], ['class'=>'btn btn-primary']) ?> </td>
-                 <td> </td>
+                 <td> <?= Html::a('Report', ['/report/report-user'], ['class'=>'btn btn-primary','id' => 'reportModalButton']) ?></td>
                     </tr>
                 
                    

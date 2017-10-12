@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\Modal;
+use yii\helpers\Url;
  $this->title = 'My Profile';
 ?>
 
@@ -68,7 +69,7 @@ use yii\bootstrap\Modal;
                </tr>
                   <tr>
                  <td> <?= Html::a('Edit', ['/user/userdetails'], ['class'=>'btn btn-primary']) ?> </td>
-                 <td> <?= Html::a('Report', ['/report/report-user'], ['class'=>'btn btn-primary','id' => 'reportModalButton']) ?></td>
+                 <td> <?= Html::a('Report', Url::to(['/report/report-user' ,'name'=>$user->username]), ['class'=>'btn btn-primary','id' => 'reportModalButton']) ?></td>
                     </tr>
                 
                    

@@ -43,7 +43,7 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
+       
 
         ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Cart', 'url' => ['/cart/view-cart']],
 

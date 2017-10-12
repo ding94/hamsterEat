@@ -33,7 +33,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'hamsterEat',
+        'brandLabel' => Html::img('@web/SysImg/Logo.png'),
         'brandUrl' => Yii::$app->homeUrl,
         'innerContainerOptions' => ['class' => 'container-fluid'],
         'options' => [
@@ -42,7 +42,6 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
         ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Cart', 'url' => ['/cart/view-cart']],
     ];
     if (Yii::$app->user->isGuest) {
@@ -140,13 +139,58 @@ AppAsset::register($this);
 </div>
 </div>
 
-<footer class="footer navbar-fixed-bottom">
+<!--<footer class="footer navbar-fixed-bottom">
     <div class="container">
         <p class="pull-left">&copy; hamsterEat <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
-</footer>
+</footer>-->
+	<!--Footer-->
+	<footer id="Footer" class="footer">
+        <div class="container-fluid">
+		<!--Footer First Row-->
+<!-- 		<div class="row"> -->
+			<div id="Box1" class = "col-sm-3 col-xs-12">
+				<h3 id="footertitle">HamsterEat</h3>
+				<hr>
+				<ul id="linklist" class="list-unstyled">
+					<li><a href="../HomeCookedDelicacies/">Home</a></li>
+					<li><a href="../HomeCookedDelicacies/ChooseUpgrade.php">Join Us</a></li>
+					<li><a href="../web/index.php?r=site/about">About Us</a></li>
+					<li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>
+					<li><a href="../HomeCookedDelicacies/">Login</a></li>
+					<li><a href="../HomeCookedDelicacies/Registration.php">Signup</a></li>
+				</ul>
+				
+			</div>
+
+			<div id="Box2" class = "col-sm-3 col-xs-12">
+				<h3>Contact Us</h3>
+				<hr>
+                <ul id="linklist" class="list-unstyled">
+                    <li><a href="../web/index.php?r=site/contact">Contact</a></li>
+                </ul>
+				<p>Tel. 1700-818-315</p>
+				<p>Email. cs@sgshop.com.my</p>
+				<a href="mailto:cs@sgshop.com.my" target="_blank" class="btn btn-primary">Email Us</a>
+			</div>
+			
+			<div id="Box3" class = "col-sm-3 col-xs-12">
+				<h3>Follow | Get in Touch</h3>
+				<hr>
+				 <center>
+				 <a target="_blank" href="https://twitter.com" class="btn btn-social-icon btn-twitter"><span class="fa fa-twitter"></span></a>
+				 <a target="_blank" href="https://www.facebook.com" class="btn btn-social-icon btn-facebook"><span class="fa fa-facebook"></span></a>
+				 <a target="_blank" href="https://plus.google.com" class="btn btn-social-icon btn-google"><span class="fa fa-google"></span></a>
+				 <a target="_blank" href="https://www.instagram.com" class="btn btn-social-icon btn-instagram"><span class="fa fa-instagram"></span></a>
+				 </center>				 
+			</div>
+
+		<!-- </div> -->
+</div>
+		
+	</footer>
 
 <?php $this->endBody() ?>
 </body>

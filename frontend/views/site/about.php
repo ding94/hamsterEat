@@ -6,6 +6,7 @@ use yii\helpers\Html;
 
 $this->title = 'About';
 ?>
+
 <link href='https://fonts.googleapis.com/css?family=Quicksand|Asap:700' rel='stylesheet' type='text/css'>
 <div class="container" style="text-align:center" id="grad" >
 
@@ -22,20 +23,21 @@ $this->title = 'About';
       <p>Enter Postcode</p>
       </div>  
 	 </div>
-	  <div class="col-sm-4 element2" style="text-align:center">
+	  <div class="col-sm-4 element2" style="text-align:center;">
 	 <div class="img-circular"></div>
 	  <div class="content-box" id="grad2" style="position: absolute; z-index: -10">
 	     <h4 class="service-heading">Add</h4>
        <p>Add favourite foods to cart</p> 
 	 </div>
 	 </div>
-	  <div class="col-sm-4 element3" style="text-align:center">
+	  <div class="col-sm-4 element3" style="text-align:center;">
 	 <div class="img-circular"></div>
 	   <div class="content-box" id="grad3" style="position: absolute; z-index: -10">
 	      <h4 class="service-heading">Pay</h4>
        <p>Pay and enjoy your food</p>
   </div>
 </div>  
+
 <!--<div class="dotted">
   <svg viewBox="0 0 103 103" version="1.1"
   xmlns="http://www.w3.org/2000/svg"  class="dotted">

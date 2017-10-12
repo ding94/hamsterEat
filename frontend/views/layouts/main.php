@@ -108,12 +108,11 @@ AppAsset::register($this);
 				<h3 id="footertitle">HamsterEat</h3>
 				<hr>
 				<ul id="linklist" class="list-unstyled">
-					<li><a href="../HomeCookedDelicacies/">Home</a></li>
-					<li><a href="../HomeCookedDelicacies/ChooseUpgrade.php">Join Us</a></li>
+					
 					<li><a href="../web/index.php?r=site/about">About Us</a></li>
 					<li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>
-					<li><a href="../HomeCookedDelicacies/">Login</a></li>
-					<li><a href="../HomeCookedDelicacies/Registration.php">Signup</a></li>
+					<li><a href="../web/index.php?r=site/login">Login</a></li>
+					<li><a href="../web/index.php?r=site/ruser">Signup</a></li>
 				</ul>
 				
 			</div>

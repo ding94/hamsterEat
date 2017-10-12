@@ -16,25 +16,25 @@ $this->title = 'hamsterEat';
 		<div id="SSCrow1" class="row">
 			<div class="mySlides">
 
-			<img src="SysImg/1.jpg" style="width:100%;height:670px !important;">
+			<img src="SysImg/1.jpg" style="width:100%;height:45em !important;">
 
 			</div>
 
 			<div class="mySlides">
 
-			<img src="SysImg/2.jpg" style="width:100%; height:670px !important;">
+			<img src="SysImg/2.jpg" style="width:100%; height:45em !important;">
 
 			</div>
 
 			<div class="mySlides">
 
-			<img src="SysImg/3.jpg" style="width:100%;height:670px !important;">
+			<img src="SysImg/3.jpg" style="width:100%;height:45em !important;">
 
 			</div>
 
 			<div class="mySlides">
 
-			<img src="SysImg/4.jpg" style="width:100%;height:670px !important;">
+			<img src="SysImg/4.jpg" style="width:100%;height:45em !important;">
 
 			</div>
 			

@@ -39,6 +39,58 @@ class UservoucherController extends Controller
 		return $this->render('index',['model'=>$dataProvider,'searchModel'=>$searchModel]);
 	}
 
+	public function actionShowuser($id)
+	{
+		$name = User::find()->where('id =:id',[':id'=>$id])->one()->username;
+		/*$uservoucher = UserVoucher::find()->where('uid =:id',[':id'=>$id])->all();
+		foreach ($uservoucher as $k => $value) {
+			$voucher[$k] = Vouchers::find()->where('id =:id',[':id'=>$uservoucher[$k]['vid']])->one();
+		}*/
+
+		if (Yii::$app->request->post()) {
+			if (Yii::$app->request->post('selection')) {
+				$select = Yii::$app->request->post('selection');
+				foreach ($select as $k => $selection) {
+					$uvoucher = UserVoucher::find()->where('vid=:id AND uid = :uid',[':id'=>$selection,':uid'=>$id])->one();
+					$voucher = Vouchers::find()->where('id=:id',[':id'=>$selection])->one();
+					if (!empty($uvoucher)) {
+						$uvoucher->delete();
+						$voucher->delete();
+					}
+				}
+				Yii::$app->session->setFlash('success', "Deleted!");
+				return $this->redirect(['uservoucher/index']);
+       		}
+		}
+
+		$searchModel = new Vouchers;
+       	$dataProvider = $searchModel->usersearch(Yii::$app->request->queryParams,$id,2);
+		return $this->render('showuser',['name'=>$name,'model'=>$dataProvider,'searchModel'=>$searchModel]);
+	}
+
+	public function actionEditvoucher($id)
+	{
+		$voucher = Vouchers::find()->where('id=:id',[':id'=>$id])->one();
+		if ($voucher['endDate'] <= strtotime(time()) || $voucher['discount_type'] == 3 || $voucher['discount_type'] == 6) {
+				Yii::$app->session->setFlash('warning', "Coupon was used or expired!");
+				return $this->redirect(Yii::$app->request->Referrer);
+			}
+		$voucher['endDate'] = date('Y-m-d h:i:s', $voucher['endDate']);
+		$type = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>1],['id'=>4]])->all(),'id','type');
+		$item = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>7],['id'=>8],['id'=>9]])->all(),'id','description');
+
+		if (Yii::$app->request->post()) {
+			$voucher->load(Yii::$app->request->post());
+			$voucher['endDate'] = strtotime($voucher['endDate']);
+			if ($voucher->validate()) {
+				$voucher->save();
+				Yii::$app->session->setFlash('success', "Edited!");
+				return $this->redirect(['uservoucher/index']);
+			}
+		}
+		return $this->render('editvoucher',['voucher'=>$voucher,'type'=>$type,'item'=>$item]);
+	}
+
 	public function actionMultigive()
 	{
 
@@ -58,6 +110,7 @@ class UservoucherController extends Controller
 
 			$voucher = new Vouchers;
 			$voucher->load($post);
+			$voucher->discount_type +=1;
 			$voucher->code = $code;
 			$voucher->usedTimes = 0;
 			$voucher->inCharge = Yii::$app->user->identity->adminname;

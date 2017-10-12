@@ -40,7 +40,15 @@ use yii\helpers\ArrayHelper;
             ],
             'username',
             'email',
-
+            ['class' => 'yii\grid\ActionColumn' ,
+             'template'=>'{showuser}',
+             'buttons' => [
+                'showuser' => function($url , $model)
+                {
+                    return  Html::a(FA::icon('user 2x') , $url , ['title' => "Show User's Voucher"]);
+                },
+              ]
+            ],
         ],
     ])?>
 

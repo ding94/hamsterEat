@@ -80,20 +80,20 @@ use backend\models\Admin;
 						
                     ],
 
-			[
-				'label' => 'Status',
-				'format' => 'raw',
-				'headerOptions' => ['width' => "15px"],
-				'contentOptions' => ['style' => 'font-size:20px;'],
-				'attribute' => 'accounttopup_status.title',
-				'value' => function($model){
-					return Html::tag('span' , $model->accounttopup_status->title);
-				},
-
-				'filter' => $list,
-			],
+			 [
+						'label' => 'Status',
+                        'format' => 'raw',
+                        'headerOptions' => ['width' => "15px"],
+                        'contentOptions' => ['style' => 'font-size:20px;'],
+						'attribute' => 'accounttopup_status.title',
+						'value' => function($model){
+                            return Html::tag('span' , $model->accounttopup_status->title ,['class' => $model->accounttopup_status->labelName ]);
+                        },
+						'filter' => $list,
+					],
+					'inCharge',
 			
-			[
+		/*	[
                 'attribute' => 'inCharge',
                 'value'=> function($model){
 						$name ="";
@@ -108,7 +108,7 @@ use backend\models\Admin;
                     'class'       => 'form-control',
                     'placeholder' => 'Search In Charge Person',
                 ],
-            ],
+            ],*/
 
             [
                 'attribute' => 'reason',

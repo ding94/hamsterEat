@@ -129,7 +129,13 @@ class CartController extends Controller
         if (Yii::$app->request->post()) 
         {
             $data = Yii::$app->request->post();
-            
+            $session = Yii::$app->session;
+            if (is_null($session['area']) || is_null($session['postcode']))
+            {
+                Yii::$app->session->setFlash('error', 'Checkout failed. Please provide your delivery postcode and area first.');
+                return $this->redirect(['site/index']);
+            }
+        
             return $this->redirect(['checkout', 'did'=>$did, 'discountcode'=>$data['Orders']['Orders_TotalPrice']]);
         }
         return $this->render('cart', ['did'=>$did, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
@@ -425,6 +431,14 @@ class CartController extends Controller
 
          $sql3 = "UPDATE orders SET Orders_TotalPrice = ".$newtotal." WHERE Delivery_ID = ".$menu['Delivery_ID']."";
          Yii::$app->db->createCommand($sql3)->execute();
+
+         $orders = Orders::find()->where('Delivery_ID = :did', [':did'=>$menu['Delivery_ID']])->one();
+
+         if($orders['Orders_TotalPrice'] == 0 && $orders['Orders_Subtotal'] == 0 && $orders['Orders_DeliveryCharge'] == 0)
+         {
+             $sql4 = "DELETE FROM orders WHERE Delivery_ID = ".$menu['Delivery_ID']."";
+             Yii::$app->db->createCommand($sql4)->execute();
+         }
 
          return $this->redirect(['view-cart']);
     }

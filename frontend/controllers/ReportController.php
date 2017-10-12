@@ -9,13 +9,13 @@ use common\models\Report\ReportCategoryRestaurantStatus;
 
 class ReportController extends Controller{
 	
-	public function actionReportUser(){
+	public function actionReportUser($name){
 		$report = new Report();
 		$categoryArray = ArrayHelper::map(ReportCategoryUserStatus::find()->all(),'title','title');
 		if ($report->load(Yii::$app->request->post())) {
 			$report->User_Username = Yii::$app->user->identity->username;
 			$report->Report_DateTime = date('Y-m-d H:i:s');
-			// $report->PersonReported = 
+			$report->Report_PersonReported = $name;
 			$report->save();
 			if ($report->save()) {
 				Yii::$app->session->setFlash('success', "Report has successfully been submitted!");

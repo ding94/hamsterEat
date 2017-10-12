@@ -20,6 +20,12 @@ use yii\bootstrap\ActiveForm;
             echo "<table class = table table-restaurant-staff style=width:35%; margin:auto;>";
             echo "<td>".$form->field($food, 'Nickname')->textInput(['style'=>'width:300px', 'placeholder' => "Search Restaurant Managers"])->label('')."</td>";
             echo "<td>".Html::submitButton('Search', ['class' => 'btn btn-primary', 'name' => 'search-button', 'style'=>'margin-top:19px;'])."</td>";
+            if ($keyword != '')
+            {
+                echo "<tr>";
+                echo "<td colspan = 2><h3> Showing results similar to ".$keyword."</h3></td>";
+                echo "</tr>";
+            }
             echo "</table>";
             ActiveForm::end();
 
@@ -50,7 +56,7 @@ use yii\bootstrap\ActiveForm;
                 echo "<td>".Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;'])."</td>";
                 echo "<td><center>".$data['username']."</td>";
                 echo "<td><center>".$name['User_FirstName'].' '.$name['User_LastName']."</td>";
-                echo "<td><center>".Html::a('Add', ['add-as-owner', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary'])."</td>";
+                echo "<td><center>".Html::a('Add', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary'])."</td>";
                 echo "</tr>";
             }
             
@@ -77,7 +83,7 @@ use yii\bootstrap\ActiveForm;
                 echo "<th><center> Add as Manager </th>";
             echo "</tr>";
 
-            foreach ($search as $data) :
+            foreach ($allrmanagers as $data) :
             echo "<br>";
             echo "<br>";
 
@@ -97,7 +103,7 @@ use yii\bootstrap\ActiveForm;
                 echo "<td>".Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;'])."</td>";
                 echo "<td><center>".$data['username']."</td>";
                 echo "<td><center>".$name['User_FirstName'].' '.$name['User_LastName']."</td>";
-                echo "<td><center>".Html::a('Add', ['add-as-manager', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary'])."</td>";
+                echo "<td><center>".Html::a('Add', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary'])."</td>";
                 echo "</tr>";
             }
             
@@ -124,7 +130,7 @@ use yii\bootstrap\ActiveForm;
                 echo "<th><center> Add as Operator </th>";
             echo "</tr>";
 
-            foreach ($search as $data) :
+            foreach ($allrmanagers as $data) :
             echo "<br>";
             echo "<br>";
 
@@ -144,7 +150,7 @@ use yii\bootstrap\ActiveForm;
                 echo "<td>".Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;'])."</td>";
                 echo "<td><center>".$data['username']."</td>";
                 echo "<td><center>".$name['User_FirstName'].' '.$name['User_LastName']."</td>";
-                echo "<td><center>".Html::a('Add', ['add-as-operator', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary'])."</td>";
+                echo "<td><center>".Html::a('Add', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary'])."</td>";
                 echo "</tr>";
             }
             

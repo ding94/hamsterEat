@@ -41,7 +41,7 @@ $this->title = "Manage Staff";
             $pic = Userdetails::find()->where('User_Username = :uname',[':uname'=>$data['User_Username']])->one();
             if(is_null($pic['User_PicPath']))
             {
-                $picpath = "DefaultPic.png";
+                $picpath = "/hamstereat/frontend/web/imageLocation/DefaultPic.png";
             }
             else
             {

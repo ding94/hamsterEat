@@ -99,7 +99,7 @@ class DefaultController extends Controller
             }
         }
 
-        return $this->render('newRestaurantlocation', ['postcode'=>$postcode ,'list'=>$list]);
+        return $this->render('newrestaurantlocation', ['postcode'=>$postcode ,'list'=>$list]);
     }
     
     public function actionNewRestaurantDetails()
@@ -308,17 +308,19 @@ class DefaultController extends Controller
 
         $food = new Food;
 
+        $keyword = '';
+
         if ($food->load(Yii::$app->request->post()))
         {
             $keyword = $food->Nickname;
 
             $allrmanagers = user::find()->innerJoinWith('authAssignment','user.id = authAssignment.user_id')->where(['auth_assignment.item_name' => "restaurant manager"])->andWhere(['like', 'user.username', $keyword])->all();
 
-            return $this->render('allrmanagers',['allrmanagers'=>$allrmanagers, 'rid'=>$rid, 'num'=>$num, 'food'=>$food]);
+            return $this->render('allrmanagers',['allrmanagers'=>$allrmanagers, 'rid'=>$rid, 'num'=>$num, 'food'=>$food, 'keyword'=>$keyword]);
             
         }
 
-        return $this->render('allrmanagers',['allrmanagers'=>$allrmanagers, 'rid'=>$rid, 'num'=>$num, 'food'=>$food]);
+        return $this->render('allrmanagers',['allrmanagers'=>$allrmanagers, 'rid'=>$rid, 'num'=>$num, 'food'=>$food, 'keyword'=>$keyword]);
     }
 
     public function actionAddStaff($rid, $uname, $num)
@@ -349,10 +351,11 @@ class DefaultController extends Controller
     
     public function actionViewRestaurant()
     {
-		$uname = user::find()->where('username = :uname',[':uname' => Yii::$app->user->identity->username])->one();
-        $restaurant = restaurant::find()->where('Restaurant_Manager = :rmanager',[':rmanager' => $uname['username']])->all();
-       $this->layout = '@app/views/layouts/user';
-         return $this->render('ViewRestaurant',['restaurant'=>$restaurant,'uname'=>$uname]);
+		//$uname = user::find()->where('username = :uname',[':uname' => Yii::$app->user->identity->username])->one();
+        $restaurants = Rmanagerlevel::find()->where('User_Username = :uid',[':uid' => Yii::$app->user->identity->username])->all();
+        $this->layout = '@app/views/layouts/user';
+        //var_dump($restaurant);exit;
+        return $this->render('ViewRestaurant',['restaurants'=>$restaurants]);
     }
 
     public static function updateRestaurant($rid)

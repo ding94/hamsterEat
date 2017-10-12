@@ -21,9 +21,6 @@ class FoodselectionController extends Controller
                 $valid = $modelfoodselection->validate();
             }
         }
-       // $returndata[0] = $foodselection;
-        //$returndata[1] = $valid;
-
         return $foodselection;
 	}
 
@@ -57,4 +54,6 @@ class FoodselectionController extends Controller
         }
         return true;
 	}
+
+    public static function 
 }

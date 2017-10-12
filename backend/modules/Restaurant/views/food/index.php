@@ -21,15 +21,23 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'pjax'=>true, // pjax is set to always true for this demo
         //'panel'=>['type'=>'primary', 'heading'=>'Rating List'],
         'columns'=>[
-            ['class'=>'kartik\grid\SerialColumn'],
             [
                 'class'=>'kartik\grid\ExpandRowColumn',
                 'width'=>'50px',
                 'value'=>function ($model, $key, $index, $column) {
-                    return GridView::ROW_COLLAPSED;
+                    if(empty($model['foodSelection']))
+                    {
+                        return "";
+                    }
+                    else
+                    {
+                        return GridView::ROW_COLLAPSED;
+                    }
+                  
                 },
                 'detail'=>function ($model, $key, $index, $column) {
                     return Yii::$app->controller->renderPartial('detail', ['model'=>$model->foodSelection]);
+                
                 },
                 'headerOptions'=>['class'=>'kartik-sheet-style'] ,
                 'expandOneOnly'=>true,
@@ -79,7 +87,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             'type'=>GridView::TYPE_SUCCESS,
           
         ],
-        'persistResize'=>false,
+        
     ]);
   
 ?>

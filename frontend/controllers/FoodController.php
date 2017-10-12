@@ -106,11 +106,7 @@ class FoodController extends Controller
             $foodtype = Model::createMultiple(Foodselectiontype::classname());
 
             Model::loadMultiple($foodtype, Yii::$app->request->post());
-            $foodprice = CartController::actionRoundoff1decimal($food->BeforeMarkedUp);
-            $markedupprice = $foodprice * 1.3;
-            $markedupprice = CartController::actionRoundoff1decimal($markedupprice);
-            //var_dump($food->BeforeMarkedUp);exit;
-            $food->Price = $markedupprice;
+         
             $valid =  Model::validateMultiple($foodtype) && $food->validate() && $upload;
             
             if (isset($_POST['Foodselection'][0][0])) {
@@ -134,7 +130,7 @@ class FoodController extends Controller
                             $transaction->commit();
                             $status = DefaultController::updateRestaurant($rid);
 
-                            return $this->redirect(['food/menu', 'id' => $food->Food_ID, 'rid'=>$rid]);
+                            return $this->redirect(['food/menu', 'rid' => $rid , 'page' => 'menu']);
                         } 
                         else {
                             $transaction->rollBack();
@@ -146,11 +142,9 @@ class FoodController extends Controller
                 }
             }
         }
-        //var_dump($foodselection[0][0]);exit;
         $this->layout = 'user';
       
         return $this->render('insertfood',['food' => $food,'foodjunction'=>$foodjunction,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection,'type' => $type]);
-        //return $this->render('insertfood',['food' => $food,'foodjunction'=>$foodjunction,'foodtype' => [new Foodselectiontype],'foodselection' => [ [new Foodselection]],'type' => $type]);
     }
     
      public function actionMenu($rid,$page)
@@ -172,33 +166,16 @@ class FoodController extends Controller
 
      }
 
-    public function actionDelete($rid,$id,$page)
+    public function actionDelete($id)
     {
         $status = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$id])->one();
-        if ($status['Status'] == true)
-        {
-            $sql = "UPDATE foodstatus SET status = false WHERE Food_ID ='$id'";
-            Yii::$app->db->createCommand($sql)->execute();
-
-            $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
-        }
-        else
-        {
-            $sql = "UPDATE foodstatus SET status = true WHERE Food_ID ='$id'";
-            Yii::$app->db->createCommand($sql)->execute();
-
-            $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
-        }
-         $rid = $rid;
-
-         $this->layout = 'user';
-
-         return $this->redirect(['menu','menu'=>$menu,'id'=>$id,'rid'=>$rid,'page'=>$page]);
-
+        $status->Status = 0;
+        $status->save();
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
-     public function actionEditFood($id)
-     {
+    public function actionEditFood($id)
+    {
         $food = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
         $chosen = ArrayHelper::map($food['foodType'],'ID','ID');
         $type = ArrayHelper::map(FoodType::find()->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
@@ -212,7 +189,7 @@ class FoodController extends Controller
                 $foodselection[$i] = $foodtypes;
             }
         }
-        $oldRooms = [];
+
         $upload = new Upload();
         $picpath = $food['PicPath'];
         $food->scenario = "edit";
@@ -224,8 +201,10 @@ class FoodController extends Controller
 
     public function actionPostedit($id)
     {
-        $food = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
+        $food = Food::findOne($id);
         $modelSelectionType = $food->foodselectiontypes;
+        $modelJunction = $food->junction;
+
         $modelSelect = [];
         $oldSelect = [];
         $selectionId = [];
@@ -235,6 +214,7 @@ class FoodController extends Controller
 
         $post = Yii::$app->request->post();
         $picpath = $food['PicPath'];
+
         if (!empty($modelSelectionType)) {
             foreach ($modelSelectionType as $i => $select) 
             {
@@ -271,11 +251,17 @@ class FoodController extends Controller
 
         $oldSelectionTypeId = ArrayHelper::map($modelSelectionType, 'ID', 'ID');
 
+        $oldFoodTypeId = ArrayHelper::map($modelJunction,'Type_ID','Type_ID');
+
         $modelSelectionType = Model::createMultiple(Foodselectiontype::classname(), $modelSelectionType);
 
         \yii\base\Model::loadMultiple($modelSelectionType,Yii::$app->request->post());
 
         $deletedSelectionTypeId = array_diff($oldSelectionTypeId, array_filter(ArrayHelper::map($modelSelectionType, 'ID', 'ID')));
+
+        $deletedFoodTypeId = array_diff($oldFoodTypeId, $post['Type_ID']);
+
+        $newFoodTypeId = array_diff($post['Type_ID'],$oldFoodTypeId);
 
         $valid = $food->validate();
 
@@ -304,7 +290,7 @@ class FoodController extends Controller
                 } 
             }
         }
-
+        
         $oldSelectIds = ArrayHelper::getColumn($oldSelect,'ID');
         $deletedSelect = array_diff($oldSelectIds,$selectionId);
        
@@ -325,8 +311,18 @@ class FoodController extends Controller
                         Foodselection::deleteAll(['ID' => $deletedSelect]);
                     }
 
-                    Foodtypejunction::deleteAll(['Food_ID'=>$food->Food_ID]);
-                    FoodtypeAndStatusController::newFoodJuntion($post['Type_ID'],$food->Food_ID);
+                    if(!empty($deletedFoodTypeId))
+                    {
+                        foreach($deletedFoodTypeId as $deleteId)
+                        {
+                             Foodtypejunction::deleteAll('Food_ID = :fid and Type_ID = :tid',[':fid' => $food->Food_ID, ':tid' => $deleteId]);
+                        }
+                    }
+                   
+                    if(!empty($newFoodTypeId))
+                    {
+                        FoodtypeAndStatusController::newFoodJuntion($newFoodTypeId,$food->Food_ID);
+                    }
 
                     foreach($modelSelectionType as $i => $selectionType)
                     {
@@ -364,7 +360,8 @@ class FoodController extends Controller
                     {
                         $transaction->commit();
                          Yii::$app->session->setFlash('success', "Success edit");
-                        return $this->redirect(['food/food-details', 'id' => $food->Food_ID, 'rid' => $food->Restaurant_ID]);
+                        return $this->redirect(['food/menu', 'rid' => $food->Restaurant_ID , 'page' => 'menu']);
+
                     }
                     else
                     {
@@ -393,6 +390,12 @@ class FoodController extends Controller
         $food = new Food();
         $food->load($post);
         $food->BeforeMarkedUp = CartController::actionDisplay2decimal($food->BeforeMarkedUp);
+
+        $foodprice = CartController::actionRoundoff1decimal($food->BeforeMarkedUp);
+        $markedupprice = $foodprice * 1.3;
+        $markedupprice = CartController::actionRoundoff1decimal($markedupprice);
+
+        $food->Price = $markedupprice;
         $food->Restaurant_ID = $rid;
         $food->PicPath = $upload;
         $food->Ingredient = 'xD';

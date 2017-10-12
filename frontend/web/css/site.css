@@ -27,8 +27,15 @@ h6 {
 .wrap > .topnav.navbar-fixed-top {
 
     background-color:#FFDA00;
+    height: 64px;
 
+}
 
+.navbar-brand > img {
+    margin-top:-15px;
+    padding-right: 40px;
+    width : 400px;
+    height: 3.6em;
 }
 
 .navbar-brand {
@@ -36,6 +43,7 @@ h6 {
 }
 .navbar-nav > li > a {
     color:white;
+    line-height: 33px
 }
 
 .form-group{

@@ -90,6 +90,11 @@ class Food extends \yii\db\ActiveRecord
         return $this->hasMany(Foodtype::className(), ['ID'=>'Type_ID'])->viaTable('foodtypejunction', ['Food_ID'=>'Food_ID']);
     }
 
+    public function getJunction()
+    {
+        return $this->hasMany(Foodtypejunction::className(),['Food_ID' => 'Food_ID']);
+    }
+
     public function getFoodStatus()
     {
         return $this->hasOne(Foodstatus::className(), ['Food_ID'=>'Food_ID']);

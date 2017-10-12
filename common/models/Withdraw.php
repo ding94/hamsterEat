@@ -71,7 +71,7 @@ class Withdraw extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'uid' => 'Uid',
-            'withdraw_amount' => 'Withdraw Amount',
+            'withdraw_amount' => 'Withdraw Amount (RM)',
             'action' => 'Action',
             'inCharge' => 'In Charge',
             'reason' => 'Reason',

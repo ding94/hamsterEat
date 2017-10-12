@@ -65,7 +65,7 @@ class Accounttopup extends \yii\db\ActiveRecord
             'Account_TransactionID' => 'Account  Transaction ID',
             'User_Username' => 'Username',
             'Account_ChosenBank' => 'Account  Chosen Bank',
-            'Account_TopUpAmount' => 'Account  Top Up Amount',
+            'Account_TopUpAmount' => 'Account Top Up Amount (RM)',
             'Account_TransactionDate' => 'Account  Transaction Date',
             'Account_TransactionNumber' => 'Account  Transaction Number',
             'Account_ReceiptPicPath' => 'Account  Receipt Pic Path',

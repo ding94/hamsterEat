@@ -18,6 +18,10 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
-            
+            'Delivery_ID',
+            'User_Username',
+            'Orders_TotalPrice',
+            'Orders_Date',
+            'Orders_Time',
         ]
     ]); ?>

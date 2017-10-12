@@ -235,8 +235,8 @@ class CartController extends Controller
         {
             $timenow = Yii::$app->formatter->asTime(time());
             $early = date('08:00:00');
-            //$last = date('11:00:59');
-            $last = date('23:00:59');
+            $last = date('11:00:59');
+            //$last = date('23:00:59');
 
             if ($early <= $timenow && $last >= $timenow)
             {

@@ -3,6 +3,7 @@
 namespace common\models\Account;
 
 use Yii;
+use common\models\Account\Memberpointhistory;
 
 /**
  * This is the model class for table "memberpoint".
@@ -15,12 +16,35 @@ use Yii;
  */
 class Memberpoint extends \yii\db\ActiveRecord
 {
+    public $amount;
+    public $type;
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return 'memberpoint';
+    }
+
+    public function afterSave($insert, $changedAttributes) 
+    {
+        $history= new Memberpointhistory;
+        $history->mpid = $this->id;
+        $history->type = $this->type;
+        switch ($this->type) {
+            case 1:
+                $history->description = "Convert ".$this->amount." from payment to memberpoint";
+                break;
+            case 2:
+                $history->description = "Convert ".$this->amount." from memberpoint to account balance";
+                break;
+            default:
+                # code...
+                break;
+        }
+        $history->amount = $this->amount;
+        $history->save();
     }
 
     /**

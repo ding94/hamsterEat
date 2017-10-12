@@ -17,6 +17,7 @@ use common\models\Orderitemstatuschange;
 use common\models\Account\Accountbalance;
 use frontend\models\Deliveryman;
 use frontend\controllers\PaymentController;
+use frontend\controllers\MemberpointController;
 use yii\helpers\Json;
 use frontend\modules\delivery\controllers\DailySignInController;
 use yii\helpers\ArrayHelper;
@@ -235,8 +236,8 @@ class CartController extends Controller
         {
             $timenow = Yii::$app->formatter->asTime(time());
             $early = date('08:00:00');
-            $last = date('11:00:59');
-            //$last = date('23:00:59');
+            //$last = date('11:00:59');
+            $last = date('23:00:59');
 
             if ($early <= $timenow && $last >= $timenow)
             {
@@ -365,7 +366,7 @@ class CartController extends Controller
                 Yii::$app->db->createCommand($sqll)->execute();
 
             endforeach;
-            
+            MemberpointController::addMemberpoint($order->Orders_TotalPrice,1);
             return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate]);
         }
         else

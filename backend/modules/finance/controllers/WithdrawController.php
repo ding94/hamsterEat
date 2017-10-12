@@ -3,7 +3,7 @@
 namespace app\modules\finance\controllers;
 use common\models\Withdraw;
 use common\models\Account\Accountbalance;
-// use common\models\BankDetails;
+use common\models\Bank;
 use common\models\User;
 use yii\data\ActiveDataProvider;
 use common\models\Account\AccounttopupStatus;
@@ -17,10 +17,9 @@ class WithdrawController extends \yii\web\Controller
     {
         $searchModel = new Withdraw();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,0);
-
 		$list = ArrayHelper::map(AccounttopupStatus::find()->all() ,'title' ,'title');
-
-        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel, 'list'=>$list ]);
+		$name=ArrayHelper::map(Bank::find()->all() ,'Bank_ID' ,'Bank_Name');
+        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel, 'list'=>$list,'name'=>$name ]);
     }
 
 	public function actionApprove($id)

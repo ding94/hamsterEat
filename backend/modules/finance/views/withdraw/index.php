@@ -8,7 +8,7 @@ use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
-
+use common\models\Bank;
 	$this->title = 'User Withdraw';
 	$this->params['breadcrumbs'][] = $this->title;
 	
@@ -69,13 +69,15 @@ use kartik\widgets\ActiveForm;
                 ],
             ],
 
-            [
-                'attribute' => 'bank_name',
-                'filterInputOptions' => [
-                    'class'       => 'form-control',
-                    'placeholder' => 'Search Bank Name',
-                ],
-            ],
+             [
+                    'attribute' => 'bank.Bank_Name',
+					
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Bank Name',
+                         ],
+						
+                    ],
 
 			[
 				'label' => 'Status',

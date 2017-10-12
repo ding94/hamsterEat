@@ -38,31 +38,14 @@ use common\models\Bank;
 					],
 				],
 				 [
-                    'attribute' => 'bank_name',
+                    'attribute' => 'bank.Bank_Name',
 					
                     'filterInputOptions' => [
                             'class'       => 'form-control',
                             'placeholder' => 'Search Bank Name',
                          ],
 						
-                    ],	
-				/* [ 	'label' => 'Bank Name',
-					'attribute' => 'Account_ChosenBank',
-					'value'=> function($model){
-						$name ="";
-						if(!empty($model->Account_ChosenBank))
-						{
-							$name = Bank::findOne($model->Account_ChosenBank)->Bank_Name;
-						}
-						return $name;
-                    
-					},
-				
-                    'filterInputOptions' => [
-                            'class'       => 'form-control',
-                            'placeholder' => 'Search Bank Name',
-                     ],
-            ],*/
+                    ],
 					[
 						'label' => 'Status',
 						'attribute' => 'accounttopup_status.title',

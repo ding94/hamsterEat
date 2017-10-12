@@ -10,7 +10,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use backend\models\Admin;
-
+use common\models\Bank;
 ?>
 
 <div class="container" id="topup-history-container">
@@ -38,27 +38,15 @@ use backend\models\Admin;
                             'placeholder' => 'Search Amount',
                          ],
                     ],
-					   
-                    [
-                    'attribute' => 'Account_ChosenBank',
+			 [
+                    'attribute' => 'bank.Bank_Name',
 					
                     'filterInputOptions' => [
                             'class'       => 'form-control',
                             'placeholder' => 'Search Bank Name',
                          ],
 						
-                    ],	
-					/*[
-						'label' => 'Status',
-                        'format' => 'raw',
-                        'headerOptions' => ['width' => "15px"],
-                        'contentOptions' => ['style' => 'font-size:20px;'],
-						'attribute' => 'accounttopup_status.title',
-						'value' => function($model){
-                            return Html::tag('span' , $model->accounttopup_status->title ,['class' => $model->accounttopup_status->labelName ]);
-                        },
-						'filter' => $list,
-					],*/
+                    ],
 					
 					[
 						'label' => 'Status',

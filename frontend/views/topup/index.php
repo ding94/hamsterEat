@@ -15,7 +15,7 @@ $this->title = "Top up";
 			<h1>Offline Topup</h1>
 			
             <?php $form = ActiveForm::begin(); ?>
-                <?= $form->field($model,'Account_ChosenBank')->inline(true)->radioList($bank)->label("MayBank") ?>
+			<?= $form->field($model, 'Account_ChosenBank')->dropDownList($bank)?>
 				<?= $form->field($model, 'Account_TopUpAmount') ?>
 								
                 <?= $form->field($upload, 'imageFile')->fileInput() ?>

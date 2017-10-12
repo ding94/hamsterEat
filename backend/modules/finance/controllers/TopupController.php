@@ -4,6 +4,7 @@ namespace app\modules\finance\controllers;
 use frontend\models\Accounttopup;
 use common\models\Account\Accountbalance;
 use common\models\User;
+use common\models\Bank;
 use common\models\Account\AccounttopupOperate;
 use common\models\Account\AccounttopupStatus;
 use backend\modules\finance\controllers\AccounttopupstatusController;
@@ -19,9 +20,9 @@ class TopupController extends \yii\web\Controller
     {
        $searchModel = new Accounttopup();
        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,0);
-		$list = ArrayHelper::map(AccounttopupStatus::find()->all() ,'title' ,'title');
-
-        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel , 'list'=>$list]);
+	   $list = ArrayHelper::map(AccounttopupStatus::find()->all() ,'title' ,'title');
+	   $name=ArrayHelper::map(Bank::find()->all() ,'Bank_ID' ,'Bank_Name');
+       return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel , 'list'=>$list,'name'=>$name ]);
     }
 
     public function actionUpdate($id)

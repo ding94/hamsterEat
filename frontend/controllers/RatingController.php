@@ -130,7 +130,7 @@ Class RatingController extends Controller
 
 		if($foodrating->save())
 		{
-			$sql = "SELECT id FROM Foodrating WHERE Food_ID = ".$foodID."";
+			$sql = "SELECT id FROM foodrating WHERE Food_ID = ".$foodID."";
 			$result = Yii::$app->db->createCommand($sql)->execute();
 
 			$ratings = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$foodID])->all();

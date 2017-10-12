@@ -34,7 +34,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'hamsterEat',
+        'brandLabel' => Html::img('@web/SysImg/Logo.png'),
         'brandUrl' => Yii::$app->homeUrl,
         'innerContainerOptions' => ['class' => 'container-fluid'],
         'options' => [
@@ -92,7 +92,7 @@ AppAsset::register($this);
        <!-- </div>-->
 
 
-<footer class="footer">
+<footer class="footer navbar-fixed-bottom">
     <div class="container">
         <p class="pull-left">&copy; hamsterEat <?= date('Y') ?></p>
 

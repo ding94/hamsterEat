@@ -1,5 +1,6 @@
    <?php
 use yii\helpers\Html;
+use common\models\Restaurant;
 $this->title = "View Restaurant";
 ?>
 <style>
@@ -99,7 +100,8 @@ span.stars span {
 <div class = "container" ><h1>My Restaurants</h1>
  <div class="outer-container"id="try" >
     <div class="menu-container" id="try1">
-            <?php foreach($restaurant as $restaurant): ?>
+            <?php foreach($restaurants as $restaurants): 
+            $restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$restaurants['Restaurant_ID']])->one(); ?>
         <a href=" <?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$restaurant['Restaurant_ID']]); ?> " style="display:block" >
       
 	  <div class="item" onclick="window.document.location='<?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$restaurant['Restaurant_ID']]); ?>';">
@@ -114,7 +116,7 @@ span.stars span {
         </a>
 		 <span class="small-text pull-right stars" alt="<?php echo $restaurant['Restaurant_Rating']; ?>"><?php echo $restaurant['Restaurant_Rating']; ?></span>			
     </div>
-	 <?php endforeach; ?>
+   <?php endforeach; ?>
     </div>
 	</div>
 	    </div>

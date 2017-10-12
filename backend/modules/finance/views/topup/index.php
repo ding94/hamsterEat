@@ -8,7 +8,7 @@ use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
-
+use common\models\Bank;
 
 	$this->title = 'Offline Topup';
 	$this->params['breadcrumbs'][] = $this->title;
@@ -101,7 +101,16 @@ use kartik\widgets\ActiveForm;
 
     	            'User_Username',
     	            'Account_TopUpAmount',
-					'Account_ChosenBank',
+					//'Account_ChosenBank',
+					  [
+                    'attribute' => 'bank.Bank_Name',
+					
+                    'filterInputOptions' => [
+                            'class'       => 'form-control',
+                            'placeholder' => 'Search Bank Name',
+                         ],
+						
+                    ],
 					[
 						'label' => 'Status',
 						'attribute' => 'accounttopup_status.title',

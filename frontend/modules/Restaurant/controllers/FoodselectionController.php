@@ -4,6 +4,7 @@ namespace frontend\modules\Restaurant\controllers;
 
 use yii;
 use yii\web\Controller;
+use yii\helpers\ArrayHelper;
 use frontend\controllers\CartController;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
@@ -55,5 +56,29 @@ class FoodselectionController extends Controller
         return true;
 	}
 
-    public static function 
+    /*
+    * get old food selection data or selection data
+    */
+    public static function oldData($data,$type)
+    {
+        $oldSelect = [];
+        $modelSelect = [];
+        foreach ($data as $i => $select) 
+        {
+            $foodSelection = $select->foodSelection;
+            $modelSelect[$i] = $foodSelection;
+            $oldSelect = ArrayHelper::merge(ArrayHelper::index($foodSelection, 'ID'), $oldSelect);
+        }
+        switch ($type) {
+            case 1:
+                return $modelSelect;
+                break;
+            case 2:
+                 return $oldSelect;
+            default:
+                return false;
+                break;
+        }
+       
+    }
 }

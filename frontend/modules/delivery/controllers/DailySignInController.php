@@ -60,23 +60,12 @@ class DailySignInController extends Controller
     			# code...
     			break;
     	}
-		 $get = ArrayHelper::getColumn( deliveryman::find()->asArray()->all(),'DeliveryMan_Assignment');
-		 $large = 0;
-		foreach($get as $k)
-      {
-		  if ($k > $large) {
-			$large = $k;
-		  }
-        
-      }
-	  
-	  $update = "UPDATE deliveryman SET DeliveryMan_Assignment = ".$large." WHERE User_id = '".Yii::$app->user->identity->id."'";
-           
-        Yii::$app->db->createCommand($update)->execute();
-        
     	return $this->redirect(Yii::$app->request->referrer);	
     }
 
+    /*
+    * get all sign in data
+    */
     public static function getAllDailyRecord()
     {
     	$today = date("Y-m");
@@ -99,6 +88,11 @@ class DailySignInController extends Controller
     	return $all;
     }
 
+    /*
+    * get today delivery man data
+    * 1 => get decode today sign in data 
+    * 2 => pass all data
+    */
     protected static function getDailyData($type)
     {
     	$today = date("Y-m");
@@ -142,6 +136,12 @@ class DailySignInController extends Controller
     	return $delivery;
     }
 
+    /*
+    * detect whether user sign in
+    * 1 => already sign in
+    * 2 => success  sign in
+    * 3 => fail to save data
+    */
     protected static function updateSignRecord()
     {
     	$date = date("j");
@@ -155,7 +155,7 @@ class DailySignInController extends Controller
     	}*/
     	
     	$data = self::getDailyData(2);
-
+    
     	$updateTime = json_decode($data->day);
 
     	$currentDay = $updateTime->$date;
@@ -174,6 +174,7 @@ class DailySignInController extends Controller
     	
     	if($data->save())
     	{
+            self::updateAssigement();
     		return 2;
     	}
     	else
@@ -182,6 +183,17 @@ class DailySignInController extends Controller
     	}
     }
 
+    protected static function updateAssigement()
+    {
+        $large = deliveryman::find()->max("DeliveryMan_Assignment");
+        $data = deliveryman::find()->where('User_id = :id',[':id' => Yii::$app->user->identity->id])->one();
+        $data->DeliveryMan_Assignment = $large;
+        $data->save();
+    }
+
+    /*
+    * Deliveryman sign in time
+    */
     protected static function inBetweenDate($time)
     {
     	$early = date('09:00:00');

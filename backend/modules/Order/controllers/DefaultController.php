@@ -2,7 +2,9 @@
 
 namespace backend\modules\Order\controllers;
 
+use Yii;
 use yii\web\Controller;
+use backend\models\OrderSearch;
 
 /**
  * Default controller for the `Order` module
@@ -15,6 +17,9 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $searchModel = new OrderSearch();
+    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+		return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
 }

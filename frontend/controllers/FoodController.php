@@ -184,19 +184,15 @@ class FoodController extends Controller
         $foodselection = [];
       
         if (!empty($foodtype)) {
-            foreach ($foodtype as $i => $ftype) {                 
-                $foodtypes = $ftype->foodSelection;
-                $foodselection[$i] = $foodtypes;
-            }
+            $foodselection = FoodselectionController::oldData($foodtype,1);
         }
 
         $upload = new Upload();
         $picpath = $food['PicPath'];
         $food->scenario = "edit";
     
-       
-         $this->layout = 'user';
-         return $this->render('editfood',['food' => $food,'chosen'=> $chosen,'type' => $type,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection]);
+        $this->layout = 'user';
+        return $this->render('editfood',['food' => $food,'chosen'=> $chosen,'type' => $type,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection]);
     }
 
     public function actionPostedit($id)
@@ -213,27 +209,20 @@ class FoodController extends Controller
         $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
 
         $post = Yii::$app->request->post();
+
         $picpath = $food['PicPath'];
 
         if (!empty($modelSelectionType)) {
-            foreach ($modelSelectionType as $i => $select) 
-            {
-                $foodSelection = $select->foodSelection;
-                $modelSelect[$i] = $foodSelection;
-                $oldSelect = ArrayHelper::merge(ArrayHelper::index($foodSelection, 'ID'), $oldSelect);
-            }
+            $oldSelect = FoodselectionController::oldData($modelSelectionType,2);
         }
-
-        $modelSelect = [];
 
         $food->load($post);
 
         $food->BeforeMarkedUp = CartController::actionRoundoff1decimal($post['Food']['roundprice']);
-        $markedupprice = CartController::actionRoundoff1decimal($post['Food']['roundprice']) * 1.3;
+        $markedupprice = $post['Food']['roundprice'] * 1.3;
         $markedupprice = CartController::actionRoundoff1decimal($markedupprice);
         $food->Price = $markedupprice;
-      
-
+    
         if (!is_null($upload->imageFile))
         {
             $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
@@ -251,7 +240,7 @@ class FoodController extends Controller
 
         $oldSelectionTypeId = ArrayHelper::map($modelSelectionType, 'ID', 'ID');
 
-        $oldFoodTypeId = ArrayHelper::map($modelJunction,'Type_ID','Type_ID');
+        $junctionData = FoodtypeAndStatusController::diffStatus($modelJunction,$post['Type_ID']);
 
         $modelSelectionType = Model::createMultiple(Foodselectiontype::classname(), $modelSelectionType);
 
@@ -259,14 +248,10 @@ class FoodController extends Controller
 
         $deletedSelectionTypeId = array_diff($oldSelectionTypeId, array_filter(ArrayHelper::map($modelSelectionType, 'ID', 'ID')));
 
-        $deletedFoodTypeId = array_diff($oldFoodTypeId, $post['Type_ID']);
-
-        $newFoodTypeId = array_diff($post['Type_ID'],$oldFoodTypeId);
-
         $valid = $food->validate();
 
         $valid = Model::validateMultiple($modelSelectionType) && $valid;
-       
+        
         if (isset($post['Foodselection'][0][0]))
         {
             foreach ($post['Foodselection'] as $i => $select) 
@@ -311,17 +296,17 @@ class FoodController extends Controller
                         Foodselection::deleteAll(['ID' => $deletedSelect]);
                     }
 
-                    if(!empty($deletedFoodTypeId))
+                    if(!empty($junctionData[0]))
                     {
-                        foreach($deletedFoodTypeId as $deleteId)
+                        foreach($junctionData[0] as $deleteId)
                         {
                              Foodtypejunction::deleteAll('Food_ID = :fid and Type_ID = :tid',[':fid' => $food->Food_ID, ':tid' => $deleteId]);
                         }
                     }
                    
-                    if(!empty($newFoodTypeId))
+                    if(!empty($junctionData[1]))
                     {
-                        FoodtypeAndStatusController::newFoodJuntion($newFoodTypeId,$food->Food_ID);
+                        FoodtypeAndStatusController::newFoodJuntion($junctionData[1],$food->Food_ID);
                     }
 
                     foreach($modelSelectionType as $i => $selectionType)

@@ -143,7 +143,7 @@ class CartController extends Controller
       // $get = deliveryman::find()->all();
   
        $data = DailySignInController::getAllDailyRecord();
-         
+       
        $allData ="" ;
        foreach ($data as $id)
        {
@@ -230,13 +230,13 @@ class CartController extends Controller
         $checkout = new Orders;
         $userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => $order->User_Username])->one();
         $session = Yii::$app->session;
-    
+       
         if ($checkout->load(Yii::$app->request->post()))
         {
             $timenow = Yii::$app->formatter->asTime(time());
             $early = date('08:00:00');
-            $last = date('11:00:59');
-            //$last = date('23:00:59');
+            //$last = date('11:00:59');
+            $last = date('23:00:59');
 
             if ($early <= $timenow && $last >= $timenow)
             {

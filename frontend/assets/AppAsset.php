@@ -18,6 +18,7 @@ class AppAsset extends AssetBundle
         'css/sidenav.css',
 		'style.css',
 		'bubble.css',
+        'css/footer.css',
     ];
     public $js = [
 	'js/he.js',

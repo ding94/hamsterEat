@@ -6,6 +6,7 @@ use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
 use Yii;
 use common\models\Account\AccounttopupStatus;
+use common\models\Bank;
 
 /**
  * This is the model class for table "accounttopup".
@@ -31,14 +32,17 @@ class Accounttopup extends \yii\db\ActiveRecord
 
     public function attributes()
     {
-        return array_merge(parent::attributes(),['accounttopup_status.id','accounttopup_status.title']);
+        return array_merge(parent::attributes(),['accounttopup_status.id','accounttopup_status.title','bank.Bank_ID','bank.Bank_Name']);
     }
     
     public function getAccounttopup_status()
     {
         return $this->hasOne(AccounttopupStatus::className(),['id' => 'Account_Action']); 
     }
-
+	public function getBank()
+    {
+        return $this->hasOne(Bank::className(),['Bank_ID' => 'Account_ChosenBank']); 
+    }
     /**
      * @inheritdoc
      */
@@ -48,6 +52,7 @@ class Accounttopup extends \yii\db\ActiveRecord
             [['Account_TopUpAmount'], 'number'],
             [['Account_TransactionDate', 'Account_TransactionNumber', 'Account_SubmitDateTime','Account_Action','Account_ActionBefore'], 'integer'],
             [['User_Username', 'Account_ChosenBank', 'Account_ReceiptPicPath','Account_InCharge'], 'string', 'max' => 255],
+			[['bank.Bank_Name'],'safe'],
         ];
     }
 
@@ -85,7 +90,7 @@ class Accounttopup extends \yii\db\ActiveRecord
 			
 		}
 		
-        $query->joinWith(['accounttopup_status' ]);
+        $query->joinWith(['accounttopup_status','bank' ]);
         //$query->joinWith(['company']);
 
         $dataProvider = new ActiveDataProvider([
@@ -96,11 +101,13 @@ class Accounttopup extends \yii\db\ActiveRecord
         
            $query->andFilterWhere([
                 'title' => $this->getAttribute('accounttopup_status.title'),
+					
             ]);
             
           $query->andFilterWhere(['like','User_Username' ,  $this->User_Username])
                 ->andFilterWhere(['like','Account_TopUpAmount' ,  $this->Account_TopUpAmount])
-                ->andFilterWhere(['like','Account_ChosenBank' ,  $this->Account_ChosenBank])
+               // ->andFilterWhere(['like','Account_ChosenBank' ,  $this->Account_ChosenBank])
+			   ->andFilterWhere(['like',Bank::tableName().'.Bank_Name' , $this->getAttribute('bank.Bank_Name')])
                 ->andFilterWhere(['like','Account_InCharge' ,  $this->Account_InCharge]);
         //var_dump($query);
         //$query->andFilterWhere(['like','cmpyName' , $this->company]);// 用来查找资料, (['方式','对应资料地方','资料来源'])

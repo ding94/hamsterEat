@@ -32,8 +32,8 @@ class WithdrawController extends \yii\web\Controller
 			// $balance = self::deductBalance($model);
 			
 			$model->action = 3;
-			//$model->inCharge = Yii::$app->user->identity->adminname;
-			$model->inCharge = Yii::$app->user->identity->id;
+			$model->inCharge = Yii::$app->user->identity->adminname;
+			//$model->inCharge = Yii::$app->user->identity->id;
 		//	var_dump($model->inCharge); exit; 
 			if($model->save(false) !== false)
 			{

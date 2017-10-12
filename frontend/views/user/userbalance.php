@@ -13,7 +13,7 @@ use yii\helpers\Url;
 		<table class="table table-user-information"><h1>User Balance</h1>
                 <tbody>
                   <tr>
-                    <td>My Balance:</td>
+                    <td>My Balance (RM):</td>
                     <td><?php echo $model['User_Balance']; ?></td>
                   </tr>
                </tbody>

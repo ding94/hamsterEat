@@ -14,6 +14,7 @@ use common\models\UserVoucher;
 use common\models\user\Userdetails;
 use common\models\Ordersstatuschange;
 use common\models\Orderitemstatuschange;
+use common\models\Restaurant;
 use common\models\Account\Accountbalance;
 use frontend\models\Deliveryman;
 use frontend\controllers\PaymentController;
@@ -24,7 +25,7 @@ use yii\helpers\ArrayHelper;
 
 class CartController extends Controller
 {
-    public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks,$rid)
+    public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks,$rid,$sessiongroup)
     {
         if (Yii::$app->user->isGuest) 
         {
@@ -33,83 +34,96 @@ class CartController extends Controller
 
         else
         {
-        $session = Yii::$app->session;
-        $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
-
-        if (empty($cart))
-        {
-            $newcart = new Orders;
-
-            $newcart->User_Username = Yii::$app->user->identity->username;
-            $newcart->Orders_Status = 'Not Placed';
-
-            $newcart->save();
+            $session = Yii::$app->session;
             $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
-        }
 
-        $orderitem = new Orderitem;
-
-        $findfood = Food::find()->where('Food_ID = :fid', [':fid'=>$Food_ID])->one();
-        $findfoodprice = $findfood['Price'];
-        $orderitem->Delivery_ID = $cart['Delivery_ID'];
-        $orderitem->Food_ID = $Food_ID;
-        $orderitem->OrderItem_Quantity = $quantity;
-        $linetotal = $findfoodprice * $quantity;
-        $orderitem->OrderItem_LineTotal = $linetotal;
-        $orderitem->OrderItem_Status = 'Not Placed';
-        $orderitem->OrderItem_Remark = $remarks;
-        $orderitem->save();
-
-        $findorderid = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$cart['Delivery_ID']])->all();
-        $oid = 0;
-        foreach ($findorderid as $orderid) :
-            if ($orderid['Order_ID'] > $oid)
+            if (empty($cart))
             {
-                $oid = $orderid['Order_ID'];
+                $newcart = new Orders;
+
+                $newcart->User_Username = Yii::$app->user->identity->username;
+                $newcart->Orders_Status = 'Not Placed';
+                $newcart->Orders_SessionGroup = $sessiongroup;
+
+                $newcart->save();
+                $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
             }
-        endforeach;
-        if ($finalselected != ''){
-        $selected = explode(',', $finalselected);
-        $selectionprice = 0;
-        $selectiontotalprice = 0;
-        foreach ($selected as $selected2) :
-            $orderitemselection = new Orderitemselection;
-            $orderitemselection->Order_ID = $oid;
-            $orderitemselection->Selection_ID = $selected2;
-            $foodtypeid = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
-            $foodtypeid = $foodtypeid['Type_ID'];
-            $orderitemselection->FoodType_ID = $foodtypeid;
-            $foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
-            $selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
-            $orderitemselection->save();
-        endforeach;
-        $selectiontotalprice = $selectiontotalprice * $quantity;
-        $linetotal = $linetotal + $selectiontotalprice;
-        $linetotalupdate = "UPDATE orderitem SET OrderItem_LineTotal = ".$linetotal.", OrderItem_SelectionTotal = ".$selectiontotalprice." WHERE Order_ID = ".$oid."";
-        Yii::$app->db->createCommand($linetotalupdate)->execute();
+
+            $orderitem = new Orderitem;
+
+            $findfood = Food::find()->where('Food_ID = :fid', [':fid'=>$Food_ID])->one();
+            $findfoodprice = $findfood['Price'];
+            $foodareagroup = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$findfood['Restaurant_ID']])->one();
+            $foodareagroup = $foodareagroup['Restaurant_AreaGroup'];
+
+            if ($foodareagroup == $cart['Orders_SessionGroup'])
+            {
+                $orderitem->Delivery_ID = $cart['Delivery_ID'];
+                $orderitem->Food_ID = $Food_ID;
+                $orderitem->OrderItem_Quantity = $quantity;
+                $linetotal = $findfoodprice * $quantity;
+                $orderitem->OrderItem_LineTotal = $linetotal;
+                $orderitem->OrderItem_Status = 'Not Placed';
+                $orderitem->OrderItem_Remark = $remarks;
+                $orderitem->save();
+
+                $findorderid = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$cart['Delivery_ID']])->all();
+                $oid = 0;
+                foreach ($findorderid as $orderid) :
+                    if ($orderid['Order_ID'] > $oid)
+                    {
+                        $oid = $orderid['Order_ID'];
+                    }
+                endforeach;
+                if ($finalselected != '')
+                {
+                    $selected = explode(',', $finalselected);
+                    $selectionprice = 0;
+                    $selectiontotalprice = 0;
+                    foreach ($selected as $selected2) :
+                        $orderitemselection = new Orderitemselection;
+                        $orderitemselection->Order_ID = $oid;
+                        $orderitemselection->Selection_ID = $selected2;
+                        $foodtypeid = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
+                        $foodtypeid = $foodtypeid['Type_ID'];
+                        $orderitemselection->FoodType_ID = $foodtypeid;
+                        $foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
+                        $selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
+                        $orderitemselection->save();
+                    endforeach;
+                    $selectiontotalprice = $selectiontotalprice * $quantity;
+                    $linetotal = $linetotal + $selectiontotalprice;
+                    $linetotalupdate = "UPDATE orderitem SET OrderItem_LineTotal = ".$linetotal.", OrderItem_SelectionTotal = ".$selectiontotalprice." WHERE Order_ID = ".$oid."";
+                    Yii::$app->db->createCommand($linetotalupdate)->execute();
+                }
+
+                $items = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$cart['Delivery_ID']])->all();
+                $i = 0;
+                $subtotal = 0;
+                while ($i < count($items))
+                {
+                    $subtotal = $items[$i]['OrderItem_LineTotal'] + $subtotal;
+                    $i = $i + 1;
+                }
+
+                $noofrestaurants = "SELECT DISTINCT food.Restaurant_ID FROM food INNER JOIN orderitem ON orderitem.Food_ID = food.Food_ID WHERE orderitem.Delivery_ID = ".$cart['Delivery_ID']."";
+                $result = Yii::$app->db->createCommand($noofrestaurants)->execute();
+                $deliverycharge = $result * 5;
+
+                $totalcharge = $deliverycharge + $subtotal;
+
+                $sql = "UPDATE orders SET Orders_SubTotal = ".$subtotal.", Orders_DeliveryCharge = ".$deliverycharge.", Orders_TotalPrice = ".$totalcharge." WHERE Delivery_ID = ".$cart['Delivery_ID']."";
+                Yii::$app->db->createCommand($sql)->execute();
+
+                Yii::$app->session->setFlash('success', 'Food item has been added to cart.');
+                return $this->redirect(['/Restaurant/default/restaurant-details', 'rid' => $rid]);
+            }
+            else
+            {
+                Yii::$app->session->setFlash('error', 'Failed to add item to cart. This item is in a different area from the item(s) in your cart. Please empty your cart to start ordering from a new area.');
+                return $this->redirect(['/Restaurant/default/restaurant-details', 'rid' => $rid]);
+            }
         }
-
-        $items = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$cart['Delivery_ID']])->all();
-        $i = 0;
-        $subtotal = 0;
-        while ($i < count($items))
-        {
-            $subtotal = $items[$i]['OrderItem_LineTotal'] + $subtotal;
-            $i = $i + 1;
-        }
-
-        $noofrestaurants = "SELECT DISTINCT food.Restaurant_ID FROM food INNER JOIN orderitem ON orderitem.Food_ID = food.Food_ID WHERE orderitem.Delivery_ID = ".$cart['Delivery_ID']."";
-        $result = Yii::$app->db->createCommand($noofrestaurants)->execute();
-        $deliverycharge = $result * 5;
-
-        $totalcharge = $deliverycharge + $subtotal;
-
-        $sql = "UPDATE orders SET Orders_SubTotal = ".$subtotal.", Orders_DeliveryCharge = ".$deliverycharge.", Orders_TotalPrice = ".$totalcharge." WHERE Delivery_ID = ".$cart['Delivery_ID']."";
-        Yii::$app->db->createCommand($sql)->execute();
-
-        Yii::$app->session->setFlash('success', 'Food item has been added to cart.');
-        return $this->redirect(['/Restaurant/default/restaurant-details', 'rid' => $rid]);
-    }
     }
 
     public function actionViewCart()
@@ -133,6 +147,11 @@ class CartController extends Controller
             if (is_null($session['area']) || is_null($session['postcode']))
             {
                 Yii::$app->session->setFlash('error', 'Checkout failed. Please provide your delivery postcode and area first.');
+                return $this->redirect(['site/index']);
+            }
+            elseif ($session['group'] != $cart['Orders_SessionGroup'])
+            {
+                Yii::$app->session->setFlash('error', 'Checkout failed. The postcode and area you entered are not the same with the item(s) in your cart. Please empty your cart to change your delivery area.');
                 return $this->redirect(['site/index']);
             }
         
@@ -256,130 +275,144 @@ class CartController extends Controller
 
                 $order = Orders::find()->where('Delivery_ID = :Delivery_ID',[':Delivery_ID' => $did])->one();
 
-            $unitno = $checkout->Orders_Location;
-            $street = $checkout->Orders_Area;
-            $paymethod = $checkout->Orders_PaymentMethod;
+                $unitno = $checkout->Orders_Location;
+                $street = $checkout->Orders_Area;
+                $paymethod = $checkout->Orders_PaymentMethod;
 
-            $location = $unitno.', '.$street;
-            $time = time();
+                $location = $unitno.', '.$street;
+                $time = time();
                 //var_dump($order);exit;
-            date_default_timezone_set("Asia/Kuala_Lumpur");
-            $setdate = date("Y-m-d");
-            $settime = "13:00:00";
+                date_default_timezone_set("Asia/Kuala_Lumpur");
+                $setdate = date("Y-m-d");
+                $settime = "13:00:00";
 
-            if ($checkout->Orders_PaymentMethod == 'Account Balance' && $userbalance->User_Balance >= $order->Orders_TotalPrice) {
-                $payment = PaymentController::Payment($did,$order);
-            } else if ($checkout->Orders_PaymentMethod == 'Account Balance' && $userbalance->User_Balance <= $order->Orders_TotalPrice) {
-                Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
-                return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
-            }
-            //$this->actionAssignDeliveryMan($did);
-
-            $voucher = Vouchers::find()->where('code = :c',[':c' => $discountcode])->one();
-
-            if (!empty($voucher))
-            {
-                $codeid = $voucher->id;
-                $valid = ValidController::DateValidCheck($codeid,1);
-            }
-            else if (empty($voucher))
-            {
-               $valid = false;
-            }
-            if ($valid == true ) 
-            {
-                $valid = ValidController::UserCheck($codeid,1);
-                $user = UserVoucher::find()->where('uid = :person and vid = :vid', [':person'=>Yii::$app->user->identity->id, ':vid'=>$voucher['id']])->one();
-                if ($user['uid'] == Yii::$app->user->identity->id)
+                if ($checkout->Orders_PaymentMethod == 'Account Balance' && $userbalance->User_Balance >= $order->Orders_TotalPrice) 
                 {
-                    // -------------detect discount item, do discount--------------------
-                    if ($voucher['discount_item'] == 7) {
-                        $dis = DiscountController::Discount($codeid,$order['Orders_Subtotal']);
-                        $order['Orders_Subtotal'] = $dis;
-                        $order['Orders_TotalPrice'] = $dis + $order['Orders_DeliveryCharge'];
-                    }
-                    elseif ($voucher['discount_item'] == 8) {
-                        $dis = DiscountController::Discount($codeid,$order['Orders_DeliveryCharge']);
-                        $order['Orders_DeliveryCharge'] = $dis;
-                        $order['Orders_TotalPrice'] = $order['Orders_Subtotal'] + $dis;
-                    }
-                    elseif ($voucher['discount_item'] == 9) {
-                        $dis = DiscountController::Discount($codeid,$order['Orders_TotalPrice']);
-                        $order['Orders_TotalPrice'] = $dis;
-                    }
-                    // --------------discount cannot become negative number ---------------
-                    if ($dis <= -1) {
-                        Yii::$app->session->setFlash('error', 'Discount exceed full price!');
-                        return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
-                    }
+                    $payment = PaymentController::Payment($did,$order);
+                } 
+                else if ($checkout->Orders_PaymentMethod == 'Account Balance' && $userbalance->User_Balance <= $order->Orders_TotalPrice) 
+                {
+                    Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
+                    return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
+                }
+                $this->actionAssignDeliveryMan($did);
 
-                    // -------------detect code or voucher, record--------------
-                    if ($voucher['discount_type'] >= 1 && $voucher['discount_type']<= 3) {
-                        $order['Orders_DiscountVoucherAmount'] = $voucher['discount'];
-                    }
-                    elseif ($voucher['discount_type'] >= 4 && $voucher['discount_type']<= 6) {
-                        $order['Orders_DiscountCodeAmount'] = $voucher['discount'];
-                    }
-                    // -----save order-------
-                    $voucher['discount_type'] += 1;
-                    $voucher['usedTimes'] += 1;
-                    
-                    //var_dump($voucher->validate());var_dump($voucher); exit;
+                $voucher = Vouchers::find()->where('code = :c',[':c' => $discountcode])->one();
 
-                    if ($order->validate() && $voucher->validate()) {
-                        $voucher->save();
-                        $order->save();
-                    }
+                if (!empty($voucher))
+                {
+                    $codeid = $voucher->id;
+                    $valid = ValidController::DateValidCheck($codeid,1);
+                }
+                else if (empty($voucher))
+                {
+                $valid = false;
+                }
+                if ($valid == true ) 
+                {
+                    $valid = ValidController::UserCheck($codeid,1);
+                    $user = UserVoucher::find()->where('uid = :person and vid = :vid', [':person'=>Yii::$app->user->identity->id, ':vid'=>$voucher['id']])->one();
+                    if ($user['uid'] == Yii::$app->user->identity->id)
+                    {
+                            // -------------detect discount item, do discount--------------------
+                        if ($voucher['discount_item'] == 7) 
+                        {
+                            $dis = DiscountController::Discount($codeid,$order['Orders_Subtotal']);
+                            $order['Orders_Subtotal'] = $dis;
+                            $order['Orders_TotalPrice'] = $dis + $order['Orders_DeliveryCharge'];
+                        }
+                        elseif ($voucher['discount_item'] == 8) 
+                        {
+                            $dis = DiscountController::Discount($codeid,$order['Orders_DeliveryCharge']);
+                            $order['Orders_DeliveryCharge'] = $dis;
+                            $order['Orders_TotalPrice'] = $order['Orders_Subtotal'] + $dis;
+                        }
+                        elseif ($voucher['discount_item'] == 9) 
+                        {
+                            $dis = DiscountController::Discount($codeid,$order['Orders_TotalPrice']);
+                            $order['Orders_TotalPrice'] = $dis;
+                        }
+                        // --------------discount cannot become negative number ---------------
+                        if ($dis <= -1) 
+                        {
+                            Yii::$app->session->setFlash('error', 'Discount exceed full price!');
+                            return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
+                        }
+
+                        // -------------detect code or voucher, record--------------
+                        if ($voucher['discount_type'] >= 1 && $voucher['discount_type']<= 3) 
+                        {
+                            $order['Orders_DiscountVoucherAmount'] = $voucher['discount'];
+                        }
+                        elseif ($voucher['discount_type'] >= 4 && $voucher['discount_type']<= 6) 
+                        {
+                            $order['Orders_DiscountCodeAmount'] = $voucher['discount'];
+                        }
+                        // -----save order-------
+                        $voucher['discount_type'] += 1;
+                        $voucher['usedTimes'] += 1;
+                        
+                        //var_dump($voucher->validate());var_dump($voucher); exit;
+
+                        if ($order->validate() && $voucher->validate()) 
+                        {
+                            $voucher->save();
+                            $order->save();
+                        }
                        
+                    }
+
                 }
 
+                $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = '".$session['postcode']."', Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = '".$time."', Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = '".$did."'";
+                Yii::$app->db->createCommand($sql)->execute();
+                $sql2 = "UPDATE orderitem SET OrderItem_Status = 'Pending' WHERE Delivery_ID = '".$did."'";
+                Yii::$app->db->createCommand($sql2)->execute();
+
+                $timedate = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
+
+                $ordersstatuschange = new Ordersstatuschange();
+
+                $ordersstatuschange->Delivery_ID = $did;
+                $ordersstatuschange->OChange_PendingDateTime = $time;
+
+                $ordersstatuschange->save();
+
+                $orderitems = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
+                foreach ($orderitems as $orderitems) :
+                    $orderitemstatuschange = new Orderitemstatuschange;
+
+                    $orderitemstatuschange->Order_ID = $orderitems['Order_ID'];
+                    $orderitemstatuschange->Change_PendingDateTime = $time;
+
+                    $orderitemstatuschange->save();
+                endforeach;
+
+                $orderitemquantity = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
+
+                foreach ($orderitemquantity as $orderitemquantity) :
+                    $quantity = $orderitemquantity['OrderItem_Quantity'];
+
+                    $foodprevbought = food::find()->where('Food_ID = :fid', [':fid'=>$orderitemquantity['Food_ID']])->one();
+                    $foodprevbought = $foodprevbought['Sales'];
+
+                    $totalbought = $quantity + $foodprevbought;
+                    $sqll = "UPDATE food SET Sales = ".$totalbought." WHERE Food_ID = ".$orderitemquantity['Food_ID']."";
+                    Yii::$app->db->createCommand($sqll)->execute();
+                endforeach;
+
+                $session = Yii::$app->session;
+                $session->close();
+
+                return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate]);
+            }
+            else
+            {
+                Yii::$app->session->setFlash('error', 'The allowed time to place order is over. Please place your order in between 8am and 11am daily.');
             }
 
-            $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = '".$session['postcode']."', Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = '".$time."', Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = '".$did."'";
-            Yii::$app->db->createCommand($sql)->execute();
-            $sql2 = "UPDATE orderitem SET OrderItem_Status = 'Pending' WHERE Delivery_ID = '".$did."'";
-            Yii::$app->db->createCommand($sql2)->execute();
-
-            $timedate = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
-
-            $ordersstatuschange = new Ordersstatuschange();
-
-            $ordersstatuschange->Delivery_ID = $did;
-            $ordersstatuschange->OChange_PendingDateTime = $time;
-
-            $ordersstatuschange->save();
-
-            $orderitems = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
-            foreach ($orderitems as $orderitems) :
-                $orderitemstatuschange = new Orderitemstatuschange;
-
-                $orderitemstatuschange->Order_ID = $orderitems['Order_ID'];
-                $orderitemstatuschange->Change_PendingDateTime = $time;
-
-                $orderitemstatuschange->save();
-            endforeach;
-
-            $orderitemquantity = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
-
-            foreach ($orderitemquantity as $orderitemquantity) :
-                $quantity = $orderitemquantity['OrderItem_Quantity'];
-
-                $foodprevbought = food::find()->where('Food_ID = :fid', [':fid'=>$orderitemquantity['Food_ID']])->one();
-                $foodprevbought = $foodprevbought['Sales'];
-
-                $totalbought = $quantity + $foodprevbought;
-                $sqll = "UPDATE food SET Sales = ".$totalbought." WHERE Food_ID = ".$orderitemquantity['Food_ID']."";
-                Yii::$app->db->createCommand($sqll)->execute();
-
-            endforeach;
             MemberpointController::addMemberpoint($order->Orders_TotalPrice,1);
             return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate]);
-        }
-        else
-        {
-            Yii::$app->session->setFlash('error', 'The allowed time to place order is over. Please place your order in between 8am and 11am daily.');
-        }
-        
         }
         return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
     }

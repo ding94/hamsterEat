@@ -55,8 +55,8 @@ class Withdraw extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'withdraw_amount', 'acc_name', 'to_bank'], 'required'],
-            [[ 'reason','accounttopup_status.title'], 'string'],
-            [['uid', 'action', 'inCharge','to_bank', 'created_at', 'updated_at'], 'integer'],
+            [[ 'reason','accounttopup_status.title', 'inCharge'], 'string'],
+            [['uid', 'action','to_bank', 'created_at', 'updated_at'], 'integer'],
             [['withdraw_amount'], 'number','min'=>1],
             [['bank_name', 'from_bank'], 'string', 'max' => 255],
 			[['bank.Bank_Name'],'safe'],

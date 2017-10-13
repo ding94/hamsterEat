@@ -22,6 +22,14 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+        <?= Alert::widget(['options'=>[
+        'class'=>'alert-info',
+        'style'=>'position:fixed;
+                    top:80px;
+                    right:25%;
+                    width:50%;
+                    z-index:5000;',
+   ],]);?>
     <?= Html::csrfMetaTags() ?>
     <!--<link rel="stylesheet" href="\frontend\web\css\font-awesome.min.css">-->
     <title><?= Html::encode($this->title) ?></title>
@@ -90,7 +98,7 @@ AppAsset::register($this);
     'items' => [
         ['label' => '<i class="glyphicon glyphicon-list-alt"></i> My Order', 'options' => ['class' => 'active'], 'items' => [
             ['label' => 'My Order','url' => Url::to(['/order/my-orders'])],
-           
+            ['label' => 'Order History','url' => Url::to(['/order/my-order-history'])],
         ]],
         ['label' =>'<i class="fa fa-money"></i> My Account','icon' => '','options' => ['class' => 'active'], 'items' => [
              ['label' => 'Account Balance', 'url' => Url::to(['/user/userbalance'])],
@@ -172,15 +180,13 @@ AppAsset::register($this);
                     <li><a href="../web/index.php?r=site/contact">Contact</a></li>
                 </ul>
 				<p>Tel. 1700-818-315</p>
-				<p>Email. cs@sgshop.com.my</p>
-				<a href="mailto:cs@sgshop.com.my" target="_blank" class="btn btn-primary">Email Us</a>
+                <a href="mailto:cs@sgshop.com.my" target="_blank">Email Us:cs@sgshop.com.my</a>
 			</div>
 			
 			<div id="Box3" class = "col-sm-3 col-xs-12">
 				<h3>Follow | Get in Touch</h3>
 				<hr>
 				 <center>
-				 <a target="_blank" href="https://twitter.com" class="btn btn-social-icon btn-twitter"><span class="fa fa-twitter"></span></a>
 				 <a target="_blank" href="https://www.facebook.com" class="btn btn-social-icon btn-facebook"><span class="fa fa-facebook"></span></a>
 				 <a target="_blank" href="https://plus.google.com" class="btn btn-social-icon btn-google"><span class="fa fa-google"></span></a>
 				 <a target="_blank" href="https://www.instagram.com" class="btn btn-social-icon btn-instagram"><span class="fa fa-instagram"></span></a>

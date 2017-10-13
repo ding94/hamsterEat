@@ -33,7 +33,6 @@ $this->title = $rname."'s"." Menu";
                   echo "</tr>";
             foreach($menu as $menu) {
               
-
                 echo "<tr>";
                  $picpath = $menu['PicPath'];
                  echo '<td>' ?> <?php echo Html::img('@web/imageLocation/foodImg/'.$picpath, ['class' => 'pull-left img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?> <?php echo "</td>";

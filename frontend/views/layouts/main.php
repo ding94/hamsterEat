@@ -23,6 +23,15 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="SysImg/Icon.png">
+        <?= Alert::widget(['options'=>[
+        'class'=>'alert-info',
+        'style'=>'position:fixed;
+                    top:80px;
+                    right:25%;
+                    width:50%;
+                    z-index:5000;',
+   ],]);?>
     <?= Html::csrfMetaTags() ?>
     <!--<link rel="stylesheet" href="\frontend\web\css\font-awesome.min.css">-->
     <title><?= Html::encode($this->title) ?></title>
@@ -124,8 +133,7 @@ AppAsset::register($this);
                     <li><a href="../web/index.php?r=site/contact">Contact</a></li>
                 </ul>
 				<p>Tel. 1700-818-315</p>
-				<p>Email. cs@sgshop.com.my</p>
-				<a href="mailto:cs@sgshop.com.my" target="_blank" class="btn btn-primary">Email Us</a>
+				<a href="mailto:cs@sgshop.com.my" target="_blank">Email Us:cs@sgshop.com.my</a>
 			</div>
 			
 			<div id="Box3" class = "col-sm-3 col-xs-12">

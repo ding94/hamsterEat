@@ -7,15 +7,13 @@
 #Footer{
     background-color:#333;
     color:#ffffff;
-    margin-top:3%;
+    margin-top:10%;
     height: 300px;
 }
 
 .page-wrap:after {
   content: "";
   display: block;
-}
-.page-wrap:after  {
   height: 300px; 
 }
 

@@ -23,6 +23,7 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="SysImg/Icon.png">
     <?= Html::csrfMetaTags() ?>
     <!--<link rel="stylesheet" href="\frontend\web\css\font-awesome.min.css">-->
     <title><?= Html::encode($this->title) ?></title>

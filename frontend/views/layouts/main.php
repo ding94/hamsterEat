@@ -118,10 +118,10 @@ AppAsset::register($this);
 				<hr>
 				<ul id="linklist" class="list-unstyled">
 					
-					<li><a href="../web/index.php?r=site/about">About Us</a></li>
+					<li><a href="site/about">About Us</a></li>
 					<li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>
-					<li><a href="../web/index.php?r=site/login">Login</a></li>
-					<li><a href="../web/index.php?r=site/ruser">Signup</a></li>
+					<li><a href="site/login">Login</a></li>
+					<li><a href="site/ruser">Signup</a></li>
 				</ul>
 				
 			</div>
@@ -130,7 +130,7 @@ AppAsset::register($this);
 				<h3>Contact Us</h3>
 				<hr>
                 <ul id="linklist" class="list-unstyled">
-                    <li><a href="../web/index.php?r=site/contact">Contact</a></li>
+                    <li><a href="site/contact">Contact</a></li>
                 </ul>
 				<p>Tel. 1700-818-315</p>
 				<a href="mailto:cs@sgshop.com.my" target="_blank">Email Us:cs@sgshop.com.my</a>

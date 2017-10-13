@@ -124,8 +124,7 @@ AppAsset::register($this);
                     <li><a href="../web/index.php?r=site/contact">Contact</a></li>
                 </ul>
 				<p>Tel. 1700-818-315</p>
-				<p>Email. cs@sgshop.com.my</p>
-				<a href="mailto:cs@sgshop.com.my" target="_blank" class="btn btn-primary">Email Us</a>
+				<a href="mailto:cs@sgshop.com.my" target="_blank">Email Us:cs@sgshop.com.my</a>
 			</div>
 			
 			<div id="Box3" class = "col-sm-3 col-xs-12">

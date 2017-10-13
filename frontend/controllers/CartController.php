@@ -295,7 +295,7 @@ class CartController extends Controller
                     Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
                     return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
                 }
-                //$this->actionAssignDeliveryMan($did);
+                $this->actionAssignDeliveryMan($did);
 
                 $voucher = Vouchers::find()->where('code = :c',[':c' => $discountcode])->one();
 

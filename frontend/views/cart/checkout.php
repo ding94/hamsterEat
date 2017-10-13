@@ -6,7 +6,7 @@ use yii\web\Session;
 $this->title = "Check Out";
 ?>
 <body  >
-    <div class="tab-content col-md-12" id="mydetails" style="margin-left:20%;">
+    <div class="tab-content" id="mydetails" style="margin-left:20%;">
         <h1> Check Out </h1>
         <br>
         <table class="table table-user-info" style="width:60%;">

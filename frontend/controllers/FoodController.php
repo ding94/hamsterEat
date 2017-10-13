@@ -57,7 +57,7 @@ class FoodController extends Controller
                     } 
                 }
             }
-            
+
             $quantity = $orderitem->OrderItem_Quantity;
             $remarks = $orderitem->OrderItem_Remark;
             $selected = $orderItemSelection->FoodType_ID;
@@ -178,30 +178,30 @@ class FoodController extends Controller
         $rname = $rname['Restaurant_Name'];
         $this->layout = 'user';
          
-         return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>$page, 'rname'=>$rname]);
+        return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>$page, 'rname'=>$rname]);
 
      }
 
     public function actionDelete($rid,$id,$page)
     {
         $status = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$id])->one();
-         if ($status['Status'] == true)
-         {
+        if ($status['Status'] == true)
+        {
             $sql = "UPDATE foodstatus SET status = false WHERE Food_ID ='$id'";
-             Yii::$app->db->createCommand($sql)->execute();
+            Yii::$app->db->createCommand($sql)->execute();
  
-             $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
-         }
-         else
+            $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+        }
+        else
         {
              $sql = "UPDATE foodstatus SET status = true WHERE Food_ID ='$id'";
              Yii::$app->db->createCommand($sql)->execute();
  
              $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
-         }
-          $rid = $rid;
+        }
+        $rid = $rid;
  
-          $this->layout = 'user';
+        $this->layout = 'user';
 
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -215,7 +215,8 @@ class FoodController extends Controller
         $foodtype =$food->foodselectiontypes;
         $foodselection = [];
       
-        if (!empty($foodtype)) {
+        if (!empty($foodtype)) 
+        {
             $foodselection = FoodselectionController::oldData($foodtype,1);
         }
 
@@ -244,7 +245,8 @@ class FoodController extends Controller
 
         $picpath = $food['PicPath'];
 
-        if (!empty($modelSelectionType)) {
+        if (!empty($modelSelectionType)) 
+        {
             $oldSelect = FoodselectionController::oldData($modelSelectionType,2);
         }
 
@@ -376,7 +378,7 @@ class FoodController extends Controller
                     if($flag)
                     {
                         $transaction->commit();
-                         Yii::$app->session->setFlash('success', "Success edit");
+                        Yii::$app->session->setFlash('success', "Success edit");
                         return $this->redirect(['food/menu', 'rid' => $food->Restaurant_ID , 'page' => 'menu']);
 
                     }

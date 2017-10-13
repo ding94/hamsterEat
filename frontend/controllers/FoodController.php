@@ -390,9 +390,11 @@ class FoodController extends Controller
     public function actionRecycleBin($rid)
     {
         $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+        $rname = restaurant::find()->where('Restaurant_ID=:id',[':id' => $rid])->one()->Restaurant_Name;
+
         $this->layout = 'user';
         
-        return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>'recyclebin']);
+        return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>'recyclebin','rname'=>$rname]);
     }
 
     public function actionDeletePermanent($rid,$id,$page)

@@ -20,13 +20,13 @@ use backend\models\Admin;
     <div class="tableHeader">
         <ul>
             <li class="hover">
-                <a href="index.php?r=ticket/submit-ticket">Create Ticket </a>
+                <a href="ticket/submit-ticket">Create Ticket </a>
             </li>
             <li>
-                <a href="index.php?r=ticket/index"> Ticket In Process</a>
+                <a href="ticket/index"> Ticket In Process</a>
             </li>
             <li>
-                <a href="index.php?r=ticket/completed">Completed</a>
+                <a href="ticket/completed">Completed</a>
             </li>
         </ul>
     </div>

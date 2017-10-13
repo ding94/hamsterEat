@@ -14,6 +14,7 @@ use common\models\UserVoucher;
 use common\models\user\Userdetails;
 use common\models\Ordersstatuschange;
 use common\models\Orderitemstatuschange;
+use common\models\Restaurant;
 use common\models\Account\Accountbalance;
 use frontend\models\Deliveryman;
 use frontend\controllers\PaymentController;
@@ -55,7 +56,7 @@ class CartController extends Controller
             $foodareagroup = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$findfood['Restaurant_ID']])->one();
             $foodareagroup = $foodareagroup['Restaurant_AreaGroup'];
 
-            if ($foodareagroup == $sessiongroup)
+            if ($foodareagroup == $cart['Orders_SessionGroup'])
             {
                 $orderitem->Delivery_ID = $cart['Delivery_ID'];
                 $orderitem->Food_ID = $Food_ID;

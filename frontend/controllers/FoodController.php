@@ -60,7 +60,7 @@ class FoodController extends Controller
             $quantity = $orderitem->OrderItem_Quantity;
             $remarks = $orderitem->OrderItem_Remark;
             $selected = $orderItemSelection->FoodType_ID;
-            $restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$id])->one();
+            $restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
             $session = Yii::$app->session;
             if (!is_null($session['group']) && $session['group'] == $restaurant['Restaurant_AreaGroup'])
             {

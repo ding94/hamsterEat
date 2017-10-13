@@ -23,6 +23,7 @@ use common\models\Bank;
 				<td id="topup" onclick="window.document.location='../web/index.php?r=topup-history/index';">Topup History</td>
 
 				<td id="withdraw">Withdraw History</td>
+				<td id="withdraw" onclick="window.document.location='../web/index.php?r=memberpointhistory/index';">Point History</td>
 			</tr>	
 		</table>
 

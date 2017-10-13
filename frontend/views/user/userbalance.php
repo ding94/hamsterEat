@@ -25,9 +25,15 @@ use yii\helpers\Url;
               // echo Html::a('Reject Reason', '#', ['id' => 'rejectreason','data-toggle' => 'modal','data-target' => '#reason-modal','class' => 'btn btn-success',]);
             //  }
               ?>
-              
-
-
+			  <br><br>
+		<table class="table table-user-information"><h1>User Point</h1>
+                <tbody>
+                  <tr>
+                    <td>My Point:</td>
+                    <td><?php echo $memberpoint['point']; ?></td>
+                  </tr>
+               </tbody>
+            </table>
 	</div>
 </div>
 

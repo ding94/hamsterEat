@@ -28,4 +28,5 @@ class MemberpointController extends Controller
 		}
 		$memberpoint->save();
 	}
+
 }

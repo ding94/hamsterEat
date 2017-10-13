@@ -57,6 +57,7 @@ class FoodController extends Controller
                     } 
                 }
             }
+            
             $quantity = $orderitem->OrderItem_Quantity;
             $remarks = $orderitem->OrderItem_Remark;
             $selected = $orderItemSelection->FoodType_ID;

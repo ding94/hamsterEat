@@ -66,7 +66,7 @@ class FoodController extends Controller
             {
                 $sessiongroup = $restaurant['Restaurant_AreaGroup'];
             }
-            elseif (!isnull($session['group']) && $session['group'] != $restaurant['Restaurant_AreaGroup'])
+            elseif (!is_null($session['group']) && $session['group'] != $restaurant['Restaurant_AreaGroup'])
             {
                 Yii::$app->session->setFlash('error', "This item is in a different area from your area. Please re-enter your area.");
                 return $this->redirect(['site/index']);

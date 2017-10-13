@@ -6,7 +6,11 @@ $this->title = $rname."'s"." Menu";
 
 <div class="container">
 	<div class="col-md-8 col-md-offset-1" id="menu">
-		<h1><?php echo $rname."'s";?> Menu</h1>
+		<?php if ($page == 'menu'){ ?>
+        <h1><?php echo $rname."'s";?> Menu</h1>
+        <?php } else { ?>
+        <h1><?php echo $rname."'s";?> Menu Recycle Bin</h1>
+        <?php } ?>
             <?php
             {   
                 echo "<br>";

@@ -56,7 +56,7 @@ $this->title = "My Cart";
         echo "<td align="."right>".CartController::actionRoundoff1decimal($cartitems['OrderItem_SelectionTotal'])."</td>";
         echo "<td align="."right>".CartController::actionRoundoff1decimal($cartitems['OrderItem_LineTotal'])."</td>";
         echo "<td><center>".$cartitems['OrderItem_Remark']."</td>";
-        echo "<td class='pull-right'>".Html::a('', ['delete','oid'=>$cartitems['Order_ID']], ['class'=>'btn btn-danger fa fa-trash'])."</td>";
+        echo "<td class='pull-right'>".Html::a('', ['delete','oid'=>$cartitems['Order_ID']], ['class'=>'btn btn-danger fa fa-trash','data-confirm'=>'Are you sure you want to remove from cart?'])."</td>";
         echo "</tr>";
       endforeach;
       $did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();

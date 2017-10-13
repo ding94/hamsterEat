@@ -17,6 +17,7 @@ use common\models\Orderitemstatuschange;
 use common\models\Account\Accountbalance;
 use frontend\models\Deliveryman;
 use frontend\controllers\PaymentController;
+use frontend\controllers\MemberpointController;
 use yii\helpers\Json;
 use frontend\modules\delivery\controllers\DailySignInController;
 use yii\helpers\ArrayHelper;
@@ -259,8 +260,8 @@ class CartController extends Controller
         {
             $timenow = Yii::$app->formatter->asTime(time());
             $early = date('08:00:00');
-            $last = date('11:00:59');
-            //$last = date('23:00:59');
+            //$last = date('11:00:59');
+            $last = date('23:00:59');
 
             if ($early <= $timenow && $last >= $timenow)
             {
@@ -409,6 +410,8 @@ class CartController extends Controller
                 Yii::$app->session->setFlash('error', 'The allowed time to place order is over. Please place your order in between 8am and 11am daily.');
             }
 
+            MemberpointController::addMemberpoint($order->Orders_TotalPrice,1);
+            return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate]);
         }
         return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
     }

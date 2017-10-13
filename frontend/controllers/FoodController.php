@@ -181,11 +181,27 @@ class FoodController extends Controller
 
      }
 
-    public function actionDelete($id)
+    public function actionDelete($rid,$id,$page)
     {
         $status = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$id])->one();
-        $status->Status = 0;
-        $status->save();
+         if ($status['Status'] == true)
+         {
+            $sql = "UPDATE foodstatus SET status = false WHERE Food_ID ='$id'";
+             Yii::$app->db->createCommand($sql)->execute();
+ 
+             $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+         }
+         else
+        {
+             $sql = "UPDATE foodstatus SET status = true WHERE Food_ID ='$id'";
+             Yii::$app->db->createCommand($sql)->execute();
+ 
+             $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+         }
+          $rid = $rid;
+ 
+          $this->layout = 'user';
+
         return $this->redirect(Yii::$app->request->referrer);
     }
 
@@ -405,6 +421,8 @@ class FoodController extends Controller
     public function actionRecycleBin($rid)
     {
         $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+        $rname = restaurant::find()->where('Restaurant_ID=:id',[':id' => $rid])->one()->Restaurant_Name;
+
         $this->layout = 'user';
         
         $rname = Restaurant::find()->where('Restaurant_ID = :id', [':id'=>$rid])->one();

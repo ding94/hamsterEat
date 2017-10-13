@@ -9,6 +9,7 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "memberpointhistory".
  *
+ * @property integer $id
  * @property integer $mpid
  * @property integer $type
  * @property string $description
@@ -38,7 +39,7 @@ class Memberpointhistory extends \yii\db\ActiveRecord
                 ],
             ],   
         ];
-    }   
+    }  
 
     /**
      * @inheritdoc
@@ -58,6 +59,7 @@ class Memberpointhistory extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            'id' => 'ID',
             'mpid' => 'Mpid',
             'type' => 'Type',
             'description' => 'Description',

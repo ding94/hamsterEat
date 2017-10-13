@@ -60,7 +60,22 @@ class FoodController extends Controller
             $quantity = $orderitem->OrderItem_Quantity;
             $remarks = $orderitem->OrderItem_Remark;
             $selected = $orderItemSelection->FoodType_ID;
-
+            $restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$id])->one();
+            $session = Yii::$app->session;
+            if (!is_null($session['group']) && $session['group'] == $restaurant['Restaurant_AreaGroup'])
+            {
+                $sessiongroup = $restaurant['Restaurant_AreaGroup'];
+            }
+            elseif (!isnull($session['group']) && $session['group'] != $restaurant['Restaurant_AreaGroup'])
+            {
+                Yii::$app->session->setFlash('error', "This item is in a different area from your area. Please re-enter your area.");
+                return $this->redirect(['site/index']);
+            }
+            else
+            {
+                Yii::$app->session->setFlash('error', "Please enter your postcode and area first before ordering.");
+                return $this->redirect(['site/index']);
+            }
             $glue = "','";
             if ($selected == !null){
             function implode_all($glue, $selected){            
@@ -74,8 +89,8 @@ class FoodController extends Controller
         } else {
             $finalselected = '';
             }
-
-            return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks, 'rid'=>$rid]);
+            
+            return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks, 'rid'=>$rid, 'sessiongroup'=>$sessiongroup]);
         }
 
         return $this->renderAjax('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);
@@ -158,8 +173,8 @@ class FoodController extends Controller
             $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
          }
 
-         $rname = restaurant::find()->where('Restaurant_ID = :id', [':id'=>$rid])->one();
-         $rname = $rname['Restaurant_Name'];
+        $rname = Restaurant::find()->where('Restaurant_ID = :id', [':id'=>$rid])->one();
+        $rname = $rname['Restaurant_Name'];
         $this->layout = 'user';
          
          return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>$page, 'rname'=>$rname]);
@@ -392,7 +407,10 @@ class FoodController extends Controller
         $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
         $this->layout = 'user';
         
-        return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>'recyclebin']);
+        $rname = Restaurant::find()->where('Restaurant_ID = :id', [':id'=>$rid])->one();
+        $rname = $rname['Restaurant_Name'];
+
+        return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>'recyclebin', 'rname'=>$rname]);
     }
 
     public function actionDeletePermanent($rid,$id,$page)

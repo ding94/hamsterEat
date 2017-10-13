@@ -116,7 +116,6 @@ class SiteController extends Controller
         
         return $this->render('index',['postcode'=>$postcode ,'list'=>$list,'postcodeArray'=>$postcodeArray,]);
 
-      
     }
 
     public function actionSearchRestaurantByArea()
@@ -131,9 +130,9 @@ class SiteController extends Controller
         $session['area'] = $area['Area_Area'];
         //var_dump($session['postcode']);exit;
         $groupArea = $groupArea['Area_Group'];
+        $session['group'] = $groupArea;
         //var_dump($groupArea);exit;
         return $this->redirect(['Restaurant/default/index','groupArea'=>$groupArea]);
-
     }
 
     /**

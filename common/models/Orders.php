@@ -5,8 +5,12 @@ namespace common\models;
 use Yii;
 use common\models\Rating\Servicerating;
 use common\models\Rating\Foodrating;
-use common\models\Food;
+use common\models\food\Food;
 use common\models\Rating\RatingStatus;
+use common\models\Orderitemstatuschange;
+use common\models\Ordersstatuschange;
+use common\models\Orderitemselection;
+use common\models\Orderitem;
 /**
  * This is the model class for table "orders".
  *
@@ -101,4 +105,29 @@ class Orders extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Food::className(),['Food_ID'=> $this->foodrating->Food_ID]);
     }
+
+    public function attributes()
+    {
+        return array_merge(parent::attributes(),['order_status.OChange_PendingDateTime']);
+    }
+
+    public function getOrder_status()
+    {
+        return $this->hasOne(Ordersstatuschange::className(),['Delivery_ID' => 'Delivery_ID']); 
+    }
+
+    public function getOrder_item()
+    {
+        return $this->hasOne(Orderitem::className(),['Delivery_ID' => 'Delivery_ID']); 
+    }
+
+    /*public function getFood_linking()
+    {
+        return $this->hasOne(Food::className(),['Food_ID' => $this->order_item->Food_ID]); 
+    }
+
+    public function getItems_status()
+    {
+        return $this->hasOne(Orderitemselection::className(),['Order_ID' => $this->order_item->Order_ID]); 
+    }*/
 }

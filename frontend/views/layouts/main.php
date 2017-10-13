@@ -24,6 +24,14 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="SysImg/Icon.png">
+        <?= Alert::widget(['options'=>[
+        'class'=>'alert-info',
+        'style'=>'position:fixed;
+                    top:80px;
+                    right:25%;
+                    width:50%;
+                    z-index:5000;',
+   ],]);?>
     <?= Html::csrfMetaTags() ?>
     <!--<link rel="stylesheet" href="\frontend\web\css\font-awesome.min.css">-->
     <title><?= Html::encode($this->title) ?></title>

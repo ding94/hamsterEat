@@ -22,6 +22,14 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+        <?= Alert::widget(['options'=>[
+        'class'=>'alert-info',
+        'style'=>'position:fixed;
+                    top:80px;
+                    right:25%;
+                    width:50%;
+                    z-index:5000;',
+   ],]);?>
     <?= Html::csrfMetaTags() ?>
     <!--<link rel="stylesheet" href="\frontend\web\css\font-awesome.min.css">-->
     <title><?= Html::encode($this->title) ?></title>
@@ -90,7 +98,7 @@ AppAsset::register($this);
     'items' => [
         ['label' => '<i class="glyphicon glyphicon-list-alt"></i> My Order', 'options' => ['class' => 'active'], 'items' => [
             ['label' => 'My Order','url' => Url::to(['/order/my-orders'])],
-           
+            ['label' => 'Order History','url' => Url::to(['/order/my-order-history'])],
         ]],
         ['label' =>'<i class="fa fa-money"></i> My Account','icon' => '','options' => ['class' => 'active'], 'items' => [
              ['label' => 'Account Balance', 'url' => Url::to(['/user/userbalance'])],

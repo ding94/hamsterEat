@@ -63,7 +63,7 @@ class DefaultController extends Controller
     public function actionRestaurantDetails($rid)
     {
         $id = restaurant::find()->where('Restaurant_ID = :id' ,[':id' => $rid])->one();
-
+        // var_dump($id);exit;
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
 
         // var_dump($staff);exit;

@@ -94,7 +94,7 @@ input[type=number]::-webkit-outer-spin-button {
                       <span>*Please Select only 1 item.</span>
                     </td>
                     <td>
-                      <?= $form->field($orderItemSelection,'FoodType_ID['.$k.']')->radioList($data)->label(false); ?>
+                      <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->radioList($data)->label(false); ?>
                     </td>
                   </tr>
               <?php } else if ($foodtype['Min'] == 0){ ?>
@@ -107,7 +107,7 @@ input[type=number]::-webkit-outer-spin-button {
                       </span>
                     </td>
                     <td>
-                      <?= $form->field($orderItemSelection,'FoodType_ID['.$k.']')->checkboxlist($data)->label(false);?>
+                      <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data)->label(false);?>
                     </td>
                   </tr>
               <?php } else { ?>
@@ -120,7 +120,7 @@ input[type=number]::-webkit-outer-spin-button {
                       </span>
                     </td>
                     <td>
-                      <?= $form->field($orderItemSelection,'FoodType_ID['.$k.']')->checkboxlist($data)->label(false);?>
+                      <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data)->label(false);?>
                     </td>
                   </tr>
               <?php } endforeach; ?>

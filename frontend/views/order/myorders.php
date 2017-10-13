@@ -16,11 +16,23 @@ $this->title = "My Orders";
                 echo "<th><center> Rate </th>";
             echo "</tr>";
         foreach ($orders as $orders) : 
-
+                if($orders['Orders_Status']== 'Pending')
+                {
+                    $label='<span class="label label-warning">'.$orders['Orders_Status'].'</span>';
+                }
+                elseif($orders['Orders_Status']== 'Preparing')
+                {
+                    $label='<span class="label label-info">'.$orders['Orders_Status'].'</span>';
+                }
+                elseif($orders['Orders_Status']== 'Completed')
+                {
+                    $label='<span class="label label-success">'.$orders['Orders_Status'].'</span>';
+                }
                 echo "<tr class='orderRow'>";
                     //echo "<a href=".yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]).">";
                     echo "<td><center><a href=".yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]).">".$orders['Delivery_ID']."</a></td>";
-                    echo "<td><center><a href=".yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]).">".$orders['Orders_Status']."</a></td>";
+                   
+                    echo "<td><center><a href=".yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]).">".$label."</a></td>";
                     date_default_timezone_set("Asia/Kuala_Lumpur");
                     echo "<td><center><a href=".yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]).">".date('d/m/Y H:i:s', $orders['Orders_DateTimeMade'])."</a></td>";
                     if ($orders['Orders_Status']!= 'Completed')

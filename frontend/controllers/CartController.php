@@ -78,6 +78,7 @@ class CartController extends Controller
                 if ($finalselected != '')
                 {
                     $selected = explode(',', $finalselected);
+                    
                     $selectionprice = 0;
                     $selectiontotalprice = 0;
                     foreach ($selected as $selected2) :

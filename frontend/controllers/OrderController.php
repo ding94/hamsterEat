@@ -13,7 +13,7 @@ class OrderController extends \yii\web\Controller
 {
     public function actionMyOrders()
     {
-        $orders = Orders::find()->where('User_Username = :uname and Orders_Status != :status and Orders_Status != :status1', [':uname'=>Yii::$app->user->identity->username, ':status'=>'Not Placed', ':status1'=>'Rating Done'])->all();
+        $orders = Orders::find()->where('User_Username = :uname and Orders_Status != :status and Orders_Status != :status1', [':uname'=>Yii::$app->user->identity->username, ':status'=>'Not Placed', ':status1'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
         $this->layout = 'user';
         return $this->render('myorders', ['orders'=>$orders]);
     }
@@ -53,7 +53,7 @@ class OrderController extends \yii\web\Controller
 
     public function actionDeliverymanOrders()
     {
-        $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status != :status and Orders_Status != :status1', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status1'=>'Rating Done'])->all();
+        $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status != :status and Orders_Status != :status1', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status1'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
 
         return $this->render('deliverymanorder', ['dman'=>$dman]);
     }
@@ -178,14 +178,14 @@ class OrderController extends \yii\web\Controller
 
     public function actionDeliverymanOrderHistory()
     {
-        $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status = :status or Orders_status = :status2', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status2'=>'Rating Done'])->all();
+        $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status = :status or Orders_status = :status2', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status2'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
 
         return $this->render('deliverymanorderhistory', ['dman'=>$dman]);
     }
 
     public function actionMyOrderHistory()
     {
-        $orders = Orders::find()->where('User_Username = :uname and Orders_Status = :status', [':uname'=>Yii::$app->user->identity->username, ':status'=>'Rating Done'])->all();
+        $orders = Orders::find()->where('User_Username = :uname and Orders_Status = :status', [':uname'=>Yii::$app->user->identity->username, ':status'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
         $this->layout = 'user';
 
         return $this->render('myordershistory', ['orders'=>$orders]);

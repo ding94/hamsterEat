@@ -118,10 +118,10 @@ AppAsset::register($this);
 				<hr>
 				<ul id="linklist" class="list-unstyled">
 					
-					<li><?php echo Html::a('About Us' ,['site/about']) ?></li>
+					<li><a href="site/about">About Us</a></li>
 					<li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>
-					<li><?php echo Html::a('Login' ,['site/login']) ?></li>
-					<li><?php echo Html::a('Signup' ,['site/ruser']) ?></li>
+					<li><a href="site/login">Login</a></li>
+					<li><a href="site/ruser">Signup</a></li>
 				</ul>
 				
 			</div>
@@ -130,13 +130,10 @@ AppAsset::register($this);
 				<h3>Contact Us</h3>
 				<hr>
                 <ul id="linklist" class="list-unstyled">
-                    <li> <?php echo Html::a('Contact' ,['site/contact']) ?></li>
+                    <li><a href="site/contact">Contact</a></li>
                 </ul>
 				<p>Tel. 1700-818-315</p>
-
-				<p>Email. support@hamsterEat.my</p>
-				<a href="mailto:support@hamsterEat.my" target="_blank" class="btn btn-primary">Email Us</a>
-
+				<a href="mailto:cs@sgshop.com.my" target="_blank">Email Us:cs@sgshop.com.my</a>
 			</div>
 			
 			<div id="Box3" class = "col-sm-3 col-xs-12">

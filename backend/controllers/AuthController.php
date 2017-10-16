@@ -8,7 +8,7 @@ use yii\helpers\ArrayHelper;
 use yii\base\Model;
 use backend\models\auth\AdminAuthItem;
 use backend\models\auth\AdminAuthItemChild;
-use backend\models\Controllerlist;
+use backend\models\ControllerList;
 use Yii;
 
 Class AuthController extends Controller
@@ -19,7 +19,7 @@ Class AuthController extends Controller
 		$searchModel = new AdminAuthItem();
 
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams , 1);
-
+		
 		return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
 	}
 
@@ -35,7 +35,6 @@ Class AuthController extends Controller
 	public function actionView($id)
 	{
 		$model = new AdminAuthItemChild();
-
 		$auth = \Yii::$app->authManager;
 
 		$verify = $auth->getPermission($id);
@@ -53,6 +52,7 @@ Class AuthController extends Controller
 		$listAvailabe =  self::groupBycontrol($available);
 
 		$listOfControl = ArrayHelper::map(ControllerList::find()->all(),'id','name');
+
 		
 		return $this->render('view' ,['model' => $model ,'listAvailabe' => $listAvailabe , 'listAll' => $notAvailable , 'controlList'=>$listOfControl,'id' => $id]);
 	}
@@ -82,15 +82,15 @@ Class AuthController extends Controller
 
 	public function actionRemoveRole($id)
 	{
-		$data= Yii::$app->request->post('AdminAuthItemChild');
-        
+		$data= Yii::$app->request->post('AuthItemChild');
+
 		$data = self::detectEmptyNull($data);
 
 		if($data == 1)
 		{
 			return $this->redirect(['view' ,'id' => $id]);
 		}
-		
+
 		$result = $this->modifyRole($id,$data,2);
 		if($result == true)
 		{
@@ -106,8 +106,8 @@ Class AuthController extends Controller
 
 	public function actionAddRole($id)
 	{
-		$data= Yii::$app->request->post('AdminAuthItemChild');
-       
+		$data= Yii::$app->request->post('AuthItemChild');
+
 		$data = self::detectEmptyNull($data);
 
 		if($data == 1)
@@ -133,15 +133,14 @@ Class AuthController extends Controller
 	{
 		if(empty($item))
 		{
-		  
 			Yii::$app->session->setFlash('warning', "Please Select One");
 			return 1;
 		}
+		
 		$data = array_filter($item['child']);	
 
 		if(empty($data))
 		{
-		   
 			Yii::$app->session->setFlash('warning', "Please Select One");
 			return 1;
 		}
@@ -155,7 +154,6 @@ Class AuthController extends Controller
 				$allchild[] = $value;
 			}
 		}
-
 
 		return $allchild;
 	}
@@ -207,7 +205,7 @@ Class AuthController extends Controller
 			$isValid = $model->validate();
 			if($isValid)
 			{
-				$data = Yii::$app->request->post('AuthItem');
+				$data = Yii::$app->request->post('AdminAuthItem');
 				$message = self::roleOrPermission($data);
 				if($message == true)
 				{

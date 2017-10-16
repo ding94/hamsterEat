@@ -21,9 +21,9 @@ use common\models\Bank;
        <table class="table table-user-information" id="display">
         <tr>
             <td id="topup">Topup History</td>	
-
             <td id="withdraw" onclick="window.document.location='../web/index.php?r=withdraw-history/index';">Withdraw History</td>
-        </tr>	
+			<td id="mp" onclick="window.document.location='../web/index.php?r=memberpointhistory/index';">Point History</td>
+	   </tr>	
     </table>	
 	
  <?= GridView::widget([

@@ -88,7 +88,7 @@ $this->title = "Manage Staff";
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
                         echo "<td><center>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td><center>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-primary'])."</td>";
+                        echo "<td><center>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to remove?'])."</td>";
                     echo "</tr>";
                 }
             }
@@ -139,7 +139,7 @@ $this->title = "Manage Staff";
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
                         echo "<td><center>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td><center>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-primary'])."</td>";
+                        echo "<td><center>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to remove?'])."</td>";
                     echo "</tr>";
                 }
             }
@@ -191,13 +191,14 @@ $this->title = "Manage Staff";
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
                         echo "<td><center>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td><center>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-primary'])."</td>";
+                        echo "<td><center>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to remove?'])."</td>";
                     echo "</tr>";
                 }
             }
         }
          ?>
     </table>
+    <?php echo Html::a('Back',['default/restaurant-details','rid'=>$rid],['class' => 'btn btn-primary']); ?>
     <br>
 
     </div>

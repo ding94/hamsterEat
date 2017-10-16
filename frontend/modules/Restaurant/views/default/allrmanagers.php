@@ -56,13 +56,14 @@ use yii\bootstrap\ActiveForm;
                 echo "<td>".Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;'])."</td>";
                 echo "<td><center>".$data['username']."</td>";
                 echo "<td><center>".$name['User_FirstName'].' '.$name['User_LastName']."</td>";
-                echo "<td><center>".Html::a('Add', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary'])."</td>";
+                echo "<td><center>".Html::a('Add', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to add?'])."</td>";
                 echo "</tr>";
             }
             
             endforeach;
             
             echo "</table>";
+            echo Html::a('Back',['default/manage-restaurant-staff','rid'=>$rid],['class' => 'btn btn-primary']);
         }
         elseif ($num == "2")
         {
@@ -103,13 +104,14 @@ use yii\bootstrap\ActiveForm;
                 echo "<td>".Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;'])."</td>";
                 echo "<td><center>".$data['username']."</td>";
                 echo "<td><center>".$name['User_FirstName'].' '.$name['User_LastName']."</td>";
-                echo "<td><center>".Html::a('Add', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary'])."</td>";
+                echo "<td><center>".Html::a('Add', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to add?'])."</td>";
                 echo "</tr>";
             }
             
             endforeach;
             
             echo "</table>";
+            echo Html::a('Back',['default/manage-restaurant-staff','rid'=>$rid],['class' => 'btn btn-primary']);
         }
         else
         {
@@ -150,13 +152,14 @@ use yii\bootstrap\ActiveForm;
                 echo "<td>".Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;'])."</td>";
                 echo "<td><center>".$data['username']."</td>";
                 echo "<td><center>".$name['User_FirstName'].' '.$name['User_LastName']."</td>";
-                echo "<td><center>".Html::a('Add', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary'])."</td>";
+                echo "<td><center>".Html::a('Add', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to add?'])."</td>";
                 echo "</tr>";
             }
             
             endforeach;
             
             echo "</table>";
+            echo Html::a('Back',['default/manage-restaurant-staff','rid'=>$rid],['class' => 'btn btn-primary']);
         }
 }
     ?>

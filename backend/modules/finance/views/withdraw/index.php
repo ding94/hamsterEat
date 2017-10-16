@@ -40,7 +40,7 @@ use backend\models\Admin;
 	            'cancel' => function($url , $model){
 						
 	                	$url = Url::to(['withdraw/cancel' ,'id'=>$model->id]) ;
-	                    return Html::a('Cancel' , $url , ['title' => 'Reject','data-confirm'=>"Confirm action?"]);
+	                    return Html::a('Reject' , $url , ['title' => 'Reject','data-confirm'=>"Confirm action?"]);
 						
 					},
 	            ]

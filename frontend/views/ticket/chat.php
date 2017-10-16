@@ -20,13 +20,13 @@ use backend\models\Admin;
     <div class="tableHeader">
         <ul>
             <li class="hover">
-                <a href="index.php?r=ticket/submit-ticket">Create Ticket </a>
+                <a href="ticket/submit-ticket">Create Ticket </a>
             </li>
             <li>
-                <a href="index.php?r=ticket/index"> Ticket In Process</a>
+                <a href="ticket/index"> Ticket In Process</a>
             </li>
             <li>
-                <a href="index.php?r=ticket/completed">Completed</a>
+                <a href="ticket/completed">Completed</a>
             </li>
         </ul>
     </div>
@@ -72,6 +72,7 @@ use backend\models\Admin;
 
         <div class="form-group">
              <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+             <?= Html::a('Back', ['/ticket/index'], ['class'=>'btn btn-primary']) ?>
         </div>
         <?php ActiveForm::end(); ?>
       <?php endif ?>

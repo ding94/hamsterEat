@@ -20,6 +20,7 @@ use common\models\user\Useraddress;
 use common\models\Account\Accountbalance;
 use common\models\Area;
 use common\models\Account\Memberpoint;
+use common\models\Object;
 use yii\helpers\ArrayHelper;
 use yii\web\Session;
 
@@ -97,42 +98,26 @@ class SiteController extends Controller
         $postcode = new Area();
         $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
         $list =array();
-        $postcode->detectArea = 0;
-        if(Yii::$app->request->isPost)
+        if($postcode->load(Yii::$app->request->post()))
         {
-            $postcode->detectArea = 1;
-            $area = Yii::$app->request->post('Area');
-            $postcode->Area_Postcode = $area['Area_Postcode'];
-           
-            $dataArea = Area::find()->where(['like','Area_Postcode' , $area['Area_Postcode']])->all();
-            $list = ArrayHelper::map($dataArea,'Area_Area' ,'Area_Area');
-            
-            if(empty($list)) {
-                $postcode->detectArea = 0;
-                Yii::$app->session->setFlash('error', 'There is no available area under that postcode.');
+            $pcode = $postcode->Area_Postcode;
+            $area = $postcode->Area_Area;
+            if ($area == null) {
+                Yii::$app->session->setFlash('error', 'Please select area to continue.');
+                return $this->refresh();
             }
-           
+            $groupArea = Area::find()->where('Area_Postcode = :area_postcode and Area_Area = :area_area',[':area_postcode'=> $pcode , ':area_area'=>$area])->one()->Area_Group;
+            $session = new Session;
+            $session->open();
+            $session['postcode'] = $pcode;
+            $session['area'] = $area;
+            $session['group'] = $groupArea;
+
+            return $this->redirect(['Restaurant/default/index','groupArea'=>$groupArea]);          
         }   
         
         return $this->render('index',['postcode'=>$postcode ,'list'=>$list,'postcodeArray'=>$postcodeArray,]);
 
-    }
-
-    public function actionSearchRestaurantByArea()
-    {
-        $area = Yii::$app->request->post('Area');
-        $groupArea = Area::find()->where('Area_Postcode = :area_postcode and Area_Area = :area_area',[':area_postcode'=> $area['Area_Postcode'] , ':area_area'=>$area['Area_Area']])->one();
-        $session = new Session;
-        $session->open();
-        $pcode = Area::find()->where('Area_Area = :area', [':area'=>$area['Area_Area']])->one();
-        $pcode = $pcode['Area_Postcode'];
-        $session['postcode'] = $pcode;
-        $session['area'] = $area['Area_Area'];
-        //var_dump($session['postcode']);exit;
-        $groupArea = $groupArea['Area_Group'];
-        $session['group'] = $groupArea;
-        //var_dump($groupArea);exit;
-        return $this->redirect(['Restaurant/default/index','groupArea'=>$groupArea]);
     }
 
     /**
@@ -465,4 +450,31 @@ class SiteController extends Controller
         }
     }
 
+    public function actionGetArea()
+    {
+    if (isset($_POST['depdrop_parents'])) {
+        $parents = $_POST['depdrop_parents'];
+        if ($parents != null) {
+            $cat_id = $parents[0];
+            $out = self::getAreaList($cat_id); 
+            echo json_encode(['output'=>$out, 'selected'=>'']);
+            return;
+        }
+    }
+    echo json_encode(['output'=>'', 'selected'=>'']);
+    }
+
+    public static function getAreaList($postcode)
+    {
+        $area = Area::find()->where(['like','Area_Postcode' , $postcode])->select(['Area_ID', 'Area_Area'])->all();
+        $areaArray = [];
+        foreach ($area as $area) {
+            $object = new Object();
+            $object->id = $area['Area_Area'];
+            $object->name = $area['Area_Area'];
+
+            $areaArray[] = $object;
+        }
+        return $areaArray;
+    }
 }

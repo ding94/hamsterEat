@@ -5,6 +5,7 @@ namespace common\models\Account;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "memberpointhistory".
@@ -67,5 +68,18 @@ class Memberpointhistory extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+	   public function search($params)
+    {
+              $query = self::find(); //自己就是table,找一找资料
+       
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+        
+     
+        return $dataProvider;
     }
 }

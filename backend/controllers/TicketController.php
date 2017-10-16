@@ -30,21 +30,17 @@ class TicketController extends Controller
     	$model = Ticket::find()->where('Ticket_ID = :id',[':id' => $id])->one();
     	$reply = new Replies;
     	$upload = new Upload;
-    	$upload->scenario = 'reply';
         $chat = Replies::find()->where('Ticket_ID = :id',[':id' => $id])->all();
         $name = User::find()->where('id = :id', [':id' => $model->User_id])->one()->username;
         foreach ($chat as $k => $chatt) {
             
             if ($chatt['Replies_ReplyBy'] == 1) {
                  $chatt['Replies_ReplyPerson'] = User::find()->where('id = :id',[':id' => $chatt['Replies_ReplyPerson']])->one()->username;
-            }
+                }
             elseif ($chatt['Replies_ReplyBy'] == 2 ) {
                 $chatt['Replies_ReplyPerson'] = Admin::find()->where('id = :id',[':id' => $chatt['Replies_ReplyPerson']])->one()->adminname . " reply";
+                }
             }
-        }
-       
-
-        
     		if (Yii::$app->request->post()) {
                 
                 $path = Yii::$app->urlManagerBackEnd->baseUrl.'/'.Yii::$app->params['replyticket'];
@@ -52,21 +48,20 @@ class TicketController extends Controller
                 $upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
                 if (!empty($upload->imageFile)) {
                     
-                    $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
+                    $imageName = time().'.'.$upload->imageFile->extension;
+                    $upload->imageFile->name = $imageName;
                     $upload->upload($path.'/');
-                    $reply->Replies_PicPath = $path.'/'.$upload->imageFile->name;
-
+                    $reply->Replies_PicPath = Yii::$app->params['replyticket'].'/'.$imageName;
+                    
                 }
-            	
-    			
+
     			$reply->load(Yii::$app->request->post());
     			$reply->Ticket_ID = $model->Ticket_ID;
     			$reply->Replies_DateTime = time();
     			$reply->Replies_ReplyBy = 2;
     			$reply->Replies_ReplyPerson = Yii::$app->user->identity->id;
-    			
     			$model->Ticket_Status = 2;
-    			
+
     			if ($reply->validate() && $model->validate()) {
     				$reply->save();
     				$model->save();

@@ -82,20 +82,3 @@ $.fn.stars = function() {
 $(function() {
     $('span.stars').stars();
 });
-
-
-/* JS function for Food Details increase and decrease buttons. */
-function increaseValue() {
-  var value = parseInt(document.getElementById('orderitem-orderitem_quantity').value, 10);
-  value = isNaN(value) ? 0 : value;
-  value++;
-  document.getElementById('orderitem-orderitem_quantity').value = value;
-}
-
-function decreaseValue() {
-  var value = parseInt(document.getElementById('orderitem-orderitem_quantity').value, 10);
-  value = isNaN(value) ? 0 : value;
-  value < 1 ? value = 1 : '';
-  value--;
-  document.getElementById('orderitem-orderitem_quantity').value = value;
-}

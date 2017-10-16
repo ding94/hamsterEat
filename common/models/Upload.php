@@ -13,7 +13,7 @@ class Upload extends Model
     public function rules()
     {
         return [
-            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'on' => ['reply']],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
             [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'on' => ['ticket']],
         ];
     }
@@ -21,7 +21,7 @@ class Upload extends Model
     {
         //default location = 'imageLocation/'
         if ($this->validate()) {
-            //var_dump($path);exit;
+            //var_dump($this);exit;
             $this->imageFile->saveAs($path.$this->imageFile->baseName.'.'.$this->imageFile->extension);
         
             return true;

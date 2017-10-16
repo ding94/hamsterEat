@@ -31,7 +31,6 @@ class TicketController extends Controller
         $data = ArrayHelper::map($type,'Category_Name','Category_Name');
         $path = Yii::$app->params['submitticket'];
         $upload = new Upload;
-        $upload->scenario = 'ticket';
 
         if (Yii::$app->request->post()) {
             
@@ -39,20 +38,29 @@ class TicketController extends Controller
 
             $upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
             if (!empty($upload)) {
-                $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
+                $imageName = time().'.'.$upload->imageFile->extension;
+                $upload->imageFile->name = $imageName;
                 $post['Ticket']['Ticket_PicPath'] = $path.'/'.$upload->imageFile->name;
-            
-                $upload->upload($path.'/');
+                
+                
             }
-            
 
+            $upload->upload($path.'/');
             $model->User_id = Yii::$app->user->identity->id;
             $model->Ticket_DateTime = time();
             $model->Ticket_Status = 1;
             $model->load($post);
-            $model->save(false);
-            Yii::$app->session->setFlash('success', 'Upload Successful');
-            return $this->redirect(['/ticket/submit-ticket']);
+
+            if ($model->validate()) {
+                $model->save();
+                Yii::$app->session->setFlash('success', 'Upload Successful');
+                return $this->redirect(['/ticket/submit-ticket']);
+            }
+            else
+            {
+                Yii::$app->session->setFlash('error', 'Upload failed');
+            }
+           
         }
         $this->layout = 'user';
         return $this->render("submitticket",['model' => $model, 'data' => $data,'upload'=>$upload]);
@@ -66,7 +74,6 @@ class TicketController extends Controller
         $ticket = Ticket::find()->where('Ticket_ID = :id ', [':id'=>$tid])->one();
         $name = User::find()->where('id = :id',[':id'=>$ticket->User_id])->one()->username;
         $upload = new Upload;
-        $upload->scenario = 'reply';
 
 
         foreach ($model as $k => $modell) {
@@ -95,7 +102,6 @@ class TicketController extends Controller
                 $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
                 $upload->upload($path.'/');
                 $reply->Replies_PicPath = $path.'/'.$upload->imageFile->name;
-
             }
 
            if ($reply->validate() && $ticket->validate()) {
@@ -108,8 +114,8 @@ class TicketController extends Controller
            {
                 Yii::$app->session->setFlash('error', 'Upload Failed, Something went wrong');
            }
-
         }
+        $this->layout = 'user';
         return $this->render('chat',['model'=>$model,'reply'=>$reply,'ticket'=>$ticket,'name'=>$name,'sid'=>$sid,'upload'=>$upload]);
     }
 

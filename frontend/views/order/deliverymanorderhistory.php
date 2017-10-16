@@ -32,7 +32,15 @@ use yii\helpers\Html;
                         echo "<td><center>".$orderdetails['User_Username']."</td>";
                         echo "<td><center>".$orderdetails['Orders_Date']."</td>";
                         echo "<td><center>".$orderdetails['Orders_Time']."</td>";
-                        echo "<td><center>".$orderdetails['Orders_Status']."</td>";
+                        if($orderdetails['Orders_Status']== 'Rating Done')
+                        {
+                            $label='<span class="label label-success">'.$orderdetails['Orders_Status'].'</span>';
+                        }
+                        elseif($orderdetails['Orders_Status']== 'Completed')
+                        {
+                            $label='<span class="label label-success">'.$orderdetails['Orders_Status'].'</span>';
+                        }
+                        echo "<td><center>".$label."</td>";
                         date_default_timezone_set("Asia/Kuala_Lumpur");
                         $timeplaced = date('d/m/Y H:i:s', $orderdetails['Orders_DateTimeMade']);
                         echo "<td><center> $timeplaced </td>";
@@ -59,7 +67,11 @@ use yii\helpers\Html;
                             echo "<td colspan = 2><center>".$restname['Restaurant_UnitNo'].', '.$restname['Restaurant_Street'].', '.$restname['Restaurant_Area'].', '.$restname['Restaurant_Postcode'].'.'."</td>";
 
                             echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";
-                            echo "<td><center>".$orderitemdetails['OrderItem_Status']."</td>";
+                            if($orderitemdetails['OrderItem_Status']== 'Picked Up')
+                            {
+                                $label='<span class="label label-info">'.$orderitemdetails['OrderItem_Status'].'</span>';
+                            }
+                            echo "<td><center>".$label."</td>";
                             if ($orderitemdetails['OrderItem_Status'] == 'Pending') :
                             {
                                 echo "<td><center> Wait for Food to be Prepared </td>";

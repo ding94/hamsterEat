@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models;
-
+use yii\data\ActiveDataProvider;
 use Yii;
 
 /**
@@ -29,7 +29,8 @@ class Bank extends \yii\db\ActiveRecord
     {
         return [
             [['Bank_Name', 'Bank_AccNo'], 'required'],
-            [['Bank_Name', 'Bank_PicPath'], 'string', 'max' => 255],
+            [['Bank_Name', 'Bank_PicPath','redirectUrl'], 'string', 'max' => 255],
+			[['status'], 'integer'],
             [['Bank_AccNo'], 'string', 'max' => 25],
         ];
     }
@@ -44,6 +45,23 @@ class Bank extends \yii\db\ActiveRecord
             'Bank_Name' => 'Bank  Name',
             'Bank_AccNo' => 'Bank  Acc No',
             'Bank_PicPath' => 'Bank  Pic Path',
+			'redirectUrl' => 'Bank URL',
+			'status' => 'Bank Status',
         ];
+    }
+	public function search($params)
+    {
+			  $query = self::find(); //自己就是table,找一找资料
+		
+		
+		
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+		
+		 
+        return $dataProvider;
     }
 }

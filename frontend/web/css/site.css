@@ -442,3 +442,7 @@ line-height: 1.45em;}
   box-shadow: 3px -3px 5px -3px black;
   border-bottom: hidden;
 }
+
+.modal-header{
+  background-color: #FFDA00;
+}

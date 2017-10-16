@@ -20,6 +20,7 @@ use common\models\user\Useraddress;
 use common\models\Account\Accountbalance;
 use common\models\Area;
 use common\models\Account\Memberpoint;
+use common\models\Object;
 use yii\helpers\ArrayHelper;
 use yii\web\Session;
 
@@ -465,4 +466,31 @@ class SiteController extends Controller
         }
     }
 
+    public function actionGetArea()
+    {
+    if (isset($_POST['depdrop_parents'])) {
+        $parents = $_POST['depdrop_parents'];
+        if ($parents != null) {
+            $cat_id = $parents[0];
+            $out = self::getAreaList($cat_id); 
+            echo json_encode(['output'=>$out, 'selected'=>'']);
+            return;
+        }
+    }
+    echo json_encode(['output'=>'', 'selected'=>'']);
+    }
+
+    public static function getAreaList($postcode)
+    {
+        $area = Area::find()->where(['like','Area_Postcode' , $postcode])->select(['Area_ID', 'Area_Area'])->all();
+        $areaArray = [];
+        foreach ($area as $area) {
+            $object = new Object();
+            $object->id = $area['Area_ID'];
+            $object->name = $area['Area_Area'];
+
+            $areaArray[] = $object;
+        }
+        return $areaArray;
+    }
 }

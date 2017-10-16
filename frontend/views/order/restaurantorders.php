@@ -79,7 +79,7 @@ use yii\helpers\Html;
                             }
                             elseif ($orderitemdetails['OrderItem_Status'] == 'Ready For Pick Up')
                             {
-                                echo "<td> Waiting for Pick Up </td>";
+                                echo "<td><span class='label label-warning'> Waiting for Pick Up </span></td>";
                             }
                         echo "</tr>";
                     endforeach;

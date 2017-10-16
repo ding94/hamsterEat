@@ -4,13 +4,16 @@
 use kartik\widgets\ActiveForm;
 use yii\helpers\Html;
 use kartik\widgets\Select2;
+use kartik\widgets\DepDrop;
+use yii\helpers\Url;
 
 $this->title = 'hamsterEat';
 ?>
 
 <body>
-<link href="css/style.css" rel="stylesheet">	
-<!--<div class="site-index">-->      
+<link href="css/style.css" rel="stylesheet">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<!--<div class="site-index">--> 
  <header class="intro-header">
  <div id="SlideShowContainer" class="container-fluid">
 		<div id="SSCrow1" class="row">
@@ -50,21 +53,24 @@ $this->title = 'hamsterEat';
       <!--  <div class="col-md-8 col-md-offset-2"> -->
         <div class="form">
         <h1>Select Your Location</h1>
-        <?php if($postcode['detectArea'] == 0) :?>
-        <?php $form = ActiveForm::begin(['id' => 'area']); ?>
-        <?php else :?>
-        <?php $form = ActiveForm::begin(['action' =>['site/search-restaurant-by-area'],'id' => 'area']); ?>
-        <?php endif ;?>
+
+        <?php $form = ActiveForm::begin(); ?>
+
         <?= $form->field($postcode, 'Area_Postcode')->widget(Select2::classname(), [
 	    'data' => $postcodeArray,
-	    'options' => ['placeholder' => 'Select a postcode ...'],
+	    'options' => ['placeholder' => 'Select a postcode ...','id'=>'postcode-select'],
 	    'pluginOptions' => [
-	        'allowClear' => true
+	        'allowClear' => true,
 	    ],
 	]); ?>
-        <?php if( $postcode['detectArea'] == 1) :?>
-        <?= $form->field($postcode, 'Area_Area')->dropDownList($list) ?>
-        <?php endif ;?>
+		<?= $form->field($postcode,'Area_Area')->widget(DepDrop::classname(), [
+			'type'=>DepDrop::TYPE_SELECT2,
+			'options' => ['id'=>'area-select'],
+			'pluginOptions'=>[
+				'depends'=>['postcode-select'],
+				'url'=>Url::to(['/site/get-area'])
+			],
+			]); ?>
         <?= Html::submitButton('Proceed', ['class' => 'btn btn-primary', 'name' => 'proceed-button']) ?>
         </div>
         <!-- </div> -->

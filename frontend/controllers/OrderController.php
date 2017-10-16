@@ -30,13 +30,33 @@ class OrderController extends \yii\web\Controller
         $time = $ordersdetails['Orders_Time'];
         $address = $ordersdetails['Orders_Location'].', '.$ordersdetails['Orders_Area'].', '.$ordersdetails['Orders_Postcode'].'.';
         $paymethod = $ordersdetails['Orders_PaymentMethod'];
-        $status = $ordersdetails['Orders_Status'];
+          if($ordersdetails['Orders_Status']== 'Pending')
+                {
+                    $label='<span class="label label-warning">'.$ordersdetails['Orders_Status'].'</span>';
+                }
+                elseif($ordersdetails['Orders_Status']== 'Preparing')
+                {
+                    $label='<span class="label label-info">'.$ordersdetails['Orders_Status'].'</span>';
+                }
+                 elseif($ordersdetails['Orders_Status']== 'Pick Up in Process')
+                {
+                    $label='<span class="label label-info">'.$ordersdetails['Orders_Status'].'</span>';
+                }
+                 elseif($ordersdetails['Orders_Status']== 'On The Way')
+                {
+                    $label='<span class="label label-info">'.$ordersdetails['Orders_Status'].'</span>';
+                }
+                elseif($ordersdetails['Orders_Status']== 'Completed')
+                {
+                    $label='<span class="label label-success">'.$ordersdetails['Orders_Status'].'</span>';
+                }
+        //$label = $ordersdetails['Orders_Status'];
         $timeplaced = $ordersdetails['Orders_DateTimeMade'];
         date_default_timezone_set("Asia/Kuala_Lumpur");
         $timeplaced = date('d/m/Y H:i:s', $timeplaced);
 
         return $this->render('orderdetails', ['ordersdetails'=>$ordersdetails, 'orderitemdetails'=>$orderitemdetails, 'did'=>$did, 'subtotal'=>$subtotal, 'deliverycharge'=>$deliverycharge, 
-                             'totalprice'=>$totalprice, 'date'=>$date, 'time'=>$time, 'address'=>$address, 'paymethod'=>$paymethod, 'status'=>$status, 'timeplaced'=>$timeplaced]);
+                             'totalprice'=>$totalprice, 'date'=>$date, 'time'=>$time, 'address'=>$address, 'paymethod'=>$paymethod, 'label'=>$label, 'timeplaced'=>$timeplaced]);
     }
 
     public function actionRestaurantOrders($rid)

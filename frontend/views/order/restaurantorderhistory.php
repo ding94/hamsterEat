@@ -17,6 +17,7 @@ use yii\helpers\Html;
         echo "<br>";
 
             foreach ($result as $result) :
+              
                 echo "<table class= table table-user-info style= width:80%;>";
                     echo "<tr>";
                         echo "<th><center> Delivery ID </th>";
@@ -29,13 +30,16 @@ use yii\helpers\Html;
                     echo "</tr>";
                     
                     $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$result['Delivery_ID']])->one();
-
+                     if($orderdetails['Orders_Status']== 'Rating Done')
+                {
+                    $label='<span class="label label-success">'.$orderdetails['Orders_Status'].'</span>';
+                }
                     echo "<tr>";
                         echo "<td><center>".$orderdetails['Delivery_ID']."</td>";
                         echo "<td><center>".$orderdetails['User_Username']."</td>";
                         echo "<td><center>".$orderdetails['Orders_Date']."</td>";
                         echo "<td><center>".$orderdetails['Orders_Time']."</td>";
-                        echo "<td><center>".$orderdetails['Orders_Status']."</td>";
+                        echo "<td><center>".$label."</td>";
                         date_default_timezone_set("Asia/Kuala_Lumpur");
                         $timeplaced = date('d/m/Y H:i:s', $orderdetails['Orders_DateTimeMade']);
                         echo "<td colspan = 2><center> $timeplaced </td>";
@@ -73,7 +77,7 @@ use yii\helpers\Html;
                             echo "</td>";
                             echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";
                             echo "<td><center>".$orderitemdetails['OrderItem_Remark']."</td>";
-                            echo "<td><center>".$orderitemdetails['OrderItem_Status']."</td>";
+                            echo "<td><center><span class='label label-info'>".$orderitemdetails['OrderItem_Status']."</span></td>";
                             if ($orderitemdetails['OrderItem_Status'] == 'Pending')
                             {
                                 echo "<td><center>".Html::a('Preparing', ['update-preparing', 'oid'=>$orderitemdetails['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary'])."</td>";

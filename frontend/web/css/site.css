@@ -455,6 +455,11 @@ line-height: 1.45em;}
   box-shadow: 3px -3px 5px -3px black;
   border-bottom: hidden;
 }
+
+.modal-header{
+  background-color: #FFDA00;
+}
+
 #withdraw-history-container #mp{
   cursor:pointer;  
   -webkit-box-shadow: inset 3px -3px 5px -3px black;

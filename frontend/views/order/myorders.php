@@ -24,6 +24,14 @@ $this->title = "My Orders";
                 {
                     $label='<span class="label label-info">'.$orders['Orders_Status'].'</span>';
                 }
+                elseif($orders['Orders_Status']== 'Pick Up in Process')
+                {
+                    $label='<span class="label label-info">'.$orders['Orders_Status'].'</span>';
+                }
+                elseif($orders['Orders_Status']== 'On The Way')
+                {
+                    $label='<span class="label label-info">'.$orders['Orders_Status'].'</span>';
+                }
                 elseif($orders['Orders_Status']== 'Completed')
                 {
                     $label='<span class="label label-success">'.$orders['Orders_Status'].'</span>';

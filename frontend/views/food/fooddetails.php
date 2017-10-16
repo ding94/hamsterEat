@@ -5,7 +5,9 @@ use common\models\food\Foodselection;
 use yii\helpers\ArrayHelper;
 use common\models\Orderitemselection;
 use frontend\controllers\CartController;
+use kartik\widgets\TouchSpin;
 $this->title = "Food Details";
+
 ?>
 <style>
 .value-button {
@@ -54,7 +56,6 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 </style>
-
 <div class="row" style="padding-bottom: 0px">
 	<div class="tab-content col-md-12" id="fooddetails">
     <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
@@ -129,9 +130,18 @@ input[type=number]::-webkit-outer-spin-button {
                   <td> </td>
             </tr>
             <tr class="bordertop"> 
-              <td><b>Order Item Quantity</b></td>
-      				<td>
-      				<?= $form->field($orderitem, 'OrderItem_Quantity',['template' => '<div class="input-group"><span class="value-button input-group-addon" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</span>{input}{error}{hint}<span class="value-button input-group-addon" id="increase" onclick="increaseValue()" value="Increase Value">+</span></div>'])->textInput(['type' => 'number', 'value' => "1",'style'=>'width:80px'])->label(false)?>
+      				<td colspan="2">
+              <?= $form->field($orderitem, 'OrderItem_Quantity')->widget(TouchSpin::classname(), [
+                  'options' => [
+                      'id'=>'orderitem-orderitem_quantity'.$fooddata->Food_ID,
+                  ],
+                  'pluginOptions' => [
+                      'buttonup_class' => 'btn btn-primary', 
+                      'buttondown_class' => 'btn btn-info', 
+                      'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>', 
+                      'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>'
+                  ],
+              ]); ?>
             </td>
             </tr>
 			

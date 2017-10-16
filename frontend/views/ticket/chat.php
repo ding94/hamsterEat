@@ -72,6 +72,7 @@ use backend\models\Admin;
 
         <div class="form-group">
              <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+             <?= Html::a('Back', ['/ticket/index'], ['class'=>'btn btn-primary']) ?>
         </div>
         <?php ActiveForm::end(); ?>
       <?php endif ?>

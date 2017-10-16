@@ -71,7 +71,9 @@ use yii\helpers\ArrayHelper;
                     </tr>
             <?php   }   ?>
         </table>
-        <div> <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'btn btn-primary']) ?></div>
+        <div class="form-group"> 
+            <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'btn btn-primary']) ?>
+        </div>
     </div>
 </div>
 </div>

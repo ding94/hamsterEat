@@ -20,7 +20,7 @@ use frontend\controllers\CartController;
                 echo "<th><center> Address </th>";
                 echo "<td><center> $address </td>";
                 echo "<th><center> Status </th>";
-                echo "<td><center> $status </td>";
+                echo "<td><center> $label </td>";
             echo "</tr>";
             echo "<tr>";
                 echo "<th><center> Receiving Date </th>";

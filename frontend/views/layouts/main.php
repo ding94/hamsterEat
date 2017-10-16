@@ -24,6 +24,14 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="SysImg/Icon.png">
+        <?= Alert::widget(['options'=>[
+        'class'=>'alert-info',
+        'style'=>'position:fixed;
+                    top:80px;
+                    right:25%;
+                    width:50%;
+                    z-index:5000;',
+   ],]);?>
     <?= Html::csrfMetaTags() ?>
     <!--<link rel="stylesheet" href="\frontend\web\css\font-awesome.min.css">-->
     <title><?= Html::encode($this->title) ?></title>
@@ -110,10 +118,10 @@ AppAsset::register($this);
 				<hr>
 				<ul id="linklist" class="list-unstyled">
 					
-					<li><a href="../web/index.php?r=site/about">About Us</a></li>
+					<li><?php echo Html::a('About Us' ,['site/about']) ?></li>
 					<li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>
-					<li><a href="../web/index.php?r=site/login">Login</a></li>
-					<li><a href="../web/index.php?r=site/ruser">Signup</a></li>
+					<li><?php echo Html::a('Login' ,['site/login']) ?></li>
+					<li><?php echo Html::a('Signup' ,['site/ruser']) ?></li>
 				</ul>
 				
 			</div>
@@ -122,10 +130,13 @@ AppAsset::register($this);
 				<h3>Contact Us</h3>
 				<hr>
                 <ul id="linklist" class="list-unstyled">
-                    <li><a href="../web/index.php?r=site/contact">Contact</a></li>
+                    <li> <?php echo Html::a('Contact' ,['site/contact']) ?></li>
                 </ul>
 				<p>Tel. 1700-818-315</p>
-				<a href="mailto:cs@sgshop.com.my" target="_blank">Email Us:cs@sgshop.com.my</a>
+
+				<p>Email. support@hamsterEat.my</p>
+				<a href="mailto:support@hamsterEat.my" target="_blank" class="btn btn-primary">Email Us</a>
+
 			</div>
 			
 			<div id="Box3" class = "col-sm-3 col-xs-12">

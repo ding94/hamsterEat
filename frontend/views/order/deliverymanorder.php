@@ -61,14 +61,30 @@ $this->title = "Delivery Orders";
                             echo "<td colspan = 2><center>".$restname['Restaurant_Area']."</td>";
 
                             echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";
-                            echo "<td><center>".$orderitemdetails['OrderItem_Status']."</td>";
+                            if($orderitemdetails['OrderItem_Status']== 'Pending')
+                            {
+                                $label='<span class="label label-warning">'.$orderitemdetails['OrderItem_Status'].'</span>';
+                            }
+                            elseif($orderitemdetails['OrderItem_Status']== 'Preparing')
+                            {
+                                $label='<span class="label label-info">'.$orderitemdetails['OrderItem_Status'].'</span>';
+                            }
+                            elseif($orderitemdetails['OrderItem_Status']== 'Ready For Pick Up')
+                            {
+                                $label='<span class="label label-info">'.$orderitemdetails['OrderItem_Status'].'</span>';
+                            }
+                            elseif($orderitemdetails['OrderItem_Status']== 'Picked Up')
+                            {
+                                $label='<span class="label label-info">'.$orderitemdetails['OrderItem_Status'].'</span>';
+                            }
+                            echo "<td><center>".$label."</td>";
                             if ($orderitemdetails['OrderItem_Status'] == 'Pending') :
                             {
-                                echo "<td><center> Wait for Food to be Prepared </td>";
+                                echo "<td><center><span class='label label-warning'> Wait for Food to be Prepared </span></td>";
                             }
                             elseif ($orderitemdetails['OrderItem_Status'] == 'Preparing') :
                             {
-                                echo "<td><center> Wait for Food to be Prepared </td>";
+                                echo "<td><center><span class='label label-warning'> Wait for Food to be Prepared </span></td>";
                             }
                             elseif ($orderitemdetails['OrderItem_Status'] == 'Ready For Pick Up') :
                             {

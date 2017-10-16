@@ -116,6 +116,7 @@ AppAsset::register($this);
           'items'=>[
                         ['label' => 'Daily Sign In' , 'url' => Url::to(['/Delivery/daily-sign-in/index'])],
                         ['label' => 'Delivery Orders' , 'url' => Url::to(['/order/deliveryman-orders'])],
+                        ['label' => 'Delivery Orders History' , 'url' => Url::to(['/order/deliveryman-order-history'])],
                     ],
              'visible'=> Yii::$app->user->can('rider'), 
         ],

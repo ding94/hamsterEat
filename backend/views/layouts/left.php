@@ -39,6 +39,12 @@
                                     ],
                         'options' => ['class' => 'active'],
                     ],
+					 [   'label' => 'Bank Controller', 'icon' => 'bank', 'url' => "#",
+                        'items' =>  [
+                                        [ 'label' => 'Bank List', 'icon' => 'circle-o', 'url' => ['/bank/index']],
+                                    ],
+                        'options' => ['class' => 'active'],
+                    ],
                     [   'label' => 'User Controller', 'icon' => 'user', 'url' => "#",
                         'items' =>  [
                                         [ 'label' => 'User List', 'icon' => 'circle-o', 'url' => ['/user/index']],

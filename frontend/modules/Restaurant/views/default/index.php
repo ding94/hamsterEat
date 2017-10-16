@@ -75,6 +75,7 @@ span.stars span {
 </style>
 <div class="container" id="index">
     <h1>Order Food for Delivery</h1>
+    <?php echo Html::a('Show by Food', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-primary']); ?>
 
     <div class="outer-container">
       <div class="menu-container">

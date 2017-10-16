@@ -13,7 +13,7 @@ use backend\models\Admin;
 use common\models\Bank;
 ?>
 
-<div class="container" id="topup-history-container">
+<div class="container" id="mp-history-container">
 	<div class="tab-content col-md-7 col-md-offset-1" >
 		
 		<h2>My Account History</h2><br>
@@ -22,7 +22,7 @@ use common\models\Bank;
         <tr>
            <td id="topup" onclick="window.document.location='../web/index.php?r=topup-history/index';">Topup History</td>
 			<td id="withdraw" onclick="window.document.location='../web/index.php?r=withdraw-history/index';">Withdraw History</td>
-			<td id="withdraw">Point History</td>
+			<td id="mp">Point History</td>
         </tr>	
     </table>	
 	

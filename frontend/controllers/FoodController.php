@@ -10,6 +10,7 @@ use common\models\food\Foodselectiontype;
 use common\models\food\Foodselection;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 use common\models\Model;
 use common\models\Orderitem;
 use common\models\Orderitemselection;
@@ -81,17 +82,13 @@ class FoodController extends Controller
                 return $this->redirect(['site/index']);
             }
             $glue = "','";
-            if ($selected == !null){
-            function implode_all($glue, $selected){            
-                for ($i=0; $i<count($selected); $i++) {
-                    if (@is_array($selected[$i])) 
-                        $selected[$i] = implode_all ($glue, $selected[$i]);
-                }         
-                return implode($glue, $selected);
+            if ($selected == !null)
+            {
+                $finalselected = JSON_encode($selected);
             }
-            $finalselected = implode_all(',', $selected);
-        } else {
-            $finalselected = '';
+            else 
+            {
+                $finalselected = '';
             }
             
             return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks, 'rid'=>$rid, 'sessiongroup'=>$sessiongroup]);

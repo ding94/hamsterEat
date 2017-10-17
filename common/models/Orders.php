@@ -51,11 +51,13 @@ class Orders extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['Orders_Location','Orders_Postcode','Orders_Area'],'required','on'=>'edit'],
             [['Orders_Subtotal', 'Orders_DeliveryCharge', 'Orders_TotalPrice', 'Orders_DiscountCodeAmount', 'Orders_DiscountVoucherAmount', 'Orders_DiscountEarlyAmount', 'Orders_DiscountTotalAmount'], 'number'],
             [['Orders_Date', 'Orders_Time'], 'safe'],
             [['Orders_Postcode', 'Orders_SessionGroup', 'Orders_DateTimeMade'], 'integer'],
             [['User_Username', 'Orders_PaymentMethod', 'Orders_Deliveryman', 'Orders_InvoiceURL'], 'string', 'max' => 255],
             [['Orders_Location', 'Orders_Area', 'Orders_Status'], 'string', 'max' => 50],
+            [['Delivery_ID'],'safe'],
         ];
     }
 

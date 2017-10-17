@@ -60,9 +60,9 @@ input[type=number]::-webkit-outer-spin-button {
 	<div class="tab-content col-md-12" id="fooddetails">
     <?php if($fooddata->foodPackage == 1) :?>
    
-       <?php $form = ActiveForm::begin(['action' => ['foodpack/add'],'id' => 'a2cart']); ?>
+      <?php $form = ActiveForm::begin(['action' => ['UserPackage/package/subscribepackage'],'id' => 'a2cart']); ?>
     <?php else :?>
-    <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
+      <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
     <?php endif ;?>
 		<table class="table-user-information" style="width:60%; margin:auto;">
 
@@ -85,7 +85,7 @@ input[type=number]::-webkit-outer-spin-button {
                   <td> <?php echo $fooddata->Description;?></td>
             </tr>
               
-     
+            <?php if($fooddata->foodPackage == 0):?>
             <?php  
               $ftids = "";
               foreach($foodtype as $k=> $foodtype) : 
@@ -149,19 +149,17 @@ input[type=number]::-webkit-outer-spin-button {
               ]); ?>
             </td>
             </tr>
-			<?php if($fooddata->foodPackage == 1):?>
-            <tr><td colspan="2"><?= Html::submitButton('Submit Food Package', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
+			      <tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
             </td> </tr> 
+            
       <?php else :?>
-          <tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
-          </td> </tr> 
+            <?= $form->field($fooddata,'Food_ID')->hiddenInput() ?>
+            <tr><td colspan="2"><?= Html::submitButton('Subscribe Food Package', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
+            </td> </tr> 
       <?php endif ;?>
-		
+		        
             </table>
             <?php ActiveForm::end(); ?>
       </div>
 </div>
 
-<script>
-
-</script>

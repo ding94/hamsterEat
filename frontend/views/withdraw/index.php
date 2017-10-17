@@ -14,7 +14,15 @@ $this->title = "Withdraw money";
 	</div>
 	<div class="tab-content col-md-6 col-md-offset-1">
 	<br><i><p>My Balance: <?php echo $balance['User_Balance']; ?></i></p>
-	<br><i><p>You can withdraw below RM<?php echo $balance['User_Balance']-2; ?>. Transfer fee RM2.</i></p><br>
+	<?php $balance['User_Balance']-2;
+		if ($balance['User_Balance'] <=0) { ?>
+			<br><i><p>You cannot withdraw if your account doesn't have RM3 or higher.</i></p><br>
+		<?php }else{ ?>
+
+			<br><i><p>You can withdraw below RM<?php echo $balance['User_Balance']-2; ?>. Transfer fee RM2.</i></p><br>
+
+		<?php } ?>
+	
     
               <?php $form = ActiveForm::begin(); ?>
 

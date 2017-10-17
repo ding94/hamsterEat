@@ -55,4 +55,19 @@ class FoodtypeAndStatusController extends Controller
 
         return $data;
     }
+
+    /*
+    * detect whether the food is food pack
+    */
+    public static function getFoodPack($data)
+    {
+        foreach($data as $type)
+        {
+            if($type->ID == 5)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

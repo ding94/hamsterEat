@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use frontend\controllers\CartController;
 use common\models\Restaurant;
+
 /**
  * This is the model class for table "food".
  *
@@ -29,6 +30,8 @@ class Food extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $foodPackage = 0;
+
     public static function tableName()
     {
         return 'food';
@@ -113,6 +116,11 @@ class Food extends \yii\db\ActiveRecord
     public function getSelectedtpye()
     {
         return $this->hasOne(Foodselectiontype::className(),['ID' => $this->foodSelection->Type_ID]);
+    }
+
+    public function getRestaurant()
+    {
+        return $this->hasOne(Restaurant::className(),['Restaurant_ID' => 'Restaurant_ID']);
     }
 
     public function getRoundprice()

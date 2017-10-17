@@ -15,8 +15,10 @@ class TopupController extends \yii\web\Controller
     {
     	$model = new Accounttopup;
     	$upload = new Upload;
-        $bank = ArrayHelper::map(Bank::find()->all(),'Bank_ID','Bank_Name');
-
+       // $bank = ArrayHelper::map(Bank::find()->all(),'Bank_ID','Bank_Name');
+	  // $bank = ArrayHelper::map(Bank::find()->all(),'Bank_ID','Bank_Name','Bank_AccNo','Bank_PicPath','redirectUrl');
+        $bank = Bank::find()->all();
+		//var_dump($bank);exit;
         $upload->scenario = 'ticket';
     	$path = Yii::$app->params['imageLocation'];
 		// $items = ArrayHelper::map(BankDetails::find()->all(), 'bank_name', 'bank_name');

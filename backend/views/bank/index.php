@@ -4,6 +4,9 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use yii\db\ActiveRecord;
+
+	$this->title = 'Bank List';
+	$this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= Html::a('Add Bank', ['/bank/addbank'], ['class'=>'btn btn-success']) ?>
 <?= GridView::widget([

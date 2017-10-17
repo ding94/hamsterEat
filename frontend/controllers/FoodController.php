@@ -29,6 +29,12 @@ class FoodController extends Controller
     {
         $fooddata = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
         
+        $foodPack = FoodtypeAndStatusController::getFoodPack($fooddata['foodType']);
+        if($foodPack)
+        {
+            $fooddata->foodPackage = 1;
+        }
+
         $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id' => $id])->orderBy(['ID' => SORT_ASC])->all();
         
         $orderItemSelection =new Orderitemselection;

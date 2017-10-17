@@ -8,13 +8,13 @@ use common\models\Bank;
 $this->title = "Top up";	
 ?>
 <style>
-.outer-container{
+.outer-container1{
   display:flex;
   align-items: center;
   justify-content:center;
 }
 
-.menu-container{
+.menu-container1{
   display: grid;
   width:1200px;
   grid-template-columns: 1fr 1fr 1fr;
@@ -27,17 +27,20 @@ $this->title = "Top up";
 .item1{
   font-size: 15px;
   color: black;
-  background-color: white;
   min-width: 200px;
   min-height: 150px;
   border: 1px solid #fff;
-  margin-bottom: 35px;
-   margin-top: 20px;
+
 }
 .item1 img{
     width:200px;
   height:80px;
 }
+
+a:hover {
+    color: #ffda00;
+}
+
 
 </style>
 
@@ -45,12 +48,12 @@ $this->title = "Top up";
 	<div class="col-lg-6 col-lg-offset-1" style="text-align:center" id="topup">
 		<h1>Offline Topup</h1>
 		<?php $form = ActiveForm::begin(); ?>
-		<div class="outer-container">
-			<div class="menu-container">
+		<div class="outer-container1">
+			<div class="menu-container1">
 				<?php foreach($bank as $k => $value):  ?>
 					<div class="item1">
 					<div class="img"><input type="radio" name="Bank_ID" value=<?php echo $value['Bank_ID']; ?> style="margin-top:15px;"><?php echo Html::img('@web/imageLocation/bank/'.$value['Bank_PicPath']) ?></div>
-						<div class="inner-item">
+						<div class="inner-item1">
 							<br><p><?php echo $value['Bank_AccNo']; ?></p>
 							<a href=" <?php echo yii\helpers\Url::to($value ['redirectUrl']); ?> " style="display:block" >Go to <?php echo $value['Bank_Name']; ?> website</a>
 						</div>

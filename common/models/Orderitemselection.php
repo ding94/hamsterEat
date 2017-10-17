@@ -1,8 +1,8 @@
 <?php
 
 namespace common\models;
-
 use Yii;
+use common\models\food\Foodselection;
 
 /**
  * This is the model class for table "orderitemselection".
@@ -44,5 +44,10 @@ class Orderitemselection extends \yii\db\ActiveRecord
             'FoodType_ID' => 'Food Type  ID',
             'Selection_ID' => 'Selection  ID',
         ];
+    }
+
+    public function getFood_selection()
+    {
+        return $this->hasOne(Foodselection::className(),['ID' => 'Selection_ID']); 
     }
 }

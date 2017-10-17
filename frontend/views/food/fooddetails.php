@@ -58,7 +58,12 @@ input[type=number]::-webkit-outer-spin-button {
 </style>
 <div class="row" style="padding-bottom: 0px">
 	<div class="tab-content col-md-12" id="fooddetails">
+    <?php if($fooddata->foodPackage == 1) :?>
+   
+       <?php $form = ActiveForm::begin(['action' => ['foodpack/add'],'id' => 'a2cart']); ?>
+    <?php else :?>
     <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
+    <?php endif ;?>
 		<table class="table-user-information" style="width:60%; margin:auto;">
 
             <tr>         
@@ -144,9 +149,14 @@ input[type=number]::-webkit-outer-spin-button {
               ]); ?>
             </td>
             </tr>
-			
-			<tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
-      </td> </tr> 
+			<?php if($fooddata->foodPackage == 1):?>
+            <tr><td colspan="2"><?= Html::submitButton('Submit Food Package', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
+            </td> </tr> 
+      <?php else :?>
+          <tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
+          </td> </tr> 
+      <?php endif ;?>
+		
             </table>
             <?php ActiveForm::end(); ?>
       </div>

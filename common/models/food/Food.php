@@ -127,9 +127,4 @@ class Food extends \yii\db\ActiveRecord
     {
         return CartController::actionRoundoff1decimal($this->BeforeMarkedUp);
     }
-
-    public function getRestaurant()
-    {
-        return $this->hasOne(Restaurant::className(),['Restaurant_ID' => 'Restaurant_ID']); 
-    }
 }

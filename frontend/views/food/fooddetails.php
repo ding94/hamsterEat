@@ -60,7 +60,7 @@ input[type=number]::-webkit-outer-spin-button {
 	<div class="tab-content col-md-12" id="fooddetails">
     <?php if($fooddata->foodPackage == 1) :?>
    
-      <?php $form = ActiveForm::begin(['action' => ['UserPackage/package/subscribepackage'],'id' => 'a2cart']); ?>
+      <?php $form = ActiveForm::begin(['action' => ['UserPackage/package/subscribepackage'],'id' => 'a2cart' ,'method' => 'get']); ?>
     <?php else :?>
       <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
     <?php endif ;?>

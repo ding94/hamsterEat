@@ -3,6 +3,8 @@
 namespace common\models\Package;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "user_package_payment".
@@ -23,13 +25,26 @@ class UserPackagePayment extends \yii\db\ActiveRecord
         return 'user_package_payment';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at','updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ], 
+        ];
+    }
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['userpid', 'paymentid', 'created_at', 'updated_at'], 'required'],
+            [['userpid', 'paymentid'], 'required'],
             [['userpid', 'paymentid', 'created_at', 'updated_at'], 'integer'],
         ];
     }

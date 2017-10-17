@@ -16,6 +16,7 @@ use yii\filters\AccessControl;
 use common\models\User;
 use common\models\AuthAssignment;
 use common\models\user\Userdetails;
+use common\models\food\Foodtype;
 
 /**
  * Default controller for the `Restaurant` module
@@ -42,7 +43,7 @@ class DefaultController extends Controller
  
                      ],
                      [
-                        'actions' => ['index','restaurant-details','food-details'],
+                        'actions' => ['index','restaurant-details','food-details','show-by-food', 'food-filter'],
                         'allow' => true,
                         'roles' => ['?','@'],
 
@@ -350,11 +351,24 @@ class DefaultController extends Controller
         return $this->redirect(['manage-restaurant-staff','rid'=>$rid]);
     }
 
-    public function actionShowByFood()
+    public function actionShowByFood($groupArea)
     {
-        
+        $restaurant = Restaurant::find()->where('Restaurant_AreaGroup = :group' ,[':group' => $groupArea])->all();
+        $types = Foodtype::find()->orderBy(['Type_Desc'=>SORT_ASC])->all();
+        $mode = 1;
+        //var_dump($types);exit;
+        return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode]);
     }
-    
+
+    public function actionFoodFilter($groupArea,$typefilter)
+    {
+        $restaurant = Restaurant::find()->where('Restaurant_AreaGroup = :group' ,[':group' => $groupArea])->all();
+        $mode = 2;
+        $types = Foodtype::find()->orderBy(['Type_Desc'=>SORT_ASC])->all();
+        $type = $typefilter;
+
+        return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'filter'=>$type]);
+    }
     public function actionViewRestaurant()
     {
 		//$uname = user::find()->where('username = :uname',[':uname' => Yii::$app->user->identity->username])->one();

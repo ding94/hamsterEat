@@ -39,6 +39,12 @@
                                     ],
                         'options' => ['class' => 'active'],
                     ],
+					 [   'label' => 'Bank Controller', 'icon' => 'bank', 'url' => "#",
+                        'items' =>  [
+                                        [ 'label' => 'Bank List', 'icon' => 'circle-o', 'url' => ['/bank/index']],
+                                    ],
+                        'options' => ['class' => 'active'],
+                    ],
                     [   'label' => 'User Controller', 'icon' => 'user', 'url' => "#",
                         'items' =>  [
                                         [ 'label' => 'User List', 'icon' => 'circle-o', 'url' => ['/user/index']],
@@ -53,6 +59,12 @@
                                     ],
                         'options' => ['class' => 'active'],
 
+                    ],
+                    [   'label' => 'Order Controller' , 'icon' => 'cog' ,'url' => '#',
+                        'items' =>  [
+                                        ['label' => 'Orders List' ,'icon' => 'circle-o' , 'url' => ['/order/default/index']],
+                                    ],
+                        'options' => ['class' => 'active'],
                     ],
                     [   'label' => 'Ticket Controller' , 'icon' => 'cog' ,'url' => '#',
                         'items' =>  [

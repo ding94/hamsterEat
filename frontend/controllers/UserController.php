@@ -6,6 +6,7 @@ use yii\helpers\ArrayHelper;
 use common\models\user\Userdetails;
 use common\models\user\Useraddress;;
 use common\models\User;
+use common\models\user\Changepassword;
 use common\models\Upload;
 use yii\web\UploadedFile;
 use common\models\Account\Accountbalance;
@@ -107,7 +108,27 @@ class UserController extends Controller
 		return $this->render('userbalance', ['model' => $model,'accounttopup' => $accounttopup,'memberpoint' =>$memberpoint]);
  	}
     
-    
+    public function actionChangepassword()
+ 	{      
+	    $model = new Changepassword;
+	 
+	     if($model->load(Yii::$app->request->post()) ){
+	 		if ($model->check()) {
+	 			 Yii::$app->session->setFlash('success', 'Successfully changed password');
+	 			    return $this->redirect(['user/changepassword']);
+	 		}
+	     
+	         
+	         else {
+	         	Yii::$app->session->setFlash('warning', 'changed password failed');
+	        }
+	      
+	    }
+	    $this->view->title = 'Change Password';
+	 	$this->layout = 'user';
+	    return $this->render('changepassword',['model'=>$model]); 
+ 	}
+
 }
 
 

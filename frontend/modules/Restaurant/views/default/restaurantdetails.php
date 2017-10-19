@@ -115,11 +115,8 @@ span.stars span {
         }
          echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive pull-left', 'style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>"; ?>
     <h1 style="font-weight: bold;margin-left: 32%;"><?php echo $id['Restaurant_Name']; ?></h1>
-      <?php $tags=explode(",",$id['Restaurant_Tag']); ?>
       <ul class="info" style="margin-left: 30%;">
-        <?php foreach ($tags as $tags) : ?>
-        <li><?php echo $tags; ?></li>
-        <?php endforeach; 
+        <?php
         if ($id['Restaurant_Pricing'] == 1){ 
                         ?>
                         <li class="none">$</li>

@@ -89,7 +89,7 @@ class DefaultController extends Controller
         ->limit($pagination->limit)
         ->all();
 
-        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood, 'staff'=>$staff,'pagination'=>$pagination]);
+        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood, 'staff'=>$staff,'pagination'=>$pagination, 'rid'=>$rid]);
     }
 
     public function actionFoodDetails($fid)

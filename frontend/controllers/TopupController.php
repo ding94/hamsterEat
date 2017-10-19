@@ -17,7 +17,7 @@ class TopupController extends \yii\web\Controller
     	$upload = new Upload;
        // $bank = ArrayHelper::map(Bank::find()->all(),'Bank_ID','Bank_Name');
 	  // $bank = ArrayHelper::map(Bank::find()->all(),'Bank_ID','Bank_Name','Bank_AccNo','Bank_PicPath','redirectUrl');
-        $bank = Bank::find()->all();
+        $bank = Bank::find()->where('status = :status',[':status' => 10])->all();
 		//var_dump($bank);exit;
         $upload->scenario = 'ticket';
     	$path = Yii::$app->params['imageLocation'];

@@ -421,6 +421,16 @@ class DefaultController extends Controller
 
         return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'filter'=>$type]);
     }
+
+    public function actionSearchFood($groupArea, $keyword)
+    {
+        $restaurant = Restaurant::find()->where('Restaurant_AreaGroup = :group' ,[':group' => $groupArea])->all();
+        $mode = 3;
+        $types = Foodtype::find()->orderBy(['Type_Desc'=>SORT_ASC])->all();
+
+        return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'keyword'=>$keyword]);
+    }
+
     public function actionViewRestaurant()
     {
 		//$uname = user::find()->where('username = :uname',[':uname' => Yii::$app->user->identity->username])->one();

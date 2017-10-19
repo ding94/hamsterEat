@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use common\models\food\Food;
 use yii\bootstrap\Modal;
+use common\models\food\Foodtype;
 $this->title = "Available Restaurants";
 
 ?>
@@ -152,6 +153,13 @@ span.stars span {
     <br>
     <br>
     <br>
+    <?php if ($mode == 2)
+    {
+        $foodtype = Foodtype::find()->where('ID = :id', [':id'=>$filter])->one();
+        echo "<h3>Filtering By ".$foodtype['Type_Desc']."</h3>";
+    }
+
+    ?>
     <div class="outer-container">
         <div class="menu-container">
         <?php foreach($restaurant as $data) : 
@@ -161,7 +169,6 @@ span.stars span {
         }
         elseif ($mode == 2)
         {
-            //var_dump($type);exit;
             $fooddata=food::find()->where('Restaurant_ID=:id and Status = :status and Type_ID = :tid', [':id' => $data['Restaurant_ID'], ':status'=> 1, ':tid'=>$filter])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
         }
                 foreach($fooddata as $fooddata) : 

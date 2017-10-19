@@ -32,7 +32,9 @@ use yii\helpers\ArrayHelper;
                  'buttons' => [
                     'img' => function($url,$model)
                     {
-                        return Html::a('Picture',Yii::$app->urlManagerFrontEnd->baseUrl.'/'.$model->Ticket_PicPath,['target'=>'_blank']); //open page in new tab
+                        if(!empty($model->Ticket_PicPath)){
+                            return Html::a('Picture',Yii::$app->urlManagerFrontEnd->baseUrl.'/'.$model->Ticket_PicPath,['target'=>'_blank']); //open page in new tab
+                        }
                     },
                 ],
             ],

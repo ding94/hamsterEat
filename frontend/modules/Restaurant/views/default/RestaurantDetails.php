@@ -82,6 +82,16 @@ span.stars, span.stars span {
 span.stars span {
     background-position: 0 0;
 }
+
+.info li{
+  float: left;
+  margin-right: 20px;
+  color: grey;
+}
+
+.restaurant-info-container{
+  margin-bottom: 150px;
+}
 </style>
 <body>
   <?php foreach($rowfood as $data):
@@ -97,13 +107,33 @@ span.stars span {
     Modal::end() ?>
   <?php endforeach; ?>
 <div class = "container">
+  <div class="restaurant-info-container">
     <?php $picpath = $id['Restaurant_RestaurantPicPath'];
 
         if (is_null($id['Restaurant_RestaurantPicPath'])){
             $picpath = "DefaultRestaurant.jpg";
         }
-         echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>"; ?>
-    <h1><center><?php echo $id['Restaurant_Name']; ?></h1>
+         echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive pull-left', 'style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>"; ?>
+    <h1 style="font-weight: bold;margin-left: 32%;"><?php echo $id['Restaurant_Name']; ?></h1>
+      <?php $tags=explode(",",$id['Restaurant_Tag']); ?>
+      <ul class="info" style="margin-left: 30%;">
+        <?php foreach ($tags as $tags) : ?>
+        <li><?php echo $tags; ?></li>
+        <?php endforeach; 
+        if ($id['Restaurant_Pricing'] == 1){ 
+                        ?>
+                        <li class="none">$</li>
+                        <?php } else if ($id['Restaurant_Pricing'] == 2){ ?>
+                        <li class= "none"> $ $ </li>
+                        <?php } else { ?>
+                        <li class= "none"> $ $ $ </li>
+                        <?php } ?>
+        <li><?php echo $id['Restaurant_UnitNo'].", ".$id['Restaurant_Street'].", ".$id['Restaurant_Area'].", ".$id['Restaurant_Postcode']; ?></li>
+      </ul>
+      <div style="margin-left: 32%; margin-top: 3%;"><span class="small-text stars">
+                        <?php echo $id['Restaurant_Rating']; ?>
+                      </span></div>
+    </div>
     <br>
     <br>
     <?php if (!Yii::$app->user->isGuest)
@@ -179,6 +209,8 @@ span.stars span {
         <?php endforeach; ?>
     </div>
     </div>
-
+    <?php echo \yii\widgets\LinkPager::widget([
+      'pagination' => $pagination,
+    ]); ?>
 </div>
 </body>

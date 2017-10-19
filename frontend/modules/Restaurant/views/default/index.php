@@ -76,10 +76,14 @@ span.stars span {
 <div class="container" id="index">
     <h1>Order Food for Delivery</h1>
     <?php echo Html::a('Show by Food', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-primary']); ?>
+    <?php echo Html::a('<li>All</li>', ['index', 'groupArea'=>$groupArea])."&nbsp;&nbsp;"; ?>
+    <?php foreach ($types as $types) :
+            echo Html::a('<li>'.$types['Type_Name'].'</li>', ['restaurant-filter', 'groupArea'=>$groupArea ,'rfilter'=>$types['ID']])."&nbsp;&nbsp;";
+          endforeach; ?>
 
     <div class="outer-container">
       <div class="menu-container">
-        <?php foreach($restaurant as $data) : ?>
+        <?php foreach($restaurant as $data) :?>
           <a href="<?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$data['Restaurant_ID']]); ?>">
             <div class="list">
               <?php $picpath = $data['Restaurant_RestaurantPicPath']; 

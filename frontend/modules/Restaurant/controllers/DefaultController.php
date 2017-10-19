@@ -60,10 +60,23 @@ class DefaultController extends Controller
     public function actionIndex($groupArea)
     {
         //$aa = Yii::$app->request->get();
-        $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->all();
+        $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->innerJoinWith('restaurantType',true)->all();
+        // var_dump($restaurant[0]['restaurantType'][0]);exit;
         $types = Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all();
+        $mode = 1;
 
-        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types]);
+        $search = new Food();
+
+        if ($search->load(Yii::$app->request->post()))
+        {
+            $mode = 3;
+            $keyword = $search->Nickname;
+            $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->andWhere(['like', 'Restaurant_Name', $keyword])->all();
+
+            return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword]);
+        }
+
+        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search]);
     }
 
     public function actionRestaurantFilter($groupArea, $rfilter)
@@ -72,14 +85,26 @@ class DefaultController extends Controller
 
         $types = Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all();
 
-        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'rfilter'=>$rfilter]);
+        $mode = 2;
+
+        $search = new Food();
+
+        if ($search->load(Yii::$app->request->post()))
+        {
+            $mode = 4;
+            $keyword = $search->Nickname;
+            $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status and Type_ID = :tid' ,[':group' => $groupArea, ':status'=>'Operating', ':tid'=>$rfilter])->andWhere(['like', 'Restaurant_Name', $keyword])->innerJoinWith('restaurantType',true)->all();
+
+            return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword, 'rfilter'=>$rfilter]);
+        }
+
+        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'rfilter'=>$rfilter, 'mode'=>$mode, 'search'=>$search]);
     }
 
     public function actionRestaurantDetails($rid)
     {
-        $id = restaurant::find()->where('Restaurant_ID = :id' ,[':id' => $rid])->one();
+        $id = restaurant::find()->where('restaurant.Restaurant_ID = :rid' ,[':rid' => $rid])->innerJoinWith('restaurantType')->one();
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
-        // $restauranttype = Restauranttypejunction::find()->where('Restaurant_ID = :id' ,[':id' => $rid])->all();
 
         $model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
         $countmodel = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true);

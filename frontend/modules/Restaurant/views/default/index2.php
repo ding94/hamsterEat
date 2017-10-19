@@ -131,7 +131,7 @@ span.stars span {
     <div class="filter container">
     <div class="input-group">
     <?php $form = ActiveForm::begin(['id' => 'form-searchfood']) ?>
-    <?= $form->field($search, 'Nickname',['addon'=>['append'=>['content'=>Html::submitButton('<i class="fa fa-search"></i>', ['class' => 'btn btn-default', 'name' => 'search-button2']),'asButton'=>true]]])->textInput(['placeholder' => "Search"])->label(''); ?>
+    <?= $form->field($search, 'Nickname',['addon'=>['append'=>['content'=>Html::submitButton('<i class="fa fa-search"></i>', ['class' => 'btn btn-default', 'name' => 'search-button2']),'asButton'=>true]]])->textInput(['placeholder' => "Search Food"])->label(''); ?>
     <?php ActiveForm::end(); ?>
     </div>
     <div class ="filter name">
@@ -152,7 +152,7 @@ span.stars span {
     <br>
     <?php if ($mode == 2)
     {
-        $foodtype = Foodtype::find()->where('ID = :id', [':id'=>$filter])->one();
+        $foodtype = Foodtype::find()->where('ID = :id', [':id'=>$rfilter])->one();
         echo "<h3>Filtering By ".$foodtype['Type_Desc']."</h3>";
     }
     elseif ($mode == 3)

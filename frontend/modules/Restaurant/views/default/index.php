@@ -116,17 +116,13 @@ span.stars span {
     <h1>Order Food for Delivery</h1>
     <div class="filter">
     <?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']); ?>
-     <div class="filter container">
+    <div class="filter container">
     <div class="input-group">
     <?php $form = ActiveForm::begin(['id' => 'form-searchrestaurant']) ?>
-    <?= $form->field($search, 'Nickname',['addon'=>['append'=>['content'=>Html::submitButton('<i class="fa fa-search"></i>', ['class' => 'btn btn-default', 'name' => 'search-button2']),'asButton'=>true]]])->textInput(['placeholder' => "Search"])->label(''); ?>
-    <div class="input-group-btn">
+    <?= $form->field($search, 'Nickname',['addon'=>['append'=>['content'=>Html::submitButton('<i class="fa fa-search"></i>', ['class' => 'btn btn-default', 'name' => 'search-button2']),'asButton'=>true]]])->textInput(['placeholder' => "Search Restaurant"])->label(''); ?>
     <?php ActiveForm::end(); ?>
- 
     </div>
-    </div>
-     <br>
-        <div class ="filter name">
+      <div class ="filter name">
         <p><i class="fa fa-sliders"> Filter By</i></p>
      </div>
     <ul class ="filter-list">

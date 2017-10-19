@@ -185,7 +185,7 @@ span.stars span {
                 <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-id="<?php echo $fooddata['Food_ID']; ?>" class="modelButton">
                 <div class="item">
                     <div class="inner-item">
-                        <span><?php echo $fooddata['Name']; ?></span>
+                        <span style="overflow: hidden; text-overflow: ellipsis; width: 100%; white-space: nowrap;"><?php echo $fooddata['Name']; ?></span>
                         <span class="small-text pull-right stars" alt="<?php echo $fooddata['Rating']; ?>"><?php echo $fooddata['Rating']; ?></span>
                         <span><p class="price"><?php echo 'RM '.$fooddata['Price']; ?></p></span>
                         <span><p class="rname"><?php echo $data['Restaurant_Name']; ?></p></span>

@@ -6,14 +6,11 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use kartik\widgets\Select2;
 
 $this->title = "Edit Restaurant's Details";
 $this->params['breadcrumbs'][] = $this->title;
-$tags = explode(",",$restaurantdetails['Restaurant_Tag']);
- foreach ($tags as $tags) :
-$tags = $tags;
-endforeach;
-$restaurantdetails->Restaurant_Tag = $tags;
+
 if (!is_null($restArea))
 {
     $restaurantdetails['Restaurant_AreaGroup']=$restArea;
@@ -52,9 +49,24 @@ if (!is_null($areachosen))
 
                 <?php echo Html::a('Edit Area', ['edit-restaurant-area', 'rid'=>$restaurantdetails['Restaurant_ID']], ['class'=>'btn btn-default']); ?> <br> <br>
 
-                <?= $form->field($restaurantdetails, 'Restaurant_Pricing')->radioList(["1"=>'Less than RM 10',"2"=>'More than RM 10', "3"=>'More Than RM 100'])->label('Average Food Prices') ?>
+                <?php echo '<label class="control-label">Type</label>';
+                        echo Select2::widget([
+                            'name' => 'Type_ID',
+                            'value' => $chosen,
+                            'data' => $type,
+                            'showToggleAll' => false,
+                            'options' => ['placeholder' => 'Select a type ...', 'multiple' => true],
+                            'pluginOptions' => [
+                                'tags' => true,
+                                'maximumInputLength' => 10,
+                                'maximumSelectionLength' => 3,
+                            ],
+                        ]);
+                ?>
+                <br>
+                <br>
 
-                <?= $form->field($restaurantdetails, 'Restaurant_Tag')->inline(true)->checkboxList(['American'=>'American', 'Asian'=>'Asian', 'Beverages'=>'Beverages', 'Chinese'=>'Chinese', 'Desserts'=>'Desserts', 'Fast Food'=>'Fast Food', 'Healthy Food'=>'Healthy Food', 'Indian'=>'Indian', 'Indonesian'=>'Indonesian', 'Italian'=>'Italian', 'Japanese'=>'Japanese', 'Korean'=>'Korean', 'Malaysian Food'=>'Malaysian Food', 'Mexican'=>'Mexican', 'Middle Eastern'=>'Middle Eastern', 'Pizza'=>'Pizza', 'Seafood'=>'Seafood', 'Sushi'=>'Sushi', 'Thai'=>'Thai', 'Vegetarian'=>'Vegetarian', 'Western'=>'Western'])->label('Restaurant Type (Select Up to 3)') ?>
+                <?= $form->field($restaurantdetails, 'Restaurant_Pricing')->radioList(["1"=>'Less than RM 10',"2"=>'More than RM 10', "3"=>'More Than RM 100'])->label('Average Food Prices') ?>
           
                 <?= $form->field($restaurantdetails, 'Restaurant_RestaurantPicPath')->fileInput()->label('Picture') ?>
 

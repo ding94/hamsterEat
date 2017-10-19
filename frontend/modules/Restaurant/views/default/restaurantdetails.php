@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\Modal;
+use common\models\Rmanagerlevel;
 $this->title = $id['Restaurant_Name'];
 ?>
 <style>
@@ -107,6 +108,7 @@ span.stars span {
     <br>
     <?php if (!Yii::$app->user->isGuest)
     {
+        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
         if (!empty($staff))
         {
             if ($staff['RmanagerLevel_Level'] == 'Owner')

@@ -75,7 +75,7 @@ span.stars span {
 </style>
 <div class="container" id="index">
     <h1>Order Food for Delivery</h1>
-    <?php echo Html::a('Show by Food', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-primary']); ?>
+    <?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']); ?>
     <?php echo Html::a('<li>All</li>', ['index', 'groupArea'=>$groupArea])."&nbsp;&nbsp;"; ?>
     <?php foreach ($types as $types) :
             echo Html::a('<li>'.$types['Type_Name'].'</li>', ['restaurant-filter', 'groupArea'=>$groupArea ,'rfilter'=>$types['ID']])."&nbsp;&nbsp;";

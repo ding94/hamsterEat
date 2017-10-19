@@ -63,8 +63,20 @@ class DefaultController extends Controller
         $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->innerJoinWith('restaurantType',true)->all();
         // var_dump($restaurant[0]['restaurantType'][0]);exit;
         $types = Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all();
+        $mode = 1;
 
-        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types]);
+        $search = new Food();
+
+        if ($search->load(Yii::$app->request->post()))
+        {
+            $mode = 3;
+            $keyword = $search->Nickname;
+            $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->andWhere(['like', 'Restaurant_Name', $keyword])->all();
+
+            return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword]);
+        }
+
+        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search]);
     }
 
     public function actionRestaurantFilter($groupArea, $rfilter)
@@ -73,7 +85,20 @@ class DefaultController extends Controller
 
         $types = Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all();
 
-        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'rfilter'=>$rfilter]);
+        $mode = 2;
+
+        $search = new Food();
+
+        if ($search->load(Yii::$app->request->post()))
+        {
+            $mode = 4;
+            $keyword = $search->Nickname;
+            $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status and Type_ID = :tid' ,[':group' => $groupArea, ':status'=>'Operating', ':tid'=>$rfilter])->andWhere(['like', 'Restaurant_Name', $keyword])->innerJoinWith('restaurantType',true)->all();
+
+            return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword, 'rfilter'=>$rfilter]);
+        }
+
+        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'rfilter'=>$rfilter, 'mode'=>$mode, 'search'=>$search]);
     }
 
     public function actionRestaurantDetails($rid)

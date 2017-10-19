@@ -1,5 +1,7 @@
 <?php
 use yii\helpers\Html;
+use common\models\Restauranttype;
+use kartik\widgets\ActiveForm;
 $this->title = "Available Restaurants";
 
 ?>
@@ -116,9 +118,10 @@ span.stars span {
     <?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']); ?>
      <div class="filter container">
     <div class="input-group">
-    <input class="form-control" type="text" name="SearchBar" value="" placeholder="Search Food Name">
+    <?php $form = ActiveForm::begin(['id' => 'form-searchrestaurant']) ?>
+    <?= $form->field($search, 'Nickname',['addon'=>['append'=>['content'=>Html::submitButton('<i class="fa fa-search"></i>', ['class' => 'btn btn-default', 'name' => 'search-button2']),'asButton'=>true]]])->textInput(['placeholder' => "Search"])->label(''); ?>
     <div class="input-group-btn">
-    <button class="btn btn-default" type="submit" name="SearchBtn"><i class="fa fa-search"></i></button>
+    <?php ActiveForm::end(); ?>
  
     </div>
     </div>
@@ -135,6 +138,21 @@ span.stars span {
           </div>
           </div>
 <br>
+    <?php if ($mode == 2)
+    {
+      $restauranttype = Restauranttype::find()->where('ID = :id', [':id'=>$rfilter])->one();
+      echo "<h3>Filtering By ".$restauranttype['Type_Name']."</h3>";
+    }
+    elseif ($mode == 3)
+    {
+      echo "<h3>Showing results similar to ".$keyword."</h3>";
+    }
+    elseif ($mode == 4)
+    {
+      $restauranttype = Restauranttype::find()->where('ID = :id', [':id'=>$rfilter])->one();
+      echo "<h3>Showing results similar to ".$keyword." with filter ".$restauranttype['Type_Name']."</h3>";
+    }
+    ?>
     <div class="outer-container">
       <div class="menu-container">
         <?php foreach($restaurant as $data) :?>

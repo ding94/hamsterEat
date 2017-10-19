@@ -8,6 +8,7 @@ use backend\models\RestaurantSearch;
 use common\models\Area;
 use common\models\User;
 use common\models\Rmanager;
+use yii\web\NotFoundHttpException;
 /**
  * Default controller for the `Restaurant` module
  */
@@ -73,7 +74,7 @@ class DefaultController extends Controller
         if ($model !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('The requested restaurant does not exist.');
         }
     }
 }

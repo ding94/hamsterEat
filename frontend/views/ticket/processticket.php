@@ -75,7 +75,11 @@ use backend\models\Admin;
                     </tr>
             <?php   }   ?>
         </table>
-        <div style="padding-left: 35%"> <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'btn btn-primary']) ?></div>
+        <div style="padding-left: 30%">
+            <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'btn btn-primary']) ?>
+            <?= Html::a('Completed Ticket', ['/ticket/completed'], ['class'=>'btn btn-primary']) ?>
+            </div>
+
     </div>
 
 </div>

@@ -132,12 +132,8 @@ span.stars span {
     <div class="input-group">
     <?php $form = ActiveForm::begin(['id' => 'form-searchfood']) ?>
     <?= $form->field($search, 'Nickname',['addon'=>['append'=>['content'=>Html::submitButton('<i class="fa fa-search"></i>', ['class' => 'btn btn-default', 'name' => 'search-button2']),'asButton'=>true]]])->textInput(['placeholder' => "Search"])->label(''); ?>
-    <div class="input-group-btn">
     <?php ActiveForm::end(); ?>
- 
     </div>
-    </div>
-       <br>
     <div class ="filter name">
         <p><i class="fa fa-sliders"> Filter By</i></p>
      </div>

@@ -5,7 +5,7 @@ $this->title = "Available Restaurants";
 ?>
 <style>
 .outer-container{
-  margin-top: 50px;
+  margin-top: 40px;
   display:flex;
   align-items: center;
   justify-content:center;
@@ -26,10 +26,11 @@ $this->title = "Available Restaurants";
   font-size: 18px;
   color: black;
   background-color: white;
-  min-width: 376px;
-  min-height: 357px;
+  min-width: 298px;
+  min-height: 298px;
  font-weight: 700;
  border: 1px solid grey;
+ 
 }
 
 .list .name{
@@ -133,7 +134,7 @@ span.stars span {
                    </ul>
           </div>
           </div>
-
+<br>
     <div class="outer-container">
       <div class="menu-container">
         <?php foreach($restaurant as $data) :?>
@@ -145,7 +146,7 @@ span.stars span {
                 }
               ?>
               <th rowspan = "5">
-                <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive','style'=>'height:240px; width:376px; margin-bottom:20px;']) ?>
+                <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive','style'=>'height:200px; width:298px; margin-bottom:20px;']) ?>
               </th>
                       <span class="name">
                         <?php echo $data['Restaurant_Name']; ?>

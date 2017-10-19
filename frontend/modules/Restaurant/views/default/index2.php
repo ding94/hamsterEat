@@ -140,8 +140,7 @@ span.stars span {
         <p><i class="fa fa-sliders"> Filter By</i></p>
      </div>
     <ul class ="filter list">
-   <?php echo Html::a('<li>All</li>', ['show-by-food', 'groupArea'=>$groupArea])."&nbsp;&nbsp;"; ?>
-    
+   <?php echo Html::a('<li>All</li>', ['show-by-food', 'groupArea'=>$groupArea])."&nbsp;&nbsp;"; ?>  
     <?php foreach ($types as $types) :
             echo Html::a('<li>'.$types['Type_Desc'].'</li>', ['food-filter', 'groupArea'=>$groupArea ,'typefilter'=>$types['ID']])."&nbsp;&nbsp;";
           endforeach; ?>

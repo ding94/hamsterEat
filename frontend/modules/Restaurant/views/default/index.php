@@ -106,11 +106,6 @@ span.stars span {
     display: table;
     border-collapse: separate;
 }
-.input-group-btn {
-    position: relative;
-    font-size: 0;
-    white-space: nowrap;
-}
 </style>
 <div class="container" id="index">
     <h1>Order Food for Delivery</h1>
@@ -162,13 +157,25 @@ span.stars span {
               <th rowspan = "5">
                 <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive','style'=>'height:200px; width:298px; margin-bottom:20px;']) ?>
               </th>
-                      <span class="name">
-                        <?php echo $data['Restaurant_Name']; ?>
-                      </span>
-                      <span class="small-text pull-right stars">
-                        <?php echo $data['Restaurant_Rating']; ?>
-                      </span>
-                      
+              <span class="name">
+                <?php echo $data['Restaurant_Name']; ?>
+              </span>
+              <span class="small-text pull-right stars">
+                <?php echo $data['Restaurant_Rating']; ?>
+              </span>
+              <ul class="tag">
+                <?php if ($data['Restaurant_Pricing'] == 1){ ?>
+                <li class="none">$</li>
+                <?php } else if ($data['Restaurant_Pricing'] == 2){ ?>
+                <li class= "none"> $ $ </li>
+                <?php } else { ?>
+                <li class= "none"> $ $ $ </li>
+                <?php } 
+                  foreach ($data['restaurantType'] as $type) :
+                ?>
+                <li><?php echo $type['Type_Name']; ?></li>
+                <?php endforeach; ?>
+              </ul>            
             </div>
           </a>
         <?php endforeach; ?>

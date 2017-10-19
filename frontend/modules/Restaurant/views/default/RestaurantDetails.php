@@ -90,6 +90,11 @@ span.stars span {
   color: grey;
 }
 
+.info li.none{
+   list-style-type: none;
+   margin-left:-20px;
+}
+
 .restaurant-info-container{
   margin-bottom: 150px;
 }
@@ -127,20 +132,19 @@ span.stars span {
          echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive pull-left', 'style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>"; ?>
     <h1 style="font-weight: bold;margin-left: 32%;"><?php echo $id['Restaurant_Name']; ?><span class="pull-right"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'btn btn-primary','id' => 'reportModalButton']) ?></span></h1>
       <ul class="info" style="margin-left: 30%;">
-        <?php foreach ($id['restaurantType'] as $type): ?>
-          <li>
-            <?php echo $type['Type_Name'] ?>
-          </li>
-        <?php 
-          endforeach;
-        if ($id['Restaurant_Pricing'] == 1){ 
-                        ?>
-                        <li class="none">$</li>
-                        <?php } else if ($id['Restaurant_Pricing'] == 2){ ?>
-                        <li class= "none"> $ $ </li>
-                        <?php } else { ?>
-                        <li class= "none"> $ $ $ </li>
-                        <?php } ?>
+        <?php if ($id['Restaurant_Pricing'] == 1){ ?>
+        <li class="none">$</li>
+        <?php } else if ($id['Restaurant_Pricing'] == 2){ ?>
+        <li class= "none"> $ $ </li>
+        <?php } else { ?>
+        <li class= "none"> $ $ $ </li>
+        <?php } 
+          foreach ($id['restaurantType'] as $type):
+        ?>
+        <li>
+          <?php echo $type['Type_Name'] ?>
+        </li>
+        <?php endforeach; ?>
         <li><?php echo $id['Restaurant_UnitNo'].", ".$id['Restaurant_Street'].", ".$id['Restaurant_Area'].", ".$id['Restaurant_Postcode']; ?></li>
       </ul>
       <div style="margin-left: 32%; margin-top: 3%;"><span class="small-text stars">

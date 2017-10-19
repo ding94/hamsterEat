@@ -67,10 +67,12 @@ use yii\helpers\Url;
                   <td>Address 3:</td>
                <td> <?php echo $user->useraddress->User_HouseNo3,$user->useraddress->User_Street3,$user->useraddress->User_Area3,$user->useraddress->User_Postcode3	?></td>
                </tr>
-                  <tr>
+                <tr>
                  <td> <?= Html::a('Edit', ['/user/userdetails'], ['class'=>'btn btn-primary']) ?> </td>
+                 <?php if($user->username != Yii::$app->user->identity->username){ ?>
                  <td> <?= Html::a('Report', Url::to(['/report/report-user' ,'name'=>$user->username]), ['class'=>'btn btn-primary','id' => 'reportModalButton']) ?></td>
-                    </tr>
+                 <?php }?>
+                </tr>
                 
                    
             </table>

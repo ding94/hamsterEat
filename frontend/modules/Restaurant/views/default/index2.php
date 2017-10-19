@@ -97,15 +97,15 @@ span.stars span {
 }
 .filter.list{
     list-style: none;
-    font-size:12px;
+    font-size:13px;
     letter-spacing: .5px;
     line-height:80%;
-    padding-left:11px;
+    padding-left:28px;
 }
 .filter.name p{
     margin-left:11px;
     letter-spacing: .5px;
-    font-size:13px;
+    font-size:15px;
 }
 .filter.list a:hover{
      text-decoration:none;
@@ -125,7 +125,7 @@ span.stars span {
     <h1>Order Food for Delivery</h1>
     <div class="filter">
    
-    <?php echo Html::a('Show by Restaurant', ['index', 'groupArea'=>$groupArea], ['class'=>'btn btn-primary']);?>
+    <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']);?>
     <div class="filter container">
     <div class="input-group">
     <input class="form-control" type="text" name="SearchBar" value="" placeholder="Search Food Name">
@@ -136,7 +136,7 @@ span.stars span {
     </div>
        <br>
     <div class ="filter name">
-        <p>Filter By</p>
+        <p><i class="fa fa-sliders"> Filter By</i></p>
      </div>
     <ul class ="filter list">
    <?php echo Html::a('<li>All</li>', ['show-by-food', 'groupArea'=>$groupArea])."&nbsp;&nbsp;"; ?>

@@ -47,7 +47,7 @@ class DefaultController extends Controller
  
                      ],
                      [
-                        'actions' => ['index','restaurant-details','food-details','show-by-food', 'food-filter'],
+                        'actions' => ['index','restaurant-details','food-details','show-by-food', 'food-filter', 'restaurant-filter'],
                         'allow' => true,
                         'roles' => ['?','@'],
 
@@ -60,9 +60,19 @@ class DefaultController extends Controller
     public function actionIndex($groupArea)
     {
         //$aa = Yii::$app->request->get();
-        $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group' ,[':group' => $groupArea])->all();
+        $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->all();
+        $types = Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all();
 
-        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea]);
+        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types]);
+    }
+
+    public function actionRestaurantFilter($groupArea, $rfilter)
+    {
+        $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status and Type_ID = :tid' ,[':group' => $groupArea, ':status'=>'Operating', ':tid'=>$rfilter])->innerJoinWith('restaurantType',true)->all();
+
+        $types = Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all();
+
+        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'rfilter'=>$rfilter]);
     }
 
     public function actionRestaurantDetails($rid)

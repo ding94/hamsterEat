@@ -125,7 +125,6 @@ span.stars span {
             $picpath = "DefaultRestaurant.jpg";
         }
          echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive pull-left', 'style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>"; ?>
-<<<<<<< HEAD
     <h1 style="font-weight: bold;margin-left: 32%;"><?php echo $id['Restaurant_Name']; ?><span class="pull-right"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'btn btn-primary','id' => 'reportModalButton']) ?></span></h1>
       <ul class="info" style="margin-left: 30%;">
         <?php 

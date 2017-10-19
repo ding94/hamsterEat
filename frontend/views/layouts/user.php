@@ -22,8 +22,8 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <link rel="shortcut icon" type="image/png" href="SysImg/Icon.png">
         <?= Alert::widget(['options'=>[
-        'class'=>'alert-info',
         'style'=>'position:fixed;
                     top:80px;
                     right:25%;
@@ -107,6 +107,7 @@ AppAsset::register($this);
         ]],
          ['label' => '<i class="glyphicon glyphicon-cog"></i> Member Settings','options' => ['class' => 'active'], 'items' => [
             ['label' => 'User Profile', 'url' => Url::to(['/user/user-profile'])],
+            ['label' => 'Change Password', 'url' => Url::to(['/user/changepassword'])],
             ['label' => 'Discount Codes', 'url' => Url::to(['/vouchers/index'])],
         ]],
         ['label' => '<i class="fa fa-comments"></i> Customer Service', 'options' => ['class' => 'active'], 'items' => [

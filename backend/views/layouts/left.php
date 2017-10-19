@@ -60,6 +60,12 @@
                         'options' => ['class' => 'active'],
 
                     ],
+                    [   'label' => 'Order Controller' , 'icon' => 'cog' ,'url' => '#',
+                        'items' =>  [
+                                        ['label' => 'Orders List' ,'icon' => 'circle-o' , 'url' => ['/order/default/index']],
+                                    ],
+                        'options' => ['class' => 'active'],
+                    ],
                     [   'label' => 'Ticket Controller' , 'icon' => 'cog' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Ticket List' ,'icon' => 'circle-o' , 'url' => ['/ticket/index']],

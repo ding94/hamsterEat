@@ -83,14 +83,72 @@ span.stars, span.stars span {
 span.stars span {
     background-position: 0 0;
 }
+.filter{
+    height:auto;
+    width:230px;
+    float:left;
+   margin-left:-10px;
+}
+.filter.container{
+     border: 1px solid #e5e5e5;
+    padding: 20px;
+    margin-top:26px;
+    
+}
+.filter.list{
+    list-style: none;
+    font-size:12px;
+    letter-spacing: .5px;
+    line-height:80%;
+    padding-left:11px;
+}
+.filter.name p{
+    margin-left:11px;
+    letter-spacing: .5px;
+    font-size:13px;
+}
+.filter.list a:hover{
+     text-decoration:none;
+}
+.input-group{
+        position: relative;
+    display: table;
+    border-collapse: separate;
+}
+.input-group-btn {
+    position: relative;
+    font-size: 0;
+    white-space: nowrap;
+}
 </style>
 <div class="container" id="index">
     <h1>Order Food for Delivery</h1>
-    <?php echo Html::a('Show by Restaurant', ['index', 'groupArea'=>$groupArea], ['class'=>'btn btn-primary']);
-    echo Html::a('All', ['show-by-food', 'groupArea'=>$groupArea])."&nbsp;&nbsp;"; ?>
+    <div class="filter">
+   
+    <?php echo Html::a('Show by Restaurant', ['index', 'groupArea'=>$groupArea], ['class'=>'btn btn-primary']);?>
+    <div class="filter container">
+    <div class="input-group">
+    <input class="form-control" type="text" name="SearchBar" value="" placeholder="Search Food Name">
+    <div class="input-group-btn">
+    <button class="btn btn-default" type="submit" name="SearchBtn"><i class="fa fa-search"></i></button>
+ 
+    </div>
+    </div>
+       <br>
+    <div class ="filter name">
+        <p>Filter By</p>
+     </div>
+    <ul class ="filter list">
+   <?php echo Html::a('<li>All</li>', ['show-by-food', 'groupArea'=>$groupArea])."&nbsp;&nbsp;"; ?>
+    
     <?php foreach ($types as $types) :
-            echo Html::a($types['Type_Desc'], ['food-filter', 'groupArea'=>$groupArea ,'typefilter'=>$types['ID']])."&nbsp;&nbsp;";
+            echo Html::a('<li>'.$types['Type_Desc'].'</li>', ['food-filter', 'groupArea'=>$groupArea ,'typefilter'=>$types['ID']])."&nbsp;&nbsp;";
           endforeach; ?>
+          </ul>
+          
+         
+          </div>
+          </div>
     <br>
     <br>
     <br>

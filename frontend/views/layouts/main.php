@@ -25,7 +25,6 @@ AppAsset::register($this);
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="SysImg/Icon.png">
         <?= Alert::widget(['options'=>[
-        'class'=>'alert-info',
         'style'=>'position:fixed;
                     top:80px;
                     right:25%;

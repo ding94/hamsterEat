@@ -17,6 +17,9 @@ return [
         'Delivery' => [
             'class' => 'frontend\modules\delivery\delivery',
         ],
+        'UserPackage' => [
+            'class' => 'frontend\modules\UserPackage\Package',
+        ],
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [

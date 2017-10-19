@@ -58,7 +58,12 @@ input[type=number]::-webkit-outer-spin-button {
 </style>
 <div class="row" style="padding-bottom: 0px">
 	<div class="tab-content col-md-12" id="fooddetails">
-    <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
+    <?php if($fooddata->foodPackage == 1) :?>
+   
+      <?php $form = ActiveForm::begin(['action' => ['UserPackage/package/subscribepackage'],'id' => 'a2cart' ,'method' => 'get']); ?>
+    <?php else :?>
+      <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
+    <?php endif ;?>
 		<table class="table-user-information" style="width:60%; margin:auto;">
 
             <tr>         
@@ -80,7 +85,7 @@ input[type=number]::-webkit-outer-spin-button {
                   <td> <?php echo $fooddata->Description;?></td>
             </tr>
               
-     
+            <?php if($fooddata->foodPackage == 0):?>
             <?php  
               $ftids = "";
               foreach($foodtype as $k=> $foodtype) : 
@@ -144,14 +149,17 @@ input[type=number]::-webkit-outer-spin-button {
               ]); ?>
             </td>
             </tr>
-			
-			<tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
-      </td> </tr> 
+			      <tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
+            </td> </tr> 
+            
+      <?php else :?>
+            <?= $form->field($fooddata,'Food_ID')->hiddenInput() ?>
+            <tr><td colspan="2"><?= Html::submitButton('Subscribe Food Package', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
+            </td> </tr> 
+      <?php endif ;?>
+		        
             </table>
             <?php ActiveForm::end(); ?>
       </div>
 </div>
 
-<script>
-
-</script>

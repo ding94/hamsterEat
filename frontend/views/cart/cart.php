@@ -201,37 +201,37 @@ $this->title = "My Cart";
           case 7:
             if (obj['discount_type'] >=1 && obj['discount_type'] <=3) 
             {
-              document.getElementById("subtotal").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) *( (100 - obj['discount']) /100);
-              document.getElementById("total").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) + parseInt(document.getElementById("delivery").innerHTML); 
+              document.getElementById("subtotal").innerHTML = (parseFloat(document.getElementById("subtotal").innerHTML) *( (100 - obj['discount']) /100)).toFixed(2);
+              document.getElementById("total").innerHTML = (parseFloat(document.getElementById("subtotal").innerHTML) + parseFloat(document.getElementById("delivery").innerHTML)).toFixed(2); 
             }
             else if (obj['discount_type'] >=4 && obj['discount_type'] <=6) 
             {
-              document.getElementById("subtotal").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) - obj['discount'];
-              document.getElementById("total").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) + parseInt(document.getElementById("delivery").innerHTML);  
+              document.getElementById("subtotal").innerHTML = (parseFloat(document.getElementById("subtotal").innerHTML) - obj['discount']).toFixed(2);
+              document.getElementById("total").innerHTML = (parseFloat(document.getElementById("subtotal").innerHTML) + parseFloat(document.getElementById("delivery").innerHTML)).toFixed(2);  
             }
            break;
 
           case 8:
             if (obj['discount_type'] >=1 && obj['discount_type'] <=3) 
             {
-              document.getElementById("delivery").innerHTML = parseInt(document.getElementById("delivery").innerHTML) *( (100 - obj['discount']) /100);
-              document.getElementById("total").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) + parseInt(document.getElementById("delivery").innerHTML); 
+              document.getElementById("delivery").innerHTML = (parseFloat(document.getElementById("delivery").innerHTML) *( (100 - obj['discount']) /100)).toFixed(2);
+              document.getElementById("total").innerHTML = (parseFloat(document.getElementById("subtotal").innerHTML) + parseFloat(document.getElementById("delivery").innerHTML)).toFixed(2); 
             }
             else if (obj['discount_type'] >=4 && obj['discount_type'] <=6) 
             {
-              document.getElementById("delivery").innerHTML = parseInt(document.getElementById("delivery").innerHTML) - obj['discount'];
-              document.getElementById("total").innerHTML = parseInt(document.getElementById("subtotal").innerHTML) + parseInt(document.getElementById("delivery").innerHTML); 
+              document.getElementById("delivery").innerHTML = (parseFloat(document.getElementById("delivery").innerHTML) - obj['discount']).toFixed(2);
+              document.getElementById("total").innerHTML = (parseFloat(document.getElementById("subtotal").innerHTML) + parseFloat(document.getElementById("delivery").innerHTML)).toFixed(2); 
             }
           break;
 
           case 9:
             if (obj['discount_type'] >=1 && obj['discount_type'] <=3) 
             {
-              document.getElementById("total").innerHTML = parseInt(document.getElementById("total").innerHTML) *( (100 - obj['discount']) /100); 
+              document.getElementById("total").innerHTML = (parseFloat(document.getElementById("total").innerHTML) *( (100 - obj['discount']) /100)).toFixed(2); 
             }
             else if (obj['discount_type'] >=4 && obj['discount_type'] <=6) 
             {
-              document.getElementById("total").innerHTML = parseInt(document.getElementById("total").innerHTML) - obj['discount']; 
+              document.getElementById("total").innerHTML = (parseFloat(document.getElementById("total").innerHTML) - obj['discount']).toFixed(2); 
             }
           break;
 
@@ -249,7 +249,7 @@ $this->title = "My Cart";
 
       else if (obj ==0) 
       {
-        alert("No coupon found or coupon expired! Please check your account > eVoucher");
+        alert("No coupon found or coupon expired! Please check your account > Discount Codes");
       }
    },
    error: function (request, status, error) {

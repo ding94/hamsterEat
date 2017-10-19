@@ -16,8 +16,8 @@ class AppAsset extends AssetBundle
         'css/Slider.css',
         'css/user.css',
         'css/sidenav.css',
-		'style.css',
-		'bubble.css',
+		'css/style.css',
+		'css/bubble.css',
         'css/footer.css',
     ];
     public $js = [

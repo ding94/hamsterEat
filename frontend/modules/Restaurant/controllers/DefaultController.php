@@ -72,7 +72,7 @@ class DefaultController extends Controller
 
         // var_dump($staff);exit;
 
-        $rowfood = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+        $rowfood = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
 
         //var_dump($rowfood[0]['foodType'][0]);exit;
 

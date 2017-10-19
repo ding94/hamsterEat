@@ -59,4 +59,24 @@ class Orderitem extends \yii\db\ActiveRecord
     {
          return $this->hasOne(Food::className(),['Food_ID'=>'Food_ID']);
     }
+
+    public function getItem_status()
+    {
+        return $this->hasOne(Orderitemstatuschange::className(),['Order_ID' => 'Order_ID']); 
+    }
+
+    public function getOrder_selection()
+    {
+        return $this->hasOne(Orderitemselection::className(),['Order_ID' => 'Order_ID']); 
+    }
+
+    public function getFood_selection()
+    {
+        return $this->hasOne(Foodselection::className(),['Order_ID' => $this->getOrder_selection->Selection_ID]); 
+    }
+
+    public function getOrder()
+    {
+        return $this->hasOne(Orders::className(),['Delivery_ID' => 'Delivery_ID']); 
+    }
 }

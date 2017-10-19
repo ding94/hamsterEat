@@ -17,6 +17,7 @@ use common\models\User;
 use common\models\AuthAssignment;
 use common\models\user\Userdetails;
 use common\models\food\Foodtype;
+use yii\data\Pagination;
 
 /**
  * Default controller for the `Restaurant` module
@@ -64,17 +65,18 @@ class DefaultController extends Controller
     public function actionRestaurantDetails($rid)
     {
         $id = restaurant::find()->where('Restaurant_ID = :id' ,[':id' => $rid])->one();
-        // var_dump($id);exit;
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
 
-        // var_dump($staff);exit;
+        $model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
+        $countmodel = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true);
+        $rowfood = $model->all();
 
-        $rowfood = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+        $pagination = new Pagination(['totalCount'=>$model->count(),'pageSize'=>10]);
+        $rowfood = $model->offset($pagination->offset)
+        ->limit($pagination->limit)
+        ->all();
 
-        //var_dump($rowfood[0]['foodType'][0]);exit;
-
-
-        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood, 'staff'=>$staff]);
+        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood, 'staff'=>$staff,'pagination'=>$pagination]);
     }
 
     public function actionFoodDetails($fid)

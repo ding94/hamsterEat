@@ -84,6 +84,7 @@
                         'label' => 'Restaurant Controller' ,'icon' => 'cutlery' ,   'url' => '#',
                         'items' => [
                                         ['label' => 'Manager Detail' , 'icon' => 'circle-o' , 'url' => ['/restaurant/default/index']],
+                                        ['label' => 'All Restaurant' , 'icon' => 'circle-o' , 'url' => ['/restaurant/restaurant/index']],
                                         ['label' => 'All Food' , 'icon' => 'circle-o' , 'url' => ['/restaurant/food/index','id' => 0]],
                                         ['label' => 'Rating' , 'icon' => 'circle-o' ,'url' => ['/rating/index']],
                                    ],

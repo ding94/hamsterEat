@@ -73,6 +73,7 @@ use yii\helpers\ArrayHelper;
         </table>
         <div class="form-group"> 
             <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'btn btn-primary']) ?>
+            <?= Html::a('Processing Ticket', ['/ticket/index'], ['class'=>'btn btn-primary']) ?>
         </div>
     </div>
 </div>

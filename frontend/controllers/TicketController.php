@@ -37,15 +37,14 @@ class TicketController extends Controller
             $post = Yii::$app->request->post();
 
             $upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
-            if (!empty($upload)) {
+            if (!empty($upload->imageFile)) {
                 $imageName = time().'.'.$upload->imageFile->extension;
                 $upload->imageFile->name = $imageName;
                 $post['Ticket']['Ticket_PicPath'] = $path.'/'.$upload->imageFile->name;
-                
+                $upload->upload($path.'/');
                 
             }
 
-            $upload->upload($path.'/');
             $model->User_id = Yii::$app->user->identity->id;
             $model->Ticket_DateTime = time();
             $model->Ticket_Status = 1;

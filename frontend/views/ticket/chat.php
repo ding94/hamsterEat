@@ -15,7 +15,6 @@ use backend\models\Admin;
     
 ?>
 <html>
-</div>
 <div class="site-contact">
     <div class="tableHeader">
         <ul>
@@ -35,6 +34,7 @@ use backend\models\Admin;
     <h4><?php echo "Serial ID : " . $sid; ?></h4>
 
     <br>
+    <div class="col-md-8 col-md-offset-1.5">
       <table class="table table-inverse">
           <tr>
               <th>
@@ -76,6 +76,6 @@ use backend\models\Admin;
         </div>
         <?php ActiveForm::end(); ?>
       <?php endif ?>
-
+</div>
 </div>
 </html>

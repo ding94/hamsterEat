@@ -18,6 +18,9 @@ use common\models\AuthAssignment;
 use common\models\user\Userdetails;
 use common\models\food\Foodtype;
 use yii\data\Pagination;
+use common\models\Restauranttypejunction;
+use common\models\Restauranttype;
+use frontend\modules\Restaurant\controllers\RestauranttypeController;
 
 /**
  * Default controller for the `Restaurant` module
@@ -127,6 +130,8 @@ class DefaultController extends Controller
 
         $upload = new Upload();
         //$path = Yii::$app->request->baseUrl.'/imageLocation/';
+        $foodjunction = new Restauranttypejunction();
+        $type = ArrayHelper::map(Restauranttype::find()->orderBy(['(Type_Name)' => SORT_ASC])->all(),'ID','Type_Name');
 
         if ($restaurant->load(Yii::$app->request->post()))
             {
@@ -148,10 +153,10 @@ class DefaultController extends Controller
                 $time = time(); $restaurant->Restaurant_DateTimeCreated = $time;
                 $restaurant->Restaurant_Status = 'Under Renovation';
                 $restaurant->Restaurant_Rating = "0";
-
-                $restaurant->Restaurant_Tag = implode(',',$restaurant->Restaurant_Tag);
                 
                 $restaurant->save();
+
+                RestauranttypeController::newRestaurantJunction($post['Type_ID'],$restaurant->Restaurant_ID);
 
                 $rmanagerlevel = new Rmanagerlevel();
                 $asd =  restaurant::find()->where('Restaurant_Manager = :restaurantowner and Restaurant_DateTimeCreated = :timecreated',[':restaurantowner'=>Yii::$app->user->identity->username, ':timecreated'=>$time])->one();
@@ -170,7 +175,7 @@ class DefaultController extends Controller
             }
         else 
             {
-                return $this->render('newrestaurant', ['restaurant' => $restaurant, 'restArea'=>$restArea, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen]);
+                return $this->render('newrestaurant', ['restaurant' => $restaurant, 'restArea'=>$restArea, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen, 'type'=>$type]);
             }
     }
 
@@ -184,6 +189,9 @@ class DefaultController extends Controller
         $restArea = $restArea;
         $postcodechosen = $postcodechosen;
         $areachosen = $areachosen;
+        $restaurant = Restaurant::find()->where(Restaurant::tableName().'.Restaurant_ID = :id' ,[':id' => $rid])->innerJoinWith('restaurantType',true)->one();
+        $chosen = ArrayHelper::map($restaurant['restaurantType'],'ID','ID');
+        $type = ArrayHelper::map(RestaurantType::find()->orderBy(['(Type_Name)' => SORT_ASC])->all(),'ID','Type_Name');
         //var_dump($restArea,$areachosen,$postcodechosen,$rid);exit;
 
         if($restaurantdetails->load(Yii::$app->request->post()))
@@ -211,29 +219,60 @@ class DefaultController extends Controller
                     $restaurantdetails->Restaurant_RestaurantPicPath = $rpicpath;
                 }
 
-                $restaurantdetails->Restaurant_Tag = implode(',',$restaurantdetails->Restaurant_Tag);
                 $restaurantdetails->Restaurant_Postcode = $postcodechosen;
                 $restaurantdetails->Restaurant_Area = $areachosen;
                 $restaurantdetails->Restaurant_AreaGroup = $restArea;
 
                  $isValid = $restaurantdetails->validate();
-                if($isValid){
+                if($isValid)
+                {
                     $restaurantdetails->save();
 
-    
-                Yii::$app->session->setFlash('success', "Update completed");
-                return $this->redirect(['restaurant-details', 'rid'=>$rid]);
+                    $restaurant = Restaurant::findOne($rid);
+                    $modelJunction = $restaurant->rJunction;
             
-                }
-                else{
-                    Yii::$app->session->setFlash('warning', "Fail Update");
+                    $junctionData = RestauranttypeController::diffStatus($modelJunction,$post['Type_ID']);
+            
+                        $transaction = Yii::$app->db->beginTransaction();
+                        try
+                        {
+                            if(!empty($junctionData[0]))
+                            {
+                                foreach($junctionData[0] as $deleteId)
+                                {
+                                        Restauranttypejunction::deleteAll('Restaurant_ID = :rid and Type_ID = :tid',[':rid' => $restaurant->Restaurant_ID, ':tid' => $deleteId]);
+                                }
+                            }
+                            
+                            if(!empty($junctionData[1]))
+                            {
+                                RestauranttypeController::newRestaurantJunction($junctionData[1],$restaurant->Restaurant_ID);
+                            }
+
+                            $transaction->commit();
+                            Yii::$app->session->setFlash('success', "Success edit");
+
+                            Yii::$app->session->setFlash('success', "Update completed");
+                            return $this->redirect(['restaurant-details', 'rid'=>$rid]);
+                        }
+
+                        catch(Exception $e)
+                        {
+                            $transaction->rollBack();
+                        }
+                            Yii::$app->session->setFlash('warning', "Fail edit");
+                            return $this->redirect(Yii::$app->request->referrer);
+                        }
+                        else
+                        {
+                            Yii::$app->session->setFlash('warning', "Fail edit");
+                            return $this->redirect(Yii::$app->request->referrer);
+                        }
                 }
 
-        }
-      
     //$this->view->title = 'Update Profile';
     //$this->layout = 'user';
-    return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen, 'restArea'=>$restArea]);
+    return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen, 'restArea'=>$restArea, 'chosen'=>$chosen, 'type'=>$type]);
     }
 
     public function actionEditRestaurantArea($rid)

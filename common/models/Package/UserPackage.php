@@ -3,6 +3,8 @@
 namespace common\models\Package;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "user_package".
@@ -26,15 +28,28 @@ class UserPackage extends \yii\db\ActiveRecord
         return 'user_package';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at','updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ], 
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['uid', 'type', 'subscribe_time', 'end_period', 'sub_period', 'created_at', 'updated_at'], 'required'],
-            [['uid', 'type', 'sub_period', 'created_at', 'updated_at'], 'integer'],
-            [['subscribe_time', 'end_period'], 'safe'],
+            [['uid', 'type', 'status'], 'required'],
+            [['uid', 'type','status', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -47,9 +62,7 @@ class UserPackage extends \yii\db\ActiveRecord
             'id' => 'ID',
             'uid' => 'Uid',
             'type' => 'Type',
-            'subscribe_time' => 'Subscribe Time',
-            'end_period' => 'End Period',
-            'sub_period' => 'Sub Period',
+            'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

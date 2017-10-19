@@ -96,21 +96,7 @@ span.stars span {
                       <span class="small-text pull-right stars">
                         <?php echo $data['Restaurant_Rating']; ?>
                       </span>
-                      <ul class="tag">
-                        <?php $tags=explode(",",$data['Restaurant_Tag']);
-                         if ($data['Restaurant_Pricing'] == 1){ 
-                        ?>
-                        <li class="none">$</li>
-                        <?php } else if ($data['Restaurant_Pricing'] == 2){ ?>
-                        <li class= "none"> $ $ </li>
-                        <?php } else { ?>
-                        <li class= "none"> $ $ $ </li>
-                        <?php } 
-                          foreach ($tags as $tags) :
-                        ?>
-                        <li><?php echo $tags; ?></li>
-                        <?php endforeach; ?>
-                      </ul>
+                      
             </div>
           </a>
         <?php endforeach; ?>

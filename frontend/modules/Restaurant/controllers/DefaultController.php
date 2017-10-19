@@ -408,8 +408,18 @@ class DefaultController extends Controller
         $restaurant = Restaurant::find()->where('Restaurant_AreaGroup = :group' ,[':group' => $groupArea])->all();
         $types = Foodtype::find()->orderBy(['Type_Desc'=>SORT_ASC])->all();
         $mode = 1;
+
+        $search = new Food();
+        if ($search->load(Yii::$app->request->post()))
+        {
+            $mode = 3;
+            $keyword = $search->Nickname;
+
+            return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword]);
+        }
+
         //var_dump($types);exit;
-        return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode]);
+        return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search]);
     }
 
     public function actionFoodFilter($groupArea,$typefilter)
@@ -418,8 +428,17 @@ class DefaultController extends Controller
         $mode = 2;
         $types = Foodtype::find()->orderBy(['Type_Desc'=>SORT_ASC])->all();
         $type = $typefilter;
+        $search = new Food();
 
-        return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'filter'=>$type]);
+        if ($search->load(Yii::$app->request->post()))
+        {
+            $mode = 4;
+            $keyword = $search->Nickname;
+
+            return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword, 'filter'=>$type]);
+        }
+
+        return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'filter'=>$type, 'search'=>$search]);
     }
 
     public function actionSearchFood($groupArea, $keyword)

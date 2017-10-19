@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use common\models\food\Food;
 use yii\bootstrap\Modal;
 use common\models\food\Foodtype;
+use yii\bootstrap\ActiveForm;
 $this->title = "Available Restaurants";
 
 ?>
@@ -129,9 +130,11 @@ span.stars span {
     <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']);?>
     <div class="filter container">
     <div class="input-group">
-    <input class="form-control" type="text" name="SearchBar" value="" placeholder="Search Food Name">
+    <?php $form = ActiveForm::begin(['id' => 'form-searchfood']) ?>
+    <?= $form->field($search, 'Nickname')->label(''); ?>
     <div class="input-group-btn">
-    <button class="btn btn-default" type="submit" name="SearchBtn"><i class="fa fa-search"></i></button>
+    <?php echo Html::submitButton('Search', ['class' => 'btn btn-primary', 'name' => 'search-button2', 'style'=>'margin-top:19px;']); ?>
+    <?php ActiveForm::end(); ?>
  
     </div>
     </div>
@@ -157,6 +160,15 @@ span.stars span {
         $foodtype = Foodtype::find()->where('ID = :id', [':id'=>$filter])->one();
         echo "<h3>Filtering By ".$foodtype['Type_Desc']."</h3>";
     }
+    elseif ($mode == 3)
+    {
+        echo "<h3>Showing results similar to ".$keyword."</h3>";
+    }
+    elseif ($mode == 4)
+    {
+        $foodtype = Foodtype::find()->where('ID = :id', [':id'=>$filter])->one();
+        echo "<h3>Showing results similar to ".$keyword." with filter ".$foodtype['Type_Desc']."</h3>";
+    }
 
     ?>
     <div class="outer-container">
@@ -169,6 +181,14 @@ span.stars span {
         elseif ($mode == 2)
         {
             $fooddata=food::find()->where('Restaurant_ID=:id and Status = :status and Type_ID = :tid', [':id' => $data['Restaurant_ID'], ':status'=> 1, ':tid'=>$filter])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+        }
+        elseif ($mode == 3)
+        {
+            $fooddata=food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $data['Restaurant_ID'], ':status'=> 1])->andWhere(['like', 'Name', $keyword])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+        }
+        elseif ($mode == 4)
+        {
+            $fooddata=food::find()->where('Restaurant_ID=:id and Status = :status and Type_ID = :tid', [':id' => $data['Restaurant_ID'], ':status'=> 1, ':tid'=>$filter])->andWhere(['like', 'Name', $keyword])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
         }
                 foreach($fooddata as $fooddata) : 
                     Modal::begin([

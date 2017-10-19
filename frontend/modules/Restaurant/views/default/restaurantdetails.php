@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Modal;
 use common\models\Rmanagerlevel;
 $this->title = $id['Restaurant_Name'];
@@ -106,6 +107,16 @@ span.stars span {
     
     Modal::end() ?>
   <?php endforeach; ?>
+  <?php Modal::begin([
+            'header' => '<h2 class="modal-title">Report</h2>',
+            'id'     => 'modal',
+            'size'   => 'modal-sm',
+            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    
+    echo "<div id='modelContent'></div>";
+    
+    Modal::end() ?>
 <div class = "container">
   <div class="restaurant-info-container">
     <?php $picpath = $id['Restaurant_RestaurantPicPath'];
@@ -114,12 +125,9 @@ span.stars span {
             $picpath = "DefaultRestaurant.jpg";
         }
          echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive pull-left', 'style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>"; ?>
-    <h1 style="font-weight: bold;margin-left: 32%;"><?php echo $id['Restaurant_Name']; ?></h1>
-      <?php $tags=explode(",",$id['Restaurant_Tag']); ?>
+    <h1 style="font-weight: bold;margin-left: 32%;"><?php echo $id['Restaurant_Name']; ?><span class="pull-right"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'btn btn-primary','id' => 'reportModalButton']) ?></span></h1>
       <ul class="info" style="margin-left: 30%;">
-        <?php foreach ($tags as $tags) : ?>
-        <li><?php echo $tags; ?></li>
-        <?php endforeach; 
+        <?php 
         if ($id['Restaurant_Pricing'] == 1){ 
                         ?>
                         <li class="none">$</li>
@@ -138,7 +146,6 @@ span.stars span {
     <br>
     <?php if (!Yii::$app->user->isGuest)
     {
-        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
         if (!empty($staff))
         {
             if ($staff['RmanagerLevel_Level'] == 'Owner')

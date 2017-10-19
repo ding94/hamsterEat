@@ -189,12 +189,10 @@ span.stars span {
                         <?php endforeach; ?>
                     </div>
                     <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata['PicPath']) ?></div>
-                    </div>
-                    </a>
-                    <?php endforeach; ?>
                 </div>
-            <?php endforeach;
-            ?>
+                </a>
+                <?php endforeach; ?>
+                <?php endforeach; ?>
         </div>
     </div>
 </div>

@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use common\models\food\Food;
 use yii\bootstrap\Modal;
 use common\models\food\Foodtype;
-use yii\bootstrap\ActiveForm;
+use kartik\widgets\ActiveForm;
 $this->title = "Available Restaurants";
 
 ?>
@@ -131,14 +131,9 @@ span.stars span {
     <div class="filter container">
     <div class="input-group">
     <?php $form = ActiveForm::begin(['id' => 'form-searchfood']) ?>
-    <?= $form->field($search, 'Nickname')->label(''); ?>
-    <div class="input-group-btn">
-    <?php echo Html::submitButton('Search', ['class' => 'btn btn-primary', 'name' => 'search-button2', 'style'=>'margin-top:19px;']); ?>
+    <?= $form->field($search, 'Nickname',['addon'=>['append'=>['content'=>Html::submitButton('<i class="fa fa-search"></i>', ['class' => 'btn btn-default', 'name' => 'search-button2']),'asButton'=>true]]])->textInput(['placeholder' => "Search"])->label(''); ?>
     <?php ActiveForm::end(); ?>
- 
     </div>
-    </div>
-       <br>
     <div class ="filter name">
         <p><i class="fa fa-sliders"> Filter By</i></p>
      </div>

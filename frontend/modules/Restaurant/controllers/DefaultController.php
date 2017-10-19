@@ -79,6 +79,7 @@ class DefaultController extends Controller
     {
         $id = restaurant::find()->where('Restaurant_ID = :id' ,[':id' => $rid])->one();
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
+        // $restauranttype = Restauranttypejunction::find()->where('Restaurant_ID = :id' ,[':id' => $rid])->all();
 
         $model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
         $countmodel = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true);

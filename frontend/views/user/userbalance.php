@@ -16,6 +16,10 @@ use yii\helpers\Url;
                     <td>My Balance (RM):</td>
                     <td><?php echo $model['User_Balance']; ?></td>
                   </tr>
+				  <tr>
+                    <td>My Point:</td>
+                    <td><?php echo $memberpoint['point']; ?></td>
+                  </tr>
                </tbody>
             </table>
             <a class="btn btn-md btn-warning" href="<?php echo yii\helpers\Url::to(['topup/index'])?>">Top Up</a>
@@ -26,14 +30,7 @@ use yii\helpers\Url;
             //  }
               ?>
 			  <br><br>
-		<table class="table table-user-information"><h1>User Point</h1>
-                <tbody>
-                  <tr>
-                    <td>My Point:</td>
-                    <td><?php echo $memberpoint['point']; ?></td>
-                  </tr>
-               </tbody>
-            </table>
+		
 	</div>
 </div>
 

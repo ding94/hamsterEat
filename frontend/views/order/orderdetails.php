@@ -15,7 +15,7 @@ use frontend\controllers\CartController;
         <?php echo "<h1> Details for Delivery ID: $did </h1>";
         echo "<br>";
         echo "<br>";
-        echo "<table class= table table-user-info style= width:80%;>";
+        echo "<table class= table table-user-info style= 'border:1px solid black;'>";
             echo "<tr>";
                 echo "<th><center> Address </th>";
                 echo "<td><center> $address </td>";
@@ -38,7 +38,7 @@ use frontend\controllers\CartController;
         echo "<br>";
         echo "<br>";
 
-        echo "<table class= table table-user-info style= width:80%;>";
+        echo "<table class= table table-user-info style= 'border:1px solid black;'>";
             echo "<tr>";
             echo "<th><center>Order ID</th>";
                 echo "<th colspan = 2><center>Food Name</th>";
@@ -59,7 +59,7 @@ use frontend\controllers\CartController;
             echo "<td><center>".$orderitemdetails['Order_ID']."</td>"; ?>
             <td><center><?php echo Html::img('@web/imageLocation/foodImg/'.$fooddetails['PicPath'], ['class' => 'img-responsive','style'=>'height:60px; width:90px; margin:auto;']); ?></td><?php
             echo "<td><center>".$fooddetails['Name']."</td>";
-            echo "<td align="."right>".CartController::actionRoundoff1decimal($fooddetails['Price'])."</td>";
+            echo "<td ><center>".CartController::actionRoundoff1decimal($fooddetails['Price'])."</td>";
             echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";
             $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$orderitemdetails['Order_ID']])->all();
             echo "<td><center>";
@@ -74,7 +74,7 @@ use frontend\controllers\CartController;
 
             endforeach;
             echo "</td>";
-            echo "<td align="."right>".CartController::actionRoundoff1decimal($orderitemdetails['OrderItem_SelectionTotal'])."</td>";
+            echo "<td ><center>".CartController::actionRoundoff1decimal($orderitemdetails['OrderItem_SelectionTotal'])."</td>";
             echo "<td align="."right>".CartController::actionRoundoff1decimal($orderitemdetails['OrderItem_LineTotal'])."</td>";
             echo "<td colspan = 2><center>".$orderitemdetails['OrderItem_Remark']."</td>";
             echo "</tr>";
@@ -90,7 +90,7 @@ use frontend\controllers\CartController;
             echo "<td> </td>";
             echo "<td> </td>";
             echo "<td><center><strong> Subtotal (RM): </strong></td>";
-            echo "<td align="."right>".CartController::actionRoundoff1decimal($did['Orders_Subtotal'])."</td>";
+            echo "<td colspan = 2>".CartController::actionRoundoff1decimal($did['Orders_Subtotal'])."</td>";
           echo "</tr>";
           echo "<tr>";
             echo "<td> </td>";

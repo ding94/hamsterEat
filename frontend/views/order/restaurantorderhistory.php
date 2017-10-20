@@ -18,15 +18,15 @@ use yii\helpers\Html;
 
             foreach ($result as $result) :
               
-                echo "<table class= table table-user-info style= width:80%;>";
+                echo "<table class= table table-user-info style= 'border:1px solid black;'>";
                     echo "<tr>";
                         echo "<th><center> Delivery ID </th>";
                         echo "<th><center> Username </th>";
                         echo "<th><center> Date to be Received </th>";
                         echo "<th><center> Time to be Received </th>";
                         echo "<th><center> Current Status </th>";
-                        echo "<th colspan = 2><center> Time Placed </th>";
-                        echo "<th><center> </th>";
+                        echo "<th><center> Time Placed </th>";
+                      
                     echo "</tr>";
                     
                     $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$result['Delivery_ID']])->one();
@@ -42,8 +42,8 @@ use yii\helpers\Html;
                         echo "<td><center>".$label."</td>";
                         date_default_timezone_set("Asia/Kuala_Lumpur");
                         $timeplaced = date('d/m/Y H:i:s', $orderdetails['Orders_DateTimeMade']);
-                        echo "<td colspan = 2><center> $timeplaced </td>";
-                        echo "<td><center> </td>";
+                        echo "<td ><center> $timeplaced </td>";
+                        
 
                     echo "</tr>";
                     echo "<tr>";

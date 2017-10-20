@@ -18,24 +18,24 @@ use yii\helpers\Html;
 
             foreach ($result as $result) :
                 echo "<table class= table table-hover style= 'border:1px solid black;'>";
-                    echo "<tr>";
-                        echo "<th><center> Delivery ID </th>";
+                   // echo "<tr>";
+                       // echo "<th><center> Delivery ID </th>";
         
-                        echo "<th><center> </th>";
-                    echo "</tr>";
+                        
+                    //echo "</tr>";
                     
                     $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$result['Delivery_ID']])->one();
 
                     echo "<tr>";
-                        echo "<td><center>".$orderdetails['Delivery_ID']."</td>";
+                        echo "<th colspan = '6' ><center>Delivery ID: ".$orderdetails['Delivery_ID']."</th>";
                        
-                       
+                         echo "</tr>";
                        
                         
                        
-                        echo "<td><center> </td>";
+                       // echo "<td><center> </td>";
 
-                    echo "</tr>";
+                  
                     echo "<tr>";
                         echo "<th><center> Order ID </th>";
                         echo "<th><center> Food Name </th>";
@@ -79,7 +79,7 @@ use yii\helpers\Html;
                             }
                             elseif ($orderitemdetails['OrderItem_Status'] == 'Ready For Pick Up')
                             {
-                                echo "<td><span class='label label-warning'> Waiting for Pick Up </span></td>";
+                                echo "<td><center><span class='label label-warning'> Waiting for Pick Up </span></td>";
                             }
                         echo "</tr>";
                     endforeach;

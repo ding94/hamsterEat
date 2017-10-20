@@ -45,7 +45,7 @@ $this->title = "My Orders";
                     echo "<td><center><a href=".yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]).">".date('d/m/Y H:i:s', $orders['Orders_DateTimeMade'])."</a></td>";
                     if ($orders['Orders_Status']!= 'Completed')
                     {
-                        echo "</tr>";
+                        echo "<td> </td></tr>";
                     }
                     else
                     {

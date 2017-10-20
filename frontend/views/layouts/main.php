@@ -12,6 +12,8 @@ use common\widgets\Alert;
 use kartik\widgets\SideNav;
 use yii\helpers\Url;
 use iutbay\yii2fontawesome\FontAwesome as FA;
+use common\models\Rmanager;
+use common\models\Restaurant;
 
 AppAsset::register($this);
 ?>
@@ -57,6 +59,15 @@ AppAsset::register($this);
 
 
     ];
+    if (Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
+        $restaurant = Restaurant::find()->where('Restaurant_Manager=:rm',[':rm'=>Yii::$app->user->identity->username])->all();
+        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-home"></span> Restaurants',
+
+        ];
+        foreach ($restaurant as $k => $each) {
+            $menuItems[2]['items'][$k] = ['label' => $each['Restaurant_Name'],'url' => ['Restaurant/default/restaurant-details','rid'=>$each['Restaurant_ID']]];
+        }
+    }
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span> Signup', 'url' => ['/site/ruser']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> Login', 'url' => ['/site/login']];

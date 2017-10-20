@@ -67,22 +67,22 @@ input[type=number]::-webkit-outer-spin-button {
 		<table class="table-user-information" style="width:60%; margin:auto;">
 
             <tr>         
-                  <td colspan = 2> <?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?></td>
+                  <td colspan = 3> <?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?></td>
             </tr>
 
             <tr class="bordertop">
                   <td>Food Name:</td>
-                  <td> <?php echo $fooddata->Name;?></td>
+                  <td colspan = 2> <?php echo $fooddata->Name;?></td>
             </tr>
 
             <tr class="bordertop">
                   <td>Food Price (RM):</td>
-                  <td> <?php echo CartController::actionRoundoff1decimal($fooddata->Price);?></td>
+                  <td colspan = 2> <?php echo CartController::actionRoundoff1decimal($fooddata->Price);?></td>
             </tr>
 
             <tr class="bordertop">
                  <td>Food Description:</td>
-                  <td> <?php echo $fooddata->Description;?></td>
+                  <td colspan = 2><span style="display: block;overflow-wrap: break-word; word-wrap: break-word; width:148px;"><?php echo $fooddata->Description;?></span></td>
             </tr>
               
             <?php if($fooddata->foodPackage == 0):?>
@@ -99,7 +99,7 @@ input[type=number]::-webkit-outer-spin-button {
                       <br>
                       <span>*Please Select only 1 item.</span>
                     </td>
-                    <td>
+                    <td colspan = 2>
                       <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->radioList($data)->label(false); ?>
                     </td>
                   </tr>
@@ -112,7 +112,7 @@ input[type=number]::-webkit-outer-spin-button {
                         *Select at most <?php echo $foodtype ['Max']; ?> items.
                       </span>
                     </td>
-                    <td>
+                    <td colspan = 2>
                       <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data)->label(false);?>
                     </td>
                   </tr>
@@ -125,14 +125,13 @@ input[type=number]::-webkit-outer-spin-button {
                         *Select at least <?php echo $foodtype['Min']; ?> item and at most <?php echo $foodtype ['Max']; ?> items.
                       </span>
                     </td>
-                    <td>
+                    <td colspan = 2>
                       <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data)->label(false);?>
                     </td>
                   </tr>
               <?php } endforeach; ?>
             <tr class="bordertop">
                   <td colspan = 2><?= $form->field($orderitem, 'OrderItem_Remark')->label('Remarks'); ?></td>
-                  <td> </td>
             </tr>
             <tr class="bordertop"> 
       				<td colspan="2">
@@ -148,9 +147,9 @@ input[type=number]::-webkit-outer-spin-button {
                   ],
               ]); ?>
             </td>
+            <td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
+            </td> 
             </tr>
-			      <tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
-            </td> </tr> 
             
       <?php else :?>
             <?= $form->field($fooddata,'Food_ID')->hiddenInput() ?>

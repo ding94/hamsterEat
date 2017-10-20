@@ -98,6 +98,22 @@ span.stars span {
 .restaurant-info-container{
   margin-bottom: 150px;
 }
+
+.item .foodName{
+  display: block;
+  width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item .foodDesc{
+  display: block;
+  width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 </style>
 <body>
   <?php foreach($rowfood as $data):
@@ -206,10 +222,10 @@ span.stars span {
         <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>" data-id="<?php echo $data['Food_ID']; ?>" class="modelButton">
         <div class="item">
             <div class="inner-item">
-            <span><?php echo $data['Name']; ?></span>
+            <span class="foodName"><?php echo $data['Name']; ?></span>
             <span class="small-text pull-right stars" alt="<?php echo $data['Rating']; ?>"><?php echo $data['Rating']; ?></span>
             <span><p class="price"><?php echo 'RM'.$data['Price']; ?></p></span>
-            <p><?php echo $data['Description']; ?></p>
+            <p class="foodDesc"><?php echo $data['Description']; ?></p>
             <?php foreach($data['foodType']as $type): ?>
             <span class="tag"><?php echo $type['Type_Desc'].'&nbsp;&nbsp;&nbsp;'; ?></span>
             <?php endforeach; ?>

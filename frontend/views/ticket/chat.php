@@ -16,19 +16,6 @@ use backend\models\Admin;
 ?>
 <html>
 <div class="site-contact">
-    <div class="tableHeader">
-        <ul>
-            <li class="hover">
-                <a href="ticket/submit-ticket">Create Ticket </a>
-            </li>
-            <li>
-                <a href="ticket/index"> Ticket In Process</a>
-            </li>
-            <li>
-                <a href="ticket/completed">Completed</a>
-            </li>
-        </ul>
-    </div>
 
     <h1><?= Html::encode($this->title) ?></h1>
     <h4><?php echo "Serial ID : " . $sid; ?></h4>

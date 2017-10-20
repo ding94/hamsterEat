@@ -205,7 +205,7 @@ class UservoucherController extends Controller
 				return true;
 			}
 		}
-		elseif ($valid == fasle)
+		elseif ($valid == false)
 		{
 			$voucher->delete();
 		}

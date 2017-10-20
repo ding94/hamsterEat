@@ -57,7 +57,7 @@ use frontend\controllers\CartController;
             
             <?php
             echo "<td><center>".$orderitemdetails['Order_ID']."</td>"; ?>
-            <td><center><?php echo Html::img('@web/imageLocation/'.$fooddetails['PicPath'], ['class' => 'img-responsive','style'=>'height:60px; width:90px; margin:auto;']); ?></td><?php
+            <td><center><?php echo Html::img('@web/imageLocation/foodImg/'.$fooddetails['PicPath'], ['class' => 'img-responsive','style'=>'height:60px; width:90px; margin:auto;']); ?></td><?php
             echo "<td><center>".$fooddetails['Name']."</td>";
             echo "<td align="."right>".CartController::actionRoundoff1decimal($fooddetails['Price'])."</td>";
             echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";

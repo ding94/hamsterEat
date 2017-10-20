@@ -99,6 +99,14 @@
                         'options' => ['class' => 'active'],
 
                     ],
+                    [
+                        'label' => 'Report Controller' ,'icon' => 'flag' ,   'url' => '#',
+                        'items' => [
+                                        ['label' => 'All Reports' , 'icon' => 'circle-o' , 'url' => ['/report/index']],
+                                   ],
+                        'options' => ['class' => 'active'],
+
+                    ],
                     [   'label' => 'Auth Controller' , 'icon' => 'cog' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Auth List' ,'icon' => 'circle-o' , 'url' => ['/auth/index']],

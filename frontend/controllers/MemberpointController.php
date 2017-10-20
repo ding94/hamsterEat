@@ -7,6 +7,12 @@ use common\models\Account\Memberpoint;
 
 class MemberpointController extends Controller
 {
+	/*
+	* amount => total amount
+	* type 
+	* 1=> add
+	* 2=> deduct
+	*/
 	public static function addMemberpoint($amount,$type)
 	{
 		$memberpoint = Memberpoint::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();

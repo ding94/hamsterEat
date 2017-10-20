@@ -6,6 +6,7 @@ use yii\helpers\ArrayHelper;
 use common\models\Orderitemselection;
 use frontend\controllers\CartController;
 use kartik\widgets\TouchSpin;
+use kartik\widgets\DatePicker;
 $this->title = "Food Details";
 
 ?>
@@ -85,7 +86,6 @@ input[type=number]::-webkit-outer-spin-button {
                   <td> <?php echo $fooddata->Description;?></td>
             </tr>
               
-            <?php if($fooddata->foodPackage == 0):?>
             <?php  
               $ftids = "";
               foreach($foodtype as $k=> $foodtype) : 
@@ -149,10 +149,28 @@ input[type=number]::-webkit-outer-spin-button {
               ]); ?>
             </td>
             </tr>
+            <?php if($fooddata->foodPackage == 0):?>
 			      <tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
             </td> </tr> 
+            <?php else :?>
+            <tr>
+              <td>
+                <label class="control-label">Select Date to delivery</label>
+                <?php
+                  echo DatePicker::widget([
+                    'name' => 'dateTime',
+                    'type' => DatePicker::TYPE_COMPONENT_APPEND,
+                    'pluginOptions' => [
+                        'format' => 'yyyy/mm/dd/',
+                        'multidate' => true,
+                        'multidateSeparator' => ',',
+                        'startDate' => date('Y/m/d',strtotime("+2 day")),
+                    ]
+                  ]);
+                ?>
+              </td>
+            </tr>
             
-      <?php else :?>
             <?= $form->field($fooddata,'Food_ID')->hiddenInput() ?>
             <tr><td colspan="2"><?= Html::submitButton('Subscribe Food Package', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
             </td> </tr> 

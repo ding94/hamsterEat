@@ -68,7 +68,8 @@ AppAsset::register($this);
 
             ];
             foreach ($restaurant as $k => $each) {
-            $menuItems[2]['items'][$k] = ['label' => $each['Restaurant_Name'],'url' => ['Restaurant/default/restaurant-details','rid'=>$each['Restaurant_ID']]];
+            $menuItems[2]['items'][$k] = ['label' => $each['Restaurant_Name'],'url' => ['/Restaurant/default/restaurant-details','rid'=>$each['Restaurant_ID']]];
+            $menuItems[2]['items'][$k+count($restaurant)] = '<li class="divider"></li>';
             }
         }
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [

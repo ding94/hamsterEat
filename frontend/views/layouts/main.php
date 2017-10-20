@@ -69,7 +69,8 @@ AppAsset::register($this);
 
             ];
             foreach ($restaurant as $k => $each) {
-            $menuItems[2]['items'][$k] = ['label' => $each['Restaurant_Name'],'url' => ['Restaurant/default/restaurant-details','rid'=>$each['Restaurant_ID']]];
+            $menuItems[2]['items'][$k] = ['label' => $each['Restaurant_Name'],'url' => ['/Restaurant/default/restaurant-details','rid'=>$each['Restaurant_ID']]];
+            $menuItems[2]['items'][$k+count($restaurant)] = '<li class="divider"></li>';
             }
         }
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
@@ -77,6 +78,7 @@ AppAsset::register($this);
                         '<li class="divider"></li>',
                        ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']],
                     ]];
+                    //var_dump($menuItems);exit;
         
        //  $menuItems = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];
       

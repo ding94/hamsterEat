@@ -152,7 +152,7 @@ span.stars span {
     <br>
     <?php if ($mode == 2)
     {
-        $foodtype = Foodtype::find()->where('ID = :id', [':id'=>$rfilter])->one();
+        $foodtype = Foodtype::find()->where('ID = :id', [':id'=>$filter])->one();
         echo "<h3>Filtering By ".$foodtype['Type_Desc']."</h3>";
     }
     elseif ($mode == 3)

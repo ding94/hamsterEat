@@ -12,7 +12,7 @@ class RestaurantSearch extends Restaurant
 	public function rules()
 	{
 		return[
-			[['Restaurant_ID','Restaurant_Manager','Restaurant_Name','Restaurant_Status','approve','area'],'safe'],
+			[['Restaurant_ID','Restaurant_Manager','Restaurant_Name','Restaurant_Status','approve','area','Restaurant_Area','Restaurant_LicenseNo','Restaurant_Rating','Restaurant_DateTimeCreated'],'safe'],
 		];
 	}
 
@@ -45,7 +45,14 @@ class RestaurantSearch extends Restaurant
             'rmanager.Rmanager_Approval' => $this->approve,
         ]);
 
+        $query->andFilterWhere(['like','Restaurant_ID' ,$this->Restaurant_ID]);
+        $query->andFilterWhere(['like','Restaurant_Name' ,$this->Restaurant_Name]);
         $query->andFilterWhere(['like','Restaurant_Manager' ,$this->Restaurant_Manager]);
+        $query->andFilterWhere(['like','Restaurant_Area' ,$this->Restaurant_Area]);
+        $query->andFilterWhere(['like','Restaurant_Status' ,$this->Restaurant_Status]);
+        $query->andFilterWhere(['like','Restaurant_LicenseNo' ,$this->Restaurant_LicenseNo]);
+        $query->andFilterWhere(['like','Restaurant_Rating' ,$this->Restaurant_Rating]);
+        $query->andFilterWhere(['like','FROM_UNIXTIME(Restaurant_DateTimeCreated, "%Y-%m-%d")' ,$this->Restaurant_DateTimeCreated]);
 
         return $dataProvider;
 	}

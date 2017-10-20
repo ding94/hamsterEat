@@ -21,10 +21,19 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         	'Restaurant_Name',
         	'Restaurant_Manager',
         	'Restaurant_Area',
-            'Restaurant_Status',
+            [
+                'attribute' => 'Restaurant_Status',
+                'filter' => array( "Closed"=>"Closed","Under Renovation"=>"Under Renovation"),
+            ],
+            
             'Restaurant_LicenseNo',
             'Restaurant_Rating',
-            'Restaurant_DateTimeCreated',
+            [ 
+                'attribute'=> 'Restaurant_DateTimeCreated',
+                'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'Restaurant_DateTimeCreated', 'dateFormat' => 'yyyy-MM-dd',]),
+                'format' => 'datetime',
+             ],
+            
             
             [
                 'attribute' => 'approve',

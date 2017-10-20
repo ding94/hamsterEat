@@ -46,8 +46,9 @@ class UserPackageDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['pid', 'fid', 'quantity'], 'required'],
+            [['pid', 'fid', 'quantity','totalPrice'], 'required'],
             [['pid', 'fid', 'quantity', 'created_at', 'updated_at'], 'integer'],
+            ['totalPrice','number'],
         ];
     }
 

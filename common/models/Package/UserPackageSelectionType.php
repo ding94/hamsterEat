@@ -48,8 +48,7 @@ class UserPackageSelectionType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['packagedid', 'selectionitypeId'], 'required'],
-            [ 'quantity' ,'safe'],  
+            [['packagedid', 'selectionitypeId'], 'required'],  
             [['packagedid', 'selectionitypeId', 'created_at', 'updated_at'], 'integer'],
         ];
     }
@@ -64,7 +63,6 @@ class UserPackageSelectionType extends \yii\db\ActiveRecord
             'check' => '',
             'packagedid' => 'Packagedid',
             'selectionitypeId' => 'Selectionitype ID',
-            'quantity' => 'Quantity',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

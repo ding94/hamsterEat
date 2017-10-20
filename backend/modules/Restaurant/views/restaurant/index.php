@@ -19,10 +19,10 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'columns' => [
         	'Restaurant_ID',
         	'Restaurant_Name',
-        	/*'Restaurant_Manager',
+        	'Restaurant_Manager',
         	'Restaurant_Area',
             'Restaurant_Status',
-            'Restaurant_LicenseNo',*/
+            'Restaurant_LicenseNo',
             'Restaurant_Rating',
             'Restaurant_DateTimeCreated',
             

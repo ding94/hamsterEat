@@ -185,10 +185,10 @@ span.stars span {
               echo "<td><center>".Html::a('Restaurants Orders History', ['/order/restaurant-order-history', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
                echo "<td><center>".Html::a('Manage Menu', ['/food/menu', 'rid'=>$id['Restaurant_ID'],'page'=>'menu'], ['class'=>'btn btn-primary'])."</td>";
                if($id['Restaurant_Status'] == "Operating"){
-                echo "<td id='operation' onClick='operation()'><center>".Html::a('Pause Operate', Url::to(['restaurant/deactive', 'id'=>$id['Restaurant_ID']]), ['class'=>'btn btn-warning'])."</td>";
+                echo "<td><center>".Html::a('Pause Operate', Url::to(['restaurant/deactive', 'id'=>$id['Restaurant_ID']]), ['id'=>'operate','onclick'=>"return operation()",'class'=>'btn btn-warning'])."</td>"; // onClick function add in 'return' can  used return false to stop post instead of without return.
                }
               elseif($id['Restaurant_Status'] == "Closed"){
-                echo "<td><center>".Html::a('Resume Operate', Url::to(['restaurant/active', 'id'=>$id['Restaurant_ID']]), ['class'=>'btn btn-warning'])."</td>";
+                echo "<td><center>".Html::a('Resume Operate', Url::to(['restaurant/active', 'id'=>$id['Restaurant_ID']]), ['id'=>'operate','onclick'=>"return operation()",'class'=>'btn btn-warning'])."</td>";
                }
             }
             elseif ($staff['RmanagerLevel_Level'] == 'Operator')
@@ -241,3 +241,17 @@ span.stars span {
     ]); ?>
 </div>
 </body>
+
+<script>
+function operation() {
+  if (confirm("Do you want to "+document.getElementById("operate").innerHTML + "?")) 
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+
+}
+</script>

@@ -21,6 +21,7 @@ use common\models\Account\Accountbalance;
 use common\models\Area;
 use common\models\Account\Memberpoint;
 use common\models\Object;
+use common\models\Referral;
 use yii\helpers\ArrayHelper;
 use yii\web\Session;
 
@@ -450,6 +451,7 @@ class SiteController extends Controller
         }
     }
 
+    /* Function for dependent dropdown in frontend index page. */
     public function actionGetArea()
     {
     if (isset($_POST['depdrop_parents'])) {
@@ -476,5 +478,141 @@ class SiteController extends Controller
             $areaArray[] = $object;
         }
         return $areaArray;
+    }
+
+    public function actionReferral($name)
+    {
+        $model = new SignupForm();
+        $referral = new Referral();
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->status = 2;
+            $referral->new_user = $model->username;
+            $referral->referral = $name;
+            if ($user = $model->signup()) {
+                $referral->save();
+                $email = \Yii::$app->mailer->compose(['html' => 'confirmLinkReferral-html','text' => 'confirmLinkReferral-text'],//html file, word file in email
+                    ['id' => $user->id, 'auth_key' => $user->auth_key, 'referral_name' => $name])//pass value)
+                ->setTo($user->email)
+                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                ->setSubject('Signup Confirmation')
+                ->send();
+                if($email){
+                    if (Yii::$app->getUser()->login($user)) {
+
+                        Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
+                        return $this->render('validation');
+                    }
+                }
+                else{
+                Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
+                }
+                return $this->goHome();
+                }
+            }
+
+        return $this->render('signup', ['model' => $model]);
+    }
+
+    public function actionResendconfirmlinkReferral()
+    {
+        $referral = Referral::find()->where('new_user = :user',[':user'=>Yii::$app->user->identity->username])->one();
+
+        $email = \Yii::$app->mailer->compose(['html' => 'confirmLinkReferral-html'],//html file, word file in email
+                    ['id' => Yii::$app->user->identity->id, 'auth_key' => Yii::$app->user->identity->auth_key, 'referral_name' => $referral->referral])//pass value)
+                ->setTo(Yii::$app->user->identity->email)
+                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                ->setSubject('Signup Confirmation')
+                ->send();
+                if($email){
+                    Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
+                    return $this->render('validation');
+                } else{
+                    Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
+                }
+                return $this->render('validation');
+    }
+
+    public function actionConfirmReferral()
+    {
+        $id = Yii::$app->request->get('id');
+        
+        $key = Yii::$app->request->get('auth_key');
+        $referralName = Yii::$app->request->get('referral_name');
+        $user = User::find()->where([
+        'id'=>$id,
+        'auth_key'=>$key,
+        'status'=>2,
+        ])->one();
+        
+        if(!empty($user)){
+            $user->status=10;
+    
+            $userdetails = new Userdetails();
+            $userdetails->User_id= Yii::$app->user->identity->id;
+            $userdetails->User_Username= Yii::$app->user->identity->username;
+            $useraddress = new Useraddress();
+            $useraddress->User_id= Yii::$app->user->identity->id;
+            $userbalance = new Accountbalance;
+            $userbalance->User_Username = Yii::$app->user->identity->username;
+            $userbalance->User_Balance = 0; 
+
+            $point = self::generateMemberPoint($id);
+
+            $isValid = $user->validate() && $userdetails->validate() && $useraddress->validate() && $point->validate();
+            if($isValid)
+            {
+                $user->save();
+                $userdetails->save();
+                $useraddress->save();
+                $userbalance->save();
+                $point->save();
+
+                //voucher creation part for 2 users
+
+                $discount = 5; // discount how much
+                $discountitem = 9; // discount item, in db 7 - 10
+                $discounttype = 5; // disocunt type, 2 for %, 5 for amount
+                $voucher = VouchersController::VoucherCreate($discount,$discountitem,$discounttype);// get voucher for new user
+                if ($voucher->validate()) {
+                    $voucher->save();
+
+                    $uservoucher = VouchersController::UserInviteReward(Yii::$app->user->identity->id,$voucher->id,$voucher->code,$voucher->endDate);// set uservoucher
+
+                    if ($uservoucher->validate()) {
+                        $uservoucher->save();
+                    }
+
+                    $voucher= VouchersController::VoucherCreate($discount,$discountitem,$discounttype); // recreate a new voucher;
+                    if ($voucher->validate()) {
+                        $voucher->save();
+
+                        $refid = User::find()->where('username =:u',[':u'=>$referralName])->one(); // find ref user id, by using username
+                        if (!empty($refid)) {
+                            $uservoucher = VouchersController::UserInviteReward($refid->id,$voucher->id,$voucher->code,$voucher->endDate); // set uservoucher
+                            if ($uservoucher->validate()) {
+                                $uservoucher->save();
+                            }
+                        }
+                        
+                    }
+
+                }
+                //voucher creation end
+                
+                Yii::$app->getSession()->setFlash('success','Success!');
+                Yii::$app->getUser()->login($user);
+                return $this->redirect(['user/user-profile']);
+            }
+            else
+            {
+                Yii::$app->getSession()->setFlash('warning','Failed!');
+                return $this->goHome();
+            }
+            
+        } else{
+            Yii::$app->getSession()->setFlash('warning','Failed!');
+            return $this->goHome();
+        }
     }
 }

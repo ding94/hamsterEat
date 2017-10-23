@@ -12,6 +12,8 @@ use common\widgets\Alert;
 use kartik\widgets\SideNav;
 use yii\helpers\Url;
 use iutbay\yii2fontawesome\FontAwesome as FA;
+use common\models\Rmanager;
+use common\models\Restaurant;
 
 AppAsset::register($this);
 ?>
@@ -61,11 +63,22 @@ AppAsset::register($this);
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span> Signup', 'url' => ['/site/ruser']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> Login', 'url' => ['/site/login']];
     } else {
+        if (Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
+            $restaurant = Restaurant::find()->where('Restaurant_Manager=:rm',[':rm'=>Yii::$app->user->identity->username])->all();
+            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-home"></span> Restaurants',
+
+            ];
+            foreach ($restaurant as $k => $each) {
+            $menuItems[2]['items'][$k] = ['label' => $each['Restaurant_Name'],'url' => ['/Restaurant/default/restaurant-details','rid'=>$each['Restaurant_ID']]];
+            $menuItems[2]['items'][$k+count($restaurant)] = '<li class="divider"></li>';
+            }
+        }
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile']],
                         '<li class="divider"></li>',
                        ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']],
                     ]];
+                    //var_dump($menuItems);exit;
         
        //  $menuItems = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];
       

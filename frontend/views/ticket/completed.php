@@ -14,19 +14,6 @@ use yii\helpers\ArrayHelper;
 ?>
 <div class="container">
 <div class="site-contact">
-    <div class="tableHeader">
-        <ul>
-            <li class="hover">
-                <a href="ticket/submit-ticket">Create Ticket </a>
-            </li>
-            <li>
-                <a href="ticket/index"> Ticket In Process</a>
-            </li>
-            <li>
-                <a href="ticket/completed">Completed</a>
-            </li>
-        </ul>
-    </div>
 <div class="col-lg-6 col-lg-offset-1" style="text-align:center">
     <h1><?= Html::encode($this->title) ?></h1>  
   </div>

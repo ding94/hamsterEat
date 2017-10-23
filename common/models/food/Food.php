@@ -126,5 +126,5 @@ class Food extends \yii\db\ActiveRecord
     public function getRoundprice()
     {
         return CartController::actionRoundoff1decimal($this->BeforeMarkedUp);
-    }
+    }	
 }

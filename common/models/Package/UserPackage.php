@@ -48,8 +48,8 @@ class UserPackage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['uid', 'type', 'status'], 'required'],
-            [['uid', 'type','status', 'created_at', 'updated_at'], 'integer'],
+            [['uid', 'status'], 'required'],
+            [['uid','status', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -61,7 +61,6 @@ class UserPackage extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'uid' => 'Uid',
-            'type' => 'Type',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

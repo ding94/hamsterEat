@@ -35,7 +35,7 @@ class VouchersController extends \yii\web\Controller
 
 	}
 
-	public function voucherCreate($amount,$item,$type)
+	public static function voucherCreate($amount,$item,$type)
 	{
 		if (!empty($amount)) { // check null amount
 			if ($item >= 7 && $item <= 10) { // check item valid
@@ -53,9 +53,9 @@ class VouchersController extends \yii\web\Controller
 							$case = 3;
 							break;
 					}
-					$valid = ValidController::VoucherCheckValid($amount,$case) //check voucher valid
+					
 
-					if ($valid == true) {
+					
 						$voucher = new Vouchers;
 
 						$voucher->scenario = 'save';
@@ -64,20 +64,24 @@ class VouchersController extends \yii\web\Controller
 				        $voucher->discount_type = $type;
 				        $voucher->discount_item = $item;
 				        $voucher->usedTimes = 0;
-				        $voucher->inCharge = "Invitation";
+				        $voucher->inCharge = 0;
 				      	$voucher->startDate = time();
 				      	$voucher->endDate = strtotime(date('Y-m-d h:i:s',strtotime('+30 day')));
-
-				      	return $voucher;
-					}
+				      	$valid = ValidController::VoucherCheckValid($voucher,$case); //check voucher valid
+				      	if ($valid == true) {
+				      		return $voucher;
+				      	}
+				      	
+					
 				}
 			}
 		}
 	}
 
-	public function codeCreate()
+	public static function codeCreate()
 	{
 		$chars ="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";//code 包含字母
+		$code = "";
 		for($i=0;$i<16; $i++)
         {
        		$code .= $chars[rand(0,strlen($chars)-1)];
@@ -85,10 +89,11 @@ class VouchersController extends \yii\web\Controller
     	return $code;
 	}
 
-	public function userInvtiveReward($id,$vid,$code,$endDate)
+	public static function userInviteReward($id,$vid,$code,$endDate)
 	{
 		$uservoucher = new UserVoucher;
-		$uservoucher->id = $id;
+		$uservoucher->scenario = 'save';
+		$uservoucher->uid = $id;
 		$uservoucher->vid = $vid;
 		$uservoucher->code = $code;
 		$uservoucher->endDate = $endDate;

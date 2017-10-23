@@ -60,7 +60,7 @@ class Vouchers extends \yii\db\ActiveRecord
         return [
             [['code', 'discount_type', 'discount_item', 'usedTimes', 'inCharge', 'startDate'], 'required'],
             [['discount'],'required','on'=>'initial'],
-            [['code', 'inCharge'], 'string'],
+            [['code'], 'string'],
             [['discount'], 'number'],
             [['discount_type', 'discount_item', 'status', 'usedTimes'], 'integer'],
 

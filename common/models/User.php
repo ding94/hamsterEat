@@ -72,7 +72,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.' , 'on' => ['changeAdmin']],
             
             ['status', 'default', 'value' => self::STATUS_UNVERIFIED],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE,self::STATUS_UNVERIFIED, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE,self::STATUS_UNVERIFIED,self::STATUS_REFERRAL ,self::STATUS_DELETED]],
         ];
     }
 

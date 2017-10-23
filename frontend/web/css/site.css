@@ -3,19 +3,20 @@ html,
 body {
     height: 100%;
 }
-h1,
-h2,
-h3 {
-  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+h1
+ {
+   font-family: cursive;
   font-weight: 500;
 }
+h2,
+h3,
 h4,
-h5,
-h6 {
+h5{
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
   
   font-weight: 500;
 }
+
 .wrap {
   
     height: auto;

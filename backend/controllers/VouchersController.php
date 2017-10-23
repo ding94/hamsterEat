@@ -137,7 +137,7 @@ class VouchersController extends Controller
         	$model->discount_item = $post->discount_item;
         	$model->usedTimes = 0;
         	$model->inCharge = Yii::$app->user->identity->adminname;
-      		$model->startDate = time($post->startDate);
+      		$model->startDate = strtotime($post->startDate);
     		if (!empty($post->endDate))
     		{
 				$model->endDate = strtotime($post->endDate);

@@ -559,6 +559,38 @@ class SiteController extends Controller
 
             $point = self::generateMemberPoint($id);
 
+            //voucher creation part for 2 users
+
+            $discount = 5; // discount how much
+            $discountitem = 9; // discount item, in db 7 - 10
+            $discounttype = 5; // disocunt type, 2 for %, 5 for amount
+            $voucher = VouchersController::VoucherCreate($discount,$discountitem,$discounttype);// get voucher for new user
+            if ($voucher->validate()) {
+                $voucher->save();
+
+                $uservoucher = VouchersController::UserInviteReward(Yii::$app->user->identity->id,$voucher->id,$voucher->code,$voucher->endDate);// set uservoucher
+                if ($uservoucher->validate()) {
+                    $uservoucher->save();
+                }
+
+                $voucher= VouchersController::VoucherCreate($discount,$discountitem,$discounttype); // recreate a new voucher;
+                if ($voucher->validate()) {
+                    $voucher->save();
+
+                    $refid = User::find()->where('username =: u',[':u'=>$referralName])->one(); // find ref user id, by using username
+                    if (!empty($refid)) {
+                        $uservoucher = VouchersController::UserInviteReward($refid->id,$voucher->id,$voucher->code,$voucher->endDate); // set uservoucher
+                        if ($uservoucher->validate()) {
+                            $uservoucher->save();
+                        }
+                    }
+                    
+                }
+
+            }
+            //voucher creation end
+            
+
             $isValid = $user->validate() && $userdetails->validate() && $useraddress->validate() && $point->validate();
             if($isValid)
             {

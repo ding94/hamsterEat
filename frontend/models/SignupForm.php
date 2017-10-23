@@ -13,6 +13,7 @@ class SignupForm extends Model
     public $email;
     public $password;
     public $type;
+    public $status;
 
 
     /**
@@ -61,6 +62,16 @@ class SignupForm extends Model
     {
         if (!$this->validate()) {
             return null;
+        }
+
+        if($this->status == 2){
+            $user = new User();
+            $user->username = $this->username;
+            $user->email = $this->email;
+            $user->status = 2;
+            $user->setPassword($this->password);
+            $user->generateAuthKey();
+            $user->save(false);
         }
         
         $user = new User();

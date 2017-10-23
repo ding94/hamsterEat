@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
-/* @var $this yii\web\View */
+use common\user\User;
+ 
 ?>
 
 <div class="container" style="padding-top: 100px">

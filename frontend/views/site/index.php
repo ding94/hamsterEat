@@ -106,7 +106,7 @@ $this->title = 'hamsterEat';
 							You can order food whenever and wherever you are!
 							</p>
 							<div class="ficon">
-								<a href="site%2Fabout" alt="">View more</a> 
+								<p><?= Html::a('View more', ['site/about'],['class' => "btn btn-default"]) ?> </p>
 							</div>
 						</div>
 					</div>
@@ -122,7 +122,7 @@ $this->title = 'hamsterEat';
 							 You can select your favourite payment method!
 							</p>
 							<div class="ficon">
-								<a href="site%2Fabout" alt="">View more</a> 
+								<p><?= Html::a('View more', ['site/about'],['class' => "btn btn-default"]) ?> </p>
 							</div>
 						</div>
 					</div>
@@ -138,7 +138,7 @@ $this->title = 'hamsterEat';
 							 We provide you the best services!
 							</p>
 							<div class="ficon">
-								<a href="site%2Fabout" alt="">View more</a> 
+								<p><?= Html::a('View more', ['site/about'],['class' => "btn btn-default"]) ?> </p>
 							</div>
 						</div>
 					</div>

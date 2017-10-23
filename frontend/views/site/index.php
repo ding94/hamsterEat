@@ -48,21 +48,16 @@ $this->title = 'hamsterEat';
 			<span id="dot4" class="dot" onclick="currentSlide(4)"></span>
 			</div> 
 		
- <!--<div class="container"> -->
-      <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 " >-->
-      <!--  <div class="col-md-8 col-md-offset-2"> -->
+
         <div class="form">
         <h1>Select Your Location</h1>
 
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(['type' => ActiveForm::TYPE_HORIZONTAL]); ?>
 
         <?= $form->field($postcode, 'Area_Postcode')->widget(Select2::classname(), [
 	    'data' => $postcodeArray,
-	    'options' => ['placeholder' => 'Select a postcode ...','id'=>'postcode-select'],
-	    'pluginOptions' => [
-	        'allowClear' => true,
-	    ],
-	]); ?>
+	    'options' => ['placeholder' => 'Select a postcode ...','id'=>'postcode-select']])->label(false); 
+	    ?>
 		<?= $form->field($postcode,'Area_Area')->widget(DepDrop::classname(), [
 			'type'=>DepDrop::TYPE_SELECT2,
 			'options' => ['id'=>'area-select'],
@@ -70,12 +65,9 @@ $this->title = 'hamsterEat';
 				'depends'=>['postcode-select'],
 				'url'=>Url::to(['/site/get-area'])
 			],
-			]); ?>
+			])->label(false); ?>
         <?= Html::submitButton('Proceed', ['class' => 'btn btn-primary', 'name' => 'proceed-button']) ?>
         </div>
-        <!-- </div> -->
-        <!-- </div> -->
-		<!-- </div> -->
        
 	   <?php ActiveForm::end(); ?>
     </div>

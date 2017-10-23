@@ -19,8 +19,12 @@ use kartik\widgets\DatePicker;
 	
 		
     <?= $form->field($model, 'User_Username')->textInput(['readonly' => true]) ?>
-	<?= $form->field($model, 'Account_TopUpAmount')->textInput() ?>
-	
+    <?php if(Yii::$app->controller->action->id == "cancel"):?>
+    	<?= $form->field($model, 'Account_RejectReason')->textInput() ?>
+   
+   	<?php else :?>
+		<?= $form->field($model, 'Account_TopUpAmount')->textInput() ?>
+	<?php endif ;?>
 	    	
     	<div class="form-group">
 	        <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>

@@ -122,6 +122,7 @@ use common\models\Bank;
                         },
 						'filter' => $list,
 					],
+          'Account_RejectReason',
 					
     	            'Account_InCharge',
     	            //'rejectReason',

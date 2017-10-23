@@ -55,8 +55,8 @@ $this->title = "My Cart";
         echo "</td>";
         echo "<td align="."right>".CartController::actionRoundoff1decimal($cartitems['OrderItem_SelectionTotal'])."</td>";
         echo "<td align="."right>".CartController::actionRoundoff1decimal($cartitems['OrderItem_LineTotal'])."</td>";
-        echo "<td><center>".$cartitems['OrderItem_Remark']."</td>";
-        echo "<td class='pull-right'>".Html::a('', ['delete','oid'=>$cartitems['Order_ID']], ['class'=>'btn btn-danger fa fa-trash','data-confirm'=>'Are you sure you want to remove from cart?'])."</td>";
+        echo "<td><center> ".$cartitems['OrderItem_Remark']." </td>";
+        echo "<td><center>".Html::a('', ['delete','oid'=>$cartitems['Order_ID']], ['class'=>'btn btn-danger fa fa-trash','data-confirm'=>'Are you sure you want to remove from cart?'])."</td>";
         echo "</tr>";
       endforeach;
       $did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();
@@ -101,7 +101,7 @@ $this->title = "My Cart";
           echo "<td> </td>";
           echo "<td><center><strong> Early Discount (RM): </strong></td>";
           $discountamount = CartController::actionRoundoff1decimal($did['Orders_Subtotal']) * 0.2; ?>
-          <td align=right> <font id="delivery"><?php echo CartController::actionRoundoff1decimal($discountamount); ?></font></td><?php
+          <td align=right> <font id="delivery"><?php echo "-".CartController::actionRoundoff1decimal($discountamount); ?></font></td><?php
         echo "</tr>";
 
         $did['Orders_TotalPrice'] = CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($did['Orders_Subtotal']) - CartController::actionRoundoff1decimal($discountamount) + CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge']));

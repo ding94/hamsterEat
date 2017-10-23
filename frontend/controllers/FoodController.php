@@ -40,6 +40,8 @@ class FoodController extends Controller
         $orderItemSelection =new Orderitemselection;
         $orderitem = new Orderitem;
 
+        $comments = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$id])->all();
+
         if ($orderItemSelection->load(Yii::$app->request->post()) || $orderitem->load(Yii::$app->request->post()))
         {
             $orderitem->load(Yii::$app->request->post());
@@ -100,7 +102,7 @@ class FoodController extends Controller
             return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks, 'rid'=>$rid, 'sessiongroup'=>$sessiongroup]);
         }
 
-        return $this->renderAjax('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);
+        return $this->renderAjax('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection, 'comments'=>$comments]);
          
     }
 
@@ -460,8 +462,6 @@ class FoodController extends Controller
          $this->layout = 'user';
 
          return $this->redirect(['menu','menu'=>$menu,'id'=>$id,'rid'=>$rid,'page'=>$page]);
-
     }
-    
 }
 

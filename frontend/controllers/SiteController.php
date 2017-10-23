@@ -21,6 +21,7 @@ use common\models\Account\Accountbalance;
 use common\models\Area;
 use common\models\Account\Memberpoint;
 use common\models\Object;
+use common\models\Referral;
 use yii\helpers\ArrayHelper;
 use yii\web\Session;
 
@@ -482,10 +483,14 @@ class SiteController extends Controller
     public function actionReferral($name)
     {
         $model = new SignupForm();
+        $referral = new Referral();
 
         if ($model->load(Yii::$app->request->post())) {
             $model->status = 2;
+            $referral->new_user = $model->username;
+            $referral->referral = $name;
             if ($user = $model->signup()) {
+                $referral->save();
                 $email = \Yii::$app->mailer->compose(['html' => 'confirmLinkReferral-html','text' => 'confirmLinkReferral-text'],//html file, word file in email
                     ['id' => $user->id, 'auth_key' => $user->auth_key, 'referral_name' => $name])//pass value)
                 ->setTo($user->email)
@@ -511,8 +516,10 @@ class SiteController extends Controller
 
     public function actionResendconfirmlinkReferral()
     {
+        $referral = Referral::find()->where('new_user = :user',[':user'=>Yii::$app->user->identity->username])->one();
+
         $email = \Yii::$app->mailer->compose(['html' => 'confirmLinkReferral-html'],//html file, word file in email
-                    ['id' => Yii::$app->user->identity->id, 'auth_key' => Yii::$app->user->identity->auth_key])//pass value)
+                    ['id' => Yii::$app->user->identity->id, 'auth_key' => Yii::$app->user->identity->auth_key, 'referral_name' => $referral->referral])//pass value)
                 ->setTo(Yii::$app->user->identity->email)
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setSubject('Signup Confirmation')

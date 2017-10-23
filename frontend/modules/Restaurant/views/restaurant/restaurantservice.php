@@ -23,7 +23,11 @@ $this->title = "Owned/Manage Restaurants";
   justify-content:center;
 }
 
-.item{
+.outer-item{
+  border: 1px solid #e5e5e5;
+}
+
+.item-no-border{
   font-size: 24px;
   color: black;
   background-color: white;
@@ -34,51 +38,49 @@ $this->title = "Owned/Manage Restaurants";
   cursor:pointer;
 }
 
-.item p{
+.item-no-border p{
   font-size:16px;
   color:grey;
 }
 
-.item .small-text{
+.item-no-border .small-text{
    font-size:15px;
   color:grey; 
   margin-top: 10px;
 }
 
-.item .price{
+.item-no-border .price{
     font-size: 17px;
     color: black;
 }
 
-.item .inner-item{
+.item-no-border .inner-item{
   margin:10px 0px 10px 30px;
   float:left;
   width: 50%;
 }
 
-.item .tag{
+.item-no-border .tag{
     font-size: 13px;
     color: grey;
 }
 
-.item .img{
+.item-no-border .img{
 
   float:left;
 }
 
-.item img{
+.item-no-border img{
 	margin-top:15px;
     width:130px;
   height:130px;
   
 }
 
-.menu-container :hover{
+.outer-item :hover{
    background-color: #fffbe5;
 }
-.menu-container a:hover,.menu-container p:hover {
-   /* color: #fffbe5; */
-}
+
 span.stars, span.stars span {
     display: block;
     background: url(imageLocation/stars.png) 0 -16px repeat-x;
@@ -92,14 +94,16 @@ span.stars span {
 }
 
 #res{
-	margin-top: 10%;
+  margin: 10px 10px 10px 10px;
+  float: right;
 }
 #res:hover{
 	 background-color: #e67300; 
 }
 
 #food{
-	margin-top: 10%;
+  margin: 10px 10px 10px 10px;
+  float: right;
 }
 #food:hover{
 	 background-color: #e67300; 
@@ -107,31 +111,30 @@ span.stars span {
 
 </style>
 <body>
-<div class = "container" ><h1>Owned/Manage Restaurants</h1>
+<div class ="container" ><h1>Owned/Manage Restaurants</h1>
  <div class="outer-container" id="outer" >
     <div class="menu-container" id="menucon">
       <?php foreach($restaurant as $k => $res ){?>
-      <a href=" <?php echo yii\helpers\Url::to(['default/restaurant-details','rid'=>$res['Restaurant_ID']]); ?> " style="display:block" >
-
-      <div class="item">
+      <div class="outer-item">
+      <a href=" <?php echo yii\helpers\Url::to(['default/restaurant-details','rid'=>$res['Restaurant_ID']]); ?> ">
+      <div class="item-no-border">
         <div class="img"><?php echo Html::img('@web/imageLocation/'.$res['Restaurant_RestaurantPicPath']) ?></div>
         <div class="inner-item">
           <span><?php echo $res['Restaurant_Name']; ?></span>
 
           <p><?php echo $res['Restaurant_UnitNo'].','.$res['Restaurant_Street'].','.$res['Restaurant_Area'].', '.$res['Restaurant_Postcode'] ?></p>
     	</div>
-		    <span class="small-text pull-right stars" alt="<?php echo $res['Restaurant_Rating']; ?>"><?php echo $res['Restaurant_Rating']; ?></span>
-		    <span class="small-text">
-		    	<?php if ($res['Restaurant_Status'] == "Closed"): ?>
-		    		<?=Html::a('Resume Operate', Url::to(['restaurant/food-service', 'id'=>$res['Restaurant_ID']]), ['id'=>'food','class'=>'btn btn-warning'])?>
-			    	<?=Html::a('Resume Operate', Url::to(['restaurant/active', 'id'=>$res['Restaurant_ID']]), ['id'=>'res','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-warning'])?>
-			    <?php elseif($res['Restaurant_Status'] == "Operating"): ?>
-		    		<?=Html::a('Resume Operate', Url::to(['restaurant/food-service', 'id'=>$res['Restaurant_ID']]), ['id'=>'food','class'=>'btn btn-warning'])?>
-			    	<?=Html::a('Pause Operate', Url::to(['restaurant/deactive', 'id'=>$res['Restaurant_ID']]), ['id'=>'res','data-confirm'=>"Do you want to Pause Operate?",'class'=>'btn btn-warning'])?>
-		    	<?php endif ?>
-		    </span>
+		    <span class="small-text pull-right stars" alt="<?php echo $res['Restaurant_Rating']; ?>"><?php echo $res['Restaurant_Rating']; ?></span>  	
       </div>
   		</a>
+      <?php if ($res['Restaurant_Status'] == "Closed"): ?>
+            <?=Html::a('Food Detail', Url::to(['restaurant/food-service', 'id'=>$res['Restaurant_ID']]), ['id'=>'food','class'=>'btn btn-warning'])?>
+            <?=Html::a('Resume Operate', Url::to(['restaurant/active', 'id'=>$res['Restaurant_ID']]), ['id'=>'res','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-warning'])?>
+          <?php elseif($res['Restaurant_Status'] == "Operating"): ?>
+            <?=Html::a('Food Detail', Url::to(['restaurant/food-service', 'id'=>$res['Restaurant_ID']]), ['id'=>'food','class'=>'btn btn-warning'])?>
+            <?=Html::a('Pause Operate', Url::to(['restaurant/deactive', 'id'=>$res['Restaurant_ID']]), ['id'=>'res','data-confirm'=>"Do you want to Pause Operate?",'class'=>'btn btn-warning'])?>  
+          <?php endif ?>
+      </div>
       <?php } ?>
     </div>
 	</div>

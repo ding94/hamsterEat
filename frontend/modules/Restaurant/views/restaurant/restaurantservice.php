@@ -123,10 +123,10 @@ span.stars span {
 		    <span class="small-text pull-right stars" alt="<?php echo $res['Restaurant_Rating']; ?>"><?php echo $res['Restaurant_Rating']; ?></span>
 		    <span class="small-text">
 		    	<?php if ($res['Restaurant_Status'] == "Closed"): ?>
-		    		<span class="small-text"><button class="btn btn-warning" id="food">Food Operation</button></span>
+		    		<?=Html::a('Resume Operate', Url::to(['restaurant/food-service', 'id'=>$res['Restaurant_ID']]), ['id'=>'food','class'=>'btn btn-warning'])?>
 			    	<?=Html::a('Resume Operate', Url::to(['restaurant/active', 'id'=>$res['Restaurant_ID']]), ['id'=>'res','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-warning'])?>
 			    <?php elseif($res['Restaurant_Status'] == "Operating"): ?>
-		    		<span class="small-text"><button class="btn btn-warning" id="food">Food Operation</button></span>
+		    		<?=Html::a('Resume Operate', Url::to(['restaurant/food-service', 'id'=>$res['Restaurant_ID']]), ['id'=>'food','class'=>'btn btn-warning'])?>
 			    	<?=Html::a('Pause Operate', Url::to(['restaurant/deactive', 'id'=>$res['Restaurant_ID']]), ['id'=>'res','data-confirm'=>"Do you want to Pause Operate?",'class'=>'btn btn-warning'])?>
 		    	<?php endif ?>
 		    </span>

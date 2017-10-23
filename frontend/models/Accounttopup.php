@@ -51,7 +51,7 @@ class Accounttopup extends \yii\db\ActiveRecord
         return [
             [['Account_TopUpAmount'], 'number'],
             [['Account_TransactionDate', 'Account_TransactionNumber', 'Account_SubmitDateTime','Account_Action','Account_ActionBefore'], 'integer'],
-            [['User_Username', 'Account_ChosenBank', 'Account_ReceiptPicPath','Account_InCharge','accounttopup_status.title','bank.Bank_PicPath','bank.redirectUrl'], 'string', 'max' => 255],
+            [['User_Username', 'Account_ChosenBank', 'Account_ReceiptPicPath','Account_InCharge','accounttopup_status.title','bank.Bank_PicPath','bank.redirectUrl' ,'Account_RejectReason'], 'string', 'max' => 255],
 			[['bank.Bank_AccNo'],'string','max'=>25],
 			[['bank.Bank_Name'],'safe'],
         ];
@@ -71,6 +71,7 @@ class Accounttopup extends \yii\db\ActiveRecord
             'Account_TransactionNumber' => 'Account  Transaction Number',
             'Account_ReceiptPicPath' => 'Account  Receipt Pic Path',
             'Account_SubmitDateTime' => 'Account  Submit Date Time',
+            'Account_RejectReason' => 'Account Reject Reason',
         ];
     }
 

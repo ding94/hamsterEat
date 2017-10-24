@@ -106,7 +106,23 @@ span.stars span {
   float: right;
 }
 #food:hover{
-	 background-color: #e67300; 
+   background-color: #e67300; 
+}
+
+#resume{
+  margin: 10px 10px 10px 10px;
+  float: right;
+}
+#resume:hover{
+   background-color: #1a651a; 
+}
+
+#pause{
+  margin: 10px 10px 10px 10px;
+  float: right;
+}
+#pause:hover{
+   background-color: #ff1a1a; 
 }
 
 </style>
@@ -129,10 +145,10 @@ span.stars span {
   		</a>
       <?php if ($res['Restaurant_Status'] == "Closed"): ?>
             <?=Html::a('Food Detail', Url::to(['restaurant/food-service', 'id'=>$res['Restaurant_ID']]), ['id'=>'food','class'=>'btn btn-warning'])?>
-            <?=Html::a('Resume Operate', Url::to(['restaurant/active', 'id'=>$res['Restaurant_ID']]), ['id'=>'res','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-warning'])?>
+            <?=Html::a('Resume Operate', Url::to(['restaurant/active', 'id'=>$res['Restaurant_ID'],'item'=>1]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-success'])?>
           <?php elseif($res['Restaurant_Status'] == "Operating"): ?>
             <?=Html::a('Food Detail', Url::to(['restaurant/food-service', 'id'=>$res['Restaurant_ID']]), ['id'=>'food','class'=>'btn btn-warning'])?>
-            <?=Html::a('Pause Operate', Url::to(['restaurant/deactive', 'id'=>$res['Restaurant_ID']]), ['id'=>'res','data-confirm'=>"Do you want to Pause Operate?",'class'=>'btn btn-warning'])?>  
+            <?=Html::a('Pause Operate', Url::to(['restaurant/deactive', 'id'=>$res['Restaurant_ID'],'item'=>1]), ['id'=>'pause','data-confirm'=>"Do you want to Pause Operate?",'class'=>'btn btn-danger'])?>  
           <?php endif ?>
       </div>
       <?php } ?>

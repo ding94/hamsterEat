@@ -58,7 +58,7 @@ class Foodselection extends \yii\db\ActiveRecord
 
     public function getTypeprice()
     {
-        return $this->Name.'&nbsp; (+ RM'.CartController::actionRoundoff1decimal($this->Price).')';
+        return '<span>'.$this->Name.'</span><span style="float:right;">(+ RM'.CartController::actionRoundoff1decimal($this->Price).')</span>';
     }
 
     public function getSelectedtpye()

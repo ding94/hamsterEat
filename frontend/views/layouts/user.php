@@ -141,6 +141,7 @@ AppAsset::register($this);
           ['label' => ' My Restaurant', 'options' => ['class' => 'active'], 'items' => [
             ['label' => 'View Own Restaurant', 'url' => Url::to(['/Restaurant/default/view-restaurant'])],
             ['label' => 'Create New Restaurant', 'url' => Url::to(['/Restaurant/default/new-restaurant-location'])],
+            ['label' => 'Manage Restaurant', 'url' => Url::to(['/Restaurant/restaurant/restaurant-service'])],
            ],
              'visible'=> Yii::$app->user->can('restaurant manager'), 
            ],

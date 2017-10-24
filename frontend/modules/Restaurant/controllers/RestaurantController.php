@@ -7,6 +7,8 @@ use yii\web\Controller;
 use backend\models\RestaurantSearch;
 use common\models\Restaurant;
 use common\models\Rmanager;
+use common\models\food\Food;
+use common\models\food\Foodstatus;
 use yii\web\NotFoundHttpException;
 use frontend\controllers\CommonController;
 
@@ -24,48 +26,95 @@ class RestaurantController extends CommonController
     {
         if (Rmanager::find()->where('uid=:id',[':id' => Yii::$app->user->identity->id])->one()) {
             $restaurant = Restaurant::find()->where('Restaurant_Manager=:r',[':r' => Yii::$app->user->identity->username])->all();
-            
+             $this->layout = "/user";
             return $this->render('restaurantservice',['restaurant'=>$restaurant]);
         }
         
     }
 
-    public function actionFoodService()
+    public function actionFoodService($id)
     {
-        var_dump('expression');exit;
-        return $this->render('foodservice');
+        $foods = Food::find()->where('Restaurant_ID=:rid',[':rid'=>$id])->all();
+        $this->layout = "/user";
+        return $this->render('foodservice',['foods'=>$foods]);
     }
 
-    public function actionActive($id)
+    public function actionActive($id,$item)
     {
-        $model = self::findModel($id);
-        $model->Restaurant_Status = "Operating";
-        if($model->validate())
-        {
-        	$model->save();
-            Yii::$app->session->setFlash('success', "Status change to operating.");
+        switch ($item) {
+            case 1:
+                $model = self::findModel($id);
+                $model->Restaurant_Status = "Operating";
+                if($model->validate())
+                {
+                    $model->save();
+                    Yii::$app->session->setFlash('success', "Status change to operating.");
+                }
+                else
+                {
+                    Yii::$app->session->setFlash('warning', "Change status failed.");
+                }
+                break;
+
+            case 2:
+                $model = Foodstatus::find()->where('Food_ID=:id',[':id'=>$id])->one();
+                $model->Status = 1;
+                if($model->validate())
+                {
+                    $model->save();
+                    Yii::$app->session->setFlash('success', "Status change to operating.");
+                }
+                else
+                {
+                    Yii::$app->session->setFlash('warning', "Change status failed.");
+                }
+                break;
+            
+            default:
+                # code...
+                break;
         }
-        else
-        {
-            Yii::$app->session->setFlash('warning', "Change status failed.");
-        }
+        
 
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-    public function actionDeactive($id)
+    public function actionDeactive($id,$item)
     {
-        $model = self::findModel($id);
-        $model->Restaurant_Status = "Closed";
-        if($model->validate())
-        {
-        	$model->save();
-            Yii::$app->session->setFlash('success', "Status change to closed.");
+        switch ($item) {
+            case 1:
+                $model = self::findModel($id);
+                $model->Restaurant_Status = "Closed";
+                if($model->validate())
+                {
+                    $model->save();
+                    Yii::$app->session->setFlash('success', "Status change to closed.");
+                }
+                else
+                {
+                    Yii::$app->session->setFlash('warning', "Change status failed.");
+                }
+                break;
+
+            case 2:
+                $model = Foodstatus::find()->where('Food_ID=:id',[':id'=>$id])->one();
+                $model->Status = 0;
+                if($model->validate())
+                {
+                    $model->save();
+                    Yii::$app->session->setFlash('success', "Status change to paused.");
+                }
+                else
+                {
+                    Yii::$app->session->setFlash('warning', "Change status failed.");
+                }
+                break;
+            
+            default:
+                # code...
+                break;
         }
-        else
-        {
-            Yii::$app->session->setFlash('warning', "Change status failed.");
-        }
+        
         return $this->redirect(Yii::$app->request->referrer);
     }
 

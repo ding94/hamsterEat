@@ -29,6 +29,12 @@ class FoodController extends CommonController
 {
     public function actionFoodDetails($id,$rid)
     {
+        $valid = ValidController::FoodValid($id);
+        if ($valid == false) {
+            Yii::$app->session->setFlash('error', 'This food was not valid now.');
+            return $this->redirect(['/Restaurant/default/restaurant-details', 'id'=>$id,'rid'=>$rid]);
+        }
+
         $fooddata = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
         
         $foodPack = FoodtypeAndStatusController::getFoodPack($fooddata['foodType']);

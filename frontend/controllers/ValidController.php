@@ -8,10 +8,37 @@ use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use common\models\Vouchers;
 use common\models\UserVoucher;
+use common\models\food\Food;
+use common\models\Restaurant;
+use common\models\food\Foodstatus;
 
 
 class ValidController extends Controller
 {
+	public static function restaurantValid($id)
+	{
+		$valid = Restaurant::find()->where('Restaurant_ID=:id AND Restaurant_Status=:s',[':id'=>$id,':s'=>"Closed"])->one();
+		
+		if (!empty($valid)) {
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	public static function foodValid($id)
+	{
+		$valid = Foodstatus::find()->where('Food_ID=:id AND Status=:s',[':id'=>$id,':s'=>1])->one();
+		if (!empty($valid)) {
+			return true;
+		}
+		else{
+			return false;
+		}
+		
+	}
+
 	public static function dateValidCheck($post,$case)
 	{
 		$voucher = Vouchers::find()->where('id = :id',[':id' => $post])->one();

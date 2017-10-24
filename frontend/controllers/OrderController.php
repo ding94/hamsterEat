@@ -147,8 +147,11 @@ class OrderController extends CommonController
         //var_dump($results1);exit;
         if ($results == $results1)
         {
+
             $sql10 = "UPDATE orders SET Orders_Status = 'On The Way' WHERE Delivery_ID = ".$did."";
+
             Yii::$app->db->createCommand($sql10)->execute();
+            NotificationController::createNotification($did,4);
             $time1 = time();
             $sql11 = "UPDATE ordersstatuschange SET OChange_OnTheWayDateTime = ".$time1." WHERE Delivery_ID = ".$did."";
             Yii::$app->db->createCommand($sql11)->execute();

@@ -30,8 +30,8 @@ $this->title = "Available Restaurants";
   background-color: white;
   min-width: 298px;
   min-height: 298px;
- font-weight: 700;
- border: 1px solid grey;
+  font-weight: 700;
+  border: 1px solid grey;
  
 }
 

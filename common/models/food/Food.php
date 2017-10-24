@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use frontend\controllers\CartController;
 use common\models\Restaurant;
+use common\models\Rmanagerlevel;
 
 /**
  * This is the model class for table "food".
@@ -123,8 +124,15 @@ class Food extends \yii\db\ActiveRecord
         return $this->hasOne(Restaurant::className(),['Restaurant_ID' => 'Restaurant_ID']);
     }
 
+    public function getManager()
+    {
+        return $this->hasMany(Rmanagerlevel::className(),['Restaurant_ID' => 'Restaurant_ID']);
+    }
+
     public function getRoundprice()
     {
         return CartController::actionRoundoff1decimal($this->BeforeMarkedUp);
-    }	
+    }
+
+    
 }

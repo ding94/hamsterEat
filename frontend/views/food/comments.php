@@ -18,7 +18,19 @@ foreach ($comments as $comments) :
             $user = $user['username'];
             $dt = new DateTime('@'.$comments['created_at']);
             $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
-            echo $user.' '.$comments['Comment'].' '.$comments['FoodRating_Rating'].' '.$dt->format('d-m-Y H:i:s'); ?>
+             ?>
+          <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default'>
+		<div class='panel-body'>
+             <?php echo $comments['FoodRating_Rating'];?>  <?php echo $dt->format('d-m-Y H:i:s');?> 
+                        <br>
+                       By <?php echo $user;?>
+                        <br>
+                        <br>
+                        <?php echo $comments['Comment'];?>
+         </div>
+			</div>
+                       
+                       
         </div>
    <?php }
     endforeach; ?>

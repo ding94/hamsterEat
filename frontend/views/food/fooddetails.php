@@ -71,8 +71,10 @@ line-height: initial;
   font-size: 1.6em;
 }
 #fooddetails .cart{
-  width:50%;
+ display: inline-block;
+  
 }
+
 
 #fooddetails .description{
       color: rgb(117, 117, 117);
@@ -214,8 +216,8 @@ font-size: 16px;
                <?= $form->field($orderitem, 'OrderItem_Remark')->label('Remarks'); ?>
         
            
-      			
-              <?= $form->field($orderitem, 'OrderItem_Quantity')->widget(TouchSpin::classname(), [
+      			<div class="cart">
+              <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:25%;']])->widget(TouchSpin::classname(), [
                   'options' => [
                       'id'=>'orderitem-orderitem_quantity'.$fooddata->Food_ID,
                   ],
@@ -228,12 +230,10 @@ font-size: 16px;
                       'buttonup_txt' => '<i class="fa fa-plus"></i>', 
                       'buttondown_txt' => '<i class="fa fa-minus"></i>'
                   ],
-              ]); ?>
+              ])->label(false); ?>   <?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart','style'=>'margin-top:-44px;width:48%;']) ?>
 
-          <div class="cart">
-            <?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
-        </div>
-           
+     
+           </div>
 
             <?php if($fooddata->foodPackage == 0):?>
 			      <!--<tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>-->

@@ -87,7 +87,7 @@ class PackageController extends Controller
                 $selectedDate = DeliveryController::createDeliveryDate($selectedDateTime,$pid);
                 //$payment = PaymentController::subScribePayment($UserPackageDetail['UserPackageDetail']['totalPrice'],$pid);
                 
-                $isValid =  $selectionType&& $detail && $selectedDate && $payment;
+                $isValid =  $selectionType&& $detail && $selectedDate ;
                 
                 if($isValid)
                 {

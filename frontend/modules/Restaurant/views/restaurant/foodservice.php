@@ -1,8 +1,8 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
-use common\models\Restaurant;
-$this->title = "Owned/Manage Restaurants";
+use common\models\food\Foodstatus;
+$this->title = "Manage Foods";
 
 ?>
 <style>
@@ -35,7 +35,6 @@ $this->title = "Owned/Manage Restaurants";
   min-height: 160px;
   border-bottom:1px solid #FFDA00;
   padding-right: 20px;
-  cursor:pointer;
 }
 
 .item-no-border p{
@@ -111,29 +110,31 @@ span.stars span {
 
 </style>
 <body>
-<div class ="container" ><h1>Owned/Manage Restaurants</h1>
+<div class ="container" ><h1>Manage Foods</h1>
+  <div style="padding:10px 0px 20px 0px;"><?=Html::a('Back to Restaurants', Url::to(['restaurant/restaurant-service']), ['class'=>'btn btn-primary'])?></div>
  <div class="outer-container" id="outer" >
     <div class="menu-container" id="menucon">
-      <?php foreach($restaurant as $k => $res ){?>
+      <?php foreach($foods as $k => $food ){?>
       <div class="outer-item">
-      <a href=" <?php echo yii\helpers\Url::to(['default/restaurant-details','rid'=>$res['Restaurant_ID']]); ?> ">
       <div class="item-no-border">
-        <div class="img"><?php echo Html::img('@web/imageLocation/'.$res['Restaurant_RestaurantPicPath']) ?></div>
+        <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$food['PicPath']) ?></div>
         <div class="inner-item">
-          <span><?php echo $res['Restaurant_Name']; ?></span>
+          <span><?php echo $food['Name']; ?></span>
 
-          <p><?php echo $res['Restaurant_UnitNo'].','.$res['Restaurant_Street'].','.$res['Restaurant_Area'].', '.$res['Restaurant_Postcode'] ?></p>
+          <p>Description: <?php echo $food['Description']?></p>
+          <p>Ingredients: <?php echo $food['Ingredient']?></p>
+          <p>Nick Name: <?php echo $food['Nickname']?></p>
     	</div>
-		    <span class="small-text pull-right stars" alt="<?php echo $res['Restaurant_Rating']; ?>"><?php echo $res['Restaurant_Rating']; ?></span>  	
+		    <span class="small-text pull-right stars" alt="<?php echo $food['Rating']; ?>"><?php echo $food['Rating']; ?></span>
       </div>
-  		</a>
-      <?php if ($res['Restaurant_Status'] == "Closed"): ?>
-            <?=Html::a('Food Detail', Url::to(['restaurant/food-service', 'id'=>$res['Restaurant_ID']]), ['id'=>'food','class'=>'btn btn-warning'])?>
-            <?=Html::a('Resume Operate', Url::to(['restaurant/active', 'id'=>$res['Restaurant_ID'],'item'=>1]), ['id'=>'res','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-warning'])?>
-          <?php elseif($res['Restaurant_Status'] == "Operating"): ?>
-            <?=Html::a('Food Detail', Url::to(['restaurant/food-service', 'id'=>$res['Restaurant_ID']]), ['id'=>'food','class'=>'btn btn-warning'])?>
-            <?=Html::a('Pause Operate', Url::to(['restaurant/deactive', 'id'=>$res['Restaurant_ID'],'item'=>1]), ['id'=>'res','data-confirm'=>"Do you want to Pause Operate?",'class'=>'btn btn-warning'])?>  
-          <?php endif ?>
+      <?php $status = Foodstatus::find()->where('Food_ID=:id',[':id'=>$food['Food_ID']])->one(); ?>
+      <?php if (!empty($status)): ?>
+        <?php if ($status['Status'] == 0): ?>
+              <?=Html::a('Resume Food Service', Url::to(['restaurant/active', 'id'=>$food['Food_ID'],'item'=>2]), ['id'=>'res','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-warning'])?>
+        <?php elseif ($status['Status'] == 1): ?>
+              <?=Html::a('Pause Food Service', Url::to(['restaurant/deactive', 'id'=>$food['Food_ID'],'item'=>2]), ['id'=>'res','data-confirm'=>"Do you want to Pause Operate?",'class'=>'btn btn-warning'])?>  
+        <?php endif ?>
+      <?php endif ?>
       </div>
       <?php } ?>
     </div>

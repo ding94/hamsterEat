@@ -23,8 +23,9 @@ use frontend\modules\Restaurant\controllers\FoodselectionController;
 use frontend\modules\Restaurant\controllers\FoodtypeAndStatusController;
 use frontend\modules\Restaurant\controllers\DefaultController;
 use frontend\controllers\CartController;
+use frontend\controllers\CommonController;
 
-class FoodController extends Controller
+class FoodController extends CommonController
 {
     public function actionFoodDetails($id,$rid)
     {

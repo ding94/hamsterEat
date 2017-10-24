@@ -72,6 +72,7 @@ AppAsset::register($this);
             $menuItems[2]['items'][$k+count($restaurant)] = '<li class="divider"></li>';
             }
         }
+        
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile']],
                         '<li class="divider"></li>',

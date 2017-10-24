@@ -8,8 +8,9 @@ use common\models\Bank;
 use yii\helpers\ArrayHelper;
 use Yii;
 use yii\web\UploadedFile;
+use frontend\controllers\CommonController;
 
-class TopupHistoryController extends \yii\web\Controller
+class TopupHistoryController extends CommonController
 {
     public function actionIndex()
     {

@@ -12,8 +12,9 @@ use yii\web\UploadedFile;
 use common\models\Account\Accountbalance;
 use frontend\models\Accounttopup;
 use common\models\Account\Memberpoint;
+use frontend\controllers\CommonController;
 
-class UserController extends Controller
+class UserController extends CommonController
 {
     public function actionUserProfile()
     {

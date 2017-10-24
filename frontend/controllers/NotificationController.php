@@ -117,11 +117,12 @@ class NotificationController extends Controller
 			case "Preparing":
 				$data = "Pending";
 				break;
-			case "Ready For Pick Up":
-				$data = "Preparing";
+			case "On The Way":
+				$data = "Pick Up";
 				break;
-			case "Picked Up":
-				$data = "Ready For Pick Up";
+			case "Completed":
+				$data = "On The Way";
+				break;
 			default:
 				$data = "";
 				break;

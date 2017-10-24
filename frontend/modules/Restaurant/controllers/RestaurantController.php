@@ -8,8 +8,9 @@ use backend\models\RestaurantSearch;
 use common\models\Restaurant;
 use common\models\Rmanager;
 use yii\web\NotFoundHttpException;
+use frontend\controllers\CommonController;
 
-class RestaurantController extends Controller
+class RestaurantController extends CommonController
 {
 	public function actionIndex()
     {

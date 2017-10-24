@@ -12,8 +12,9 @@ use common\models\Ticket;
 use common\models\Ticketcategorytypes;
 use common\models\Replies;
 use yii\web\UploadedFile;
+use frontend\controllers\CommonController;
 
-class TicketController extends Controller
+class TicketController extends CommonController
 {
 
 

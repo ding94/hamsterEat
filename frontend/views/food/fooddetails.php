@@ -146,10 +146,7 @@ input[type=number]::-webkit-outer-spin-button {
                       'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>'
                   ],
               ]); ?>
-            </td>
-            <td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
-            </td> 
-            </tr>
+
             <?php if($fooddata->foodPackage == 0):?>
 			      <tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
             </td> </tr> 

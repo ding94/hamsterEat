@@ -18,7 +18,7 @@ class Memberpoint extends \yii\db\ActiveRecord
 {
     public $amount;
     public $type;
-
+    
     /**
      * @inheritdoc
      */

@@ -19,6 +19,7 @@ use common\models\Account\Accountbalance;
 use frontend\models\Deliveryman;
 use frontend\controllers\PaymentController;
 use frontend\controllers\MemberpointController;
+use frontend\controllers\NotificationController;
 use yii\helpers\Json;
 use frontend\modules\delivery\controllers\DailySignInController;
 use yii\helpers\ArrayHelper;
@@ -263,7 +264,6 @@ class CartController extends Controller
 
     public function actionCheckout($did,$discountcode)
     {
-        
         $mycontact = Userdetails::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->one();
         $mycontactno = $mycontact['User_ContactNo'];
         $myemail = User::find()->where('username = :username',[':username'=>Yii::$app->user->identity->username])->one();
@@ -324,7 +324,7 @@ class CartController extends Controller
                 }
                 else if (empty($voucher))
                 {
-                $valid = false;
+                    $valid = false;
                 }
                 if ($valid == true ) 
                 {
@@ -379,9 +379,8 @@ class CartController extends Controller
                         }
                        
                     }
-
                 }
-
+              
                 $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = '".$session['postcode']."', Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = '".$time."', Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = '".$did."'";
                 Yii::$app->db->createCommand($sql)->execute();
                 $sql2 = "UPDATE orderitem SET OrderItem_Status = 'Pending' WHERE Delivery_ID = '".$did."'";
@@ -421,7 +420,8 @@ class CartController extends Controller
 
                 $session = Yii::$app->session;
                 $session->close();
-
+                NotificationController::createNotification($did,1);
+                MemberpointController::addMemberpoint($order->Orders_TotalPrice,1);
                 return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate]);
             }
             else
@@ -429,7 +429,7 @@ class CartController extends Controller
                 Yii::$app->session->setFlash('error', 'The allowed time to place order is over. Please place your order in between 8am and 11am daily.');
             }
 
-            MemberpointController::addMemberpoint($order->Orders_TotalPrice,1);
+           
             return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate]);
         }
         return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
@@ -455,7 +455,7 @@ class CartController extends Controller
        return $value;
     }
 
-      public function actionDelete($oid)
+    public function actionDelete($oid)
     {
         $menu = orderitem::find()->where('Order_ID = :id' ,[':id' => $oid])->one();
         $linetotal = $menu['OrderItem_LineTotal'];

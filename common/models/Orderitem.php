@@ -60,6 +60,11 @@ class Orderitem extends \yii\db\ActiveRecord
          return $this->hasOne(Food::className(),['Food_ID'=>'Food_ID']);
     }
 
+    public function getManager()
+    {
+        return $this->hasMany(Rmanagerlevel::className(),['Restaurant_ID' => $this->food->Restaurant_ID]);
+    }
+
     public function getItem_status()
     {
         return $this->hasOne(Orderitemstatuschange::className(),['Order_ID' => 'Order_ID']); 

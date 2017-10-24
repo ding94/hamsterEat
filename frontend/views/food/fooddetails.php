@@ -72,7 +72,7 @@ input[type=number]::-webkit-outer-spin-button {
             </tr>
 
             <tr class="bordertop">
-                  <td>Food Name:</td>
+                  <td><?php echo Html::a('Comments', ['view-comments', 'id'=>$fooddata['Food_ID']], ['class'=>'btn btn-default']); ?></td>
                   <td colspan = 2> <?php echo $fooddata->Name;?></td>
             </tr>
 

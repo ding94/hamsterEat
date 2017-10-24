@@ -18,6 +18,7 @@ use common\models\Restaurant;
 use common\models\food\Foodtype;
 use common\models\food\Foodtypejunction;
 use common\models\food\Foodstatus;
+use common\models\Rating\Foodrating;
 use frontend\modules\Restaurant\controllers\FoodselectionController;
 use frontend\modules\Restaurant\controllers\FoodtypeAndStatusController;
 use frontend\modules\Restaurant\controllers\DefaultController;
@@ -462,6 +463,13 @@ class FoodController extends Controller
          $this->layout = 'user';
 
          return $this->redirect(['menu','menu'=>$menu,'id'=>$id,'rid'=>$rid,'page'=>$page]);
+    }
+
+    public function actionViewComments($id)
+    {
+        $comments = Foodrating::find()->where('Food_ID = :id', [':id'=>$id])->all();
+
+        return $this->render('comments', ['fid'=>$id, 'comments'=>$comments]);
     }
 }
 

@@ -77,7 +77,6 @@ $this->title = "Delivery Orders";
                             {
                                 $label='<span class="label label-info">'.$orderitemdetails['OrderItem_Status'].'</span>';
                             }
-                            
                             echo "<td><center>".$label."</td>";
                             if ($orderitemdetails['OrderItem_Status'] == 'Pending') :
                             {

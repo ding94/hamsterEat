@@ -38,6 +38,7 @@ $this->title = "Food Details";
   margin: 0px;
   padding: 0px;
 }
+
 #number {
   text-align: center;
   border: none;
@@ -72,6 +73,7 @@ line-height: initial;
 #fooddetails .cart{
   width:50%;
 }
+
 #fooddetails .description{
       color: rgb(117, 117, 117);
       font-size: 14px;
@@ -79,6 +81,11 @@ line-height: initial;
 }
 #fooddetails .selection{
 font-size: 16px;
+
+}
+.food-detail-label{
+  width: 100%;
+
 }
 </style>
 <div class="row" style="padding-bottom: 0px">
@@ -136,7 +143,19 @@ font-size: 16px;
                       <span>*Please Select only 1 item.</span>
                     
                     
-                      <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->radioList($data)->label(false); ?>
+                      <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->radioList($data,[
+                                'item' => function($index, $label, $name, $checked, $value) {
+
+                                    $return = '<div class="radio">';
+                                    $return .= '<label class="food-detail-label">';
+                                    $return .= '<input type="radio" name="' . $name . '" value="' . $value . '" >';
+                                    $return .= $label;
+                                    $return .= '</label>';
+                                    $return .= '</div>';
+
+                                    return $return;
+                                }
+                            ])->label(false); ?>
                     
                   
               <?php } else if ($foodtype['Min'] == 0){ ?>
@@ -149,7 +168,19 @@ font-size: 16px;
                       </span>
                     
                    
-                      <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data)->label(false);?>
+                      <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data,[
+                                'item' => function($index, $label, $name, $checked, $value) {
+
+                                    $return = '<div class="checkbox">';
+                                    $return .= '<label class="food-detail-label">';
+                                    $return .= '<input type="checkbox" name="' . $name . '" value="' . $value . '" >';
+                                    $return .= $label;
+                                    $return .= '</label>';
+                                    $return .= '</div>';
+
+                                    return $return;
+                                }
+                            ])->label(false);?>
                   
                 
               <?php } else { ?>
@@ -162,7 +193,19 @@ font-size: 16px;
                       </span>
                    
                   
-                      <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data)->label(false);?>
+                      <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data,[
+                                'item' => function($index, $label, $name, $checked, $value) {
+
+                                    $return = '<div class="checkbox">';
+                                    $return .= '<label class="food-detail-label">';
+                                    $return .= '<input type="checkbox" name="' . $name . '" value="' . $value . '" >';
+                                    $return .= $label;
+                                    $return .= '</label>';
+                                    $return .= '</div>';
+
+                                    return $return;
+                                }
+                            ])->label(false);?>
                  
                 
               <?php } endforeach; ?>
@@ -177,6 +220,9 @@ font-size: 16px;
                       'id'=>'orderitem-orderitem_quantity'.$fooddata->Food_ID,
                   ],
                   'pluginOptions' => [
+                      'min' => 1,
+                      'style'=> 'width:20px;',
+                      'initval' => 1,
                       'buttonup_class' => 'btn btn-primary', 
                       'buttondown_class' => 'btn btn-primary', 
                       'buttonup_txt' => '<i class="fa fa-plus"></i>', 

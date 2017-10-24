@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($food, 'Nickname')->textInput() ?>
 
-                <?= $form->field($food, 'BeforeMarkedUp')->textInput()->label('Price') ?>
+                <?= $form->field($food, 'Price')->textInput()->label('Price') ?>
 
                 <?php echo '<label class="control-label">Type</label>';
                         echo Select2::widget([

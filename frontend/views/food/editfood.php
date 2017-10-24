@@ -23,11 +23,18 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-sm-6">
             <?php $form = ActiveForm::begin(['action' => ['/food/postedit','id' => $food->Food_ID],'id' => 'dynamic-form']); ?>
                 <?= $form->field($food, 'PicPath')->fileInput()->label('Picture') ?>
-
                 <?= $form->field($food, 'Name')->textInput()->label('Name') ?>
-
-                <?= $form->field($food, 'roundprice')->textInput()->label('Price') ?>
-
+                <div class="col-sm-5">
+                    <?= $form->field($food, 'roundprice')->textInput()->label("Money Received") ?>
+                </div>
+                <div class="col-sm-2">
+                    <span>*1.2 = </span>
+                </div>  
+                 <div class="col-sm-5">
+                    
+                       <?= $form->field($food, 'Price')->textInput()->label('Price Display') ?>
+                </div>
+               
                 <?php echo '<label class="control-label">Type</label>';
                         echo Select2::widget([
                             'name' => 'Type_ID',

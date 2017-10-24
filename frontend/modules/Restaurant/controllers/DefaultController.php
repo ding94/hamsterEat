@@ -103,6 +103,12 @@ class DefaultController extends Controller
 
     public function actionRestaurantDetails($rid)
     {
+        $valid = Restaurant::find()->where('Restaurant_ID=:id AND Restaurant_Status=:s',[':id'=>$rid,':s'=>"Operating"])->one();
+        if (empty($valid)) {
+            Yii::$app->session->setFlash('error', 'This food was not valid now.');
+            return $this->redirect(['/site/index']);
+        }
+
         $id = restaurant::find()->where('restaurant.Restaurant_ID = :rid' ,[':rid' => $rid])->innerJoinWith('restaurantType')->one();
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
 

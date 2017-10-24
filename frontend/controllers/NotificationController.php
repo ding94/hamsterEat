@@ -13,10 +13,9 @@ class NotificationController extends Controller
 {
 	/*
 	* id => can be order item or delivery id
-	* based on type
-	* type 
-	* => 1 delivery id
-	* => 2 order id
+	* order id is for restuarnt to know the order
+	* delivery id is for user and deliveryman to know the process
+	* $type => use for category the tree list
 	*/
 	public static function createNotification($id,$type)
 	{
@@ -63,6 +62,10 @@ class NotificationController extends Controller
 		return true;
 	}
 
+	/*
+	* get all restaurant worker id
+	* rid use for a link to the order page
+	*/
 	public static function getRestaurantdetail($did)
 	{
 		$food = Orderitem::find()->joinWith('food.manager')->where('Delivery_ID = :did',[':did' => $did])->all();
@@ -80,6 +83,10 @@ class NotificationController extends Controller
 		return $data;
 	}
 
+	/*
+	* get user detail from order
+	* get the current status and pres status for let the user know the status change
+	*/
 	public static function getUserdetail($oid)
 	{
 		$item = Orderitem::find()->joinWith(['order','food'])->where('Order_ID = :oid',[':oid'=> $oid])->one();
@@ -90,6 +97,9 @@ class NotificationController extends Controller
 		return $data;
 	}
 
+	/*
+	* get deliveryman detail by order
+	*/
 	public static function getDeliverydetail($oid)
 	{
 		$item = Orderitem::find()->joinWith(['order'])->one();
@@ -97,6 +107,10 @@ class NotificationController extends Controller
 		return $data;
 	}
 
+	/*
+	* get the pre status base on status
+	* currently hardcore may change next time
+	*/
 	public static function getPreOrderStatus($status)
 	{
 		switch ($status) {

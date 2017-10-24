@@ -12,7 +12,7 @@ $this->title = "Food Details";
 ?>
 <style>
 .modal-content{
-  width:600px;
+  width:598px;
 }
 .modal-lg{
   padding-left: 158px;
@@ -74,8 +74,18 @@ line-height: initial;
   width:50%;
 }
 
+#fooddetails .description{
+      color: rgb(117, 117, 117);
+      font-size: 14px;
+      line-height: 22px;
+}
+#fooddetails .selection{
+font-size: 16px;
+
+}
 .food-detail-label{
   width: 100%;
+
 }
 </style>
 <div class="row" style="padding-bottom: 0px">
@@ -87,7 +97,10 @@ line-height: initial;
       <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
     <?php endif ;?>
 		<!--<table class="table-user-information" style="width:60%; margin:auto;">-->
-
+   <tr class="bordertop">
+                  <td><?php echo Html::a('Comments', ['view-comments', 'id'=>$fooddata['Food_ID']], ['class'=>'btn btn-default']); ?></td>
+                  <td colspan = 2> <?php echo $fooddata->Name;?></td>
+            </tr>
                  
                   <?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:595px; margin:auto;']) ?>
             
@@ -104,26 +117,16 @@ line-height: initial;
                    </div>
           
       <br>
-            
+            <div class="description">
                  <!--<td>Food Description:</td>-->
                  <span style="display: block;overflow-wrap: break-word; word-wrap: break-word; width:148px;"><?php echo $fooddata->Description;?></span>
+                 </div>
             <br>
               <div class="selection">
 
-            <tr class="bordertop">
-                  <td><?php echo Html::a('Comments', ['view-comments', 'id'=>$fooddata['Food_ID']], ['class'=>'btn btn-default']); ?></td>
-                  <td colspan = 2> <?php echo $fooddata->Name;?></td>
-            </tr>
+         
 
-            <tr class="bordertop">
-                  <td>Food Price (RM):</td>
-                  <td colspan = 2> <?php echo CartController::actionRoundoff1decimal($fooddata->Price);?></td>
-            </tr>
 
-            <tr class="bordertop">
-                 <td>Food Description:</td>
-                  <td colspan = 2><span style="display: block;overflow-wrap: break-word; word-wrap: break-word; width:148px;"><?php echo $fooddata->Description;?></span></td>
-            </tr>
               
 
             <?php  
@@ -218,6 +221,7 @@ line-height: initial;
                   ],
                   'pluginOptions' => [
                       'min' => 1,
+                      'style'=> 'width:20px;',
                       'initval' => 1,
                       'buttonup_class' => 'btn btn-primary', 
                       'buttondown_class' => 'btn btn-primary', 

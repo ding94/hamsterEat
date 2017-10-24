@@ -466,5 +466,12 @@ class FoodController extends Controller
 
          return $this->redirect(['menu','menu'=>$menu,'id'=>$id,'rid'=>$rid,'page'=>$page]);
     }
+
+    public function actionViewComments($id)
+    {
+        $comments = Foodrating::find()->where('Food_ID = :id', [':id'=>$id])->all();
+
+        return $this->render('comments', ['fid'=>$id, 'comments'=>$comments]);
+    }
 }
 

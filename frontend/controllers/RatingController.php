@@ -28,17 +28,18 @@ Class RatingController extends Controller
 		$servicerating = new Servicerating;
 		$ratingLevel = ArrayHelper::map($label, 'id', 'labelName');
 
-
 		return $this->render('index',['orderitem' => $orderitem , 'foodrating' => $foodrating ,'servicerating' => $servicerating ,'ratingLevel' => $ratingLevel, 'id' =>$id]);
 	}
 
 	public function actionRatingData($id)
 	{
 		$post= Yii::$app->request->post();
+		
 		$servicerating = self::serviceRating($post,$id);
 		if($servicerating == true)
 		{
 			$foodvalidate = self::allFoodRating($post['Foodrating'],$id);
+			
 			if($foodvalidate == true)
 			{
 				self::changeStatus($id);
@@ -108,8 +109,10 @@ Class RatingController extends Controller
 	{
 		foreach($post as $data)
 		{
-			$validate = self::foodrating($data['FoodRating_Rating'],$data['Food_ID'],$id);
-			if($validate == false)
+			$aa['Foodrating'] = $data;
+			$validate = self::foodrating($aa,$id);
+			//var_dump($validate);exit;
+			if(!$validate)
 			{
 				Foodrating::deleteAll('delivery_id = :id',[':id' => $id]);
 				Yii::$app->session->setFlash('warning', "Food Rating Fail");
@@ -120,31 +123,32 @@ Class RatingController extends Controller
 		return true;
 	}
 
-	protected static function foodRating($rating,$foodID,$id)
+	protected static function foodRating($data,$id)
 	{
 		$foodrating = new Foodrating;
-		$foodrating->FoodRating_Rating = $rating;
-		$foodrating->Food_ID =$foodID;
+		$foodrating->load($data);
+		//$foodrating->FoodRating_Rating = $data['FoodRating_Rating'];
+		//$foodrating->Food_ID =$data['Food_ID'];
 		$foodrating->delivery_id = $id;
 		$foodrating->User_Id = Yii::$app->user->identity->id;
-
+		//var_dump($foodrating->validate());exit;
 		if($foodrating->save())
 		{
-			$sql = "SELECT id FROM foodrating WHERE Food_ID = ".$foodID."";
+			$sql = "SELECT id FROM foodrating WHERE Food_ID = ".$foodrating->Food_ID."";
 			$result = Yii::$app->db->createCommand($sql)->execute();
 
-			$ratings = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$foodID])->all();
+			$ratings = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$foodrating->Food_ID])->all();
 			$rating = 0;
 			foreach ($ratings as $ratings) :
 				$rating = $ratings['FoodRating_Rating'] + $rating;
 			endforeach;
 
 			$averagerating = $rating / $result;
-			
+
 			$averagerating = CartController::actionDisplay2decimal($averagerating);
-			$sql1 = "UPDATE food SET Rating = ".$averagerating." WHERE Food_ID = ".$foodID."";
+			$sql1 = "UPDATE food SET Rating = ".$averagerating." WHERE Food_ID = ".$foodrating->Food_ID."";
 			$result = Yii::$app->db->createCommand($sql1)->execute();
-			
+
 			return true;
 		}
 		else

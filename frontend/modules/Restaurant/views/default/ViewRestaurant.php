@@ -113,10 +113,11 @@ span.stars span {
           <p><?php echo $restaurant['Restaurant_UnitNo'].','.$restaurant['Restaurant_Street'].','.$restaurant['Restaurant_Area'].', '.$restaurant['Restaurant_Postcode'] ?></p>
     
         </div>
-        </a>
+       
 		    <span class="small-text pull-right stars" alt="<?php echo $restaurant['Restaurant_Rating']; ?>"><?php echo $restaurant['Restaurant_Rating']; ?></span>
         
       </div>
+       </a>
       <?php endforeach; ?>
     </div>
 	</div>

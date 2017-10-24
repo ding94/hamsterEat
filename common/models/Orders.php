@@ -40,17 +40,10 @@ class Orders extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    
     public static function tableName()
     {
         return 'orders';
-    }
-
-    public function afterSave($insert, $changedAttributes)
-    {
-        if($this->order_status == "Pending")
-        {
-            
-        }
     }
 
     /**

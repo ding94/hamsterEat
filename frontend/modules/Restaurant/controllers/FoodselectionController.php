@@ -27,6 +27,7 @@ class FoodselectionController extends Controller
 
 	public static function createfoodselection($foodtype,$foodselection,$id)
 	{
+
 		foreach ($foodtype as $i => $modelfoodtype) {
 
             $modelfoodtype->Food_ID = $id;
@@ -41,12 +42,10 @@ class FoodselectionController extends Controller
                 foreach ($foodselection[$i] as $ix => $modelfoodselection) {
                     $modelfoodselection->Type_ID = $modelfoodtype->ID;
                     $modelfoodselection->Food_ID = $id;
-                    $beforemarkedup = CartController::actionRoundoff1decimal($modelfoodselection->BeforeMarkedUp);
-                    $markedup = $beforemarkedup * 1.3;
-                    $markedup = CartController::actionRoundoff1decimal($markedup);
-                    $modelfoodselection->BeforeMarkedUp = $beforemarkedup;
-                    $modelfoodselection->Price = $markedup;
-
+                    
+                    $modelfoodselection->Price = CartController::actionDisplay2decimal($modelfoodselection->Price);
+                    $modelfoodselection->BeforeMarkedUp =  CartController::actionRoundoff1decimal($modelfoodselection->Price / 1.3);;
+                   
                     if (!($flag = $modelfoodselection->save(false))) {
                         return false;
                     }

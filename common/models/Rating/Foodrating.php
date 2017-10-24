@@ -15,6 +15,7 @@ use common\models\Rating\RatingStatus;
  * @property integer $delivery_id
  * @property integer $Food_ID
  * @property integer $FoodRating_Rating
+ * @property string $Comment
  * @property integer $User_Id
  * @property integer $created_at
  * @property integer $updated_at
@@ -51,6 +52,7 @@ class Foodrating extends \yii\db\ActiveRecord
         return [
             [['delivery_id', 'User_Id' , 'FoodRating_Rating','User_Id' ,'Food_ID'], 'required'],
             [['delivery_id', 'Food_ID', 'User_Id', 'created_at', 'updated_at'], 'integer'],
+            [['Comment'], 'string'],
         ];
     }
 
@@ -64,6 +66,7 @@ class Foodrating extends \yii\db\ActiveRecord
             'delivery_id' => 'Delivery ID',
             'Food_ID' => 'Food  ID',
             'FoodRating_Rating' => 'Rating',
+            'Comment' => 'Comment',
             'User_Id' => 'User  ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

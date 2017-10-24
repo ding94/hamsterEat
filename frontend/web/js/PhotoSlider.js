@@ -42,7 +42,7 @@ function carousel() {
     x[slideIndex-1].style.display = "block"; 
     setTimeout(carousel, 6000); // Change image every 5 seconds
     if (slideIndex == 1){
-      $('#dot'+4).toggleClass('active');
+      $('#dot'+5).toggleClass('active');
     }
     else{
       $('#dot'+(slideIndex-1)).toggleClass('active');

@@ -19,25 +19,31 @@ $this->title = 'hamsterEat';
 		<div id="SSCrow1" class="row">
 			<div class="mySlides">
 
-			<img src="SysImg/1.jpg" style="width:100%;height:670px !important;">
+			<img src="SysImg/15.jpeg" style="width:100%;height:670px !important;">
 
 			</div>
 
 			<div class="mySlides">
 
-			<img src="SysImg/2.jpg" style="width:100%; height:670px !important;">
+			<img src="SysImg/7.jpeg" style="width:100%; height:670px !important;">
 
 			</div>
 
 			<div class="mySlides">
 
-			<img src="SysImg/3.jpg" style="width:100%;height:670px !important;">
+			<img src="SysImg/14.jpeg" style="width:100%;height:670px !important;">
 
 			</div>
 
 			<div class="mySlides">
 
-			<img src="SysImg/4.jpg" style="width:100%;height:670px !important;">
+			<img src="SysImg/13.jpeg" style="width:100%;height:670px !important;">
+
+			</div>
+			
+			<div class="mySlides">
+
+			<img src="SysImg/11.jpeg" style="width:100%;height:670px !important;">
 
 			</div>
 			
@@ -46,23 +52,20 @@ $this->title = 'hamsterEat';
 			<span id="dot2"class="dot" onclick="currentSlide(2)"></span>
 			<span id="dot3"class="dot" onclick="currentSlide(3)"></span>
 			<span id="dot4" class="dot" onclick="currentSlide(4)"></span>
+			<span id="dot5" class="dot" onclick="currentSlide(5)"></span>
 			</div> 
 		
- <!--<div class="container"> -->
-      <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 " >-->
-      <!--  <div class="col-md-8 col-md-offset-2"> -->
-        <div class="form">
-        <h1>Select Your Location</h1>
 
-        <?php $form = ActiveForm::begin(); ?>
+        <div class="form">
+		<h1>A place for you to enjoy food by a click!</h1><br>
+        <h2>Select Your Location</h2><br>
+
+        <?php $form = ActiveForm::begin(['type' => ActiveForm::TYPE_HORIZONTAL]); ?>
 
         <?= $form->field($postcode, 'Area_Postcode')->widget(Select2::classname(), [
 	    'data' => $postcodeArray,
-	    'options' => ['placeholder' => 'Select a postcode ...','id'=>'postcode-select'],
-	    'pluginOptions' => [
-	        'allowClear' => true,
-	    ],
-	]); ?>
+	    'options' => ['placeholder' => 'Select a postcode ...','id'=>'postcode-select']])->label(false); 
+	    ?>
 		<?= $form->field($postcode,'Area_Area')->widget(DepDrop::classname(), [
 			'type'=>DepDrop::TYPE_SELECT2,
 			'options' => ['id'=>'area-select'],
@@ -70,12 +73,10 @@ $this->title = 'hamsterEat';
 				'depends'=>['postcode-select'],
 				'url'=>Url::to(['/site/get-area'])
 			],
-			]); ?>
-        <?= Html::submitButton('Proceed', ['class' => 'btn btn-primary', 'name' => 'proceed-button']) ?>
+			])->label(false); ?>
+
+        <?= Html::submitButton('Find Restaurants', ['class' => 'btn btn-primary', 'name' => 'proceed-button']) ?>
         </div>
-        <!-- </div> -->
-        <!-- </div> -->
-		<!-- </div> -->
        
 	   <?php ActiveForm::end(); ?>
     </div>
@@ -98,7 +99,7 @@ $this->title = 'hamsterEat';
 							You can order food whenever and wherever you are!
 							</p>
 							<div class="ficon">
-								<a href="site%2Fabout" alt="">View more</a> 
+								<p><?= Html::a('View more', ['site/about'],['class' => "btn btn-default"]) ?> </p>
 							</div>
 						</div>
 					</div>
@@ -114,7 +115,7 @@ $this->title = 'hamsterEat';
 							 You can select your favourite payment method!
 							</p>
 							<div class="ficon">
-								<a href="site%2Fabout" alt="">View more</a> 
+								<p><?= Html::a('View more', ['site/about'],['class' => "btn btn-default"]) ?> </p>
 							</div>
 						</div>
 					</div>
@@ -130,7 +131,7 @@ $this->title = 'hamsterEat';
 							 We provide you the best services!
 							</p>
 							<div class="ficon">
-								<a href="site%2Fabout" alt="">View more</a> 
+								<p><?= Html::a('View more', ['site/about'],['class' => "btn btn-default"]) ?> </p>
 							</div>
 						</div>
 					</div>

@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use backend\models\RestaurantSearch;
 use common\models\Restaurant;
+use common\models\Rmanager;
 use yii\web\NotFoundHttpException;
 
 class RestaurantController extends Controller
@@ -16,6 +17,22 @@ class RestaurantController extends Controller
     	$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
     	return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
+    }
+
+    public function actionRestaurantService()
+    {
+        if (Rmanager::find()->where('uid=:id',[':id' => Yii::$app->user->identity->id])->one()) {
+            $restaurant = Restaurant::find()->where('Restaurant_Manager=:r',[':r' => Yii::$app->user->identity->username])->all();
+            
+            return $this->render('restaurantservice',['restaurant'=>$restaurant]);
+        }
+        
+    }
+
+    public function actionFoodService()
+    {
+        var_dump('expression');exit;
+        return $this->render('foodservice');
     }
 
     public function actionActive($id)

@@ -18,6 +18,7 @@ use common\models\Restaurant;
 use common\models\food\Foodtype;
 use common\models\food\Foodtypejunction;
 use common\models\food\Foodstatus;
+use common\models\Rating\Foodrating;
 use frontend\modules\Restaurant\controllers\FoodselectionController;
 use frontend\modules\Restaurant\controllers\FoodtypeAndStatusController;
 use frontend\modules\Restaurant\controllers\DefaultController;
@@ -39,6 +40,8 @@ class FoodController extends Controller
         
         $orderItemSelection =new Orderitemselection;
         $orderitem = new Orderitem;
+
+        $comments = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$id])->all();
 
         if ($orderItemSelection->load(Yii::$app->request->post()) || $orderitem->load(Yii::$app->request->post()))
         {
@@ -100,7 +103,7 @@ class FoodController extends Controller
             return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks, 'rid'=>$rid, 'sessiongroup'=>$sessiongroup]);
         }
 
-        return $this->renderAjax('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection]);
+        return $this->renderAjax('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection, 'comments'=>$comments]);
          
     }
 
@@ -147,7 +150,7 @@ class FoodController extends Controller
                         $isValid = FoodtypeAndStatusController::newStatus($food->Food_ID);
 
                         $flag = FoodselectionController::createfoodselection($foodtype,$foodselection,$food->Food_ID) && $isValid;
-
+                       
                         if ($flag) {
                             $transaction->commit();
                             $status = DefaultController::updateRestaurant($rid);
@@ -257,11 +260,8 @@ class FoodController extends Controller
         }
 
         $food->load($post);
-
-        $food->BeforeMarkedUp = CartController::actionRoundoff1decimal($post['Food']['roundprice']);
-        $markedupprice = $post['Food']['roundprice'] * 1.3;
-        $markedupprice = CartController::actionRoundoff1decimal($markedupprice);
-        $food->Price = $markedupprice;
+        $food->Price = CartController::actionDisplay2decimal($food->Price);
+        $food->BeforeMarkedUp =  CartController::actionRoundoff1decimal($food->Price / 1.3);
     
         if (!is_null($upload->imageFile))
         {
@@ -369,11 +369,13 @@ class FoodController extends Controller
                             {
                                 $model->Type_ID = $selectionType->ID;
                                 $model->Food_ID = $food->Food_ID;
-                                $beforemarkedup = CartController::actionRoundoff1decimal($model->BeforeMarkedUp);
-                                $markedup = $beforemarkedup * 1.3;
-                                $markedup = CartController::actionRoundoff1decimal($markedup);
-                                $model->BeforeMarkedUp = $beforemarkedup;
-                                $model->Price = $markedup;
+                                $model->Price = CartController::actionDisplay2decimal($model->Price);
+                                $model->BeforeMarkedUp =  CartController::actionRoundoff1decimal($model->Price / 1.3);
+                                //$beforemarkedup = CartController::actionRoundoff1decimal($model->BeforeMarkedUp);
+                                //$markedup = $beforemarkedup * 1.3;
+                                //$markedup = CartController::actionRoundoff1decimal($markedup);
+                                //$model->BeforeMarkedUp = $beforemarkedup;
+                                //$model->Price = $markedup;
                                 if(!($flag = $model->save()))
                                 {
                                     break;
@@ -414,13 +416,16 @@ class FoodController extends Controller
     {
         $food = new Food();
         $food->load($post);
-        $food->BeforeMarkedUp = CartController::actionDisplay2decimal($food->BeforeMarkedUp);
+        
+        //$food->BeforeMarkedUp = CartController::actionDisplay2decimal($food->BeforeMarkedUp);
 
-        $foodprice = CartController::actionRoundoff1decimal($food->BeforeMarkedUp);
-        $markedupprice = $foodprice * 1.3;
-        $markedupprice = CartController::actionRoundoff1decimal($markedupprice);
+        //$foodprice = CartController::actionRoundoff1decimal($food->BeforeMarkedUp);
+        //$markedupprice = $foodprice * 1.3;
+        //$markedupprice = CartController::actionRoundoff1decimal($markedupprice);
 
-        $food->Price = $markedupprice;
+        //$food->Price = $markedupprice;
+        $food->Price = CartController::actionDisplay2decimal($food->Price);
+        $food->BeforeMarkedUp =  CartController::actionRoundoff1decimal($food->Price / 1.3);
         $food->Restaurant_ID = $rid;
         $food->PicPath = $upload;
         $food->Ingredient = 'xD';
@@ -460,8 +465,13 @@ class FoodController extends Controller
          $this->layout = 'user';
 
          return $this->redirect(['menu','menu'=>$menu,'id'=>$id,'rid'=>$rid,'page'=>$page]);
-
     }
-    
+
+    public function actionViewComments($id)
+    {
+        $comments = Foodrating::find()->where('Food_ID = :id', [':id'=>$id])->all();
+
+        return $this->render('comments', ['fid'=>$id, 'comments'=>$comments]);
+    }
 }
 

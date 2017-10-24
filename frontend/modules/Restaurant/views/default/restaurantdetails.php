@@ -121,7 +121,7 @@ span.stars span {
             'header' => '<h2 class="modal-title">Food Details</h2>',
             'id'     => 'modal'.$data['Food_ID'],
             'size'   => 'modal-lg',
-            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+            //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
     
     echo "<div id='modelContent".$data['Food_ID']."'></div>";

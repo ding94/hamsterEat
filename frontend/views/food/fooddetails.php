@@ -11,6 +11,12 @@ $this->title = "Food Details";
 
 ?>
 <style>
+.modal-content{
+  width:600px;
+}
+.modal-lg{
+  padding-left: 158px;
+}
 .value-button {
   border: 1px solid #ddd;
   margin: 0px;
@@ -55,7 +61,17 @@ input[type=number]::-webkit-outer-spin-button {
 .bordertop{
   border-top: 1px solid #D3D3D3;
 }
-
+#fooddetails .foodname{
+line-height: initial;
+  font-size: 2.0em;
+}
+#fooddetails .foodprice{
+line-height: initial;
+  font-size: 1.6em;
+}
+#fooddetails .cart{
+  width:50%;
+}
 </style>
 <div class="row" style="padding-bottom: 0px">
 	<div class="tab-content col-md-12" id="fooddetails">
@@ -65,14 +81,32 @@ input[type=number]::-webkit-outer-spin-button {
     <?php else :?>
       <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
     <?php endif ;?>
-		<table class="table-user-information" style="width:60%; margin:auto;">
+		<!--<table class="table-user-information" style="width:60%; margin:auto;">-->
 
-            <tr>         
-                  <td colspan = 3> <?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:200px; width:300px; margin:auto;']) ?></td>
-            </tr>
+                 
+                  <?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:595px; margin:auto;']) ?>
+            
+        
+           <br>
+            <div class="foodname">
+                  <!--<td>Food Name:</td>-->
+                   <?php echo $fooddata->Name;?>
+          </div>
+            
+        <div class="foodprice">
+                  <!--<td>Food Price (RM):</td>-->
+               RM <?php echo CartController::actionRoundoff1decimal($fooddata->Price);?>
+                   </div>
+          
+      <br>
+            
+                 <!--<td>Food Description:</td>-->
+                 <span style="display: block;overflow-wrap: break-word; word-wrap: break-word; width:148px;"><?php echo $fooddata->Description;?></span>
+            <br>
+              <div class="selection">
 
             <tr class="bordertop">
-                  <td>Food Name:</td>
+                  <td><?php echo Html::a('Comments', ['view-comments', 'id'=>$fooddata['Food_ID']], ['class'=>'btn btn-default']); ?></td>
                   <td colspan = 2> <?php echo $fooddata->Name;?></td>
             </tr>
 
@@ -86,6 +120,7 @@ input[type=number]::-webkit-outer-spin-button {
                   <td colspan = 2><span style="display: block;overflow-wrap: break-word; word-wrap: break-word; width:148px;"><?php echo $fooddata->Description;?></span></td>
             </tr>
               
+
             <?php  
               $ftids = "";
               foreach($foodtype as $k=> $foodtype) : 
@@ -93,66 +128,72 @@ input[type=number]::-webkit-outer-spin-button {
                 $data = ArrayHelper::map($selection,'ID','typeprice');
                 if ($foodtype['Min'] == 1 && $foodtype ['Max'] < 2 ) {
                   ?>
-                  <tr class="bordertop">
-                    <td>
+                 
+                    
                       <?php echo $foodtype['TypeName']; ?>
-                      <br>
+
                       <span>*Please Select only 1 item.</span>
-                    </td>
-                    <td colspan = 2>
+                    
+                    
                       <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->radioList($data)->label(false); ?>
-                    </td>
-                  </tr>
+                    
+                  
               <?php } else if ($foodtype['Min'] == 0){ ?>
-                  <tr class="bordertop">
-                    <td>
+                  
+                    
                       <?php echo $foodtype['TypeName']; ?>
-                      <br>
+                     
                       <span>
                         *Select at most <?php echo $foodtype ['Max']; ?> items.
                       </span>
-                    </td>
-                    <td colspan = 2>
+                    
+                   
                       <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data)->label(false);?>
-                    </td>
-                  </tr>
+                  
+                
               <?php } else { ?>
-                  <tr class="bordertop">
-                    <td>
+                 
+                   
                       <?php echo $foodtype['TypeName']; ?>
-                      <br>
+                 
                       <span>
                         *Select at least <?php echo $foodtype['Min']; ?> item and at most <?php echo $foodtype ['Max']; ?> items.
                       </span>
-                    </td>
-                    <td colspan = 2>
+                   
+                  
                       <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data)->label(false);?>
-                    </td>
-                  </tr>
+                 
+                
               <?php } endforeach; ?>
-            <tr class="bordertop">
-                  <td colspan = 2><?= $form->field($orderitem, 'OrderItem_Remark')->label('Remarks'); ?></td>
-            </tr>
-            <tr class="bordertop"> 
-      				<td colspan="2">
+               </div>
+           
+               <?= $form->field($orderitem, 'OrderItem_Remark')->label('Remarks'); ?>
+        
+           
+      			
               <?= $form->field($orderitem, 'OrderItem_Quantity')->widget(TouchSpin::classname(), [
                   'options' => [
                       'id'=>'orderitem-orderitem_quantity'.$fooddata->Food_ID,
                   ],
                   'pluginOptions' => [
                       'buttonup_class' => 'btn btn-primary', 
-                      'buttondown_class' => 'btn btn-info', 
-                      'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>', 
-                      'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>'
+                      'buttondown_class' => 'btn btn-primary', 
+                      'buttonup_txt' => '<i class="fa fa-plus"></i>', 
+                      'buttondown_txt' => '<i class="fa fa-minus"></i>'
                   ],
               ]); ?>
 
+          <div class="cart">
+            <?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
+        </div>
+           
+
             <?php if($fooddata->foodPackage == 0):?>
-			      <tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
-            </td> </tr> 
+			      <!--<tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>-->
+           
             <?php else :?>
-            <tr>
-              <td>
+         
+           
                 <label class="control-label">Select Date to delivery</label>
                 <?php
                   echo DatePicker::widget([
@@ -166,15 +207,15 @@ input[type=number]::-webkit-outer-spin-button {
                     ]
                   ]);
                 ?>
-              </td>
-            </tr>
+            
+           
             
             <?= $form->field($fooddata,'Food_ID')->hiddenInput() ?>
-            <tr><td colspan="2"><?= Html::submitButton('Subscribe Food Package', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
-            </td> </tr> 
+          <?= Html::submitButton('Subscribe Food Package', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
+           
       <?php endif ;?>
 		        
-            </table>
+            <!--</table>-->
             <?php ActiveForm::end(); ?>
       </div>
 </div>

@@ -83,7 +83,6 @@ line-height: initial;
     <?php endif ;?>
 		<!--<table class="table-user-information" style="width:60%; margin:auto;">-->
 
-<<<<<<< HEAD
                  
                   <?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:595px; margin:auto;']) ?>
             
@@ -105,7 +104,7 @@ line-height: initial;
                  <span style="display: block;overflow-wrap: break-word; word-wrap: break-word; width:148px;"><?php echo $fooddata->Description;?></span>
             <br>
               <div class="selection">
-=======
+
             <tr class="bordertop">
                   <td><?php echo Html::a('Comments', ['view-comments', 'id'=>$fooddata['Food_ID']], ['class'=>'btn btn-default']); ?></td>
                   <td colspan = 2> <?php echo $fooddata->Name;?></td>
@@ -121,7 +120,7 @@ line-height: initial;
                   <td colspan = 2><span style="display: block;overflow-wrap: break-word; word-wrap: break-word; width:148px;"><?php echo $fooddata->Description;?></span></td>
             </tr>
               
->>>>>>> 45d4b5d7f618f78c9c6eae48e5cdbd1912ff5a2e
+
             <?php  
               $ftids = "";
               foreach($foodtype as $k=> $foodtype) : 
@@ -183,14 +182,12 @@ line-height: initial;
                       'buttondown_txt' => '<i class="fa fa-minus"></i>'
                   ],
               ]); ?>
-<<<<<<< HEAD
+
           <div class="cart">
             <?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
         </div>
            
-=======
 
->>>>>>> 45d4b5d7f618f78c9c6eae48e5cdbd1912ff5a2e
             <?php if($fooddata->foodPackage == 0):?>
 			      <!--<tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>-->
            

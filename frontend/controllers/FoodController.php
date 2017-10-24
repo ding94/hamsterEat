@@ -10,6 +10,8 @@ use common\models\food\Foodselectiontype;
 use common\models\food\Foodselection;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 use yii\helpers\Json;
 use common\models\Model;
 use common\models\Orderitem;
@@ -27,6 +29,28 @@ use frontend\controllers\CommonController;
 
 class FoodController extends CommonController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                //'only' => ['foodDetails', 'insertFood','menu','delete','editFood','postedit','recycleBin','deletePermanent','viewComments'],
+                'rules' => [
+                    [
+                        'actions' => ['foodDetails', 'insertFood','menu','delete','editFood','postedit','recycleBin','deletePermanent','viewComments'],
+                        'allow' => true,
+                        'roles' => ['restaurant manager'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
+    }
     public function actionFoodDetails($id,$rid)
     {
         $valid = ValidController::FoodValid($id);

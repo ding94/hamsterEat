@@ -38,6 +38,7 @@ $this->title = "Food Details";
   margin: 0px;
   padding: 0px;
 }
+
 #number {
   text-align: center;
   border: none;
@@ -71,6 +72,10 @@ line-height: initial;
 }
 #fooddetails .cart{
   width:50%;
+}
+
+.food-detail-label{
+  width: 100%;
 }
 </style>
 <div class="row" style="padding-bottom: 0px">
@@ -135,7 +140,19 @@ line-height: initial;
                       <span>*Please Select only 1 item.</span>
                     
                     
-                      <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->radioList($data)->label(false); ?>
+                      <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->radioList($data,[
+                                'item' => function($index, $label, $name, $checked, $value) {
+
+                                    $return = '<div class="radio">';
+                                    $return .= '<label class="food-detail-label">';
+                                    $return .= '<input type="radio" name="' . $name . '" value="' . $value . '" >';
+                                    $return .= $label;
+                                    $return .= '</label>';
+                                    $return .= '</div>';
+
+                                    return $return;
+                                }
+                            ])->label(false); ?>
                     
                   
               <?php } else if ($foodtype['Min'] == 0){ ?>
@@ -148,7 +165,19 @@ line-height: initial;
                       </span>
                     
                    
-                      <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data)->label(false);?>
+                      <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data,[
+                                'item' => function($index, $label, $name, $checked, $value) {
+
+                                    $return = '<div class="checkbox">';
+                                    $return .= '<label class="food-detail-label">';
+                                    $return .= '<input type="checkbox" name="' . $name . '" value="' . $value . '" >';
+                                    $return .= $label;
+                                    $return .= '</label>';
+                                    $return .= '</div>';
+
+                                    return $return;
+                                }
+                            ])->label(false);?>
                   
                 
               <?php } else { ?>
@@ -161,7 +190,19 @@ line-height: initial;
                       </span>
                    
                   
-                      <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data)->label(false);?>
+                      <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data,[
+                                'item' => function($index, $label, $name, $checked, $value) {
+
+                                    $return = '<div class="checkbox">';
+                                    $return .= '<label class="food-detail-label">';
+                                    $return .= '<input type="checkbox" name="' . $name . '" value="' . $value . '" >';
+                                    $return .= $label;
+                                    $return .= '</label>';
+                                    $return .= '</div>';
+
+                                    return $return;
+                                }
+                            ])->label(false);?>
                  
                 
               <?php } endforeach; ?>
@@ -176,6 +217,8 @@ line-height: initial;
                       'id'=>'orderitem-orderitem_quantity'.$fooddata->Food_ID,
                   ],
                   'pluginOptions' => [
+                      'min' => 1,
+                      'initval' => 1,
                       'buttonup_class' => 'btn btn-primary', 
                       'buttondown_class' => 'btn btn-primary', 
                       'buttonup_txt' => '<i class="fa fa-plus"></i>', 

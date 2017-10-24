@@ -24,11 +24,11 @@ use common\models\Object;
 use common\models\Referral;
 use yii\helpers\ArrayHelper;
 use yii\web\Session;
-
+use frontend\controllers\CommonController;
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends CommonController
 {
     /**
      * @inheritdoc
@@ -195,7 +195,6 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
-        
     
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {

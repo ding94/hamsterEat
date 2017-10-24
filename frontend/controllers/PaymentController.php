@@ -6,8 +6,9 @@ use common\models\Payment;
 use common\models\Account\Accountbalance;
 use frontend\controllers\MemberpointController;
 use Yii;
+use frontend\controllers\CommonController;
 
-class PaymentController extends \yii\web\Controller
+class PaymentController extends CommonController
 {
 	public static function Payment($did,$order)
 	{

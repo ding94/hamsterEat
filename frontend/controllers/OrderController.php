@@ -9,8 +9,9 @@ use common\models\food\Food;
 use common\models\Restaurant;
 use frontend\controllers\NotificationController;
 use kartik\mpdf\Pdf;
+use frontend\controllers\CommonController;
 
-class OrderController extends \yii\web\Controller
+class OrderController extends CommonController
 {
     public function actionMyOrders()
     {
@@ -113,7 +114,6 @@ class OrderController extends \yii\web\Controller
 
         $time = time();
         $sql2 = "UPDATE orderitemstatuschange SET Change_ReadyForPickUpDateTime = ".$time." WHERE Order_ID = ".$oid."";
-        NotificationController::createNotification($oid,2);
 
         Yii::$app->db->createCommand($sql2)->execute();
 
@@ -153,7 +153,6 @@ class OrderController extends \yii\web\Controller
             $sql11 = "UPDATE ordersstatuschange SET OChange_OnTheWayDateTime = ".$time1." WHERE Delivery_ID = ".$did."";
             Yii::$app->db->createCommand($sql11)->execute();
         }
-         NotificationController::createNotification($oid,2);
         return $this->redirect(['deliveryman-orders']);
     }
 
@@ -165,7 +164,7 @@ class OrderController extends \yii\web\Controller
         $time = time();
         $sql3 = "UPDATE ordersstatuschange SET OChange_CompletedDateTime = ".$time." WHERE Delivery_ID = ".$did."";
         Yii::$app->db->createCommand($sql3)->execute();
-        NotificationController::createNotification($oid,2);
+        NotificationController::createNotification($did,4);
         return $this->redirect(['deliveryman-orders']);
     }
 

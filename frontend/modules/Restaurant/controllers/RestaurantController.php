@@ -10,8 +10,9 @@ use common\models\Rmanager;
 use common\models\food\Food;
 use common\models\food\Foodstatus;
 use yii\web\NotFoundHttpException;
+use frontend\controllers\CommonController;
 
-class RestaurantController extends Controller
+class RestaurantController extends CommonController
 {
 	public function actionIndex()
     {

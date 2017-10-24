@@ -8,8 +8,9 @@ use common\models\Upload;
 use yii\helpers\ArrayHelper;
 use Yii;
 use yii\web\UploadedFile;
+use frontend\controllers\CommonController;
 
-class TopupController extends \yii\web\Controller
+class TopupController extends CommonController
 {
     public function actionIndex()
     {

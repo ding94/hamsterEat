@@ -139,7 +139,7 @@ height:40px;
 </style>
   <ul class="nav nav-pills">
     <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
-    <li><a data-toggle="pill" href="#menu1">Menu 1</a></li>
+    <li><a data-toggle="pill" href="#comments">Comments</a></li>
   </ul>
   <body>
   <div class="tab-content">
@@ -179,11 +179,6 @@ height:40px;
                  </div>
             <br>
               <div class="selection">
-
-         
-
-
-              
 
             <?php  
               $ftids = "";
@@ -323,7 +318,7 @@ height:40px;
       </div>
 </div>
 </div>
-<div id="menu1" class="tab-pane fade">
+<div id="comments" class="tab-pane fade">
 <?php
 foreach ($comments as $comments) :
     if (!is_null($comments['Comment']))

@@ -26,8 +26,8 @@ class NotificationSetting extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['description'], 'required'],
-            [['description'], 'string', 'max' => 50],
+            [['description','url'], 'required'],
+            [['description','url'], 'string', 'max' => 50],
         ];
     }
 

@@ -50,7 +50,7 @@ $this->title = "Delivery Orders";
                         echo "<th><center> Update Status </th>";
                     echo "</tr>";
 
-                    $orderitemdetails = Orderitem::find()->where('Delivery_ID = :did ', [':did'=>$orderdetails['Delivery_ID']])->orderBy(['Order_ID'=>SORT_ASC])->all();
+                    $orderitemdetails = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$orderdetails['Delivery_ID']])->orderBy(['Order_ID'=>SORT_ASC])->all();
                     
                     foreach ($orderitemdetails as $orderitemdetails) :
                         echo "<tr>";

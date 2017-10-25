@@ -128,6 +128,7 @@ class NotificationController extends Controller
 	public static function getDeliverydetail($oid)
 	{
 		$item = Orderitem::find()->joinWith(['order'])->one();
+		//var_dump($item);exit;
 		$data[0]['uid'] = User::find()->where('username = :name' ,[':name' => $item['order']['Orders_Deliveryman']])->one()->id;
 		return $data;
 	}

@@ -8,7 +8,17 @@ use frontend\controllers\CartController;
 use kartik\widgets\TouchSpin;
 use common\models\User;
 $this->title = "Comments";
+?>
+<style>
+#rating {
+    float:left;
+}
 
+#ratedatetime {
+    float:right;
+}
+</style>
+<?php
 foreach ($comments as $comments) :
     if (!is_null($comments['Comment']))
     {?>
@@ -21,7 +31,12 @@ foreach ($comments as $comments) :
              ?>
           <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default'>
 		<div class='panel-body'>
-             <?php echo $comments['FoodRating_Rating'];?>  <?php echo $dt->format('d-m-Y H:i:s');?> 
+            <div id = "rating">
+                <?php echo $comments['FoodRating_Rating'];?> 
+            </div>  
+            <div id = "ratedatetime">
+                <?php echo $dt->format('d-m-Y H:i:s');?>
+            </div>
                         <br>
                        By <?php echo $user;?>
                         <br>

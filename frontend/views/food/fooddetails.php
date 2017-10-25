@@ -120,7 +120,6 @@ font-size: 16px;
 
 #ratedatetime {
     float:right;
-}
 button.btn.btn-primary.bootstrap-touchspin-down{
 width:40px;
 height:40px;
@@ -129,13 +128,12 @@ button.btn.btn-primary.bootstrap-touchspin-up{
 width:40px;
 height:40px;
 }
+
 /*-----Comment------*/
-.panel-default{
-        width:551px;
+.panel.panel-default{
+        width:598px;
  }
-#comments.tab-pane.fade{
-   background-color:#fff;
- }
+
 </style>
   <ul style = "margin-left:37%;" class="nav nav-pills">
     <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
@@ -158,7 +156,9 @@ height:40px;
                  
                   <!--<?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:598px; margin:auto;']) ?>-->
             
-    
+        <tr class="bordertop">
+                  <td colspan = 2> <?php echo $fooddata->Name;?></td>
+            </tr>
            <br>
             <div class="foodname">
                   <!--<td>Food Name:</td>-->
@@ -328,7 +328,7 @@ foreach ($comments as $comments) :
             $dt = new DateTime('@'.$comments['created_at']);
             $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
              ?>
-          <div class='panel panel-default'>
+          <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default'>
 		<div class='panel-body'>
             <div id = "rating">
                 <?php echo $comments['FoodRating_Rating'];?> 

@@ -12,8 +12,9 @@ use common\models\Rating\RatingStatus;
 use common\models\food\Food;
 use yii\helpers\ArrayHelper;
 use frontend\controllers\CartController;
+use frontend\controllers\CommonController;
 
-Class RatingController extends Controller
+Class RatingController extends CommonController
 {
 	public function actionIndex($id)
 	{

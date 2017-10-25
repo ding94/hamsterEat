@@ -14,10 +14,11 @@ use frontend\modules\UserPackage\controllers\SelectionTypeController;
 use frontend\modules\UserPackage\controllers\DetailController;
 use frontend\modules\UserPackage\controllers\DeliveryController;
 use frontend\controllers\PaymentController;
+use frontend\controllers\CommonController;
 /**
  * Default controller for the `UserPackage` module
  */
-class PackageController extends Controller
+class PackageController extends CommonController
 {
     /**
      * Renders the index view for the module

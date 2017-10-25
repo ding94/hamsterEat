@@ -12,7 +12,7 @@ $this->title = "Food Details";
 ?>
 <style>
 .modal-content{
-  width:600px;
+  width:598px;
 }
 .modal-lg{
   padding-left: 158px;
@@ -71,11 +71,23 @@ line-height: initial;
   font-size: 1.6em;
 }
 #fooddetails .cart{
-  width:50%;
+ display: inline-block;
+  
 }
 
+
+#fooddetails .description{
+      color: rgb(117, 117, 117);
+      font-size: 14px;
+      line-height: 22px;
+}
+#fooddetails .selection{
+font-size: 16px;
+
+}
 .food-detail-label{
   width: 100%;
+
 }
 </style>
 <div class="row" style="padding-bottom: 0px">
@@ -87,7 +99,10 @@ line-height: initial;
       <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
     <?php endif ;?>
 		<!--<table class="table-user-information" style="width:60%; margin:auto;">-->
-
+   <tr class="bordertop">
+                  <td><?php echo Html::a('Comments', ['view-comments', 'id'=>$fooddata['Food_ID']], ['class'=>'btn btn-default']); ?></td>
+                  <td colspan = 2> <?php echo $fooddata->Name;?></td>
+            </tr>
                  
                   <?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:595px; margin:auto;']) ?>
             
@@ -104,26 +119,16 @@ line-height: initial;
                    </div>
           
       <br>
-            
+            <div class="description">
                  <!--<td>Food Description:</td>-->
                  <span style="display: block;overflow-wrap: break-word; word-wrap: break-word; width:148px;"><?php echo $fooddata->Description;?></span>
+                 </div>
             <br>
               <div class="selection">
 
-            <tr class="bordertop">
-                  <td><?php echo Html::a('Comments', ['view-comments', 'id'=>$fooddata['Food_ID']], ['class'=>'btn btn-default']); ?></td>
-                  <td colspan = 2> <?php echo $fooddata->Name;?></td>
-            </tr>
+         
 
-            <tr class="bordertop">
-                  <td>Food Price (RM):</td>
-                  <td colspan = 2> <?php echo CartController::actionRoundoff1decimal($fooddata->Price);?></td>
-            </tr>
 
-            <tr class="bordertop">
-                 <td>Food Description:</td>
-                  <td colspan = 2><span style="display: block;overflow-wrap: break-word; word-wrap: break-word; width:148px;"><?php echo $fooddata->Description;?></span></td>
-            </tr>
               
 
             <?php  
@@ -211,25 +216,24 @@ line-height: initial;
                <?= $form->field($orderitem, 'OrderItem_Remark')->label('Remarks'); ?>
         
            
-      			
-              <?= $form->field($orderitem, 'OrderItem_Quantity')->widget(TouchSpin::classname(), [
+      			<div class="cart">
+              <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:25%;']])->widget(TouchSpin::classname(), [
                   'options' => [
                       'id'=>'orderitem-orderitem_quantity'.$fooddata->Food_ID,
                   ],
                   'pluginOptions' => [
                       'min' => 1,
+                      'style'=> 'width:20px;',
                       'initval' => 1,
                       'buttonup_class' => 'btn btn-primary', 
                       'buttondown_class' => 'btn btn-primary', 
                       'buttonup_txt' => '<i class="fa fa-plus"></i>', 
                       'buttondown_txt' => '<i class="fa fa-minus"></i>'
                   ],
-              ]); ?>
+              ])->label(false); ?>   <?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart','style'=>'margin-top:-44px;width:48%;']) ?>
 
-          <div class="cart">
-            <?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
-        </div>
-           
+     
+           </div>
 
             <?php if($fooddata->foodPackage == 0):?>
 			      <!--<tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>-->

@@ -8,10 +8,11 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use frontend\models\Deliveryman;
 use common\models\DeliveryAttendence;
+use frontend\controllers\CommonController;
 /**
  * Default controller for the `delivery` module
  */
-class DailySignInController extends Controller
+class DailySignInController extends CommonController
 {
 	public function behaviors()
     {

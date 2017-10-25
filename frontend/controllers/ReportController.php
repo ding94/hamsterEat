@@ -6,8 +6,9 @@ use yii\helpers\ArrayHelper;
 use common\models\Report\Report;
 use common\models\Report\ReportCategoryUserStatus;
 use common\models\Report\ReportCategoryRestaurantStatus;
+use frontend\controllers\CommonController;
 
-class ReportController extends Controller{
+class ReportController extends CommonController{
 	
 	public function actionReportUser($name)
 	{

@@ -21,11 +21,12 @@ use yii\data\Pagination;
 use common\models\Restauranttypejunction;
 use common\models\Restauranttype;
 use frontend\modules\Restaurant\controllers\RestauranttypeController;
+use frontend\controllers\CommonController;
 
 /**
  * Default controller for the `Restaurant` module
  */
-class DefaultController extends Controller
+class DefaultController extends CommonController
 {
     /**
      * Renders the index view for the module

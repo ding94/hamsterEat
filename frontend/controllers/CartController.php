@@ -22,9 +22,10 @@ use frontend\controllers\MemberpointController;
 use frontend\controllers\NotificationController;
 use yii\helpers\Json;
 use frontend\modules\delivery\controllers\DailySignInController;
+use frontend\controllers\CommonController;
 use yii\helpers\ArrayHelper;
 
-class CartController extends Controller
+class CartController extends CommonController
 {
     public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks,$rid,$sessiongroup)
     {

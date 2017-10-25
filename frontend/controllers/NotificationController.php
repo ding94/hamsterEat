@@ -28,8 +28,12 @@ class NotificationController extends Controller
 				break;
 			case 3:
 				$data = self::getDeliverydetail($id);
+				break;
+			case 4:
+				$data = self::getUserorder($id);
+				break;
 			default:
-				# code...
+				$data ="";
 				break;
 		}
 		
@@ -50,10 +54,16 @@ class NotificationController extends Controller
 					$model->description = "A New Order Was Made";
 					break;
 				case 2:
-					$model->description = "Your Food ".$value['foodName']." status change from ".$value['preStatus']." to ".$value['currentStatus'];
+					$model->description = "Your Food ".$value['foodName']." is ".$value['currentStatus'];
+					break;
+				case 3:
+					$model->description = "Your Order id : ".$id." has ready to pick up";
+					break;
+				case 4:
+					$model->description = "Your Order id : ".$id." is ".$value['currentStatus'];
 					break;
 				default:
-					$model->description = "Your Order id : ".$id." has ready to pick up";
+					
 					break;
 			}
 			
@@ -93,7 +103,22 @@ class NotificationController extends Controller
 		$data[0]['uid'] = User::find()->where('username = :name',[':name'=>$item['order']['User_Username']])->one()->id;
 		$data[0]['foodName'] = $item['food']['Name'];
 		$data[0]['currentStatus'] = $item['OrderItem_Status'];
-		$data[0]['preStatus'] = self::getPreOrderStatus($item['OrderItem_Status']);
+		//$data[0]['preStatus'] = self::getPreOrderStatus($item['OrderItem_Status']);
+		return $data;
+	}
+
+	/*
+	* get user oder detail
+	* get the current status and pres status for let the user know the status change
+	*/
+	public static function getUserorder($did)
+	{
+		$item = Orders::find()->where('Delivery_ID = :did',[':did' => $did])->one();
+
+		$data[0]['uid'] = User::find()->where('username = :name',[':name' => $item['User_Username']])->one()->id;
+		$data[0]['currentStatus'] = $item['Orders_Status'];
+		//$data[0]['preStatus'] = self::getPreOrderStatus($item['Orders_Status']);
+		
 		return $data;
 	}
 
@@ -117,11 +142,12 @@ class NotificationController extends Controller
 			case "Preparing":
 				$data = "Pending";
 				break;
-			case "Ready For Pick Up":
-				$data = "Preparing";
+			case "On The Way":
+				$data = "Pick Up";
 				break;
-			case "Picked Up":
-				$data = "Ready For Pick Up";
+			case "Completed":
+				$data = "On The Way";
+				break;
 			default:
 				$data = "";
 				break;

@@ -7,8 +7,9 @@ use common\models\Account\Accountbalance;
 use common\models\Bank;
 use Yii;
 use yii\helpers\ArrayHelper;
+use frontend\controllers\CommonController;
 
-class WithdrawController extends \yii\web\Controller
+class WithdrawController extends CommonController
 {
     public function actionIndex()
     {

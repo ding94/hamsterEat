@@ -73,6 +73,31 @@ AppAsset::register($this);
             $menuItems[2]['items'][$k+count($restaurant)] = '<li class="divider"></li>';
             }
         }
+        $menuItems[] = ['label' => '<span class=""> <i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>'];
+        $keys = array_keys($menuItems);
+
+        if(empty(Yii::$app->view->params['notication']))
+        {
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">Empty Notication</h4>'];
+        }
+        else
+        {
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">Notifications</h4>'];
+
+            $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+            foreach(Yii::$app->view->params['notication'] as $i=> $notic)
+            {
+
+                $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">'.Yii::$app->view->params['listOfNotic'][$i].'</h4>'];
+                foreach($notic as $data)
+                {
+                    $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['description'].'</h4>',];
+                }
+            }
+        }
+       
+        $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+        $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">View All</h4>'];
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile']],
                         '<li class="divider"></li>',
@@ -94,7 +119,7 @@ AppAsset::register($this);
          
     }
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+        'options' => ['class' => 'navbar-nav navbar-right dropdown'],
         'encodeLabels' => false,
         'items' => $menuItems,
     ]);

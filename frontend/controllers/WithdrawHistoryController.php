@@ -8,8 +8,9 @@ use common\models\Account\AccounttopupStatus;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use Yii;
+use frontend\controllers\CommonController;
 
-class WithdrawHistoryController extends \yii\web\Controller
+class WithdrawHistoryController extends CommonController
 {
     public function actionIndex()
     {

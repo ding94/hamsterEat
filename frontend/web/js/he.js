@@ -17,7 +17,6 @@ $(document).ready(function() {
 		
 });
 
-
 //effect for text changing
 var cnt=0, texts=[];
 var $fclick = false;
@@ -26,6 +25,27 @@ var $fclick = false;
 $(".imawhat").each(function() {
   texts[cnt++]=$(this).text();
 });
+
+function changePrice(){
+    var input = document.querySelector('#afterprice');
+    input.addEventListener('input', function()
+    {
+        document.getElementById('price').value = (document.getElementById('afterprice').value/1.3).toFixed(2);
+    });
+}
+
+function beforeMarkUp()
+{
+    $('.selectionTable').children('tbody').each(function(){
+        trChild = $(this).children('tr');
+        trChild.each(function(){
+            value = $(this).children('.selectionPrice').children('.form-group').children('input').val();
+            $(this).children('.selectionBefore').children('.form-group').children('input').val((value/1.3).toFixed(2));
+               // console.log(value);
+        })
+    });
+}
+
 
 function fadeText() {
   if (cnt>=texts.length) { cnt=0; }

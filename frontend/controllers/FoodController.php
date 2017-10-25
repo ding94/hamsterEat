@@ -38,8 +38,7 @@ class FoodController extends CommonController
                 //'only' => ['foodDetails', 'insertFood','menu','delete','editFood','postedit','recycleBin','deletePermanent','viewComments'],
                 'rules' => [
                     [
-
-                        'actions' => [ 'insert-food','menu','delete','edit-food','postedit','recycle-bin','delete-permanent','view-comments'],
+                        'actions' => [ 'insert-food','delete','edit-food','postedit','recycle-bin','delete-permanent','view-comments','menu'],
 
                         'allow' => true,
                         'roles' => ['restaurant manager'],
@@ -144,7 +143,6 @@ class FoodController extends CommonController
             
             return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks, 'rid'=>$rid, 'sessiongroup'=>$sessiongroup]);
         }
-
         return $this->renderAjax('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection, 'comments'=>$comments]);
          
     }

@@ -12,6 +12,7 @@ use common\widgets\Alert;
 use kartik\widgets\SideNav;
 use yii\helpers\Url;
 use iutbay\yii2fontawesome\FontAwesome as FA;
+use yii\helpers\Json;
 use common\models\Rmanager;
 use common\models\Restaurant;
 
@@ -88,10 +89,20 @@ AppAsset::register($this);
             foreach(Yii::$app->view->params['notication'] as $i=> $notic)
             {
 
-                $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">'.Yii::$app->view->params['listOfNotic'][$i].'</h4>'];
+                $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">'.Yii::$app->view->params['listOfNotic'][$i]['description'].'</h4>'];
                 foreach($notic as $data)
                 {
-                    $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['description'].'</h4>',];
+                    $ago = Yii::$app->formatter->asRelativeTime($data['created_at']);
+                    if($data['type'] == 1)
+                    {
+                        $url = ["order/restaurant-orders",'rid' => $data['rid']];
+                    }
+                    else
+                    {
+                         $url = [Yii::$app->view->params['listOfNotic'][$i]['url']];
+                    }
+                   
+                    $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['description'].' from <span class="right">'.$ago.'</span></h4>','url' => $url];
                 }
             }
         }

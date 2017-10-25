@@ -521,8 +521,8 @@ line-height: 1.45em;}
 }
 
 .button-three:hover{
-   background:#fff;
-   box-shadow:0px 2px 10px 5px #97B1BF;
+   background:#fff6c6;
+   box-shadow:0px 1px 10px 0px #ffcc00;
    color:#000;
 }
 
@@ -546,7 +546,23 @@ line-height: 1.45em;}
     transition: 0s
 }
 
+.button-one{
+    display: block;
+    height: 30px;
+    padding: 0;
+    width: 100px;
+    background: none;
+    margin: auto;
+    border: 2px solid #FFDA00;
+    color: grey;
+    cursor: pointer;
+    outline: none;
+	border-radius: 25px;
+	 text-align: center;
+  }
 
-
-
+.button-one:hover{
+      background: #FFDA00;
+      color: white;
+    }
 

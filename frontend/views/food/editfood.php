@@ -27,7 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
                
                <?php echo $form->field($food, 'roundprice', [
                     'addon' => [
-                        'append' => ['content' => ' 1.3  '],
+                        'append' => [
+                            'content' => '<i class="fa fa-times"></i> 1.3 <i>=</i>',
+                        ],
                         //'groupOptions' => ['class'=>'input-group-lg'],
                         'contentAfter' => '<input id="afterprice" class="form-control" name="Food[Price]" onchange="changePrice()" type="text" value="'.$food['Price'].'">'
                     ]

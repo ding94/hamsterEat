@@ -6,6 +6,7 @@
 
 use yii\helpers\Html;
 use kartik\form\ActiveForm;
+use kartik\form\ActiveField;
 use common\models\Upload;
 use kartik\widgets\Select2;
 
@@ -27,9 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($food, 'Name')->textInput()->label('Name') ?>
 
                 <?= $form->field($food, 'Nickname')->textInput() ?>
-                <?php echo $form->field($food, 'roundprice', [
+                <?= $form->field($food, 'roundprice', [
                     'addon' => [
-                        'append' => ['content' => ' 1.3  '],
+                        'append' => [
+                            'content' => '<i class="fa fa-times"></i> 1.3 <i>=</i>',
+
+                        ],
                         //'groupOptions' => ['class'=>'input-group-lg'],
                         'contentAfter' => '<input id="afterprice" class="form-control" name="Food[Price]" onchange="changePrice()" type="text">'
                     ]

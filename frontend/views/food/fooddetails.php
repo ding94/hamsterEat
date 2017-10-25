@@ -7,9 +7,17 @@ use common\models\Orderitemselection;
 use frontend\controllers\CartController;
 use kartik\widgets\TouchSpin;
 use kartik\widgets\DatePicker;
+use common\models\User;
 $this->title = "Food Details";
 
 ?>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 <style>
 
 .modal-header{
@@ -30,9 +38,13 @@ $this->title = "Food Details";
   opacity: 1;
   z-index: 10;
 }
+#a2cart {
+  background-color:#fff;
+}
 
 .modal-content{
   width:598px;
+  background-color:#fff;
 }
 .modal-lg{
   padding-left: 158px;
@@ -109,6 +121,13 @@ font-size: 16px;
   width: 100%;
 
 }
+
+#rating {
+    float:left;
+}
+
+#ratedatetime {
+    float:right;
 button.btn.btn-primary.bootstrap-touchspin-down{
 width:40px;
 height:40px;
@@ -117,8 +136,18 @@ button.btn.btn-primary.bootstrap-touchspin-up{
 width:40px;
 height:40px;
 }
+/*-----Comment------*/
+.panel.panel-default{
+        width:598px;
+ }
 </style>
+  <ul class="nav nav-pills">
+    <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
+    <li><a data-toggle="pill" href="#comments">Comments</a></li>
+  </ul>
   <body>
+  <div class="tab-content">
+  <div id="home" class="tab-pane fade in active">
 <div class="row" style="padding-bottom: 0px">
 	<div class="tab-content col-md-12" id="fooddetails">
 
@@ -134,7 +163,6 @@ height:40px;
                   <!--<?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:598px; margin:auto;']) ?>-->
             
         <tr class="bordertop">
-                  <td><?php echo Html::a('Comments', ['view-comments', 'id'=>$fooddata['Food_ID']], ['class'=>'btn btn-default']); ?></td>
                   <td colspan = 2> <?php echo $fooddata->Name;?></td>
             </tr>
            <br>
@@ -155,11 +183,6 @@ height:40px;
                  </div>
             <br>
               <div class="selection">
-
-         
-
-
-              
 
             <?php  
               $ftids = "";
@@ -297,5 +320,40 @@ height:40px;
             <!--</table>-->
             <?php ActiveForm::end(); ?>
       </div>
+</div>
+</div>
+<div id="comments" class="tab-pane fade">
+<?php
+foreach ($comments as $comments) :
+    if (!is_null($comments['Comment']))
+    {?>
+        <div class ="container">
+            <?php 
+            $user = User::find()->where('id = :uid', [':uid'=>$comments['User_Id']])->one();
+            $user = $user['username'];
+            $dt = new DateTime('@'.$comments['created_at']);
+            $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
+             ?>
+          <div class='panel panel-default'>
+		<div class='panel-body'>
+            <div id = "rating">
+                <?php echo $comments['FoodRating_Rating'];?> 
+            </div>  
+            <div id = "ratedatetime">
+                <?php echo $dt->format('d-m-Y H:i:s');?>
+            </div>
+                        <br>
+                       By <?php echo $user;?>
+                        <br>
+                        <br>
+                        <?php echo $comments['Comment'];?>
+         </div>
+			</div>
+                       
+                       
+        </div>
+   <?php }
+    endforeach; ?>
+</div>
 </div>
 </body>

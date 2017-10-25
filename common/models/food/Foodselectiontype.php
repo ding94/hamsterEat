@@ -44,8 +44,8 @@ class Foodselectiontype extends \yii\db\ActiveRecord
             'ID' => 'ID',
             'Food_ID' => 'Food  ID',
             'TypeName' => 'Type Name',
-            'Min' => 'Min',
-            'Max' => 'Max',
+            'Min' => 'Min Choice',
+            'Max' => 'Max Choice',
         ];
     }
 

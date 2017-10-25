@@ -11,6 +11,9 @@ $this->title = "Food Details";
 
 ?>
 <style>
+body{
+    font-family: "MuseoSans",Arial,sans-serif;
+}
 .modal-content{
   width:598px;
 }
@@ -90,8 +93,10 @@ font-size: 16px;
 
 }
 </style>
+  <body>
 <div class="row" style="padding-bottom: 0px">
 	<div class="tab-content col-md-12" id="fooddetails">
+
     <?php if($fooddata->foodPackage == 1) :?>
    
       <?php $form = ActiveForm::begin(['action' => ['UserPackage/package/subscribepackage'],'id' => 'a2cart' ,'method' => 'get']); ?>
@@ -266,4 +271,4 @@ font-size: 16px;
             <?php ActiveForm::end(); ?>
       </div>
 </div>
-
+</body>

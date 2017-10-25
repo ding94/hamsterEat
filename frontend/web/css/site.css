@@ -546,7 +546,23 @@ line-height: 1.45em;}
     transition: 0s
 }
 
+.button-one{
+    display: block;
+    height: 30px;
+    padding: 0;
+    width: 100px;
+    background: none;
+    margin: auto;
+    border: 2px solid #FFDA00;
+    color: grey;
+    cursor: pointer;
+    outline: none;
+	border-radius: 25px;
+	 text-align: center;
+  }
 
-
-
+.button-one:hover{
+      background: #FFDA00;
+      color: white;
+    }
 

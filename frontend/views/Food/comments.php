@@ -22,6 +22,8 @@ $this->title = "Comments";
 foreach ($comments as $comments) :
     if (!is_null($comments['Comment']))
     {?>
+  
+
         <div class ="container">
             <?php 
             $user = User::find()->where('id = :uid', [':uid'=>$comments['User_Id']])->one();
@@ -29,7 +31,7 @@ foreach ($comments as $comments) :
             $dt = new DateTime('@'.$comments['created_at']);
             $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
              ?>
-          <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default'>
+          <div class='panel panel-default'>
 		<div class='panel-body'>
             <div id = "rating">
                 <?php echo $comments['FoodRating_Rating'];?> 

@@ -26,7 +26,9 @@ use frontend\controllers\CommonController;
 use yii\helpers\ArrayHelper;
 
 class CartController extends CommonController
-{
+{ 
+   
+
     public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks,$rid,$sessiongroup)
     {
         if (Yii::$app->user->isGuest) 

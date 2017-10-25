@@ -8,10 +8,8 @@ h1
    font-family: cursive;
   font-weight: 500;
 }
-h2,
-h3,
-h4,
-h5{
+h2
+{
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
   
   font-weight: 500;
@@ -508,9 +506,63 @@ line-height: 1.45em;}
   font-size : 1.2rem;
 }
 
+.button-three {
+    position: relative;
+    background-color: #FFDA00;
+    border: none;
+    padding: 10px;
+    width: 150px;
+    text-align: center;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+	border-radius: 20px;
+}
 
+.button-three:hover{
+   background:#fff6c6;
+   box-shadow:0px 1px 10px 0px #ffcc00;
+   color:#000;
+}
 
+.button-three:after {
+    content: "";
+    background: #f1c40f;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px !important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s
+}
 
+.button-three:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
+}
 
+.button-one{
+    display: block;
+    height: 30px;
+    padding: 0;
+    width: 100px;
+    background: none;
+    margin: auto;
+    border: 2px solid #FFDA00;
+    color: grey;
+    cursor: pointer;
+    outline: none;
+	border-radius: 25px;
+	 text-align: center;
+  }
 
+.button-one:hover{
+      background: #FFDA00;
+      color: white;
+    }
 

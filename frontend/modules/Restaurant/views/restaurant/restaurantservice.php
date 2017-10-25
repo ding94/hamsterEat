@@ -132,7 +132,7 @@ span.stars span {
     <div class="menu-container" id="menucon">
       <?php foreach($restaurant as $k => $res ){?>
       <div class="outer-item">
-      <a href=" <?php echo yii\helpers\Url::to(['default/restaurant-details','rid'=>$res['Restaurant_ID']]); ?> ">
+      <a href=" <?php echo yii\helpers\Url::to(['restaurant/food-service','id'=>$res['Restaurant_ID']]); ?> ">
       <div class="item-no-border">
         <div class="img"><?php echo Html::img('@web/imageLocation/'.$res['Restaurant_RestaurantPicPath']) ?></div>
         <div class="inner-item">

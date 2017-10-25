@@ -72,7 +72,38 @@ AppAsset::register($this);
             $menuItems[2]['items'][$k+count($restaurant)] = '<li class="divider"></li>';
             }
         }
-        
+                $menuItems[] = ['label' => '<span class=""> <i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>'];
+        $keys = array_keys($menuItems);
+
+        if(empty(Yii::$app->view->params['notication']))
+        {
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">Empty Notication</h4>'];
+        }
+        else
+        {
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">Notifications</h4>'];
+
+            $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+            foreach(Yii::$app->view->params['notication'] as $i=> $notic)
+            {
+
+                $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">'.Yii::$app->view->params['listOfNotic'][$i]['description'].'</h4>'];
+                foreach($notic as $data)
+                {
+                    $ago = Yii::$app->formatter->asRelativeTime($data['created_at']);
+                    if($data['type'] == 1)
+                    {
+                        $url = ["order/restaurant-orders",'rid' => $data['rid']];
+                    }
+                    else
+                    {
+                         $url = [Yii::$app->view->params['listOfNotic'][$i]['url']];
+                    }
+                   
+                    $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['description'].' from <span class="right">'.$ago.'</span></h4>','url' => $url];
+                }
+            }
+        }
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile']],
                         '<li class="divider"></li>',

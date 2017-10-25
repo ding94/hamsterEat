@@ -25,16 +25,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($food, 'PicPath')->fileInput()->label('Picture') ?>
                 <?= $form->field($food, 'Name')->textInput()->label('Name') ?>
                 <div class="col-sm-5">
-                    <?= $form->field($food, 'roundprice')->textInput(['readonly' => true])->label("Money Received") ?>
+                   <?= $form->field($food, 'roundprice')->textInput(['readonly' => true,'id'=>'price'])->label("Money Received") ?>
                 </div>
                 <div class="col-sm-2">
                     <span>*1.2 = </span>
                 </div>  
                  <div class="col-sm-5">
-                    
-                       <?= $form->field($food, 'Price')->textInput()->label('Price Display') ?>
+                    <?= $form->field($food, 'Price')->textInput(['id'=>'afterprice'])->label('Price Display') ?>
                 </div>
-               
+               <br>
+               <br>
                 <?php echo '<label class="control-label">Type</label>';
                         echo Select2::widget([
                             'name' => 'Type_ID',
@@ -119,3 +119,26 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php ActiveForm::end(); ?>
         </div>
     </div>
+    <script>
+window.onload = changePrice();
+
+function changePrice(){
+    var input = document.querySelector('#afterprice');
+    input.addEventListener('input', function()
+{
+    document.getElementById('price').value = (document.getElementById('afterprice').value/1.3).toFixed(2);
+});
+}
+
+
+    window.onload = changePrice();
+    function changePrice(){
+    var input = document.querySelector('.bb');
+    console.log(input);
+        input.addEventListener('input', function()
+        {
+            document.getElementById('aa').value = (document.getElementById('afterprice').value/1.3).toFixed(2);
+        });
+    }
+</script>
+ 

@@ -50,7 +50,7 @@ $this->title = "Delivery Orders";
                         echo "<th><center> Update Status </th>";
                     echo "</tr>";
 
-                    $orderitemdetails = Orderitem::find()->where('Delivery_ID = :did ', [':did'=>$orderdetails['Delivery_ID']])->orderBy(['Order_ID'=>SORT_ASC])->all();
+                    $orderitemdetails = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$orderdetails['Delivery_ID']])->orderBy(['Order_ID'=>SORT_ASC])->all();
                     
                     foreach ($orderitemdetails as $orderitemdetails) :
                         echo "<tr>";
@@ -77,7 +77,6 @@ $this->title = "Delivery Orders";
                             {
                                 $label='<span class="label label-info">'.$orderitemdetails['OrderItem_Status'].'</span>';
                             }
-                            
                             echo "<td><center>".$label."</td>";
                             if ($orderitemdetails['OrderItem_Status'] == 'Pending') :
                             {

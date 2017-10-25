@@ -136,10 +136,13 @@ button.btn.btn-primary.bootstrap-touchspin-up{
 width:40px;
 height:40px;
 }
+<<<<<<< HEAD
 /*-----Comment------*/
 .panel.panel-default{
         width:598px;
  }
+=======
+>>>>>>> parent of a547bef... Merge branch 'master' of https://github.com/ding94/hamsterEat
 </style>
   <ul style = "margin-left:37%;" class="nav nav-pills">
     <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
@@ -336,7 +339,7 @@ foreach ($comments as $comments) :
             $dt = new DateTime('@'.$comments['created_at']);
             $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
              ?>
-          <div class='panel panel-default'>
+          <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default'>
 		<div class='panel-body'>
             <div id = "rating">
                 <?php echo $comments['FoodRating_Rating'];?> 

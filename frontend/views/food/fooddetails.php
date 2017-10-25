@@ -91,7 +91,7 @@ line-height: initial;
   font-size: 1.6em;
 }
 #fooddetails .cart{
- display: inline-block;
+ 
   
 }
 
@@ -110,6 +110,10 @@ font-size: 16px;
 
 }
 button.btn.btn-primary.bootstrap-touchspin-down{
+width:40px;
+height:40px;
+}
+button.btn.btn-primary.bootstrap-touchspin-up{
 width:40px;
 height:40px;
 }
@@ -243,13 +247,15 @@ height:40px;
         
            
       			<div class="cart">
-              <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:20%;']])->widget(TouchSpin::classname(), [
+             
+              <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:22%;']])->widget(TouchSpin::classname(), [
                   'options' => [
                       'id'=>'orderitem-orderitem_quantity'.$fooddata->Food_ID,
+                      'style'=>'height:40px;'
                   ],
                   'pluginOptions' => [
                       'min' => 1,
-                      'style'=> 'width:20px;',
+                      
                       'initval' => 1,
                       'buttonup_class' => 'btn btn-primary', 
                       'buttondown_class' => 'btn btn-primary', 

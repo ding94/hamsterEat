@@ -118,7 +118,7 @@ span.stars span {
 <body>
   <?php foreach($rowfood as $data):
   Modal::begin([
-            'header' => '<h2 class="modal-title">Food Details</h2>',
+            'headerOptions' => ['style'=>'display:none;'],
             'id'     => 'modal'.$data['Food_ID'],
             'size'   => 'modal-lg',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',

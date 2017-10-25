@@ -37,7 +37,7 @@ class FoodController extends CommonController
                 //'only' => ['foodDetails', 'insertFood','menu','delete','editFood','postedit','recycleBin','deletePermanent','viewComments'],
                 'rules' => [
                     [
-                        'actions' => [ 'insertFood','menu','delete','edit-food','postedit','recycleBin','deletePermanent','viewComments'],
+                        'actions' => [ 'insert-food','menu','delete','edit-food','postedit','recycleBin','delete-permanent','viewComments'],
                         'allow' => true,
                         'roles' => ['restaurant manager'],
                     ],

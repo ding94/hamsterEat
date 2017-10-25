@@ -28,7 +28,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($food, 'Nickname')->textInput() ?>
 
-                <?= $form->field($food, 'Price')->textInput()->label('Price') ?>
+                <div class="col-sm-5">
+                   <?= $form->field($food, 'roundprice')->textInput(['readonly' => true,'id'=>'price'])->label("Money Received") ?>
+                </div>
+                <div class="col-sm-2">
+                    <span>*1.2 = </span>
+                </div>  
+                 <div class="col-sm-5">
+                    <?= $form->field($food, 'Price')->textInput(['id'=>'afterprice','onChange' => 'changePrice()'])->label('Price Display') ?>
+                </div>
 
                 <?php echo '<label class="control-label">Type</label>';
                         echo Select2::widget([

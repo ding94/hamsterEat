@@ -114,11 +114,13 @@ span.stars span {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 </style>
 <body>
+
   <?php foreach($rowfood as $data):
   Modal::begin([
-            'headerOptions' => ['style'=>'display:none;'],
+            'header' => Html::img('@web/imageLocation/foodImg/'.$data['PicPath'], ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:598px; margin-top:auto;']),
             'id'     => 'modal'.$data['Food_ID'],
             'size'   => 'modal-lg',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
@@ -128,6 +130,7 @@ span.stars span {
     
     Modal::end() ?>
   <?php endforeach; ?>
+   
   <?php Modal::begin([
             'header' => '<h2 class="modal-title">Report</h2>',
             'id'     => 'modal',

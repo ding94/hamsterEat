@@ -50,7 +50,7 @@ class DefaultController extends CommonController
                      [
                         'actions' => ['index','restaurant-details','food-details','show-by-food', 'food-filter', 'restaurant-filter'],
                         'allow' => true,
-                        'roles' => ['?','@'],
+                        'roles' => ['@'],
 
                     ]
                  ]
@@ -104,17 +104,27 @@ class DefaultController extends CommonController
 
     public function actionRestaurantDetails($rid)
     {
-        $valid = Restaurant::find()->where('Restaurant_ID=:id AND Restaurant_Status=:s',[':id'=>$rid,':s'=>"Operating"])->one();
-        if (empty($valid)) {
-            Yii::$app->session->setFlash('error', 'This food was not valid now.');
-            return $this->redirect(['/site/index']);
-        }
+        $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
 
-        $id = restaurant::find()->where('restaurant.Restaurant_ID = :rid' ,[':rid' => $rid])->innerJoinWith('restaurantType')->one();
+        if (empty($rmanager)) {
+            $valid = Restaurant::find()->where('Restaurant_ID=:id AND Restaurant_Status=:s',[':id'=>$rid,':s'=>"Operating"])->one();
+            if (empty($valid)) {
+                Yii::$app->session->setFlash('error', 'This restaurant was not valid now.');
+                return $this->redirect(['/site/index']);
+            }
+        }
+        
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
+        $id = restaurant::find()->where('restaurant.Restaurant_ID = :rid' ,[':rid' => $rid])->innerJoinWith('restaurantType')->one();
 
         $model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
-        $countmodel = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true);
+
+        if (!empty($rmanager)) {
+           $model = food::find()->where('Restaurant_ID=:id', [':id' => $rid])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
+        }
+        
+        //$countmodel = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true);
+        $countmodel = $model;
         $rowfood = $model->all();
 
         $pagination = new Pagination(['totalCount'=>$model->count(),'pageSize'=>10]);

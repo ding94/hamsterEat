@@ -19,8 +19,24 @@ $this->title = "Food Details";
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <style>
-body{
-    font-family: "MuseoSans",Arial,sans-serif;
+
+.modal-header{
+  padding:0px;
+  
+}
+.modal-header .close {
+  margin: 0;
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  width: 23px;
+  height: 23px;
+  border-radius: 23px;
+  background-color: grey;
+  color: white;
+ 
+  opacity: 1;
+  z-index: 10;
 }
 #a2cart {
   background-color:#fff;
@@ -87,7 +103,7 @@ line-height: initial;
   font-size: 1.6em;
 }
 #fooddetails .cart{
- display: inline-block;
+ 
   
 }
 
@@ -112,6 +128,13 @@ font-size: 16px;
 
 #ratedatetime {
     float:right;
+button.btn.btn-primary.bootstrap-touchspin-down{
+width:40px;
+height:40px;
+}
+button.btn.btn-primary.bootstrap-touchspin-up{
+width:40px;
+height:40px;
 }
 </style>
   <ul class="nav nav-pills">
@@ -131,14 +154,13 @@ font-size: 16px;
       <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
     <?php endif ;?>
 		<!--<table class="table-user-information" style="width:60%; margin:auto;">-->
-   <tr class="bordertop">
-
+   
+                 
+                  <!--<?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:598px; margin:auto;']) ?>-->
+            
+        <tr class="bordertop">
                   <td colspan = 2> <?php echo $fooddata->Name;?></td>
             </tr>
-                 
-                  <?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:595px; margin:auto;']) ?>
-            
-        
            <br>
             <div class="foodname">
                   <!--<td>Food Name:</td>-->
@@ -249,20 +271,22 @@ font-size: 16px;
         
            
       			<div class="cart">
-              <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:25%;']])->widget(TouchSpin::classname(), [
+             
+              <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:22%;']])->widget(TouchSpin::classname(), [
                   'options' => [
                       'id'=>'orderitem-orderitem_quantity'.$fooddata->Food_ID,
+                      'style'=>'height:40px;'
                   ],
                   'pluginOptions' => [
                       'min' => 1,
-                      'style'=> 'width:20px;',
+                      
                       'initval' => 1,
                       'buttonup_class' => 'btn btn-primary', 
                       'buttondown_class' => 'btn btn-primary', 
                       'buttonup_txt' => '<i class="fa fa-plus"></i>', 
                       'buttondown_txt' => '<i class="fa fa-minus"></i>'
                   ],
-              ])->label(false); ?>   <?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart','style'=>'margin-top:-44px;width:48%;']) ?>
+              ])->label(false); ?>   <?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart','style'=>'margin-top:-44px;width:48%; height:48px; font-size: 18px;']) ?>
 
      
            </div>

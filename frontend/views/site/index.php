@@ -57,8 +57,10 @@ $this->title = 'hamsterEat';
 		
 
         <div class="form">
-		<h1>A place for you to enjoy food by a click!</h1><br>
-        <h2>Select Your Location</h2><br>
+		<h1>Light up your taste buds!</h1><br>
+        <h3><b>Select Your Location</b></h3>
+		<h5>To Better Serve You, let us know where you are by selecting your postal code & area!</h5><br>
+
 
         <?php $form = ActiveForm::begin(['type' => ActiveForm::TYPE_HORIZONTAL]); ?>
 
@@ -75,7 +77,7 @@ $this->title = 'hamsterEat';
 			],
 			])->label(false); ?>
 
-        <?= Html::submitButton('Find Restaurants', ['class' => 'btn btn-primary', 'name' => 'proceed-button']) ?>
+        <?= Html::submitButton('Find Restaurants', ['class' => 'button-three', 'name' => 'proceed-button']) ?>
         </div>
        
 	   <?php ActiveForm::end(); ?>

@@ -136,13 +136,12 @@ button.btn.btn-primary.bootstrap-touchspin-up{
 width:40px;
 height:40px;
 }
-<<<<<<< HEAD
+
 /*-----Comment------*/
 .panel.panel-default{
         width:598px;
  }
-=======
->>>>>>> parent of a547bef... Merge branch 'master' of https://github.com/ding94/hamsterEat
+
 </style>
   <ul style = "margin-left:37%;" class="nav nav-pills">
     <li class="active"><a data-toggle="pill" href="#home">Home</a></li>

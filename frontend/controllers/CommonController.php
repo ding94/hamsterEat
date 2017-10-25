@@ -12,7 +12,9 @@ class CommonController extends Controller
 {
 	public function init()
 	{
-		$data = [];
+		$data = "";
+		$listOfNotic = "";
+		$count = "";
 		if(!Yii::$app->user->isGuest)
 		{
 			$result = [];
@@ -25,9 +27,9 @@ class CommonController extends Controller
 				$result[$single['type']][] = $single;
 			}
 			$data = $result;
-			$this->view->params['notication'] = $data;
-			$this->view->params['listOfNotic'] = $listOfNotic;
-			$this->view->params['countNotic'] = $count;
 		}
+		$this->view->params['notication'] = $data;
+		$this->view->params['listOfNotic'] = $listOfNotic;
+		$this->view->params['countNotic'] = $count;
 	}
 }

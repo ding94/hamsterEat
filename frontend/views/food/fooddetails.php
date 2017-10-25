@@ -137,7 +137,7 @@ width:40px;
 height:40px;
 }
 </style>
-  <ul class="nav nav-pills">
+  <ul style = "margin-left:37%;" class="nav nav-pills">
     <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
     <li><a data-toggle="pill" href="#comments">Comments</a></li>
   </ul>
@@ -320,11 +320,13 @@ height:40px;
 </div>
 <div id="comments" class="tab-pane fade">
 <?php
+$i = 1;
 foreach ($comments as $comments) :
-    if (!is_null($comments['Comment']))
+    if (!is_null($comments['Comment']) && $i < 4)
     {?>
         <div class ="container">
             <?php 
+            $i = $i + 1;
             $user = User::find()->where('id = :uid', [':uid'=>$comments['User_Id']])->one();
             $user = $user['username'];
             $dt = new DateTime('@'.$comments['created_at']);
@@ -350,6 +352,7 @@ foreach ($comments as $comments) :
         </div>
    <?php }
     endforeach; ?>
+    <td><?php echo "<center>".Html::a('View All Comments', ['view-comments', 'id'=>$fooddata['Food_ID']], ['class'=>'btn btn-default']); ?></td>
 </div>
 </div>
 </body>

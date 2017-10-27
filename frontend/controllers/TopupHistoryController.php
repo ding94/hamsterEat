@@ -9,9 +9,28 @@ use yii\helpers\ArrayHelper;
 use Yii;
 use yii\web\UploadedFile;
 use frontend\controllers\CommonController;
+use yii\filters\AccessControl;
 
 class TopupHistoryController extends CommonController
 {
+	public function behaviors()
+    {
+         return [
+             'access' => [
+                 'class' => AccessControl::className(),
+                 'rules' => [
+                    [
+                        'actions' => ['index',],
+                        'allow' => true,
+                        'roles' => ['@'],
+
+                    ],
+                    //['actions' => ['rating-data'],'allow' => true,'roles' => ['?'],],
+                 ]
+             ]
+        ];
+    }
+
     public function actionIndex()
     {
         $searchModel = new Accounttopup();

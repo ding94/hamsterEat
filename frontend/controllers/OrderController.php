@@ -53,6 +53,7 @@ class OrderController extends CommonController
         $address = $ordersdetails['Orders_Location'].', '.$ordersdetails['Orders_Area'].', '.$ordersdetails['Orders_Postcode'].'.';
         $paymethod = $ordersdetails['Orders_PaymentMethod'];
           if($ordersdetails['Orders_Status']== 'Pending')
+            
                 {
                     $label='<span class="label label-warning">'.$ordersdetails['Orders_Status'].'</span>';
                 }

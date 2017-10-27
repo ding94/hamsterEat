@@ -121,25 +121,25 @@ span.stars span {
   <?php foreach($rowfood as $data):
   Modal::begin([
             'header' => Html::img('@web/imageLocation/foodImg/'.$data['PicPath'], ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:598px; margin-top:auto;']),
-            'id'     => 'modal'.$data['Food_ID'],
+            'id'     => 'foodDetail',
             'size'   => 'modal-lg',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
 
     ]);
     
-    echo "<div id='modelContent".$data['Food_ID']."'></div>";
+    // echo "<div id='modelContent".$data['Food_ID']."'></div>";
     
     Modal::end() ?>
   <?php endforeach; ?>
    
   <?php Modal::begin([
             'header' => '<h2 class="modal-title">Report</h2>',
-            'id'     => 'modal',
+            'id'     => 'report-modal',
             'size'   => 'modal-sm',
             'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
     
-    echo "<div id='modelContent'></div>";
+    // echo "<div id='modelContent'></div>";
     
     Modal::end() ?>
 <div class = "container">
@@ -150,7 +150,7 @@ span.stars span {
             $picpath = "DefaultRestaurant.jpg";
         }
          echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive pull-left', 'style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>"; ?>
-    <h1 style="font-weight: bold;margin-left: 32%;"><?php echo $id['Restaurant_Name']; ?><span class="pull-right"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'btn btn-primary','id' => 'reportModalButton']) ?></span></h1>
+    <h1 style="font-weight: bold;margin-left: 32%;"><?php echo $id['Restaurant_Name']; ?><span class="pull-right"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'btn btn-primary','data-toggle'=>'modal','data-target'=>'#report-modal']) ?></span></h1>
       <ul class="info" style="margin-left: 30%;">
         <?php if ($id['Restaurant_Pricing'] == 1){ ?>
         <li class="none">$</li>
@@ -218,7 +218,8 @@ span.stars span {
               foreach($rowfood as $data): 
             ?>
 
-        <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>" data-id="<?php echo $data['Food_ID']; ?>" class="modelButton">
+        <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>"  data-toggle="modal" data-target="#foodDetail">
+
         <div class="item">
             <div class="inner-item">
             <span class="foodName"><?php echo $data['Name']; ?></span>

@@ -42,17 +42,18 @@ class DefaultController extends CommonController
                  'rules' => [
                      [
                          'actions' => ['new-restaurant-location','new-restaurant-details','new-restaurant','edit-restaurant-details','edit-restaurant-area','edited-location-details','edit-restaurant-details2','manage-restaurant-staff','delete-restaurant-staff','add-staff',
-                        'view-restaurant', 'all-rmanagers'],
+                         'view-restaurant', 'all-rmanagers'],
                          'allow' => true,
                          'roles' => ['restaurant manager'],
  
                      ],
-                     [
-                        'actions' => ['index','restaurant-details','food-details','show-by-food', 'food-filter', 'restaurant-filter'],
+                    [
+                        'actions' => ['index','show-by-food', 'food-filter', 'restaurant-filter','food-details','restaurant-details'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['@','?'],
 
-                    ]
+                    ],
+                    
                  ]
              ]
         ];
@@ -104,8 +105,9 @@ class DefaultController extends CommonController
 
     public function actionRestaurantDetails($rid)
     {
-        $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
-
+        if (!(Yii::$app->user->isGuest)) {
+            $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
+        }
         if (empty($rmanager)) {
             $valid = Restaurant::find()->where('Restaurant_ID=:id AND Restaurant_Status=:s',[':id'=>$rid,':s'=>"Operating"])->one();
             if (empty($valid)) {
@@ -113,8 +115,7 @@ class DefaultController extends CommonController
                 return $this->redirect(['/site/index']);
             }
         }
-        
-        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
+
         $id = restaurant::find()->where('restaurant.Restaurant_ID = :rid' ,[':rid' => $rid])->innerJoinWith('restaurantType')->one();
 
         $model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
@@ -132,7 +133,11 @@ class DefaultController extends CommonController
         ->limit($pagination->limit)
         ->all();
 
+        if (!(Yii::$app->user->isGuest)) {
+        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
         return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood, 'staff'=>$staff,'pagination'=>$pagination, 'rid'=>$rid]);
+        }
+        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood,'pagination'=>$pagination, 'rid'=>$rid]);
     }
 
     public function actionFoodDetails($fid)

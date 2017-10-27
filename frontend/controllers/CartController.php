@@ -23,11 +23,31 @@ use frontend\controllers\NotificationController;
 use yii\helpers\Json;
 use frontend\modules\delivery\controllers\DailySignInController;
 use frontend\controllers\CommonController;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
 class CartController extends CommonController
 { 
-   
+   public function behaviors()
+    {
+         return [
+             'access' => [
+                 'class' => AccessControl::className(),
+                 //'only' => ['logout', 'signup','index'],
+                 'rules' => [
+                    [
+                        'actions' => ['addto-cart','checkout','delete','view-cart'],
+                        'allow' => true,
+                        'roles' => ['@'],
+
+                    ],
+                    //['actions' => [],'allow' => true,'roles' => ['?'],],
+                    
+                 ]
+             ]
+        ];
+    }
+
 
     public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks,$rid,$sessiongroup)
     {
@@ -159,6 +179,8 @@ class CartController extends CommonController
         {
         $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
         $did = $cart['Delivery_ID'];
+		//$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();
+		//var_dump($cart);exit;
         $cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
         $voucher = new Vouchers;
 
@@ -176,7 +198,7 @@ class CartController extends CommonController
                 Yii::$app->session->setFlash('error', 'Checkout failed. The postcode and area you entered are not the same with the item(s) in your cart. Please empty your cart to change your delivery area.');
                 return $this->redirect(['site/index']);
             }
-        
+      //  var_dump($data);exit;
             return $this->redirect(['checkout', 'did'=>$did, 'discountcode'=>$data['Orders']['Orders_TotalPrice']]);
         }
         return $this->render('cart', ['did'=>$did, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
@@ -191,7 +213,7 @@ class CartController extends CommonController
       // $get = deliveryman::find()->all();
   
        $data = DailySignInController::getAllDailyRecord();
-       
+
        $allData ="" ;
        foreach ($data as $id)
        {

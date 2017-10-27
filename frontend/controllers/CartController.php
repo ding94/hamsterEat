@@ -52,7 +52,6 @@ class CartController extends CommonController
             }
 
             $orderitem = new Orderitem;
-
             $findfood = Food::find()->where('Food_ID = :fid', [':fid'=>$Food_ID])->one();
             $findfoodprice = $findfood['Price'];
             $foodareagroup = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$findfood['Restaurant_ID']])->one();

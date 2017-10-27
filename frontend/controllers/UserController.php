@@ -13,9 +13,28 @@ use common\models\Account\Accountbalance;
 use frontend\models\Accounttopup;
 use common\models\Account\Memberpoint;
 use frontend\controllers\CommonController;
+use yii\filters\AccessControl;
 
 class UserController extends CommonController
 {
+    public function behaviors()
+    {
+         return [
+             'access' => [
+                 'class' => AccessControl::className(),
+                 'rules' => [
+                    [
+                        'actions' => ['user-profile','userdetails','useraddress','userbalance','changepassword',],
+                        'allow' => true,
+                        'roles' => ['@'],
+
+                    ],
+                    //['actions' => ['rating-data'],'allow' => true,'roles' => ['?'],],
+                 ]
+             ]
+        ];
+    }
+
     public function actionUserProfile()
     {
         $user = User::find()->where('id = :id' ,[':id' => Yii::$app->user->id])->joinWith(['useraddress','userdetails'])->one();

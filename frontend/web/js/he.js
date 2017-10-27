@@ -38,7 +38,6 @@ function beforeMarkUp()
         trChild.each(function(){
             value = $(this).children('.selectionPrice').children('.form-group').children('input').val();
             $(this).children('.selectionBefore').children('.form-group').children('input').val((value/1.3).toFixed(2));
-               // console.log(value);
         })
     });
 }
@@ -61,24 +60,40 @@ fadeText();
 
 /* JS function for modal creation in food menu */
 $(function(){
-    $('.modelButton').click(function(e){
-        e.preventDefault();
-        var foodid = $(this).attr('data-id');
-        var modelContent = '#modelContent'+foodid;
-        var modal = '#modal'+foodid;
-        $(modal).modal('show')
-            .find(modelContent)
-            .load($(this).attr('href'));
-    });
+
+    $('#foodDetail').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var href = button.attr('href');
+            modal.find('.modal-body').html('<i class=\"fa fa-spinner fa-spin\"></i>');
+            $.post(href)
+                .done(function( data ) {
+                    modal.find('.modal-body').html(data);
+                });
+            });
+    // $('.modelButton').click(function(e){
+    //     e.preventDefault();
+    //     var foodid = $(this).attr('data-id');
+    //     var modelContent = '#modelContent'+foodid;
+    //     var modal = '#modal'+foodid;
+    //     $(modal).modal('show')
+    //         .find(modelContent)
+    //         .load($(this).attr('href'));
+    // });
+
 });
 
 $(function(){
-    $('#reportModalButton').click(function(e){
-        e.preventDefault();
-        $('#modal').modal('show')
-            .find('#modelContent')
-            .load($(this).attr('href'));
-    });
+    $('#report-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            var href = button.attr('href');
+            modal.find('.modal-body').html('<i class=\"fa fa-spinner fa-spin\"></i>');
+            $.post(href)
+                .done(function( data ) {
+                    modal.find('.modal-body').html(data);
+                });
+            });
 });
 
 

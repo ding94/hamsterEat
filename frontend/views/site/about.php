@@ -20,7 +20,7 @@ $this->title = 'About';
 	 <div class="img-circular" ></div>
 	  <div class="content-box" id="grad1" style="position: absolute; z-index: -10">
       <h4 class="service-heading">Insert</h4>
-      <p>Enter Postcode</p>
+      <p>Select postcode & area</p>
       </div>  
 	 </div>
 	  <div class="col-sm-4 element2" style="text-align:center;">

@@ -16,6 +16,7 @@ use yii\helpers\Json;
 use common\models\Model;
 use common\models\Orderitem;
 use common\models\Orderitemselection;
+use common\models\User;
 use common\models\Rmanager;
 use common\models\Restaurant;
 use common\models\food\Foodtype;
@@ -65,7 +66,6 @@ class FoodController extends CommonController
             $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
         }
         
-
         if (!empty($rmanager)) {
             $valid = ValidController::FoodValid($id);
             if ($valid == false) {
@@ -99,8 +99,6 @@ class FoodController extends CommonController
                 return $this->redirect(['food-details', 'id'=>$id]);
             }
            
-           
-
             foreach ($foodtype as $k => $foodtype) {
                 if ($foodtype->Min > 0){
                     if ($orderItemSelection['FoodType_ID'][$foodtype->ID] == ''){
@@ -228,16 +226,30 @@ class FoodController extends CommonController
             $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
          }
 
+        
         $rname = Restaurant::find()->where('Restaurant_ID = :id', [':id'=>$rid])->one();
         $rname = $rname['Restaurant_Name'];
         $this->layout = 'user';
-         
+
         return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>$page, 'rname'=>$rname]);
+       
+        
 
      }
 
     public function actionDelete($rid,$id,$page)
     {
+        $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->one();
+        if (!empty($restaurant)) {
+            if ($user = User::find()->where('username=:u',[':u'=>$restaurant['Restaurant_Manager']])->one()) {
+                $user = $user['id'];
+                $check = ValidController::checkUserValid($user);
+                if ($check == false) {
+                    return $this->redirect(['site/index']);
+                }
+            }
+        }
+
         $status = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$id])->one();
         if ($status['Status'] == true)
         {
@@ -262,7 +274,19 @@ class FoodController extends CommonController
 
     public function actionEditFood($id)
     {
+
         $food = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
+        $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$food['Restaurant_ID']])->one();
+        if (!empty($restaurant)) {
+            if ($user = User::find()->where('username=:u',[':u'=>$restaurant['Restaurant_Manager']])->one()) {
+                $user = $user['id'];
+                $check = ValidController::checkUserValid($user);
+                if ($check == false) {
+                    return $this->redirect(['site/index']);
+                }
+            }
+        }
+
         $chosen = ArrayHelper::map($food['foodType'],'ID','ID');
         $type = ArrayHelper::map(FoodType::find()->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
       
@@ -479,6 +503,17 @@ class FoodController extends CommonController
 
     public function actionRecycleBin($rid)
     {
+        $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->one();
+        if (!empty($restaurant)) {
+            if ($user = User::find()->where('username=:u',[':u'=>$restaurant['Restaurant_Manager']])->one()) {
+                $user = $user['id'];
+                $check = ValidController::checkUserValid($user);
+                if ($check == false) {
+                    return $this->redirect(['site/index']);
+                }
+            }
+        }
+
         $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
         $rname = restaurant::find()->where('Restaurant_ID=:id',[':id' => $rid])->one()->Restaurant_Name;
 
@@ -492,6 +527,18 @@ class FoodController extends CommonController
 
     public function actionDeletePermanent($rid,$id,$page)
     {
+
+        $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->one();
+        if (!empty($restaurant)) {
+            if ($user = User::find()->where('username=:u',[':u'=>$restaurant['Restaurant_Manager']])->one()) {
+                $user = $user['id'];
+                $check = ValidController::checkUserValid($user);
+                if ($check == false) {
+                    return $this->redirect(['site/index']);
+                }
+            }
+        }
+
         $status = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$id])->one();
         if ($status['Status'] == true)
         {
@@ -515,7 +562,7 @@ class FoodController extends CommonController
     public function actionViewComments($id)
     {
         $comments = Foodrating::find()->where('Food_ID = :id', [':id'=>$id])->all();
-
+        
         return $this->render('comments', ['fid'=>$id, 'comments'=>$comments]);
     }
 }

@@ -125,23 +125,25 @@ class DefaultController extends CommonController
         }
         
         //$countmodel = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true);
-        $countmodel = "SELECT DISTINCT food.Food_ID FROM food INNER JOIN foodstatus ON foodstatus.Food_ID = food.Food_ID WHERE food.Restaurant_ID = ".$rid." AND foodstatus.Status = ".true."";
-        $resultcountmodel = Yii::$app->db->createCommand($countmodel)->execute();
+        // $countmodel = "SELECT DISTINCT food.Food_ID FROM food INNER JOIN foodstatus ON foodstatus.Food_ID = food.Food_ID WHERE food.Restaurant_ID = ".$rid." AND foodstatus.Status = ".true."";
+        // $resultcountmodel = Yii::$app->db->createCommand($countmodel)->execute();
         // $rowfood = $model->all();
         // var_dump($model->count());exit;
         // var_dump($countmodel->count());exit;
-        $pagination = new Pagination(['totalCount'=>$resultcountmodel,'pageSize'=>10]);
-        // var_dump($pagination);exit;
-        $rowfood = $model->offset($pagination->offset)
-        ->limit($pagination->limit)
-        ->all();
-       
+        // $pagination = new Pagination(['totalCount'=>$resultcountmodel,'pageSize'=>10]);
+        // var_dump($resultcountmodel);exit;
+        // $rowfood = $model->offset($pagination->offset)
+        // ->limit($pagination->limit)
+        // ->all();
+        $rowfood = $model->all();
 
         if (!(Yii::$app->user->isGuest)) {
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
-        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood, 'staff'=>$staff,'pagination'=>$pagination, 'rid'=>$rid]);
+        // return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood, 'staff'=>$staff,'pagination'=>$pagination, 'rid'=>$rid]);
+        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood, 'staff'=>$staff,'rid'=>$rid]);
         }
-        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood,'pagination'=>$pagination, 'rid'=>$rid]);
+        // return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood,'pagination'=>$pagination, 'rid'=>$rid]);
+        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood,'rid'=>$rid]);
     }
 
     public function actionFoodDetails($fid)

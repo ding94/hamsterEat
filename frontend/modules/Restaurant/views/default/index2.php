@@ -203,10 +203,10 @@ span.stars span {
         }
                 foreach($fooddata as $fooddata) : 
                     Modal::begin([
-                        'header' => '<h2 class="modal-title">Food Details</h2>',
+                        'header' => Html::img('@web/imageLocation/foodImg/'.$fooddata['PicPath'], ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:598px; margin-top:auto;']),
                         'id'     => 'modal'.$fooddata['Food_ID'],
                         'size'   => 'modal-lg',
-                        'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+                        // 'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
                     ]);
                 
                     echo "<div id='modelContent".$fooddata['Food_ID']."'></div>";

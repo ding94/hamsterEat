@@ -201,64 +201,6 @@
             ]
         },
         {
-            "name": "bower-asset/bootstrap-material-design",
-            "version": "v0.5.10",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/FezVrasta/bootstrap-material-design.git",
-                "reference": "6625d42cc2f591ea7bc05ea0f95a2d091c3a1865"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FezVrasta/bootstrap-material-design/zipball/6625d42cc2f591ea7bc05ea0f95a2d091c3a1865",
-                "reference": "6625d42cc2f591ea7bc05ea0f95a2d091c3a1865",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/bootstrap": "~3.3.6",
-                "bower-asset/bootstrap-sass": "~3.3.6",
-                "bower-asset/jquery": ">=2.2.0,<3.0.0"
-            },
-            "type": "bower-asset-library",
-            "extra": {
-                "bower-asset-main": [
-                    "dist/css/bootstrap-material-design.css",
-                    "dist/js/material.js",
-                    "dist/css/ripples.css",
-                    "dist/js/ripples.js"
-                ],
-                "bower-asset-ignore": [
-                    "test",
-                    "screenshots",
-                    "demo",
-                    ".editorconfig",
-                    ".gitignore",
-                    ".jshintrc",
-                    ".travis.yml",
-                    "CONTRIBUTING.md",
-                    "Gruntfile.json",
-                    "index.html",
-                    "**/.*",
-                    "node_modules",
-                    "bower_components",
-                    "test",
-                    "tests"
-                ]
-            },
-            "license": [
-                "https://github.com/FezVrasta/bootstrap-material-design/blob/master/LICENSE.md"
-            ],
-            "description": "Material Design theme for Bootstrap 3",
-            "keywords": [
-                "android",
-                "bootstrap",
-                "design",
-                "google",
-                "material",
-                "theme"
-            ]
-        },
-        {
             "name": "bower-asset/bootstrap-sass",
             "version": "v3.3.7",
             "source": {

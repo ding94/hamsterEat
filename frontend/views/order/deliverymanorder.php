@@ -18,27 +18,27 @@ $this->title = "Delivery Orders";
             foreach ($dman as $dman) :
                 echo "<table class= table table-user-info style= 'border:1px solid black;'>";
                     echo "<tr>";
-                        echo "<th><center> Delivery ID </th>";
+                        echo "<th colspan = 2><center> Delivery ID </th>";
                        // echo "<th><center> Username </th>";
                        // echo "<th><center> Date to be Received </th>";
-                        echo "<th><center> Time to be Received </th>";
+                        echo "<th colspan = 2><center> Time to be Received </th>";
                         //echo "<th><center> Current Status </th>";
                        // echo "<th><center> Time Placed </th>";
-                        echo "<th><center> Collect (RM) </th>";
+                        echo "<th colspan = 2><center> Collect (RM) </th>";
                     echo "</tr>";
                     
                     $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$dman['Delivery_ID']])->one();
 
                     echo "<tr>";
-                        echo "<td><center>".$orderdetails['Delivery_ID']."</td>";
+                        echo "<td colspan = 2><center>".$orderdetails['Delivery_ID']."</td>";
                         //echo "<td><center>".$orderdetails['User_Username']."</td>";
                       //  echo "<td><center>".$orderdetails['Orders_Date']."</td>";
-                        echo "<td><center>".$orderdetails['Orders_Time']."</td>";
+                        echo "<td colspan = 2><center>".$orderdetails['Orders_Time']."</td>";
                         //echo "<td><center>".$orderdetails['Orders_Status']."</td>";
                        // date_default_timezone_set("Asia/Kuala_Lumpur");
                        // $timeplaced = date('d/m/Y H:i:s', $orderdetails['Orders_DateTimeMade']);
                        // echo "<td><center> $timeplaced </td>";
-                        echo "<td><center>".$orderdetails['Orders_TotalPrice']."</td>";
+                        echo "<td colspan = 2><center>".$orderdetails['Orders_TotalPrice']."</td>";
 
                     echo "</tr>";
                     echo "<tr>";

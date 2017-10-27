@@ -24,17 +24,17 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php $form = ActiveForm::begin(['action' => ['/food/postedit','id' => $food->Food_ID],'id' => 'dynamic-form']); ?>
                 <?= $form->field($food, 'PicPath')->fileInput()->label('Picture') ?>
                 <?= $form->field($food, 'Name')->textInput()->label('Name') ?>
-                <div class="col-sm-5">
-                   <?= $form->field($food, 'roundprice')->textInput(['readonly' => true,'id'=>'price'])->label("Money Received") ?>
-                </div>
-                <div class="col-sm-2">
-                    <span>*1.2 = </span>
-                </div>  
-                 <div class="col-sm-5">
-                    <?= $form->field($food, 'Price')->textInput(['id'=>'afterprice','onChange' => 'changePrice()'])->label('Price Display') ?>
-                </div>
-               <br>
-               <br>
+               
+               <?php echo $form->field($food, 'roundprice', [
+                    'addon' => [
+                        'append' => [
+                            'content' => '<i class="fa fa-times"></i> 1.3 <i>=</i>',
+                        ],
+                        //'groupOptions' => ['class'=>'input-group-lg'],
+                        'contentAfter' => '<input id="afterprice" class="form-control" name="Food[Price]" onchange="changePrice()" type="text" value="'.$food['Price'].'">'
+                    ]
+                ])->textInput(['readonly' => true,'id'=>'price'])->label("Money Received");?>
+     
                 <?php echo '<label class="control-label">Type</label>';
                         echo Select2::widget([
                             'name' => 'Type_ID',

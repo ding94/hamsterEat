@@ -14,7 +14,7 @@ $(document).ready(function() {
         $('.element3').removeClass('bounce');
     }, 5000);
 }, 7000);
-		
+	
 });
 
 //effect for text changing
@@ -27,11 +27,8 @@ $(".imawhat").each(function() {
 });
 
 function changePrice(){
-    var input = document.querySelector('#afterprice');
-    input.addEventListener('input', function()
-    {
-        document.getElementById('price').value = (document.getElementById('afterprice').value/1.3).toFixed(2);
-    });
+    price =$('#afterprice').val();
+    $('#price').val((price/1.3).toFixed(2));
 }
 
 function beforeMarkUp()

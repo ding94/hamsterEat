@@ -15,35 +15,35 @@ $this->title = "My Cart";
 			{
 		?>
 <div class="container">
-  <div class="tab-content col-md-7 col-md-offset-1" id="cart">
+  <div class="tab-content col-md-7 "  style="display: inline-block;" id="cart">
 
-    <table class="table table-user-information" style="width:1100px; margin-left:-15%;">
-    <h1 style = "margin-left: -10%; margin-top:-4%;">Cart</h1><br>
-      <tr>
-        <th colspan = 2><center>Food Name</th>
-        <th><center>Unit Price (RM)</th>
-        <th><center>Quantity</th>
-        <th><center>Selections</th>
-        <th><center>Selections Price (RM)</th>
-        <th><center>LineTotal (RM)</th>
-        <th><center>Remarks</th>
-        <th><center>Remove</th>
-      </tr>
-
-      <?php
+    <table class="table table-hover">
+	<h1>Cart</h1>
+	
+	<thead>
+	<tr>
+	<th></th>
+        <th>Food</th>
+       <th>Unit Price (RM)</th>
+        <th>Quantity</th>
+        <th>LineTotal (RM)</th>
+        
+		</tr>
+    </thead>
+	<tbody>
+	<tr>
+	<?php
       foreach ($cartitems as $cartitems) :
         $fooddetails = Food::find()->where('Food_ID = :fid',[':fid'=>$cartitems['Food_ID']])->one();
 
         echo "<tr>";
         ?>
-        <td><center><?php echo Html::img('@web/imageLocation/foodImg/'.$fooddetails['PicPath'], ['class' => 'img-responsive','style'=>'height:60px; width:90px; margin:auto;']); ?></td>
-        <?php
-        echo "<td><center>".$fooddetails['Name']."</td>";
-        echo "<td align="."right>".CartController::actionRoundoff1decimal($fooddetails['Price'])."</td>"; 
-        echo "<td><center>".$cartitems['OrderItem_Quantity']."</td>";
-        $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$cartitems['Order_ID']])->all();
-        echo "<td><center>";
-        foreach ($selections as $selections) :
+        <td> <?php echo Html::img('@web/imageLocation/foodImg/'.$fooddetails['PicPath'], ['class' => 'img-responsive','style'=>'height:60px; width:90px; margin:auto;']);?></td>
+		<td> <?php 
+		echo $fooddetails['Name'];
+		echo "<br>";
+		 $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$cartitems['Order_ID']])->all();
+		foreach ($selections as $selections) :
           $selectionname = Foodselection::find()->where('ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
           $selectiontype = Foodselectiontype::find()->where('ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
           if (!is_null($selectionname['ID']))
@@ -51,82 +51,53 @@ $this->title = "My Cart";
             echo $selectiontype['TypeName'].': &nbsp;'.$selectionname['Name'];
             echo "<br>";
           }
-        endforeach;
-        echo "</td>";
-        echo "<td align="."right>".CartController::actionRoundoff1decimal($cartitems['OrderItem_SelectionTotal'])."</td>";
-        echo "<td align="."right>".CartController::actionRoundoff1decimal($cartitems['OrderItem_LineTotal'])."</td>";
-        echo "<td><center> ".$cartitems['OrderItem_Remark']." </td>";
-        echo "<td><center>".Html::a('', ['delete','oid'=>$cartitems['Order_ID']], ['class'=>'btn btn-danger fa fa-trash','data-confirm'=>'Are you sure you want to remove from cart?'])."</td>";
-        echo "</tr>";
-      endforeach;
-      $did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();
-      //var_dump($did);exit;
-      echo "<tr>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td><center><strong> Subtotal (RM): </strong></td>"; ?>
-        <td align=right> <font id="subtotal"><?php echo CartController::actionRoundoff1decimal($did['Orders_Subtotal']); ?></font></td><?php
-      echo "</tr>";
-      echo "<tr>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td><center><strong> Delivery Charge (RM): </strong></td>";?>
-        <td align=right> <font id="delivery"><?php echo CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge']); ?></font></td><?php
-      echo "</tr>";
+        endforeach; 
+		echo $cartitems['OrderItem_Remark'];?></td>
+        <td><?php echo CartController::actionRoundoff1decimal($fooddetails['Price']);?></td>
+        <td><?php echo $cartitems['OrderItem_Quantity'];?></td>
+		<td><?php echo CartController::actionRoundoff1decimal($cartitems['OrderItem_LineTotal']);  endforeach;$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();?></td>
+      </tr>
+	   
+	</tbody>
+	</table>
+	
+</div>
+  <div class="tab-content col-md-3 col-md-offset-9" >
 
-      $timenow = Yii::$app->formatter->asTime(time());
-      $early = date('08:00:00');
-      //$last = date('11:00:59');
-      $last = date('23:00:59');
+  <table class="table table-hover" style="float:right">
+	<tbody>
+                  <tr>
+                    <td>Subtotal (RM):</td>
+                    <td><?php echo CartController::actionRoundoff1decimal($did['Orders_Subtotal']); ?></td>
+                  </tr>
+				  <tr>
+                    <td>Delivery Charge (RM):</td>
+                    <td><?php echo CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge']); ?></td>
+                  </tr>
+				  <tr>
+                    <td>Early Discount (RM):</td>
+                    <td><?php 
+	$timenow = Yii::$app->formatter->asTime(time());
+    $early = date('08:00:00');
+    $last = date('23:00:59');
 
       if ($early <= $timenow && $last >= $timenow)
       {
-        echo "<tr>";
-          echo "<td> </td>";
-          echo "<td> </td>";
-          echo "<td> </td>";
-          echo "<td> </td>";
-          echo "<td> </td>";
-          echo "<td> </td>";
-          echo "<td> </td>";
-          echo "<td><center><strong> Early Discount (RM): </strong></td>";
-          $discountamount = CartController::actionRoundoff1decimal($did['Orders_Subtotal']) * 0.2; ?>
-          <td align=right> <font id="delivery"><?php echo "-".CartController::actionRoundoff1decimal($discountamount); ?></font></td><?php
-        echo "</tr>";
-
-        $did['Orders_TotalPrice'] = CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($did['Orders_Subtotal']) - CartController::actionRoundoff1decimal($discountamount) + CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge']));
-      }
-
-      echo "<tr>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td><center><strong> Total (RM): </strong></td>";?>
-        <?php $form = ActiveForm::begin(); ?>
-        <td align=right> <font id="total"><?php echo CartController::actionRoundoff1decimal($did['Orders_TotalPrice']); ?></font></td><?php
-      echo "</tr>";
-      echo "<tr>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";?>
-        <td id ="extend"> </td>
+		$discountamount = CartController::actionRoundoff1decimal($did['Orders_Subtotal']) * 0.2; 
+		echo "-".CartController::actionRoundoff1decimal($discountamount);
+	    $did['Orders_TotalPrice'] = CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($did['Orders_Subtotal']) - CartController::actionRoundoff1decimal($discountamount) + CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge']));
+		
+		}?>
+	  </td>
+                  </tr>
+				  <tr>
+                    <td>Total (RM): </td>
+					<?php $form = ActiveForm::begin(); ?>
+                    <td><?php echo CartController::actionRoundoff1decimal($did['Orders_TotalPrice']); ?></td>
+                  </tr>
+				 
+				   <tr>
+                    
         <td  id ="label" style="display: none"><strong> Discount Code: </strong></td>
 
         <td><div> <input id ="input" style="display: none"></div></td>
@@ -134,30 +105,19 @@ $this->title = "My Cart";
         <td style="display: none" id="apply"><div ><a onclick="discount()"><font color="blue">Apply</font></a></div></td>
         <td id ="hide2"><a onclick="showHidden()"><font color="blue">Have a coupon ? Click Me</font></a></td>
         <td id="reset" style="display : none"><a onclick="refresh()"><font color="blue">Reset Coupon</font></a></td>
-        
-          <?php
-      echo "</tr>";
-      echo "<tr>";
-        echo "<td>". Html::a('Back',Yii::$app->request->referrer,['class' => 'btn btn-primary']) ."</td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-        echo "<td> </td>";
-       ?>
-        <?= $form->field($did, 'Orders_TotalPrice')->hiddenInput()->label('') ?>
-       <?php
-        echo "<td align="."right>".Html::submitButton('Checkout', ['class' => 'btn btn-primary', 'name' => 'newrestaurant-button'])."</td>";    
-      echo "</tr>";
-      ActiveForm::end(); ?>
-    </table>
-     
-  </div>
-</div>
-
-	<?php
+        </tr>
+                  
+				  
+	</tbody>
+   </table>
+    <?= $form->field($did, 'Orders_TotalPrice')->hiddenInput()->label('') ?>
+  <?php echo Html::a('Back',Yii::$app->request->referrer,['class' => 'btn btn-primary']) ;?>
+  <?php echo Html::submitButton('Checkout', ['class' => 'btn btn-primary', 'name' => 'newrestaurant-button']);   ?>
+  <?php ActiveForm::end(); ?>
+    
+ </div>
+ </div>
+ <?php
 		}
 		else
 		{
@@ -265,3 +225,4 @@ $this->title = "My Cart";
   }
 
 </script>
+ 

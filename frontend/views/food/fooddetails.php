@@ -100,7 +100,6 @@ line-height: initial;
   
 }
 
-
 #fooddetails .description{
       color: rgb(117, 117, 117);
       font-size: 14px;
@@ -187,7 +186,7 @@ span.stars span {
       <br>
             <div class="description">
                  <!--<td>Food Description:</td>-->
-                 <span style="display: block;overflow-wrap: break-word; word-wrap: break-word; width:148px;"><?php echo $fooddata->Description;?></span>
+                 <span style="display: block;overflow-wrap: break-word; word-wrap: break-word;"><?php echo $fooddata->Description;?></span>
                  </div>
             <br>
               <div class="selection">
@@ -317,9 +316,7 @@ span.stars span {
                     ]
                   ]);
                 ?>
-            
-           
-            
+
             <?= $form->field($fooddata,'Food_ID')->hiddenInput() ?>
           <?= Html::submitButton('Subscribe Food Package', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
            

@@ -6,7 +6,9 @@ use yii\helpers\Html;
 use kartik\widgets\Select2;
 use kartik\widgets\DepDrop;
 use yii\helpers\Url;
+use frontend\assets\PhotoSliderAsset;
 
+PhotoSliderAsset::register($this);
 $this->title = 'hamsterEat';
 ?>
 
@@ -62,20 +64,20 @@ $this->title = 'hamsterEat';
 		<h5>To Better Serve You, let us know where you are by selecting your postal code & area!</h5><br>
 
 
-        <?php $form = ActiveForm::begin(['type' => ActiveForm::TYPE_HORIZONTAL]); ?>
+        <?php $form = ActiveForm::begin(); ?>
 
         <?= $form->field($postcode, 'Area_Postcode')->widget(Select2::classname(), [
 	    'data' => $postcodeArray,
-	    'options' => ['placeholder' => 'Select a postcode ...','id'=>'postcode-select']])->label(false); 
+	    'options' => ['placeholder' => 'Select a postcode ...','id'=>'postcode-select']]); 
 	    ?>
 		<?= $form->field($postcode,'Area_Area')->widget(DepDrop::classname(), [
 			'type'=>DepDrop::TYPE_SELECT2,
-			'options' => ['id'=>'area-select'],
+			'options' => ['id'=>'area-select','placeholder' => 'Select an area ...'],
 			'pluginOptions'=>[
 				'depends'=>['postcode-select'],
 				'url'=>Url::to(['/site/get-area'])
 			],
-			])->label(false); ?>
+			]); ?>
 
         <?= Html::submitButton('Find Restaurants', ['class' => 'button-three', 'name' => 'proceed-button']) ?>
         </div>

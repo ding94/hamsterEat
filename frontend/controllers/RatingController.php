@@ -13,9 +13,29 @@ use common\models\food\Food;
 use yii\helpers\ArrayHelper;
 use frontend\controllers\CartController;
 use frontend\controllers\CommonController;
+use yii\filters\AccessControl;
 
 Class RatingController extends CommonController
 {
+	public function behaviors()
+    {
+         return [
+             'access' => [
+                 'class' => AccessControl::className(),
+                 'rules' => [
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+
+                    ],
+                    //['actions' => [''],'allow' => true,'roles' => ['?'],],
+                    
+                 ]
+             ]
+        ];
+    }
+
 	public function actionIndex($id)
 	{
 		$label = RatingStatus::find()->asArray()->all();

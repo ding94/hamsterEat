@@ -6,8 +6,9 @@ use yii\web\Controller;
 use common\models\Account\Memberpoint;
 use common\models\Account\Memberpointhistory;
 use yii\filters\AccessControl;
+use frontend\controllers\CommonController;
 
-class MemberpointhistoryController extends Controller
+class MemberpointhistoryController extends CommonController
 {
 	public function behaviors()
     {

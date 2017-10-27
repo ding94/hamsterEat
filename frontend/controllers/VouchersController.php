@@ -6,8 +6,10 @@ use yii\helpers\ArrayHelper;
 use common\models\Vouchers;
 use common\models\UserVoucher;
 use common\models\VouchersType;
+use yii\filters\AccessControl;
+use frontend\controllers\CommonController;
 
-class VouchersController extends \yii\web\Controller
+class VouchersController extends CommonController
 {
 	public function actionIndex()
 	{
@@ -53,9 +55,6 @@ class VouchersController extends \yii\web\Controller
 							$case = 3;
 							break;
 					}
-					
-
-					
 						$voucher = new Vouchers;
 
 						$voucher->scenario = 'save';

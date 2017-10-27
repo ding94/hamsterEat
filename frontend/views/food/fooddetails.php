@@ -90,6 +90,7 @@ input[type=number]::-webkit-outer-spin-button {
 #fooddetails .foodname{
 line-height: initial;
   font-size: 2.0em;
+  font-weight:700;
 }
 #fooddetails .foodprice{
 line-height: initial;
@@ -130,11 +131,20 @@ button.btn.btn-primary.bootstrap-touchspin-up{
 width:40px;
 height:40px;
 }
-
+#nav a:hover{
+  cursor: pointer;
+  
+    border-bottom: 1px solid;
+}
+#nav a:focus{
+  
+  
+    border-bottom: 1px solid;
+}
 
 /*-----Comment------*/
 .panel-default{
-        width:551px;
+        width:539px;
  }
 #comments.tab-pane.fade{
    background-color:#fff;
@@ -151,10 +161,12 @@ span.stars span {
 }
 
 </style>
+<div id="nav">
   <ul style = "margin-left:37%;" class="nav nav-pills">
     <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
-    <li><a data-toggle="pill" href="#comments">Comments</a></li>
+    <li ><a data-toggle="pill" href="#comments">Comments</a></li>
   </ul>
+  </div>
   <body>
   <div class="tab-content">
   <div id="home" class="tab-pane fade in active">

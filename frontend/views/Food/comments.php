@@ -17,6 +17,16 @@ $this->title = "Comments";
 #ratedatetime {
     float:right;
 }
+span.stars, span.stars span {
+    display: block;
+    background: url(imageLocation/stars.png) 0 -16px repeat-x;
+    width: 80px;
+    height: 16px;
+}
+
+span.stars span {
+    background-position: 0 0;
+}
 </style>
 <?php
 foreach ($comments as $comments) :
@@ -32,7 +42,7 @@ foreach ($comments as $comments) :
           <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default'>
 		<div class='panel-body'>
             <div id = "rating">
-                <?php echo $comments['FoodRating_Rating'];?> 
+               <span class="small-text pull-right stars" alt="<?php echo $comments['FoodRating_Rating']; ?>"> <?php echo $comments['FoodRating_Rating'];?> </span>
             </div>  
             <div id = "ratedatetime">
                 <?php echo $dt->format('d-m-Y H:i:s');?>

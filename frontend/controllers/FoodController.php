@@ -16,12 +16,12 @@ use yii\helpers\Json;
 use common\models\Model;
 use common\models\Orderitem;
 use common\models\Orderitemselection;
+use common\models\Rmanager;
 use common\models\Restaurant;
 use common\models\food\Foodtype;
 use common\models\food\Foodtypejunction;
 use common\models\food\Foodstatus;
 use common\models\Rating\Foodrating;
-use common\models\Rmanager;
 use frontend\modules\Restaurant\controllers\FoodselectionController;
 use frontend\modules\Restaurant\controllers\FoodtypeAndStatusController;
 use frontend\modules\Restaurant\controllers\DefaultController;
@@ -38,7 +38,7 @@ class FoodController extends CommonController
                 //'only' => ['foodDetails', 'insertFood','menu','delete','editFood','postedit','recycleBin','deletePermanent','viewComments'],
                 'rules' => [
                     [
-                        'actions' => [ 'insert-food','delete','edit-food','postedit','recycle-bin','delete-permanent','view-comments','menu'],
+                        'actions' => [ 'insert-food','menu','delete','edit-food','postedit','recycle-bin','delete-permanent','view-comments'],
 
                         'allow' => true,
                         'roles' => ['restaurant manager'],
@@ -61,13 +61,18 @@ class FoodController extends CommonController
     
     public function actionFoodDetails($id,$rid)
     {
-       if (Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one() == false) {
-        $valid = ValidController::FoodValid($id);
-        if ($valid == false) {
-            Yii::$app->session->setFlash('error', 'This food was not valid now.');
-            return $this->redirect(['/Restaurant/default/restaurant-details', 'id'=>$id,'rid'=>$rid]);
+        if (!(Yii::$app->user->isGuest)) {
+            $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
         }
-    }
+        
+
+        if (!empty($rmanager)) {
+            $valid = ValidController::FoodValid($id);
+            if ($valid == false) {
+                Yii::$app->session->setFlash('error', 'This food was not valid now.');
+                return $this->redirect(['/Restaurant/default/restaurant-details', 'id'=>$id,'rid'=>$rid]);
+            }
+        }
 
         $fooddata = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
         
@@ -82,7 +87,7 @@ class FoodController extends CommonController
         $orderItemSelection =new Orderitemselection;
         $orderitem = new Orderitem;
 
-        $comments = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$id])->all();
+        $comments = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$id])->orderBy(['created_at' => SORT_DESC])->all();
 
         if ($orderItemSelection->load(Yii::$app->request->post()) || $orderitem->load(Yii::$app->request->post()))
         {

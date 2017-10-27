@@ -10,9 +10,29 @@ use common\models\Restaurant;
 use frontend\controllers\NotificationController;
 use kartik\mpdf\Pdf;
 use frontend\controllers\CommonController;
+use yii\filters\AccessControl;
 
 class OrderController extends CommonController
 {
+    public function behaviors()
+    {
+         return [
+             'access' => [
+                 'class' => AccessControl::className(),
+                 'rules' => [
+                    [
+                        'actions' => ['my-orders','order-details','restaurant-orders','deliveryman-orders','update-preparing','update-readyforpickup','update-pickedup','update-completed','invoice-pdf','restaurant-order-history','deliveryman-order-history','my-order-history'],
+                        'allow' => true,
+                        'roles' => ['@'],
+
+                    ],
+                    //['actions' => [''],'allow' => true,'roles' => ['?'],],
+                    
+                 ]
+             ]
+        ];
+    }
+
     public function actionMyOrders()
     {
         $orders = Orders::find()->where('User_Username = :uname and Orders_Status != :status and Orders_Status != :status1', [':uname'=>Yii::$app->user->identity->username, ':status'=>'Not Placed', ':status1'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();

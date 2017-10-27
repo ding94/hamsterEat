@@ -119,19 +119,23 @@ class DefaultController extends CommonController
         $id = restaurant::find()->where('restaurant.Restaurant_ID = :rid' ,[':rid' => $rid])->innerJoinWith('restaurantType')->one();
 
         $model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
-
+        
         if (!empty($rmanager)) {
            $model = food::find()->where('Restaurant_ID=:id', [':id' => $rid])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
         }
         
         //$countmodel = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true);
-        $countmodel = $model;
-        $rowfood = $model->all();
-
-        $pagination = new Pagination(['totalCount'=>$model->count(),'pageSize'=>10]);
+        $countmodel = "SELECT DISTINCT food.Food_ID FROM food INNER JOIN foodstatus ON foodstatus.Food_ID = food.Food_ID WHERE food.Restaurant_ID = ".$rid." AND foodstatus.Status = ".true."";
+        $resultcountmodel = Yii::$app->db->createCommand($countmodel)->execute();
+        // $rowfood = $model->all();
+        // var_dump($model->count());exit;
+        // var_dump($countmodel->count());exit;
+        $pagination = new Pagination(['totalCount'=>$resultcountmodel,'pageSize'=>10]);
+        // var_dump($pagination);exit;
         $rowfood = $model->offset($pagination->offset)
         ->limit($pagination->limit)
         ->all();
+       
 
         if (!(Yii::$app->user->isGuest)) {
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();

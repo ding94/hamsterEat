@@ -132,8 +132,7 @@ class DefaultController extends CommonController
         // var_dump($countmodel->count());exit;
         $pagination = new Pagination(['totalCount'=>$resultcountmodel,'pageSize'=>10]);
         // var_dump($pagination);exit;
-        $rowfood = $model->offset($pagination->offset)
-        ->limit($pagination->limit)
+        $rowfood = $model
         ->all();
        
 

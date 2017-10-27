@@ -72,7 +72,8 @@ AppAsset::register($this);
             $menuItems[2]['items'][$k+count($restaurant)] = '<li class="divider"></li>';
             }
         }
-                $menuItems[] = ['label' => '<span class=""> <i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>'];
+       
+         $menuItems[] = ['label' => '<span class=""> <i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>'];
         $keys = array_keys($menuItems);
 
         if(empty(Yii::$app->view->params['notication']))

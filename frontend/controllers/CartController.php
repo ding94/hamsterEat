@@ -164,13 +164,16 @@ class CartController extends CommonController
         {
         $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
         $did = $cart['Delivery_ID'];
-		
 		//$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();
-		
+		//$restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$findfood['Restaurant_ID']])->one();
 		//$foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
 		//$selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
 		$cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
-		//var_dump($selections);exit;
+		foreach($cartitems as $k => $cartitem): 
+		//$findf = food::find()->where('Food_ID=:fid',[':fid'=>$cartitem['Food_ID']])->one()->Restaurant_ID;
+		// $fooddetails = Food::find()->where('Food_ID = :fid',[':fid'=>$cartitem['Food_ID']])->one();
+		//var_dump($cartitems);exit;
+		endforeach; 
         $voucher = new Vouchers;
 		
         if (Yii::$app->request->post()) 
@@ -188,9 +191,9 @@ class CartController extends CommonController
                 return $this->redirect(['site/index']);
             }
       //  var_dump($data);exit;
-            return $this->redirect(['checkout', 'did'=>$did, 'discountcode'=>$data['Orders']['Orders_TotalPrice']]);
+            return $this->redirect(['checkout','did'=>$did, 'discountcode'=>$data['Orders']['Orders_TotalPrice']]);
         }
-        return $this->render('cart', ['did'=>$did, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
+        return $this->render('cart', ['did'=>$did,'cartitems'=>$cartitems,'voucher'=>$voucher]);
     }
     }
 

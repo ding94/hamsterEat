@@ -24,13 +24,12 @@ Class RatingController extends CommonController
                  'class' => AccessControl::className(),
                  'rules' => [
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index','rating-data'],
                         'allow' => true,
                         'roles' => ['@'],
 
                     ],
-                    //['actions' => [''],'allow' => true,'roles' => ['?'],],
-                    
+                    //['actions' => ['rating-data'],'allow' => true,'roles' => ['?'],],
                  ]
              ]
         ];

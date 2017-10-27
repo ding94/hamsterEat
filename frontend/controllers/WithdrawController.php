@@ -8,9 +8,28 @@ use common\models\Bank;
 use Yii;
 use yii\helpers\ArrayHelper;
 use frontend\controllers\CommonController;
+use yii\filters\AccessControl;
 
 class WithdrawController extends CommonController
 {
+	public function behaviors()
+    {
+         return [
+             'access' => [
+                 'class' => AccessControl::className(),
+                 'rules' => [
+                    [
+                        'actions' => ['index',],
+                        'allow' => true,
+                        'roles' => ['@'],
+
+                    ],
+                    //['actions' => ['rating-data'],'allow' => true,'roles' => ['?'],],
+                 ]
+             ]
+        ];
+    }
+
     public function actionIndex()
     {
         $model = new Withdraw;

@@ -13,10 +13,27 @@ use common\models\Ticketcategorytypes;
 use common\models\Replies;
 use yii\web\UploadedFile;
 use frontend\controllers\CommonController;
+use yii\filters\AccessControl;
 
 class TicketController extends CommonController
 {
+    public function behaviors()
+    {
+         return [
+             'access' => [
+                 'class' => AccessControl::className(),
+                 'rules' => [
+                    [
+                        'actions' => ['index','submit-ticket','chatting','completed',],
+                        'allow' => true,
+                        'roles' => ['@'],
 
+                    ],
+                    //['actions' => ['report-restaurant',],'allow' => true,'roles' => ['?'],],
+                 ]
+             ]
+        ];
+    }
 
     public function actionIndex()
     {
@@ -69,9 +86,15 @@ class TicketController extends CommonController
 
     public function actionChatting($sid,$tid)
     {
+        $ticket = Ticket::find()->where('Ticket_ID = :id ', [':id'=>$tid])->one();
+        $check = ValidController::checkUserValid($ticket['User_id']);
+        if ($check == false) {
+            return $this->redirect(['site/index']);
+        }
+        
         $model= Replies::find()->where('Ticket_ID = :tid ', [':tid'=>$tid])->orderBy('Replies_DateTime ASC')->all();
         $reply = new Replies;
-        $ticket = Ticket::find()->where('Ticket_ID = :id ', [':id'=>$tid])->one();
+        
         $name = User::find()->where('id = :id',[':id'=>$ticket->User_id])->one()->username;
         $upload = new Upload;
 

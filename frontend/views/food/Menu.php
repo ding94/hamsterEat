@@ -54,7 +54,7 @@ $this->title = $rname."'s"." Menu";
                 elseif ($menu['foodStatus']['Status'] == false)
                 {
                     echo "<center>".Html::a('', ['delete','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID'],'page'=>$page], ['class'=>'btn btn-default fa fa-undo']);
-                    echo "<center>".Html::a('', ['delete-permanent','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID'],'page'=>$page], ['class'=>'btn btn-danger fa fa-remove','data-confirm'=>'Are you sure you want to delete?']);
+                    echo "<center>".Html::a('', ['delete-permanent','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID'],'page'=>$page], ['class'=>'btn btn-danger fa fa-remove','data-confirm'=>'Are you sure to delete this menu PERMENANTLY?']);
                 }
                 echo'</td></tr>';
                 echo "</tr>";

@@ -58,6 +58,7 @@ class CartController extends CommonController
 
         else
         {
+            var_dump('expression');exit;
             $session = Yii::$app->session;
             $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
 

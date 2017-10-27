@@ -14,7 +14,6 @@ $this->title = 'hamsterEat';
 
 <body>
 <link href="css/style.css" rel="stylesheet">
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <!--<div class="site-index">--> 
  <header class="intro-header">
  <div id="SlideShowContainer" class="container-fluid">

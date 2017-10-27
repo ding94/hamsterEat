@@ -118,8 +118,7 @@ span.stars span {
 </style>
 <body>
 
-  <?php foreach($rowfood as $data):
-  Modal::begin([
+<?php Modal::begin([
             // 'header' => Html::img('@web/imageLocation/foodImg/'.$data['PicPath'], ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:598px; margin-top:auto;']),
             'id'     => 'foodDetail',
             'size'   => 'modal-lg',
@@ -129,7 +128,6 @@ span.stars span {
     // echo "<div id='modelContent".$data['Food_ID']."'></div>";
     
     Modal::end() ?>
-  <?php endforeach; ?>
    
   <?php Modal::begin([
             'header' => '<h2 class="modal-title">Report</h2>',

@@ -173,7 +173,7 @@ height:40px;
       <br>
             <div class="description">
                  <!--<td>Food Description:</td>-->
-                 <span style="display: block;overflow-wrap: break-word; word-wrap: break-word; width:148px;"><?php echo $fooddata->Description;?></span>
+                 <span style="display: block;overflow-wrap: break-word; word-wrap: break-word;"><?php echo $fooddata->Description;?></span>
                  </div>
             <br>
               <div class="selection">

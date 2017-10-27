@@ -104,6 +104,8 @@ AppAsset::register($this);
                 }
             }
         }
+        $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+        $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">View All</h4>','url' => ['notification/turnoff']];
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile']],
                         '<li class="divider"></li>',

@@ -99,8 +99,6 @@ class FoodController extends CommonController
                 return $this->redirect(['food-details', 'id'=>$id]);
             }
            
-           
-
             foreach ($foodtype as $k => $foodtype) {
                 if ($foodtype->Min > 0){
                     if ($orderItemSelection['FoodType_ID'][$foodtype->ID] == ''){

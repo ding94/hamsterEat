@@ -74,11 +74,11 @@ $this->title = "My Cart";
 	<tbody>
                   <tr>
                     <td>Subtotal (RM):</td>
-                    <td><?php echo CartController::actionRoundoff1decimal($did['Orders_Subtotal']); ?></td>
+                    <td id="subtotal"><?php echo CartController::actionRoundoff1decimal($did['Orders_Subtotal']); ?></td>
                   </tr>
 				  <tr>
                     <td>Delivery Charge (RM):</td>
-                    <td><?php echo CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge']); ?></td>
+                    <td id="delivery"><?php echo CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge']); ?></td>
                   </tr>
 				  <tr>
                     <td>Early Discount (RM):</td>
@@ -99,17 +99,15 @@ $this->title = "My Cart";
 				  <tr>
                     <td>Total (RM): </td>
 					<?php $form = ActiveForm::begin(); ?>
-                    <td><?php echo CartController::actionRoundoff1decimal($did['Orders_TotalPrice']); ?></td>
+                    <td id="total"><?php echo CartController::actionRoundoff1decimal($did['Orders_TotalPrice']); ?></td>
                   </tr>
 				 
 				   <tr>
                     
         <td  id ="label" style="display: none"><strong> Discount Code: </strong></td>
-
         <td><div> <input id ="input" style="display: none"></div></td>
-
-        <td style="display: none" id="apply"><div ><a onclick="discount()"><font color="blue">Apply</font></a></div></td>
         <td id ="hide2"><a onclick="showHidden()"><font color="blue">Have a coupon ? Click Me</font></a></td>
+		<td style="display: none" id="apply"><div ><a onclick="discount()"><font color="blue">Apply</font></a></div></td>
         <td id="reset" style="display : none"><a onclick="refresh()"><font color="blue">Reset Coupon</font></a></td>
         </tr>
                   
@@ -147,7 +145,6 @@ $this->title = "My Cart";
       document.getElementById("input").style.display ='block';
       document.getElementById("apply").style.display ='block';
       document.getElementById("hide2").style.display ='none';
-      document.getElementById("extend").style.display ='none';
   }
 
   function discount()
@@ -160,6 +157,7 @@ $this->title = "My Cart";
    },
    success: function (data) {
       var obj = JSON.parse(data);
+	  
        if (obj != 0 ) 
       {
         switch(obj['discount_item']) 
@@ -207,8 +205,6 @@ $this->title = "My Cart";
         document.getElementById("label").style.display ='none';
         document.getElementById("input").style.display ='none';
         document.getElementById("apply").style.display ='none';
-        document.getElementById("hide2").style.display ='none';
-        document.getElementById("extend").style.display ='block';
         document.getElementById("reset").style.display ='block';
         document.getElementById("orders-orders_totalprice").value = obj['code'];
       }

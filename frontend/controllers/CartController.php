@@ -23,32 +23,10 @@ use frontend\controllers\NotificationController;
 use yii\helpers\Json;
 use frontend\modules\delivery\controllers\DailySignInController;
 use frontend\controllers\CommonController;
-use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
 class CartController extends CommonController
-{ 
-   public function behaviors()
-    {
-         return [
-             'access' => [
-                 'class' => AccessControl::className(),
-                 //'only' => ['logout', 'signup','index'],
-                 'rules' => [
-                    [
-                        'actions' => ['addto-cart','checkout','delete','view-cart'],
-                        'allow' => true,
-                        'roles' => ['@'],
-
-                    ],
-                    //['actions' => [],'allow' => true,'roles' => ['?'],],
-                    
-                 ]
-             ]
-        ];
-    }
-
-
+{
     public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks,$rid,$sessiongroup)
     {
         if (Yii::$app->user->isGuest) 
@@ -225,7 +203,7 @@ class CartController extends CommonController
       // $get = deliveryman::find()->all();
   
        $data = DailySignInController::getAllDailyRecord();
-
+       
        $allData ="" ;
        foreach ($data as $id)
        {

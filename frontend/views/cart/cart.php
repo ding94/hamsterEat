@@ -33,18 +33,18 @@ $this->title = "My Cart";
 	<tbody>
 	<tr>
 	<?php
-      foreach ($cartitems as $cartitems) :
-        $fooddetails = Food::find()->where('Food_ID = :fid',[':fid'=>$cartitems['Food_ID']])->one();
+      foreach ($cartitems as $k => $cartitem) :
+        $fooddetails = Food::find()->where('Food_ID = :fid',[':fid'=>$cartitem['Food_ID']])->one();
 
         echo "<tr>";
         ?>
         <td> <?php echo Html::img('@web/imageLocation/foodImg/'.$fooddetails['PicPath'], ['class' => 'img-responsive','style'=>'height:60px; width:90px; margin:auto;']);?></td>
 		<td> <?php 
-		echo "<strong>";
-		echo $fooddetails['Name'];
-		echo "</strong>";
+		echo "<strong>"; ?>
+		<p><a href="<?php echo yii\helpers\Url::to(['Restaurant/default/restaurant-details','rid'=>$fooddetails['Restaurant_ID']]) ?>" target="_blank"><?php echo $fooddetails['Name'] ?></a></p>
+		<?php echo "</strong>";
 		echo "<br>";
-		 $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$cartitems['Order_ID']])->all();
+		 $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$cartitem['Order_ID']])->all();
 		foreach ($selections as $selections) :
           $selectionname = Foodselection::find()->where('ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
           $selectiontype = Foodselectiontype::find()->where('ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
@@ -55,12 +55,12 @@ $this->title = "My Cart";
             echo "<br>";
           }
         endforeach;
-		echo $cartitems['OrderItem_Remark'];?></td>
-		<td><?php echo CartController::actionRoundoff1decimal($cartitems['OrderItem_SelectionTotal'] + $fooddetails['Price']);?></td>
-        <td><?php echo $cartitems['OrderItem_Quantity'];?></td>
-		<td><?php echo CartController::actionRoundoff1decimal($cartitems['OrderItem_LineTotal']); ?></td>
+		echo $cartitem['OrderItem_Remark'];?></td>
+		<td><?php echo CartController::actionRoundoff1decimal($cartitem['OrderItem_SelectionTotal'] + $fooddetails['Price']);?></td>
+        <td><?php echo $cartitem['OrderItem_Quantity'];?></td>
+		<td><?php echo CartController::actionRoundoff1decimal($cartitem['OrderItem_LineTotal']); ?></td>
      
-	   <td><?php echo Html::a('', ['delete','oid'=>$cartitems['Order_ID']], ['class'=>'btn btn-danger fa fa-trash','data-confirm'=>'Are you sure you want to remove from cart?']);  endforeach;$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();?></td>
+	   <td><?php echo Html::a('', ['delete','oid'=>$cartitem['Order_ID']], ['class'=>'btn btn-danger fa fa-trash','data-confirm'=>'Are you sure you want to remove from cart?']);  endforeach;$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();?></td>
 	   </tr>
 	   
 	</tbody>

@@ -60,6 +60,7 @@ fadeText();
 
 /* JS function for modal creation in food menu */
 $(function(){
+
     $('#foodDetail').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var modal = $(this);
@@ -79,6 +80,7 @@ $(function(){
     //         .find(modelContent)
     //         .load($(this).attr('href'));
     // });
+
 });
 
 $(function(){

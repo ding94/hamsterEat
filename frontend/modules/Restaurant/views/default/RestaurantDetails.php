@@ -233,8 +233,8 @@ span.stars span {
         <?php endforeach; ?>
     </div>
     </div>
-    <?php echo \yii\widgets\LinkPager::widget([
-      'pagination' => $pagination,
-    ]); ?>
+    <?php //echo \yii\widgets\LinkPager::widget([
+      //'pagination' => $pagination,
+    //]); ?>
 </div>
 </body>

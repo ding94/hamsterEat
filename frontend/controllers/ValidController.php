@@ -27,6 +27,17 @@ class ValidController extends Controller
 		}
 	}
 
+	public static function checkUserValid($id)
+	{
+		if ($id == Yii::$app->user->identity->id) {
+            return true;
+        }
+        else
+        {
+            Yii::$app->session->setFlash('error', 'Your are not the right person to perform this action!');
+        }
+	}
+
 	public static function foodValid($id)
 	{
 		$valid = Foodstatus::find()->where('Food_ID=:id AND Status=:s',[':id'=>$id,':s'=>1])->one();

@@ -156,4 +156,10 @@ class NotificationController extends Controller
 	
 		return $data;
 	}
+
+	public function actionTurnoff()
+	{
+		Notification::updateAll(['view' => 1],'uid = :uid',[':uid'=>  Yii::$app->user->identity->id]);
+		return $this->redirect(Yii::$app->request->referrer);
+	}
 }

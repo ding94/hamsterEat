@@ -88,12 +88,14 @@ AppAsset::register($this);
             foreach(Yii::$app->view->params['notication'] as $i=> $notic)
             {
 
-                $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">'.Yii::$app->view->params['listOfNotic'][$i]['description'].'</h4>'];
+                $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">'.Yii::$app->view->params['listOfNotic'][$i]['description'].'</h4>' ];
                 foreach($notic as $data)
                 {
                     $ago = Yii::$app->formatter->asRelativeTime($data['created_at']);
+
                     if($data['type'] == 1)
                     {
+
                         $url = ["order/restaurant-orders",'rid' => $data['rid']];
                     }
                     else

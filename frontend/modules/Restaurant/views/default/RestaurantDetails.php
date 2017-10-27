@@ -124,6 +124,7 @@ span.stars span {
             'id'     => 'modal'.$data['Food_ID'],
             'size'   => 'modal-lg',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+
     ]);
     
     echo "<div id='modelContent".$data['Food_ID']."'></div>";
@@ -216,6 +217,7 @@ span.stars span {
             <?php
               foreach($rowfood as $data): 
             ?>
+
         <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>" data-id="<?php echo $data['Food_ID']; ?>" class="modelButton">
         <div class="item">
             <div class="inner-item">

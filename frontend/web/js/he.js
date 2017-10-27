@@ -70,6 +70,7 @@ $(function(){
             .find(modelContent)
             .load($(this).attr('href'));
     });
+   
 });
 
 $(function(){

@@ -36,7 +36,6 @@ class CartController extends CommonController
 
         else
         {
-            var_dump('expression');exit;
             $session = Yii::$app->session;
             $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
 
@@ -53,7 +52,6 @@ class CartController extends CommonController
             }
 
             $orderitem = new Orderitem;
-
             $findfood = Food::find()->where('Food_ID = :fid', [':fid'=>$Food_ID])->one();
             $findfoodprice = $findfood['Price'];
             $foodareagroup = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$findfood['Restaurant_ID']])->one();

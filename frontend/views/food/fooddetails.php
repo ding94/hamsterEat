@@ -11,13 +11,6 @@ use common\models\User;
 $this->title = "Food Details";
 
 ?>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
 <style>
 
 .modal-header{
@@ -27,7 +20,7 @@ $this->title = "Food Details";
 .modal-header .close {
   margin: 0;
   position: absolute;
-  top: -10px;
+  top: 9px;
   right: 10px;
   width: 23px;
   height: 23px;
@@ -103,7 +96,7 @@ line-height: initial;
   font-size: 1.6em;
 }
 #fooddetails .cart{
- 
+  display: inline-block;
   
 }
 
@@ -128,6 +121,7 @@ font-size: 16px;
 
 #ratedatetime {
     float:right;
+}
 button.btn.btn-primary.bootstrap-touchspin-down{
 width:40px;
 height:40px;
@@ -137,10 +131,24 @@ width:40px;
 height:40px;
 }
 
+
 /*-----Comment------*/
-.panel.panel-default{
-        width:598px;
+.panel-default{
+        width:551px;
  }
+#comments.tab-pane.fade{
+   background-color:#fff;
+ }
+span.stars, span.stars span {
+    display: block;
+    background: url(imageLocation/stars.png) 0 -16px repeat-x;
+    width: 80px;
+    height: 16px;
+}
+
+span.stars span {
+    background-position: 0 0;
+}
 
 </style>
   <ul style = "margin-left:37%;" class="nav nav-pills">
@@ -164,9 +172,7 @@ height:40px;
                  
                   <!--<?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:598px; margin:auto;']) ?>-->
             
-        <tr class="bordertop">
-                  <td colspan = 2> <?php echo $fooddata->Name;?></td>
-            </tr>
+      
            <br>
             <div class="foodname">
                   <!--<td>Food Name:</td>-->
@@ -287,7 +293,7 @@ height:40px;
                       'buttonup_txt' => '<i class="fa fa-plus"></i>', 
                       'buttondown_txt' => '<i class="fa fa-minus"></i>'
                   ],
-              ])->label(false); ?>   <?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart','style'=>'margin-top:-44px;width:48%; height:48px; font-size: 18px;']) ?>
+              ])->label(false); ?>   <?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart','style'=>'margin-top:-51px;width:48%; height:48px; font-size: 18px;']) ?>
 
      
            </div>
@@ -338,10 +344,11 @@ foreach ($comments as $comments) :
             $dt = new DateTime('@'.$comments['created_at']);
             $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
              ?>
-          <div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default'>
+          <div class=' panel panel-default'>
 		<div class='panel-body'>
             <div id = "rating">
-                <?php echo $comments['FoodRating_Rating'];?> 
+           <span class="small-text pull-right stars" alt="<?php echo $comments['FoodRating_Rating']; ?>"> <?php echo $comments['FoodRating_Rating'];?> </span>
+               
             </div>  
             <div id = "ratedatetime">
                 <?php echo $dt->format('d-m-Y H:i:s');?>

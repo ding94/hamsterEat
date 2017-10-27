@@ -124,7 +124,6 @@ span.stars span {
             'id'     => 'foodDetail',
             'size'   => 'modal-lg',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
-
     ]);
     
     // echo "<div id='modelContent".$data['Food_ID']."'></div>";
@@ -217,9 +216,7 @@ span.stars span {
             <?php
               foreach($rowfood as $data): 
             ?>
-
         <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>"  data-toggle="modal" data-target="#foodDetail">
-
         <div class="item">
             <div class="inner-item">
             <span class="foodName"><?php echo $data['Name']; ?></span>
@@ -236,8 +233,8 @@ span.stars span {
         <?php endforeach; ?>
     </div>
     </div>
-    <?php echo \yii\widgets\LinkPager::widget([
-      'pagination' => $pagination,
-    ]); ?>
+    <?php //echo \yii\widgets\LinkPager::widget([
+      //'pagination' => $pagination,
+    //]); ?>
 </div>
 </body>

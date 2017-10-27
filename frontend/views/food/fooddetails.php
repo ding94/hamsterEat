@@ -120,6 +120,8 @@ font-size: 16px;
 
 #ratedatetime {
     float:right;
+}
+
 button.btn.btn-primary.bootstrap-touchspin-down{
 width:40px;
 height:40px;

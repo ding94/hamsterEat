@@ -22,7 +22,6 @@ use common\models\food\Foodtype;
 use common\models\food\Foodtypejunction;
 use common\models\food\Foodstatus;
 use common\models\Rating\Foodrating;
-use common\models\Rmanager;
 use frontend\modules\Restaurant\controllers\FoodselectionController;
 use frontend\modules\Restaurant\controllers\FoodtypeAndStatusController;
 use frontend\modules\Restaurant\controllers\DefaultController;
@@ -88,7 +87,7 @@ class FoodController extends CommonController
         $orderItemSelection =new Orderitemselection;
         $orderitem = new Orderitem;
 
-        $comments = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$id])->all();
+        $comments = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$id])->orderBy(['created_at' => SORT_DESC])->all();
 
         if ($orderItemSelection->load(Yii::$app->request->post()) || $orderitem->load(Yii::$app->request->post()))
         {

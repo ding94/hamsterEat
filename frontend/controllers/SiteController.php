@@ -614,4 +614,9 @@ class SiteController extends CommonController
             return $this->goHome();
         }
     }
+
+    public function actionFaq()
+    {
+        return $this->render('faq');
+    }
 }

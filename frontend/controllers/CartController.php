@@ -23,34 +23,19 @@ use frontend\controllers\NotificationController;
 use yii\helpers\Json;
 use frontend\modules\delivery\controllers\DailySignInController;
 use frontend\controllers\CommonController;
-use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
 class CartController extends CommonController
-{ 
-   public function behaviors()
-    {
-         return [
-             'access' => [
-                 'class' => AccessControl::className(),
-                 //'only' => ['logout', 'signup','index'],
-                 'rules' => [
-                    [
-                        'actions' => ['addto-cart','checkout','delete','view-cart'],
-                        'allow' => true,
-                        'roles' => ['@'],
-
-                    ],
-                    //['actions' => [],'allow' => true,'roles' => ['?'],],
-                    
-                 ]
-             ]
-        ];
-    }
-
-
+{
     public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks,$rid,$sessiongroup)
     {
+        if (Yii::$app->user->isGuest) 
+        {
+            $this->redirect(['site/login']);
+        }
+
+        else
+        {
             $session = Yii::$app->session;
             $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
 
@@ -78,9 +63,13 @@ class CartController extends CommonController
                 $orderitem->Food_ID = $Food_ID;
                 $orderitem->OrderItem_Quantity = $quantity;
                 $linetotal = $findfoodprice * $quantity;
+				//Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
+				//$orderitem->OrderItem_UP = $findfoodprice + $;
+			
                 $orderitem->OrderItem_LineTotal = $linetotal;
                 $orderitem->OrderItem_Status = 'Not Placed';
                 $orderitem->OrderItem_Remark = $remarks;
+			//	var_dump($orderitem);exit;
                 $orderitem->save();
 
                 $findorderid = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$cart['Delivery_ID']])->all();
@@ -105,8 +94,11 @@ class CartController extends CommonController
                             $orderitemselection->Selection_ID = (int)$select;
                             $foodtypeid = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
                             $foodtypeid = $foodtypeid['Type_ID'];
+							
                             $orderitemselection->FoodType_ID = $foodtypeid;
                             $foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
+							//$up = $foodselectionprice['Price'] + $findfoodprice;
+							//var_dump($up);exit;
                             $selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
                             $orderitemselection->save();
                             endforeach;
@@ -120,11 +112,12 @@ class CartController extends CommonController
                             $foodtypeid = $foodtypeid['Type_ID'];
                             $orderitemselection->FoodType_ID = $foodtypeid;
                             $foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
-                            $selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
+                          
                             
                             $orderitemselection->save();
                         }
                     endforeach;
+					
                     $selectiontotalprice = $selectiontotalprice * $quantity;
                     $linetotal = $linetotal + $selectiontotalprice;
                     $linetotalupdate = "UPDATE orderitem SET OrderItem_LineTotal = ".$linetotal.", OrderItem_SelectionTotal = ".$selectiontotalprice." WHERE Order_ID = ".$oid."";
@@ -157,18 +150,29 @@ class CartController extends CommonController
                 Yii::$app->session->setFlash('error', 'Failed to add item to cart. This item is in a different area from the item(s) in your cart. Please empty your cart to start ordering from a new area.');
                 return $this->redirect(['/Restaurant/default/restaurant-details', 'rid' => $rid]);
             }
-        
+        }
     }
 
     public function actionViewCart()
     {
+        if (Yii::$app->user->isGuest) 
+        {
+            $this->redirect(['site/login']);
+        }
+
+        else
+        {
         $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
         $did = $cart['Delivery_ID'];
+		
 		//$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();
-		//var_dump($cart);exit;
-        $cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
+		
+		//$foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
+		//$selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
+		$cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
+		//var_dump($selections);exit;
         $voucher = new Vouchers;
-
+		
         if (Yii::$app->request->post()) 
         {
             $data = Yii::$app->request->post();
@@ -188,6 +192,7 @@ class CartController extends CommonController
         }
         return $this->render('cart', ['did'=>$did, 'cartitems'=>$cartitems,'voucher'=>$voucher]);
     }
+    }
 
     public function actionAssignDeliveryMan($did)
     {
@@ -197,7 +202,7 @@ class CartController extends CommonController
       // $get = deliveryman::find()->all();
   
        $data = DailySignInController::getAllDailyRecord();
-
+       
        $allData ="" ;
        foreach ($data as $id)
        {
@@ -273,23 +278,13 @@ class CartController extends CommonController
 
     public function actionCheckout($did,$discountcode)
     {
-        $order = Orders::find()->where('Delivery_ID = :Delivery_ID',[':Delivery_ID' => $did])->one();
-
-        if ($user = User::find()->where('username = :u',[':u'=>$order['User_Username']])->one()) {
-            $user = $user['id'];
-        }
-
-        $check = ValidController::checkUserValid($user);
-        if ($check == false) {
-            return $this->redirect(['site/index']);
-        }
-        
         $mycontact = Userdetails::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->one();
         $mycontactno = $mycontact['User_ContactNo'];
         $myemail = User::find()->where('username = :username',[':username'=>Yii::$app->user->identity->username])->one();
         $myemail = $myemail['email'];
         $fullname = $mycontact['User_FirstName'].' '.$mycontact['User_LastName'];
         //var_dump($fullname);exit;
+        $order = Orders::find()->where('Delivery_ID = :Delivery_ID',[':Delivery_ID' => $did])->one();
         $checkout = new Orders;
         $userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => $order->User_Username])->one();
         $session = Yii::$app->session;
@@ -477,17 +472,8 @@ class CartController extends CommonController
     public function actionDelete($oid)
     {
         $menu = orderitem::find()->where('Order_ID = :id' ,[':id' => $oid])->one();
-        $orders = Orders::find()->where('Delivery_ID = :did', [':did'=>$menu['Delivery_ID']])->one();
-
-        if ($user = User::find()->where('username = :u',[':u'=>$orders['User_Username']])->one()) {
-            $user = $user['id'];
-        }
-
-        $check = ValidController::checkUserValid($user);
-        if ($check == false) {
-            return $this->redirect(['site/index']);
-        }
         $linetotal = $menu['OrderItem_LineTotal'];
+        $orders = Orders::find()->where('Delivery_ID = :did', [':did'=>$menu['Delivery_ID']])->one();
         $prevtotal = $orders['Orders_TotalPrice'];
         $newtotal = $prevtotal - $linetotal;
         $newsubtotal = $orders['Orders_Subtotal'] - $linetotal;
@@ -519,8 +505,7 @@ class CartController extends CommonController
              Yii::$app->db->createCommand($sql4)->execute();
          }
 
-        Yii::$app->session->setFlash('success', 'Deleted!');
-        return $this->redirect(['view-cart']);
+         return $this->redirect(['view-cart']);
     }
 
     public static function actionDisplay2decimal($price)

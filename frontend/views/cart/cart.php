@@ -15,7 +15,7 @@ $this->title = "My Cart";
 			{
 		?>
 <div class="container">
-  <div class="tab-content col-md-7 "  style="display: inline-block;" id="cart">
+  <div class="tab-content col-md-8 col-md-offset-2"  style="display: inline-block;" id="cart">
 
     <table class="table table-hover">
 	<h1>Cart</h1>
@@ -27,7 +27,7 @@ $this->title = "My Cart";
        <th>Unit Price (RM)</th>
         <th>Quantity</th>
         <th>LineTotal (RM)</th>
-        
+         <th></th>
 		</tr>
     </thead>
 	<tbody>
@@ -46,33 +46,39 @@ $this->title = "My Cart";
 		foreach ($selections as $selections) :
           $selectionname = Foodselection::find()->where('ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
           $selectiontype = Foodselectiontype::find()->where('ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
+		  $unitprice = $selectionname['Price'] + $fooddetails['Price'];
           if (!is_null($selectionname['ID']))
           {
             echo $selectiontype['TypeName'].': &nbsp;'.$selectionname['Name'];
             echo "<br>";
           }
-        endforeach; 
+        endforeach;
 		echo $cartitems['OrderItem_Remark'];?></td>
-        <td><?php echo CartController::actionRoundoff1decimal($fooddetails['Price']);?></td>
+		<td><?php echo CartController::actionRoundoff1decimal($cartitems['OrderItem_SelectionTotal'] + $fooddetails['Price']);?></td>
         <td><?php echo $cartitems['OrderItem_Quantity'];?></td>
-		<td><?php echo CartController::actionRoundoff1decimal($cartitems['OrderItem_LineTotal']);  endforeach;$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();?></td>
-      </tr>
+		<td><?php echo CartController::actionRoundoff1decimal($cartitems['OrderItem_LineTotal']); ?></td>
+     
+	   <td><?php echo Html::a('', ['delete','oid'=>$cartitems['Order_ID']], ['class'=>'btn btn-danger fa fa-trash','data-confirm'=>'Are you sure you want to remove from cart?']);  endforeach;$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();?></td>
+	   </tr>
 	   
 	</tbody>
 	</table>
 	
 </div>
-  <div class="tab-content col-md-3 col-md-offset-9" >
+
+ </div>
+ <div class="container">
+   <div class="tab-content col-md-4 col-md-offset-6" >
 
   <table class="table table-hover" style="float:right">
 	<tbody>
                   <tr>
                     <td>Subtotal (RM):</td>
-                    <td><?php echo CartController::actionRoundoff1decimal($did['Orders_Subtotal']); ?></td>
+                    <td id="subtotal"><?php echo CartController::actionRoundoff1decimal($did['Orders_Subtotal']); ?></td>
                   </tr>
 				  <tr>
                     <td>Delivery Charge (RM):</td>
-                    <td><?php echo CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge']); ?></td>
+                    <td id="delivery"><?php echo CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge']); ?></td>
                   </tr>
 				  <tr>
                     <td>Early Discount (RM):</td>
@@ -93,17 +99,15 @@ $this->title = "My Cart";
 				  <tr>
                     <td>Total (RM): </td>
 					<?php $form = ActiveForm::begin(); ?>
-                    <td><?php echo CartController::actionRoundoff1decimal($did['Orders_TotalPrice']); ?></td>
+                    <td id="total"><?php echo CartController::actionRoundoff1decimal($did['Orders_TotalPrice']); ?></td>
                   </tr>
 				 
 				   <tr>
                     
         <td  id ="label" style="display: none"><strong> Discount Code: </strong></td>
-
         <td><div> <input id ="input" style="display: none"></div></td>
-
-        <td style="display: none" id="apply"><div ><a onclick="discount()"><font color="blue">Apply</font></a></div></td>
         <td id ="hide2"><a onclick="showHidden()"><font color="blue">Have a coupon ? Click Me</font></a></td>
+		<td style="display: none" id="apply"><div ><a onclick="discount()"><font color="blue">Apply</font></a></div></td>
         <td id="reset" style="display : none"><a onclick="refresh()"><font color="blue">Reset Coupon</font></a></td>
         </tr>
                   
@@ -115,7 +119,6 @@ $this->title = "My Cart";
   <?php echo Html::submitButton('Checkout', ['class' => 'btn btn-primary', 'name' => 'newrestaurant-button']);   ?>
   <?php ActiveForm::end(); ?>
     
- </div>
  </div>
  <?php
 		}
@@ -134,6 +137,7 @@ $this->title = "My Cart";
 		<?php
 		}
 		?>
+	</div>
 <script >
   function showHidden()
   {
@@ -141,7 +145,6 @@ $this->title = "My Cart";
       document.getElementById("input").style.display ='block';
       document.getElementById("apply").style.display ='block';
       document.getElementById("hide2").style.display ='none';
-      document.getElementById("extend").style.display ='none';
   }
 
   function discount()
@@ -154,6 +157,7 @@ $this->title = "My Cart";
    },
    success: function (data) {
       var obj = JSON.parse(data);
+	  
        if (obj != 0 ) 
       {
         switch(obj['discount_item']) 
@@ -201,8 +205,6 @@ $this->title = "My Cart";
         document.getElementById("label").style.display ='none';
         document.getElementById("input").style.display ='none';
         document.getElementById("apply").style.display ='none';
-        document.getElementById("hide2").style.display ='none';
-        document.getElementById("extend").style.display ='block';
         document.getElementById("reset").style.display ='block';
         document.getElementById("orders-orders_totalprice").value = obj['code'];
       }

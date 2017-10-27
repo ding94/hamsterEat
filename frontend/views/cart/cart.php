@@ -15,7 +15,7 @@ $this->title = "My Cart";
 			{
 		?>
 <div class="container">
-  <div class="tab-content col-md-7 "  style="display: inline-block;" id="cart">
+  <div class="tab-content col-md-8 col-md-offset-2"  style="display: inline-block;" id="cart">
 
     <table class="table table-hover">
 	<h1>Cart</h1>
@@ -27,7 +27,7 @@ $this->title = "My Cart";
        <th>Unit Price (RM)</th>
         <th>Quantity</th>
         <th>LineTotal (RM)</th>
-        
+         <th></th>
 		</tr>
     </thead>
 	<tbody>
@@ -46,23 +46,29 @@ $this->title = "My Cart";
 		foreach ($selections as $selections) :
           $selectionname = Foodselection::find()->where('ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
           $selectiontype = Foodselectiontype::find()->where('ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
+		  $unitprice = $selectionname['Price'] + $fooddetails['Price'];
           if (!is_null($selectionname['ID']))
           {
             echo $selectiontype['TypeName'].': &nbsp;'.$selectionname['Name'];
             echo "<br>";
           }
-        endforeach; 
+        endforeach;
 		echo $cartitems['OrderItem_Remark'];?></td>
-        <td><?php echo CartController::actionRoundoff1decimal($fooddetails['Price']);?></td>
+		<td><?php echo CartController::actionRoundoff1decimal($cartitems['OrderItem_SelectionTotal'] + $fooddetails['Price']);?></td>
         <td><?php echo $cartitems['OrderItem_Quantity'];?></td>
-		<td><?php echo CartController::actionRoundoff1decimal($cartitems['OrderItem_LineTotal']);  endforeach;$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();?></td>
-      </tr>
+		<td><?php echo CartController::actionRoundoff1decimal($cartitems['OrderItem_LineTotal']); ?></td>
+     
+	   <td><?php echo Html::a('', ['delete','oid'=>$cartitems['Order_ID']], ['class'=>'btn btn-danger fa fa-trash','data-confirm'=>'Are you sure you want to remove from cart?']);  endforeach;$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();?></td>
+	   </tr>
 	   
 	</tbody>
 	</table>
 	
 </div>
-  <div class="tab-content col-md-3 col-md-offset-9" >
+
+ </div>
+ <div class="container">
+   <div class="tab-content col-md-4 col-md-offset-6" >
 
   <table class="table table-hover" style="float:right">
 	<tbody>
@@ -116,7 +122,6 @@ $this->title = "My Cart";
   <?php ActiveForm::end(); ?>
     
  </div>
- </div>
  <?php
 		}
 		else
@@ -134,6 +139,7 @@ $this->title = "My Cart";
 		<?php
 		}
 		?>
+	</div>
 <script >
   function showHidden()
   {

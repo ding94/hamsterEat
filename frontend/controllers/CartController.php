@@ -36,10 +36,7 @@ class CartController extends CommonController
 
         else
         {
-<<<<<<< HEAD
-            
-=======
->>>>>>> d8c6ff1c3fce07ccceacfd14aea938e543635202
+
             $session = Yii::$app->session;
             $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
 

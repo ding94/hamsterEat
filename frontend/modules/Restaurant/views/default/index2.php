@@ -204,16 +204,16 @@ span.stars span {
                 foreach($fooddata as $fooddata) : 
                     Modal::begin([
                         'header' => Html::img('@web/imageLocation/foodImg/'.$fooddata['PicPath'], ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:598px; margin-top:auto;']),
-                        'id'     => 'modal'.$fooddata['Food_ID'],
+                        'id'     => 'foodDetail',
                         'size'   => 'modal-lg',
                         // 'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
                     ]);
                 
-                    echo "<div id='modelContent".$fooddata['Food_ID']."'></div>";
+                    // echo "<div id='modelContent".$fooddata['Food_ID']."'></div>";
                     
                     Modal::end();
         ?>
-                <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-id="<?php echo $fooddata['Food_ID']; ?>" class="modelButton">
+                <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-toggle="modal" data-target="#foodDetail">
                 <div class="item">
                     <div class="inner-item">
                         <span class="foodName"><?php echo $fooddata['Name']; ?></span>

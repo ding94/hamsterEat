@@ -38,7 +38,7 @@ class SiteController extends CommonController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup','index'],
+                'only' => ['logout', 'signup','index','resendconfirmlink','referral','resendconfirmlink-referral','request-password-reset','reset-password',],
                 'rules' => [
                     [
                         'actions' => ['signup','index'],
@@ -53,12 +53,12 @@ class SiteController extends CommonController
                         'roles' => ['?','@'],
                     ],
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup','resendconfirmlink','referral','resendconfirmlink-referral',],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout','request-password-reset','reset-password',],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -238,6 +238,7 @@ class SiteController extends CommonController
                 }
                 return $this->render('validation');
     }
+
     public function actionConfirm()
     {   
         $id = Yii::$app->request->get('id');

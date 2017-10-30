@@ -10,6 +10,13 @@ use frontend\controllers\CartController;
 
 $this->title = "My Cart";
 ?>
+<style type="text/css">
+  a:hover
+  {
+    cursor: pointer;
+  }
+
+</style>
 <?php
 			if($cartitems == true)
 			{

@@ -49,8 +49,8 @@ $this->title = $id['Restaurant_Name'];
 }
 
 .item .inner-item{
-  margin:10px 0px 10px 30px;
-  float:left;
+  margin:10px 70px 10px 30px;
+  float:right;
   width: 50%;
 }
 
@@ -61,7 +61,7 @@ $this->title = $id['Restaurant_Name'];
 
 .item .img{
 
-  float:right;
+  float:left;
 }
 
 .item img{
@@ -119,7 +119,7 @@ span.stars span {
 <body>
 
 <?php Modal::begin([
-            // 'header' => Html::img('@web/imageLocation/foodImg/'.$data['PicPath'], ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:598px; margin-top:auto;']),
+            'header' => '<p>hi</p>',
             'id'     => 'foodDetail',
             'size'   => 'modal-lg',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',

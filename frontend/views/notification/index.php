@@ -18,7 +18,13 @@ $this->title = "Notification";
 				<?php foreach($notic as $data):?>
 					<?php $ago = Yii::$app->formatter->asRelativeTime($data['created_at']);?>
 					<div class="col-md-9 notic">
-						<a class="a-notic" href="#"><?php echo $data['description']?><span class="pull-right"><?php echo $ago ?></span></a>
+						<?php if($data['type'] == 2 || $data['type'] == 4):?>
+							<?php echo Html::a($data['description'].'<span class="pull-right">'.$ago.'</span>',['/order/order-details','did'=>$data['rid']],['class'=> 'a-notic'])?>
+						<?php elseif($data['type'] == 1) :?>
+							<?php echo Html::a($data['description'].'<span class="pull-right">'.$ago.'</span>',["order/restaurant-orders",'rid' => $data['rid']],['class'=> 'a-notic'])?>
+						<?php else :?>
+							<?php echo Html::a($data['description'].'<span class="pull-right">'.$ago.'</span>',[$list[$i]['url']],['class'=> 'a-notic'])?>
+						<?php endif;?>
 					</div>
 				<?php endforeach ;?>
 			<?php endforeach ;?>

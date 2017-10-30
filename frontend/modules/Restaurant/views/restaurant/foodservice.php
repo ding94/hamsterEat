@@ -80,18 +80,6 @@ $this->title = "Manage Foods";
    background-color: #fffbe5;
 }
 
-span.stars, span.stars span {
-    display: block;
-    background: url(imageLocation/stars.png) 0 -16px repeat-x;
-    width: 80px;
-    height: 16px;
-	
-}
-
-span.stars span {
-    background-position: 0 0;
-}
-
 #res{
   margin: 10px 10px 10px 10px;
   float: right;

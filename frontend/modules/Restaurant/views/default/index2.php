@@ -51,8 +51,8 @@ $this->title = "Available Restaurants";
 }
 
 .item .inner-item{
-  margin:10px 0px 10px 30px;
-  float:left;
+  margin:10px 4px 10px 30px;
+  float:right;
   width: 50%;
 }
 
@@ -63,7 +63,7 @@ $this->title = "Available Restaurants";
 
 .item .img{
 
-  float:right;
+  float:left;
 }
 
 .item img{
@@ -75,16 +75,6 @@ $this->title = "Available Restaurants";
     box-shadow: 0px 0px 20px -2px grey;
 }
 
-span.stars, span.stars span {
-    display: block;
-    background: url(imageLocation/stars.png) 0 -16px repeat-x;
-    width: 80px;
-    height: 16px;
-}
-
-span.stars span {
-    background-position: 0 0;
-}
 .filter{
     height:auto;
     width:230px;
@@ -201,19 +191,15 @@ span.stars span {
         {
             $fooddata=food::find()->where('Restaurant_ID=:id and Status = :status and Type_ID = :tid', [':id' => $data['Restaurant_ID'], ':status'=> 1, ':tid'=>$filter])->andWhere(['like', 'Name', $keyword])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
         }
-                foreach($fooddata as $fooddata) : 
                     Modal::begin([
-                        'header' => Html::img('@web/imageLocation/foodImg/'.$fooddata['PicPath'], ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:598px; margin-top:auto;']),
                         'id'     => 'foodDetail',
                         'size'   => 'modal-lg',
                         // 'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
                     ]);
-                
-                    // echo "<div id='modelContent".$fooddata['Food_ID']."'></div>";
                     
-                    Modal::end();
-        ?>
-                <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-toggle="modal" data-target="#foodDetail">
+                    Modal::end(); ?>
+                <?php foreach($fooddata as $fooddata) : ?>
+                <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-toggle="modal" data-target="#foodDetail"  data-img="<?php echo $fooddata['PicPath'];?>">
                 <div class="item">
                     <div class="inner-item">
                         <span class="foodName"><?php echo $fooddata['Name']; ?></span>

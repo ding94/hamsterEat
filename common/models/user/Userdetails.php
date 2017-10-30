@@ -36,6 +36,7 @@ class Userdetails extends \yii\db\ActiveRecord
             [['User_MemberPoints','User_ContactNo','User_id'], 'integer'],
             [['User_AccountBalance'], 'number'],
             [[ 'User_FirstName', 'User_LastName', 'User_PicPath' ], 'string', 'max' => 255],
+            
         ];
     }
 

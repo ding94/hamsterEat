@@ -65,10 +65,12 @@ $(function(){
             var button = $(event.relatedTarget);
             var modal = $(this);
             var href = button.attr('href');
+            var img = '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><img class=\"img-rounded img-responsive\" src=\"../web/imageLocation/foodImg/'+button.attr('data-img')+'\" alt=\"\" style=\"height:300px; width:598px; margin-top:auto;\">';
             modal.find('.modal-body').html('<i class=\"fa fa-spinner fa-spin\"></i>');
             $.post(href)
                 .done(function( data ) {
                     modal.find('.modal-body').html(data);
+                    modal.find('.modal-header').html(img);
                 });
             });
     // $('.modelButton').click(function(e){
@@ -95,7 +97,7 @@ $(function(){
                 });
             });
 });
-
+// <img class="img-rounded img-responsive" src="/hamsterEat/frontend/web/imageLocation/foodImg/1507859480.jpg" alt="" style="height:300px; width:598px; margin-top:auto;">
 
 /* JS function for display ratings as stars. */
 $.fn.stars = function() {

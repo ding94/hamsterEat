@@ -57,16 +57,6 @@ $this->title = "Available Restaurants";
    list-style-type: none;
    margin-left:-20px;
 }
-span.stars, span.stars span {
-    display: block;
-    background: url(imageLocation/stars.png) 0 -16px repeat-x;
-    width: 80px;
-    height: 16px;
-    margin-right: 20px;
-}
-span.stars span {
-    background-position: 0 0;
-}
 
 .list a:hover{
     text-decoration:none;
@@ -91,7 +81,7 @@ span.stars span {
     font-size:13px;
     letter-spacing: .5px;
     line-height:80%;
-    padding-left:28px;
+    padding-left:20px;
 }
 .filter.name p{
     margin-left:11px;

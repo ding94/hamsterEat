@@ -149,16 +149,6 @@ height:40px;
 #comments.tab-pane.fade{
    background-color:#fff;
  }
-span.stars, span.stars span {
-    display: block;
-    background: url(imageLocation/stars.png) 0 -16px repeat-x;
-    width: 80px;
-    height: 16px;
-}
-
-span.stars span {
-    background-position: 0 0;
-}
 
 </style>
 <div id="nav">
@@ -290,14 +280,14 @@ span.stars span {
              
         			<div>
                
-                <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:22%;']])->widget(TouchSpin::classname(), [
+                <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:23%;']])->widget(TouchSpin::classname(), [
                     'options' => [
                         'id'=>'orderitem-orderitem_quantity'.$fooddata->Food_ID,
                         'style'=>'height:40px;'
                     ],
                     'pluginOptions' => [
                         'min' => 1,
-                        
+                        'max'=>100,
                         'initval' => 1,
                         'buttonup_class' => 'btn btn-primary', 
                         'buttondown_class' => 'btn btn-primary', 

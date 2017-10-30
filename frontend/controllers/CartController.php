@@ -293,8 +293,15 @@ class CartController extends CommonController
         $userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => $order->User_Username])->one();
         $session = Yii::$app->session;
        
-        if ($checkout->load(Yii::$app->request->post()))
+        if (Yii::$app->request->post())
         {
+            $checkout->load(Yii::$app->request->post());
+            
+            if (empty($checkout['Orders_Location']) || empty($checkout['Orders_Area']) || empty($checkout['Orders_PaymentMethod'])) {
+                Yii::$app->session->setFlash('error', 'Please fill in information correctly!');
+                return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
+            }
+            
             $timenow = Yii::$app->formatter->asTime(time());
             $early = date('08:00:00');
             //$last = date('11:00:59');

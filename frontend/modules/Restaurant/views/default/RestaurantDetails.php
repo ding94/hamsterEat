@@ -24,6 +24,7 @@ $this->title = $id['Restaurant_Name'];
     justify-content:center;
   }
 }
+
 @media(min-width:992px){
   .menu-container{
   display: grid;

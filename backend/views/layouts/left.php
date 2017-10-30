@@ -114,6 +114,13 @@
                         'options' => ['class' => 'active'],
 
                     ],
+                    [   'label' => 'News Controller' , 'icon' => 'newspaper-o' ,'url' => '#',
+                        'items' =>  [
+                                        ['label' => 'News List' ,'icon' => 'circle-o' , 'url' => ['/news/index']],
+                                        ['label' => 'Add News' ,'icon' => 'circle-o' , 'url' => ['/news/addnews']],
+                                    ],
+                        'options' => ['class' => 'active'],
+                    ],
                     [   'label' => 'Auth Controller' , 'icon' => 'cog' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Auth List' ,'icon' => 'circle-o' , 'url' => ['/auth/index']],

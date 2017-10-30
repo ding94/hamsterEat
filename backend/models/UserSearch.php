@@ -10,14 +10,15 @@ class UserSearch extends User
 {
 	public function attributes()
     {
-        return array_merge(parent::attributes(),['userdetails.fullname','userdetails.User_ContactNo','userdetails.User_AccountBalance','authAssignment.item_name']);
+        return array_merge(parent::attributes(),['userdetails.fullname','userdetails.User_ContactNo','userdetails.User_AccountBalance','authAssignment.item_name','balance.User_Balance']);
     }
 
     public function rules()
     {
         return [
+            //before set safe rule, add attributes at top 
             ['email' , 'unique'],
-            [['id','username' ,'userdetails.fullname' ,'userdetails.User_AccountBalance','userdetails.User_ContactNo' ,'status' ,'authAssignment.item_name'] ,'safe'],
+            [['id','username' ,'userdetails.fullname' ,'userdetails.User_AccountBalance','userdetails.User_ContactNo' ,'status' ,'authAssignment.item_name','balance.User_Balance'] ,'safe'],
         ];
     }
 
@@ -45,11 +46,17 @@ class UserSearch extends User
         ];
 
         $dataProvider->sort->attributes['authAssignment.item_name'] = [
-        	 'asc'=>['item_name'=>SORT_ASC],
+        	'asc'=>['item_name'=>SORT_ASC],
             'desc'=>['item_name'=>SORT_DESC],
         ];
 
-		$query->joinWith(['userdetails','authAssignment']);
+        //before add sorting function, do joinwith balance function
+        $dataProvider->sort->attributes['balance.User_Balance'] = [
+            'asc'=>['User_Balance'=>SORT_ASC],
+            'desc'=>['User_Balance'=>SORT_DESC],
+        ];
+
+		$query->joinWith(['userdetails','authAssignment','balance']);
 
 		$this->load($params);
 
@@ -69,7 +76,7 @@ class UserSearch extends User
                                     ['like','User_LastName',$this->getAttribute('userdetails.fullname')],
                                     ['like', 'concat(User_FirstName, " " , User_LastName) ', $this->getAttribute('userdetails.fullname')]
                                ]);
-	
+        $query->andFilterWhere(['like','User_Balance' , $this->getAttribute('balance.User_Balance')]);
 
 		return $dataProvider;
 	}

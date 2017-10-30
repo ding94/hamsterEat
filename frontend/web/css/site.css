@@ -577,3 +577,66 @@ span.stars, span.stars span {
 span.stars span {
     background-position: 0 0;
 }
+
+/* CSS for Frontend News */
+#news-container{ 
+  font-size: 2.5vh;
+}
+
+#news-container ul{
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+#news-container li{
+  border: none;
+  margin: 10px;
+  padding: 5px;
+  border-bottom: 1px solid #ccc; 
+  margin:10px;
+}
+
+#news-container li:last-child{
+  border: none;
+}
+
+#news-container li a{
+  text-decoration: none;
+  display: block;
+
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+
+#news-container li a:hover{
+  font-size: 3vh;
+}
+
+#news-list ul{
+  list-style-type: none;
+}
+
+#news-list li{
+  padding: 10px;
+  margin: 1px;
+  background: #eeeeee;
+}
+
+#news-list li a{
+  text-decoration: none;
+  display: block;
+
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+
+#news-list li a:hover{
+  font-size: 18px;
+}

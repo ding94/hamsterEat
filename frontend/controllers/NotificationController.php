@@ -4,13 +4,37 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\helpers\ArrayHelper;	
 use common\models\User;
 use common\models\Orderitem;
 use common\models\Orders;
 use common\models\Notification;
+use common\models\NotificationSetting;
+use frontend\controllers\CommonController;
+use frontend\modules\UserPackage\controllers\PackageController;
 
-class NotificationController extends Controller
+class NotificationController extends CommonController
 {
+
+	/*
+	* view all notification for the user
+	* turn off the notification in the parm to read
+	*/
+	public function actionIndex()
+	{
+		$notification = [];
+		$this->layout = 'user';
+		self::turnOffNotification();
+		$model = Notification::find()->where('uid = :uid',[':uid' =>Yii::$app->user->identity->id ])->asArray()->all();
+		$listOfNotic = ArrayHelper::index(NotificationSetting::find()->asArray()->all(), 'id');
+		foreach($model as $single)
+		{
+			$notification[$single['type']][] = $single;
+		}
+		
+		return $this->render('index',['notification'=>$notification,'list' => $listOfNotic]);
+	}
+
 	/*
 	* id => can be order item or delivery id
 	* order id is for restuarnt to know the order
@@ -55,12 +79,14 @@ class NotificationController extends Controller
 					break;
 				case 2:
 					$model->description = "Your Food ".$value['foodName']." is ".$value['currentStatus'];
+					$model->rid = $value['rid'];
 					break;
 				case 3:
 					$model->description = "Your Order id : ".$id." has ready to pick up";
 					break;
 				case 4:
 					$model->description = "Your Order id : ".$id." is ".$value['currentStatus'];
+					$model->rid = $id;
 					break;
 				default:
 					
@@ -96,11 +122,13 @@ class NotificationController extends Controller
 	/*
 	* get user detail from order
 	* get the current status and pres status for let the user know the status change
+	* get the delivery ID from link to my order
 	*/
 	public static function getUserdetail($oid)
 	{
 		$item = Orderitem::find()->joinWith(['order','food'])->where('Order_ID = :oid',[':oid'=> $oid])->one();
 		$data[0]['uid'] = User::find()->where('username = :name',[':name'=>$item['order']['User_Username']])->one()->id;
+		$data[0]['rid'] = $item['order']['Delivery_ID'];
 		$data[0]['foodName'] = $item['food']['Name'];
 		$data[0]['currentStatus'] = $item['OrderItem_Status'];
 		//$data[0]['preStatus'] = self::getPreOrderStatus($item['OrderItem_Status']);
@@ -157,9 +185,29 @@ class NotificationController extends Controller
 		return $data;
 	}
 
-	public function actionTurnoff()
+	/*
+	* update all params notification to be readed
+	*/
+	public static function turnOffNotification()
 	{
-		Notification::updateAll(['view' => 1],'uid = :uid',[':uid'=>  Yii::$app->user->identity->id]);
-		return $this->redirect(Yii::$app->request->referrer);
+		$data = [];
+		if(!empty(Yii::$app->view->params['notication']))
+		{
+			foreach(Yii::$app->view->params['notication'] as $notic)
+			{
+				
+				$data[]= array_column($notic, 'id');
+			}
+
+			$data = PackageController::removeNestedArray($data);
+			
+			foreach($data as $id)
+			{
+				$model = Notification::findOne($id);
+				$model->view = 1;
+				$model->save();
+			}
+		}
 	}
+
 }

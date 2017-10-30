@@ -288,7 +288,7 @@ span.stars span {
                  <?= $form->field($orderitem, 'OrderItem_Remark')->label('Remarks'); ?>
           
              
-        			<div class="cart">
+        			<div>
                
                 <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:22%;']])->widget(TouchSpin::classname(), [
                     'options' => [

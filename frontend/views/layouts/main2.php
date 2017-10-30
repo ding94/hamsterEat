@@ -61,6 +61,40 @@ AppAsset::register($this);
         $menuItems[] = ['label' => 'My Profile', 'url' => ['/user/user-profile']];
         $menuItems[] = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location']];
         $menuItems[] = ['label' => 'Ticket', 'url' => ['/ticket']];
+        $menuItems[] = ['label' => '<span class=""> <i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>'];
+        $keys = array_keys($menuItems);
+
+        if(empty(Yii::$app->view->params['notication']))
+        {
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">Empty Notication</h4>'];
+        }
+        else
+        {
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">Notifications</h4>'];
+
+            $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+            foreach(Yii::$app->view->params['notication'] as $i=> $notic)
+            {
+
+                $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">'.Yii::$app->view->params['listOfNotic'][$i]['description'].'</h4>'];
+                foreach($notic as $data)
+                {
+                    $ago = Yii::$app->formatter->asRelativeTime($data['created_at']);
+                    if($data['type'] == 1)
+                    {
+                        $url = ["order/restaurant-orders",'rid' => $data['rid']];
+                    }
+                    else
+                    {
+                         $url = [Yii::$app->view->params['listOfNotic'][$i]['url']];
+                    }
+                   
+                    $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['description'].' from <span class="right">'.$ago.'</span></h4>','url' => $url];
+                }
+            }
+        }
+        $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+        $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">View All</h4>','url' => ['notification/index']];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(

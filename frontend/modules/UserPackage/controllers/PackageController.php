@@ -38,7 +38,7 @@ class PackageController extends CommonController
         }
 
 		$get = Yii::$app->request->get();
-
+        
         $minMax = SelectionTypeController::detectMinMaxSelecttion($get['Orderitemselection']['FoodType_ID'],$get['Food']['Food_ID']);
        
         $validate = $minMax && self::detectEmptyString($get['Orderitem']['OrderItem_Quantity'],1) &&  self::detectEmptyString($get['dateTime'],2);

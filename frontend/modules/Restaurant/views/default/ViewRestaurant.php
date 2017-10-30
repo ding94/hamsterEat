@@ -76,17 +76,6 @@ padding-right: 20px;
 .menu-container a:hover,.menu-container p:hover {
    /* color: #fffbe5; */
 }
-span.stars, span.stars span {
-    display: block;
-    background: url(imageLocation/stars.png) 0 -16px repeat-x;
-    width: 80px;
-    height: 16px;
-	
-}
-
-span.stars span {
-    background-position: 0 0;
-}
 
 #try #try1{
   cursor:pointer;  

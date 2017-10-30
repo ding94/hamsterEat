@@ -75,16 +75,6 @@ $this->title = "Available Restaurants";
     box-shadow: 0px 0px 20px -2px grey;
 }
 
-span.stars, span.stars span {
-    display: block;
-    background: url(imageLocation/stars.png) 0 -16px repeat-x;
-    width: 80px;
-    height: 16px;
-}
-
-span.stars span {
-    background-position: 0 0;
-}
 .filter{
     height:auto;
     width:230px;

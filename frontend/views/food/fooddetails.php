@@ -149,16 +149,6 @@ height:40px;
 #comments.tab-pane.fade{
    background-color:#fff;
  }
-span.stars, span.stars span {
-    display: block;
-    background: url(imageLocation/stars.png) 0 -16px repeat-x;
-    width: 80px;
-    height: 16px;
-}
-
-span.stars span {
-    background-position: 0 0;
-}
 
 </style>
 <div id="nav">

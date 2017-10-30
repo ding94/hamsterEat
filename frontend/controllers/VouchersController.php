@@ -11,6 +11,25 @@ use frontend\controllers\CommonController;
 
 class VouchersController extends CommonController
 {
+	public function behaviors()
+    {
+         return [
+             'access' => [
+                 'class' => AccessControl::className(),
+                 'rules' => [
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+
+                    ],
+                    //['actions' => [''],'allow' => true,'roles' => ['?'],],
+                    
+                 ]
+             ]
+        ];
+    }
+
 	public function actionIndex()
 	{
 

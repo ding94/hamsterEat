@@ -25,6 +25,7 @@ use common\models\Referral;
 use yii\helpers\ArrayHelper;
 use yii\web\Session;
 use frontend\controllers\CommonController;
+use common\models\Banner;
 /**
  * Site controller
  */
@@ -99,6 +100,7 @@ class SiteController extends CommonController
         $postcode = new Area();
         $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
         $list =array();
+        $banner = Banner::find()->where(['<=','startTime',date("Y-m-d H:i:s")])->andWhere(['>=','endTime',date("Y-m-d H:i:s")])->all();
         if($postcode->load(Yii::$app->request->post()))
         {
             $pcode = $postcode->Area_Postcode;
@@ -117,7 +119,7 @@ class SiteController extends CommonController
             return $this->redirect(['Restaurant/default/index','groupArea'=>$groupArea]);          
         }   
         
-        return $this->render('index',['postcode'=>$postcode ,'list'=>$list,'postcodeArray'=>$postcodeArray,]);
+        return $this->render('index',['postcode'=>$postcode ,'list'=>$list,'postcodeArray'=>$postcodeArray,'banner'=>$banner]);
 
     }
 

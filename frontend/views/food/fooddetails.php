@@ -280,14 +280,14 @@ height:40px;
              
         			<div class="cart">
                
-                <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:22%;']])->widget(TouchSpin::classname(), [
+                <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:23%;']])->widget(TouchSpin::classname(), [
                     'options' => [
                         'id'=>'orderitem-orderitem_quantity'.$fooddata->Food_ID,
                         'style'=>'height:40px;'
                     ],
                     'pluginOptions' => [
                         'min' => 1,
-                        
+                        'max'=>100,
                         'initval' => 1,
                         'buttonup_class' => 'btn btn-primary', 
                         'buttondown_class' => 'btn btn-primary', 

@@ -51,8 +51,8 @@ $this->title = "Available Restaurants";
 }
 
 .item .inner-item{
-  margin:10px 0px 10px 30px;
-  float:left;
+  margin:10px 4px 10px 30px;
+  float:right;
   width: 50%;
 }
 
@@ -63,7 +63,7 @@ $this->title = "Available Restaurants";
 
 .item .img{
 
-  float:right;
+  float:left;
 }
 
 .item img{

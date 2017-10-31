@@ -153,7 +153,7 @@ height:40px;
 </style>
 <div id="nav">
   <ul style = "margin-left:37%;" class="nav nav-pills">
-    <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
+    <li class="active"><a data-toggle="pill" href="#home">Food Details</a></li>
     <li ><a data-toggle="pill" href="#comments">Comments</a></li>
   </ul>
 </div>

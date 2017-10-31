@@ -48,6 +48,7 @@ AppAsset::register($this);
         'innerContainerOptions' => ['class' => 'container-fluid'],
         'options' => [
             'class' => 'topnav navbar-fixed-top MainNav',
+            'id' => 'uppernavbar'
         ],
     ]);
     $menuItems = [

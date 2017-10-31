@@ -47,7 +47,7 @@ Class RatingController extends CommonController
 		$foodrating = new Foodrating;
 		$servicerating = new Servicerating;
 		$ratingLevel = ArrayHelper::map($label, 'id', 'labelName');
-
+		//var_dump($orderitem);exit;
 		return $this->render('index',['orderitem' => $orderitem , 'foodrating' => $foodrating ,'servicerating' => $servicerating ,'ratingLevel' => $ratingLevel, 'id' =>$id]);
 	}
 

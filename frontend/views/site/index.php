@@ -15,48 +15,27 @@ $this->title = 'hamsterEat';
 <body>
 <link href="css/style.css" rel="stylesheet">
 <!--<div class="site-index">--> 
- <header class="intro-header">
- <div id="SlideShowContainer" class="container-fluid">
+<header class="intro-header">
+<div id="SlideShowContainer" class="container-fluid">
 		<div id="SSCrow1" class="row">
-			<div class="mySlides">
-
-			<img src="SysImg/15.jpeg" style="width:100%;height:670px !important;">
-
-			</div>
-
-			<div class="mySlides">
-
-			<img src="SysImg/7.jpeg" style="width:100%; height:670px !important;">
-
-			</div>
-
-			<div class="mySlides">
-
-			<img src="SysImg/14.jpeg" style="width:100%;height:670px !important;">
-
-			</div>
-
-			<div class="mySlides">
-
-			<img src="SysImg/13.jpeg" style="width:100%;height:670px !important;">
-
-			</div>
-			
-			<div class="mySlides">
-
-			<img src="SysImg/11.jpeg" style="width:100%;height:670px !important;">
-
-			</div>
-			
+			<?php
+			  foreach ($banner as $k => $banners) {
+			  ?>
+			    <a href="<?php echo $banners['redirectUrl'] ?>" target="_blank"><?= Html::img('@web/'.$banners['name'], ['class'=>'mySlides', 'style'=>"width:100%;height:480px;" , 'title' => $banners['title']]);?></a>
+			  <?php
+			    }
+			  ?>
 			<div class="dotContainer w3-display-bottommiddle" >
-			<span id="dot1" class="dot" onclick="currentSlide(1)"></span>
-			<span id="dot2"class="dot" onclick="currentSlide(2)"></span>
-			<span id="dot3"class="dot" onclick="currentSlide(3)"></span>
-			<span id="dot4" class="dot" onclick="currentSlide(4)"></span>
-			<span id="dot5" class="dot" onclick="currentSlide(5)"></span>
-			</div> 
-		
-
+			<?php foreach ($banner as $k => $banners) {
+			    $k += 1;
+			?>
+			<span id="dot<?php echo $k ?>" class="dot" onclick="currentDivs($k)"></span>
+			<?php } ?>
+		</div> 
+    </div>
+</div>
+</header>
+	<div id="SSCrow2" class="row">
         <div class="form">
 		<h1>Light up your taste buds!</h1><br>
         <h3><b>Select Your Location</b></h3>
@@ -79,15 +58,12 @@ $this->title = 'hamsterEat';
 			]); ?>
 
         <?= Html::submitButton('Find Restaurants', ['class' => 'button-three', 'name' => 'proceed-button']) ?>
-        </div>
-       
-	   <?php ActiveForm::end(); ?>
-    </div>
+		
+		<?php ActiveForm::end(); ?>
+	   	</div>
 	</div>
-      </header>
-	  
 <!--<div id="DescContainer" class="container">-->
-	<div id="SSCrow2" class="row">
+<div id="SSCrow3" class="row">
    <div class="container">
 		
 			<div class="boxs">				

@@ -29,7 +29,7 @@ $this->title = 'Submit Ticket';
 
                  <?= $form->field($upload, 'imageFile')->fileInput() ?>
 
-                <div class="form-group">
+                <div class="form-group" style="padding-left: 30%">
                     <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
                    <?= Html::a('Back', ['/ticket/index'], ['class'=>'btn btn-primary']) ?>
                 </div>

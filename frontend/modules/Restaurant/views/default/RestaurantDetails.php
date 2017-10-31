@@ -12,7 +12,21 @@ $this->title = $id['Restaurant_Name'];
   justify-content:center;
 }
 
-.menu-container{
+@media(max-width:991px){
+    .menu-container{
+    display: grid;
+    width:1200px;
+    grid-template-columns: 1fr;
+    grid-column-gap: 15px;
+    grid-row-gap: 15px;
+    margin-bottom: 50px;
+    align-items: center;
+    justify-content:center;
+  }
+}
+
+@media(min-width:992px){
+  .menu-container{
   display: grid;
   width:1200px;
   grid-template-columns: 1fr 1fr;
@@ -21,6 +35,7 @@ $this->title = $id['Restaurant_Name'];
   margin-bottom: 50px;
   align-items: center;
   justify-content:center;
+  }
 }
 
 .item{
@@ -49,9 +64,9 @@ $this->title = $id['Restaurant_Name'];
 }
 
 .item .inner-item{
-  margin:10px 0px 10px 30px;
-  float:left;
-  width: 50%;
+  margin:10px 10px 10px 10px;
+  float:right;
+  width: 59%;
 }
 
 .item .tag{
@@ -61,7 +76,7 @@ $this->title = $id['Restaurant_Name'];
 
 .item .img{
 
-  float:right;
+  float:left;
 }
 
 .item img{
@@ -71,17 +86,6 @@ $this->title = $id['Restaurant_Name'];
 
 .menu-container a:hover{
     box-shadow: 0px 0px 20px -2px grey;
-}
-
-span.stars, span.stars span {
-    display: block;
-    background: url(imageLocation/stars.png) 0 -16px repeat-x;
-    width: 80px;
-    height: 16px;
-}
-
-span.stars span {
-    background-position: 0 0;
 }
 
 .info li{
@@ -119,7 +123,6 @@ span.stars span {
 <body>
 
 <?php Modal::begin([
-            // 'header' => Html::img('@web/imageLocation/foodImg/'.$data['PicPath'], ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:598px; margin-top:auto;']),
             'id'     => 'foodDetail',
             'size'   => 'modal-lg',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',

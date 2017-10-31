@@ -65,7 +65,7 @@ $(function(){
             var button = $(event.relatedTarget);
             var modal = $(this);
             var href = button.attr('href');
-            var img = '<img class=\"img-rounded img-responsive\" src=\"../web/imageLocation/foodImg/'+button.attr('data-img')+'\" alt=\"\" style=\"height:300px; width:598px; margin-top:auto;\">';
+            var img = '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><img class=\"img-rounded img-responsive\" src=\"../web/imageLocation/foodImg/'+button.attr('data-img')+'\" alt=\"\" style=\"height:300px; width:598px; margin-top:auto;\">';
             modal.find('.modal-body').html('<i class=\"fa fa-spinner fa-spin\"></i>');
             $.post(href)
                 .done(function( data ) {

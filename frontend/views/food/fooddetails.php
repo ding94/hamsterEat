@@ -38,6 +38,15 @@ $this->title = "Food Details";
 .modal-content{
   width:598px;
   background-color:#fff;
+   
+}
+.modal-dialog.modal-lg{
+  overflow-y: initial !important;
+}
+.modal-body{
+  height: 400px;
+  overflow-y: auto;
+  margin: 0px 0px 0px 20px;
 }
 .modal-lg{
   padding-left: 158px;
@@ -144,22 +153,15 @@ height:40px;
 
 /*-----Comment------*/
 .panel-default{
-        width:539px;
+        width:500px;
  }
 #comments.tab-pane.fade{
    background-color:#fff;
  }
-span.stars, span.stars span {
-    display: block;
-    background: url(imageLocation/stars.png) 0 -16px repeat-x;
-    width: 80px;
-    height: 16px;
+#comment-container.container{
+width: 500px;
+margin: 20px 0px 0px 0px;
 }
-
-span.stars span {
-    background-position: 0 0;
-}
-
 </style>
 <div id="nav">
   <ul style = "margin-left:37%;" class="nav nav-pills">
@@ -288,16 +290,16 @@ span.stars span {
                  <?= $form->field($orderitem, 'OrderItem_Remark')->label('Remarks'); ?>
           
              
-        			<div class="cart">
+        			<div>
                
-                <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:22%;']])->widget(TouchSpin::classname(), [
+                <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:25%;']])->widget(TouchSpin::classname(), [
                     'options' => [
                         'id'=>'orderitem-orderitem_quantity'.$fooddata->Food_ID,
                         'style'=>'height:40px;'
                     ],
                     'pluginOptions' => [
                         'min' => 1,
-                        
+                        'max'=>100,
                         'initval' => 1,
                         'buttonup_class' => 'btn btn-primary', 
                         'buttondown_class' => 'btn btn-primary', 
@@ -345,7 +347,7 @@ $i = 1;
 foreach ($comments as $comments) :
     if (!is_null($comments['Comment']) && $i < 4)
     {?>
-        <div class ="container">
+        <div id= "comment-container" class ="container">
             <?php 
             $i = $i + 1;
             $user = User::find()->where('id = :uid', [':uid'=>$comments['User_Id']])->one();

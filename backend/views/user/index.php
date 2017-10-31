@@ -33,7 +33,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             'userdetails.fullname',
             'authAssignment.item_name',
             'userdetails.User_ContactNo',
-            'userdetails.User_AccountBalance',
+            'balance.User_Balance',
 			'created_at:time',
             'updated_at:time',
 

@@ -17,16 +17,7 @@ $this->title = "Comments";
 #ratedatetime {
     float:right;
 }
-span.stars, span.stars span {
-    display: block;
-    background: url(imageLocation/stars.png) 0 -16px repeat-x;
-    width: 80px;
-    height: 16px;
-}
 
-span.stars span {
-    background-position: 0 0;
-}
 </style>
 <?php
 foreach ($comments as $comments) :

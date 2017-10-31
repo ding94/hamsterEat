@@ -25,9 +25,30 @@ use frontend\modules\delivery\controllers\DailySignInController;
 use frontend\controllers\CommonController;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\filters\AccessControl;
 
 class CartController extends CommonController
 {
+    public function behaviors()
+    {
+        return [
+             'access' => [
+                 'class' => AccessControl::className(),
+                 //'only' => ['logout', 'signup','index'],
+                 'rules' => [
+                    [
+                        'actions' => ['addto-cart','checkout','delete','view-cart'],
+                        'allow' => true,
+                        'roles' => ['@'],
+
+                    ],
+                    //['actions' => [],'allow' => true,'roles' => ['?'],],
+                    
+                 ]
+             ]
+        ];
+    }
+    
     public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks,$rid,$sessiongroup)
     {
         if (Yii::$app->user->isGuest) 
@@ -290,12 +311,27 @@ class CartController extends CommonController
         $fullname = $mycontact['User_FirstName'].' '.$mycontact['User_LastName'];
         //var_dump($fullname);exit;
         $order = Orders::find()->where('Delivery_ID = :Delivery_ID',[':Delivery_ID' => $did])->one();
+
+        if($order->Orders_Status !="Not Placed")
+        {
+            Yii::$app->session->setFlash('error', 'Error');
+
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+
         $checkout = new Orders;
         $userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => $order->User_Username])->one();
         $session = Yii::$app->session;
        
-        if ($checkout->load(Yii::$app->request->post()))
+        if (Yii::$app->request->post())
         {
+            $checkout->load(Yii::$app->request->post());
+            
+            if (empty($checkout['Orders_Location']) || empty($checkout['Orders_Area']) || empty($checkout['Orders_PaymentMethod'])) {
+                Yii::$app->session->setFlash('error', 'Please fill in information correctly!');
+                return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
+            }
+            
             $timenow = Yii::$app->formatter->asTime(time());
             $early = date('08:00:00');
             //$last = date('11:00:59');
@@ -323,15 +359,18 @@ class CartController extends CommonController
                 $setdate = date("Y-m-d");
                 $settime = "13:00:00";
 
-                if ($checkout->Orders_PaymentMethod == 'Account Balance' && $userbalance->User_Balance >= $order->Orders_TotalPrice) 
+                if ($checkout->Orders_PaymentMethod == 'Account Balance') 
                 {
                     $payment = PaymentController::Payment($did,$order);
+                    if(!$payment)
+                    {
+                         Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
+                        
+                         return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
+                    }
+
                 } 
-                else if ($checkout->Orders_PaymentMethod == 'Account Balance' && $userbalance->User_Balance <= $order->Orders_TotalPrice) 
-                {
-                    Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
-                    return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
-                }
+               
                 $this->actionAssignDeliveryMan($did);
 
                 $voucher = Vouchers::find()->where('code = :c',[':c' => $discountcode])->one();
@@ -441,17 +480,25 @@ class CartController extends CommonController
                 $session->close();
                 NotificationController::createNotification($did,1);
                 MemberpointController::addMemberpoint($order->Orders_TotalPrice,1);
-                return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate]);
+               
             }
             else
             {
                 Yii::$app->session->setFlash('error', 'The allowed time to place order is over. Please place your order in between 8am and 11am daily.');
             }
-
-           
-            return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate]);
+            
+            return $this->redirect(['aftercheckout','did'=>$did]);
         }
         return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
+    }
+
+    /*
+    * to prevent post duplicate data
+    */
+    public function actionAftercheckout($did)
+    {
+        $timedate =Orders::findOne($did);
+        return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate ]);
     }
 
     public function actionGetdiscount($dis)

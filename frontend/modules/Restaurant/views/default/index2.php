@@ -51,8 +51,8 @@ $this->title = "Available Restaurants";
 }
 
 .item .inner-item{
-  margin:10px 0px 10px 30px;
-  float:left;
+  margin:10px 4px 10px 30px;
+  float:right;
   width: 50%;
 }
 
@@ -63,7 +63,7 @@ $this->title = "Available Restaurants";
 
 .item .img{
 
-  float:right;
+  float:left;
 }
 
 .item img{
@@ -75,16 +75,6 @@ $this->title = "Available Restaurants";
     box-shadow: 0px 0px 20px -2px grey;
 }
 
-span.stars, span.stars span {
-    display: block;
-    background: url(imageLocation/stars.png) 0 -16px repeat-x;
-    width: 80px;
-    height: 16px;
-}
-
-span.stars span {
-    background-position: 0 0;
-}
 .filter{
     height:auto;
     width:230px;

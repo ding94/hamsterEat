@@ -39,9 +39,16 @@
                                     ],
                         'options' => ['class' => 'active'],
                     ],
-					 [   'label' => 'Bank Controller', 'icon' => 'bank', 'url' => "#",
+					[   'label' => 'Bank Controller', 'icon' => 'bank', 'url' => "#",
                         'items' =>  [
                                         [ 'label' => 'Bank List', 'icon' => 'circle-o', 'url' => ['/bank/index']],
+                                    ],
+                        'options' => ['class' => 'active'],
+                    ],
+                    [   'label' => 'Banner Controller' , 'icon' => 'square' ,'url' => '#',
+                        'items' =>  [
+                                        ['label' => 'Banner List' ,'icon' => 'circle-o' , 'url' => ['/banner/index']],
+                                        ['label' => 'Add Banner' ,'icon' => 'circle-o' , 'url' => ['/banner/addbanner']],
                                     ],
                         'options' => ['class' => 'active'],
                     ],
@@ -106,6 +113,13 @@
                                    ],
                         'options' => ['class' => 'active'],
 
+                    ],
+                    [   'label' => 'News Controller' , 'icon' => 'newspaper-o' ,'url' => '#',
+                        'items' =>  [
+                                        ['label' => 'News List' ,'icon' => 'circle-o' , 'url' => ['/news/index']],
+                                        ['label' => 'Add News' ,'icon' => 'circle-o' , 'url' => ['/news/addnews']],
+                                    ],
+                        'options' => ['class' => 'active'],
                     ],
                     [   'label' => 'Auth Controller' , 'icon' => 'cog' ,'url' => '#',
                         'items' =>  [

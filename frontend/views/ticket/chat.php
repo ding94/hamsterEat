@@ -15,6 +15,13 @@ use backend\models\Admin;
     
 ?>
 <html>
+<style type="text/css">
+  a
+  {
+    color: #6699ff;
+  }
+
+</style>
 <div class="site-contact">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -57,7 +64,7 @@ use backend\models\Admin;
         <?= $form->field($reply, 'Replies_ReplyContent')->textarea(['rows' => 6]) ?>
         <?= $form->field($upload, 'imageFile')->fileInput() ?>
 
-        <div class="form-group">
+        <div style="padding-left: 30%" class="form-group">
              <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
              <?= Html::a('Back', ['/ticket/index'], ['class'=>'btn btn-primary']) ?>
         </div>

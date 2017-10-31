@@ -58,7 +58,7 @@ use yii\helpers\ArrayHelper;
                     </tr>
             <?php   }   ?>
         </table>
-        <div class="form-group"> 
+        <div class="form-group" style="padding-left: 30%"> 
             <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'btn btn-primary']) ?>
             <?= Html::a('Processing Ticket', ['/ticket/index'], ['class'=>'btn btn-primary']) ?>
         </div>

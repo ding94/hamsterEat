@@ -21,11 +21,21 @@ class OrderController extends CommonController
                  'class' => AccessControl::className(),
                  'rules' => [
                     [
-                        'actions' => ['my-orders','order-details','restaurant-orders','deliveryman-orders','update-preparing','update-readyforpickup','update-pickedup','update-completed','invoice-pdf','restaurant-order-history','deliveryman-order-history','my-order-history'],
+                        'actions' => ['my-orders','order-details','invoice-pdf','my-order-history'],
                         'allow' => true,
                         'roles' => ['@'],
 
                     ],
+                    [
+                        'actions' => ['restaurant-orders','restaurant-order-history','update-preparing','update-readyforpickup'],
+                        'allow' => true,
+                        'roles' => ['restaurant manager'],
+                    ],
+                    [
+                        'actions' => ['deliveryman-orders','deliveryman-order-history','update-pickedup','update-completed'],
+                        'allow' => true,
+                        'roles' => ['rider'],
+                    ]
                     //['actions' => [''],'allow' => true,'roles' => ['?'],],
                     
                  ]
@@ -129,7 +139,6 @@ class OrderController extends CommonController
 
     public function actionUpdateReadyforpickup($oid, $rid)
     {
-        
         $sql = "UPDATE orderitem SET OrderItem_Status = 'Ready For Pick Up' WHERE Order_ID = ".$oid."";
         Yii::$app->db->createCommand($sql)->execute();
 

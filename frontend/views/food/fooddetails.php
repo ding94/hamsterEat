@@ -35,22 +35,29 @@ $this->title = "Food Details";
   background-color:#fff;
 }
 
-.modal-content{
+@media (min-width:992px) {
+  .modal-content{
   width:598px;
-  background-color:#fff;
-   
+  }
+
+  .modal-lg{
+    padding-left: 158px;
+  }
 }
+
+.modal-content{
+  background-color:#fff;
+}
+
 .modal-dialog.modal-lg{
   overflow-y: initial !important;
 }
 .modal-body{
-  height: 400px;
+  height: 350px;
   overflow-y: auto;
   margin: 0px 0px 0px 20px;
 }
-.modal-lg{
-  padding-left: 158px;
-}
+
 .value-button {
   border: 1px solid #ddd;
   margin: 0px;

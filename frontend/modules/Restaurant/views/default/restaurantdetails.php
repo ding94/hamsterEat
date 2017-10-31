@@ -38,54 +38,15 @@ $this->title = $id['Restaurant_Name'];
   }
 }
 
-.item{
-  font-size: 24px;
-  color: black;
-  background-color: white;
-  min-width: 300px;
-  min-height: 170px;
-  border: 1px solid #e5e5e5;
-}
-
-.item p{
-  font-size:15px;
-  color:grey;
-}
-
-.item .small-text{
-   font-size:15px;
-  color:grey; 
-  margin-top: 10px;
-}
-
-.item .price{
-    font-size: 17px;
-    color: black;
-}
-
 .item .inner-item{
   margin:10px 10px 10px 10px;
   float:right;
   width: 59%;
 }
 
-.item .tag{
-    font-size: 13px;
-    color: grey;
-}
-
 .item .img{
 
   float:left;
-}
-
-.item img{
-    width:168px;
-  height:168px;
-}
-
-.menu-container a:hover{
-    box-shadow: 0px 0px 20px -2px grey;
 }
 
 .info li{
@@ -128,8 +89,6 @@ $this->title = $id['Restaurant_Name'];
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
     
-    // echo "<div id='modelContent".$data['Food_ID']."'></div>";
-    
     Modal::end() ?>
    
   <?php Modal::begin([
@@ -138,8 +97,6 @@ $this->title = $id['Restaurant_Name'];
             'size'   => 'modal-sm',
             'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
-    
-    // echo "<div id='modelContent'></div>";
     
     Modal::end() ?>
 <div class = "container">

@@ -681,3 +681,11 @@ span.stars span {
 #news-list li a:hover{
   font-size: 18px;
 }
+
+.MainNav button{
+  border: 1px solid white;
+}
+
+.MainNav button span{
+  background-color: white;
+}

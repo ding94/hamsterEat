@@ -17,7 +17,8 @@ class PaymentController extends CommonController
 		$userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => $order->User_Username])->one();
 		$payment->uid = Yii::$app->user->identity->id;
 		$payment->paid_type = 1;
-		if ($userbalance->AB_topup >= $order->Orders_TotalPrice ) {
+       
+		if ($userbalance->User_Balance >= $order->Orders_TotalPrice ) {
                 $payment->paid_amount = $order->Orders_TotalPrice; /* order price amount */
                 $payment->item = $did;
                 $payment->original_price = $order->Orders_TotalPrice;
@@ -29,6 +30,7 @@ class PaymentController extends CommonController
                 Yii::$app->session->setFlash('success', 'Payment Successful');
             } else {
                 Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
+                return false;
             }
 		return true;
 	}

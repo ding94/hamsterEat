@@ -290,7 +290,7 @@ margin: 20px 0px 0px 0px;
                  <?= $form->field($orderitem, 'OrderItem_Remark')->label('Remarks'); ?>
           
              
-        			<div class="cart">
+        			<div>
                
                 <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:25%;']])->widget(TouchSpin::classname(), [
                     'options' => [

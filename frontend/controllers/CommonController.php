@@ -20,14 +20,15 @@ class CommonController extends Controller
 		{
 			$result = [];
 			$listOfNotic = ArrayHelper::index(NotificationSetting::find()->asArray()->all(), 'id');
-			$notication = Notification::find()->where('uid = :uid and view = :v',[':uid' => Yii::$app->user->identity->id,':v'=>0])->asArray()->orderBy(['created_at'=>SORT_DESC])->all();
+			$notication = Notification::find()->where('uid = :uid and view = :v',[':uid' => Yii::$app->user->identity->id,':v'=>0])->limit(10)->asArray()->orderBy(['created_at'=>SORT_DESC])->all();
 			$count = count($notication);
+			$count = $count ==0 ? "" : " (".$count.")";
 			foreach($notication as $single)
 			{
 				$result[$single['type']][] = $single;
 				//$result[$single['type']]['url'] = $this->urlLink($single['type'],$single['rid']);
 			}
-			//var_dump($result);exit;
+			
 			$data = $result;
 		}
 		$this->view->params['notication'] = $data;

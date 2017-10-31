@@ -12,14 +12,7 @@ $this->title = "Order Placed";
                 <th><center><h2>Thanks for placing your order with hamsterEat<br>Your Order has Been Made</h2></th>
             </tr>
             <tr>
-                <td><center><strong>Your Delivery ID is : <?php echo $did ?> </strong></td>
-            </tr>
-            <tr>
-                <td><center> Your order will be delivered to <strong> <?php echo $timedate['Orders_Location'].', '.$timedate['Orders_Area'].', '.$timedate['Orders_Postcode'].'.'; ?><strong></td>
-            <tr>
-                <td><center> Your order has been successfully placed for delivery on <?php echo $timedate['Orders_Date']; ?> at <?php echo $timedate['Orders_Time']; ?>.
-                             You can check the 'My Orders' tab for your current order's status.
-                </td>
+                <td><center><strong>Your Delivery ID is : <?php echo $did ?></strong></td>
             </tr>
             <?php if ($timedate['Orders_PaymentMethod'] == "Cash on Delivery")
             {
@@ -40,6 +33,9 @@ $this->title = "Order Placed";
             echo "</tr>";
             }
             ?>
+            <tr>
+                <td><center><?php echo Html::a('More Detail', ['/order/my-orders'], ['class'=>'btn btn-primary'])?></center></td>
+            </tr>
         </table>
 
     </div>

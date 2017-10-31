@@ -15,13 +15,13 @@ $this->title = 'hamsterEat';
 <body>
 <link href="css/style.css" rel="stylesheet">
 <!--<div class="site-index">--> 
- <header class="intro-header">
- <div id="SlideShowContainer" class="container-fluid">
+<header class="intro-header">
+<div id="SlideShowContainer" class="container-fluid">
 		<div id="SSCrow1" class="row">
 			<?php
 			  foreach ($banner as $k => $banners) {
 			  ?>
-			    <a href="<?php echo $banners['redirectUrl'] ?>" target="_blank"><?= Html::img('@web/'.$banners['name'], ['class'=>'mySlides', 'style'=>"width:100%;height:640px;" , 'title' => $banners['title']]);?></a>
+			    <a href="<?php echo $banners['redirectUrl'] ?>" target="_blank"><?= Html::img('@web/'.$banners['name'], ['class'=>'mySlides', 'style'=>"width:100%;height:480px;" , 'title' => $banners['title']]);?></a>
 			  <?php
 			    }
 			  ?>
@@ -31,9 +31,11 @@ $this->title = 'hamsterEat';
 			?>
 			<span id="dot<?php echo $k ?>" class="dot" onclick="currentDivs($k)"></span>
 			<?php } ?>
-			</div> 
-		
-
+		</div> 
+    </div>
+</div>
+</header>
+	<div id="SSCrow2" class="row">
         <div class="form">
 		<h1>Light up your taste buds!</h1><br>
         <h3><b>Select Your Location</b></h3>
@@ -56,15 +58,12 @@ $this->title = 'hamsterEat';
 			]); ?>
 
         <?= Html::submitButton('Find Restaurants', ['class' => 'button-three', 'name' => 'proceed-button']) ?>
-        </div>
-       
-	   <?php ActiveForm::end(); ?>
-    </div>
+		
+		<?php ActiveForm::end(); ?>
+	   	</div>
 	</div>
-      </header>
-	  
 <!--<div id="DescContainer" class="container">-->
-	<div id="SSCrow2" class="row">
+<div id="SSCrow3" class="row">
    <div class="container">
 		
 			<div class="boxs">				

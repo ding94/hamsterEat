@@ -24,6 +24,7 @@ use yii\helpers\Json;
 use frontend\modules\delivery\controllers\DailySignInController;
 use frontend\controllers\CommonController;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 class CartController extends CommonController
 {
@@ -143,7 +144,7 @@ class CartController extends CommonController
                 $sql = "UPDATE orders SET Orders_SubTotal = ".$subtotal.", Orders_DeliveryCharge = ".$deliverycharge.", Orders_TotalPrice = ".$totalcharge." WHERE Delivery_ID = ".$cart['Delivery_ID']."";
                 Yii::$app->db->createCommand($sql)->execute();
 
-                Yii::$app->session->setFlash('success', 'Food item has been added to cart.');
+                Yii::$app->session->setFlash('success', 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.');
                 return $this->redirect(['/Restaurant/default/restaurant-details', 'rid' => $rid]);
             }
             else

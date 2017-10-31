@@ -35,22 +35,29 @@ $this->title = "Food Details";
   background-color:#fff;
 }
 
-.modal-content{
+@media (min-width:992px) {
+  .modal-content{
   width:598px;
-  background-color:#fff;
-   
+  }
+
+  .modal-lg{
+    padding-left: 158px;
+  }
 }
+
+.modal-content{
+  background-color:#fff;
+}
+
 .modal-dialog.modal-lg{
   overflow-y: initial !important;
 }
 .modal-body{
-  height: 400px;
+  height: 350px;
   overflow-y: auto;
   margin: 0px 0px 0px 20px;
 }
-.modal-lg{
-  padding-left: 158px;
-}
+
 .value-button {
   border: 1px solid #ddd;
   margin: 0px;
@@ -165,7 +172,7 @@ margin: 20px 0px 0px 0px;
 </style>
 <div id="nav">
   <ul style = "margin-left:37%;" class="nav nav-pills">
-    <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
+    <li class="active"><a data-toggle="pill" href="#home">Food Details</a></li>
     <li ><a data-toggle="pill" href="#comments">Comments</a></li>
   </ul>
 </div>

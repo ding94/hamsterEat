@@ -36,7 +36,7 @@ AppAsset::register($this);
         'brandLabel' => 'hamsterEat',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'topnav navbar-fixed-top',
+            'class' => 'topnav navbar-fixed-top MainNav',
         ],
     ]);
     $menuItems = [

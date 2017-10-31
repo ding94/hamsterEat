@@ -3,6 +3,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use kartik\widgets\DateTimePicker;
 use dosamigos\ckeditor\CKEditor;
+use yii\helpers\Url;
 ?>
 
 <?php $form = ActiveForm::begin(); ?>
@@ -11,7 +12,10 @@ use dosamigos\ckeditor\CKEditor;
 
 <?= $form->field($model, 'text')->widget(CKEditor::className(), [
         'options' => ['rows' => 6],
-        'preset' => 'full'
+        'preset' => 'full',
+        'clientOptions' => [
+                    'filebrowserUploadUrl' => Url::to(['news/upload'])
+                ]
     ]) ?>
 
 <?= $form->field($model, 'startTime')->widget(DateTimePicker::classname(), [

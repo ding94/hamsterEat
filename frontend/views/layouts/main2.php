@@ -37,6 +37,7 @@ AppAsset::register($this);
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'topnav navbar-fixed-top',
+            'id' => 'uppernavbar'
         ],
     ]);
     $menuItems = [

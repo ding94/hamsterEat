@@ -48,6 +48,7 @@ AppAsset::register($this);
         'innerContainerOptions' => ['class' => 'container-fluid'],
         'options' => [
             'class' => 'topnav navbar-fixed-top MainNav',
+            'id' => 'uppernavbar'
         ],
     ]);
     $menuItems = [
@@ -193,6 +194,9 @@ AppAsset::register($this);
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
+        <div class="container">
+            
+        </div>
         <?= Alert::widget() ?>
         <div class="content">
         <?= $content ?>

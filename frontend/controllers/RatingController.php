@@ -48,7 +48,7 @@ Class RatingController extends CommonController
 		$servicerating = new Servicerating;
 		$ratingLevel = ArrayHelper::map($label, 'id', 'labelName');
 		//var_dump($orderitem);exit;
-		return $this->render('index',['orderitem' => $orderitem , 'foodrating' => $foodrating ,'servicerating' => $servicerating ,'ratingLevel' => $ratingLevel, 'id' =>$id]);
+		return $this->render('index2',['orderitem' => $orderitem , 'foodrating' => $foodrating ,'servicerating' => $servicerating ,'ratingLevel' => $ratingLevel, 'id' =>$id]);
 	}
 
 	public function actionRatingData($id)
@@ -73,7 +73,7 @@ Class RatingController extends CommonController
 		{
 			Yii::$app->session->setFlash('warning', "Fail");
 		}
-		return $this->redirect(['site/index']);
+		return $this->redirect(['order/my-order-history']);
 	}
 
 	protected static function changeStatus($id)

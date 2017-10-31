@@ -20,14 +20,12 @@ h2
     height: auto;
     margin: 0 auto -60px;
     padding: 0 0 60px;
-     margin-top:4%;
+    margin-top:4%;
 	 
 }
 .wrap > .topnav.navbar-fixed-top {
-
     background-color:#FFDA00;
     height: 64px;
-
 }
 
 .navbar-brand > img {
@@ -37,13 +35,65 @@ h2
     height: 3.6em;
 }
 
-.navbar-brand {
+/*
+* for icon in small screen
+*/
+@media (min-width: 768px) and (max-width: 960px) {
+  .navbar-brand > img {
+    margin-top:-15px;
+    padding-right: 40px;
+    width : 200px;
+    height: 3.6em;
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar-brand > img {
+    margin-top:-15px;
+    padding-right: 40px;
+    width : 300px;
+  
+  }
+}
+
+/*
+* navbar drop down desgin
+*/
+#uppernavbar .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+    color: #141100;
+    text-decoration: none;
+    background-color: #fff6c4;
+    outline: 0;
+}
+#uppernavbar .navbar-nav .navbar-right >nav{
     color:white;
 }
-.navbar-nav > li > a {
-    color:#404040;
-    line-height: 33px
+
+#uppernavbar .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    background-color: #ebc900;
 }
+
+#uppernavbar .nav > li > a:hover, .nav > li > a:focus {
+    background-color: #ebc900;
+}
+
+#uppernavbar .dropdown{
+  background-color:#ffe33b
+}
+
+#uppernavbar .dropdown-menu .divider{
+   background-color:#ffef00
+}
+#uppernavbar .navbar-nav > li > a {
+    color:#404040;
+    line-height: 33px;
+    background-color:#FFDA00;
+}
+
+/*
+* navbar drop down design end
+*/
+
 
 .form-group{
 	margin-bottom: 35px;
@@ -639,4 +689,12 @@ span.stars span {
 
 #news-list li a:hover{
   font-size: 18px;
+}
+
+.MainNav button{
+  border: 1px solid white;
+}
+
+.MainNav button span{
+  background-color: white;
 }

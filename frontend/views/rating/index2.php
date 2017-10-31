@@ -97,12 +97,6 @@ h4{
 <div class="container">
 	<h1>Rating</h1>
 	<h4>Complete all ratings to earn more points!</h4><br>
-	<div id="nav">
-  <ul style = "margin-left:37%;" class="nav nav-pills">
-    <li class="active"><a data-toggle="pill" href="#home">Service Rating</a></li>
-    <li ><a data-toggle="pill" href="#comments">Food Rating</a></li>
-  </ul>
-</div>
 
 	<?php $form = ActiveForm::begin(['action' => ['rating/rating-data','id'=>$id],'method' => 'post']);?>
 
@@ -155,7 +149,7 @@ h4{
 			
 			</div>
 			
-			<button class="btn btn-primary1">Proceed</button>
+			<button class="btn btn-primary1" onclick="proceed()">Proceed</button>
 			</div>
 			<div id="comments" class="tab-pane fade"><a name=""></a>
 	<div class="outer-container2">
@@ -194,3 +188,37 @@ h4{
 	
 	<?php ActiveForm::end();?>
 </div>
+<script>
+  function proceed(){
+    var form = document.getElementById("home");
+    var inputs = form.getElementsByTagName("input"), input = null, not_pass = false;
+    for(var i = 0, len = inputs.length; i < len; i++) {
+        input = inputs[i];
+
+        if(input.type == "hidden") {
+            continue;
+        }
+
+        if(input.type == "radio" && !input.checked) {
+            not_pass = true;
+        } 
+        if(input.type == "radio" && input.checked){
+            not_pass = false;
+            break;
+        }
+
+        if(input.text == "text") {
+          continue;
+        }
+    }
+
+    if (not_pass) {
+        // $("#req-message").show();//this div # in your form
+        window.alert("Please select all required fields!");
+        return false;
+    } else {
+      $('#home').removeClass("in active");
+      $('#comments').addClass("in active");
+    }
+}
+</script>

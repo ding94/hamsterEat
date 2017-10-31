@@ -4,11 +4,11 @@
   width: 100%;
 }
 
-#uppernavbar button{
+.MainNav button{
   border: 1px solid white;
 }
 
-#uppernavbar button span{
+.MainNav button span{
   background-color: white;
 }
 .intro-header {

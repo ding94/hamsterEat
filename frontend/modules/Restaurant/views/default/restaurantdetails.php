@@ -23,6 +23,19 @@ $this->title = $id['Restaurant_Name'];
     align-items: center;
     justify-content:center;
   }
+
+  .restaurant-info-container h1{
+    margin-left: 51%;
+  }
+
+  .restaurant-info-container .info{
+    margin-left: 48%;
+  }
+
+  .restaurant-info-container .rating{
+    margin-left: 51%;
+    margin-top: 8%;
+  }
 }
 
 @media(min-width:992px){
@@ -35,6 +48,36 @@ $this->title = $id['Restaurant_Name'];
   margin-bottom: 50px;
   align-items: center;
   justify-content:center;
+  }
+}
+
+@media(max-width: 1199px) and (min-width:992px){
+  .restaurant-info-container h1{
+    margin-left: 40%;
+  }
+
+  .restaurant-info-container .info{
+    margin-left: 38%;
+  }
+
+  .restaurant-info-container .rating{
+    margin-left: 40%;
+    margin-top: 4%;
+  }
+}
+
+@media(min-width: 1200px){
+  .restaurant-info-container h1{
+    margin-left: 32%;
+  }
+
+  .restaurant-info-container .info{
+    margin-left: 30%;
+  }
+
+  .restaurant-info-container .rating{
+    margin-left: 32%;
+    margin-top: 3%;
   }
 }
 
@@ -80,6 +123,10 @@ $this->title = $id['Restaurant_Name'];
   white-space: nowrap;
 }
 
+.restaurant-info-container h1{
+  font-weight: bold;
+}
+
 </style>
 <body>
 
@@ -107,8 +154,8 @@ $this->title = $id['Restaurant_Name'];
             $picpath = "DefaultRestaurant.jpg";
         }
          echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive pull-left', 'style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>"; ?>
-    <h1 style="font-weight: bold;margin-left: 32%;"><?php echo $id['Restaurant_Name']; ?><span class="pull-right"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'btn btn-primary','data-toggle'=>'modal','data-target'=>'#report-modal']) ?></span></h1>
-      <ul class="info" style="margin-left: 30%;">
+    <h1><?php echo $id['Restaurant_Name']; ?><span class="pull-right"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'btn btn-primary','data-toggle'=>'modal','data-target'=>'#report-modal']) ?></span></h1>
+      <ul class="info">
         <?php if ($id['Restaurant_Pricing'] == 1){ ?>
         <li class="none">$</li>
         <?php } else if ($id['Restaurant_Pricing'] == 2){ ?>
@@ -124,7 +171,7 @@ $this->title = $id['Restaurant_Name'];
         <?php endforeach; ?>
         <li><?php echo $id['Restaurant_UnitNo'].", ".$id['Restaurant_Street'].", ".$id['Restaurant_Area'].", ".$id['Restaurant_Postcode']; ?></li>
       </ul>
-      <div style="margin-left: 32%; margin-top: 3%;"><span class="small-text stars">
+      <div class="rating"><span class="small-text stars">
                         <?php echo $id['Restaurant_Rating']; ?>
                       </span></div>
     </div>

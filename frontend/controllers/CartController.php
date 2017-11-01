@@ -493,13 +493,11 @@ class CartController extends CommonController
                         }
                     }
                 }
-<<<<<<< HEAD
-                $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = '".$session['postcode']."', Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = '".$time."', Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = '".$did."'";
-=======
 
+                /* calculating discount for orders 
+                
                 $checkdiscounts = Orders::find()->where('Delivery_ID = :did', [':did' => $did])->one();
                 $totaldiscount = 0;
-                
                 if ($checkdiscounts['Orders_DiscountVoucherAmount'] != 0 && $checkdiscounts['Orders_DiscountEarlyAmount'] != 0 && $checkdiscounts['Orders_DiscountCodeAmount'] != 0)
                 {
                     $totaldiscount = $checkdiscounts['Orders_DiscountEarlyAmount'] + $checkdiscounts['Orders_DiscountVoucherAmount'] + $checkdiscounts['Orders_DiscountCodeAmount'];
@@ -532,10 +530,10 @@ class CartController extends CommonController
                 {
                     $totaldiscount = 0;
                 }
-
+                */
               
                 $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = '".$session['postcode']."', Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = '".$time."', Orders_Date = '".$setdate."', Orders_Time = '".$settime."', Orders_DiscountTotalAmount = '".$totaldiscount."' WHERE Delivery_ID = '".$did."'";
->>>>>>> b5ca6e771cee9fbaa9e7a3fd9493f66269bccecb
+
                 Yii::$app->db->createCommand($sql)->execute();
                 $sql2 = "UPDATE orderitem SET OrderItem_Status = 'Pending' WHERE Delivery_ID = '".$did."'";
                 Yii::$app->db->createCommand($sql2)->execute();

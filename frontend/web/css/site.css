@@ -69,11 +69,11 @@ h2
 }
 
 #uppernavbar .dropdown{
-  background-color:#ffe33b
+  background-color:#fcffaf;
 }
 
 #uppernavbar .dropdown-menu .divider{
-   background-color:#ffef00
+   background-color:#ffef00;
 }
 #uppernavbar .navbar-nav > li > a {
     color:#404040;

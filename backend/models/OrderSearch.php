@@ -13,7 +13,7 @@ Class OrderSearch extends Orders
 	public function search($params)
 	{
 		
-		$query = Orders::find()->where(['!=' ,'Orders_Status' ,'Not Placed']);
+		$query = Orders::find()->where(['!=' ,'Orders_Status' ,'Not Placed'])->orderBy('Orders_Date DESC');
 		
 		$query->joinWith(['order_status']);
 		$query->joinWith(['order_item']);
@@ -31,6 +31,10 @@ Class OrderSearch extends Orders
         $this->load($params);
 
         $query->andFilterWhere(['like','Orders.Delivery_ID',$this->Delivery_ID]);
+        $query->andFilterWhere(['like','User_Username',$this->User_Username]);
+        $query->andFilterWhere(['like','Orders_Date',$this->Orders_Date]);
+        $query->andFilterWhere(['like','Orders_Time',$this->Orders_Time]);
+        $query->andFilterWhere(['like','Orders_Status',$this->Orders_Status]);
 
         return $dataProvider;
 	}

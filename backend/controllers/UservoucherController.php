@@ -159,10 +159,9 @@ class UservoucherController extends Controller
        		$model->uid = $id;
        		$voucher->load(Yii::$app->request->post());
        		$valid = ValidController::UserVoucherCheckValid($model,$voucher,1);
-
 			if ($valid == true ) 
 			{
-				$check = Vouchers::find()->where('code = :c',[':c' => $model['code']])->one();
+				$check = Vouchers::find()->where('code = :c',[':c' => $model['code']])->all();
 				if (empty($check)) 
        			{
        				$valid = self::actionCreateVoucher($model,$voucher,$id,1);
@@ -173,7 +172,7 @@ class UservoucherController extends Controller
 				}
 				elseif (!empty($check)) 
 				{
-					$valid = self::actionAssign($model,$voucher,$id);
+					$valid = self::actionAssign($model,$check,$id);
 					if ($valid ==true) {
 						Yii::$app->session->setFlash('success', "Voucher created and given to user.");
 						return $this->redirect(['/uservoucher/addvoucher','id'=>$id]);
@@ -212,24 +211,31 @@ class UservoucherController extends Controller
 		return false;
 	}
 
-	protected function actionAssign($model,$voucher,$id)
+	protected function actionAssign($model,$check,$id)
 	{
-		$voucher = Vouchers::find()->where('code = :c', [':c'=>$model->code])->one();
-		$voucher->discount_type = $voucher->discount_type + 1;
-		$voucher->startDate = time();
-		$voucher->endDate = strtotime($model->endDate);
-		$valid = ValidController::SaveValidCheck($voucher,2);
+
+		foreach ($check as $k => $value) {
+			$value->discount_type = $value->discount_type + 1;
+			$value->startDate = time();
+			$value->endDate = strtotime($model->endDate);
+			$valid = ValidController::SaveValidCheck($value,2);
+		}
+		
 		if ($valid ==true)
 		{
 			$model->scenario = 'save';
 			$model->uid = $id;
-			$model->vid =$voucher->id;
+			$model->vid =$value->id;
 			$model->endDate = strtotime($model->endDate);
 			$valid = ValidController::SaveValidCheck($model,2);
 			if ($valid == true) 
 			{
 				return true;
 			}
+		}
+		else
+		{
+			return false;
 		}
 		
 

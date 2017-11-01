@@ -32,24 +32,35 @@ class VouchersController extends CommonController
 
 	public function actionIndex()
 	{
-
 		$model = UserVoucher::find()->where('uid = :id',[':id'=>Yii::$app->user->identity->id])->all();
+		$key = 0;
 		if (!empty($model)) {
 			foreach ($model as $k => $var) {
-
-			$voucher[$k] = Vouchers::find()->where('id = :id',[':id'=>$model[$k]['vid']])->one();
-			$voucher[$k]['endDate'] = date('Y-m-d', $voucher[$k]['endDate']);
-			$voucher[$k]['discount_item'] = VouchersType::find()->where('id=:id',[':id'=>$voucher[$k]['discount_item']])->one()->description;
-			if ($voucher[$k]['discount_type']>=1 && $voucher[$k]['discount_type']>=4) {
-				$voucher[$k]['discount'] = "RM ".$voucher[$k]['discount'];
+				/*
+				$model = user's vouchers
+				$var = user each voucher
+				$vouchers = vouchers with same code
+				$vou = each voucher details
+				$uservoucher = new variable to store each vouchers details
+				*/
+				$vouchers = Vouchers::find()->where('code=:c',[':c'=>$var['code']])->all();
+				foreach ($vouchers as $ke => $vou) {
+					$uservoucher[$key]['code'] = $vou['code'];
+					$uservoucher[$key]['endDate'] = date('Y-m-d', $vou['endDate']);
+					$uservoucher[$key]['discount_item'] = VouchersType::find()->where('id=:id',[':id'=>$vou['discount_item']])->one()->description;
+					if ($vou['discount_type']>=1 && $vou['discount_type']>=4) {
+						$uservoucher[$key]['discount'] = "RM ".$vou['discount'];
+					}
+					else
+					{
+						$uservoucher[$key]['discount'] = $vou['discount'].' %';
+					}
+					$key=$key+1;
+				}
+				
 			}
-			else
-			{
-				$voucher[$k]['discount'] = $voucher[$k]['discount'].' %';
-			}
-		}
-		$this->layout = 'user';
-		return $this->render("index",['model'=>$model,'voucher'=>$voucher]);
+			$this->layout = 'user';
+			return $this->render("index",['model'=>$model,'uservoucher'=>$uservoucher]);
 		}
 		$this->layout = 'user';
 		return $this->render("index",['model'=>$model]);

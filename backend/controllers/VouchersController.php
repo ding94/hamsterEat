@@ -116,11 +116,8 @@ class VouchersController extends Controller
 					return $this->redirect(['/vouchers/generate']);
 				}
 			}
-			
-			
 		}
 		return $this->render('gencodes',['model'=>$model,'type'=>$type,'item'=>$item]);
-
 	}
 
 	public function actionGencodes($post)
@@ -162,11 +159,44 @@ class VouchersController extends Controller
     		{
     			$valid = ValidController::SaveValidCheck($model,1);
     		}
-    		
         }
-       
 	        return $valid;
-        
+	}
+
+	public function actionMore($id)
+	{
+		$voucher = Vouchers::find()->where('id = :id',[':id'=>$id])->one();
+		if ($voucher['discount_type'] != 1) {
+			if ($voucher['discount_type'] != 4) {
+				Yii::$app->session->setFlash('error','This code was assigned to an user or expired!');
+	    		return $this->redirect(['/vouchers/index']);
+			}
+		}
+		$type = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>1],['id'=>4]])->all(),'id','type');
+		$item = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>7],['id'=>8]])->all(),'id','description');
+		$items = ArrayHelper::remove($item, $voucher['discount_item']);
+		$model = new Vouchers;
+
+		if (Yii::$app->request->post()) {
+			$model->load(Yii::$app->request->post());
+			$valid = ValidController::VoucherCheckValid($model,2);
+
+			if ($valid == false) {
+				return $this->render('morediscount',['model'=>$model,'item'=>$item,'voucher'=>$voucher,'type'=>$type]);
+			}
+
+			$model->code = $voucher->code;
+			$model->usedTimes = $voucher->usedTimes;
+			$model->inCharge = Yii::$app->user->identity->adminname;
+			$model->startDate = $voucher->startDate;
+			$model->endDate = $voucher->endDate;
+			$valid = ValidController::SaveValidCheck($model,1);
+			
+			if ($valid) {
+    			return $this->redirect(['/vouchers/index']);
+			}
+		}
+		return $this->render('morediscount',['model'=>$model,'item'=>$item,'voucher'=>$voucher,'type'=>$type]);
 	}
 
 }	

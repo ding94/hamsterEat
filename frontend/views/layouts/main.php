@@ -45,7 +45,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Html::img('@web/SysImg/Logo.png'),
+        'brandLabel' => Html::img('@web/SysImg/Logo.png' ,['id'=>'logo']),
 
         'brandUrl' => Yii::$app->homeUrl,
         'innerContainerOptions' => ['class' => 'container-fluid'],

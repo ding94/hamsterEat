@@ -52,7 +52,7 @@ class ValidController extends Controller
 
 	public static function dateValidCheck($post,$case)
 	{
-		$voucher = Vouchers::find()->where('id = :id',[':id' => $post])->one();
+		$voucher = Vouchers::find()->where('code = :c',[':c' => $post])->one();
 		if (!empty($voucher)) {
 			switch ($case) {
 			case 1:
@@ -76,7 +76,7 @@ class ValidController extends Controller
 
 	public static function UserCheck($post,$case)
 	{
-		$voucher = UserVoucher::find()->where('vid = :id',[':id' => $post])->one();
+		$voucher = UserVoucher::find()->where('code = :c',[':c' => $post])->one();
 		switch ($case) {
 		case 1:
 			if (!empty($voucher)) {

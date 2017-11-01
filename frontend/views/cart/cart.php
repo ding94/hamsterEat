@@ -181,7 +181,6 @@ $this->title = "My Cart";
    },
    success: function (data) {
       var obj = JSON.parse(data);
-	  
        if (obj != 0 ) 
       {
         switch(obj['discount_item']) 
@@ -225,6 +224,19 @@ $this->title = "My Cart";
 
            default:
             break;
+        }
+
+        if ((document.getElementById("subtotal").innerHTML) <= -1) 
+        {
+          document.getElementById("subtotal").innerHTML = 0;
+        }
+        if ((document.getElementById("delivery").innerHTML) <= -1) 
+        {
+          document.getElementById("delivery").innerHTML = 0;
+        }
+        if ((document.getElementById("total").innerHTML) <= -1) 
+        {
+          document.getElementById("total").innerHTML = 0;
         }
         document.getElementById("label").style.display ='none';
         document.getElementById("input").style.display ='none';

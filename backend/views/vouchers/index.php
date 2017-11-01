@@ -48,6 +48,17 @@ use common\models\Vouchers;
 
             //[ 'class' => 'yii\grid\SerialColumn',],
             'id',
+
+            ['class' => 'yii\grid\ActionColumn' ,
+             'template'=>'{more}',
+             'buttons' => [
+                'more' => function($url , $model)
+                {
+                    return Html::a("Add discount" , $url , ['title' => 'Add more discount item to this voucher']);
+                },
+              ],
+            ],
+
             'code',
             [
                 'attribute' => 'discount',

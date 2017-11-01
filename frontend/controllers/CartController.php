@@ -414,6 +414,9 @@ class CartController extends CommonController
                                     {
                                         $disamount = $order['Orders_Subtotal'];
                                         $dis = DiscountController::Discount($vou['id'],$order['Orders_Subtotal']);
+                                        if ($dis <= 0) {
+                                            $dis = 0.00;
+                                        }
                                         $order['Orders_Subtotal'] = $dis;
                                         $order['Orders_TotalPrice'] = $dis + $order['Orders_DeliveryCharge'];
                                     }
@@ -421,6 +424,9 @@ class CartController extends CommonController
                                     {
                                         $disamount = $order['Orders_DeliveryCharge'];
                                         $dis = DiscountController::Discount($vou['id'],$order['Orders_DeliveryCharge']);
+                                        if ($dis <= 0) {
+                                            $dis = 0.00;
+                                        }
                                         $order['Orders_DeliveryCharge'] = $dis;
                                         $order['Orders_TotalPrice'] = $order['Orders_Subtotal'] + $dis;
                                     }
@@ -428,36 +434,11 @@ class CartController extends CommonController
                                     {
                                         $disamount = $order['Orders_TotalPrice'];
                                         $dis = DiscountController::Discount($vou['id'],$order['Orders_TotalPrice']);
+                                        if ($dis <= 0) {
+                                            $dis = 0.00;
+                                        }
                                         $order['Orders_TotalPrice'] = $dis;
                                     }
-
-                                    // --------------discount cannot become negative number, if does, become 0 ---------------
-                                    if ($dis < 0) 
-                                    {
-                                        switch ($vou['discount_item']) 
-                                        {
-                                            case 7:
-                                                $order['Orders_Subtotal'] = 0.00;
-                                                $order['Orders_TotalPrice'] = $dis + $order['Orders_DeliveryCharge'];
-                                                break;
-                                            case 8:
-                                                $order['Orders_DeliveryCharge'] = 0.00;
-                                                $order['Orders_TotalPrice'] = $order['Orders_Subtotal'] + $dis;
-                                                break;
-                                            case 9:
-                                                $order['Orders_TotalPrice'] = 0.00;
-                                                break;
-                                            
-                                            default:
-                                                Yii::$app->session->setFlash('error', 'Error!');
-                                                return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
-                                                break;
-                                        }
-
-                                        if ( $order['Orders_TotalPrice']<=0) {
-                                            $order['Orders_TotalPrice'] = 0.00;
-                                        }
-                                    } 
                                     
                                     // -------------detect code or voucher, record--------------
                                     if ($vou['discount_type'] >= 1 && $vou['discount_type']<= 3) 
@@ -493,9 +474,6 @@ class CartController extends CommonController
                         }
                     }
                 }
-
-                /* calculating discount for orders 
-                
                 $checkdiscounts = Orders::find()->where('Delivery_ID = :did', [':did' => $did])->one();
                 $totaldiscount = 0;
                 if ($checkdiscounts['Orders_DiscountVoucherAmount'] != 0 && $checkdiscounts['Orders_DiscountEarlyAmount'] != 0 && $checkdiscounts['Orders_DiscountCodeAmount'] != 0)
@@ -530,7 +508,7 @@ class CartController extends CommonController
                 {
                     $totaldiscount = 0;
                 }
-                */
+                
               
                 $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = '".$session['postcode']."', Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = '".$time."', Orders_Date = '".$setdate."', Orders_Time = '".$settime."', Orders_DiscountTotalAmount = '".$totaldiscount."' WHERE Delivery_ID = '".$did."'";
 
@@ -595,17 +573,81 @@ class CartController extends CommonController
         return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate ]);
     }
 
-    public function actionGetdiscount($dis)
+    public function actionGetdiscount($dis,$did)
     {
        $valid = UserVoucher::find()->where('code = :c',[':c'=>$dis])->one();
        if (!empty($valid)) 
         {
-            $value = Vouchers::find()->where('code = :c',[':c'=>$dis])->one();
-            if ($value['discount_type'] == 2 || $value['discount_type'] == 5) 
+            $voucher = Vouchers::find()->where('code = :c',[':c'=>$dis])->one();
+            if ($voucher['discount_type'] == 2 || $voucher['discount_type'] == 5) 
             {
                 if ($valid->endDate > date('Y-m-d')) 
                 {
-                  $value = Vouchers::find()->where('code = :c',[':c'=>$dis])->one();
+                    //$value = DiscountController::Frontdiscount($dis,$did);
+                    $vouchers = Vouchers::find()->where('code = :c',[':c'=>$dis])->all();
+                    $value = Orders::find()->where('Delivery_ID=:id',[':id'=>$did])->one();
+                    foreach ($vouchers as $k => $vou) 
+                    {
+                        if ($vou['discount_type'] == 1 || $vou['discount_type'] == 2) 
+                        {
+                            switch ($vou['discount_item']) 
+                            {
+                                case 7:
+                                    $value['Orders_Subtotal'] = $value['Orders_Subtotal']- ($value['Orders_Subtotal']* ($vou['discount'] / 100)) ;
+                                    $value['Orders_TotalPrice'] = $value['Orders_Subtotal'] + $value['Orders_DeliveryCharge'];
+                                    break;
+
+                                case 8:
+                                    $value['Orders_DeliveryCharge'] = $value['Orders_DeliveryCharge']-($value['Orders_DeliveryCharge']*($vou['discount'] / 100));
+                                    $value['Orders_TotalPrice'] = $value['Orders_Subtotal'] + $value['Orders_DeliveryCharge'];
+                                    break;
+
+                                case 9:
+                                    $value['Orders_TotalPrice'] = $value['Orders_TotalPrice'] - ($value['Orders_TotalPrice']*($vou['discount'] / 100));
+                                    break;
+                                     
+                                default:
+                                    $value = 0;
+                                    break;
+                            }
+                        }
+                        elseif ($vou['discount_type'] == 4 || $vou['discount_type'] == 5) 
+                        {
+                            switch ($vou['discount_item']) 
+                            {
+                                case 7:
+                                    $value['Orders_Subtotal'] = $value['Orders_Subtotal'] - $vou['discount'];
+                                    if ($value['Orders_Subtotal'] <= 0) {
+                                        $value['Orders_Subtotal'] = 0;
+                                    }
+                                    $value['Orders_TotalPrice'] = $value['Orders_Subtotal'] + $value['Orders_DeliveryCharge'];
+                                    break;
+
+                                case 8:
+                                    $value['Orders_DeliveryCharge'] = $value['Orders_DeliveryCharge'] - $vou['discount'];
+                                    if ($value['Orders_DeliveryCharge'] <= 0) {
+                                        $value['Orders_DeliveryCharge'] = 0;
+                                    }
+                                    $value['Orders_TotalPrice'] = $value['Orders_Subtotal'] + $value['Orders_DeliveryCharge'];
+                                    break;
+
+                                case 9:
+                                    $value['Orders_TotalPrice'] = $value['Orders_TotalPrice'] - $vou['discount'];
+                                    if ($value['Orders_TotalPrice'] <= 0) {
+                                        $value['Orders_TotalPrice'] = 0;
+                                    }
+                                    break;
+                                     
+                                default:
+                                    $value = 0;
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            $value = 0;
+                        }
+                    }
                 }
                 elseif ($valid->endDate < date('Y-m-d')) 
                 {

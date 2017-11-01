@@ -37,7 +37,7 @@ class CartController extends CommonController
                  //'only' => ['logout', 'signup','index'],
                  'rules' => [
                     [
-                        'actions' => ['addto-cart','checkout','delete','view-cart'],
+                        'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount'],
                         'allow' => true,
                         'roles' => ['@'],
 

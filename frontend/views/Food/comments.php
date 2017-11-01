@@ -7,7 +7,10 @@ use common\models\Orderitemselection;
 use frontend\controllers\CartController;
 use kartik\widgets\TouchSpin;
 use common\models\User;
+use frontend\assets\StarsAsset;
 $this->title = "Comments";
+
+StarsAsset::register($this);
 ?>
 <style>
 #rating {

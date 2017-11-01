@@ -16,12 +16,11 @@ class AppAsset extends AssetBundle
         'css/user.css',
         'css/sidenav.css',
 		'css/style.css',
-		'css/bubble.css',
         'css/footer.css',
     ];
     public $js = [
-	'js/he.js',
-    'js/FlashTimer.js',
+	    'js/he.js',
+        'js/FlashTimer.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

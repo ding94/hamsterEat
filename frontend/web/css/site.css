@@ -2,6 +2,7 @@
 html,
 body {
     height: 100%;
+    padding-top: 15px;
 }
 h1
  {
@@ -218,9 +219,6 @@ a.desc:after {
     padding-left: 5px;
 	 padding:50px;
 	 
-}
-.container{
-	 margin-top:30px;
 }
 .site-signup{
 	 margin-top:50px;
@@ -615,18 +613,6 @@ line-height: 1.45em;}
       background: #FFDA00;
       color: white;
     }
-
-/* css to show ratings */
-span.stars, span.stars span {
-    display: block;
-    background: url(../imageLocation/stars.png) 0 -16px repeat-x;
-    width: 80px;
-    height: 16px;
-}
-
-span.stars span {
-    background-position: 0 0;
-}
 
 /* CSS for Frontend News */
 #news-container{ 

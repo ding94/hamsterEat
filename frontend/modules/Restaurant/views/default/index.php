@@ -12,16 +12,38 @@ $this->title = "Available Restaurants";
   align-items: center;
   justify-content:center;
 }
+
+@media (min-width: 1200px){
+  .menu-container{
+      grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px){
+  .menu-container{
+      grid-template-columns: 1fr 1fr;
+  }
+
+  #group-area-index .list{
+    width: 298px;
+    height: 298px;
+  }
+}
+
+@media (max-width: 991px){
+  .menu-container{
+    grid-template-columns: 0.5fr;
+  }
+}
+
 .menu-container{
   display: grid;
   width:775px;
-  grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 15px;
   grid-row-gap: 15px;
   margin-bottom: 50px;
   align-items: center;
   justify-content:center;
-  
 }
 
 .list{
@@ -96,8 +118,12 @@ $this->title = "Available Restaurants";
     display: table;
     border-collapse: separate;
 }
+
+#group-area-index .rating{
+  margin-right: 10px;
+}
 </style>
-<div class="container" id="index">
+<div class="container" id="group-area-index">
     <h1>Order Food for Delivery</h1>
     <div class="filter">
     <?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']); ?>
@@ -150,9 +176,11 @@ $this->title = "Available Restaurants";
               <span class="name">
                 <?php echo $data['Restaurant_Name']; ?>
               </span>
-              <span class="small-text pull-right stars">
+              <div class="rating pull-right">
+              <span class="small-text stars">
                 <?php echo $data['Restaurant_Rating']; ?>
               </span>
+              </div>
               <ul class="tag">
                 <?php if ($data['Restaurant_Pricing'] == 1){ ?>
                 <li class="none">$</li>

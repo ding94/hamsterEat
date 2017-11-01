@@ -8,7 +8,6 @@ use yii\bootstrap\ActiveForm;
 
 	$this->title = "Rating";
 ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
 h1,
 h4{
@@ -33,14 +32,16 @@ h4{
   font-size: 12px;
   color: black;
   background-color: white;
-
+  align-self: center;
+  justify-self: center;
+  width: 500px;
 }
 .btn-primary1 {
-	margin-left: 500px;
-    margin-top: 20px;
+  display: block;
+  margin: 40px auto;
 	color: black;
-    background-color: #fed136;
-    border-color: #fed136;
+  background-color: #fed136;
+  border-color: #fed136;
 }
 .rating{
 	font-size: 30px;
@@ -87,28 +88,21 @@ h4{
   height:150px;
 }
 .btn-primary2 {
-	margin-left: 500px;
-    margin-top: 20px;
+  display: block;
+  margin: 40px auto;
 	color: black;
-    background-color: #fed136;
-    border-color: #fed136;
+  background-color: #fed136;
+  border-color: #fed136;
 }
 </style>
 <div class="container">
 	<h1>Rating</h1>
 	<h4>Complete all ratings to earn more points!</h4><br>
-	<div id="nav">
-  <ul style = "margin-left:37%;" class="nav nav-pills">
-    <li class="active"><a data-toggle="pill" href="#home">Service Rating</a></li>
-    <li ><a data-toggle="pill" href="#comments">Food Rating</a></li>
-  </ul>
-</div>
 
 	<?php $form = ActiveForm::begin(['action' => ['rating/rating-data','id'=>$id],'method' => 'post']);?>
 
 	 <div class="tab-content">
-  <div id="home" class="tab-pane fade in active"><a name="home"></a>
-  	<div class="tab-content col-md-6 col-lg-offset-3" id="fooddetails"><br>
+  <div id="home" class="tab-pane fade in active">
 		<div class="outer-container1">
 			<div class="menu-container1">
 			<div class="item1">
@@ -152,12 +146,11 @@ h4{
 			</div>
 			</div>
 			</div>
+      <button class="btn btn-primary1" onclick="proceed()">Proceed</button> 
+			
 			
 			</div>
-			
-			<button class="btn btn-primary1">Proceed</button>
-			</div>
-			<div id="comments" class="tab-pane fade"><a name=""></a>
+			<div id="comments" class="tab-pane fade">
 	<div class="outer-container2">
     <div class="menu-container2">
 			
@@ -194,3 +187,37 @@ h4{
 	
 	<?php ActiveForm::end();?>
 </div>
+<script>
+  function proceed(){
+    var form = document.getElementById("home");
+    var inputs = form.getElementsByTagName("input"), input = null, not_pass = false;
+    for(var i = 0, len = inputs.length; i < len; i++) {
+        input = inputs[i];
+
+        if(input.type == "hidden") {
+            continue;
+        }
+
+        if(input.type == "radio" && !input.checked) {
+            not_pass = true;
+        } 
+        if(input.type == "radio" && input.checked){
+            not_pass = false;
+            break;
+        }
+
+        if(input.text == "text") {
+          continue;
+        }
+    }
+
+    if (not_pass) {
+        // $("#req-message").show();//this div # in your form
+        window.alert("Please select all required fields!");
+        return false;
+    } else {
+      $('#home').removeClass("in active");
+      $('#comments').addClass("in active");
+    }
+}
+</script>

@@ -23,6 +23,19 @@ $this->title = $id['Restaurant_Name'];
     align-items: center;
     justify-content:center;
   }
+
+  .restaurant-info-container h1{
+    margin-left: 51%;
+  }
+
+  .restaurant-info-container .info{
+    margin-left: 48%;
+  }
+
+  .restaurant-info-container .rating{
+    margin-left: 51%;
+    margin-top: 8%;
+  }
 }
 
 @media(min-width:992px){
@@ -38,29 +51,34 @@ $this->title = $id['Restaurant_Name'];
   }
 }
 
-.item{
-  font-size: 24px;
-  color: black;
-  background-color: white;
-  min-width: 300px;
-  min-height: 170px;
-  border: 1px solid #e5e5e5;
+@media(max-width: 1199px) and (min-width:992px){
+  .restaurant-info-container h1{
+    margin-left: 40%;
+  }
+
+  .restaurant-info-container .info{
+    margin-left: 38%;
+  }
+
+  .restaurant-info-container .rating{
+    margin-left: 40%;
+    margin-top: 4%;
+  }
 }
 
-.item p{
-  font-size:15px;
-  color:grey;
-}
+@media(min-width: 1200px){
+  .restaurant-info-container h1{
+    margin-left: 32%;
+  }
 
-.item .small-text{
-   font-size:15px;
-  color:grey; 
-  margin-top: 10px;
-}
+  .restaurant-info-container .info{
+    margin-left: 30%;
+  }
 
-.item .price{
-    font-size: 17px;
-    color: black;
+  .restaurant-info-container .rating{
+    margin-left: 32%;
+    margin-top: 3%;
+  }
 }
 
 .item .inner-item{
@@ -69,23 +87,9 @@ $this->title = $id['Restaurant_Name'];
   width: 59%;
 }
 
-.item .tag{
-    font-size: 13px;
-    color: grey;
-}
-
 .item .img{
 
   float:left;
-}
-
-.item img{
-    width:168px;
-  height:168px;
-}
-
-.menu-container a:hover{
-    box-shadow: 0px 0px 20px -2px grey;
 }
 
 .info li{
@@ -119,6 +123,10 @@ $this->title = $id['Restaurant_Name'];
   white-space: nowrap;
 }
 
+.restaurant-info-container h1{
+  font-weight: bold;
+}
+
 </style>
 <body>
 
@@ -127,8 +135,6 @@ $this->title = $id['Restaurant_Name'];
             'size'   => 'modal-lg',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
-    
-    // echo "<div id='modelContent".$data['Food_ID']."'></div>";
     
     Modal::end() ?>
    
@@ -139,8 +145,6 @@ $this->title = $id['Restaurant_Name'];
             'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
     
-    // echo "<div id='modelContent'></div>";
-    
     Modal::end() ?>
 <div class = "container">
   <div class="restaurant-info-container">
@@ -150,8 +154,8 @@ $this->title = $id['Restaurant_Name'];
             $picpath = "DefaultRestaurant.jpg";
         }
          echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive pull-left', 'style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>"; ?>
-    <h1 style="font-weight: bold;margin-left: 32%;"><?php echo $id['Restaurant_Name']; ?><span class="pull-right"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'btn btn-primary','data-toggle'=>'modal','data-target'=>'#report-modal']) ?></span></h1>
-      <ul class="info" style="margin-left: 30%;">
+    <h1><?php echo $id['Restaurant_Name']; ?><span class="pull-right"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'btn btn-primary','data-toggle'=>'modal','data-target'=>'#report-modal']) ?></span></h1>
+      <ul class="info">
         <?php if ($id['Restaurant_Pricing'] == 1){ ?>
         <li class="none">$</li>
         <?php } else if ($id['Restaurant_Pricing'] == 2){ ?>
@@ -167,7 +171,7 @@ $this->title = $id['Restaurant_Name'];
         <?php endforeach; ?>
         <li><?php echo $id['Restaurant_UnitNo'].", ".$id['Restaurant_Street'].", ".$id['Restaurant_Area'].", ".$id['Restaurant_Postcode']; ?></li>
       </ul>
-      <div style="margin-left: 32%; margin-top: 3%;"><span class="small-text stars">
+      <div class="rating"><span class="small-text stars">
                         <?php echo $id['Restaurant_Rating']; ?>
                       </span></div>
     </div>

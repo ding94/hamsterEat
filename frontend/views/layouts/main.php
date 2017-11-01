@@ -41,18 +41,22 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
+
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Html::img('@web/SysImg/Logo.png'),
+        'brandLabel' => Html::img('@web/SysImg/Logo.png' ,['id'=>'logo']),
+
         'brandUrl' => Yii::$app->homeUrl,
         'innerContainerOptions' => ['class' => 'container-fluid'],
         'options' => [
             'class' => 'topnav navbar-fixed-top MainNav',
+            'id' => 'uppernavbar'
         ],
     ]);
     $menuItems = [
         ['label' => 'About', 'url' => ['/site/about']],
+        ['label' => 'Guide', 'url' => ['/site/faq']],
        
 
         ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Cart', 'url' => ['/cart/view-cart']],
@@ -69,8 +73,8 @@ AppAsset::register($this);
 
             ];
             foreach ($restaurant as $k => $each) {
-            $menuItems[2]['items'][$k] = ['label' => $each['Restaurant_Name'],'url' => ['/Restaurant/default/restaurant-details','rid'=>$each['Restaurant_ID']]];
-            $menuItems[2]['items'][$k+count($restaurant)] = '<li class="divider"></li>';
+            $menuItems[3]['items'][$k] = ['label' => $each['Restaurant_Name'],'url' => ['/Restaurant/default/restaurant-details','rid'=>$each['Restaurant_ID']]];
+            $menuItems[3]['items'][$k+count($restaurant)] = '<li class="divider"></li>';
             }
         }
         $menuItems[] = ['label' => '<span class=""> <i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>'];
@@ -168,6 +172,7 @@ AppAsset::register($this);
 				<ul id="linklist" class="list-unstyled">
 					
 					<li><?php echo Html::a('About Us' ,['site/about']) ?></li>
+                    <li><?php echo Html::a('Guide' ,['site/faq']) ?></li>
 					<li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>
 					<li><?php echo Html::a('Login' ,['site/login']) ?></li>
 					<li><?php echo Html::a('Signup' ,['site/ruser']) ?></li>

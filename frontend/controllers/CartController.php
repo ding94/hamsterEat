@@ -24,6 +24,7 @@ use yii\helpers\Json;
 use frontend\modules\delivery\controllers\DailySignInController;
 use frontend\controllers\CommonController;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\filters\AccessControl;
 
 class CartController extends CommonController
@@ -38,7 +39,7 @@ class CartController extends CommonController
                     [
                         'actions' => ['addto-cart','checkout','delete','view-cart','getdiscount','aftercheckout'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['@','?'],
 
                     ],
                     //['actions' => [],'allow' => true,'roles' => ['?'],],
@@ -102,9 +103,11 @@ class CartController extends CommonController
                         $oid = $orderid['Order_ID'];
                     }
                 endforeach;
+
                 if ($finalselected != '')
                 {
                     $selected = JSON::decode($finalselected);
+                    //var_dump($selected);exit;
                     $selectionprice = 0;
                     $selectiontotalprice = 0;
                     foreach ($selected as $selected2) :
@@ -114,13 +117,15 @@ class CartController extends CommonController
                             $orderitemselection = new Orderitemselection;
                             $orderitemselection->Order_ID = $oid;
                             $orderitemselection->Selection_ID = (int)$select;
-                            $foodtypeid = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
+                            //var_dump($orderitemselection->Selection_ID);exit;
+                            $foodtypeid = Foodselection::find()->where('ID = :sid',[':sid'=>$orderitemselection->Selection_ID])->one();
                             $foodtypeid = $foodtypeid['Type_ID'];
 							
                             $orderitemselection->FoodType_ID = $foodtypeid;
-                            $foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
+                            //var_dump($orderitemselection->Selection_ID);exit;
+                            $foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$orderitemselection->Selection_ID])->one();
 							//$up = $foodselectionprice['Price'] + $findfoodprice;
-							//var_dump($up);exit;
+                            //var_dump($up);exit;
                             $selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
                             $orderitemselection->save();
                             endforeach;
@@ -134,12 +139,11 @@ class CartController extends CommonController
                             $foodtypeid = $foodtypeid['Type_ID'];
                             $orderitemselection->FoodType_ID = $foodtypeid;
                             $foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
-                          
-                            
+                            $selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
                             $orderitemselection->save();
                         }
                     endforeach;
-					
+					//var_dump($foodselectionprice['Price']);exit;
                     $selectiontotalprice = $selectiontotalprice * $quantity;
                     $linetotal = $linetotal + $selectiontotalprice;
                     $linetotalupdate = "UPDATE orderitem SET OrderItem_LineTotal = ".$linetotal.", OrderItem_SelectionTotal = ".$selectiontotalprice." WHERE Order_ID = ".$oid."";
@@ -164,7 +168,7 @@ class CartController extends CommonController
                 $sql = "UPDATE orders SET Orders_SubTotal = ".$subtotal.", Orders_DeliveryCharge = ".$deliverycharge.", Orders_TotalPrice = ".$totalcharge." WHERE Delivery_ID = ".$cart['Delivery_ID']."";
                 Yii::$app->db->createCommand($sql)->execute();
 
-                Yii::$app->session->setFlash('success', 'Food item has been added to cart.');
+                Yii::$app->session->setFlash('success', 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.');
                 return $this->redirect(['/Restaurant/default/restaurant-details', 'rid' => $rid]);
             }
             else
@@ -489,7 +493,49 @@ class CartController extends CommonController
                         }
                     }
                 }
+<<<<<<< HEAD
                 $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = '".$session['postcode']."', Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = '".$time."', Orders_Date = '".$setdate."', Orders_Time = '".$settime."' WHERE Delivery_ID = '".$did."'";
+=======
+
+                $checkdiscounts = Orders::find()->where('Delivery_ID = :did', [':did' => $did])->one();
+                $totaldiscount = 0;
+                
+                if ($checkdiscounts['Orders_DiscountVoucherAmount'] != 0 && $checkdiscounts['Orders_DiscountEarlyAmount'] != 0 && $checkdiscounts['Orders_DiscountCodeAmount'] != 0)
+                {
+                    $totaldiscount = $checkdiscounts['Orders_DiscountEarlyAmount'] + $checkdiscounts['Orders_DiscountVoucherAmount'] + $checkdiscounts['Orders_DiscountCodeAmount'];
+                }
+                elseif ($checkdiscounts['Orders_DiscountEarlyAmount'] == 0 && $checkdiscounts['Orders_DiscountVoucherAmount'] != 0 && $checkdiscounts['Orders_DiscountCodeAmount'] != 0)
+                {
+                    $totaldiscount = $checkdiscounts['Orders_DiscountCodeAmount'] + $checkdiscounts['Orders_DiscountVoucherAmount'];
+                }
+                elseif ($checkdiscounts['Orders_DiscountEarlyAmount'] != 0 && $checkdiscounts['Orders_DiscountVoucherAmount'] == 0 && $checkdiscounts['Orders_DiscountCodeAmount'] != 0)
+                {
+                    $totaldiscount = $checkdiscounts['Orders_DiscountCodeAmount'] + $checkdiscounts['Orders_DiscountEarlyAmount'];
+                }
+                elseif ($checkdiscounts['Orders_DiscountEarlyAmount'] != 0 && $checkdiscounts['Orders_DiscountVoucherAmount'] != 0 && $checkdiscounts['Orders_DiscountCodeAmount'] == 0)
+                {
+                    $totaldiscount = $checkdiscounts['Orders_DiscountVoucherAmount'] + $checkdiscounts['Orders_DiscountEarlyAmount'];
+                }
+                elseif ($checkdiscounts['Orders_DiscountEarlyAmount'] != 0 && $checkdiscounts['Orders_DiscountVoucherAmount'] == 0 && $checkdiscounts['Orders_DiscountCodeAmount'] == 0)
+                {
+                    $totaldiscount = $checkdiscounts['Orders_DiscountEarlyAmount'];
+                }
+                elseif ($checkdiscounts['Orders_DiscountEarlyAmount'] == 0 && $checkdiscounts['Orders_DiscountVoucherAmount'] != 0 && $checkdiscounts['Orders_DiscountCodeAmount'] == 0)
+                {
+                    $totaldiscount = $checkdiscounts['Orders_DiscountVoucherAmount'];
+                }
+                elseif ($checkdiscounts['Orders_DiscountEarlyAmount'] == 0 && $checkdiscounts['Orders_DiscountVoucherAmount'] == 0 && $checkdiscounts['Orders_DiscountCodeAmount'] != 0)
+                {
+                    $totaldiscount = $checkdiscounts['Orders_DiscountCodeAmount'];
+                }
+                elseif ($checkdiscounts['Orders_DiscountEarlyAmount'] == 0 && $checkdiscounts['Orders_DiscountVoucherAmount'] == 0 && $checkdiscounts['Orders_DiscountCodeAmount'] == 0)
+                {
+                    $totaldiscount = 0;
+                }
+
+              
+                $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = '".$session['postcode']."', Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = '".$time."', Orders_Date = '".$setdate."', Orders_Time = '".$settime."', Orders_DiscountTotalAmount = '".$totaldiscount."' WHERE Delivery_ID = '".$did."'";
+>>>>>>> b5ca6e771cee9fbaa9e7a3fd9493f66269bccecb
                 Yii::$app->db->createCommand($sql)->execute();
                 $sql2 = "UPDATE orderitem SET OrderItem_Status = 'Pending' WHERE Delivery_ID = '".$did."'";
                 Yii::$app->db->createCommand($sql2)->execute();

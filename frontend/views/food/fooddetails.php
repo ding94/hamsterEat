@@ -35,13 +35,29 @@ $this->title = "Food Details";
   background-color:#fff;
 }
 
-.modal-content{
+@media (min-width:992px) {
+  .modal-content{
   width:598px;
+  }
+
+  .modal-lg{
+    padding-left: 158px;
+  }
+}
+
+.modal-content{
   background-color:#fff;
 }
-.modal-lg{
-  padding-left: 158px;
+
+.modal-dialog.modal-lg{
+  overflow-y: initial !important;
 }
+.modal-body{
+  height: 350px;
+  overflow-y: auto;
+  margin: 0px 0px 0px 20px;
+}
+
 .value-button {
   border: 1px solid #ddd;
   margin: 0px;
@@ -144,16 +160,19 @@ height:40px;
 
 /*-----Comment------*/
 .panel-default{
-        width:539px;
+        width:500px;
  }
 #comments.tab-pane.fade{
    background-color:#fff;
  }
-
+#comment-container.container{
+width: 500px;
+margin: 20px 0px 0px 0px;
+}
 </style>
 <div id="nav">
   <ul style = "margin-left:37%;" class="nav nav-pills">
-    <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
+    <li class="active"><a data-toggle="pill" href="#home">Food Details</a></li>
     <li ><a data-toggle="pill" href="#comments">Comments</a></li>
   </ul>
 </div>
@@ -280,7 +299,7 @@ height:40px;
              
         			<div>
                
-                <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:23%;']])->widget(TouchSpin::classname(), [
+                <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:25%;']])->widget(TouchSpin::classname(), [
                     'options' => [
                         'id'=>'orderitem-orderitem_quantity'.$fooddata->Food_ID,
                         'style'=>'height:40px;'
@@ -335,7 +354,7 @@ $i = 1;
 foreach ($comments as $comments) :
     if (!is_null($comments['Comment']) && $i < 4)
     {?>
-        <div class ="container">
+        <div id= "comment-container" class ="container">
             <?php 
             $i = $i + 1;
             $user = User::find()->where('id = :uid', [':uid'=>$comments['User_Id']])->one();

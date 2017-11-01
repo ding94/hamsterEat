@@ -9,6 +9,7 @@ use common\models\Orders;
 use common\models\Ordersstatuschange;
 use common\models\user\Userdetails;
 use yii\helpers\Html;
+use frontend\controllers\CartController;
 
 ?>
 
@@ -79,8 +80,8 @@ use yii\helpers\Html;
 
             endforeach;
             echo "</td>";
-            echo "<td align="."right>".$orderitemdetails['OrderItem_SelectionTotal']."</td>";
-            echo "<td align="."right>".$orderitemdetails['OrderItem_LineTotal']."</td>";
+            echo "<td align="."right>".CartController::actionRoundoff1decimal($orderitemdetails['OrderItem_SelectionTotal'])."</td>";
+            echo "<td align="."right>".CartController::actionRoundoff1decimal($orderitemdetails['OrderItem_LineTotal'])."</td>";
             echo "<td colspan = 2><center>".$orderitemdetails['OrderItem_Remark']."</td>";
             echo "</tr>";
           endforeach;
@@ -95,7 +96,7 @@ use yii\helpers\Html;
             echo "<td> </td>";
             echo "<td> </td>";
             echo "<td><center><strong> Subtotal (RM): </strong></td>";
-            echo "<td align="."right>".$did['Orders_Subtotal']."</td>";
+            echo "<td align="."right>".CartController::actionRoundoff1decimal($did['Orders_Subtotal'])."</td>";
           echo "</tr>";
           echo "<tr>";
             echo "<td> </td>";
@@ -106,19 +107,54 @@ use yii\helpers\Html;
             echo "<td> </td>";
             echo "<td> </td>";
             echo "<td><center><strong> Delivery Charge (RM): </strong></td>";
-            echo "<td align="."right>".$did['Orders_DeliveryCharge']."</td>";
+            echo "<td align="."right>".CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge'])."</td>";
           echo "</tr>";
-          echo "<tr>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td><center><strong> Discount (RM): </strong></td>";
-            echo "<td align="."right>".$did['Orders_DiscountTotalAmount']."</td>";
-          echo "</tr>";
+
+          if ($did['Orders_DiscountEarlyAmount'] != 0)
+          {
+            echo "<tr>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td><center><strong> Discount Early (RM): </strong></td>";
+                echo "<td align="."right>".'- '.CartController::actionRoundoff1decimal($did['Orders_DiscountEarlyAmount'])."</td>";
+            echo "</tr>";
+          }
+
+          if ($did['Orders_DiscountVoucherAmount'] != 0)
+          {
+            echo "<tr>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td><center><strong> Voucher Discount (RM): </strong></td>";
+                echo "<td align="."right>".'- '.CartController::actionRoundoff1decimal($did['Orders_DiscountVoucherAmount'])."</td>";
+            echo "</tr>";
+          }
+
+          if ($did['Orders_DiscountCodeAmount'] != 0)
+          {
+            echo "<tr>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td> </td>";
+                echo "<td><center><strong> Code Discount (RM): </strong></td>";
+                echo "<td align="."right>".'- '.CartController::actionRoundoff1decimal($did['Orders_DiscountCodeAmount'])."</td>";
+            echo "</tr>";
+          }
+
           echo "<tr>";
             echo "<td> </td>";
             echo "<td> </td>";
@@ -128,7 +164,7 @@ use yii\helpers\Html;
             echo "<td> </td>";
             echo "<td> </td>";
             echo "<td><center><strong> Total (RM): </strong></td>";
-            echo "<td align="."right><strong>".$did['Orders_TotalPrice']."</strong></td>";
+            echo "<td align="."right><strong>".CartController::actionRoundoff1decimal($did['Orders_TotalPrice'])."</strong></td>";
           echo "</tr>";
           echo "</table>";
 

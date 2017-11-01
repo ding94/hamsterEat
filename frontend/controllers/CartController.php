@@ -103,9 +103,11 @@ class CartController extends CommonController
                         $oid = $orderid['Order_ID'];
                     }
                 endforeach;
+
                 if ($finalselected != '')
                 {
                     $selected = JSON::decode($finalselected);
+                    //var_dump($selected);exit;
                     $selectionprice = 0;
                     $selectiontotalprice = 0;
                     foreach ($selected as $selected2) :
@@ -115,13 +117,15 @@ class CartController extends CommonController
                             $orderitemselection = new Orderitemselection;
                             $orderitemselection->Order_ID = $oid;
                             $orderitemselection->Selection_ID = (int)$select;
-                            $foodtypeid = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
+                            //var_dump($orderitemselection->Selection_ID);exit;
+                            $foodtypeid = Foodselection::find()->where('ID = :sid',[':sid'=>$orderitemselection->Selection_ID])->one();
                             $foodtypeid = $foodtypeid['Type_ID'];
 							
                             $orderitemselection->FoodType_ID = $foodtypeid;
-                            $foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
+                            //var_dump($orderitemselection->Selection_ID);exit;
+                            $foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$orderitemselection->Selection_ID])->one();
 							//$up = $foodselectionprice['Price'] + $findfoodprice;
-							//var_dump($up);exit;
+                            //var_dump($up);exit;
                             $selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
                             $orderitemselection->save();
                             endforeach;
@@ -135,12 +139,11 @@ class CartController extends CommonController
                             $foodtypeid = $foodtypeid['Type_ID'];
                             $orderitemselection->FoodType_ID = $foodtypeid;
                             $foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
-                          
-                            
+                            $selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
                             $orderitemselection->save();
                         }
                     endforeach;
-					
+					//var_dump($foodselectionprice['Price']);exit;
                     $selectiontotalprice = $selectiontotalprice * $quantity;
                     $linetotal = $linetotal + $selectiontotalprice;
                     $linetotalupdate = "UPDATE orderitem SET OrderItem_LineTotal = ".$linetotal.", OrderItem_SelectionTotal = ".$selectiontotalprice." WHERE Order_ID = ".$oid."";

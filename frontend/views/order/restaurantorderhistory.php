@@ -59,6 +59,7 @@ use yii\helpers\Html;
                         $themoneycollected = ($thefoodprice + $thefinalselectionprice) * $thequantity;
                         $thefinalmoneycollected = $thefinalmoneycollected + $themoneycollected;
                     endforeach;
+                    
                     echo "<tr>";
                         echo "<td><center>".$orderdetails['Delivery_ID']."</td>";
                         echo "<td><center>".$orderdetails['User_Username']."</td>";
@@ -69,9 +70,8 @@ use yii\helpers\Html;
                         $timeplaced = date('d/m/Y H:i:s', $orderdetails['Orders_DateTimeMade']);
                         echo "<td ><center> $timeplaced </td>";
                         echo "<td ><center> $thefinalmoneycollected </td>";
-                        
-
                     echo "</tr>";
+                    
                     echo "<tr>";
                         echo "<th><center> Order ID </th>";
                         echo "<th><center> Food Name </th>";

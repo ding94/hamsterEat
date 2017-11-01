@@ -143,7 +143,8 @@ class FoodController extends CommonController
             {
                 $finalselected = '';
             }
-            
+
+            //var_dump($finalselected);exit;
             return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks, 'rid'=>$rid, 'sessiongroup'=>$sessiongroup]);
         }
         return $this->renderAjax('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection, 'comments'=>$comments]);

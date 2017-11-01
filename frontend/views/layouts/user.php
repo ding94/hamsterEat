@@ -48,6 +48,7 @@ AppAsset::register($this);
         'innerContainerOptions' => ['class' => 'container-fluid'],
         'options' => [
             'class' => 'topnav navbar-fixed-top MainNav',
+            'id' => 'uppernavbar'
         ],
     ]);
     $menuItems = [
@@ -135,68 +136,30 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
-<div class="container1">
-    <div class="sidenav col-md-3" >
-        <div class="navbar-left">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
-            <span class="sr-only">Toggle navigation</span> Side Menu <i class="fa fa-bars"></i>
-        </button>
-        </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-    <?php echo SideNav::widget([
-    'encodeLabels' => false,
-    'options' => ['class' => 'in'],
-    'items' => [
-        ['label' => '<i class="glyphicon glyphicon-list-alt"></i> My Order', 'options' => ['class' => 'active'], 'items' => [
-            ['label' => 'My Order','url' => Url::to(['/order/my-orders'])],
-            ['label' => 'Order History','url' => Url::to(['/order/my-order-history'])],
-        ]],
-        ['label' =>'<i class="fa fa-money"></i> My Account','icon' => '','options' => ['class' => 'active'], 'items' => [
-             ['label' => 'Account Balance', 'url' => Url::to(['/user/userbalance'])],
-			['label' => 'Account History', 'url' => Url::to(['/topup-history/index'])],
-           
-        ]],
-         ['label' => '<i class="glyphicon glyphicon-cog"></i> Member Settings','options' => ['class' => 'active'], 'items' => [
-            ['label' => 'User Profile', 'url' => Url::to(['/user/user-profile'])],
-            ['label' => 'Change Password', 'url' => Url::to(['/user/changepassword'])],
-            ['label' => 'Discount Codes', 'url' => Url::to(['/vouchers/index'])],
-        ]],
-        ['label' => '<i class="fa fa-comments"></i> Customer Service', 'options' => ['class' => 'active'], 'items' => [
-           ['label' => 'Ticket', 'url' => Url::to(['/ticket/index'])],
-        ]],
-         ['label' => 'Delivery Man', 'options' => ['class' =>'active'],
-          'items'=>[
-                        ['label' => 'Daily Sign In' , 'url' => Url::to(['/Delivery/daily-sign-in/index'])],
-                        ['label' => 'Delivery Orders' , 'url' => Url::to(['/order/deliveryman-orders'])],
-                        ['label' => 'Delivery Orders History' , 'url' => Url::to(['/order/deliveryman-order-history'])],
-                    ],
-             'visible'=> Yii::$app->user->can('rider'), 
-        ],
-          ['label' => ' My Restaurant', 'options' => ['class' => 'active'], 'items' => [
-            ['label' => 'View Own Restaurant', 'url' => Url::to(['/Restaurant/default/view-restaurant'])],
-            ['label' => 'Create New Restaurant', 'url' => Url::to(['/Restaurant/default/new-restaurant-location'])],
-            ['label' => 'Manage Restaurant', 'url' => Url::to(['/Restaurant/restaurant/restaurant-service'])],
-           ],
-             'visible'=> Yii::$app->user->can('restaurant manager'), 
-           ],
-]]);     
-?>
-</div>
-</div>
 
-
-
-
-    
-
-    <div class="container" style="width: 100%; height: 100%;">
+    <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-        <?= Alert::widget() ?>
+       
+            <ul id="profile-nav" class="nav nav-tabs ">
+              <li role="presentation">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                  My Account <span class="caret"></span>
+                </a>
+                    <ul class="dropdown-menu">
+                        <li><?php echo Html::a('My Profile',['/user/user-profile'])?></li>
+                        <li><?php echo Html::a('Balance',['/user/userbalance'])?></li>
+                      
+                    </ul>
+              </li>
+              <li role="presentation"><?php echo Html::a('Order',['/order/my-orders'])?></li>
+              <li role="presentation"><a href="#">Messages</a></li>
+            </ul>
+      
         <div class="content">
-        <?= $content ?>
-    </div>
+            <?= $content ?>
+        </div>
     </div>
 </div>
 </div>

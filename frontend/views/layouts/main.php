@@ -41,14 +41,17 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
+
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Html::img('@web/SysImg/Logo.png'),
+        'brandLabel' => Html::img('@web/SysImg/Logo.png' ,['id'=>'logo']),
+
         'brandUrl' => Yii::$app->homeUrl,
         'innerContainerOptions' => ['class' => 'container-fluid'],
         'options' => [
             'class' => 'topnav navbar-fixed-top MainNav',
+            'id' => 'uppernavbar'
         ],
     ]);
     $menuItems = [

@@ -14,10 +14,39 @@ $this->title = "Available Restaurants";
   justify-content:center;
 }
 
+@media (min-width: 1200px){
+  #group-area-index2 .menu-container{
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #group-area-index2 .item .inner-item{
+    width: 50%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px){
+  #group-area-index2 .menu-container{
+    grid-template-columns: 1fr;
+  }
+
+  #group-area-index2 .item .inner-item{
+    width: 69%;
+  }
+}
+
+@media (max-width: 991px){
+  #group-area-index2 .menu-container{
+    grid-template-columns: 1fr;
+  }
+
+  #group-area-index2 .item .inner-item{
+    width: 50%;
+  }
+}
+
 .menu-container{
   display: grid;
   width:1200px;
-  grid-template-columns: 1fr 1fr;
   grid-column-gap: 15px;
   grid-row-gap: 15px;
   margin-bottom: 50px;
@@ -53,7 +82,6 @@ $this->title = "Available Restaurants";
 .item .inner-item{
   margin:10px 4px 10px 30px;
   float:right;
-  width: 50%;
 }
 
 .item .tag{
@@ -62,12 +90,11 @@ $this->title = "Available Restaurants";
 }
 
 .item .img{
-
   float:left;
 }
 
 .item img{
-    width:188px;
+  width:188px;
   height:188px;
 }
 
@@ -79,10 +106,10 @@ $this->title = "Available Restaurants";
     height:auto;
     width:230px;
     float:left;
-   margin-left:-10px;
+    margin-left:-10px;
 }
 .filter.container{
-     border: 1px solid #e5e5e5;
+    border: 1px solid #e5e5e5;
     padding: 20px;
     margin-top:26px;
     
@@ -100,10 +127,10 @@ $this->title = "Available Restaurants";
     font-size:15px;
 }
 .filter.list a:hover{
-     text-decoration:none;
+    text-decoration:none;
 }
 .input-group{
-        position: relative;
+    position: relative;
     display: table;
     border-collapse: separate;
 }
@@ -129,7 +156,7 @@ $this->title = "Available Restaurants";
   white-space: nowrap;
 }
 </style>
-<div class="container" id="index">
+<div class="container" id="group-area-index2">
     <h1>Order Food for Delivery</h1>
     <div class="filter">
    

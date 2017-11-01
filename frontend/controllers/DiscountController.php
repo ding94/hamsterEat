@@ -41,5 +41,4 @@ class DiscountController extends Controller
 
 		return $price;
 	}
-
 }

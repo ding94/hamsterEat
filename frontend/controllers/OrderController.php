@@ -53,27 +53,27 @@ class OrderController extends CommonController
 
      
           $count = count($order1);
-			$count = $count ==0 ? "" : " (".$count.")";
+			$count = $count ==0 ? "" : $count;
             $this->view->params['countPending'] = $count;
 
        
           $count = count($order2);
-			$count = $count ==0 ? "" : " (".$count.")";
+			$count = $count ==0 ? "" : $count;
             $this->view->params['countPreparing'] = $count;
 
             
           $count = count($order3);
-			$count = $count ==0 ? "" : " (".$count.")";
+			$count = $count ==0 ? "" : $count;
             $this->view->params['countPickup'] = $count;
 
        
           $count = count($order4);
-			$count = $count ==0 ? "" : " (".$count.")";
+			$count = $count ==0 ? "" : $count;
             $this->view->params['countOntheway'] = $count;
 
        
           $count = count($order5);
-			$count = $count ==0 ? "" : " (".$count.")";
+			$count = $count ==0 ? "" : $count;
             $this->view->params['countCompleted'] = $count;
 
 

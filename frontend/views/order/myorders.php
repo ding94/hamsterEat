@@ -9,8 +9,11 @@ $this->title = "My Orders";
 }
 .nav.nav-pills a:focus{
 
-  
     border-bottom: 1px solid;
+}
+span.badge{
+    margin-left:4px;
+    background-color:#1E90FF;
 }
 </style>
  
@@ -20,11 +23,11 @@ $this->title = "My Orders";
         <?php echo "<h1> My Orders </h1>";
         echo '<div class="content">';
          echo'<ul class="nav nav-pills">';
-               echo'  <li class="active"><a data-toggle="pill" href="#pending"><h4>Pending</h4><span>'.Yii::$app->view->params['countPending'].'</span></a></li>';
-              echo'   <li><a data-toggle="pill" href="#preparing"><h4>Preparing</h4><span>'.Yii::$app->view->params['countPreparing'].'</span></a></li>';
-              echo'   <li><a data-toggle="pill" href="#pickup"><h4>Pick Up in Process</h4><span>'.Yii::$app->view->params['countPickup'].'</span></a></li>';
-             echo'    <li><a data-toggle="pill" href="#ontheway"><h4>On The Way</h4><span>'.Yii::$app->view->params['countOntheway'].'</span></a></li>';
-            echo'     <li><a data-toggle="pill" href="#completed"><h4>Completed</h4><span>'.Yii::$app->view->params['countCompleted'].'</span></a></li>';
+               echo'  <li class="active"><a data-toggle="pill" href="#pending"><h4>Pending<span class="badge">'.Yii::$app->view->params['countPending'].'</h4></span></a></li>';
+              echo'   <li><a data-toggle="pill" href="#preparing"><h4>Preparing<span  class="badge">'.Yii::$app->view->params['countPreparing'].'</span></h4></a></li>';
+              echo'   <li><a data-toggle="pill" href="#pickup"><h4>Pick Up in Process<span class="badge">'.Yii::$app->view->params['countPickup'].'</h4></span></a></li>';
+             echo'    <li><a data-toggle="pill" href="#ontheway"><h4>On The Way<span class="badge">'.Yii::$app->view->params['countOntheway'].'</h4></span></a></li>';
+            echo'     <li><a data-toggle="pill" href="#completed"><h4>Completed<span class="badge">'.Yii::$app->view->params['countCompleted'].'</h4></span></a></li>';
            echo'  </ul>';
         echo "<br>";
         echo "<br>";

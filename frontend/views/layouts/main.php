@@ -29,6 +29,9 @@ NotificationAsset::register($this);
     #cart{
         line-height:33px;
     }
+    #cart1{
+        line-height:33px;
+    }
     </style>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -71,14 +74,16 @@ NotificationAsset::register($this);
         ['label' => 'Guide', 'url' => ['/site/faq']],
        
 
-        // ['label' => '<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
+         //['label' => '<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
 
 
     ];
     if (Yii::$app->user->isGuest) {
+        $menuItems[] = ['label' => '<span id ="cart1" class="glyphicon glyphicon-shopping-cart"></span> ', 'url' => ['/cart/view-cart']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span> Signup', 'url' => ['/site/ruser']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> Login', 'url' => ['/site/login']];
     } else {
+        $menuItems[] = ['label' => '<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']];
         if (Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
             $restaurant = Restaurant::find()->where('Restaurant_Manager=:rm',[':rm'=>Yii::$app->user->identity->username])->all();
             $menuItems[] = ['label' => '<span class="glyphicon glyphicon-home"></span> Restaurants',

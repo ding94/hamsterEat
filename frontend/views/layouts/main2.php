@@ -12,8 +12,10 @@ use common\widgets\Alert;
 use kartik\widgets\SideNav;
 use yii\helpers\Url;
 use iutbay\yii2fontawesome\FontAwesome as FA;
+use frontend\assets\NotificationAsset;
 
 AppAsset::register($this);
+NotificationAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

@@ -84,4 +84,9 @@ class Orderitem extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Orders::className(),['Delivery_ID' => 'Delivery_ID']); 
     }
+
+    public function getRestaurant()
+    {
+        return $this->hasOne(Restaurant::className(),['Restaurant_ID' => $this->food->Restaurant_ID]);
+    }
 }

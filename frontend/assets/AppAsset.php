@@ -13,15 +13,12 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
-        'css/user.css',
         'css/sidenav.css',
-		'css/style.css',
-		'css/bubble.css',
         'css/footer.css',
     ];
     public $js = [
-	'js/he.js',
-    'js/FlashTimer.js',
+	    'js/he.js',
+        'js/FlashTimer.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

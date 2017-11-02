@@ -11,6 +11,9 @@ use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use backend\models\Admin;
 use common\models\Bank;
+use frontend\assets\TopupWithdrawMpHistoryAsset;
+
+TopupWithdrawMpHistoryAsset::register($this);
 ?>
 
 <div class="container" id="withdraw-history-container">

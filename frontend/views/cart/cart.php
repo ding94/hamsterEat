@@ -7,27 +7,11 @@ Use common\models\food\Foodselection;
 Use common\models\Orders;
 use yii\bootstrap\ActiveForm;
 use frontend\controllers\CartController;
+use frontend\assets\CartAsset;
 
 $this->title = "My Cart";
+CartAsset::register($this);
 ?>
-<style type="text/css">
-  a:hover
-  {
-    cursor: pointer;
-  }
-.fa[class~=angle]{
-      font-size:1.3rem;
-      position:relative;
-      top: 0.15rem;
-      margin:0 20px;
-      cursor: pointer;
-      color:rgb(255, 204, 0);
-    transition:all .5s;
-    &:hover{
-      color:rgb(71, 190, 115);
-    }
-  }
-</style>
 <?php
 			if($cartitems == true)
 			{
@@ -162,8 +146,8 @@ $this->title = "My Cart";
 		}
 		?>
 	</div>
-<script >
-  function showHidden()
+  <script>
+    function showHidden()
   {
       document.getElementById("label").style.display ='block';
       document.getElementById("input").style.display ='block';
@@ -178,71 +162,21 @@ $this->title = "My Cart";
    type: "get",
    data :{
         dis: document.getElementById("input").value,
+        did: <?php echo $did['Delivery_ID'];?>,
    },
    success: function (data) {
       var obj = JSON.parse(data);
        if (obj != 0 ) 
       {
-        switch(obj['discount_item']) 
-        {
-          case 7:
-            if (obj['discount_type'] >=1 && obj['discount_type'] <=3) 
-            {
-              document.getElementById("subtotal").innerHTML = (parseFloat(document.getElementById("subtotal").innerHTML) *( (100 - obj['discount']) /100)).toFixed(2);
-              document.getElementById("total").innerHTML = (parseFloat(document.getElementById("subtotal").innerHTML) + parseFloat(document.getElementById("delivery").innerHTML)).toFixed(2); 
-            }
-            else if (obj['discount_type'] >=4 && obj['discount_type'] <=6) 
-            {
-              document.getElementById("subtotal").innerHTML = (parseFloat(document.getElementById("subtotal").innerHTML) - obj['discount']).toFixed(2);
-              document.getElementById("total").innerHTML = (parseFloat(document.getElementById("subtotal").innerHTML) + parseFloat(document.getElementById("delivery").innerHTML)).toFixed(2);  
-            }
-           break;
+        document.getElementById("subtotal").innerHTML = obj['Orders_Subtotal'];
+        document.getElementById("delivery").innerHTML = obj['Orders_DeliveryCharge'];
+        document.getElementById("total").innerHTML = obj['Orders_TotalPrice'];
 
-          case 8:
-            if (obj['discount_type'] >=1 && obj['discount_type'] <=3) 
-            {
-              document.getElementById("delivery").innerHTML = (parseFloat(document.getElementById("delivery").innerHTML) *( (100 - obj['discount']) /100)).toFixed(2);
-              document.getElementById("total").innerHTML = (parseFloat(document.getElementById("subtotal").innerHTML) + parseFloat(document.getElementById("delivery").innerHTML)).toFixed(2); 
-            }
-            else if (obj['discount_type'] >=4 && obj['discount_type'] <=6) 
-            {
-              document.getElementById("delivery").innerHTML = (parseFloat(document.getElementById("delivery").innerHTML) - obj['discount']).toFixed(2);
-              document.getElementById("total").innerHTML = (parseFloat(document.getElementById("subtotal").innerHTML) + parseFloat(document.getElementById("delivery").innerHTML)).toFixed(2); 
-            }
-          break;
-
-          case 9:
-            if (obj['discount_type'] >=1 && obj['discount_type'] <=3) 
-            {
-              document.getElementById("total").innerHTML = (parseFloat(document.getElementById("total").innerHTML) *( (100 - obj['discount']) /100)).toFixed(2); 
-            }
-            else if (obj['discount_type'] >=4 && obj['discount_type'] <=6) 
-            {
-              document.getElementById("total").innerHTML = (parseFloat(document.getElementById("total").innerHTML) - obj['discount']).toFixed(2); 
-            }
-          break;
-
-           default:
-            break;
-        }
-
-        if ((document.getElementById("subtotal").innerHTML) <= -1) 
-        {
-          document.getElementById("subtotal").innerHTML = 0;
-        }
-        if ((document.getElementById("delivery").innerHTML) <= -1) 
-        {
-          document.getElementById("delivery").innerHTML = 0;
-        }
-        if ((document.getElementById("total").innerHTML) <= -1) 
-        {
-          document.getElementById("total").innerHTML = 0;
-        }
         document.getElementById("label").style.display ='none';
         document.getElementById("input").style.display ='none';
         document.getElementById("apply").style.display ='none';
         document.getElementById("reset").style.display ='block';
-        document.getElementById("orders-orders_totalprice").value = obj['code'];
+        document.getElementById("orders-orders_totalprice").value = document.getElementById("input").value;
       }
 
       else if (obj ==0) 
@@ -261,8 +195,7 @@ $this->title = "My Cart";
   {
     location.reload();
   }
-
-</script>
+  </script>
  <!-- js for quantity 
 <script>
 const arrows = document.querySelector('.quantity').querySelectorAll('.fa'); 

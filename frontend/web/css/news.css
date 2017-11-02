@@ -1,0 +1,57 @@
+/* CSS for Frontend News */
+#news-container{
+  padding-top: 50px;
+}
+
+#news-list ul{
+  list-style-type: none;
+}
+
+#news-list #list-news-links{
+  padding: 10px;
+  margin: 1px;
+  background: #eeeeee;
+}
+
+#news-list #list-header{
+  background: white; 
+  border-left: 5px solid #FFBA00; 
+  font-size: 2vh; 
+  margin:5px; 
+  padding:15px;
+}
+
+#news-list li a{
+  text-decoration: none;
+  display: block;
+
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+
+#news-list li a:hover{
+  font-size: 18px;
+}
+
+#news-list{
+  padding-top: 100px; 
+  width: 300px; 
+  min-height: 100vh; float: left;
+}
+
+#news-content{
+  width: 800px; 
+  float: left; 
+  margin-left: 50px;
+}
+
+#news-content .h1{
+  border-bottom: 1px solid;
+}
+
+#news-date{
+  font-size: 2.2vh;
+}

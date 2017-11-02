@@ -13,9 +13,10 @@ use kartik\widgets\SideNav;
 use yii\helpers\Url;
 use common\models\Rmanager;
 use common\models\Restaurant;
-
+use frontend\assets\NotificationAsset;
 
 AppAsset::register($this);
+NotificationAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

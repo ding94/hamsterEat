@@ -8,20 +8,12 @@ use frontend\controllers\CartController;
 use kartik\widgets\TouchSpin;
 use common\models\User;
 use frontend\assets\StarsAsset;
+use frontend\assets\CommentsAsset;
 $this->title = "Comments";
 
 StarsAsset::register($this);
+CommentsAsset::register($this);
 ?>
-<style>
-#rating {
-    float:left;
-}
-
-#ratedatetime {
-    float:right;
-}
-
-</style>
 <?php
 foreach ($comments as $comments) :
     if (!is_null($comments['Comment']))

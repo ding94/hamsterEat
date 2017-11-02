@@ -51,9 +51,21 @@ padding-bottom:3%;
 .btn-facebook,.btn-google,.btn-instagram{
 	margin-right:5%;
 	margin-left:5%;
-     background-color:#fff;
-     border-radius: 50%;
+  background-color:#fff;
+  border-radius: 50%;
+}
 
+.btn-facebook:hover{
+  background: #FFDA00;
+  color: white;
+}
+.btn-google:hover{
+  background: #FFDA00;
+  color: white;
+}
+.btn-instagram:hover{
+  background: #FFDA00;
+  color: white;
 }
 
 #Box4{

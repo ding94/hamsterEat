@@ -2,7 +2,10 @@
 use yii\helpers\Html;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
- $this->title = 'My Profile';
+use frontend\assets\UserAsset;
+$this->title = 'My Profile';
+
+UserAsset::register($this);
 ?>
 
 <div class="container">

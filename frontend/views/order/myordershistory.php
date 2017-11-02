@@ -2,7 +2,9 @@
 <?php
 /* @var $this yii\web\View */
 use yii\helpers\Html;
+use frontend\assets\MyOrdersHistoryAsset;
 $this->title = "My Orders History";
+MyOrdersHistoryAsset::register($this);
 ?>
 <div class = "container">
     <div>

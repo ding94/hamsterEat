@@ -1,14 +1,14 @@
 <?php $this->title = "Guide"; ?>
 
-<div class = "container">
-    <ul class="nav nav-pills" style="margin-left: 44%;">
+<div class = "container guide">
+    <ul class="nav nav-pills ul-center">
         <li class="active"><a data-toggle="pill" href="#guide"><h4>Guide</h4></a></li>
         <li><a data-toggle="pill" href="#faq"><h4>FAQ</h4></a></li>
     </ul>
 
     <div class="tab-content">
         <div id="guide" class="tab-pane fade in active">
-            <ul class="nav nav-pills" style="margin-left: 32%;">
+            <ul class="nav nav-pills ul-center">
                 <li class="active"><a data-toggle="pill" href="#member"><h4>General</h4></a></li>
                 <li><a data-toggle="pill" href="#restaurantmanager"><h4>Restaurant Manager</h4></a></li>
                 <li><a data-toggle="pill" href="#deliveryman"><h4>Delivery Man</h4></a></li>
@@ -21,7 +21,7 @@
                     <p><strong>HamsterEat</strong></p>
                     <p align = "justify">HamsterEat is a platform where we enable our users to have a wide range of food delivered to their doorstep. Users that wish to enjoy our features would have to sign up to be a member 
                     first. There are 3 types of membership that users could choose to sign up as - Member, Restaurant Manager and Delivery Man. These 3 parts play a very crucial role in HamsterEat.</p>
-                    <table class= table table-user-info style= 'border:1px solid black; width: 90%; margin:auto;'>
+                    <table class= table table-user-info>
                         <tr>
                             <th> Member </th>
                             <td> Members are the customers of HamsterEat who will be ordering food from restaurants on HamsterEat. </td>
@@ -46,7 +46,7 @@
                     <br>
                     <p><strong>Payment</strong></p>
                     <p align = "justify">There are currently only 2 payment options available.</p>
-                    <table class= table table-user-info style= 'border:1px solid black; width: 90%; margin:auto;'>
+                    <table class= table table-user-info>
                         <tr>
                             <th> Account Balance </th>
                             <td> Users must top up via offline top up in order to use this option for payment. Currently the only bank available for top up is Maybank. Once top up is successful the balance will be 
@@ -110,7 +110,7 @@
         <div id="faq" class="tab-pane fade">
             <h1><strong>Frequently Asked Questions</strong></h1>
             <br>
-            <ul style="list-style-type:none">
+            <ul>
                 <li><strong>Q:</strong> What if I encounter a problem with my order?</li>
                 <li><strong>A:</strong> Kindly contact our customer service and provide your Delivery ID before describing your problem.</li>
                 <br>

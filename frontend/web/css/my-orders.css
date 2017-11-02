@@ -1,0 +1,23 @@
+.content{
+    width:960px;
+}
+.nav.nav-pills a:focus{
+
+    border-bottom: 1px solid;
+}
+span.badge{
+    margin-left:4px;
+    background-color:#1E90FF;
+}
+
+.orderTable td{
+    padding: 8px 0px !important;
+}
+
+.orderTable .orderRow:hover{
+    background-color: #FFBE58;
+}
+
+.orderTable td a{
+    display: block;
+}

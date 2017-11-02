@@ -5,7 +5,9 @@ use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
+use frontend\assets\UserAsset;
 /* @var $this yii\web\View */
+UserAsset::register($this);
 ?>
 
 <div class="container">

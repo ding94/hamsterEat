@@ -9,178 +9,21 @@ use kartik\widgets\TouchSpin;
 use kartik\widgets\DatePicker;
 use common\models\User;
 use frontend\assets\StarsAsset;
+use frontend\assets\FoodDetailsAsset;
 $this->title = "Food Details";
 
 StarsAsset::register($this);
+FoodDetailsAsset::register($this);
 ?>
-<style>
-
-.modal-header{
-  padding:0px;
-  
-}
-.modal-header .close {
-  margin: 0;
-  position: absolute;
-  top: 9px;
-  right: 10px;
-  width: 23px;
-  height: 23px;
-  border-radius: 23px;
-  background-color: grey;
-  color: white;
- 
-  opacity: 1;
-  z-index: 10;
-}
-#a2cart {
-  background-color:#fff;
-}
-
-@media (min-width:992px) {
-  .modal-content{
-  width:598px;
-  }
-
-  .modal-lg{
-    padding-left: 158px;
-  }
-}
-
-.modal-content{
-  background-color:#fff;
-}
-
-.modal-dialog.modal-lg{
-  overflow-y: initial !important;
-}
-.modal-body{
-  height: 350px;
-  overflow-y: auto;
-  margin: 0px 0px 0px 20px;
-}
-
-.value-button {
-  border: 1px solid #ddd;
-  margin: 0px;
-  width: 40px;
-  background: #eee;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.value-button:hover {
-  cursor: pointer;
-}
-
-#input-wrap {
-  margin: 0px;
-  padding: 0px;
-}
-
-#number {
-  text-align: center;
-  border: none;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  margin: 0px;
-  width: 40px;
-  height: 40px;
-}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-#fooddetails td{
-  padding: 10px 0em 10px 0em;
-}
-
-.bordertop{
-  border-top: 1px solid #D3D3D3;
-}
-#fooddetails .foodname{
-line-height: initial;
-  font-size: 2.0em;
-  font-weight:700;
-}
-#fooddetails .foodprice{
-line-height: initial;
-  font-size: 1.6em;
-}
-#fooddetails .cart{
-  display: inline-block;
-  
-}
-
-#fooddetails .description{
-      color: rgb(117, 117, 117);
-      font-size: 14px;
-      line-height: 22px;
-}
-#fooddetails .selection{
-font-size: 16px;
-
-}
-.food-detail-label{
-  width: 100%;
-
-}
-
-#rating {
-    float:left;
-}
-
-#ratedatetime {
-    float:right;
-}
-
-button.btn.btn-primary.bootstrap-touchspin-down{
-width:40px;
-height:40px;
-}
-button.btn.btn-primary.bootstrap-touchspin-up{
-width:40px;
-height:40px;
-}
-#nav a:hover{
-  cursor: pointer;
-  
-    border-bottom: 1px solid;
-}
-#nav a:focus{
-  
-  
-    border-bottom: 1px solid;
-}
-
-/*-----Comment------*/
-.panel-default{
-        width:500px;
- }
-#comments.tab-pane.fade{
-   background-color:#fff;
- }
-#comment-container.container{
-width: 500px;
-margin: 20px 0px 0px 0px;
-}
-</style>
 <div id="nav">
-  <ul style = "margin-left:37%;" class="nav nav-pills">
+  <ul class="nav nav-pills food-details-tab">
     <li class="active"><a data-toggle="pill" href="#home">Food Details</a></li>
     <li ><a data-toggle="pill" href="#comments">Comments</a></li>
   </ul>
 </div>
   <div class="tab-content">
   <div id="home" class="tab-pane fade in active"><a name="home"></a>
-  <div class="row" style="padding-bottom: 0px">
+  <div class="row">
   	<div class="tab-content col-md-12" id="fooddetails">
 
       <?php if($fooddata->foodPackage == 1) :?>
@@ -209,7 +52,7 @@ margin: 20px 0px 0px 0px;
         <br>
               <div class="description">
                    <!--<td>Food Description:</td>-->
-                   <span style="display: block;overflow-wrap: break-word; word-wrap: break-word;"><?php echo $fooddata->Description;?></span>
+                   <span><?php echo $fooddata->Description;?></span>
                    </div>
               <br>
                 <div class="selection">

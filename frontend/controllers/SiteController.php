@@ -258,20 +258,17 @@ class SiteController extends CommonController
             $userdetails = new Userdetails();
             $userdetails->User_id= Yii::$app->user->identity->id;
             $userdetails->User_Username= Yii::$app->user->identity->username;
-            $useraddress = new Useraddress();
-            $useraddress->User_id= Yii::$app->user->identity->id;
             $userbalance = new Accountbalance;
             $userbalance->User_Username = Yii::$app->user->identity->username;
             $userbalance->User_Balance = 0; 
 
             $point = self::generateMemberPoint($id);
 
-            $isValid = $user->validate() && $userdetails->validate() && $useraddress->validate() && $point->validate();
+            $isValid = $user->validate() && $userdetails->validate() && $point->validate();
             if($isValid)
             {
                 $user->save();
                 $userdetails->save();
-                $useraddress->save();
                 $userbalance->save();
                 $point->save();
                 
@@ -553,20 +550,17 @@ class SiteController extends CommonController
             $userdetails = new Userdetails();
             $userdetails->User_id= Yii::$app->user->identity->id;
             $userdetails->User_Username= Yii::$app->user->identity->username;
-            $useraddress = new Useraddress();
-            $useraddress->User_id= Yii::$app->user->identity->id;
             $userbalance = new Accountbalance;
             $userbalance->User_Username = Yii::$app->user->identity->username;
             $userbalance->User_Balance = 0; 
 
             $point = self::generateMemberPoint($id);
 
-            $isValid = $user->validate() && $userdetails->validate() && $useraddress->validate() && $point->validate();
+            $isValid = $user->validate() && $userdetails->validate()  && $point->validate();
             if($isValid)
             {
                 $user->save();
                 $userdetails->save();
-                $useraddress->save();
                 $userbalance->save();
                 $point->save();
 

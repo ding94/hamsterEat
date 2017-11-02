@@ -2,13 +2,13 @@
 use yii\helpers\Html;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
- $this->title = 'My Profile';
-?>
+use frontend\assets\UserAsset;
+$this->title = 'My Profile';
 
-<div class="container">
-	<div class="tab-content col-md-7 col-md-offset-1" id="userprofile">
-		<table class="table table-user-information"><h1>User Profile</h1>
-            <?php Modal::begin([
+UserAsset::register($this);
+?>
+		
+    <?php Modal::begin([
             'header' => '<h2 class="modal-title">Report</h2>',
             'id'     => 'modal',
             'size'   => 'modal-sm',
@@ -18,64 +18,66 @@ use yii\helpers\Url;
     echo "<div id='modelContent'></div>";
     
     Modal::end() ?>
-             <tr>
-            
-            <td colspan = 2> 
-            <center><img class="img-rounded img-responsive" src=<?php 
-            
-            $picpath = $user->userdetails->User_PicPath;
-            if(is_null($user->userdetails->User_PicPath))
-            { 
-              echo $picpath= "/hamstereat/frontend/web/imageLocation/Default.png";
-           
-              }
-            else
-            {
-            echo $user->userdetails->User_PicPath;
-            } ?>>
-            </td>
-            </tr>
-            <tr>
-            <td>User Name:</td>
-            <td> <?php echo $user->username;?></td>
-            </tr>
-              <tr>
-              <td>Email:</td>
-              <td><?php echo $user->email;?></td>
-              </tr>
-             <tr> 
-             <td>Full Name:</td>
-             <td><?php echo $user->userdetails->User_FirstName;?> <?php echo $user->userdetails->User_LastName;?></td>
-             </tr>
-               <tr>
-               <td>Contact Number:</td>
-               <td> <?php echo $user->userdetails->User_ContactNo;?></td>
-               </tr>
+    <div id="userprofile" class="row" style="background-color: white">
+      <div class="userprofile-header">
+        <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
+      </div>
+      <div class="userprofile-detail">
+        <div class="col-sm-3 userprofile-left">
+          <div class="userprofile-avatar">
+              <?php $picpath = is_null($user->userdetails->User_PicPath) ? Url::to('@web/imageLocation/Default.png'): $user->userdetails->User_PicPath ?>
+              <?php echo Html::img($picpath,['class'=>"userprofile-image"])?>
+              <?= Html::a('Edit', ['/user/userdetails'], ['class'=>'btn btn-default userprofile-editbutton']) ?>
+          </div>
+        </div>
+        <div class="col-sm-9 userprofile-right">
+          <h4>Detail</h4>
+          <div class="userprofile-input">
+              <div class="row">
+                <div class="col-xs-2 userprofile-label">user name</div>
+                <div class="col-xs-6 userprofile-text"><?php echo $user->username?></div>
+              </div>
+              <div class="row">
+                <div class="col-xs-2 userprofile-label">full name</div>
+
+                <div class="col-xs-6 userprofile-text"><?php echo $user->userdetails->fullname ?></div>
+              </div>
+              <div class="row">
+                <div class="col-xs-2 userprofile-label">contact</div>
+                <div class="col-xs-6 userprofile-text"><?php echo is_null($user->userdetails->User_ContactNo) ? "not set" :$user->userdetails->User_ContactNo ?></div>
+              </div>
+          </div>
+
+          <div class="userprofile-address">
+           <button class="btn btn-success pull-right">Add New Address</button>
+              <table class="table table-hover my-address">
+                <thead>
                   <tr>
-                  <td>Address 1:</td>
-               <td> <?php if (!is_null($user->useraddress->User_HouseNo1) && !is_null($user->useraddress->User_Street1) && !is_null($user->useraddress->User_Postcode1))
-               {
-                 echo $user->useraddress->User_HouseNo1.','.$user->useraddress->User_Street1.','.$user->useraddress->User_Area1.','.$user->useraddress->User_Postcode1.'.';
-               }	
-               ?></td>
-               </tr>
-               <tr>
-                  <td>Address 2:</td>
-               <td> <?php echo $user->useraddress->User_HouseNo2,$user->useraddress->User_Street2,$user->useraddress->User_Area2,$user->useraddress->User_Postcode2	?></td>
-               </tr>
-               <tr>
-                  <td>Address 3:</td>
-               <td> <?php echo $user->useraddress->User_HouseNo3,$user->useraddress->User_Street3,$user->useraddress->User_Area3,$user->useraddress->User_Postcode3	?></td>
-               </tr>
-                <tr>
-                 <td> <?= Html::a('Edit', ['/user/userdetails'], ['class'=>'btn btn-primary']) ?> </td>
-                 <?php if($user->username != Yii::$app->user->identity->username){ ?>
-                 <td> <?= Html::a('Report', Url::to(['/report/report-user' ,'name'=>$user->username]), ['class'=>'btn btn-primary','id' => 'reportModalButton']) ?></td>
-                 <?php }?>
-                </tr>
-                
-                   
-            </table>
-            </div>
-            </div>
+                    <th style="width: 5%">#</th>
+                    <th style="width: 20%">Primary</th>
+                    <th style="width: 65%">Address</th>
+                    <th style="width: 10%">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach($user->address as $i=>$address):?>
+                    <tr>
+                      <td><?php echo $i+1?></td>
+                      <td><?php echo $address->level == 1 ? '<span class="btn btn-danger btn-block">Primary</span>': Html::a('Mark as Primary',['/user/primary-address','id' => $address->id ])?></td>
+                      <td><?php echo $address->FullAddress?></td>
+                      <td>
+                        <?php echo Html::a("<span class='glyphicon glyphicon-pencil userprofile-pencil'></span>",['/user/edit-address','id'=> $address->id] )?>
+                        <?php echo Html::a("<span class='glyphicon glyphicon-trash userprofile-trash'></span>",['/user/delete-address','id'=> $address->id] )?>    
+                      </td>
+                    </tr>
+                  <?php endforeach;?>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+</div>
+        
         

@@ -24,7 +24,7 @@ class UserController extends CommonController
                  'class' => AccessControl::className(),
                  'rules' => [
                     [
-                        'actions' => ['user-profile','userdetails','useraddress','userbalance','changepassword',],
+                        'actions' => ['user-profile','userdetails','useraddress','userbalance','changepassword','primary-address'],
                         'allow' => true,
                         'roles' => ['@'],
 
@@ -37,9 +37,11 @@ class UserController extends CommonController
 
     public function actionUserProfile()
     {
-        $user = User::find()->where('id = :id' ,[':id' => Yii::$app->user->id])->joinWith(['useraddress','userdetails'])->one();
+        $user = User::find()->where('user.id = :id' ,[':id' => Yii::$app->user->id])->joinWith(['address' => function($query){
+            $query->orderBy(['level' =>SORT_DESC ]);
+        },'userdetails'])->one();
         $this->layout = 'user';
-        
+      
         return $this->render('userprofile',['user' => $user]);
        
     }
@@ -55,9 +57,8 @@ class UserController extends CommonController
 
         $detail = Userdetails::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one();
         
-        $address = Useraddress::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one(); 
              $picpath = $detail['User_PicPath']; 
-            if($detail->load(Yii::$app->request->post()) && $address->load(Yii::$app->request->post()))
+            if($detail->load(Yii::$app->request->post()))
             {
                     $post = Yii::$app->request->post();
                     $model = UserDetails::find()->where('User_Username = :uname',[':uname' => Yii::$app->user->identity->username])->one(); 
@@ -83,10 +84,9 @@ class UserController extends CommonController
                      
                 }
                
-				     $isValid = $detail->validate() && $address->validate() && $model->validate();
+				     $isValid = $detail->validate()  && $model->validate();
                     if($isValid){
                         $detail->save();
-                        $address->save();
                       
                         $model->save();
         
@@ -102,15 +102,9 @@ class UserController extends CommonController
 	
 		//$this->view->title = 'Update Profile';
 		$this->layout = 'user';
-		return $this->render("userdetails",['detail' => $detail,'address'=>$address]);
+		return $this->render("userdetails",['detail' => $detail]);
     }
-    public function actionUseraddress()
-    {
-        
-        //$this->view->title = 'Update Profile';
-        //$this->layout = 'user';
-        return $this->render("useraddress",['address' => $address]);
-    }
+
 	public function actionUserbalance()
  	{
  		
@@ -148,6 +142,22 @@ class UserController extends CommonController
 	 	$this->layout = 'user';
 	    return $this->render('changepassword',['model'=>$model]); 
  	}
+
+    public function actionPrimaryAddress($id)
+    {
+        Useraddress::updateAll(['level' => 0],'uid = :uid',[':uid' => Yii::$app->user->identity->id]);
+        $model = Useraddress::findOne($id);
+        $model->level = 1;
+        if($model->save())
+        {
+            Yii::$app->session->setFlash('success', 'Address changed to Primary');
+        }
+        else
+        {
+            Yii::$app->session->setFlash('success', 'Address changed Fail');
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
 
 }
 

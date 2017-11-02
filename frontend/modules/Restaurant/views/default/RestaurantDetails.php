@@ -67,7 +67,7 @@ RestaurantDetailsAsset::register($this);
             echo "<tr>";
             if ($staff['RmanagerLevel_Level'] == 'Owner')
             {
-              echo "<td><center>".Html::a('View Earnings', ['show-earnings', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
+              echo "<td><center>".Html::a('View Earnings', ['show-monthly-earnings', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary'])."</td>";
             }
             if ($staff['RmanagerLevel_Level'] == 'Owner' || $staff['RmanagerLevel_Level'] == 'Manager')
             {

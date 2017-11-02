@@ -22,6 +22,7 @@ use common\models\Restauranttypejunction;
 use common\models\Restauranttype;
 use frontend\modules\Restaurant\controllers\RestauranttypeController;
 use frontend\controllers\CommonController;
+use common\models\MonthlyUnix;
 
 /**
  * Default controller for the `Restaurant` module
@@ -42,7 +43,7 @@ class DefaultController extends CommonController
                  'rules' => [
                      [
                          'actions' => ['new-restaurant-location','new-restaurant-details','new-restaurant','edit-restaurant-details','edit-restaurant-area','edited-location-details','edit-restaurant-details2','manage-restaurant-staff','delete-restaurant-staff','add-staff',
-                         'view-restaurant', 'all-rmanagers'],
+                         'view-restaurant', 'all-rmanagers', 'show-monthly-earnings'],
                          'allow' => true,
                          'roles' => ['restaurant manager'],
  
@@ -527,10 +528,15 @@ class DefaultController extends CommonController
         return true;
     }
 
-    public function actionShowEarnings($rid)
+    public function actionShowMonthlyEarnings($rid)
     {
         $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid' => $rid])->one();
         $restaurantname = $restaurantname['Restaurant_Name'];
+
+        $currentmonth = date('n');
+        $currentyear = date('Y');
+        //var_dump(time());exit;
+
         return $this->render('restaurantearnings', ['rid'=>$rid , 'restaurantname'=>$restaurantname]);
     }
 }

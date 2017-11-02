@@ -16,8 +16,18 @@ UserAsset::register($this);
     ]);
     
     echo "<div id='modelContent'></div>";
+    Modal::end();
+    Modal::begin([
+              'header' => '<h2 class="modal-title">New Address</h2>',
+              'id'     => 'address-modal',
+              'size'   => 'modal-md',
+              'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+     
+    echo "<div id='modelContent'></div>";
     
-    Modal::end() ?>
+  Modal::end() ?>
+
     <div id="userprofile" class="row" style="background-color: white">
       <div class="userprofile-header">
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
@@ -44,12 +54,16 @@ UserAsset::register($this);
               </div>
               <div class="row">
                 <div class="col-xs-2 userprofile-label">contact</div>
-                <div class="col-xs-6 userprofile-text"><?php echo is_null($user->userdetails->User_ContactNo) ? "not set" :$user->userdetails->User_ContactNo ?></div>
+                <div class="col-xs-6 userprofile-text"><?php echo empty($user->userdetails->User_ContactNo) ? "not set" :$user->userdetails->User_ContactNo ?></div>
               </div>
           </div>
 
           <div class="userprofile-address">
-           <button class="btn btn-success pull-right">Add New Address</button>
+            <?php echo Html::a("Add New Address",['/user/newaddress'],['class' => 'btn btn-success pull-right','data-toggle'=>'modal','data-target'=>'#address-modal'])?>
+        
+              <?php if(empty($user->address)) :?>
+                  <h4>Empty Address</h4>
+              <?php else : ?>
               <table class="table table-hover my-address">
                 <thead>
                   <tr>
@@ -67,12 +81,14 @@ UserAsset::register($this);
                       <td><?php echo $address->FullAddress?></td>
                       <td>
                         <?php echo Html::a("<span class='glyphicon glyphicon-pencil userprofile-pencil'></span>",['/user/edit-address','id'=> $address->id] )?>
+                        -
                         <?php echo Html::a("<span class='glyphicon glyphicon-trash userprofile-trash'></span>",['/user/delete-address','id'=> $address->id] )?>    
                       </td>
                     </tr>
                   <?php endforeach;?>
                 </tbody>
               </table>
+              <?php endif;?>
           </div>
         </div>
       </div>

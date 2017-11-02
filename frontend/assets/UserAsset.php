@@ -16,6 +16,7 @@ class UserAsset extends AssetBundle
     ];
     public $js = [
         // 'js/rating-index.js',
+        'js/user.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

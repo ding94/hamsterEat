@@ -24,7 +24,7 @@ class UserController extends CommonController
                  'class' => AccessControl::className(),
                  'rules' => [
                     [
-                        'actions' => ['user-profile','userdetails','useraddress','userbalance','changepassword','primary-address'],
+                        'actions' => ['user-profile','userdetails','useraddress','userbalance','changepassword','primary-address','newaddress','delete-address'],
                         'allow' => true,
                         'roles' => ['@'],
 
@@ -156,6 +156,55 @@ class UserController extends CommonController
         else
         {
             Yii::$app->session->setFlash('success', 'Address changed Fail');
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionNewaddress()
+    {
+        $model = new Useraddress;
+        if($model->load(Yii::$app->request->post()))
+        {
+            $count = Useraddress::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->count();
+            if($count < 3)
+            {
+                $model->uid = Yii::$app->user->identity->id;
+                
+                if($model->save())
+                {
+                    if($model->level == 1)
+                    {
+                         Useraddress::updateAll(['level' => 0],'uid = :uid AND id != :id',[':uid' => Yii::$app->user->identity->id,':id'=> $model->id]);
+                    }
+                     Yii::$app->session->setFlash('success', 'Address changed to Primary');
+                }
+                else
+                {
+                    Yii::$app->session->setFlash('danger', ' Address Add Fail');
+                }
+            }
+            else
+            {
+                Yii::$app->session->setFlash('danger', ' Reach Max Limit 3');
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        $this->layout = 'user';
+        $this->view->title = 'New Address';
+        return $this->renderAjax('address',['model'=>$model]);
+    }
+
+    public function actionDeleteAddress($id)
+    {
+        $model= Useraddress::findOne($id);
+        if(!empty($model))
+        {
+            $model->delete();
+            Yii::$app->session->setFlash('success', 'Delete Successfully');
+        }
+        else
+        {
+            Yii::$app->session->setFlash('warning', 'Fail Delete ');
         }
         return $this->redirect(Yii::$app->request->referrer);
     }

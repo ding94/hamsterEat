@@ -31,23 +31,23 @@ use backend\models\Admin;
                         <th>Item</th>
                         <th>Last Available Date</th>
                     </tr>
-                  <?php foreach ($model as $k => $modell) { ?>
+                  <?php foreach ($uservoucher as $k => $uservou) { ?>
                 
                         <tr>
                             <td>
                                 <?php $j+=1; echo $j; ?>
                             </td>
                             <td>
-                                <?php echo $modell['code']; ?>
+                                <?php echo $uservou['code']; ?>
                             </td>
                             <td>
-                                <?php echo $voucher[$k]['discount']; ?>
+                                <?php echo $uservou['discount']; ?>
                             </td>
                             <td>
-                                <?php echo $voucher[$k]['discount_item']; ?>
+                                <?php echo $uservou['discount_item']; ?>
                             </td>
                             <td>
-                                <?php echo $voucher[$k]['endDate']; ?>
+                                <?php echo $uservou['endDate']; ?>
                             </td>
                             
                             

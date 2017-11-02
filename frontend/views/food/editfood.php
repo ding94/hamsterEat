@@ -11,7 +11,7 @@ use common\models\Upload;
 
 use wbraganca\dynamicform\DynamicFormWidget;
 $this->title = 'Edit Food Item';
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <div class="site-newfood">

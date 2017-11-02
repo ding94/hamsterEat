@@ -4,132 +4,17 @@ use common\models\food\Food;
 use yii\bootstrap\Modal;
 use common\models\food\Foodtype;
 use kartik\widgets\ActiveForm;
+use frontend\assets\StarsAsset;
+use frontend\assets\RestaurantDefaultIndex2Asset;
 $this->title = "Available Restaurants";
 
+StarsAsset::register($this);
+RestaurantDefaultIndex2Asset::register($this);
 ?>
 <style>
-.outer-container{
-  display:flex;
-  align-items: center;
-  justify-content:center;
-}
 
-.menu-container{
-  display: grid;
-  width:1200px;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 15px;
-  grid-row-gap: 15px;
-  margin-bottom: 50px;
-  align-items: center;
-  justify-content:center;
-}
-
-.item{
-  font-size: 24px;
-  color: black;
-  background-color: white;
-  min-width: 300px;
-  min-height: 190px;
-  border: 1px solid #e5e5e5;
-}
-
-.item p{
-  font-size:15px;
-  color:grey;
-}
-
-.item .small-text{
-   font-size:15px;
-  color:grey; 
-  margin-top: 10px;
-}
-
-.item .price{
-    font-size: 17px;
-    color: black;
-}
-
-.item .inner-item{
-  margin:10px 4px 10px 30px;
-  float:right;
-  width: 50%;
-}
-
-.item .tag{
-    font-size: 13px;
-    color: grey;
-}
-
-.item .img{
-
-  float:left;
-}
-
-.item img{
-    width:188px;
-  height:188px;
-}
-
-.menu-container a:hover{
-    box-shadow: 0px 0px 20px -2px grey;
-}
-
-.filter{
-    height:auto;
-    width:230px;
-    float:left;
-   margin-left:-10px;
-}
-.filter.container{
-     border: 1px solid #e5e5e5;
-    padding: 20px;
-    margin-top:26px;
-    
-}
-.filter.list{
-    list-style: none;
-    font-size:13px;
-    letter-spacing: .5px;
-    line-height:80%;
-    padding-left:28px;
-}
-.filter.name p{
-    margin-left:11px;
-    letter-spacing: .5px;
-    font-size:15px;
-}
-.filter.list a:hover{
-     text-decoration:none;
-}
-.input-group{
-        position: relative;
-    display: table;
-    border-collapse: separate;
-}
-.input-group-btn {
-    position: relative;
-    font-size: 0;
-    white-space: nowrap;
-}
-
-.item .foodName{
-  display: block;
-  width: 220px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.item .foodDesc{
-  display: block;
-  width: 220px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 </style>
-<div class="container" id="index">
+<div class="container" id="group-area-index2">
     <h1>Order Food for Delivery</h1>
     <div class="filter">
    

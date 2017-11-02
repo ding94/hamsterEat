@@ -8,6 +8,7 @@ use common\models\food\Foodselectiontype;
 use common\models\Orders;
 use common\models\Orderitem;
 use yii\helpers\Html;
+use frontend\controllers\CartController;
 ?>
 
 <div class = "container">
@@ -25,19 +26,22 @@ use yii\helpers\Html;
                         echo "<th><center> Date to be Received </th>";
                         echo "<th><center> Time to be Received </th>";
                         echo "<th><center> Current Status </th>";
-                        echo "<th><center> Time Placed </th>";
-                        echo "<th><center> Money Collected </th>";
+                        echo "<th colspan = 2><center> Time Placed </th>";
+                        echo "<th><center> Money Collected (RM) </th>";
                     echo "</tr>";
                     
                     $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$result['Delivery_ID']])->one();
+
                     if($orderdetails['Orders_Status']== 'Rating Done')
                     {
                         $label='<span class="label label-success">'.$orderdetails['Orders_Status'].'</span>';
                     }
-
-                    $orderids = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$orderdetails['Delivery_ID']])->all();
+                    // This calculates the total amount the restaurant earns from this whole order (For each specific restaurant)
+                    $orderids = Orderitem::find()->where('Delivery_ID = :did and food.Restaurant_ID = :rid', [':did'=>$orderdetails['Delivery_ID'], ':rid'=>$restaurantname['Restaurant_ID']])->joinWith('food.restaurant')->all();
                     $thefinalselectionprice = 0;
                     $thefinalmoneycollected = 0;
+                    $thefinalfoodprice = 0;
+                    $themoneycollected = 0;
                     foreach ($orderids as $orderids) :
                         $thequantity = $orderids['OrderItem_Quantity'];
                         $theorderid = $orderids['Order_ID'];
@@ -56,10 +60,10 @@ use yii\helpers\Html;
                             $thefinalselectionprice = $thefinalselectionprice + $theselectionprice;
                         endforeach;
                         
-                        $themoneycollected = ($thefoodprice + $thefinalselectionprice) * $thequantity;
-                        $thefinalmoneycollected = $thefinalmoneycollected + $themoneycollected;
+                        $thefinalfoodprice = $thefinalfoodprice + $thefoodprice;
+                        $themoneycollected = ($thefinalfoodprice + $thefinalselectionprice) * $thequantity;
                     endforeach;
-                    
+                    $thefinalmoneycollected = $thefinalmoneycollected + $themoneycollected;
                     echo "<tr>";
                         echo "<td><center>".$orderdetails['Delivery_ID']."</td>";
                         echo "<td><center>".$orderdetails['User_Username']."</td>";
@@ -68,10 +72,10 @@ use yii\helpers\Html;
                         echo "<td><center>".$label."</td>";
                         date_default_timezone_set("Asia/Kuala_Lumpur");
                         $timeplaced = date('d/m/Y H:i:s', $orderdetails['Orders_DateTimeMade']);
-                        echo "<td ><center> $timeplaced </td>";
-                        echo "<td ><center> $thefinalmoneycollected </td>";
+                        echo "<td colspan = 2><center> $timeplaced </td>";
+                        echo "<td ><center>".CartController::actionRoundoff1decimal($thefinalmoneycollected)."</td>";
                     echo "</tr>";
-                    
+
                     echo "<tr>";
                         echo "<th><center> Order ID </th>";
                         echo "<th><center> Food Name </th>";
@@ -79,12 +83,14 @@ use yii\helpers\Html;
                         echo "<th><center> Quantity </th>";
                         echo "<th><center> Remarks </th>";
                         echo "<th colspan = 2><center> Current Status </th>";
+                        echo "<th><center> Order Earnings (RM) </th>";
                     echo "</tr>";
 
                     $orderitemdetails = "SELECT * from orderitem INNER JOIN food ON orderitem.Food_ID = food.Food_ID INNER JOIN restaurant on restaurant.Restaurant_ID = food.Restaurant_ID WHERE food.Restaurant_ID = ".$restaurantname['Restaurant_ID']." AND orderitem.Delivery_ID = ".$orderdetails['Delivery_ID']."";
                     $resultz = Yii::$app->db->createCommand($orderitemdetails)->queryAll();
                     //var_dump($resultz);exit;
                     foreach ($resultz as $orderitemdetails) :
+                        //$foodselectiontotalprice = 0;
                         echo "<tr>";
                             echo "<td><center>".$orderitemdetails['Order_ID']."</td>";
                             $foodname = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitemdetails['Food_ID']])->one();
@@ -92,15 +98,24 @@ use yii\helpers\Html;
                             $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$orderitemdetails['Order_ID']])->all();
                             echo "<td><center>";
                             foreach ($selections as $selections) :
+
                                 $selectionname = Foodselection::find()->where('ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
                                 $selectiontype = Foodselectiontype::find()->where('ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
                                 if (!is_null($selectionname['ID']))
                                 {
                                     echo $selectiontype['TypeName'].': &nbsp;'.$selectionname['Name'];
                                     echo "<br>";
+
+                                    // $foodselectionprice = $selectionname['BeforeMarkedUp'];
+                                    // $foodselectiontotalprice = $foodselectiontotalprice + $foodselectionprice;
                                 }
                             endforeach;
                             echo "</td>";
+
+                            // $foodprice = $orderitemdetails['BeforeMarkedUp'];
+                            // $orderquantity = $orderitemdetails['OrderItem_Quantity'];
+                            // $orderearnings = ($foodprice + $foodselectiontotalprice) * $orderquantity;
+
                             echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";
                             echo "<td><center>".$orderitemdetails['OrderItem_Remark']."</td>";
                             echo "<td colspan = 2><center><span class='label label-info'>".$orderitemdetails['OrderItem_Status']."</span></td>";
@@ -116,6 +131,8 @@ use yii\helpers\Html;
                             {
                                 echo "<tdcolspan = 2> Waiting for Pick Up </td>";
                             }
+
+                            echo "<td><center>".CartController::actionRoundoff1decimal($orderitemdetails['Restaurant_Share'])."</td>";
                         echo "</tr>";
                     endforeach;
                 echo "</table>";

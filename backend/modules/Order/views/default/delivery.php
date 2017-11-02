@@ -18,13 +18,12 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
-            'Order_ID',
-            'Food_ID',
-            'OrderItem_Quantity',
-            'OrderItem_SelectionTotal',
-            'OrderItem_LineTotal',
+            'Delivery_ID',
+            'User_Username',
+            'Orders_Date',
+            'Orders_Time',
             [
-                'attribute' => 'OrderItem_Status',
+                'attribute' => 'Orders_Status',
                 'filter' => array( "Pending"=>"Pending","Not Placed"=>"Not Placed"),
             ],
             ['class' => 'yii\grid\ActionColumn' ,

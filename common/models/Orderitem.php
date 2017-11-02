@@ -84,4 +84,9 @@ class Orderitem extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Orders::className(),['Delivery_ID' => 'Delivery_ID']); 
     }
+
+    public function getOrder_status()
+    {
+        return $this->hasOne(Ordersstatuschange::className(),['Order_ID' => 'Order_ID']); 
+    }
 }

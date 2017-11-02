@@ -142,7 +142,7 @@ NotificationAsset::register($this);
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-       
+        <div class="row">
             <ul id="profile-nav" class="nav nav-tabs ">
               <li role="presentation">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -157,7 +157,7 @@ NotificationAsset::register($this);
               <li role="presentation"><?php echo Html::a('Order',['/order/my-orders'])?></li>
               <li role="presentation"><a href="#">Messages</a></li>
             </ul>
-      
+        </div>
         <div class="content">
             <?= $content ?>
         </div>

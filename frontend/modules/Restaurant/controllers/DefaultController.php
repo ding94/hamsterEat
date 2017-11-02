@@ -526,4 +526,11 @@ class DefaultController extends CommonController
         }
         return true;
     }
+
+    public function actionShowEarnings($rid)
+    {
+        $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid' => $rid])->one();
+        $restaurantname = $restaurantname['Restaurant_Name'];
+        return $this->render('restaurantearnings', ['rid'=>$rid , 'restaurantname'=>$restaurantname]);
+    }
 }

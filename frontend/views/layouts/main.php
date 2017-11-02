@@ -15,8 +15,10 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 use yii\helpers\Json;
 use common\models\Rmanager;
 use common\models\Restaurant;
+use frontend\assets\NotificationAsset;
 
 AppAsset::register($this);
+NotificationAsset::register($this);
 ?>
 <style>
     span.badge{

@@ -97,4 +97,6 @@ class Restaurant extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Restauranttypejunction::className(),['Restaurant_ID' => 'Restaurant_ID']);
     }
+
+    
 }

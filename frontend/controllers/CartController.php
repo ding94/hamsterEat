@@ -40,8 +40,7 @@ class CartController extends CommonController
                         'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount'],
 
                         'allow' => true,
-                        'roles' => ['@','?'],
-
+                        'roles' => ['@'],
                     ],
                     //['actions' => [],'allow' => true,'roles' => ['?'],],
                     

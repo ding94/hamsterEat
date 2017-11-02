@@ -7,9 +7,11 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\widgets\Select2;
+use frontend\assets\NewRestaurantAsset;
 
 $this->title = 'New Restaurant';
 $this->params['breadcrumbs'][] = $this->title;
+NewRestaurantAsset::register($this);
 ?>
 <div class="site-signup">
     <div class="col-lg-8 col-lg-offset-4">

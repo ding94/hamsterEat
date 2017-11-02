@@ -7,27 +7,11 @@ Use common\models\food\Foodselection;
 Use common\models\Orders;
 use yii\bootstrap\ActiveForm;
 use frontend\controllers\CartController;
+use frontend\assets\CartAsset;
 
 $this->title = "My Cart";
+CartAsset::register($this);
 ?>
-<style type="text/css">
-  a:hover
-  {
-    cursor: pointer;
-  }
-.fa[class~=angle]{
-      font-size:1.3rem;
-      position:relative;
-      top: 0.15rem;
-      margin:0 20px;
-      cursor: pointer;
-      color:rgb(255, 204, 0);
-    transition:all .5s;
-    &:hover{
-      color:rgb(71, 190, 115);
-    }
-  }
-</style>
 <?php
 			if($cartitems == true)
 			{
@@ -162,8 +146,8 @@ $this->title = "My Cart";
 		}
 		?>
 	</div>
-<script >
-  function showHidden()
+  <script>
+    function showHidden()
   {
       document.getElementById("label").style.display ='block';
       document.getElementById("input").style.display ='block';
@@ -178,7 +162,7 @@ $this->title = "My Cart";
    type: "get",
    data :{
         dis: document.getElementById("input").value,
-        did: <?php echo $did['Delivery_ID']; ?>,
+        did: <?php echo $did['Delivery_ID'];?>,
    },
    success: function (data) {
       var obj = JSON.parse(data);
@@ -211,8 +195,7 @@ $this->title = "My Cart";
   {
     location.reload();
   }
-
-</script>
+  </script>
  <!-- js for quantity 
 <script>
 const arrows = document.querySelector('.quantity').querySelectorAll('.fa'); 

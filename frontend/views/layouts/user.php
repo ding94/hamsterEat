@@ -13,9 +13,10 @@ use kartik\widgets\SideNav;
 use yii\helpers\Url;
 use common\models\Rmanager;
 use common\models\Restaurant;
-
+use frontend\assets\NotificationAsset;
 
 AppAsset::register($this);
+NotificationAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -135,9 +136,9 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
+</div>
 
-
-    <div class="container">
+    <div class="container page-wrap">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
@@ -161,8 +162,7 @@ AppAsset::register($this);
             <?= $content ?>
         </div>
     </div>
-</div>
-</div>
+
 
 <!--<footer class="footer navbar-fixed-bottom">
     <div class="container">

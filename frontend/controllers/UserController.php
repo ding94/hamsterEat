@@ -87,7 +87,6 @@ class UserController extends CommonController
 				     $isValid = $detail->validate()  && $model->validate();
                     if($isValid){
                         $detail->save();
-                        $address->save();
                       
                         $model->save();
         

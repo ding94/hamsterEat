@@ -10,7 +10,7 @@ StarsAsset::register($this);
 RestaurantServiceAsset::register($this);
 ?>
 <body>
-<div class ="container" ><h1>Owned/Manage Restaurants</h1>
+<div class ="container" ><h1>Manage Owned Restaurants</h1>
  <div class="outer-container" id="outer" >
     <div class="menu-container" id="menucon">
       <?php foreach($restaurant as $k => $res ){?>
@@ -26,11 +26,10 @@ RestaurantServiceAsset::register($this);
 		    <span class="small-text pull-right stars" alt="<?php echo $res['Restaurant_Rating']; ?>"><?php echo $res['Restaurant_Rating']; ?></span>  	
       </div>
   		</a>
+      <?=Html::a('Food Detail', Url::to(['restaurant/food-service', 'id'=>$res['Restaurant_ID']]), ['id'=>'food','class'=>'btn btn-warning'])?>
       <?php if ($res['Restaurant_Status'] == "Closed"): ?>
-            <?=Html::a('Food Detail', Url::to(['restaurant/food-service', 'id'=>$res['Restaurant_ID']]), ['id'=>'food','class'=>'btn btn-warning'])?>
             <?=Html::a('Resume Operate', Url::to(['restaurant/active', 'id'=>$res['Restaurant_ID'],'item'=>1]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-success'])?>
-          <?php elseif($res['Restaurant_Status'] == "Operating"): ?>
-            <?=Html::a('Food Detail', Url::to(['restaurant/food-service', 'id'=>$res['Restaurant_ID']]), ['id'=>'food','class'=>'btn btn-warning'])?>
+      <?php elseif($res['Restaurant_Status'] == "Operating"): ?>
             <?=Html::a('Pause Operate', Url::to(['restaurant/deactive', 'id'=>$res['Restaurant_ID'],'item'=>1]), ['id'=>'pause','data-confirm'=>"Do you want to Pause Operate?",'class'=>'btn btn-danger'])?>  
           <?php endif ?>
       </div>

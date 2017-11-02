@@ -1,8 +1,17 @@
 html,
 body {
     height: 100%;
-    padding-top: 15px;
-    background-color: #F8F8F8;
+}
+
+body{
+  display: flex;
+  flex-direction: column;
+  padding-top: 15px;
+  background-color: #F8F8F8;
+}
+
+.page-wrap{
+  flex: 1 0 auto;
 }
 
 h1

@@ -136,9 +136,9 @@ NotificationAsset::register($this);
     ]);
     NavBar::end();
     ?>
+</div>
 
-
-    <div class="container">
+    <div class="container page-wrap">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
@@ -162,8 +162,7 @@ NotificationAsset::register($this);
             <?= $content ?>
         </div>
     </div>
-</div>
-</div>
+
 
 <!--<footer class="footer navbar-fixed-bottom">
     <div class="container">

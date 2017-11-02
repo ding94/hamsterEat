@@ -3,23 +3,22 @@
 namespace common\models\user;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "useraddress".
  *
- * @property integer $user_id
- * @property integer $User_Postcode1
- * @property string $User_Area1
- * @property string $User_Street1
- * @property string $User_HouseNo1
- * @property integer $User_Postcode2
- * @property string $User_Area2
- * @property string $User_Street2
- * @property string $User_HouseNo2
- * @property integer $User_Postcode3
- * @property string $User_Area3
- * @property string $User_Street3
- * @property string $User_HouseNo3
+ * @property integer $id
+ * @property integer $uid
+ * @property string $address
+ * @property integer $postcode
+ * @property string $city
+ * @property string $state
+ * @property string $country
+ * @property integer $level
+ * @property integer $created_at
+ * @property integer $updated_at
  */
 class Useraddress extends \yii\db\ActiveRecord
 {
@@ -31,15 +30,37 @@ class Useraddress extends \yii\db\ActiveRecord
         return 'useraddress';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at','updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],   
+        ];
+    } 
+
+    public function getFullAddress()
+    {
+        return $this->address .",". $this->city .",". $this->state ;
+    }  
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['User_id'], 'required'],
-            [['User_Postcode1', 'User_Postcode2', 'User_Postcode3'], 'integer'],
-            [['User_Area1', 'User_Street1', 'User_HouseNo1', 'User_Area2', 'User_Street2', 'User_HouseNo2', 'User_Area3', 'User_Street3', 'User_HouseNo3'], 'string', 'max' => 255],
+            [['uid', 'address', 'postcode', 'city', 'level'], 'required'],
+            [['uid', 'postcode', 'level', 'created_at', 'updated_at'], 'integer'],
+            [['address'], 'string'],
+            [['city', 'state', 'country'], 'string', 'max' => 50],
+            ['country', 'default', 'value' => 'Malaysia'],
+            ['state','default','value' => 'Johor'],
         ];
     }
 
@@ -49,19 +70,16 @@ class Useraddress extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'user_id' => 'User ID',
-            'User_Postcode1' => 'User  Postcode1',
-            'User_Area1' => 'User  Area1',
-            'User_Street1' => 'User  Street1',
-            'User_HouseNo1' => 'User  House No1',
-            'User_Postcode2' => 'User  Postcode2',
-            'User_Area2' => 'User  Area2',
-            'User_Street2' => 'User  Street2',
-            'User_HouseNo2' => 'User  House No2',
-            'User_Postcode3' => 'User  Postcode3',
-            'User_Area3' => 'User  Area3',
-            'User_Street3' => 'User  Street3',
-            'User_HouseNo3' => 'User  House No3',
+            'id' => 'ID',
+            'uid' => 'Uid',
+            'address' => 'Address',
+            'postcode' => 'Postcode',
+            'city' => 'City',
+            'state' => 'State',
+            'country' => 'Country',
+            'level' => 'Level',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
 }

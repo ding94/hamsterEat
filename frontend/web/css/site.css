@@ -602,7 +602,19 @@ line-height: 1.45em;}
 .button-one:hover{
       background: #FFDA00;
       color: white;
-    }
+}
+.btn-facebook:hover{
+      background: #FFDA00;
+      color: white;
+}
+.btn-google:hover{
+      background: #FFDA00;
+      color: white;
+}
+.btn-instagram:hover{
+      background: #FFDA00;
+      color: white;
+}
 
 .MainNav button{
   border: 1px solid white;

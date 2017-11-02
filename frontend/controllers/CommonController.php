@@ -50,6 +50,6 @@ class CommonController extends Controller
 		$this->view->params['listOfNotic'] = $listOfNotic;
 		$this->view->params['countNotic'] = $count;
 
-		 $this->view->params['number'] = $number;
+		// $this->view->params['number'] = $number;
 	}
 }

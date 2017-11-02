@@ -71,7 +71,7 @@ NotificationAsset::register($this);
         ['label' => 'Guide', 'url' => ['/site/faq']],
        
 
-        ['label' => '<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
+        // ['label' => '<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
 
 
     ];

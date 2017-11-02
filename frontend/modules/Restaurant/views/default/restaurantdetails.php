@@ -3,131 +3,13 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
 use common\models\Rmanagerlevel;
+use frontend\assets\StarsAsset;
+use frontend\assets\RestaurantDetailsAsset;
 $this->title = $id['Restaurant_Name'];
+
+StarsAsset::register($this);
+RestaurantDetailsAsset::register($this);
 ?>
-<style>
-.outer-container{
-  display:flex;
-  align-items: center;
-  justify-content:center;
-}
-
-@media(max-width:991px){
-    .menu-container{
-    display: grid;
-    width:1200px;
-    grid-template-columns: 1fr;
-    grid-column-gap: 15px;
-    grid-row-gap: 15px;
-    margin-bottom: 50px;
-    align-items: center;
-    justify-content:center;
-  }
-
-  .restaurant-info-container h1{
-    margin-left: 51%;
-  }
-
-  .restaurant-info-container .info{
-    margin-left: 48%;
-  }
-
-  .restaurant-info-container .rating{
-    margin-left: 51%;
-    margin-top: 8%;
-  }
-}
-
-@media(min-width:992px){
-  .menu-container{
-  display: grid;
-  width:1200px;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 15px;
-  grid-row-gap: 15px;
-  margin-bottom: 50px;
-  align-items: center;
-  justify-content:center;
-  }
-}
-
-@media(max-width: 1199px) and (min-width:992px){
-  .restaurant-info-container h1{
-    margin-left: 40%;
-  }
-
-  .restaurant-info-container .info{
-    margin-left: 38%;
-  }
-
-  .restaurant-info-container .rating{
-    margin-left: 40%;
-    margin-top: 4%;
-  }
-}
-
-@media(min-width: 1200px){
-  .restaurant-info-container h1{
-    margin-left: 32%;
-  }
-
-  .restaurant-info-container .info{
-    margin-left: 30%;
-  }
-
-  .restaurant-info-container .rating{
-    margin-left: 32%;
-    margin-top: 3%;
-  }
-}
-
-.item .inner-item{
-  margin:10px 10px 10px 10px;
-  float:right;
-  width: 59%;
-}
-
-.item .img{
-
-  float:left;
-}
-
-.info li{
-  float: left;
-  margin-right: 20px;
-  color: grey;
-}
-
-.info li.none{
-   list-style-type: none;
-   margin-left:-20px;
-}
-
-.restaurant-info-container{
-  margin-bottom: 150px;
-}
-
-.item .foodName{
-  display: block;
-  width: 220px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.item .foodDesc{
-  display: block;
-  width: 220px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.restaurant-info-container h1{
-  font-weight: bold;
-}
-
-</style>
 <body>
 
 <?php Modal::begin([

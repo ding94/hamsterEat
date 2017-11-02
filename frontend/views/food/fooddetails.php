@@ -8,8 +8,10 @@ use frontend\controllers\CartController;
 use kartik\widgets\TouchSpin;
 use kartik\widgets\DatePicker;
 use common\models\User;
+use frontend\assets\StarsAsset;
 $this->title = "Food Details";
 
+StarsAsset::register($this);
 ?>
 <style>
 

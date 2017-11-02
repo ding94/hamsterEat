@@ -7,15 +7,14 @@ use yii\web\AssetBundle;
 /**
  * Main frontend application asset bundle.
  */
-class PhotoSliderAsset extends AssetBundle
+class ViewRestaurantAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/Slider.css',
+        'css/view-restaurant.css',
     ];
     public $js = [
-        'js/PhotoSlider.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

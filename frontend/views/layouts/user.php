@@ -53,7 +53,7 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Cart', 'url' => ['/cart/view-cart']],
+        ['label' => '<span class="glyphicon glyphicon-shopping-cart">'.Yii::$app->view->params['number'].'</span> Cart', 'url' => ['/cart/view-cart']],
     ];
     
     if (Yii::$app->user->isGuest) {

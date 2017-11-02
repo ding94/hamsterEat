@@ -18,6 +18,16 @@ use common\models\Restaurant;
 
 AppAsset::register($this);
 ?>
+<style>
+    span.badge{
+        background-color:#404040;
+        margin-left: 2px;
+        margin-bottom:5px;
+    }
+    #cart{
+        line-height:33px;
+    }
+    </style>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -59,7 +69,7 @@ AppAsset::register($this);
         ['label' => 'Guide', 'url' => ['/site/faq']],
        
 
-        ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Cart', 'url' => ['/cart/view-cart']],
+        ['label' => '<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
 
 
     ];

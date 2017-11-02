@@ -17,6 +17,7 @@ class CommonController extends Controller
 		$data = "";
 		$listOfNotic = "";
 		$count = "";
+		$number ="";
 		if(!Yii::$app->user->isGuest)
 		{
 			$result = [];
@@ -35,15 +36,15 @@ class CommonController extends Controller
 
 			//Total Cart item
 			$totalcart="";
-		$cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
-        $did = $cart['Delivery_ID'];
-		$cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
-		 foreach($cartitems as $totalitem)
-        {
-            $totalcart=($totalcart+$totalitem['OrderItem_Quantity']);
-        }
-        $number=$totalcart;
-       
+			$cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
+	        $did = $cart['Delivery_ID'];
+			$cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
+			 foreach($cartitems as $totalitem)
+	        {
+	            $totalcart=($totalcart+$totalitem['OrderItem_Quantity']);
+	        }
+	        $number=$totalcart;
+	       
 
 		}
 		$this->view->params['notication'] = $data;

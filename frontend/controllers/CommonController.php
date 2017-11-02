@@ -8,7 +8,8 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use common\models\Notification;
 use common\models\NotificationSetting;
-
+use common\models\Orders;
+use common\models\Orderitem;
 class CommonController extends Controller
 {
 	public function init()
@@ -16,6 +17,7 @@ class CommonController extends Controller
 		$data = "";
 		$listOfNotic = "";
 		$count = "";
+		$number ="";
 		if(!Yii::$app->user->isGuest)
 		{
 			$result = [];
@@ -30,9 +32,25 @@ class CommonController extends Controller
 			}
 			
 			$data = $result;
+
+
+			//Total Cart item
+			$totalcart="";
+			$cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
+	        $did = $cart['Delivery_ID'];
+			$cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
+			 foreach($cartitems as $totalitem)
+	        {
+	            $totalcart=($totalcart+$totalitem['OrderItem_Quantity']);
+	        }
+	        $number=$totalcart;
+	       
+
 		}
 		$this->view->params['notication'] = $data;
 		$this->view->params['listOfNotic'] = $listOfNotic;
 		$this->view->params['countNotic'] = $count;
+
+		 $this->view->params['number'] = $number;
 	}
 }

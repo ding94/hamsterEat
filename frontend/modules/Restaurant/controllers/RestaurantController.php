@@ -35,8 +35,9 @@ class RestaurantController extends CommonController
     public function actionFoodService($id)
     {
         $foods = Food::find()->where('Restaurant_ID=:rid',[':rid'=>$id])->all();
+
         $this->layout = "/user";
-        return $this->render('foodservice',['foods'=>$foods]);
+        return $this->render('foodservice',['foods'=>$foods,'rid'=>$id]);
     }
 
     public function actionActive($id,$item)

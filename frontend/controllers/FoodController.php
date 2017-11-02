@@ -65,15 +65,22 @@ class FoodController extends CommonController
         if (!(Yii::$app->user->isGuest)) {
             $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
         }
-        
-        if (!empty($rmanager)) {
-            $valid = ValidController::FoodValid($id);
-            if ($valid == false) {
-                Yii::$app->session->setFlash('error', 'This food was not valid now.');
+
+        $valid = ValidController::RestaurantValid($rid);
+        if ($valid == true) {
+            if (empty($rmanager)) {
+                Yii::$app->session->setFlash('error', 'This restaurant was not valid now.');
                 return $this->redirect(['/Restaurant/default/restaurant-details', 'id'=>$id,'rid'=>$rid]);
             }
         }
-
+        
+        $valid = ValidController::FoodValid($id);
+        if ($valid == false) {
+            Yii::$app->session->setFlash('error', 'This food was not valid now.');
+            return $this->redirect(['/Restaurant/default/restaurant-details', 'id'=>$id,'rid'=>$rid]);
+        }
+        
+        
         $fooddata = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
         
         $foodPack = FoodtypeAndStatusController::getFoodPack($fooddata['foodType']);
@@ -94,11 +101,11 @@ class FoodController extends CommonController
             $orderitem->load(Yii::$app->request->post());
             if ($orderitem->OrderItem_Quantity < 1)
             {
-                Yii::$app->session->setFlash('error', 'You cannot order less than 1.');
+                Yii::$app->session->setFlash('error', 'You cannot place order less than 1 food.');
 
-                return $this->redirect(['food-details', 'id'=>$id]);
+                return $this->redirect(['/Restaurant/default/restaurant-details', 'rid'=>$rid]);
             }
-           
+            
             foreach ($foodtype as $k => $foodtype) {
                 if ($foodtype->Min > 0){
                     if ($orderItemSelection['FoodType_ID'][$foodtype->ID] == ''){

@@ -1,0 +1,11 @@
+.orderTable td{
+    padding: 8px 0px !important;
+}
+
+.orderTable .orderRow:hover{
+    background-color: #FFBE58;
+}
+
+.orderTable td a{
+    display: block;
+}

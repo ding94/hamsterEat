@@ -1,5 +1,131 @@
 #userprofile{
-     margin-top:50px;
+<<<<<<< HEAD
+  margin:auto;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.userprofile-header-title{
+  font-size: 1.6em;
+  font-weight: 500;
+  line-height: 2.4em;
+}
+
+.userprofile-header{
+  box-sizing: border-box;
+  border-bottom: 1px solid #efefef;
+}
+
+.userprofile-detail{
+  padding-top : 10px;
+ 
+}
+
+.userprofile-left{
+  height: 25em;
+  border-right: 1px solid #efefef;
+  padding-top: 3em;
+}
+
+.userprofile-right{
+  height: 25em;
+}
+
+.userprofile-avatar{
+  margin:20px 20px;
+  height: 150px;
+  width: 150px; 
+}
+
+.userprofile-image{
+  border-radius: 50%;
+  background-position: 50%;
+  background-size: cover;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+}
+
+.userprofile-input{
+  height: 25%;
+}
+
+.userprofile-label{
+  text-align: right;
+  text-transform: capitalize;
+  color:#333;
+}
+
+.userprofile-text{
+  
+  margin-bottom: 0.5em;
+}
+
+.userprofile-editbutton{
+  min-height: 40px; 
+  width: 150px;
+  margin-top: 3em;
+}
+
+
+.userprofile-address{
+  height: 75%;
+}
+
+.userprofile-pencil{
+  color: #315f9c;
+  font-size:1.5em;
+}
+
+.userprofile-trash{
+  color: #db1b1b;
+  font-size:1.5em;
+}
+
+@media(max-width: 990px){
+  .userprofile-avatar{
+    margin : -17px;
+  }
+  .userprofile-left{
+    height: 30em;
+  }
+
+  .col-xs-2{
+    width: 30%;
+  }
+}
+
+@media(max-width: 767px){
+  .userprofile-avatar{
+    margin : 20px auto;
+  }
+  .userprofile-left{
+    border-right: 0px;
+    border-bottom: 1px solid #efefef;
+    height: 23em;
+  }
+  .col-xs-2{
+    width: 30%;
+  }
+  
+}
+
+@media(max-width: 489px){
+  .userprofile-right {
+      height: 40em;
+      background-color: white;
+  }
+  #userprofile{
+    padding-left:0px;
+  }
+  .userprofile-avatar{
+    margin:auto;
+  }
+
+  .col-xs-2{
+    width: 35%;
+  }
 }
 
 .notic{
@@ -38,3 +164,8 @@ margin-top: -10px;
 .a-notic:active {
     text-decoration: none;
 }
+
+=======
+     margin-top:50px;
+}
+>>>>>>> 7626a12947284f650858623c437676596856822a

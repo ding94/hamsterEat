@@ -20,9 +20,17 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $searchModel = new OrderSearch();
-    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,2);
+        
+        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
+    }
+
+    public function actionDelivery()
+    {
+        $searchModel = new OrderSearch();
+    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,1);
     	
-		return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
+		return $this->render('delivery',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
 
     public function actionEditorder($id)

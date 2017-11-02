@@ -2,14 +2,16 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\web\Session;
+use frontend\assets\CheckoutAsset;
 
 $this->title = "Check Out";
+CheckoutAsset::register($this);
 ?>
 <body  >
-    <div class="tab-content" id="mydetails" style="margin-left:20%;">
+    <div class="tab-content" id="mydetails">
         <h1> Check Out </h1>
         <br>
-        <table class="table table-user-info" style="width:60%;">
+        <table class="table table-user-info">
             <tr>
                 <th colspan = "2"> <h3>My Details</h3> </th>
             </tr>
@@ -34,7 +36,7 @@ $this->title = "Check Out";
 
         <?php $form = ActiveForm::begin(['id' => 'checkout']); ?>
 
-        <table class="table table-user-address" style="width:60%;">
+        <table class="table table-user-address">
             <tr>
                 <th colspan = "2"> <h3>My Delivery Address </h3></th>
             </tr>
@@ -62,7 +64,7 @@ $this->title = "Check Out";
         <br>
         <br>
 
-        <table class="table table-user-paymethod" style="width:60%;">
+        <table class="table table-user-paymethod">
             <tr>
                 <th><h3> Payment Method </h3></th>
             </tr>
@@ -79,40 +81,3 @@ $this->title = "Check Out";
         </table>
     </div>
 </body>
-
-<script type="text/javascript">
-    function checkempty()
-    {
-        if (document.getElementsByName("Orders[Orders_PaymentMethod]")[1].checked) 
-        {
-            var aler = "Are you sure to pay with Account Balance?";
-        }
-        else if (document.getElementsByName("Orders[Orders_PaymentMethod]")[2].checked)
-        {
-            var aler = "Are you sure to pay cash on delivery?";
-        }
-        else
-        {
-            alert('Please select a payment method!');
-            document.getElementById("list").style.color ="red";
-            return false;
-        }
-
-        var con = confirm(aler);
-
-        if (con == true) 
-        {
-            if (document.getElementById("orders-orders_location").value && document.getElementById("orders-orders_area").value)
-            {
-                return true;
-            }
-            else
-            {
-                alert('Address has no completed yet!');
-                return false;
-            }
-        }
-        return false;
-    }
-
-</script>

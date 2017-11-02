@@ -69,7 +69,7 @@
                     ],
                     [   'label' => 'Order Controller' , 'icon' => 'cog' ,'url' => '#',
                         'items' =>  [
-                                        ['label' => 'Orders List' ,'icon' => 'circle-o' , 'url' => ['/order/default/index']],
+                                        ['label' => 'Delivery List' ,'icon' => 'circle-o' , 'url' => ['/order/default/delivery']],
                                     ],
                         'options' => ['class' => 'active'],
                     ],

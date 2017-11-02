@@ -2,6 +2,7 @@
 namespace backend\models;
 
 use common\models\Orders;
+use common\models\Orderitem;
 use yii\data\ActiveDataProvider;
 use common\models\Orderitemstatuschange;
 use common\models\Ordersstatuschange;
@@ -10,15 +11,20 @@ use common\models\Orderitemselection;
 Class OrderSearch extends Orders
 {
 	
-	public function search($params)
+	public function search($params,$case)
 	{
+		switch ($case) {
+			case 1:
+				$query = Orders::find()->orderBy('Orders_Date DESC');
+				$query->joinWith(['order_item']);
+				$query->joinWith(['order_status']);
+				break;
+				
+			default:
+				# code...
+				break;
+		}
 		
-		$query = Orders::find()->where(['!=' ,'Orders_Status' ,'Not Placed'])->orderBy('Orders_Date DESC');
-		
-		$query->joinWith(['order_status']);
-		$query->joinWith(['order_item']);
-
-
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

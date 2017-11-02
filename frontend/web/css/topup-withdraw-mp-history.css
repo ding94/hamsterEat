@@ -1,0 +1,102 @@
+/* CSS for frontend topup history and withdraw history */
+#topup-history-container table, 
+#topup-history-container th,
+#topup-history-container td,
+#withdraw-history-container table, 
+#withdraw-history-container th,
+#withdraw-history-container td,
+#mp-history-container table,
+#mp-history-container th,
+#mp-history-container td{
+  border:1px solid #ddd;
+  padding: 10px;
+}
+
+#topup-history-container #display td,
+#mp-history-container #display td,
+#withdraw-history-container #display td{
+  border-bottom:hidden; 
+}
+
+#topup-history-container #withdraw:hover{
+  background-color: #fdf8e4;
+}
+
+#withdraw-history-container #topup:hover{
+  background-color: #fdf8e4;
+}
+#mp-history-container #mp:hover{
+	background-color: #fdf8e4;
+}
+#topup-history-container #display td:active,
+#mp-history-container #display td:active,
+#withdraw-history-container #display td:active{
+  background-color: #f4d96c;
+}
+
+#topup-history-container #display tr,
+#mp-history-container #display tr,
+#withdraw-history-container #display tr{
+  text-align: center; 
+  height:60px; 
+  font-size:20px;
+}
+
+#topup-history-container #topup{
+  -webkit-box-shadow: -3px -3px 5px -3px black;
+  -moz-box-shadow: -3px -3px 5px -3px black;
+  box-shadow: -3px -3px 5px -3px black;
+}
+
+#topup-history-container #withdraw{
+  -webkit-box-shadow: inset 3px -3px 5px -3px black;
+  -moz-box-shadow: inset 3px -3px 5px -3px black;
+  box-shadow: inset 3px -3px 5px -3px black;
+  cursor:pointer; 
+}
+#topup-history-container #mp{
+  -webkit-box-shadow: inset 0px -3px 5px -3px black;
+  -moz-box-shadow: inset 0px -3px 5px -3px black;
+  box-shadow: inset 0px -3px 5px -3px black;
+  cursor:pointer; 
+}
+#withdraw-history-container #topup{
+  cursor:pointer;  
+  -webkit-box-shadow: inset -3px -3px 5px -3px black;
+  -moz-box-shadow: inset -3px -3px 5px -3px black;
+  box-shadow: inset -3px -3px 5px -3px black;
+}
+
+#withdraw-history-container #withdraw{
+  -webkit-box-shadow: 3px -3px 5px -3px black;
+  -moz-box-shadow: 3px -3px 5px -3px black;
+  box-shadow: 3px -3px 5px -3px black;
+  border-bottom: hidden;
+}
+
+#withdraw-history-container #mp{
+  cursor:pointer;  
+  -webkit-box-shadow: inset 3px -3px 5px -3px black;
+  -moz-box-shadow: inset 3px -3px 5px -3px black;
+  box-shadow: inset 3px -3px 5px -3px black;
+}
+
+#mp-history-container #topup{
+  cursor:pointer;  
+  -webkit-box-shadow: inset 0px -3px 5px -3px black;
+  -moz-box-shadow: inset 0px -3px 5px -3px black;
+  box-shadow: inset 0px -3px 5px -3px black;
+}
+
+#mp-history-container #withdraw{
+ -webkit-box-shadow: inset -3px -3px 5px -3px black;
+  -moz-box-shadow: inset -3px -3px 5px -3px black;
+  box-shadow: inset -3px -3px 5px -3px black;
+  cursor:pointer;
+}
+#mp-history-container #mp{
+   -webkit-box-shadow: 3px -3px 5px -3px black;
+  -moz-box-shadow: 3px -3px 5px -3px black;
+  box-shadow: 3px -3px 5px -3px black;
+  border-bottom: hidden;
+}

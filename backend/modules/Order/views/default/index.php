@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
 
-  $this->title = 'Order Lists';
+  $this->title = 'Delivery Lists';
   $this->params['breadcrumbs'][] = $this->title;
   
 ?>
@@ -18,12 +18,15 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
-            'Delivery_ID',
-            'User_Username',
-            'Orders_Date',
-            'Orders_Time',
-            'Orders_Status',
-
+            'Order_ID',
+            'Food_ID',
+            'OrderItem_Quantity',
+            'OrderItem_SelectionTotal',
+            'OrderItem_LineTotal',
+            [
+                'attribute' => 'OrderItem_Status',
+                'filter' => array( "Pending"=>"Pending","Not Placed"=>"Not Placed"),
+            ],
             ['class' => 'yii\grid\ActionColumn' ,
              'template'=>'{showdetails}',
              'buttons' => [

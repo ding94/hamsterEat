@@ -1,0 +1,44 @@
+.outer-container1{
+  display:flex;
+  align-items: center;
+  justify-content:center;
+}
+
+.menu-container1{
+  display: grid;
+  width:1200px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 15px;
+  grid-row-gap: 15px;
+  margin-bottom: 50px;
+  align-items: center;
+  justify-content:center;
+}
+.item1{
+  font-size: 15px;
+  color: black;
+  min-width: 200px;
+  min-height: 150px;
+  border: 1px solid #fff;
+
+}
+.item1 img{
+    width:200px;
+  height:80px;
+}
+
+.inner-item1 a{
+  display: block;
+}
+
+a:hover {
+    color: #ffda00;
+}
+
+#topup{
+  text-align: center;
+}
+
+#topup input[type="radio"]{
+  margin-top:15px;
+}

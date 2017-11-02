@@ -1,14 +1,16 @@
-
 html,
 body {
     height: 100%;
     padding-top: 15px;
+    background-color: #F8F8F8;
 }
+
 h1
  {
   font-family: cursive;
   font-weight: 500;
 }
+
 h2
 {
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;

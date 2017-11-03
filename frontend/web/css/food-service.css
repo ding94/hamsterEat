@@ -46,7 +46,7 @@
 .item-no-border .inner-item{
   margin:10px 0px 10px 30px;
   float:left;
-  width: 50%;
+  width: 65%;
 }
 
 .item-no-border .tag{
@@ -55,13 +55,12 @@
 }
 
 .item-no-border .img{
-
   float:left;
 }
 
 .item-no-border img{
 	margin-top:15px;
-    width:130px;
+  width:130px;
   height:130px;
   
 }
@@ -84,4 +83,20 @@
 }
 #food:hover{
 	 background-color: #e67300; 
+}
+
+.item-no-border .foodName{
+  display: block;
+  width: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-no-border .foodDesc{
+  display: block;
+  width: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* white-space: nowrap; */
 }

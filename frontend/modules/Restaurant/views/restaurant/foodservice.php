@@ -21,9 +21,8 @@ FoodServiceAsset::register($this);
       <div class="item-no-border">
         <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$food['PicPath']) ?></div>
         <div class="inner-item">
-          <span><?php echo $food['Name']; ?></span>
-
-          <p>Description: <?php echo $food['Description']?></p>
+          <span class="foodName"><?php echo $food['Name']; ?></span>
+          <p class="foodDesc">Description: <?php echo $food['Description']?></p>
           <p>Ingredients: <?php echo $food['Ingredient']?></p>
           <p>Nick Name: <?php echo $food['Nickname']?></p>
     	</div>

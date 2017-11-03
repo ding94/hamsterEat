@@ -84,6 +84,7 @@
                         'items' =>  [
                                         ['label' => 'Voucher List' ,'icon' => 'circle-o' , 'url' => ['/vouchers/index']],
                                         ['label' => 'User Voucher List' ,'icon' => 'circle-o' , 'url' => ['/uservoucher/index']],
+                                        ['label' => "Employee's Voucher" ,'icon' => 'circle-o' , 'url' => ['/vouchers/specific']],
                                     ],
                         'options' => ['class' => 'active'],
                     ],

@@ -16,10 +16,15 @@ class VouchersController extends Controller
 {
 	public function actionIndex()
 	{
-		
 		$searchModel = new Vouchers();
        	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,1);
-       	if (Yii::$app->request->post()) {
+       	
+        return $this->render('index',['model'=>$dataProvider, 'searchModel'=>$searchModel]);
+	}
+
+	public function actionDelete($direct)
+	{
+		if (Yii::$app->request->post()) {
        		if (Yii::$app->request->post('selection')) {
        			$selection=Yii::$app->request->post('selection'); //拿取选择的checkbox + 他的 id
     			if (!empty($selection)) 
@@ -43,7 +48,22 @@ class VouchersController extends Controller
 	    	 	}
        		}
        	}
-        return $this->render('index',['model'=>$dataProvider, 'searchModel'=>$searchModel]);
+       	switch ($direct) 
+       	{
+       		case 1:
+       			return $this->redirect(['/vouchers/index']);
+       			break;
+       		case 2:
+       			return $this->redirect(['/uservoucher/index']);
+       			break;
+       		case 3:
+       			return $this->redirect(['/vouchers/specific']);
+       			break;
+       		
+       		default:
+       			return $this->redirect(['/vouchers/index']);
+       			break;
+       	}
 	}
 
 	public function actionPage($page)
@@ -168,9 +188,23 @@ class VouchersController extends Controller
 		$voucher = Vouchers::find()->where('id = :id',[':id'=>$id])->one();
 		if ($voucher['discount_type'] != 1) {
 			if ($voucher['discount_type'] != 4) {
-				Yii::$app->session->setFlash('error','This code was assigned to an user or expired!');
+				Yii::$app->session->setFlash('error','This coupon was assigned to an user or expired!');
 	    		return $this->redirect(['/vouchers/index']);
 			}
+		}
+		$conflic = Vouchers::find()->where('code = :c',[':c'=>$voucher['code']])->all();
+		$used = 0;
+		foreach ($conflic as $k => $value) {
+			if ($value['discount_item'] == 7) {
+				$used += 1;
+			}
+			if ($value['discount_item'] == 8) {
+				$used += 1;
+			}
+		}
+		if ($used == 2) {
+			Yii::$app->session->setFlash('warning','Both discount item was usd for this coupon!');
+	    	return $this->redirect(['/vouchers/index']);
 		}
 		$type = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>1],['id'=>4]])->all(),'id','type');
 		$item = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>7],['id'=>8]])->all(),'id','description');
@@ -194,6 +228,64 @@ class VouchersController extends Controller
 			
 			if ($valid) {
     			return $this->redirect(['/vouchers/index']);
+			}
+		}
+		return $this->render('morediscount',['model'=>$model,'item'=>$item,'voucher'=>$voucher,'type'=>$type]);
+	}
+
+	public function actionSpecific()
+	{
+		$searchModel = new Vouchers();
+       	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,5);
+
+       	return $this->render('specific',['model'=>$dataProvider, 'searchModel'=>$searchModel]);
+	}
+
+	public function actionMorespec($id)
+	{
+		$voucher = Vouchers::find()->where('id = :id',[':id'=>$id])->one();
+		if ($voucher['discount_type'] != 100) {
+			if ($voucher['discount_type'] != 101) {
+				Yii::$app->session->setFlash('error','This voucher was not specialized for employees!');
+	    		return $this->redirect(['/vouchers/specific']);
+			}
+		}
+		$conflic = Vouchers::find()->where('code = :c',[':c'=>$voucher['code']])->all();
+		$used = 0;
+		foreach ($conflic as $k => $value) {
+			if ($value['discount_item'] == 7) {
+				$used += 1;
+			}
+			if ($value['discount_item'] == 8) {
+				$used += 1;
+			}
+		}
+		if ($used == 2) {
+			Yii::$app->session->setFlash('warning','Both discount item was usd for this voucher!');
+	    	return $this->redirect(['/vouchers/specific']);
+		}
+		$type = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>100],['id'=>101]])->all(),'id','type');
+		$item = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>7],['id'=>8]])->all(),'id','description');
+		$items = ArrayHelper::remove($item, $voucher['discount_item']);
+		$model = new Vouchers;
+
+		if (Yii::$app->request->post()) {
+			$model->load(Yii::$app->request->post());
+			$valid = ValidController::VoucherCheckValid($model,2);
+
+			if ($valid == false) {
+				return $this->render('morespec',['model'=>$model,'item'=>$item,'voucher'=>$voucher,'type'=>$type]);
+			}
+
+			$model->code = $voucher->code;
+			$model->usedTimes = $voucher->usedTimes;
+			$model->inCharge = Yii::$app->user->identity->adminname;
+			$model->startDate = $voucher->startDate;
+			$model->endDate = $voucher->endDate;
+			$valid = ValidController::SaveValidCheck($model,1);
+			
+			if ($valid) {
+    			return $this->redirect(['/vouchers/specific']);
 			}
 		}
 		return $this->render('morediscount',['model'=>$model,'item'=>$item,'voucher'=>$voucher,'type'=>$type]);

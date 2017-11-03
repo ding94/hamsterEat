@@ -8,25 +8,32 @@ $this->title = 'My Profile';
 UserAsset::register($this);
 ?>
 		
-    <?php Modal::begin([
-            'header' => '<h2 class="modal-title">Report</h2>',
-            'id'     => 'modal',
-            'size'   => 'modal-sm',
-            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
-    ]);
-    
-    echo "<div id='modelContent'></div>";
-    Modal::end();
-    Modal::begin([
-              'header' => '<h2 class="modal-title">New Address</h2>',
-              'id'     => 'address-modal',
-              'size'   => 'modal-md',
-              'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
-    ]);
-     
-    echo "<div id='modelContent'></div>";
-    
-  Modal::end() ?>
+<?php 
+  //user report modal
+  Modal::begin([
+      'header' => '<h2 class="modal-title">Report</h2>',
+      'id'     => 'modal',
+      'size'   => 'modal-sm',
+      'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+  ]);
+  Modal::end();
+    //new address modal
+  Modal::begin([
+      'header' => '<h2 class="modal-title">New Address</h2>',
+      'id'     => 'address-modal',
+      'size'   => 'modal-md',
+      'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+  ]);
+  Modal::end();
+  // edit address modal
+  Modal::begin([
+        'header' => '<h2 class="modal-title">Edit Address</h2>',
+        'id'     => 'edit-address-modal',
+        'size'   => 'modal-md',
+        'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+  ]);
+  Modal::end() 
+?>
 
     <div id="userprofile" class="row">
       <div class="userprofile-header">
@@ -59,7 +66,8 @@ UserAsset::register($this);
           </div>
 
           <div class="userprofile-address">
-            <?php echo Html::a("Add New Address",['/user/newaddress'],['class' => 'btn btn-success pull-right','data-toggle'=>'modal','data-target'=>'#address-modal'])?>
+            <?php $count = count($user->address)?>
+            <?php echo $count < 3 ? Html::a("Add New Address",['/user/newaddress'],['class' => 'btn btn-success pull-right','data-toggle'=>'modal','data-target'=>'#address-modal']) : ""?>
         
               <?php if(empty($user->address)) :?>
                   <h4>Empty Address</h4>
@@ -82,15 +90,12 @@ UserAsset::register($this);
                       <td>
                         <div class="row">
                           <div class="col-xs-6">
-                            <?php echo Html::a("<span class='glyphicon glyphicon-pencil userprofile-pencil'></span>",['/user/edit-address','id'=> $address->id] )?>
+                            <?php echo Html::a("<span class='glyphicon glyphicon-pencil userprofile-pencil'></span>",['/user/edit-address','id'=> $address->id],['data-toggle'=>'modal','data-target'=>'#edit-address-modal'])?>
                           </div>
                           <div class="col-xs-6">
-                            <?php echo Html::a("<span class='glyphicon glyphicon-trash userprofile-trash'></span>",['/user/delete-address','id'=> $address->id] )?>    
+                            <?php echo Html::a("<span class='glyphicon glyphicon-trash userprofile-trash'></span>",['/user/delete-address','id'=> $address->id] ,['data' => ['confirm' => 'Are You Sure Want to Delete Address','method' => 'post']] )?>    
                           </div>
-                        </div>
-                        
-                       
-                        
+                        </div>        
                       </td>
                     </tr>
                   <?php endforeach;?>

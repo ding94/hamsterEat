@@ -81,7 +81,7 @@ class OrderController extends CommonController
 
 
 
-
+        $this->layout = 'user';
         return $this->render('myorders', ['order1'=>$order1,'order2'=>$order2,'order3'=>$order3,'order4'=>$order4,'order5'=>$order5]);
     }
 

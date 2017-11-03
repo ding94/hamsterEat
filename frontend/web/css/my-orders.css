@@ -1,11 +1,8 @@
-.content{
-    width:960px;
-}
-.nav.nav-pills a:focus{
-
+#order .nav.nav-pills a:focus{
     border-bottom: 1px solid;
 }
-span.badge{
+
+#order span.badge{
     margin-left:4px;
     background-color:#1E90FF;
 }
@@ -20,4 +17,15 @@ span.badge{
 
 .orderTable td a{
     display: block;
+}
+
+.my-orders-header-title{
+  font-size: 1.6em;
+  font-weight: 500;
+  line-height: 2.4em;
+}
+
+.my-orders-header{
+  box-sizing: border-box;
+  border-bottom: 1px solid #efefef;
 }

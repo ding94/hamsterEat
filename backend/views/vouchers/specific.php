@@ -16,43 +16,28 @@ use common\models\Vouchers;
     $this->params['breadcrumbs'][] = $this->title;
     
 ?>
-    <!-- Below div are not suitable to be used -->
-    <!-- <div class="container" id="page-change-container">
-        <table class="table table-user-information" id="display">
-            <tr>
-                <td id="active" onclick="window.document.location='../web/index.php?r=vouchers/index';">Show All</td>
-                <td id="deactive" onclick="window.document.location='<?php echo Url::to(['vouchers/page','page'=>2]);?>'">Show Activated</td>
-                <td id="deactive" onclick="window.document.location='<?php echo Url::to(['vouchers/page','page'=>3]);?>'">Show Assigned</td>
-                <td id="deactive" onclick="window.document.location='<?php echo Url::to(['vouchers/page','page'=>4]);?>'">Show Deactivated</td>
-            </tr>   
-        </table>
-    </div>-->
-
-	<?=Html::beginForm(['vouchers/delete','direct'=>'1'],'post'); ?>
-    	<?= Html::a('Add New Voucher', ['/vouchers/add'], ['class'=>'btn btn-success']) ?>
+	<?=Html::beginForm(['vouchers/delete','direct'=>'3'],'post'); ?>
+    	<?= Html::a('Create New Voucher', ['/vouchers/add'], ['class'=>'btn btn-success']) ?>
         <?= Html::submitButton('Remove Vouchers',  [
             'class' => 'btn btn-danger', 
             'data' => [
                     'confirm' => 'Are you confirm to delete these vouchers?',
                     'method' => 'post',
                 ]]);?>
-            
-        <?= Html::a('Generate new Vouchers', ['/vouchers/generate'], ['class'=>'btn btn-warning']);?>
-    
     <br>
+
 	<?= GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
              ['class' => 'yii\grid\CheckboxColumn',],
 
-            //[ 'class' => 'yii\grid\SerialColumn',],
             'id',
 
             ['class' => 'yii\grid\ActionColumn' ,
-             'template'=>'{more}',
+             'template'=>'{morespec}',
              'buttons' => [
-                'more' => function($url , $model)
+                'morespec' => function($url , $model)
                 {
                     return Html::a("Add discount" , $url , ['title' => 'Add more discount item to this voucher']);
                 },
@@ -60,11 +45,12 @@ use common\models\Vouchers;
             ],
 
             'code',
+
             [
                 'attribute' => 'discount',
                  'value' => function($model)
                         {
-                            if ($model->discount_type >= 1 && $model->discount_type <=3) {
+                            if ($model->discount_type == 100) {
                                 return $model->discount.' %';
                             }
                             return 'RM '.$model->discount;
@@ -76,7 +62,7 @@ use common\models\Vouchers;
             ],
             [
                 'attribute' => 'voucher_type.description',
-                'filter' => array( "1"=>"Actived(%)","2"=>"Assigned(%)","3"=>"Used(%)","4"=>"Actived(RM)","5"=>"Assigned(RM)","6"=>"Used(RM)"),
+                'filter' => array( "100"=>"Discount %","101"=>"Discount RM"),
             ],
             [                  
                  'attribute' => 'startDate',
@@ -92,17 +78,6 @@ use common\models\Vouchers;
                  'format' => 'datetime',
           
             ],
-            /*['class' => 'yii\grid\ActionColumn' ,
-             'template'=>'{confirm}',
-             'buttons' => [
-                'confirm' => function($url , $model)
-                {
-                    return $model->Ticket_Status <=2 ?  Html::a(FA::icon('check 2x') , $url , ['title' => 'Problem Solved','data-confirm'=>"Complete this ticket? Ticket ID: ".$model->Ticket_ID]) : "";
-                },
-              ]
-            ],*/
-
-            
         ],
     ])?>
 

@@ -45,7 +45,7 @@ $this->title = 'hamsterEat';
 
         <?= $form->field($postcode, 'Area_Postcode')->widget(Select2::classname(), [
 	    'data' => $postcodeArray,
-	    'options' => ['placeholder' => 'Select a postcode ...','id'=>'postcode-select']]); 
+	    'options' => ['placeholder' => 'Select a postcode ...','id'=>'postcode-select']])->label('Postcode'); 
 	    ?>
 		<?= $form->field($postcode,'Area_Area')->widget(DepDrop::classname(), [
 			'type'=>DepDrop::TYPE_SELECT2,

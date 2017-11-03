@@ -90,7 +90,7 @@ CartAsset::register($this);
                   </tr>
 				  <tr>
                     <td><b>Early Discount (RM):</td>
-                    <td><?php 
+                    <td id="early"><?php 
 	$timenow = Yii::$app->formatter->asTime(time());
     $early = date('08:00:00');
     $last = date('23:00:59');
@@ -100,8 +100,8 @@ CartAsset::register($this);
 		$discountamount = CartController::actionRoundoff1decimal($did['Orders_Subtotal']) * 0.2; 
 		echo "-".CartController::actionRoundoff1decimal($discountamount);
 	    $did['Orders_TotalPrice'] = CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($did['Orders_Subtotal']) - CartController::actionRoundoff1decimal($discountamount) + CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge']));
-		
-		}?>
+		}
+    else{ echo 0.00; }?>
 	  </td>
 	  	<td></td>
                   </tr>
@@ -161,16 +161,16 @@ CartAsset::register($this);
    url :"index.php?r=cart/getdiscount",
    type: "get",
    data :{
-        dis: document.getElementById("input").value,
+        dis: document.getElementById("input").value.replace(/\s+/g, ''),
         did: <?php echo $did['Delivery_ID'];?>,
    },
    success: function (data) {
       var obj = JSON.parse(data);
        if (obj != 0 ) 
       {
-        document.getElementById("subtotal").innerHTML = obj['Orders_Subtotal'];
-        document.getElementById("delivery").innerHTML = obj['Orders_DeliveryCharge'];
-        document.getElementById("total").innerHTML = obj['Orders_TotalPrice'];
+        document.getElementById("subtotal").innerHTML = (obj['Orders_Subtotal']).toFixed(2);
+        document.getElementById("delivery").innerHTML = (obj['Orders_DeliveryCharge']).toFixed(2);
+        document.getElementById("total").innerHTML = (obj['Orders_TotalPrice'] + parseInt(document.getElementById("early").innerHTML)).toFixed(2);
 
         document.getElementById("label").style.display ='none';
         document.getElementById("input").style.display ='none';

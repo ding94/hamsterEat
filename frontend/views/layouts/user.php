@@ -159,18 +159,10 @@ NotificationAsset::register($this);
         ]) ?>
         <div class="row">
             <ul id="profile-nav" class="nav nav-tabs ">
-              <li role="presentation">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                  My Account <span class="caret"></span>
-                </a>
-                    <ul class="dropdown-menu">
-                        <li><?php echo Html::a('My Profile',['/user/user-profile'])?></li>
-                        <li><?php echo Html::a('Balance',['/user/userbalance'])?></li>
-                      
-                    </ul>
-              </li>
-              <li role="presentation"><?php echo Html::a('Order',['/order/my-orders'])?></li>
-              <li role="presentation"><a href="#">Messages</a></li>
+                <li role="presentation"><?php echo Html::a('Profile',['/user/user-profile'])?></li>
+                <li role="presentation"><?php echo Html::a('Balance',['/user/userbalance'])?></li>
+                <li role="presentation"><?php echo Html::a('Order',['/order/my-orders'])?></li>
+                <li role="presentation"><a href="#">Messages</a></li>
             </ul>
         </div>
         <div class="content">

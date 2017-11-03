@@ -1,39 +1,37 @@
 #Footer{
-    background-color:#333;
-    color:#ffffff;
-    margin-top:10%;
-    height: 55%;
+  background-color:#333;
+  color:#ffffff;
+  margin-top:10%;
 }
 
 .footer{
-padding-left:10%;
-padding-right:10%;
-padding-top: 3%;
-padding-bottom:3%;
+  padding-left:10%;
+  padding-right:10%;
+  padding-top: 3%;
+  padding-bottom:3%;
 }
 
 #Box1,#Box2,#Box3,{
-    padding:30px;
+  padding:30px;
 
 }
 .list-unstyled>li>a{
-    color:#adadad;
+  color:#adadad;
 }
 #Box2>p{
-    color:#adadad;
+  color:#adadad;
 }
 #Box2>a{
-    color:#adadad;
-     text-decoration: none!important;
+  color:#adadad;
+  text-decoration: none!important;
 }
 #Box2 a:hover{
-    color:#ffffff;
+  color:#ffffff;
 }
 
-
 #linklist a:hover{
-    text-decoration: none!important;
-    color:#ffffff;
+  text-decoration: none!important;
+  color:#ffffff;
 }
 
 .btn-facebook,.btn-google,.btn-instagram{
@@ -58,5 +56,5 @@ padding-bottom:3%;
 
 #Box4{
 	text-align: justify;
-    text-justify: inter-word;
+  text-justify: inter-word;
 }

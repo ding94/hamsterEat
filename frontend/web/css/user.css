@@ -183,3 +183,28 @@
     width: 35%;
   }
 }
+
+#profile-nav1 { 
+	display:block; 
+	padding-left:200px;;
+	}
+.nav-tabs1.ul {
+  max-width: 960px;
+  width: 100%;
+  margin: 15px auto;
+  text-align: center;
+}
+.nav-tabs1 >li { 
+	display: inline-block; 
+}
+
+.nav-tabs1 .ul {  }
+.nav-tabs1 >li{ }
+.label-btn {
+  display:block;
+  padding: 10px 5px; 
+  
+}
+.fa-user,.fa-money,.fa-cutlery,.fa-comment{
+	color:#FFDA00;
+}

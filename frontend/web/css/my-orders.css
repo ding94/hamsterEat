@@ -1,8 +1,8 @@
-.nav.nav-pills a:focus{
+#order .nav.nav-pills a:focus{
     border-bottom: 1px solid;
 }
 
-span.badge{
+#order span.badge{
     margin-left:4px;
     background-color:#1E90FF;
 }

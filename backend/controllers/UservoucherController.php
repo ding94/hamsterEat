@@ -42,11 +42,6 @@ class UservoucherController extends Controller
 	public function actionShowuser($id)
 	{
 		$name = User::find()->where('id =:id',[':id'=>$id])->one()->username;
-		/*$uservoucher = UserVoucher::find()->where('uid =:id',[':id'=>$id])->all();
-		foreach ($uservoucher as $k => $value) {
-			$voucher[$k] = Vouchers::find()->where('id =:id',[':id'=>$uservoucher[$k]['vid']])->one();
-		}*/
-
 		if (Yii::$app->request->post()) {
 			if (Yii::$app->request->post('selection')) {
 				$select = Yii::$app->request->post('selection');
@@ -65,7 +60,7 @@ class UservoucherController extends Controller
 
 		$searchModel = new Vouchers;
        	$dataProvider = $searchModel->usersearch(Yii::$app->request->queryParams,$id,2);
-		return $this->render('showuser',['name'=>$name,'model'=>$dataProvider,'searchModel'=>$searchModel]);
+		return $this->render('showuser',['name'=>$name,'model'=>$dataProvider,'searchModel'=>$searchModel,'id'=>$id]);
 	}
 
 	public function actionEditvoucher($id)

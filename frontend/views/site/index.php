@@ -13,7 +13,6 @@ $this->title = 'hamsterEat';
 ?>
 
 <body>
-<link href="css/style.css" rel="stylesheet">
 <!--<div class="site-index">--> 
 <header class="intro-header">
 <div id="SlideShowContainer" class="container-fluid">
@@ -29,7 +28,7 @@ $this->title = 'hamsterEat';
 			<?php foreach ($banner as $k => $banners) {
 			    $k += 1;
 			?>
-			<span id="dot<?php echo $k ?>" class="dot" onclick="currentDivs($k)"></span>
+			<span id="dot<?php echo $k ?>" class="dot" onclick="currentSlide('<?php echo $k ?>')"></span>
 			<?php } ?>
 		</div> 
     </div>

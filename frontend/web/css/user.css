@@ -222,25 +222,24 @@ margin-top: -10px;
 
 }
 
-#profile-nav1 { 
-	display:block; 
-	padding-left:200px;;
-	}
-.nav-tabs1.ul {
+#nav { 
+	display:flex; 
+	justify-content:space-between;
+}
+.nav-default.ul {
   max-width: 960px;
   width: 100%;
   margin: 15px auto;
   text-align: center;
 }
-.nav-tabs1 >li { 
+.nav-default >li { 
 	display: inline-block; 
 }
 
-.nav-tabs1 .ul {  }
-.nav-tabs1 >li{ }
+.nav-default .ul {  }
+.nav-default .li{ }
 .label-btn {
   display:block;
-  width: 200px;
   padding: 10px 5px; 
   
 }

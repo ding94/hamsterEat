@@ -16,7 +16,7 @@ UserAsset::register($this);
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
     </div>
     <div class="userprofile-detail">
-        <div class="col-sm-2 ">
+        <div class="col-sm-2">
            <ul class="nav nav-pills nav-stacked">
                 <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Edit User Profile</a></li>
                 <li role="presentation"><?php echo Html::a("Change Password",['/user/changepassword'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>

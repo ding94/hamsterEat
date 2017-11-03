@@ -382,96 +382,105 @@ class CartController extends CommonController
 
                 } 
                
-                //$valid = $this->actionAssignDeliveryMan($did);
-                $valid = true;
+                $valid = $this->actionAssignDeliveryMan($did);
+
                 if ($valid == false) {
                     return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
                 }
                 $voucher = Vouchers::find()->where('code = :c',[':c' => $discountcode])->all();
-                foreach ($voucher as $k => $vou) 
+                if (!empty($voucher)) 
                 {
-                    if ($order['Orders_TotalPrice'] >0) 
+                    foreach ($voucher as $k => $vou) 
                     {
-                        if (!empty($vou))
+                        if ($order['Orders_TotalPrice'] >0) 
                         {
                             $code = $vou->code;
-                            $valid = ValidController::DateValidCheck($code,1);
-                        }
-                        else if (empty($vou))
-                        {
-                            $valid = false;
-                        }
-                        if ($valid == true ) 
-                        {
-                            $user = UserVoucher::find()->where('uid = :person and code = :c', [':person'=>Yii::$app->user->identity->id, ':c'=>$vou['code']])->one();
-                            if (!empty($user))
+                            if ($vou['discount_type'] != 100 || $vou['discount_type'] != 101){
+                                $valid = true;
+                            }
+                            elseif (!empty($vou)) {
+                                $valid = ValidController::DateValidCheck($code,1);
+                            }
+                            else if (empty($vou)){
+                                $valid = false;
+                            }
+                            if ($valid == true ) 
                             {
-                                if ($vou['discount_type'] == 2 || $vou['discount_type'] == 5) {
-                                    $lasttotal = $order['Orders_TotalPrice'];
+                                $user = UserVoucher::find()->where('uid = :person and code = :c', [':person'=>Yii::$app->user->identity->id, ':c'=>$vou['code']])->one();
+                                if (!empty($user) || $vou['discount_type'] == 100 || $vou['discount_type'] == 101)
+                                {
+                                    if ($vou['discount_type'] == 2 || $vou['discount_type'] == 5 || $vou['discount_type'] == 100 || $vou['discount_type'] == 101) {
+                                        $lasttotal = $order['Orders_TotalPrice'];
 
-                                    // -------------detect discount item, do discount--------------------
-                                    if ($vou['discount_item'] == 7) 
-                                    {
-                                        $disamount = $order['Orders_Subtotal'];
-                                        $dis = DiscountController::Discount($vou['id'],$order['Orders_Subtotal']);
-                                        if ($dis <= 0) {
-                                            $dis = 0.00;
+                                        // -------------detect discount item, do discount--------------------
+                                        if ($vou['discount_item'] == 7) 
+                                        {
+                                            $disamount = $order['Orders_Subtotal'];
+                                            $dis = DiscountController::Discount($vou['id'],$order['Orders_Subtotal']);
+                                            if ($dis <= 0) {
+                                                $dis = 0.00;
+                                            }
+                                            $order['Orders_Subtotal'] = $dis;
+                                            $order['Orders_TotalPrice'] = $dis + $order['Orders_DeliveryCharge'];
                                         }
-                                        $order['Orders_Subtotal'] = $dis;
-                                        $order['Orders_TotalPrice'] = $dis + $order['Orders_DeliveryCharge'];
-                                    }
-                                    elseif ($vou['discount_item'] == 8) 
-                                    {
-                                        $disamount = $order['Orders_DeliveryCharge'];
-                                        $dis = DiscountController::Discount($vou['id'],$order['Orders_DeliveryCharge']);
-                                        if ($dis <= 0) {
-                                            $dis = 0.00;
+                                        elseif ($vou['discount_item'] == 8) 
+                                        {
+                                            $disamount = $order['Orders_DeliveryCharge'];
+                                            $dis = DiscountController::Discount($vou['id'],$order['Orders_DeliveryCharge']);
+                                            if ($dis <= 0) {
+                                                $dis = 0.00;
+                                            }
+                                            $order['Orders_DeliveryCharge'] = $dis;
+                                            $order['Orders_TotalPrice'] = $order['Orders_Subtotal'] + $dis;
                                         }
-                                        $order['Orders_DeliveryCharge'] = $dis;
-                                        $order['Orders_TotalPrice'] = $order['Orders_Subtotal'] + $dis;
-                                    }
-                                    elseif ($vou['discount_item'] == 9) 
-                                    {
-                                        $disamount = $order['Orders_TotalPrice'];
-                                        $dis = DiscountController::Discount($vou['id'],$order['Orders_TotalPrice']);
-                                        if ($dis <= 0) {
-                                            $dis = 0.00;
+                                        elseif ($vou['discount_item'] == 9) 
+                                        {
+                                            $disamount = $order['Orders_TotalPrice'];
+                                            $dis = DiscountController::Discount($vou['id'],$order['Orders_TotalPrice']);
+                                            if ($dis <= 0) {
+                                                $dis = 0.00;
+                                            }
+                                            $order['Orders_TotalPrice'] = $dis;
                                         }
-                                        $order['Orders_TotalPrice'] = $dis;
-                                    }
-                                    
-                                    // -------------detect code or voucher, record--------------
-                                    if ($vou['discount_type'] >= 1 && $vou['discount_type']<= 3) 
-                                    {
-                                        $d = DiscountController::Reversediscount($vou['id'],$disamount);
-                                        $v = (($d/$lasttotal)*100);
-                                        $order['Orders_DiscountVoucherAmount'] = ($order['Orders_DiscountVoucherAmount'] + CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($v)))/($k+1);
-                                        
-                                    }
-                                    elseif ($vou['discount_type'] >= 4 && $vou['discount_type']<= 6) 
-                                    {
-                                        $d = DiscountController::Reversediscount($vou['id'],$order['Orders_DeliveryCharge']);
-                                        $order['Orders_DiscountCodeAmount'] += CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($d));
-                                    }
+                                        // -------------detect code or voucher, record--------------
+                                        if (($vou['discount_type'] >= 1 && $vou['discount_type']<= 3) || $vou['discount_type'] == 100) 
+                                        {
+                                            $d = DiscountController::Reversediscount($vou['id'],$disamount);
+                                            $v = (($d/$lasttotal)*100);
+                                            $order['Orders_DiscountVoucherAmount'] = ($order['Orders_DiscountVoucherAmount'] + CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($v)))/($k+1);
+                                            
+                                        }
+                                        elseif (($vou['discount_type'] >= 4 && $vou['discount_type']<= 6) || $vou['discount_type'] == 101) 
+                                        {
+                                            $d = DiscountController::Reversediscount($vou['id'],$order['Orders_DeliveryCharge']);
+                                            $order['Orders_DiscountCodeAmount'] += CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($d));
+                                        }
 
-                                    // -----save order-------
-                                    $vou['discount_type'] += 1;
-                                    $vou['usedTimes'] += 1;
-                                    
-                                    if ($order->validate() && $vou->validate()) 
-                                    {
-                                        $vou->save();
-                                        $order->save();
-                                    }
-                                    else
-                                    {
-                                        Yii::$app->session->setFlash('error', 'Failed to place order! Please contact customer service.');
+                                        if ($vou['discount_type'] != 100|| $vou['discount_type'] != 101) {
+                                            $vou['discount_type'] += 1;
+                                            $vou['usedTimes'] += 1;
+                                        }
 
-                                        return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
+                                        // -----save order-------
+                                        if ($order->validate() && $vou->validate()) 
+                                        {
+                                            $vou->save();
+                                            $order->save();
+                                        }
+                                        else
+                                        {
+                                            Yii::$app->session->setFlash('error', 'Failed to place order! Please contact customer service.');
+
+                                            return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
+                                        }
                                     }
                                 }
                             }
                         }
+                    }
+                    $order['Orders_TotalPrice'] =  $order['Orders_TotalPrice'] -  $order['Orders_DiscountEarlyAmount'];
+                    if ($order->validate()) {
+                        $order->save();
                     }
                 }
                 $checkdiscounts = Orders::find()->where('Delivery_ID = :did', [':did' => $did])->one();
@@ -574,21 +583,23 @@ class CartController extends CommonController
     }
 
     public function actionGetdiscount($dis,$did)
-    {
-       $valid = UserVoucher::find()->where('code = :c',[':c'=>$dis])->one();
+    { // ajax's function must do in one controller, can't pass to second
+        $valid = UserVoucher::find()->where('code = :c',[':c'=>$dis])->one();
+        $voucher = Vouchers::find()->where('code = :c',[':c'=>$dis])->one();
+       if ($voucher['discount_type'] == 100 || $voucher['discount_type'] == 101) {
+           $valid['endDate'] = date('Y-m-d',strtotime('+1 day'));
+       }
        if (!empty($valid)) 
         {
-            $voucher = Vouchers::find()->where('code = :c',[':c'=>$dis])->one();
-            if ($voucher['discount_type'] == 2 || $voucher['discount_type'] == 5) 
+            if ($voucher['discount_type'] == 2 || $voucher['discount_type'] == 5 || $voucher['discount_type'] == 100 || $voucher['discount_type'] == 101)  
             {
-                if ($valid->endDate > date('Y-m-d')) 
+                if ($valid['endDate'] > date('Y-m-d')) 
                 {
-                    //$value = DiscountController::Frontdiscount($dis,$did);
                     $vouchers = Vouchers::find()->where('code = :c',[':c'=>$dis])->all();
                     $value = Orders::find()->where('Delivery_ID=:id',[':id'=>$did])->one();
                     foreach ($vouchers as $k => $vou) 
                     {
-                        if ($vou['discount_type'] == 1 || $vou['discount_type'] == 2) 
+                        if ($vou['discount_type'] == 1 || $vou['discount_type'] == 2 || $vou['discount_type'] == 100)  
                         {
                             switch ($vou['discount_item']) 
                             {
@@ -611,7 +622,7 @@ class CartController extends CommonController
                                     break;
                             }
                         }
-                        elseif ($vou['discount_type'] == 4 || $vou['discount_type'] == 5) 
+                        elseif ($vou['discount_type'] == 4 || $vou['discount_type'] == 5 || $vou['discount_type'] == 101) 
                         {
                             switch ($vou['discount_item']) 
                             {
@@ -665,7 +676,6 @@ class CartController extends CommonController
         $value = 0;
        }
        $value = Json::encode($value);
-
        return $value;
     }
 

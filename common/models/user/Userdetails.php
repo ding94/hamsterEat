@@ -26,7 +26,7 @@ class Userdetails extends \yii\db\ActiveRecord
     }
 
     public function getFullname() {
-        if(is_null($this->User_FirstName) && is_null($this->User_LastName))
+        if(empty($this->User_FirstName) && empty($this->User_LastName))
         {
             return "not set";
         }

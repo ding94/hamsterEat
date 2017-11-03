@@ -12,7 +12,7 @@ use kartik\widgets\DatePicker;
     $this->params['breadcrumbs'][] = $this->title;
     
 ?>
-	<?=Html::beginForm(['vouchers/index'],'post'); ?>
+	<?=Html::beginForm(['vouchers/delete','direct'=>'2'],'post'); ?>
 	<?= Html::submitButton('Delete Coupon',  [
         'class' => 'btn btn-danger', 
         'data' => [

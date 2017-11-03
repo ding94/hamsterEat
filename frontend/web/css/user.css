@@ -1,8 +1,8 @@
 #userprofile{
-<<<<<<< HEAD
   margin:auto;
   padding-left: 30px;
   padding-right: 30px;
+  background-color: white
 }
 
 .userprofile-header-title{
@@ -41,6 +41,7 @@
   border-radius: 50%;
   background-position: 50%;
   background-size: cover;
+  border: 1px solid #FFDA00;
   cursor: pointer;
   background-repeat: no-repeat;
   width: 100%;
@@ -83,6 +84,65 @@
   font-size:1.5em;
 }
 
+.userprofile-edit-input{
+  border-left: 1px solid #efefef;
+}
+
+.userprofile-edit-left-nav{
+   border-bottom: 1px solid #efefef;
+}
+
+.add-new-address-btn{
+  float: right;
+}
+
+@media(max-width: 480px){
+  #userprofile{
+    padding: 0;
+  }
+
+  .userprofile-right{
+    height: 55em;
+  }
+
+  .userprofile-address .add-new-address-btn{
+    float: none;
+    margin-bottom: 3px;
+  }
+
+  .userprofile-address > table, thead, tbody, th, td, tr { 
+    display: block; 
+  }
+
+/* Hide table headers (but not display: none;, for accessibility) */
+  .userprofile-address thead tr { 
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  .userprofile-address tr { border: 1px solid #ccc; }
+  
+  .userprofile-address td { 
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee; 
+    position: relative;
+    padding-left: 50%; 
+  }
+  
+  .userprofile-address td:before { 
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%; 
+    padding-right: 10px; 
+    white-space: nowrap;
+  }
+}
+
 @media(max-width: 990px){
   .userprofile-avatar{
     margin : -17px;
@@ -112,10 +172,6 @@
 }
 
 @media(max-width: 489px){
-  .userprofile-right {
-      height: 40em;
-      background-color: white;
-  }
   #userprofile{
     padding-left:0px;
   }
@@ -129,10 +185,10 @@
 }
 
 .notic{
-	margin-bottom: 1em;
-	padding: 0;
-	align-items: center;
-	justify-content: center;
+  margin-bottom: 1em;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
 }
 
 .notic .a-notic{
@@ -146,7 +202,7 @@ margin-top: -10px;
   transform: translate(0, -8);
 }
 .a-notic{
-	 padding: 0px 10px;
+   padding: 0px 10px;
 }
 
 .a-notic:link {
@@ -163,9 +219,33 @@ margin-top: -10px;
 
 .a-notic:active {
     text-decoration: none;
+
 }
 
-=======
-     margin-top:50px;
+#profile-nav1 { 
+	display:block; 
+	padding-left:200px;;
+	}
+.nav-tabs1.ul {
+  max-width: 960px;
+  width: 100%;
+  margin: 15px auto;
+  text-align: center;
 }
->>>>>>> 7626a12947284f650858623c437676596856822a
+.nav-tabs1 >li { 
+	display: inline-block; 
+}
+
+.nav-tabs1 .ul {  }
+.nav-tabs1 >li{ }
+.label-btn {
+  display:block;
+  width: 200px;
+  padding: 10px 5px; 
+  
+}
+.fa-user,.fa-money,.fa-cutlery,.fa-comment{
+	color:#FFDA00;
+}
+
+

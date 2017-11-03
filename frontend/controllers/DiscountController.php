@@ -16,11 +16,11 @@ class DiscountController extends Controller
 	public static function discount($post,$price)
 	{
 		$voucher = Vouchers::find()->where('id =:id',[':id'=>$post])->one();
-		
-		if ($voucher['discount_type'] >= 1 && $voucher['discount_type'] <= 3) {
+
+		if (($voucher['discount_type'] >= 1 && $voucher['discount_type']<= 3) || $voucher['discount_type'] == 100)  {
 			$price = $price * ((100 - $voucher['discount']) / 100);
 		}
-		elseif ($voucher['discount_type'] >= 4 && $voucher['discount_type'] <= 6) {
+		elseif ($voucher['discount_type'] >= 4 && $voucher['discount_type'] <= 6 || $voucher['discount_type'] == 101) {
 			$price = $price - $voucher['discount'];
 		}
 
@@ -32,10 +32,10 @@ class DiscountController extends Controller
 	{
 		$voucher = Vouchers::find()->where('id =:id',[':id'=>$post])->one();
 		
-		if ($voucher['discount_type'] >= 1 && $voucher['discount_type'] <= 3) {
+		if (($voucher['discount_type'] >= 1 && $voucher['discount_type']<= 3) || $voucher['discount_type'] == 100)  {
 			$price = (($price*$voucher['discount']) / 100);
 		}
-		elseif ($voucher['discount_type'] >= 4 && $voucher['discount_type'] <= 6) {
+		elseif ($voucher['discount_type'] >= 4 && $voucher['discount_type'] <= 6 || $voucher['discount_type'] == 101) {
 			$price = $voucher['discount'];
 		}
 

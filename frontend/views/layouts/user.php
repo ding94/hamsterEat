@@ -158,11 +158,11 @@ NotificationAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <div class="container">
-            <ul id="profile-nav1" class="nav nav-tabs1 ">
-                <li role="presentation"><label class="label-btn"><i class="fa fa-user fa-lg"></i>&nbsp<?php echo Html::a('Profile',['/user/user-profile'])?></label></li>
-                <li role="presentation"><label class="label-btn"><i class="fa fa-money fa-lg"></i>&nbsp<?php echo Html::a('Balance',['/user/userbalance'])?></label></li>
-                <li role="presentation"><label class="label-btn"><i class="fa fa-cutlery fa-lg"></i>&nbsp<?php echo Html::a('Order',['/order/my-orders'])?></label></li>
-                <li role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i>&nbsp<a href="#">Messages</a></label></li>
+            <ul id="nav" class="nav nav-default">
+                <li role="presentation"><label class="label-btn"><i class="fa fa-user fa-lg"></i>&nbsp;<?php echo Html::a('Profile',['/user/user-profile'])?></label></li>
+                <li role="presentation"><label class="label-btn"><i class="fa fa-money fa-lg"></i>&nbsp;<?php echo Html::a('Balance',['/user/userbalance'])?></label></li>
+                <li role="presentation"><label class="label-btn"><i class="fa fa-cutlery fa-lg"></i>&nbsp;<?php echo Html::a('Order',['/order/my-orders'])?></label></li>
+                <li role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i>&nbsp;<a href="#">Messages</a></li>
             </ul>
         </div>
         <div class="content">

@@ -10,30 +10,38 @@ use frontend\assets\UserAsset;
 UserAsset::register($this);
 ?>
 
-<div class="container">
-	<div class="tab-content col-md-6 col-md-offset-1" id="userprofile">
-		<table class="table table-user-information"><h1>User Balance</h1>
-                <tbody>
-                  <tr>
-                    <td>My Balance (RM):</td>
-                    <td><?php echo $model['User_Balance']; ?></td>
-                  </tr>
-				  <tr>
-                    <td>My Point:</td>
-                    <td><?php echo $memberpoint['point']; ?></td>
-                  </tr>
-               </tbody>
-            </table>
-            <a class="btn btn-md btn-warning" href="<?php echo yii\helpers\Url::to(['topup/index'])?>">Top Up</a>
-            <a class="btn btn-md btn-warning" href="<?php echo yii\helpers\Url::to(['withdraw/index'])?>">Withdraw</a>
-            <?php 
-             // if ($offlinetopup['rejectReason']!= null) { 
-              // echo Html::a('Reject Reason', '#', ['id' => 'rejectreason','data-toggle' => 'modal','data-target' => '#reason-modal','class' => 'btn btn-success',]);
-            //  }
-              ?>
-			  <br><br>
-		
-	</div>
+<div id="userprofile" class="row">
+   <div class="userprofile-header">
+        <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
+    </div>
+    <div class="userprofile-detail">
+        <div class="col-sm-2 ">
+           <ul class="nav nav-pills nav-stacked">
+                <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">My Balance</a></li>
+                <li role="presentation"><?php echo Html::a("Top Up",['/topup/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                <li role="presentation"><?php echo Html::a("Withdraw",['/withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+            </ul>
+        </div>
+        <div class="col-sm-8 userprofile-right">
+             <div class="userprofile-input">
+                <div class="row">
+                  <div class="col-xs-4 userprofile-label">My Balance(RM) :</div>
+                  <div class="col-xs-6 userprofile-text"><?php echo $model->User_Balance?></div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-4 userprofile-label">My Point :</div>
+                  <div class="col-xs-6 userprofile-text"><?php echo $memberpoint->point ?></div>
+                </div>
+             </div>
+             <div class="userprofile-address">
+                <?php foreach($model->history as $history):?>
+                    <div>
+                      <?php echo $history->description ?>
+                    </div>
+                <?php endforeach ;?>  
+             </div>
+        </div>
+    </div>
 </div>
 
 <?php 

@@ -49,7 +49,9 @@ class WithdrawController extends CommonController
 			//var_dump($model->withdraw_amount > $balance->balance);exit;
 			if($model->withdraw_amount <= $balance->User_Balance -2)
 			{	
-				$balance ->User_Balance -= ($model->withdraw_amount+2);
+				$balance ->User_Balance -= $model->withdraw_amount;
+				$balance->type = 3;
+				$balance->defaultAmount = ($model->withdraw_amount+2);
 				//var_dump($balance->save()); exit;
 				self::actionValidation($model,$balance);
 				Yii::$app->session->setFlash('success', 'Upload Successful');

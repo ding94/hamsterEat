@@ -6,9 +6,11 @@ use Yii;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
 use app\modules\finance\controllers\DefaultController;
+use app\modules\finance\controllers\AccountHistoryController;
 use common\models\Account\AccountForce;
 use common\models\User;
 use common\models\Account\AccountForceSearch;
+
 
 class AccountforceController extends Controller
 {
@@ -79,6 +81,7 @@ class AccountforceController extends Controller
 		{
 			$force->save();
 			$userAccount->save();
+			AccountHistoryController::createHistory($force->reason,$force->reduceOrPlus,$force->amount,$userAccount->AB_ID);
 			Yii::$app->session->setFlash('success', "Success Operate");
 			return true;
 		}

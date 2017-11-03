@@ -108,17 +108,17 @@ class UserController extends CommonController
 	public function actionUserbalance()
  	{
  		
-		$model = Accountbalance::find()->where('User_Username = :User_Username' ,[':User_Username' => Yii::$app->user->identity->username])->one();
+		$model = Accountbalance::find()->where('User_Username = :User_Username' ,[':User_Username' => Yii::$app->user->identity->username])->joinWith(['history' =>function($query){
+            $query->limit(3);
+        }])->one();
+      
 		//var_dump($balance);exit;
  		$accounttopup = Accounttopup::find()->where('User_Username= :User_Username' ,[':User_Username' => Yii::$app->user->identity->username])->one();
  		$memberpoint = Memberpoint::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();
 		//var_dump($memberpoint);exit;
-		if (empty($model)) 
- 		{
- 			$model = new Accountbalance();
- 		}
 
  		$this->layout = 'user';
+         $this->view->title = 'User Balance';
 		return $this->render('userbalance', ['model' => $model,'accounttopup' => $accounttopup,'memberpoint' =>$memberpoint]);
  	}
     

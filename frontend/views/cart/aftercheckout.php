@@ -26,10 +26,7 @@ $this->title = "Order Placed";
             elseif ($timedate['Orders_PaymentMethod'] == "Account Balance")
             {
                 echo "<tr>";
-                echo "<th><center> You have paid with your Account Balance</th>";
-            echo "</tr>";
-            echo "<tr>";
-                echo "<td><center> You have a total of RM xx.xx left in your account.</td>";
+                echo "<th><center> You have paid RM ".$timedate['Orders_TotalPrice']." with your Account Balance</th>";
             echo "</tr>";
             }
             ?>

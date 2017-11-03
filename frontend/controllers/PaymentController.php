@@ -25,6 +25,9 @@ class PaymentController extends CommonController
                 $payment->save();
 
                 $userbalance->User_Balance -= $order->Orders_TotalPrice; /* order price amount */
+                $userbalance->type = 5;
+                $userbalance->deliveryid = $did;
+                $userbalance->defaultAmount = $order->Orders_TotalPrice;
                 $userbalance->save();
 
                 Yii::$app->session->setFlash('success', 'Payment Successful');

@@ -69,7 +69,7 @@ class WithdrawController extends \yii\web\Controller
 		if ($model->action == 1)
 		{
 						
-				if($model->load(Yii::$app->request->post()))
+			if($model->load(Yii::$app->request->post()))
 			{
 				$balance = self::addBalance($model);
 				$model->action =4;
@@ -91,21 +91,22 @@ class WithdrawController extends \yii\web\Controller
 		}		
 			
 		
-		protected static function addBalance($model)
+	protected static function addBalance($model)
 	{
 		$uid = Withdraw::find()->where('uid = :name',[':name'=>$model->uid])->one()->uid;
 		$username = User::find()->where('id = :id',[':id'=>$uid])->one()->username;
 		
 		$balance =Accountbalance::find()->where('User_Username = :User_Username',[':User_Username'=>$username])->one();
 		// $balance ->AB_minus -= $model->withdraw_amount;
-		$balance ->User_Balance += $model->withdraw_amount+2;
-		
+		$balance ->User_Balance += $model->withdraw_amount;
+		$balance->type = 4;
+		$balance->defaultAmount = $model->withdraw_amount;
 		return $balance;
 	}
 			    		
 		
 
-		}
+}
 		
 	
 

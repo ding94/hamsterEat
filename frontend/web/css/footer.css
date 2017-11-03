@@ -39,21 +39,29 @@ padding-bottom:3%;
 .btn-facebook,.btn-google,.btn-instagram{
 	margin-right:5%;
 	margin-left:5%;
-  background-color:#fff;
-  border-radius: 50%;
+	background-color:#fff;
+	border-radius: 50%;
 }
-
+.btn-facebook{
+	color:#3B5998;
+}
 .btn-facebook:hover{
-  background: #FFDA00;
-  color: white;
+	background: #3B5998;
+	color: white;
+}
+.btn-google{
+	color:#DC4A38;
 }
 .btn-google:hover{
-  background: #FFDA00;
-  color: white;
+    background: #DC4A38;
+    color: white;
+}
+.btn-instagram{
+	color:#d6249f;
 }
 .btn-instagram:hover{
-  background: #FFDA00;
-  color: white;
+    background: #d6249f;
+    color: white;
 }
 
 #Box4{

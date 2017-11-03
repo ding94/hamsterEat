@@ -11,7 +11,7 @@ MyOrdersAsset::register($this);
 
     <?php echo "<h1> My Orders </h1>";
     echo '<div class="content">';
-    echo'<ul class="nav nav-pills">';
+    echo'<ul id="order"class="nav nav-pills">';
     echo'  <li class="active"><a data-toggle="pill" href="#pending"><h4>Pending<span class="badge">'.Yii::$app->view->params['countPending'].'</h4></span></a></li>';
     echo'   <li><a data-toggle="pill" href="#preparing"><h4>Preparing<span  class="badge">'.Yii::$app->view->params['countPreparing'].'</span></h4></a></li>';
     echo'   <li><a data-toggle="pill" href="#pickup"><h4>Pick Up in Process<span class="badge">'.Yii::$app->view->params['countPickup'].'</h4></span></a></li>';

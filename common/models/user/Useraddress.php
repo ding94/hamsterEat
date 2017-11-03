@@ -46,7 +46,7 @@ class Useraddress extends \yii\db\ActiveRecord
 
     public function getFullAddress()
     {
-        return $this->address .",". $this->city .",". $this->state ;
+        return $this->address .", ". $this->city .", ". $this->state ;
     }  
 
     /**

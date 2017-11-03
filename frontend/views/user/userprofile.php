@@ -67,7 +67,7 @@ UserAsset::register($this);
 
           <div class="userprofile-address">
             <?php $count = count($user->address)?>
-            <?php echo $count < 3 ? Html::a("Add New Address",['/user/newaddress'],['class' => 'btn btn-success pull-right','data-toggle'=>'modal','data-target'=>'#address-modal']) : ""?>
+            <?php echo $count < 3 ? Html::a("Add New Address",['/user/newaddress'],['class' => 'btn btn-success add-new-address-btn','data-toggle'=>'modal','data-target'=>'#address-modal']) : ""?>
         
               <?php if(empty($user->address)) :?>
                   <h4>Empty Address</h4>

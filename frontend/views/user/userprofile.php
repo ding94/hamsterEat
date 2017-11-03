@@ -28,7 +28,7 @@ UserAsset::register($this);
     
   Modal::end() ?>
 
-    <div id="userprofile" class="row" style="background-color: white">
+    <div id="userprofile" class="row">
       <div class="userprofile-header">
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
       </div>
@@ -80,9 +80,17 @@ UserAsset::register($this);
                       <td><?php echo $address->level == 1 ? '<span class="btn btn-danger btn-block">Primary</span>': Html::a('Mark as Primary',['/user/primary-address','id' => $address->id ])?></td>
                       <td><?php echo $address->FullAddress?></td>
                       <td>
-                        <?php echo Html::a("<span class='glyphicon glyphicon-pencil userprofile-pencil'></span>",['/user/edit-address','id'=> $address->id] )?>
-                        -
-                        <?php echo Html::a("<span class='glyphicon glyphicon-trash userprofile-trash'></span>",['/user/delete-address','id'=> $address->id] )?>    
+                        <div class="row">
+                          <div class="col-xs-6">
+                            <?php echo Html::a("<span class='glyphicon glyphicon-pencil userprofile-pencil'></span>",['/user/edit-address','id'=> $address->id] )?>
+                          </div>
+                          <div class="col-xs-6">
+                            <?php echo Html::a("<span class='glyphicon glyphicon-trash userprofile-trash'></span>",['/user/delete-address','id'=> $address->id] )?>    
+                          </div>
+                        </div>
+                        
+                       
+                        
                       </td>
                     </tr>
                   <?php endforeach;?>

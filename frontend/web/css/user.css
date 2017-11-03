@@ -1,8 +1,8 @@
 #userprofile{
-<<<<<<< HEAD
   margin:auto;
   padding-left: 30px;
   padding-right: 30px;
+  background-color: white
 }
 
 .userprofile-header-title{
@@ -83,6 +83,14 @@
   font-size:1.5em;
 }
 
+.userprofile-edit-input{
+  border-left: 1px solid #efefef;
+}
+
+.userprofile-edit-left-nav{
+   border-bottom: 1px solid #efefef;
+}
+
 @media(max-width: 990px){
   .userprofile-avatar{
     margin : -17px;
@@ -129,10 +137,10 @@
 }
 
 .notic{
-	margin-bottom: 1em;
-	padding: 0;
-	align-items: center;
-	justify-content: center;
+  margin-bottom: 1em;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
 }
 
 .notic .a-notic{
@@ -146,7 +154,7 @@ margin-top: -10px;
   transform: translate(0, -8);
 }
 .a-notic{
-	 padding: 0px 10px;
+   padding: 0px 10px;
 }
 
 .a-notic:link {

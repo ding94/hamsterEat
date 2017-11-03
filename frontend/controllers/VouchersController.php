@@ -34,6 +34,7 @@ class VouchersController extends CommonController
 	{
 		$model = UserVoucher::find()->where('uid = :id',[':id'=>Yii::$app->user->identity->id])->all();
 		$key = 0;
+		$this->layout = 'user';
 		if (!empty($model)) {
 			foreach ($model as $k => $var) {
 				/*
@@ -57,12 +58,9 @@ class VouchersController extends CommonController
 					}
 					$key=$key+1;
 				}
-				
 			}
-			$this->layout = 'user';
 			return $this->render("index",['model'=>$model,'uservoucher'=>$uservoucher]);
 		}
-		$this->layout = 'user';
 		return $this->render("index",['model'=>$model]);
 
 	}

@@ -10,17 +10,24 @@ use yii\captcha\Captcha;
 
 $this->title = 'Submit Ticket';
 ?>
-<div class="container">
-<div class="site-contact">
-	  <div class="col-lg-6 col-lg-offset-1" style="text-align:center">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
-    </p>
+<div class="container" id="userprofile">
+	 <div class="userprofile-header">
+        <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
+    </div>
+   <div class="userprofile-detail">
+        <div class="col-sm-2">
+           <ul class="nav nav-pills nav-stacked">
+                <li role="presentation"><?php echo Html::a("All",['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Submit Ticket</a></li>
+				<li role="presentation"><?php echo Html::a("Completed Ticket",['/ticket/completed'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+            </ul>
+        </div>
  </div>
     <div class="container">
-     <div class="col-lg-6 col-lg-offset-1">
+     <div class="col-sm-8 userprofile-edit-input">
+	  <p style="text-align:center;">
+        If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
+    <br></p>
             <?php $form = ActiveForm::begin(); ?>
                 <?= $form->field($model, 'Ticket_Subject')->textInput(['autofocus' => true]) ?>
                 <?= $form->field($model, 'Ticket_Category')->dropDownList($data) ?>
@@ -38,5 +45,4 @@ $this->title = 'Submit Ticket';
         </div>
     </div>
 
-</div>
 </div>

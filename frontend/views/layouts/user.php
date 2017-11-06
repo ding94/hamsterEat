@@ -14,9 +14,11 @@ use yii\helpers\Url;
 use common\models\Rmanager;
 use common\models\Restaurant;
 use frontend\assets\NotificationAsset;
+use frontend\assets\UserAsset;
 
 AppAsset::register($this);
 NotificationAsset::register($this);
+UserAsset::register($this);
 ?>
 <style>
     span.badge{

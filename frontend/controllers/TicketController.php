@@ -71,7 +71,7 @@ class TicketController extends CommonController
             if ($model->validate()) {
                 $model->save();
                 Yii::$app->session->setFlash('success', 'Upload Successful');
-                return $this->redirect(['/ticket/submit-ticket']);
+                return $this->redirect(['/ticket/index']);
             }
             else
             {

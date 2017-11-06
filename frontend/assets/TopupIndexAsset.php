@@ -13,9 +13,10 @@ class TopupIndexAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/topup-index.css',
+        'css/user.css',
     ];
     public $js = [
-        // 'js/rating-index.js',
+        
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -27,7 +27,7 @@ $this->title = 'Submit Ticket';
      <div class="col-sm-8 userprofile-edit-input">
 	  <p style="text-align:center;">
         If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
-    <br></p>
+    </p><br>
             <?php $form = ActiveForm::begin(); ?>
                 <?= $form->field($model, 'Ticket_Subject')->textInput(['autofocus' => true]) ?>
                 <?= $form->field($model, 'Ticket_Category')->dropDownList($data) ?>

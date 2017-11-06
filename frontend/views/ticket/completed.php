@@ -25,6 +25,8 @@ use yii\helpers\ArrayHelper;
             </ul>
         </div>
 <div class="col-sm-8 userprofile-edit-input">
+<p style="text-align:center;">
+We would like to thank you for writing to us, have a great day!</p><br>
         <table class="table table-inverse">
             <tr >
                 <th>Serial No.</th>

@@ -28,6 +28,8 @@ use backend\models\Admin;
         </div>
        
     <div class="col-sm-8 userprofile-edit-input">
+	<p style="text-align:center;">We’re thrilled to hear from you, so talk to us any time you like.
+	</p><br>
         <table class="table table-inverse">
             <tr >
                 <th>Serial No.</th>

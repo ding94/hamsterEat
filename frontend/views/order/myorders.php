@@ -20,9 +20,9 @@ MyOrdersAsset::register($this);
       <li><a data-toggle="pill" href="#completed">Completed<span class="badge"><?php echo Yii::$app->view->params['countCompleted'] ?></span></a></li>
     </ul>
     </div>
-    <div class="col-sm-8 tab-content">
+    <div class="col-sm-8 tab-content my-orders-table">
       <div id="pending" class="tab-pane fade in active">
-        <table class="table table-user-info orderTable" style="width: 80%;">
+        <table class="table table-user-info orderTable col-sm-8">
           <tr>
             <th><center>Delivery ID</th>
             <th><center>Date and Time Placed</th>
@@ -60,7 +60,7 @@ MyOrdersAsset::register($this);
         </table>
       </div>
       <div id="preparing" class="tab-pane fade">
-        <table class="table table-user-info orderTable" style="width: 80%;">
+        <table class="table table-user-info orderTable col-sm-8">
           <tr>
             <th><center>Delivery ID</th>
             <th><center>Date and Time Placed</th>
@@ -98,7 +98,7 @@ MyOrdersAsset::register($this);
         </table>
       </div>
       <div id="pickup" class="tab-pane fade">
-        <table class="table table-user-info orderTable" style="width: 80%;">
+        <table class="table table-user-info orderTable col-sm-8">
           <tr>
             <th><center>Delivery ID</th>
             <th><center>Date and Time Placed</th>
@@ -136,7 +136,7 @@ MyOrdersAsset::register($this);
         </table>
       </div>
       <div id="ontheway" class="tab-pane fade">
-        <table class="table table-user-info orderTable" style="width: 80%;">
+        <table class="table table-user-info orderTable col-sm-8">
           <tr>
             <th><center>Delivery ID</th>
             <th><center>Date and Time Placed</th>
@@ -174,7 +174,7 @@ MyOrdersAsset::register($this);
         </table>
       </div>
       <div id="completed" class="tab-pane fade">
-        <table class="table table-user-info orderTable" style="width: 80%;">
+        <table class="table table-user-info orderTable col-sm-8">
           <tr>
             <th><center>Delivery ID</th>
             <th><center>Date and Time Placed</th>

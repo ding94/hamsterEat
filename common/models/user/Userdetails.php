@@ -39,6 +39,7 @@ class Userdetails extends \yii\db\ActiveRecord
             [['User_id'], 'required'],
             [['User_ContactNo','User_id'], 'integer'],
             [[ 'User_FirstName', 'User_LastName', 'User_PicPath' ], 'string', 'max' => 255],
+            [['User_FirstName', 'User_LastName','User_ContactNo',],'required','on'=>['out']],
             
         ];
     }

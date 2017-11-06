@@ -227,7 +227,6 @@ margin-top: -10px;
 	justify-content:space-between;
 }
 .nav-default.ul {
-
   max-width: 960px;
   width: 100%;
   margin: 15px auto;
@@ -244,6 +243,21 @@ margin-top: -10px;
   padding: 10px 5px; 
   
 }
+
 .fa-user,.fa-money,.fa-cutlery,.fa-comment{
-	color:#FFDA00;
+    color:#FFDA00;
+}
+.vl {
+    border-left: 1px solid #FFDA00;
+    height: 40px;
+    position: absolute;
+
+    top: 2px;
+}
+@media(max-width: 388px){
+	.fa-user,.fa-money,.fa-cutlery,.fa-comment{
+    color:#FFDA00;
+	position:relative;
+	padding-left:20px;
+}
 }

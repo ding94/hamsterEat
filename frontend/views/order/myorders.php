@@ -6,10 +6,10 @@ $this->title = "My Orders";
 
 MyOrdersAsset::register($this);
 ?>
-<div id="my-orders" class = "container">
+<div class = "container">
   <div class="my-orders-header">
-      <div class="my-orders-header-title"><?php echo Html::encode($this->title)?></div>
-  </div>
+        <div class="my-orders-header-title"><?php echo Html::encode($this->title)?></div>
+    </div>
   <div class="content">
     <div class="col-sm-2 ">
     <ul id="order" class="nav nav-pills nav-stacked">
@@ -42,7 +42,7 @@ MyOrdersAsset::register($this);
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
             <td><center>
               <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo strtotime($orders['Orders_DateTimeMade']); ?>
+                <?php echo $orders['Orders_DateTimeMade']; ?>
               </a>
             </td>
             <?php if ($orders['Orders_Status'] != 'Completed'){ ?>

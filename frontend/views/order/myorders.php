@@ -6,10 +6,10 @@ $this->title = "My Orders";
 
 MyOrdersAsset::register($this);
 ?>
-<div class = "container">
+<div id="my-orders" class = "container">
   <div class="my-orders-header">
-        <div class="my-orders-header-title"><?php echo Html::encode($this->title)?></div>
-    </div>
+      <div class="my-orders-header-title"><?php echo Html::encode($this->title)?></div>
+  </div>
   <div class="content">
     <div class="col-sm-2 ">
     <ul id="order" class="nav nav-pills nav-stacked">

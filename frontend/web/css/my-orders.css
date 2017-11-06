@@ -1,3 +1,7 @@
+#my-orders{
+	background-color: white;
+}
+
 #order .nav.nav-pills a:focus{
     border-bottom: 1px solid;
 }

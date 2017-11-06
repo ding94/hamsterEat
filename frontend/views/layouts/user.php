@@ -167,7 +167,7 @@ UserAsset::register($this);
 				<li class="vl"></li>
                 <li role="presentation"><label class="label-btn"><i class="fa fa-cutlery fa-lg"></i>&nbsp;<?php echo Html::a('Order',['/order/my-orders'])?></label></li>
 				<li class="vl"></li>
-                <li role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i>&nbsp;<a href="#">Messages</a></li>
+                <li role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i>&nbsp;<?php echo Html::a('Messages',['/ticket/index'])?></label></li>
             </ul>
         </div>
         <div class="content">

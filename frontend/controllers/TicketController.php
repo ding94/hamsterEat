@@ -123,6 +123,7 @@ class TicketController extends CommonController
             if (!empty($upload->imageFile)) {
 
                 $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
+				
                 $upload->upload($path.'/');
                 $reply->Replies_PicPath = $path.'/'.$upload->imageFile->name;
             }

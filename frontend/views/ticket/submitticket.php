@@ -25,7 +25,8 @@ $this->title = 'Submit Ticket';
  </div>
     <div class="container">
      <div class="col-sm-8 userprofile-edit-input">
-	  <p style="text-align:center;">
+	 <a class="back" href="../web/index.php?r=ticket%2Findex"><i class="fa fa-angle-left">&nbsp;Back</i></a><br>
+	  <p style="text-align:center; padding-top:20px;">
         If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
     </p><br>
             <?php $form = ActiveForm::begin(); ?>
@@ -36,9 +37,8 @@ $this->title = 'Submit Ticket';
 
                  <?= $form->field($upload, 'imageFile')->fileInput() ?>
 
-                <div class="form-group" style="padding-left: 30%">
+                <div class="form-group" style="padding-left: 40%">
                     <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
-                   <?= Html::a('Back', ['/ticket/index'], ['class'=>'btn btn-primary']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

@@ -57,7 +57,7 @@ class AccountforceController extends Controller
 		{
 			if(Yii::$app->user->can('admin'))
 			{
-				$force->reduceOrPlus = 1;
+				$force->reduceOrPlus = 0;
 				$force->amount = (double)$amount;
 			}
 			else
@@ -69,7 +69,7 @@ class AccountforceController extends Controller
 		}
 		else
 		{
-			$force->reduceOrPlus = 0;
+			$force->reduceOrPlus = 1;
 			$force->amount = (double)$amount;
 		}
 
@@ -81,6 +81,7 @@ class AccountforceController extends Controller
 		{
 			$force->save();
 			$userAccount->save();
+		
 			AccountHistoryController::createHistory($force->reason,$force->reduceOrPlus,$force->amount,$userAccount->AB_ID);
 			Yii::$app->session->setFlash('success', "Success Operate");
 			return true;

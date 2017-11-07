@@ -11,7 +11,8 @@ class AccountHistoryController extends Controller
 	public static function createHistory($reason,$type,$amount,$abid)
 	{
 		$history = new AccountbalanceHistory;
-		$history->amount = substr($amount, 1); 
+		$amount = $type == 0 ? substr($amount, 1) : $amount;
+		$history->amount = $amount; 
 		$history->type = $type;
 		$history->description = $reason;
 		$history->abid = $abid;

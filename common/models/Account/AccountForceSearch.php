@@ -17,7 +17,7 @@ class AccountForceSearch extends AccountForce
 
 	public function search($params)
 	{
-		$query = AccountForce::find();
+		$query = AccountForce::find()->orderBy(['created_at' => SORT_DESC]);
 
 		$query->joinWith(['user','admin']);
 

@@ -51,17 +51,19 @@ UserAsset::register($this);
           <h4>Detail</h4>
           <div class="userprofile-input">
               <div class="row">
-                <div class="col-xs-2 userprofile-label">user name</div>
-                <div class="col-xs-6 userprofile-text"><?php echo $user->username?></div>
-              </div>
-              <div class="row">
-                <div class="col-xs-2 userprofile-label">full name</div>
-
-                <div class="col-xs-6 userprofile-text"><?php echo $user->userdetails->fullname ?></div>
+                <div class="col-xs-2  userprofile-label">user name</div>
+                <div class="col-xs-4  userprofile-text"><?php echo $user->username?></div>
+              
+                <div class="col-sm-2 col-xs-2 userprofile-label">full name</div>
+                <div class="col-sm-4 col-xs-6 userprofile-text"><?php echo $user->userdetails->fullname ?></div>
               </div>
               <div class="row">
                 <div class="col-xs-2 userprofile-label">contact</div>
                 <div class="col-xs-6 userprofile-text"><?php echo empty($user->userdetails->User_ContactNo) ? "not set" :$user->userdetails->User_ContactNo ?></div>
+              </div>
+              <div class="row">
+                <div class="col-xs-2 userprofile-label">Balance(RM)</div>
+                <div class="col-xs-6 userprofile-text"><?php echo $user->balance->User_Balance?></div>
               </div>
           </div>
 
@@ -90,10 +92,10 @@ UserAsset::register($this);
                       <td>
                         <div class="row">
                           <div class="col-xs-6">
-                            <?php echo Html::a("<span class='glyphicon glyphicon-pencil userprofile-pencil'></span>",['/user/edit-address','id'=> $address->id],['data-toggle'=>'modal','data-target'=>'#edit-address-modal'])?>
+                            <?php echo Html::a("<span class='glyphicon glyphicon-pencil userprofile-pencil' title='edit'></span>",['/user/edit-address','id'=> $address->id],['data-toggle'=>'modal','data-target'=>'#edit-address-modal'])?>
                           </div>
                           <div class="col-xs-6">
-                            <?php echo Html::a("<span class='glyphicon glyphicon-trash userprofile-trash'></span>",['/user/delete-address','id'=> $address->id] ,['data' => ['confirm' => 'Are You Sure Want to Delete Address','method' => 'post']] )?>    
+                            <?php echo Html::a("<span class='glyphicon glyphicon-trash userprofile-trash' title='delete'></span>",['/user/delete-address','id'=> $address->id] ,['data' => ['confirm' => 'Are You Sure Want to Delete Address','method' => 'post']] )?>    
                           </div>
                         </div>        
                       </td>

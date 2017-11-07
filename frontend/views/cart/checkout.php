@@ -16,6 +16,14 @@ Modal::begin([
       'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
 ]);
 Modal::end();
+//edit address modal
+Modal::begin([
+      'header' => '<h2 class="modal-title">Edit address</h2>',
+      'id'     => 'edit-address-modal',
+      'size'   => 'modal-md',
+      'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+]);
+Modal::end();
 
 ?>
 <body>
@@ -43,11 +51,11 @@ Modal::end();
         </table>
         <table class="table table-user-address">
             <tr>
-                <th colspan = "2"> <h3>Delivery Address </h3> <p style='color: grey;'>(Default as Primary)</p></th>
+                <th colspan = "3"> <h3>Delivery Address </h3> <p style='color: grey;'>(Default as Primary)</p></th>
             </tr>
 
             <tr>
-                <td colspan = "2" >
+                <td colspan = '2'>
                     <?php 
                         if (!empty($address)) 
                         {
@@ -64,15 +72,18 @@ Modal::end();
                         }
                     ?>
                 </td>
+                <td><?php if(!empty($address)){ echo Html::a('Edit',['/cart/editaddress'],['class' => 'btn btn-primary','data-toggle'=>'modal','data-target'=>'#edit-address-modal','style'=>'float:right']); } ?></td>
             </tr>
             <tr>
                 <th> Area: </th>
                 <td> <?= $session['area']; ?></td>
+                <td></td>
             </tr>
 
             <tr>
                 <th> Postcode: </th>
                 <td> <?= $session['postcode']; ?></td>
+                <td></td>
             </tr>
         </table>
         <br>

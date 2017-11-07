@@ -43,14 +43,15 @@ class TopupController extends CommonController
 		//var_dump($bank);exit;
         $upload->scenario = 'ticket';
     	$path = Yii::$app->params['imageLocation'];
+
 		// $items = ArrayHelper::map(BankDetails::find()->all(), 'bank_name', 'bank_name');
     	if(Yii::$app->request->post())
     	{
     		$post = Yii::$app->request->post();
 			$model->load($post);
-            var_dump($post);exit;
+            
     		$model->User_Username = User::find()->where('id = :id',[':id' => Yii::$app->user->identity->id])->one()->username;
-
+            $model->Account_TransactionDate = time();
 			$model->Account_Action = 1;
 			$model->Account_ActionBefore=1;
     		$upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');

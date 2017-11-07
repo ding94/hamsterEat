@@ -47,9 +47,9 @@ use kartik\widgets\ActiveForm;
               'attribute' => 'reduceOrPlus',
               'value' => function($model)
               {
-                  return $model->reduceOrPlus == 1 ? 'Deduct' : 'Plus';
+                  return $model->reduceOrPlus == 0 ? 'Deduct' : 'Plus';
               },
-              'filter' => array( "1"=>"Deduct","0"=>"Plus"),
+              'filter' => array( "0"=>"Deduct","1"=>"Plus"),
             ],
             [
                 'attribute' => 'amount',

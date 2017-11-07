@@ -15,7 +15,8 @@ use backend\models\Admin;
 ?>
 
 <div class="container" style="background-color:white;">
-    <h1 class="col-md-6 col-md-offset-3" style="text-align:center;"><?= Html::encode($this->title) ?></h1><br>
+ <a class="back" href="../web/index.php?r=ticket%2Findex"><i class="fa fa-angle-left">&nbsp;Back</i></a><br>
+	<h1 class="col-md-6 col-md-offset-3" style="text-align:center;"><?= Html::encode($this->title) ?></h1><br>
     <h4 class="col-md-6 col-md-offset-3" style="text-align:center;"><?php echo "Serial ID : " . $sid; ?></h4>
     <br>
     <div class="col-md-8 col-md-offset-2">
@@ -56,7 +57,7 @@ use backend\models\Admin;
 
         <div style="padding-left: 40%" class="form-group">
              <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
-             <?= Html::a('Back', ['/ticket/index'], ['class'=>'btn btn-primary']) ?>
+            
         </div>
         <?php ActiveForm::end(); ?>
       <?php endif ?>

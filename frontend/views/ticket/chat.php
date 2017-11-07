@@ -14,7 +14,7 @@ use backend\models\Admin;
     $this->title = 'My Questions';
 ?>
 
-<div class="container">
+<div class="container" style="background-color:white;">
     <h1 class="col-md-6 col-md-offset-3" style="text-align:center;"><?= Html::encode($this->title) ?></h1><br>
     <h4 class="col-md-6 col-md-offset-3" style="text-align:center;"><?php echo "Serial ID : " . $sid; ?></h4>
     <br>

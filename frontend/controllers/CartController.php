@@ -38,7 +38,7 @@ class CartController extends CommonController
                  //'only' => ['logout', 'signup','index'],
                  'rules' => [
                     [
-                        'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount','newaddress'],
+                        'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount','newaddress','editaddress','getaddress'],
 
                         'allow' => true,
                         'roles' => ['@'],
@@ -342,12 +342,18 @@ class CartController extends CommonController
                 Yii::$app->session->setFlash('error', 'Please fill in all information correctly!');
                 return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
             }
-            $checkout['Orders_Location'] = Useraddress::find()->where('id = :id',[':id'=>$checkout['Orders_Location']])->one()->address;
+            $orderlocation = Useraddress::find()->where('id = :id',[':id'=>$checkout['Orders_Location']])->one();
+            if ($session['postcode']!= $orderlocation['postcode']) {
+                Yii::$app->session->setFlash('error', 'Please address postcode no same with delivery postcode!');
+                return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
+            }
+            $checkout['Orders_Location'] = $orderlocation->address;
             $timenow = Yii::$app->formatter->asTime(time());
             $early = date('08:00:00');
             //$last = date('11:00:59');
             $last = date('23:00:59');
 
+            var_dump($session['postcode']);exit;
             if ($early <= $timenow && $last >= $timenow)
             {
                 $earlydiscount = CartController::actionRoundoff1decimal($checkout['Orders_Subtotal']) * 0.2;
@@ -605,13 +611,46 @@ class CartController extends CommonController
             }
             else
             {
-                ii::$app->session->setFlash('danger', ' Address Add Fail');
+                Yii::$app->session->setFlash('danger', ' Address Add Fail');
             }
             return $this->redirect(Yii::$app->request->referrer);
         }
         $this->layout = 'user';
         $this->view->title = 'Add New Address';
         return $this->renderAjax('newaddress',['model'=>$model]);
+    }
+
+    public function actionEditaddress()
+    {
+        $model = new Useraddress;
+        $address = ArrayHelper::map(Useraddress::find()->where('uid=:id',['id'=>Yii::$app->user->identity->id])->orderBy('level ASC')->all(),'id','address');
+        $first = Useraddress::find()->where('uid=:id',['id'=>Yii::$app->user->identity->id])->orderBy('level ASC')->one();
+
+        if (Yii::$app->request->post()) 
+        {
+            $model->load(Yii::$app->request->post());
+            $addr = Useraddress::find()->where('id=:id',['id'=>$model['address']])->one();
+            $addr['postcode'] = $model['postcode'];
+            $addr['city'] = $model['city'];
+            if ($addr->validate()) {
+                $addr->save();
+                Yii::$app->session->setFlash('success', 'Success!');
+            }
+            else{
+                Yii::$app->session->setFlash('error', 'Failed to edit!');
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+
+        return $this->renderAjax('editaddress',['model'=>$model,'address'=>$address,'first'=>$first]);
+    }
+
+    public function actionGetaddress($addr)
+    {
+        $add = Useraddress::find()->where('id=:id',['id'=>$addr])->one();
+
+        $value = Json::encode($add);
+        return $value;
     }
 
     /*

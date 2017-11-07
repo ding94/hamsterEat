@@ -15,6 +15,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 use yii\helpers\Json;
 use common\models\Rmanager;
 use common\models\Restaurant;
+use yii\bootstrap\Modal;
 use frontend\assets\NotificationAsset;
 
 AppAsset::register($this);
@@ -31,6 +32,12 @@ NotificationAsset::register($this);
     }
     #cart1{
         line-height:33px;
+    }
+    .modal-content{
+        width:800px;
+        margin-left: -230px;
+        margin-top: 100px;
+        height: 552px;
     }
     </style>
 <?php $this->beginPage() ?>
@@ -55,6 +62,14 @@ NotificationAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
+<?php Modal::begin([
+            'header' => '<h2 class="modal-title">Feedback</h2>',
+            'id'     => 'feedback-modal',
+            'size'   => 'modal-sm',
+            //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    
+    Modal::end() ?>
 <?php $this->beginBody() ?>
 
 <div class="wrap">
@@ -187,7 +202,7 @@ NotificationAsset::register($this);
 				<h3 id="footertitle">HamsterEat</h3>
 				<hr>
 				<ul id="linklist" class="list-unstyled">
-					
+                    <li><?php echo Html::a('Feedback', Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal']) ?></li>
 					<li><?php echo Html::a('About Us' ,['site/about']) ?></li>
                     <li><?php echo Html::a('Guide' ,['site/faq']) ?></li>
 					<li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>

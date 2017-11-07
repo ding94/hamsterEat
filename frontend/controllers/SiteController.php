@@ -27,6 +27,8 @@ use yii\web\Session;
 use frontend\controllers\CommonController;
 use common\models\Banner;
 use common\models\Expansion;
+use common\models\Feedback;
+use common\models\Feedbackcategory;
 /**
  * Site controller
  */
@@ -637,5 +639,29 @@ class SiteController extends CommonController
         }
 
         return $this->render('expansion', ['expansion'=>$expansion]);
+    }
+
+    public function actionFeedBack($link)
+    {
+        $feedback = new Feedback();
+        $categoryarray = ArrayHelper::map(Feedbackcategory::find()->all(),'ID','Category');
+        $list =array();
+        if ($feedback->load(Yii::$app->request->post()))
+        {
+            $postcode = new Area();
+            $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
+            $list =array();
+            $banner = Banner::find()->where(['<=','startTime',date("Y-m-d H:i:s")])->andWhere(['>=','endTime',date("Y-m-d H:i:s")])->all();
+            $feedback->User_Username = Yii::$app->user->identity->username;
+            $feedback->Feedback_DateTime = time();
+            $feedback->Feedback_Link = $link;
+
+            $feedback->save();
+            
+            Yii::$app->getSession()->setFlash('success','Thank you for submitting your feedback. We will improve to serve you better.');
+            return $this->redirect(['index', 'postcode'=>$postcode ,'list'=>$list,'postcodeArray'=>$postcodeArray,'banner'=>$banner]);
+        }
+
+        return $this->renderAjax('feedback', ['feedback'=>$feedback, 'categoryarray'=>$categoryarray, 'list'=>$list]);
     }
 }

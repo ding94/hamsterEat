@@ -12,6 +12,15 @@ PhotoSliderAsset::register($this);
 $this->title = 'hamsterEat';
 ?>
 
+<style>
+
+.expansion
+{
+	float:right;
+	margin-top:10px;
+}
+
+</style>
 <body>
 <!--<div class="site-index">--> 
 <header class="intro-header">
@@ -57,6 +66,9 @@ $this->title = 'hamsterEat';
 			]); ?>
 
         <?= Html::submitButton('Find Restaurants', ['class' => 'button-three', 'name' => 'proceed-button']) ?>
+		<div class ="expansion">
+			<?= Html::a('<u>I don&#39;t see my area..</u>', ['request-area', ['style'=>'margin-left:2000px;']]) ?>
+		</div>
 		
 		<?php ActiveForm::end(); ?>
 	   	</div>

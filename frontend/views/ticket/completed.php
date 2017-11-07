@@ -21,7 +21,7 @@ use yii\helpers\ArrayHelper;
            <ul class="nav nav-pills nav-stacked">
                 <li role="presentation"><?php echo Html::a("All",['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                 <li role="presentation"><?php echo Html::a("Submit Ticket",['/ticket/submit-ticket'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-				<li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Completed</a></li>
+				<li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Completed Ticket</a></li>
             </ul>
         </div>
 <div class="col-sm-8 userprofile-edit-input">

@@ -218,9 +218,9 @@ UserAsset::register($this);
                 <h3>Follow | Get in Touch</h3>
                 <hr>
                  <center>
-                 <a target="_blank" href="https://www.facebook.com" class="btn btn-social-icon btn-facebook"><span class="fa fa-facebook"></span></a>
-                 <a target="_blank" href="https://plus.google.com" class="btn btn-social-icon btn-google"><span class="fa fa-google"></span></a>
-                 <a target="_blank" href="https://www.instagram.com" class="btn btn-social-icon btn-instagram"><span class="fa fa-instagram"></span></a>
+                 <a target="_blank" href="https://www.facebook.com" class="btn btn-social-icon btn-facebook" title="Facebook"><span class="fa fa-facebook"></span></a>
+                 <a target="_blank" href="https://plus.google.com" class="btn btn-social-icon btn-google" title="Google +"><span class="fa fa-google"></span></a>
+                 <a target="_blank" href="https://www.instagram.com" class="btn btn-social-icon btn-instagram" title="Instagram"><span class="fa fa-instagram"></span></a>
                  </center>               
             </div>
 

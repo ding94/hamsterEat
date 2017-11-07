@@ -3,14 +3,17 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
+use yii\data\Pagination;
 use common\models\user\Userdetails;
-use common\models\user\Useraddress;;
+use common\models\user\Useraddress;
 use common\models\User;
 use common\models\user\Changepassword;
 use common\models\Upload;
 use yii\web\UploadedFile;
 use common\models\Account\Accountbalance;
+use common\models\Account\AccountbalanceHistory;
 use frontend\models\Accounttopup;
+use common\models\Withdraw;
 use common\models\Account\Memberpoint;
 use frontend\controllers\CommonController;
 use yii\filters\AccessControl;
@@ -39,7 +42,8 @@ class UserController extends CommonController
     {
         $user = User::find()->where('user.id = :id' ,[':id' => Yii::$app->user->id])->joinWith(['address' => function($query){
             $query->orderBy(['level' =>SORT_DESC ]);
-        },'userdetails'])->one();
+        },'userdetails','balance'])->one();
+
         $this->layout = 'user';
       
         return $this->render('userprofile',['user' => $user]);
@@ -107,19 +111,16 @@ class UserController extends CommonController
 
 	public function actionUserbalance()
  	{
- 		
-		$model = Accountbalance::find()->where('User_Username = :User_Username' ,[':User_Username' => Yii::$app->user->identity->username])->joinWith(['history' =>function($query){
-            $query->limit(3);
-        }])->one();
-      
-		//var_dump($balance);exit;
- 		$accounttopup = Accounttopup::find()->where('User_Username= :User_Username' ,[':User_Username' => Yii::$app->user->identity->username])->one();
- 		$memberpoint = Memberpoint::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->one();
-		//var_dump($memberpoint);exit;
+        $account = Accountbalance::find()->where('User_Username = :name',[':name' => Yii::$app->user->identity->username])->one();
+
+        $query = AccountbalanceHistory::find()->where('abid = :aid',[':aid' => $account->AB_ID]);
+        $count = $query->count();
+        $historypagination = new Pagination(['totalCount' => $count,'pageSize'=>10]);
+        $historypage = $query->offset($historypagination->offset)->limit($historypagination->limit)->orderBy(['created_at'=> SORT_DESC])->all();
 
  		$this->layout = 'user';
-         $this->view->title = 'User Balance';
-		return $this->render('userbalance', ['model' => $model,'accounttopup' => $accounttopup,'memberpoint' =>$memberpoint]);
+        $this->view->title = 'User Balance';
+		return $this->render('userbalance', ['history' => $historypage ,'historypagination' => $historypagination]);
  	}
     
     public function actionChangepassword()

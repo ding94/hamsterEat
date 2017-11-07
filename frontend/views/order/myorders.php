@@ -6,7 +6,7 @@ $this->title = "My Orders";
 
 MyOrdersAsset::register($this);
 ?>
-<div class = "container">
+<div id="my-orders-container" class = "container">
   <div class="my-orders-header">
         <div class="my-orders-header-title"><?php echo Html::encode($this->title)?></div>
     </div>

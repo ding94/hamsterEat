@@ -161,13 +161,13 @@ UserAsset::register($this);
         ]) ?>
         <div class="container vertical-divider">
             <ul id="nav" class="nav nav-default">
-                <li role="presentation"><label class="label-btn" title="Profile"><i class="fa fa-user fa-lg"></i>&nbsp;<?php echo Html::a('Profile',['/user/user-profile'])?></label></li>
+                <li role="presentation"><label class="label-btn"><i class="fa fa-user fa-lg"></i>&nbsp;<?php echo Html::a('Profile',['/user/user-profile'])?></label></li>
 				<li class="vl"></li>
-                <li role="presentation"><label class="label-btn" title="Balance"><i class="fa fa-money fa-lg"></i>&nbsp;<?php echo Html::a('Balance',['/user/userbalance'])?></label></li>
+                <li role="presentation"><label class="label-btn"><i class="fa fa-money fa-lg"></i>&nbsp;<?php echo Html::a('Balance',['/user/userbalance'])?></label></li>
 				<li class="vl"></li>
-                <li role="presentation"><label class="label-btn" title="Order"><i class="fa fa-cutlery fa-lg"></i>&nbsp;<?php echo Html::a('Order',['/order/my-orders'])?></label></li>
+                <li role="presentation"><label class="label-btn"><i class="fa fa-cutlery fa-lg"></i>&nbsp;<?php echo Html::a('Order',['/order/my-orders'])?></label></li>
 				<li class="vl"></li>
-                <li role="presentation"><label class="label-btn" title="Messages"><i class="fa fa-comment fa-lg"></i>&nbsp;<?php echo Html::a('Messages',['/ticket/index'])?></label></li>
+                <li role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i>&nbsp;<?php echo Html::a('Messages',['/ticket/index'])?></label></li>
             </ul>
         </div>
         <div class="content">
@@ -218,9 +218,9 @@ UserAsset::register($this);
                 <h3>Follow | Get in Touch</h3>
                 <hr>
                  <center>
-                 <a target="_blank" href="https://www.facebook.com" class="btn btn-social-icon btn-facebook"><span class="fa fa-facebook"></span></a>
-                 <a target="_blank" href="https://plus.google.com" class="btn btn-social-icon btn-google"><span class="fa fa-google"></span></a>
-                 <a target="_blank" href="https://www.instagram.com" class="btn btn-social-icon btn-instagram"><span class="fa fa-instagram"></span></a>
+                 <a target="_blank" href="https://www.facebook.com" class="btn btn-social-icon btn-facebook" title="Facebook"><span class="fa fa-facebook"></span></a>
+                 <a target="_blank" href="https://plus.google.com" class="btn btn-social-icon btn-google" title="Google +"><span class="fa fa-google"></span></a>
+                 <a target="_blank" href="https://www.instagram.com" class="btn btn-social-icon btn-instagram" title="Instagram"><span class="fa fa-instagram"></span></a>
                  </center>               
             </div>
 

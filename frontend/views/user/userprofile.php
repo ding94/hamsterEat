@@ -90,10 +90,10 @@ UserAsset::register($this);
                       <td>
                         <div class="row">
                           <div class="col-xs-6">
-                            <?php echo Html::a("<span class='glyphicon glyphicon-pencil userprofile-pencil'></span>",['/user/edit-address','id'=> $address->id],['data-toggle'=>'modal','data-target'=>'#edit-address-modal'])?>
+                            <?php echo Html::a("<span class='glyphicon glyphicon-pencil userprofile-pencil' title='edit'></span>",['/user/edit-address','id'=> $address->id],['data-toggle'=>'modal','data-target'=>'#edit-address-modal'])?>
                           </div>
                           <div class="col-xs-6">
-                            <?php echo Html::a("<span class='glyphicon glyphicon-trash userprofile-trash'></span>",['/user/delete-address','id'=> $address->id] ,['data' => ['confirm' => 'Are You Sure Want to Delete Address','method' => 'post']] )?>    
+                            <?php echo Html::a("<span class='glyphicon glyphicon-trash userprofile-trash' title='delete'></span>",['/user/delete-address','id'=> $address->id] ,['data' => ['confirm' => 'Are You Sure Want to Delete Address','method' => 'post']] )?>    
                           </div>
                         </div>        
                       </td>

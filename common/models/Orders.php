@@ -55,8 +55,8 @@ class Orders extends \yii\db\ActiveRecord
             [['Orders_Location','Orders_Postcode','Orders_Area'],'required','on'=>'edit'],
             [['Orders_Subtotal', 'Orders_DeliveryCharge', 'Orders_TotalPrice', 'Orders_DiscountCodeAmount', 'Orders_DiscountVoucherAmount', 'Orders_DiscountEarlyAmount', 'Orders_DiscountTotalAmount'], 'number'],
             [['Orders_Date', 'Orders_Time'], 'safe'],
-            [['Orders_Postcode', 'Orders_SessionGroup', 'Orders_DateTimeMade'], 'integer'],
-            [['User_Username', 'Orders_PaymentMethod', 'Orders_Deliveryman', 'Orders_InvoiceURL'], 'string', 'max' => 255],
+            [['Orders_Postcode', 'Orders_SessionGroup', 'Orders_DateTimeMade','User_contactno'], 'integer'],
+            [['User_Username', 'Orders_PaymentMethod', 'Orders_Deliveryman', 'Orders_InvoiceURL','User_fullname'], 'string', 'max' => 255],
             [['Orders_Location', 'Orders_Area', 'Orders_Status'], 'string', 'max' => 50],
             [['Delivery_ID'],'safe'],
         ];
@@ -88,6 +88,8 @@ class Orders extends \yii\db\ActiveRecord
             'Orders_DiscountEarlyAmount' => 'Orders  Discount Early Amount',
             'Orders_DiscountTotalAmount' => 'Orders  Discount Total Amount',
             'Orders_InvoiceURL' => 'Orders  Invoice Url',
+            'User_fullname' => "User's Contact Number",
+            'User_contactno' => "User's Contact Number",
         ];
     }
 

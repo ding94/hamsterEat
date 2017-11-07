@@ -12,6 +12,7 @@ use common\models\food\Foodselection;
 use common\models\Vouchers;
 use common\models\UserVoucher;
 use common\models\user\Userdetails;
+use common\models\user\Useraddress;
 use common\models\Ordersstatuschange;
 use common\models\Orderitemstatuschange;
 use common\models\Restaurant;
@@ -37,7 +38,7 @@ class CartController extends CommonController
                  //'only' => ['logout', 'signup','index'],
                  'rules' => [
                     [
-                        'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount'],
+                        'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount','newaddress'],
 
                         'allow' => true,
                         'roles' => ['@'],
@@ -315,34 +316,33 @@ class CartController extends CommonController
 
     public function actionCheckout($did,$discountcode)
     {
-        $mycontact = Userdetails::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->one();
-        $mycontactno = $mycontact['User_ContactNo'];
-        $myemail = User::find()->where('username = :username',[':username'=>Yii::$app->user->identity->username])->one();
-        $myemail = $myemail['email'];
-        $fullname = $mycontact['User_FirstName'].' '.$mycontact['User_LastName'];
-        //var_dump($fullname);exit;
-        $order = Orders::find()->where('Delivery_ID = :Delivery_ID',[':Delivery_ID' => $did])->one();
-
-        if($order->Orders_Status !="Not Placed")
+        $checkout = Orders::find()->where('Delivery_ID = :Delivery_ID',[':Delivery_ID' => $did])->one();
+        $uid = User::find()->where('username = :u',[':u'=>$checkout['User_Username']])->one()->id;
+        $check = ValidController::checkUserValid($uid);
+        if ($check == false) {
+            return $this->redirect(['site/index']);
+        }
+        $details = Userdetails::find()->where('User_id = :uid',[':uid'=>Yii::$app->user->identity->id])->one();
+        $address = Useraddress::find()->where('uid = :uid',[':uid'=>Yii::$app->user->identity->id])->orderBy('level DESC')->all();
+        $addressmap =  ArrayHelper::map($address, 'id', 'address');
+        $email = User::find()->where('id = :id',[':id'=>Yii::$app->user->identity->id])->one()->email;
+        if($checkout->Orders_Status !="Not Placed")
         {
             Yii::$app->session->setFlash('error', 'Error');
 
             return $this->redirect(Yii::$app->request->referrer);
         }
 
-        $checkout = new Orders;
-        $userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => $order->User_Username])->one();
+        $userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => $checkout->User_Username])->one();
         $session = Yii::$app->session;
-       
         if (Yii::$app->request->post())
         {
             $checkout->load(Yii::$app->request->post());
-            
-            if (empty($checkout['Orders_Location']) || empty($checkout['Orders_Area']) || empty($checkout['Orders_PaymentMethod'])) {
-                Yii::$app->session->setFlash('error', 'Please fill in information correctly!');
-                return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
+            if (empty($checkout['Orders_Location']) || empty($checkout['Orders_PaymentMethod']) || empty($checkout['User_contactno']) || empty($checkout['User_fullname'])) {
+                Yii::$app->session->setFlash('error', 'Please fill in all information correctly!');
+                return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
             }
-            
+            $checkout['Orders_Location'] = Useraddress::find()->where('id = :id',[':id'=>$checkout['Orders_Location']])->one()->address;
             $timenow = Yii::$app->formatter->asTime(time());
             $early = date('08:00:00');
             //$last = date('11:00:59');
@@ -350,22 +350,16 @@ class CartController extends CommonController
 
             if ($early <= $timenow && $last >= $timenow)
             {
-                $earlydiscount = CartController::actionRoundoff1decimal($order['Orders_Subtotal']) * 0.2;
+                $earlydiscount = CartController::actionRoundoff1decimal($checkout['Orders_Subtotal']) * 0.2;
                 $earlydiscount = CartController::actionRoundoff1decimal($earlydiscount);
-                $newtotalprice = CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($order['Orders_Subtotal']) - $earlydiscount + CartController::actionRoundoff1decimal($order['Orders_DeliveryCharge']));
+                $newtotalprice = CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($checkout['Orders_Subtotal']) - $earlydiscount + CartController::actionRoundoff1decimal($checkout['Orders_DeliveryCharge']));
                 
                 $early = "UPDATE orders SET Orders_TotalPrice = ".$newtotalprice.", Orders_DiscountEarlyAmount = ".$earlydiscount." WHERE Delivery_ID = ".$did."";
                 Yii::$app->db->createCommand($early)->execute();
 
                 $order = Orders::find()->where('Delivery_ID = :Delivery_ID',[':Delivery_ID' => $did])->one();
 
-                $unitno = $checkout->Orders_Location;
-                $street = $checkout->Orders_Area;
-                $paymethod = $checkout->Orders_PaymentMethod;
-
-                $location = $unitno.', '.$street;
                 $time = time();
-                //var_dump($order);exit;
                 date_default_timezone_set("Asia/Kuala_Lumpur");
                 $setdate = date("Y-m-d");
                 $settime = "13:00:00";
@@ -377,15 +371,15 @@ class CartController extends CommonController
                     {
                          Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
                         
-                         return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
+                         return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
                     }
 
                 } 
                
-                $valid = $this->actionAssignDeliveryMan($did);
-
+                //$valid = $this->actionAssignDeliveryMan($did);
+                $valid = true;
                 if ($valid == false) {
-                    return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
+                    return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
                 }
                 $voucher = Vouchers::find()->where('code = :c',[':c' => $discountcode])->all();
                 if (!empty($voucher)) 
@@ -471,7 +465,8 @@ class CartController extends CommonController
                                         {
                                             Yii::$app->session->setFlash('error', 'Failed to place order! Please contact customer service.');
 
-                                            return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
+                                            return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
+                                            
                                         }
                                     }
                                 }
@@ -517,11 +512,24 @@ class CartController extends CommonController
                 {
                     $totaldiscount = 0;
                 }
-                
-              
-                $sql = "UPDATE orders SET Orders_Location= '".$location."', Orders_Area = '".$session['area']."', Orders_Postcode = '".$session['postcode']."', Orders_PaymentMethod = '".$paymethod."', Orders_Status = 'Pending', Orders_DateTimeMade = '".$time."', Orders_Date = '".$setdate."', Orders_Time = '".$settime."', Orders_DiscountTotalAmount = '".$totaldiscount."' WHERE Delivery_ID = '".$did."'";
 
-                Yii::$app->db->createCommand($sql)->execute();
+                $checkout['Orders_Area'] = $session['area'];
+                $checkout['Orders_Postcode'] = $session['postcode'];
+                $checkout['Orders_Status'] = 'Pending';
+                $checkout['Orders_DateTimeMade'] = $time;
+                $checkout['Orders_Date'] = $setdate;
+                $checkout['Orders_Time'] = $settime;
+                $checkout['Orders_DiscountTotalAmount'] = $totaldiscount;
+
+                if ($checkout->validate()) {
+                    $checkout->save();
+                }
+                else{
+                    Yii::$app->session->setFlash('error', 'Failed to place order! Please contact customer service.');
+
+                    return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
+                }
+
                 $sql2 = "UPDATE orderitem SET OrderItem_Status = 'Pending' WHERE Delivery_ID = '".$did."'";
                 Yii::$app->db->createCommand($sql2)->execute();
 
@@ -559,7 +567,7 @@ class CartController extends CommonController
 
                 $session = Yii::$app->session;
                 $session->close();
-                NotificationController::createNotification($did,1);
+                NotificationController::createNotification($did,3);
                 MemberpointController::addMemberpoint($order->Orders_TotalPrice,1);
                
             }
@@ -570,7 +578,40 @@ class CartController extends CommonController
             
             return $this->redirect(['aftercheckout','did'=>$did]);
         }
-        return $this->render('checkout', ['did'=>$did, 'mycontactno'=>$mycontactno, 'myemail'=>$myemail, 'fullname'=>$fullname, 'checkout'=>$checkout, 'session'=>$session]);
+        return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
+    }
+
+    public function actionNewaddress()
+    {
+        $count = Useraddress::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->count();
+        if($count >= 3)
+        {
+             Yii::$app->session->setFlash('danger', ' Reach Max Limit 3');
+              return $this->redirect(Yii::$app->request->referrer);
+        }
+
+        $model = new Useraddress;
+        if($model->load(Yii::$app->request->post()))
+        {
+            $model->uid = Yii::$app->user->identity->id;
+                
+            if($model->save())
+            {
+                if($model->level == 1)
+                {
+                    Useraddress::updateAll(['level' => 0],'uid = :uid AND id != :id',[':uid' => Yii::$app->user->identity->id,':id'=> $model->id]);
+                }
+                     Yii::$app->session->setFlash('success', 'Successfully create new address');
+            }
+            else
+            {
+                ii::$app->session->setFlash('danger', ' Address Add Fail');
+            }
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        $this->layout = 'user';
+        $this->view->title = 'Add New Address';
+        return $this->renderAjax('newaddress',['model'=>$model]);
     }
 
     /*

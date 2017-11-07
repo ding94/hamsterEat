@@ -71,7 +71,7 @@ class TicketController extends CommonController
             if ($model->validate()) {
                 $model->save();
                 Yii::$app->session->setFlash('success', 'Upload Successful');
-                return $this->redirect(['/ticket/submit-ticket']);
+                return $this->redirect(['/ticket/index']);
             }
             else
             {
@@ -123,6 +123,7 @@ class TicketController extends CommonController
             if (!empty($upload->imageFile)) {
 
                 $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
+				
                 $upload->upload($path.'/');
                 $reply->Replies_PicPath = $path.'/'.$upload->imageFile->name;
             }

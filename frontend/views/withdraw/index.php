@@ -3,28 +3,37 @@ use yii\bootstrap\ActiveForm;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
+use frontend\assets\TopupIndexAsset;
 /* @var $this yii\web\View */
 $this->title = "Withdraw money";
+TopupIndexAsset::register($this);
 ?>
 
 <div class="container">
 
-	<div class="col-lg-6 col-lg-offset-1" style="text-align:center" id="withdraw">
-	<h1>User Withdraw</h1>
-	</div>
-	<div class="tab-content col-md-6 col-md-offset-1">
-	<br><i><p>My Balance: <?php echo $balance['User_Balance']; ?></i></p>
-	<?php $balance['User_Balance']-2;
-		if ($balance['User_Balance'] <=0) { ?>
-			<br><i><p>You cannot withdraw if your account doesn't have RM3 or higher.</i></p><br>
-		<?php }else{ ?>
+<div id="userprofile" class="row">
+   <div class="userprofile-header">
+        <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
+    </div>
+    <div class="userprofile-detail">
+        <div class="col-md-2 ">
+            <ul class="nav nav-pills nav-stacked">
+		        <li role="presentation" ><?php echo Html::a("User Balance",['/user/userbalance'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+		        <li role="presentation"><?php echo Html::a("Top Up",['/topup/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+		        <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Withdraw</a></li>
+	    	</ul>
+        </div>
+        <div class="col-md-8 withdraw-right">
+	        <br><i><p>My Balance: <?php echo $balance['User_Balance']; ?></i></p>
+			<?php $balance['User_Balance']-2;
+				if ($balance['User_Balance'] <=0) { ?>
+					<br><i><p>You cannot withdraw if your account doesn't have RM3 or higher.</i></p><br>
+				<?php }else{ ?>
 
-			<br><i><p>You can withdraw below RM<?php echo $balance['User_Balance']-2; ?>. Transfer fee RM2.</i></p><br>
+					<br><i><p>You can withdraw below RM<?php echo $balance['User_Balance']-2; ?>. Transfer fee RM2.</i></p><br>
 
-		<?php } ?>
-	
-    
-              <?php $form = ActiveForm::begin(); ?>
+				<?php } ?>
+				<?php $form = ActiveForm::begin(); ?>
 
              
 					<?= $form->field($model, 'withdraw_amount')->textInput() ?>
@@ -37,6 +46,8 @@ $this->title = "Withdraw money";
                 </div>
 
             <?php ActiveForm::end(); ?>
-            
-	</div>
+	
+        </div>
+    </div>
+</div>
 </div>

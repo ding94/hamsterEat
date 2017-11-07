@@ -34,6 +34,7 @@ UserAsset::register($this);
                 </div>
              </div>
              <div class="userprofile-address">
+                <h4>Balance History</h4>
                 <?php foreach($model->history as $history):?>
                     <div>
                       <?php echo $history->description ?>

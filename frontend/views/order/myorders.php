@@ -42,7 +42,7 @@ MyOrdersAsset::register($this);
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
             <td><center>
               <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo $orders['Orders_DateTimeMade']; ?>
+                <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
               </a>
             </td>
             <?php if ($orders['Orders_Status'] != 'Completed'){ ?>
@@ -80,7 +80,7 @@ MyOrdersAsset::register($this);
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
             <td><center>
               <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo $orders['Orders_DateTimeMade']; ?>
+                <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
               </a>
             </td>
             <?php if ($orders['Orders_Status'] != 'Completed'){ ?>
@@ -118,7 +118,7 @@ MyOrdersAsset::register($this);
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
             <td><center>
               <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo $orders['Orders_DateTimeMade']; ?>
+                <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
               </a>
             </td>
             <?php if ($orders['Orders_Status'] != 'Completed'){ ?>
@@ -156,7 +156,7 @@ MyOrdersAsset::register($this);
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
             <td><center>
               <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo $orders['Orders_DateTimeMade']; ?>
+                <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
               </a>
             </td>
             <?php if ($orders['Orders_Status'] != 'Completed'){ ?>
@@ -194,7 +194,7 @@ MyOrdersAsset::register($this);
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
             <td><center>
               <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo $orders['Orders_DateTimeMade']; ?>
+                <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
               </a>
             </td>
             <?php if ($orders['Orders_Status'] != 'Completed'){ ?>

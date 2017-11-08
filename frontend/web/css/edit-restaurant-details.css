@@ -1,0 +1,23 @@
+.edit-restaurant-details-header-title{
+  font-size: 1.6em;
+  font-weight: 500;
+  line-height: 2.4em;
+}
+
+.edit-restaurant-details-header{
+  box-sizing: border-box;
+  border-bottom: 1px solid #efefef;
+}
+
+#edit-restaurant-details-container{
+	background-color: white;
+}
+
+#edit-restaurant-details-nav > li > a {
+  border-bottom: 1px solid #efefef;
+}
+
+#edit-restaurant-details-content{
+  border-left: 1px solid #efefef;
+  margin-top: 15px;
+}

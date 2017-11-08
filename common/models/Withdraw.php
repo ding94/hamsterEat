@@ -105,10 +105,13 @@ class Withdraw extends \yii\db\ActiveRecord
         elseif ($action >= 1){
             $query = self::find()->where('action = :act',[':act' => $action]);
         }
-
+        
         $query->joinWith(['accounttopup_status','bank']);
+       
+
         $dataProvider = new ActiveDataProvider(['query' => $query,
         ]);
+
         $this->load($params);
         $query->andFilterWhere([
             'title' => $this->getAttribute('accounttopup_status.title'),

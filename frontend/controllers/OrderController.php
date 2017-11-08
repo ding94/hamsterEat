@@ -119,11 +119,15 @@ class OrderController extends CommonController
                 {
                     $label='<span class="label label-success">'.$ordersdetails['Orders_Status'].'</span>';
                 }
+                else
+                {
+                    $label='<span class="label label-success">Rating Done</span>';
+                }
         //$label = $ordersdetails['Orders_Status'];
         $timeplaced = $ordersdetails['Orders_DateTimeMade'];
         date_default_timezone_set("Asia/Kuala_Lumpur");
         $timeplaced = date('d/m/Y H:i:s', $timeplaced);
-
+        $this->layout = 'user';
         return $this->render('orderdetails', ['ordersdetails'=>$ordersdetails, 'orderitemdetails'=>$orderitemdetails, 'did'=>$did, 'subtotal'=>$subtotal, 'deliverycharge'=>$deliverycharge, 
                              'totalprice'=>$totalprice, 'date'=>$date, 'time'=>$time, 'address'=>$address, 'paymethod'=>$paymethod, 'label'=>$label, 'timeplaced'=>$timeplaced]);
     }

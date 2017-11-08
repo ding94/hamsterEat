@@ -69,6 +69,7 @@ UserAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'About', 'url' => ['/site/about']],
+        ['label' => 'Guide', 'url' => ['/site/faq']],
         //   ['label' => '<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
     ];
     
@@ -81,7 +82,7 @@ UserAsset::register($this);
 
      else {
           $menuItems[] = ['label' => '<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']];
-        if (Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
+        /*if (Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
             $restaurant = Restaurant::find()->where('Restaurant_Manager=:rm',[':rm'=>Yii::$app->user->identity->username])->all();
             $menuItems[] = ['label' => '<span class="glyphicon glyphicon-home"></span> Restaurants',
 
@@ -90,7 +91,7 @@ UserAsset::register($this);
             $menuItems[2]['items'][$k] = ['label' => $each['Restaurant_Name'],'url' => ['/Restaurant/default/restaurant-details','rid'=>$each['Restaurant_ID']]];
             $menuItems[2]['items'][$k+count($restaurant)] = '<li class="divider"></li>';
             }
-        }
+        }*/
        
         $menuItems[] = ['label' => '<span class=""> <i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>'];
         $keys = array_keys($menuItems);
@@ -125,12 +126,18 @@ UserAsset::register($this);
             }
         }
         $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
-        $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">View All</h4>','url' => ['notification/index']];
+         ['label' => '<h4 class="menu-title">View All</h4>','url' => ['notification/index']];
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile']],
                         '<li class="divider"></li>',
-                       ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']],
                     ]];
+         $keys = array_keys($menuItems);
+        if (Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
+                $menuItems[end($keys)]['items'][] =['label' => 'Restaurants ', 'url' => ['/Restaurant/restaurant/restaurant-service'],'linkOptions' => ['data-method' => 'post']];
+                $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+        }
+        $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']];
+
        // $menuItems[] = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];
      
         // $menuItems[] = '<li>'

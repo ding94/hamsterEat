@@ -358,7 +358,6 @@ class CartController extends CommonController
             //$last = date('11:00:59');
             $last = date('23:00:59');
 
-            var_dump($session['postcode']);exit;
             if ($early <= $timenow && $last >= $timenow)
             {
                 $earlydiscount = CartController::actionRoundoff1decimal($checkout['Orders_Subtotal']) * 0.2;
@@ -387,8 +386,8 @@ class CartController extends CommonController
 
                 } 
                
-                $valid = $this->actionAssignDeliveryMan($did);
-                
+                //$valid = $this->actionAssignDeliveryMan($did);
+                $valid = true;
                 if ($valid == false) {
                     return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
                 }

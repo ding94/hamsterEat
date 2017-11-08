@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\bootstrap\Modal;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
@@ -32,6 +33,12 @@ UserAsset::register($this);
     #cart1{
         line-height:33px;
     }
+    .modal-content{
+        width:800px;
+        margin-left: -230px;
+        margin-top: 100px;
+        height: 620px;
+    }
     </style>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -54,6 +61,14 @@ UserAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
+<?php Modal::begin([
+            'header' => '<h2 class="modal-title">Feedback</h2>',
+            'id'     => 'feedback-modal',
+            'size'   => 'modal-sm',
+            //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    
+    Modal::end() ?>
 <?php $this->beginBody() ?>
 
 <div class="wrap">
@@ -128,7 +143,7 @@ UserAsset::register($this);
         $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
          ['label' => '<h4 class="menu-title">View All</h4>','url' => ['notification/index']];
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
-                       ['label' => 'Profile', 'url' => ['/user/user-profile']],
+                       ['label' => 'Profile', 'url' => ['/user/user-profile'] ,'options'=> ['class'=>'list-user'],],
                         '<li class="divider"></li>',
                     ]];
          $keys = array_keys($menuItems);
@@ -169,11 +184,8 @@ UserAsset::register($this);
         <div class="container vertical-divider">
             <ul id="nav" class="nav nav-default">
                 <li role="presentation"><label class="label-btn"><i class="fa fa-user fa-lg"></i>&nbsp;<?php echo Html::a('Profile',['/user/user-profile'])?></label></li>
-				<li class="vl"></li>
                 <li role="presentation"><label class="label-btn"><i class="fa fa-money fa-lg"></i>&nbsp;<?php echo Html::a('Balance',['/user/userbalance'])?></label></li>
-				<li class="vl"></li>
                 <li role="presentation"><label class="label-btn"><i class="fa fa-cutlery fa-lg"></i>&nbsp;<?php echo Html::a('Order',['/order/my-orders'])?></label></li>
-				<li class="vl"></li>
                 <li role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i>&nbsp;<?php echo Html::a('Messages',['/ticket/index'])?></label></li>
             </ul>
         </div>
@@ -199,7 +211,7 @@ UserAsset::register($this);
                 <h3 id="footertitle">HamsterEat</h3>
                 <hr>
                 <ul id="linklist" class="list-unstyled">
-                    
+                    <li><?php echo Html::a('Feedback', Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal']) ?></li>
                     <li><?php echo Html::a('About Us' ,['site/about']) ?></li>
                     <li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>
                     <li><?php echo Html::a('Login' ,['site/login']) ?></li>

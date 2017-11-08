@@ -157,6 +157,10 @@ class NotificationController extends CommonController
 	{
 		$item = Orderitem::find()->where('Order_ID = :oid',[':oid'=> $oid])->joinWith(['order'])->one();
 		//var_dump($item);exit;
+		if(empty($item['order']['Orders_Deliveryman']))
+		{
+			return $data="";
+		}
 		$data[0]['uid'] = User::find()->where('username = :name' ,[':name' => $item['order']['Orders_Deliveryman']])->one()->id;
 		return $data;
 	}

@@ -1,46 +1,46 @@
 <?php
 use yii\helpers\Html;
 use common\models\user\Userdetails;
-$this->title = "Manage Staff";
-?>
-<head>
-<title>LOL</title>
-</head>
-<body>
-<br>
-<br>
-<br>
-<div class = "container">
-<?php $picpath = $id['Restaurant_RestaurantPicPath'];
+use frontend\assets\ManageStaffAsset;
 
-        if (is_null($id['Restaurant_RestaurantPicPath'])){
-            $picpath = "DefaultRestaurant.jpg";
-        }
-         echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>"; ?>
-    <h1><center><?php echo $id['Restaurant_Name']."'s Staff"; ?></h1>
+$this->title = "Manage Restaurant's Staff";
+ManageStaffAsset::register($this);
+?>
+<div id="manage-staff-container" class = "container">
+    <div class="manage-staff-header">
+        <div class="manage-staff-header-title"><?= Html::encode($this->title) ?></div>
+    </div>
+    <div class="content">
+        <div class="col-sm-2">
+            <ul id="manage-staff-nav" class="nav nav-pills nav-stacked">
+                <?php if ($me['RmanagerLevel_Level'] == 'Owner'){ ?>
+                    <li role="presentation"><?php echo Html::a("View Earnings",['show-monthly-earnings', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                <?php }
+                    if ($me['RmanagerLevel_Level'] == 'Owner' || $me['RmanagerLevel_Level'] == 'Manager') { ?>
+                    <li role="presentation"><?php echo Html::a("Edit Details",['edit-restaurant-details', 'rid'=>$rid, 'restArea'=>$id['Restaurant_AreaGroup'], 'areachosen'=>$id['Restaurant_Area'], 'postcodechosen'=>$id['Restaurant_Postcode']],['class'=>'btn-block'])?></li>
+                    <li role="presentation" class="active"><?php echo Html::a("Manage Staffs",['manage-restaurant-staff', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                    <li role="presentation"><?php echo Html::a("Restaurants Orders",['/order/restaurant-orders', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                    <li role="presentation"><?php echo Html::a("Restaurants Orders History",['/order/restaurant-order-history', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                    <li role="presentation"><?php echo Html::a("Manage Menu",['/food/menu', 'rid'=>$rid,'page'=>'menu'],['class'=>'btn-block'])?></li>
+                <?php } elseif ($me['RmanagerLevel_Level'] == 'Operator'){ ?>
+                    <li role="presentation"><?php echo Html::a("Restaurants Orders",['/order/restaurant-orders', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                    <li role="presentation"><?php echo Html::a("Restaurants Orders History",['/order/restaurant-order-history', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                <?php } ?>
+            </ul>
+        </div>
+        <div class="col-sm-10" id="manage-staff-content">
+<div>
+    <?php echo Html::a('Add Staffs', ['all-rmanagers', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary']) ?>
+</div>
 <br>
-<table class = "table table-add-staff" style="width:70%; margin:auto; border:0px solid;">
-    <tr>
-        <td><?php if ($id['Restaurant_Manager'] == Yii::$app->user->identity->username)
-        {
-            echo "<center>".Html::a('Add Owner', ['all-rmanagers', 'rid'=>$id['Restaurant_ID'], 'num'=>"1"], ['class'=>'btn btn-primary'])."</td>"; 
-        }?>
-        <td><?php if ($me['RmanagerLevel_Level'] == 'Owner')
-        {
-            echo "<center>".Html::a('Add Manager', ['all-rmanagers', 'rid'=>$id['Restaurant_ID'], 'num'=>"2"], ['class'=>'btn btn-primary'])."</td>"; 
-        }?>
-        <td><?php echo "<center>".Html::a('Add Operator', ['all-rmanagers', 'rid'=>$id['Restaurant_ID'], 'num'=>"3"], ['class'=>'btn btn-primary'])."</td>"; ?>
-    </tr>
-    </table>
-    <br>
-    <br>
-    <div>
-    <table class = "table table-restaurant-staff" style="width:70%; margin:auto;">
-    <tr>
-    <th colspan = 2><center> Username </th>
-    <th><center> Position </th>
-    <th colspan = 2><center> Date Time Added </th>
-    </tr>
+    <table class = "table table-restaurant-staff">
+        <thead>
+            <tr>
+                <th colspan = 2> Username </th>
+                <th> Position </th>
+                <th colspan = 2> Date Time Added </th>
+            </tr>
+        </thead>
         <?php 
         if ($id['Restaurant_Manager'] == Yii::$app->user->identity->username)
         {
@@ -60,35 +60,35 @@ $this->title = "Manage Staff";
                 {
                     echo "<tr>";
                         echo "<td>".Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])."</td>";
-                        echo "<td><center>".$data['User_Username']."</td>";
-                        echo "<td><center>".$data['RmanagerLevel_Level']."</td>";
+                        echo "<td data-th='Username'>".$data['User_Username']."</td>";
+                        echo "<td data-th='Position'>".$data['RmanagerLevel_Level']."</td>";
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
-                        echo "<td><center>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
+                        echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
                     echo "</tr>";
                 }
                 elseif ($data['User_Username'] == Yii::$app->user->identity->username)
                 {
                     echo "<tr>";
                         echo "<td>".Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])."</td>";
-                        echo "<td><center>".$data['User_Username']."</td>";
-                        echo "<td><center>".$data['RmanagerLevel_Level']."</td>";
+                        echo "<td data-th='Username'>".$data['User_Username']."</td>";
+                        echo "<td data-th='Position'>".$data['RmanagerLevel_Level']."</td>";
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
-                        echo "<td><center>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td><center>".Html::a('Leave', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-primary'])."</td>";
+                        echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
+                        echo "<td>".Html::a('Leave', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-danger'])."</td>";
                     echo "</tr>";
                 }
                 else
                 {
                     echo "<tr>";
                         echo "<td>".Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])."</td>";
-                        echo "<td><center>".$data['User_Username']."</td>";
-                        echo "<td><center>".$data['RmanagerLevel_Level']."</td>";
+                        echo "<td data-th='Username'>".$data['User_Username']."</td>";
+                        echo "<td data-th='Position'>".$data['RmanagerLevel_Level']."</td>";
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
-                        echo "<td><center>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td><center>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to remove?'])."</td>";
+                        echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
+                        echo "<td>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-danger','data-confirm'=>'Are you sure you want to remove?'])."</td>";
                     echo "</tr>";
                 }
             }
@@ -111,35 +111,35 @@ $this->title = "Manage Staff";
                 {
                     echo "<tr>";
                         echo "<td>".Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])."</td>";
-                        echo "<td><center>".$data['User_Username']."</td>";
-                        echo "<td><center>".$data['RmanagerLevel_Level']."</td>";
+                        echo "<td data-th='Username'>".$data['User_Username']."</td>";
+                        echo "<td data-th='Position'>".$data['RmanagerLevel_Level']."</td>";
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
-                        echo "<td><center>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td><center>".Html::a('Leave', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-primary'])."</td>";
+                        echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
+                        echo "<td>".Html::a('Leave', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-danger'])."</td>";
                     echo "</tr>";
                 }
                 elseif ($data['User_Username'] == $id['Restaurant_Manager'] || $data['RmanagerLevel_Level'] == 'Owner')
                 {
                     echo "<tr>";
                         echo "<td>".Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])."</td>";
-                        echo "<td><center>".$data['User_Username']."</td>";
-                        echo "<td><center>".$data['RmanagerLevel_Level']."</td>";
+                        echo "<td data-th='Username'>".$data['User_Username']."</td>";
+                        echo "<td data-th='Position'>".$data['RmanagerLevel_Level']."</td>";
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
-                        echo "<td><center>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
+                        echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
                     echo "</tr>";
                 }
                 else
                 {
                     echo "<tr>";
                         echo "<td>".Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])."</td>";
-                        echo "<td><center>".$data['User_Username']."</td>";
-                        echo "<td><center>".$data['RmanagerLevel_Level']."</td>";
+                        echo "<td data-th='Username'>".$data['User_Username']."</td>";
+                        echo "<td data-th='Position'>".$data['RmanagerLevel_Level']."</td>";
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
-                        echo "<td><center>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td><center>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to remove?'])."</td>";
+                        echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
+                        echo "<td>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-danger','data-confirm'=>'Are you sure you want to remove?'])."</td>";
                     echo "</tr>";
                 }
             }
@@ -163,44 +163,41 @@ $this->title = "Manage Staff";
 
                     echo "<tr>";
                         echo "<td>".Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])."</td>";
-                        echo "<td><center>".$data['User_Username']."</td>";
-                        echo "<td><center>".$data['RmanagerLevel_Level']."</td>";
+                        echo "<td data-th='Username'>".$data['User_Username']."</td>";
+                        echo "<td data-th='Position'>".$data['RmanagerLevel_Level']."</td>";
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
-                        echo "<td><center>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td><center>".Html::a('Leave', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-primary'])."</td>";
+                        echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
+                        echo "<td>".Html::a('Leave', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-danger'])."</td>";
                     echo "</tr>";
                 }
                 elseif ($data['RmanagerLevel_Level'] == 'Owner' || $data['RmanagerLevel_Level'] == 'Manager')
                 {
                     echo "<tr>";
                         echo "<td>".Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])."</td>";
-                        echo "<td><center>".$data['User_Username']."</td>";
-                        echo "<td><center>".$data['RmanagerLevel_Level']."</td>";
+                        echo "<td data-th='Username'>".$data['User_Username']."</td>";
+                        echo "<td data-th='Position'>".$data['RmanagerLevel_Level']."</td>";
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
-                        echo "<td><center>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
+                        echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
                     echo "</tr>";
                 }
                 else
                 {
                     echo "<tr>";
                         echo "<td>".Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])."</td>";
-                        echo "<td><center>".$data['User_Username']."</td>";
-                        echo "<td><center>".$data['RmanagerLevel_Level']."</td>";
+                        echo "<td data-th='Username'>".$data['User_Username']."</td>";
+                        echo "<td data-th='Position'>".$data['RmanagerLevel_Level']."</td>";
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
-                        echo "<td><center>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td><center>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to remove?'])."</td>";
+                        echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
+                        echo "<td>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-danger','data-confirm'=>'Are you sure you want to remove?'])."</td>";
                     echo "</tr>";
                 }
             }
         }
          ?>
     </table>
-    <?php echo Html::a('Back',['default/restaurant-details','rid'=>$rid],['class' => 'btn btn-primary']); ?>
-    <br>
-
+        </div>
     </div>
 </div>
-</body>

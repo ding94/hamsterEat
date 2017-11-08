@@ -4,6 +4,8 @@ namespace common\models;
 
 use Yii;
 use common\models\food\Food;
+use common\models\food\Foodselection;
+use common\models\food\Foodselectiontype;
 
 /**
  * This is the model class for table "orderitem".
@@ -35,7 +37,7 @@ class Orderitem extends \yii\db\ActiveRecord
             [['Delivery_ID', 'Food_ID', 'OrderItem_Quantity'], 'integer'],
             [['OrderItem_LineTotal'], 'number'],
             [['OrderItem_Status', 'OrderItem_Remark'], 'string', 'max' => 255],
-            //[['OrderItem_Quantity'], 'integer','min' => 1],
+            [['Order_ID'],'safe'],
         ];
     }
 
@@ -45,13 +47,13 @@ class Orderitem extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'Delivery_ID' => 'Delivery  ID',
-            'Food_ID' => 'Food  ID',
-            'Order_ID' => 'Order  ID',
-            'OrderItem_Quantity' => 'Order Item  Quantity',
-            'OrderItem_LineTotal' => 'Order Item  Line Total',
-            'OrderItem_Status' => 'Order Item  Status',
-            'OrderItem_Remark' => 'Order Item  Remark',
+            'Delivery_ID' => 'Delivery ID',
+            'Food_ID' => 'Food ID',
+            'Order_ID' => 'Order ID',
+            'OrderItem_Quantity' => 'Order Item Quantity',
+            'OrderItem_LineTotal' => 'Order Item Line Total',
+            'OrderItem_Status' => 'Order Item Status',
+            'OrderItem_Remark' => 'Order Item Remark',
         ];
     }
 
@@ -60,9 +62,9 @@ class Orderitem extends \yii\db\ActiveRecord
          return $this->hasOne(Food::className(),['Food_ID'=>'Food_ID']);
     }
 
-    public function getManager()
+    public function getFoodtype()
     {
-        return $this->hasMany(Rmanagerlevel::className(),['Restaurant_ID' => $this->food->Restaurant_ID]);
+         return $this->hasOne(Foodtype::className(),['Food_ID'=>'Food_ID']);
     }
 
     public function getItem_status()
@@ -73,11 +75,6 @@ class Orderitem extends \yii\db\ActiveRecord
     public function getOrder_selection()
     {
         return $this->hasOne(Orderitemselection::className(),['Order_ID' => 'Order_ID']); 
-    }
-
-    public function getFood_selection()
-    {
-        return $this->hasOne(Foodselection::className(),['Order_ID' => $this->getOrder_selection->Selection_ID]); 
     }
 
     public function getOrder()

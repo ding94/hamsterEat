@@ -58,6 +58,12 @@
                                     ],
                         'options' => ['class' => 'active'],
                     ],
+                    [   'label' => 'C.S Controller', 'icon' => 'user', 'url' => "#",
+                        'items' =>  [
+                                        [ 'label' => 'Problematic List', 'icon' => 'circle-o', 'url' => ['/customerservice/pausedorder']],
+                                    ],
+                        'options' => ['class' => 'active'],
+                    ],
 					[   'label' => 'Finance Controller', 'icon' => 'money', 'url' => '#',
                         'items' =>  [
                                         ['label' => 'Offline Topup', 'icon' => 'circle-o', 'url' => ['/finance/topup/index']],

@@ -1,0 +1,52 @@
+.restaurant-orders-header-title{
+  font-size: 1.6em;
+  font-weight: 500;
+  line-height: 2.4em;
+}
+
+.restaurant-orders-header{
+  box-sizing: border-box;
+  border-bottom: 1px solid #efefef;
+}
+
+#restaurant-orders-container{
+  background-color: white;
+}
+
+#restaurant-orders-nav > li > a {
+  border-bottom: 1px solid #efefef;
+}
+
+#restaurant-orders-content{
+  border-left: 1px solid #efefef;
+  padding-top: 15px;
+}
+
+@media (max-width: 549px){
+	#restaurant-orders-content > table, thead, tbody, th, td, tr { 
+    display: block; 
+  }
+
+/* Hide table headers (but not display: none;, for accessibility) */
+  #restaurant-orders-content thead.none tr { 
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  #restaurant-orders-content tr { border: 1px solid #ccc; }
+  
+  #restaurant-orders-content td { 
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee; 
+    position: relative;
+  }
+  
+	div#restaurant-orders-content td:before { 
+      content : attr(data-th) ": ";
+      width: 5.5em;
+      display: inline-block;
+      font-weight: bold;
+  }
+}

@@ -16,6 +16,7 @@ use common\models\Rmanager;
 use common\models\Restaurant;
 use frontend\assets\NotificationAsset;
 use frontend\assets\UserAsset;
+use yii\bootstrap\Modal;
 
 AppAsset::register($this);
 NotificationAsset::register($this);

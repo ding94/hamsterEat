@@ -39,6 +39,14 @@ NotificationAsset::register($this);
         width:800px;
         margin-left: -230px;
         margin-top: 100px;
+        height: 740px;
+    }
+
+    #feedback-modal-1 .modal-content{
+
+        width:800px;
+        margin-left: -230px;
+        margin-top: 100px;
         height: 620px;
     }
     </style>
@@ -68,6 +76,15 @@ NotificationAsset::register($this);
 <?php Modal::begin([
             'header' => '<h2 class="modal-title">Feedback</h2>',
             'id'     => 'feedback-modal',
+            'size'   => 'modal-sm',
+            //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    
+    Modal::end() ?>
+
+<?php Modal::begin([
+            'header' => '<h2 class="modal-title">Feedback</h2>',
+            'id'     => 'feedback-modal-1',
             'size'   => 'modal-sm',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
@@ -197,7 +214,12 @@ NotificationAsset::register($this);
 				<h3 id="footertitle">HamsterEat</h3>
 				<hr>
 				<ul id="linklist" class="list-unstyled">
+                <?php if (Yii::$app->user->isGuest)
+                { ?>
                     <li><?php echo Html::a('Feedback', Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal']) ?></li>
+                <?php } else { ?>
+                    <li><?php echo Html::a('Feedback', Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal-1']) ?></li>
+                <?php } ?>
 					<li><?php echo Html::a('About Us' ,['site/about']) ?></li>
                     <li><?php echo Html::a('Guide' ,['site/faq']) ?></li>
 					<li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>

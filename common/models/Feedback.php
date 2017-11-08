@@ -34,7 +34,8 @@ class Feedback extends \yii\db\ActiveRecord
             [['User_Username', 'Feedback_Category', 'Feedback_Message', 'Feedback_DateTime', 'Feedback_Link'], 'required'],
             [['Feedback_Category', 'Feedback_DateTime'], 'integer'],
             [['Feedback_Message'], 'string'],
-            [['User_Username', 'Feedback_PicPath', 'Feedback_Link'], 'string', 'max' => 255],
+            [['Feedback_PicPath', 'Feedback_Link'], 'string', 'max' => 255],
+            [['User_Username'], 'email'], 
         ];
     }
 
@@ -45,7 +46,7 @@ class Feedback extends \yii\db\ActiveRecord
     {
         return [
             'Feedback_ID' => 'Feedback  ID',
-            'User_Username' => 'User  Username',
+            'User_Username' => 'Email',
             'Feedback_Category' => 'Feedback  Category',
             'Feedback_Message' => 'Feedback  Message',
             'Feedback_PicPath' => 'Feedback  Pic Path',

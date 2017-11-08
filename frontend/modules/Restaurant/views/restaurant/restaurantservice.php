@@ -15,7 +15,7 @@ RestaurantServiceAsset::register($this);
     <div class="menu-container" id="menucon">
       <?php foreach($restaurant as $k => $res ){?>
       <div class="outer-item">
-      <a href=" <?php echo yii\helpers\Url::to(['restaurant/food-service','id'=>$res['Restaurant_ID']]); ?> ">
+      <a href=" <?php echo yii\helpers\Url::to(['/Restaurant/default/restaurant-details','rid'=>$res['Restaurant_ID']]); ?> ">
       <div class="item-no-border">
         <div class="img"><?php echo Html::img('@web/imageLocation/'.$res['Restaurant_RestaurantPicPath']) ?></div>
         <div class="inner-item">
@@ -26,12 +26,6 @@ RestaurantServiceAsset::register($this);
 		    <span class="small-text pull-right stars" alt="<?php echo $res['Restaurant_Rating']; ?>"><?php echo $res['Restaurant_Rating']; ?></span>  	
       </div>
   		</a>
-      <?=Html::a('Food Detail', Url::to(['restaurant/food-service', 'id'=>$res['Restaurant_ID']]), ['id'=>'food','class'=>'btn btn-warning'])?>
-      <?php if ($res['Restaurant_Status'] == "Closed"): ?>
-            <?=Html::a('Resume Operate', Url::to(['restaurant/active', 'id'=>$res['Restaurant_ID'],'item'=>1]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-success'])?>
-      <?php elseif($res['Restaurant_Status'] == "Operating"): ?>
-            <?=Html::a('Pause Operate', Url::to(['restaurant/deactive', 'id'=>$res['Restaurant_ID'],'item'=>1]), ['id'=>'pause','data-confirm'=>"Do you want to Pause Operate?",'class'=>'btn btn-danger'])?>  
-          <?php endif ?>
       </div>
       <?php } ?>
     </div>

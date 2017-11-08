@@ -89,11 +89,11 @@ class RestaurantController extends CommonController
                 if($model->validate())
                 {
                     $model->save();
-                    Yii::$app->session->setFlash('success', "Status change to closed.");
+                    Yii::$app->session->setFlash('warning', "Status change to closed.");
                 }
                 else
                 {
-                    Yii::$app->session->setFlash('warning', "Change status failed.");
+                    Yii::$app->session->setFlash('error', "Change status failed.");
                 }
                 break;
 
@@ -103,11 +103,11 @@ class RestaurantController extends CommonController
                 if($model->validate())
                 {
                     $model->save();
-                    Yii::$app->session->setFlash('success', "Status change to paused.");
+                    Yii::$app->session->setFlash('warning', "Status change to paused.");
                 }
                 else
                 {
-                    Yii::$app->session->setFlash('warning', "Change status failed.");
+                    Yii::$app->session->setFlash('error', "Change status failed.");
                 }
                 break;
             

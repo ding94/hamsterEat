@@ -12,23 +12,14 @@ use yii\helpers\ArrayHelper;
 use backend\models\Admin;
 
     $this->title = 'My Questions';
-    
 ?>
-<html>
-<style type="text/css">
-  a
-  {
-    color: #6699ff;
-  }
 
-</style>
-<div class="site-contact">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <h4><?php echo "Serial ID : " . $sid; ?></h4>
-
+<div class="container" style="background-color:white;">
+ <a class="back" href="../web/index.php?r=ticket%2Findex"><i class="fa fa-angle-left">&nbsp;Back</i></a><br>
+	<h1 class="col-md-6 col-md-offset-3" style="text-align:center;"><?= Html::encode($this->title) ?></h1><br>
+    <h4 class="col-md-6 col-md-offset-3" style="text-align:center;"><?php echo "Serial ID : " . $sid; ?></h4>
     <br>
-    <div class="col-md-8 col-md-offset-1.5">
+    <div class="col-md-8 col-md-offset-2">
       <table class="table table-inverse">
           <tr>
               <th>
@@ -40,7 +31,7 @@ use backend\models\Admin;
               <th>
                   <?php echo date('d/M/Y h:i:s',($ticket->Ticket_DateTime)); ?>
               </th>
-              <th><?php if(!empty($ticket->Ticket_PicPath)){ echo Html::a('Picture',Yii::$app->urlManager->baseUrl.'/'.$ticket->Ticket_PicPath,['target'=>'_blank']); }?></th>
+              <th><?php if(!empty($ticket->Ticket_PicPath)){ echo Html::a('View Picture',Yii::$app->urlManager->baseUrl.'/'.$ticket->Ticket_PicPath,['target'=>'_blank']); }?></th>
           </tr>
 
         <?php foreach ($model as $k => $modell)  { ?> 
@@ -52,7 +43,7 @@ use backend\models\Admin;
                   <?php echo date('d/M/Y h:i:s',($modell->Replies_DateTime)); ?>
               </td>
               <td>
-              <?php if(!empty($modell->Replies_PicPath)){ echo Html::a('Picture',Yii::$app->urlManager->baseUrl.'/'.$modell->Replies_PicPath,['target'=>'_blank']); }?>
+              <?php if(!empty($modell->Replies_PicPath)){ echo Html::a('View Picture',Yii::$app->urlManager->baseUrl.'/'.$modell->Replies_PicPath,['target'=>'_blank']); }?>
               </td>
           </tr>
         <?php } ?>
@@ -64,12 +55,11 @@ use backend\models\Admin;
         <?= $form->field($reply, 'Replies_ReplyContent')->textarea(['rows' => 6]) ?>
         <?= $form->field($upload, 'imageFile')->fileInput() ?>
 
-        <div style="padding-left: 30%" class="form-group">
+        <div style="padding-left: 40%" class="form-group">
              <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
-             <?= Html::a('Back', ['/ticket/index'], ['class'=>'btn btn-primary']) ?>
+            
         </div>
         <?php ActiveForm::end(); ?>
       <?php endif ?>
 </div>
 </div>
-</html>

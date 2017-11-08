@@ -12,12 +12,21 @@ use yii\helpers\ArrayHelper;
 
     $this->title = 'My Completed Questions';
 ?>
-<div class="container">
-<div class="site-contact">
-<div class="col-lg-6 col-lg-offset-1" style="text-align:center">
-    <h1><?= Html::encode($this->title) ?></h1>  
-  </div>
-<div class="col-md-8 col-md-offset-1">
+<div class="container" id="userprofile">
+<div class="userprofile-header">
+        <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
+    </div>
+   <div class="userprofile-detail">
+        <div class="col-sm-2">
+           <ul class="nav nav-pills nav-stacked">
+                <li role="presentation"><?php echo Html::a("All",['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                <li role="presentation"><?php echo Html::a("Submit Ticket",['/ticket/submit-ticket'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+				<li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Completed Ticket</a></li>
+            </ul>
+        </div>
+<div class="col-sm-8 userprofile-edit-input">
+<p style="text-align:center;">
+We would like to thank you for writing to us, have a great day!</p><br>
         <table class="table table-inverse">
             <tr >
                 <th>Serial No.</th>

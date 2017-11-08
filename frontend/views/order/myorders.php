@@ -6,10 +6,10 @@ $this->title = "My Orders";
 
 MyOrdersAsset::register($this);
 ?>
-<div id="my-orders" class = "container">
+<div id="my-orders-container" class = "container">
   <div class="my-orders-header">
-      <div class="my-orders-header-title"><?php echo Html::encode($this->title)?></div>
-  </div>
+        <div class="my-orders-header-title"><?php echo Html::encode($this->title)?></div>
+    </div>
   <div class="content">
     <div class="col-sm-2 ">
     <ul id="order" class="nav nav-pills nav-stacked">
@@ -26,7 +26,6 @@ MyOrdersAsset::register($this);
           <tr>
             <th><center>Delivery ID</th>
             <th><center>Date and Time Placed</th>
-            <th><center>Rate</th>
           </tr>
           <?php 
             foreach ($order1 as $orders) :
@@ -42,16 +41,9 @@ MyOrdersAsset::register($this);
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
             <td><center>
               <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo $orders['Orders_DateTimeMade']; ?>
+                <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
               </a>
             </td>
-            <?php if ($orders['Orders_Status'] != 'Completed'){ ?>
-            <td></td>
-            <?php }else{ ?>
-            <td><center>
-              <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$orders['Delivery_ID']], ['class'=>'btn btn-primary']); ?>
-            </td>
-            <?php } ?>
           </tr>
           <?php  
               }
@@ -64,7 +56,6 @@ MyOrdersAsset::register($this);
           <tr>
             <th><center>Delivery ID</th>
             <th><center>Date and Time Placed</th>
-            <th><center>Rate</th>
           </tr>
           <?php 
             foreach ($order2 as $orders) :
@@ -80,16 +71,9 @@ MyOrdersAsset::register($this);
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
             <td><center>
               <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo $orders['Orders_DateTimeMade']; ?>
+                <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
               </a>
             </td>
-            <?php if ($orders['Orders_Status'] != 'Completed'){ ?>
-            <td></td>
-            <?php }else{ ?>
-            <td><center>
-              <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$orders['Delivery_ID']], ['class'=>'btn btn-primary']); ?>
-            </td>
-            <?php } ?>
           </tr>
           <?php  
               }
@@ -102,7 +86,6 @@ MyOrdersAsset::register($this);
           <tr>
             <th><center>Delivery ID</th>
             <th><center>Date and Time Placed</th>
-            <th><center>Rate</th>
           </tr>
           <?php 
             foreach ($order3 as $orders) :
@@ -118,16 +101,9 @@ MyOrdersAsset::register($this);
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
             <td><center>
               <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo $orders['Orders_DateTimeMade']; ?>
+                <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
               </a>
             </td>
-            <?php if ($orders['Orders_Status'] != 'Completed'){ ?>
-            <td></td>
-            <?php }else{ ?>
-            <td><center>
-              <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$orders['Delivery_ID']], ['class'=>'btn btn-primary']); ?>
-            </td>
-            <?php } ?>
           </tr>
           <?php  
               }
@@ -140,7 +116,6 @@ MyOrdersAsset::register($this);
           <tr>
             <th><center>Delivery ID</th>
             <th><center>Date and Time Placed</th>
-            <th><center>Rate</th>
           </tr>
           <?php 
             foreach ($order4 as $orders) :
@@ -156,16 +131,9 @@ MyOrdersAsset::register($this);
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
             <td><center>
               <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo $orders['Orders_DateTimeMade']; ?>
+                <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
               </a>
             </td>
-            <?php if ($orders['Orders_Status'] != 'Completed'){ ?>
-            <td></td>
-            <?php }else{ ?>
-            <td><center>
-              <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$orders['Delivery_ID']], ['class'=>'btn btn-primary']); ?>
-            </td>
-            <?php } ?>
           </tr>
           <?php  
               }
@@ -194,11 +162,11 @@ MyOrdersAsset::register($this);
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
             <td><center>
               <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo $orders['Orders_DateTimeMade']; ?>
+                <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
               </a>
             </td>
             <?php if ($orders['Orders_Status'] != 'Completed'){ ?>
-            <td></td>
+            <td><span class="rating-complete">Rating Done</span></td>
             <?php }else{ ?>
             <td><center>
               <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$orders['Delivery_ID']], ['class'=>'btn btn-primary']); ?>

@@ -50,6 +50,8 @@
 
 .userprofile-input{
   height: 25%;
+  font-size: 1.10em;
+
 }
 
 .userprofile-label{
@@ -101,6 +103,9 @@
     padding: 0;
   }
 
+  .userprofile-header-title{
+    text-align: center;
+  }
   .userprofile-right{
     height: 55em;
   }
@@ -110,20 +115,20 @@
     margin-bottom: 3px;
   }
 
-  .userprofile-address > table, thead, tbody, th, td, tr { 
+  div.userprofile-address * { 
     display: block; 
   }
 
 /* Hide table headers (but not display: none;, for accessibility) */
-  .userprofile-address thead tr { 
+  div.userprofile-address  thead tr { 
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
   
-  .userprofile-address tr { border: 1px solid #ccc; }
+  div.userprofile-address  tr { border: 1px solid #ccc; }
   
-  .userprofile-address td { 
+  div.userprofile-address  td { 
     /* Behave  like a "row" */
     border: none;
     border-bottom: 1px solid #eee; 
@@ -131,7 +136,7 @@
     padding-left: 50%; 
   }
   
-  .userprofile-address td:before { 
+  div.userprofile-address  td:before { 
     /* Now like a table header */
     position: absolute;
     /* Top/left values mimic padding */
@@ -141,7 +146,37 @@
     padding-right: 10px; 
     white-space: nowrap;
   }
+
+  div.account-history tr{
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+  }
+
+  div.account-history th{
+      display: none;
+  }
+
+  div.account-history td{
+      display: block;
+  }
+
+  div.account-history td:first-child { 
+      padding-top : .5em; 
+  }
+
+  div.account-history td:last-child { 
+      padding-bottom : .5em; 
+  }
+
+  div.account-history td:before { 
+      content : attr(data-th) ": ";
+      width: 6.5em;
+      display: inline-block;
+  }
+
 }
+
+ 
 
 @media(max-width: 990px){
   .userprofile-avatar{
@@ -154,6 +189,7 @@
   .col-xs-2{
     width: 30%;
   }
+
 }
 
 @media(max-width: 767px){
@@ -223,3 +259,18 @@
 	padding-left:20px;
 }
 }
+
+.container3{
+	background-color:#fff;
+}
+
+
+
+
+.fa-angle-left {
+	font-size:20px;
+	padding-top:10px;
+	padding-left:10px;
+	color:#636363;
+}
+

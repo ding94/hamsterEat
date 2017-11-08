@@ -19,6 +19,7 @@ class AppAsset extends AssetBundle
     public $js = [
 	    'js/he.js',
         'js/FlashTimer.js',
+        'js/feedback-modal.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

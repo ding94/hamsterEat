@@ -20,6 +20,8 @@ UserAsset::register($this);
                 <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Change password</a></li>
             </ul>
         </div>
+        </div>
+		<div class="container">
         <div class="col-sm-8 userprofile-edit-input">
             <?php $form = ActiveForm::begin(); ?>
             

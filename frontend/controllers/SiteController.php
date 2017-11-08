@@ -26,6 +26,9 @@ use yii\helpers\ArrayHelper;
 use yii\web\Session;
 use frontend\controllers\CommonController;
 use common\models\Banner;
+use common\models\Expansion;
+use common\models\Feedback;
+use common\models\Feedbackcategory;
 /**
  * Site controller
  */
@@ -615,5 +618,50 @@ class SiteController extends CommonController
     public function actionFaq()
     {
         return $this->render('faq');
+    }
+
+    public function actionRequestArea()
+    {
+        $expansion = new Expansion();
+        $postcode = new Area();
+        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
+        $list =array();
+        $banner = Banner::find()->where(['<=','startTime',date("Y-m-d H:i:s")])->andWhere(['>=','endTime',date("Y-m-d H:i:s")])->all();
+        if ($expansion->load(Yii::$app->request->post()))
+        {
+            $expansion->Expansion_DateTime = time();
+            $expansion->User_Username = Yii::$app->user->identity->username;
+            //var_dump($expansion->save());exit;
+            $expansion->save(false);
+
+            Yii::$app->getSession()->setFlash('success','Thank you for submitting your area expansion request. We hope to receive your order soon.');
+            return $this->redirect(['index', 'postcode'=>$postcode ,'list'=>$list,'postcodeArray'=>$postcodeArray,'banner'=>$banner]);
+        }
+
+        return $this->render('expansion', ['expansion'=>$expansion]);
+    }
+
+    public function actionFeedBack($link)
+    {
+        $feedback = new Feedback();
+        $categoryarray = ArrayHelper::map(Feedbackcategory::find()->all(),'ID','Category');
+        $list =array();
+        if ($feedback->load(Yii::$app->request->post()))
+        {
+            $postcode = new Area();
+            $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
+            $list =array();
+            $banner = Banner::find()->where(['<=','startTime',date("Y-m-d H:i:s")])->andWhere(['>=','endTime',date("Y-m-d H:i:s")])->all();
+            $feedback->User_Username = Yii::$app->user->identity->username;
+            $feedback->Feedback_DateTime = time();
+            $feedback->Feedback_Link = $link;
+
+            $feedback->save();
+            
+            Yii::$app->getSession()->setFlash('success','Thank you for submitting your feedback. We will improve to serve you better.');
+            return $this->redirect(['index', 'postcode'=>$postcode ,'list'=>$list,'postcodeArray'=>$postcodeArray,'banner'=>$banner]);
+        }
+
+        return $this->renderAjax('feedback', ['feedback'=>$feedback, 'categoryarray'=>$categoryarray, 'list'=>$list]);
     }
 }

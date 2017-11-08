@@ -9,36 +9,48 @@ use frontend\assets\TopupIndexAsset;
 $this->title = "Top up";	
 TopupIndexAsset::register($this);
 ?>
-<div class="container">
-	<div class="col-md-6 col-md-offset-3" id="topup">
-		<h1>Offline Topup</h1>
-		<?php $form = ActiveForm::begin(); ?>
-		<div class="outer-container1">
-			<div class="menu-container1">
-				<?php foreach($bank as $k => $value):  ?>
-					<div class="item1">
-					<div class="img"><input type="radio" name="Bank_ID" value=<?php echo $value['Bank_ID']; ?> ><?php echo Html::img('@web/imageLocation/bank/'.$value['Bank_PicPath']) ?></div>
-						<div class="inner-item1">
-							<br><p><?php echo $value['Bank_AccNo']; ?></p>
-							<a href=" <?php echo yii\helpers\Url::to($value ['redirectUrl']); ?> ">Go to <?php echo $value['Bank_Name']; ?> website</a>
-						</div>
-					</div>
-		   
-			<?php endforeach; ?>
-			 </div>
-		</div>
 
-		   
+<div id="userprofile" class="row">
+   <div class="userprofile-header">
+        <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
+    </div>
+    <div class="userprofile-detail">
+        <div class="col-md-2 ">
+            <ul class="nav nav-pills nav-stacked">
+		        <li role="presentation" ><?php echo Html::a("User Balance",['/user/userbalance'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+		        <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Top Up</a></li>
+		        <li role="presentation"><?php echo Html::a("Withdraw",['/withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+	    	</ul>
+        </div>
+        <div class="col-md-10 toptup-right">
+	        <div class="row">
+	  		<?php $form = ActiveForm::begin(['id' => 'topup']); ?>
+	  			<div class="row label-final-outlet">
+	  				<?php foreach($bank as $label):?>
+						<div class="col-sm-4 label-outlet">
+							
+							<?php echo Html::img('@web/imageLocation/bank/'.$label['Bank_PicPath'],['class' => 'label-img']); ?>
+							<p>Bank Account Number :</p>
+							<p><?php echo $label['Bank_AccNo']?></p>
+							<?php echo Html::a("Go To ".$label['Bank_Name']." WebSite",$label['redirectUrl'] ,['target'=>'_blank'])?>		
+						</div>
+
+					<?php endforeach;?>		
+				
+				</div>
+
+				<?= $form->field($model,'Account_ChosenBank')->dropDownList($banklist)?>
+
 			
 				<?= $form->field($model, 'Account_TopUpAmount') ?>
-								
-                <?= $form->field($upload, 'imageFile')->fileInput() ?>
-                       <div class="form-group">
-                    <?= Html::submitButton('Upload', ['class' => 'btn btn-primary']) ?>
-                </div>
+										
+		        <?= $form->field($upload, 'imageFile')->fileInput() ?>
+		        <div class="form-group">
+		            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+		        </div>
 
-            <?php ActiveForm::end(); ?>
-    				
-
-	</div>
+		        <?php ActiveForm::end(); ?>
+	  		</div>
+        </div>
+    </div>
 </div>

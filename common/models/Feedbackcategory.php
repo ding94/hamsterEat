@@ -1,0 +1,44 @@
+<?php
+
+namespace common\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "feedbackcategory".
+ *
+ * @property integer $ID
+ * @property string $Category
+ */
+class Feedbackcategory extends \yii\db\ActiveRecord
+{
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'feedbackcategory';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['Category'], 'required'],
+            [['Category'], 'string'],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'ID' => 'ID',
+            'Category' => 'Category',
+        ];
+    }
+}

@@ -1,4 +1,4 @@
-#my-orders{
+#my-orders-container{
 	background-color: white;
 }
 
@@ -32,6 +32,15 @@
 .my-orders-header{
   box-sizing: border-box;
   border-bottom: 1px solid #efefef;
+}
+
+.rating-complete{
+  display: block;
+  background-color: green;
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+  text-align: center;
 }
 
 @media (max-width: 480px){

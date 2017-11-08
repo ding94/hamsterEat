@@ -15,6 +15,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 use yii\helpers\Json;
 use common\models\Rmanager;
 use common\models\Restaurant;
+use yii\bootstrap\Modal;
 use frontend\assets\NotificationAsset;
 
 AppAsset::register($this);
@@ -31,6 +32,12 @@ NotificationAsset::register($this);
     }
     #cart1{
         line-height:33px;
+    }
+    .modal-content{
+        width:800px;
+        margin-left: -230px;
+        margin-top: 100px;
+        height: 552px;
     }
     </style>
 <?php $this->beginPage() ?>
@@ -55,6 +62,14 @@ NotificationAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
+<?php Modal::begin([
+            'header' => '<h2 class="modal-title">Feedback</h2>',
+            'id'     => 'feedback-modal',
+            'size'   => 'modal-sm',
+            //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    
+    Modal::end() ?>
 <?php $this->beginBody() ?>
 
 <div class="wrap">
@@ -73,10 +88,7 @@ NotificationAsset::register($this);
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Guide', 'url' => ['/site/faq']],
        
-
          //['label' => '<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
-
-
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => '<span id ="cart1" class="glyphicon glyphicon-shopping-cart"></span> ', 'url' => ['/cart/view-cart']];
@@ -84,16 +96,6 @@ NotificationAsset::register($this);
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> Login', 'url' => ['/site/login']];
     } else {
         $menuItems[] = ['label' => '<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']];
-        if (Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
-            $restaurant = Restaurant::find()->where('Restaurant_Manager=:rm',[':rm'=>Yii::$app->user->identity->username])->all();
-            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-home"></span> Restaurants',
-
-            ];
-            foreach ($restaurant as $k => $each) {
-            $menuItems[3]['items'][$k] = ['label' => $each['Restaurant_Name'],'url' => ['/Restaurant/default/restaurant-details','rid'=>$each['Restaurant_ID']]];
-            $menuItems[3]['items'][$k+count($restaurant)] = '<li class="divider"></li>';
-            }
-        }
         $menuItems[] = ['label' => '<span class=""> <i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>'];
         $keys = array_keys($menuItems);
 
@@ -134,8 +136,13 @@ NotificationAsset::register($this);
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile']],
                         '<li class="divider"></li>',
-                       ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']],
-                    ]];
+                       ]];
+         $keys = array_keys($menuItems);
+        if (Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
+                $menuItems[end($keys)]['items'][] =['label' => 'Restaurants ', 'url' => ['/Restaurant/restaurant/restaurant-service'],'linkOptions' => ['data-method' => 'post']];
+                $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+        }
+        $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']];
                     //var_dump($menuItems);exit;
         
        //  $menuItems = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];
@@ -187,7 +194,7 @@ NotificationAsset::register($this);
 				<h3 id="footertitle">HamsterEat</h3>
 				<hr>
 				<ul id="linklist" class="list-unstyled">
-					
+                    <li><?php echo Html::a('Feedback', Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal']) ?></li>
 					<li><?php echo Html::a('About Us' ,['site/about']) ?></li>
                     <li><?php echo Html::a('Guide' ,['site/faq']) ?></li>
 					<li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>

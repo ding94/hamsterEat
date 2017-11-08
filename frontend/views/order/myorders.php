@@ -22,6 +22,9 @@ MyOrdersAsset::register($this);
     </div>
     <div class="col-sm-8 tab-content my-orders-table">
       <div id="pending" class="tab-pane fade in active">
+        <?php if (empty($order1)){ ?>
+          <h3>There are no orders...</h3>
+        <?php } else{ ?>
         <table class="table table-user-info orderTable col-sm-8">
           <thead>
             <tr>
@@ -53,8 +56,12 @@ MyOrdersAsset::register($this);
             endforeach;
           ?>
         </table>
+        <?php }?>
       </div>
       <div id="preparing" class="tab-pane fade my-orders-table">
+        <?php if (empty($order2)){ ?>
+          <h3>There are no orders...</h3>
+        <?php } else{ ?>
         <table class="table table-user-info orderTable col-sm-8">
           <thead>
             <tr>
@@ -87,8 +94,12 @@ MyOrdersAsset::register($this);
             endforeach;
           ?>
         </table>
+        <?php }?>
       </div>
       <div id="pickup" class="tab-pane fade my-orders-table">
+        <?php if (empty($order3)){ ?>
+          <h3>There are no orders...</h3>
+        <?php } else{ ?>
         <table class="table table-user-info orderTable col-sm-8">
           <thead>
             <tr>
@@ -121,8 +132,12 @@ MyOrdersAsset::register($this);
             endforeach;
           ?>
         </table>
+        <?php }?>
       </div>
       <div id="ontheway" class="tab-pane fade my-orders-table">
+        <?php if (empty($order4)){ ?>
+          <h3>There are no orders...</h3>
+        <?php } else{ ?>
         <table class="table table-user-info orderTable col-sm-8">
           <thead>
             <tr>
@@ -155,9 +170,13 @@ MyOrdersAsset::register($this);
             endforeach;
           ?>
         </table>
+        <?php }?>
       </div>
       <div id="completed" class="tab-pane fade my-orders-table">
         <table class="table table-user-info orderTable col-sm-8">
+          <?php if (empty($order5)){ ?>
+            <h3>There are no orders...</h3>
+          <?php } else{ ?>
           <thead>
             <tr>
               <th><center>More</th>
@@ -197,6 +216,7 @@ MyOrdersAsset::register($this);
             endforeach;
           ?>
         </table>
+        <?php }?>
       </div>
     </div>
   </div>

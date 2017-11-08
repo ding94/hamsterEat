@@ -382,8 +382,8 @@ class CartController extends CommonController
 
                 } 
                
-                //$valid = $this->actionAssignDeliveryMan($did);
-                $valid = true;
+                $valid = $this->actionAssignDeliveryMan($did);
+                
                 if ($valid == false) {
                     return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
                 }

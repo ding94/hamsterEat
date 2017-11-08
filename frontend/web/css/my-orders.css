@@ -20,6 +20,12 @@
   padding-top: 15px;
 }
 
+@media (min-width: 481px){
+  .my-orders-table td{
+    text-align: center;
+  }
+}
+
 .orderTable td{
     padding: 8px 0px !important;
 }
@@ -28,7 +34,7 @@
     background-color: #FFBE58;
 }
 
-.orderTable td a{
+.orderTable td.block a{
     display: block;
 }
 
@@ -73,15 +79,10 @@
     position: relative;
     padding-left: 50%; 
   }
-  
-  .my-orders-table td:before { 
-    /* Now like a table header */
-    position: absolute;
-    /* Top/left values mimic padding */
-    top: 6px;
-    left: 6px;
-    width: 45%; 
-    padding-right: 10px; 
-    white-space: nowrap;
+
+  div.my-orders-table td.with:before { 
+      content : attr(data-th) ": ";
+      width: 6.5em;
+      display: inline-block;
   }
 }

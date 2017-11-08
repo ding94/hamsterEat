@@ -201,8 +201,12 @@ NotificationAsset::register($this);
 					<li><?php echo Html::a('About Us' ,['site/about']) ?></li>
                     <li><?php echo Html::a('Guide' ,['site/faq']) ?></li>
 					<li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>
-					<li><?php echo Html::a('Login' ,['site/login']) ?></li>
-					<li><?php echo Html::a('Signup' ,['site/ruser']) ?></li>
+                    <?php if (Yii::$app->user->isGuest)
+                    { ?>
+                        <li><?php echo Html::a('Login' ,['site/login']) ?></li>
+                        <li><?php echo Html::a('Signup' ,['site/ruser']) ?></li> <?php
+                    }
+                    ?>
 				</ul>
 				
 			</div>

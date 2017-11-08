@@ -33,7 +33,9 @@ NotificationAsset::register($this);
     #cart1{
         line-height:33px;
     }
+
     #feedback-modal .modal-content{
+
         width:800px;
         margin-left: -230px;
         margin-top: 100px;

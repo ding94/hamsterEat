@@ -38,7 +38,7 @@ class CartController extends CommonController
                  //'only' => ['logout', 'signup','index'],
                  'rules' => [
                     [
-                        'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount','newaddress','editaddress','getaddress'],
+                        'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount','newaddress','editaddress','getaddress','assign-delivery-man'],
 
                         'allow' => true,
                         'roles' => ['@'],
@@ -230,9 +230,9 @@ class CartController extends CommonController
       
      
       // $get = deliveryman::find()->all();
-      $area="SELECT * from orders INNER JOIN area ON area.Area_Group=orders.Orders_SessionGroup WHERE orders.Delivery_ID=".$did." AND orders.Orders_SessionGroup=".$grouparea."";
+      $area="SELECT Orders_SessionGroup from orders WHERE Delivery_ID=".$did."";
+      $grouparea = Yii::$app->db->createCommand($area)->execute();
     
-      Yii::$app->db->createCommand($area)->execute();
      
        $data = DailySignInController::getAllDailyRecord();
        if (!empty($data)) {
@@ -243,7 +243,7 @@ class CartController extends CommonController
                  {
                      
                 $sql= User::find()->select(['id','deliveryman.DeliveryMan_Assignment'])->JoinWith(['authAssignment','deliveryman'])->where('item_name = :item_name and id = :id and DeliveryMan_AreaGroup =:DeliveryMan_AreaGroup',[':item_name' => 'rider',':id'=>$id,':DeliveryMan_AreaGroup'=>$grouparea])->orderBy(['deliveryman.DeliveryMan_Assignment'=>SORT_ASC])->asArray()->one();
-                var_dump($sql);exit;
+               
                $allData[] = $sql;
                  }
            }

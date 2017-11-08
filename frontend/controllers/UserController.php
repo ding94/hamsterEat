@@ -119,7 +119,7 @@ class UserController extends CommonController
         $historypage = $query->offset($historypagination->offset)->limit($historypagination->limit)->orderBy(['created_at'=> SORT_DESC])->all();
 
  		$this->layout = 'user';
-        $this->view->title = 'User Balance';
+        $this->view->title = 'User Balance History';
 		return $this->render('userbalance', ['history' => $historypage ,'historypagination' => $historypagination]);
  	}
     

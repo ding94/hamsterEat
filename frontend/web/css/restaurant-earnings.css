@@ -1,0 +1,57 @@
+#restaurant-earnings-container{
+  background-color: white;
+}
+
+#restaurant-earnings-nav > li > a {
+  border-bottom: 1px solid #efefef;
+}
+
+#restaurant-earnings-content{
+  border-left: 1px solid #efefef;
+}
+
+#w0{
+    display:inline-flex;
+    padding-top:3%;
+    height:100px;
+}
+#monthlyunix-year{
+    margin-left:15px;
+    margin-top:20px;
+}
+.btn-primary{
+    height:33px;
+    margin-top:25px;
+    margin-left:15px;
+}
+
+.restaurant-earnings-header-title{
+  font-size: 1.6em;
+  font-weight: 500;
+  line-height: 2.4em;
+}
+
+.restaurant-earnings-header{
+  box-sizing: border-box;
+  border-bottom: 1px solid #efefef;
+}
+
+@media (min-width: 768px){
+  #monthlyunix-year{
+    width:120px;
+  }
+
+  .btn-primary{
+    width: 80px;
+  }
+}
+
+@media (max-width: 767px){
+  #monthlyunix-year{
+    width:80px;
+  }
+
+  .btn-primary{
+    width: 55px;
+  }
+}

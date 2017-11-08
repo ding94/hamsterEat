@@ -2,165 +2,75 @@
 use yii\helpers\Html;
 use common\models\user\Userdetails;
 use common\models\Rmanagerlevel;
-use yii\bootstrap\ActiveForm;
+use kartik\widgets\ActiveForm;
+use frontend\assets\AddStaffAsset;
+
+$this->title = "Add Staff";
+AddStaffAsset::register($this);
 ?>
-
-<div class="container">
-<br>
-<br>
-<br>
-    <?php
-    {
-        //var_dump($num);exit;
-        if ($num == "1")
-        {
-            echo "<h1>Add an Owner to Your Restaurant</h1>";
-
-            $form = ActiveForm::begin(['id' => 'dynamic-form']);
-            echo "<table class = table table-restaurant-staff style=width:35%; margin:auto;>";
-            echo "<td>".$form->field($food, 'Nickname')->textInput(['style'=>'width:300px', 'placeholder' => "Search Restaurant Managers"])->label('')."</td>";
-            echo "<td>".Html::submitButton('Search', ['class' => 'btn btn-primary', 'name' => 'search-button', 'style'=>'margin-top:19px;'])."</td>";
-            if ($keyword != '')
-            {
-                echo "<tr>";
-                echo "<td colspan = 2><h3> Showing results similar to ".$keyword."</h3></td>";
-                echo "</tr>";
-            }
-            echo "</table>";
-            ActiveForm::end();
-
-            echo "<table class = 'table table-restaurant-details'>";
-            echo "<tr>";
-                echo "<th><center> Picture </th>";
-                echo "<th><center> Username </th>";
-                echo "<th><center> Full Name </th>";
-                echo "<th><center> Add as Owner </th>";
-            echo "</tr>";
-
-            foreach ($allrmanagers as $data) :
-            echo "<br>";
-            echo "<br>";
-            echo "<tr>";
-            $find = Rmanagerlevel::find()->where('Restaurant_ID = :rid and User_Username = :uname',[':rid'=>$rid, ':uname'=>$data['username']])->one();
-            if (is_null($find))
-            {
-                $name = Userdetails::find()->where('User_Username = :uname',[':uname'=>$data['username']])->one();
-                if(is_null($name['User_PicPath']))
-                {
-                    $picpath = "DefaultPic.png";
-                }
-                else
-                {
-                    $picpath = $name['User_PicPath'];
-                }
-                echo "<td>".Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;'])."</td>";
-                echo "<td><center>".$data['username']."</td>";
-                echo "<td><center>".$name['User_FirstName'].' '.$name['User_LastName']."</td>";
-                echo "<td><center>".Html::a('Add', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to add?'])."</td>";
-                echo "</tr>";
-            }
-            
-            endforeach;
-            
-            echo "</table>";
-            echo Html::a('Back',['default/manage-restaurant-staff','rid'=>$rid],['class' => 'btn btn-primary']);
-        }
-        elseif ($num == "2")
-        {
-            echo "<h1>Add a Manager to Your Restaurant</h1>";
-            
-            $form = ActiveForm::begin(['id' => 'dynamic-form']);
-            echo "<table class = table table-restaurant-staff style=width:35%; margin:auto;>";
-            echo "<td>".$form->field($food, 'Nickname')->textInput(['style'=>'width:300px', 'placeholder' => "Search Restaurant Managers"])->label('')."</td>";
-            echo "<td>".Html::submitButton('Search', ['class' => 'btn btn-primary', 'name' => 'search-button', 'style'=>'margin-top:19px;'])."</td>";
-            echo "</table>";
-            ActiveForm::end();
-
-            echo "<table class = 'table table-restaurant-details'>";
-            echo "<tr>";
-                echo "<th><center> Picture </th>";
-                echo "<th><center> Username </th>";
-                echo "<th><center> Full Name </th>";
-                echo "<th><center> Add as Manager </th>";
-            echo "</tr>";
-
-            foreach ($allrmanagers as $data) :
-            echo "<br>";
-            echo "<br>";
-
-            echo "<tr>";
-            $find = Rmanagerlevel::find()->where('Restaurant_ID = :rid and User_Username = :uname',[':rid'=>$rid, ':uname'=>$data['username']])->one();
-            if (is_null($find))
-            {
-                $name = Userdetails::find()->where('User_Username = :uname',[':uname'=>$data['username']])->one();
-                if(is_null($name['User_PicPath']))
-                {
-                    $picpath = "DefaultPic.png";
-                }
-                else
-                {
-                    $picpath = $name['User_PicPath'];
-                }
-                echo "<td>".Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;'])."</td>";
-                echo "<td><center>".$data['username']."</td>";
-                echo "<td><center>".$name['User_FirstName'].' '.$name['User_LastName']."</td>";
-                echo "<td><center>".Html::a('Add', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to add?'])."</td>";
-                echo "</tr>";
-            }
-            
-            endforeach;
-            
-            echo "</table>";
-            echo Html::a('Back',['default/manage-restaurant-staff','rid'=>$rid],['class' => 'btn btn-primary']);
-        }
-        else
-        {
-            echo "<h1>Add an Operator to Your Restaurant</h1>";
-            
-            $form = ActiveForm::begin(['id' => 'dynamic-form']);
-            echo "<table class = table table-restaurant-staff style=width:35%; margin:auto;>";
-            echo "<td>".$form->field($food, 'Nickname')->textInput(['style'=>'width:300px', 'placeholder' => "Search Restaurant Managers"])->label('')."</td>";
-            echo "<td>".Html::submitButton('Search', ['class' => 'btn btn-primary', 'name' => 'search-button', 'style'=>'margin-top:19px;'])."</td>";
-            echo "</table>";
-            ActiveForm::end();
-
-            echo "<table class = 'table table-restaurant-details'>";
-            echo "<tr>";
-                echo "<th><center> Picture </th>";
-                echo "<th><center> Username </th>";
-                echo "<th><center> Full Name </th>";
-                echo "<th><center> Add as Operator </th>";
-            echo "</tr>";
-
-            foreach ($allrmanagers as $data) :
-            echo "<br>";
-            echo "<br>";
-
-            echo "<tr>";
-            $find = Rmanagerlevel::find()->where('Restaurant_ID = :rid and User_Username = :uname',[':rid'=>$rid, ':uname'=>$data['username']])->one();
-            if (is_null($find))
-            {
-                $name = Userdetails::find()->where('User_Username = :uname',[':uname'=>$data['username']])->one();
-                if(is_null($name['User_PicPath']))
-                {
-                    $picpath = "DefaultPic.png";
-                }
-                else
-                {
-                    $picpath = $name['User_PicPath'];
-                }
-                echo "<td>".Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;'])."</td>";
-                echo "<td><center>".$data['username']."</td>";
-                echo "<td><center>".$name['User_FirstName'].' '.$name['User_LastName']."</td>";
-                echo "<td><center>".Html::a('Add', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>$num], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to add?'])."</td>";
-                echo "</tr>";
-            }
-            
-            endforeach;
-            
-            echo "</table>";
-            echo Html::a('Back',['default/manage-restaurant-staff','rid'=>$rid],['class' => 'btn btn-primary']);
-        }
-}
-    ?>
+<div id="add-staff-container" class="container">
+    <div class="add-staff-header">
+        <div class="add-staff-header-title"><?= Html::encode($this->title) ?></div>
+    </div>
+    <div class="content">
+        <div class="col-sm-2">
+            <ul id="add-staff-nav" class="nav nav-pills nav-stacked">
+                <li role="presentation"><?php echo Html::a("Back",['manage-restaurant-staff', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+            </ul>
+        </div>
+        <div id="add-staff-content" class="col-sm-10">
+            <?php 
+                $form = ActiveForm::begin(['id' => 'dynamic-form','type' => ActiveForm::TYPE_INLINE]);
+                echo $form->field($food,'Nickname')->textInput(['style'=>'width:200px', 'placeholder'=>'Search Restaurant Managers'])->label(false);
+                echo Html::submitButton('Search',['class' => 'btn btn-primary btn-search', 'name' => 'search-button']);
+                if ($keyword != '') {
+            ?>
+                <div>
+                    <h3>Showing results similar to <?php echo $keyword; ?></h3>
+                </div>
+            <?php         
+                 } 
+                 ActiveForm::end();
+            ?>
+            <table class="table table-restaurant-details">
+                <thead>
+                    <tr>
+                        <th>Picture</th>
+                        <th>Username</th>
+                        <th>Full Name</th>
+                        <th>Add as Owner</th>
+                        <th>Add as Manager</th>
+                        <th>Add as Operator</th>
+                    </tr>
+                </thead>
+                <?php
+                    foreach ($allrmanagers as $data):
+                ?>
+                <tr>
+                    <?php
+                        $find = Rmanagerlevel::find()->where('Restaurant_ID = :rid and User_Username = :uname',[':rid'=>$rid,':uname'=>$data['username']])->one();
+                        if (is_null($find)){
+                            $name = Userdetails::find()->where('User_Username = :uname',[':uname'=>$data['username']])->one();
+                            if (is_null($name['User_PicPath'])){
+                                $picpath = "DefaultPic.png";
+                            }
+                            else
+                            {
+                                $picpath = $name['User_PicPath'];
+                            }
+                            ?>
+                            <td><?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;']); ?></td>
+                            <td class="with" data-th="Username"><?php echo $data['username']; ?></td>
+                            <td class="with" data-th="Full Name"><?php echo $name['User_FirstName'].' '.$name['User_LastName']; ?></td>
+                            <td><?php echo Html::a('Add as Owner', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>1], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to add?']); ?></td>
+                            <td><?php echo Html::a('Add as Manager', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>2], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to add?']); ?></td>
+                            <td><?php echo Html::a('Add as Operator', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>3], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to add?']); ?></td>
+                    <?php
+                        }
+                    endforeach;
+                    ?>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>

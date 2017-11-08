@@ -117,6 +117,7 @@
 
   div.userprofile-address * { 
     display: block; 
+    border-top: 1px solid #efefef;
   }
 
 /* Hide table headers (but not display: none;, for accessibility) */
@@ -146,34 +147,6 @@
     padding-right: 10px; 
     white-space: nowrap;
   }
-
-  div.account-history tr{
-      border-top: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;
-  }
-
-  div.account-history th{
-      display: none;
-  }
-
-  div.account-history td{
-      display: block;
-  }
-
-  div.account-history td:first-child { 
-      padding-top : .5em; 
-  }
-
-  div.account-history td:last-child { 
-      padding-bottom : .5em; 
-  }
-
-  div.account-history td:before { 
-      content : attr(data-th) ": ";
-      width: 6.5em;
-      display: inline-block;
-  }
-
 }
 
  
@@ -181,9 +154,6 @@
 @media(max-width: 990px){
   .userprofile-avatar{
     margin : -17px;
-  }
-  .userprofile-left{
-    height: 30em;
   }
 
   .col-xs-2{

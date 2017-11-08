@@ -7,16 +7,15 @@ use yii\web\AssetBundle;
 /**
  * Main frontend application asset bundle.
  */
-class TopupWithdrawMpHistoryAsset extends AssetBundle
+class ManageStaffAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/topup-withdraw-mp-history.css',
-        'css/user.css'
+        'css/manage-staff.css',
     ];
     public $js = [
-        // 'js/rating-index.js',
+        // 'js/cart.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

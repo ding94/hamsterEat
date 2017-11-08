@@ -224,13 +224,13 @@ class CartController extends CommonController
     }
     }
 
-    public function actionAssignDeliveryMan()
+    public function actionAssignDeliveryMan($did)
     {
        // $purchaser = orders::find()->where('User_Username = :id',[':id'=>Yii::$app->user->identity->username])->one();
       
      
       // $get = deliveryman::find()->all();
-      $area="SELECT * from orders INNER JOIN area ON area.Area_Group=orders.Orders_SessionGroup WHERE orders.Delivery_ID=75 AND orders.Orders_SessionGroup=1";
+      $area="SELECT * from orders INNER JOIN area ON area.Area_Group=orders.Orders_SessionGroup WHERE orders.Delivery_ID=".$did." AND orders.Orders_SessionGroup=".$grouparea."";
     
       Yii::$app->db->createCommand($area)->execute();
      
@@ -242,8 +242,8 @@ class CartController extends CommonController
                if($area)
                  {
                      
-                $sql= User::find()->select(['id','deliveryman.DeliveryMan_Assignment'])->JoinWith(['authAssignment','deliveryman'])->where('item_name = :item_name and id = :id',[':item_name' => 'rider',':id'=>$id])->orderBy(['deliveryman.DeliveryMan_Assignment'=>SORT_ASC])->asArray()->one();
-                
+                $sql= User::find()->select(['id','deliveryman.DeliveryMan_Assignment'])->JoinWith(['authAssignment','deliveryman'])->where('item_name = :item_name and id = :id and DeliveryMan_AreaGroup =:DeliveryMan_AreaGroup',[':item_name' => 'rider',':id'=>$id,':DeliveryMan_AreaGroup'=>$grouparea])->orderBy(['deliveryman.DeliveryMan_Assignment'=>SORT_ASC])->asArray()->one();
+                var_dump($sql);exit;
                $allData[] = $sql;
                  }
            }

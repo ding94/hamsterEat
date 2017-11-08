@@ -33,11 +33,11 @@ NotificationAsset::register($this);
     #cart1{
         line-height:33px;
     }
-    .modal-content{
+    .modal-content-feedback{
         width:800px;
         margin-left: -230px;
         margin-top: 100px;
-        height: 552px;
+        height: 620px;
     }
     </style>
 <?php $this->beginPage() ?>

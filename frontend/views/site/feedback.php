@@ -23,10 +23,11 @@ use yii\bootstrap\ActiveForm;
     <?= $form->field($feedback, 'Feedback_Category')->dropDownList($categoryarray, ['style'=>'width:350px'])->label('Category'); ?>
                     
     <?= $form->field($feedback, 'Feedback_Message')->textInput(['style'=>'width:670px; height:180px;', 'placeholder' => "Enter your feedback here..."])->label('Message'); ?>
+
+    <?= $form->field($feedback, 'Feedback_PicPath')->fileInput()->label('Provide a Screenshot') ?>
     
     <div>
-        <?= Html::submitButton('Submit Feedback', ['class' => 'btn btn-primary', 'name' => 'feedback-button', 'style'=>'margin-left: 40%; margin-top: 2%;']); ?>
+        <?= Html::submitButton('Submit Feedback', ['class' => 'btn btn-primary', 'name' => 'feedback-button', 'style'=>'margin-left: 40%; margin-top: 4%;']); ?>
         <?php ActiveForm::end(); ?>
     </div>
 </div>
-

@@ -29,6 +29,8 @@ use common\models\Banner;
 use common\models\Expansion;
 use common\models\Feedback;
 use common\models\Feedbackcategory;
+use common\models\Upload;
+use yii\web\UploadedFile;
 /**
  * Site controller
  */
@@ -646,8 +648,15 @@ class SiteController extends CommonController
         $feedback = new Feedback();
         $categoryarray = ArrayHelper::map(Feedbackcategory::find()->all(),'ID','Category');
         $list =array();
+        $upload = new Upload();
         if ($feedback->load(Yii::$app->request->post()))
         {
+            $upload->imageFile = UploadedFile::getInstance($feedback, 'Feedback_PicPath');
+            $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
+
+            $upload->upload('imageLocation/');
+        
+            $feedback->Feedback_PicPath = $upload->imageFile->name;
             $postcode = new Area();
             $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
             $list =array();

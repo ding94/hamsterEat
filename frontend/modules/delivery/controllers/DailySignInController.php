@@ -23,7 +23,7 @@ class DailySignInController extends CommonController
                  //'only' => ['logout', 'signup','index'],
                  'rules' => [
                      [
-                         'actions' => ['index','signin'],
+                         'actions' => ['index','signin','delivery-location'],
                          'allow' => true,
                          'roles' => ['rider'],
  
@@ -213,7 +213,8 @@ class DailySignInController extends CommonController
     {
         $postcode = new Area();
 		$postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Group','Area_Group');
-		$area=Area::find()->all();
+		$area="SELECT DISTINCT Area_Group from area";
+		$area = Yii::$app->db->createCommand($area)->queryAll();
 		$find = new Deliveryman();
 		// var_dump($find->load(Yii::$app->request->post()));exit;
 		if($find->load(Yii::$app->request->post()))

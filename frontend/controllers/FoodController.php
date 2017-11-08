@@ -235,14 +235,10 @@ class FoodController extends CommonController
          }
 
         
-        $rname = Restaurant::find()->where('Restaurant_ID = :id', [':id'=>$rid])->one();
-        $rname = $rname['Restaurant_Name'];
-        $this->layout = 'user';
+        $restaurant = Restaurant::find()->where('Restaurant_ID = :id', [':id'=>$rid])->one();
+        $rname = $restaurant['Restaurant_Name'];
 
-        return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>$page, 'rname'=>$rname]);
-       
-        
-
+        return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>$page, 'rname'=>$rname, 'restaurant'=>$restaurant]);
      }
 
     public function actionDelete($rid,$id,$page)
@@ -525,12 +521,7 @@ class FoodController extends CommonController
         $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
         $rname = restaurant::find()->where('Restaurant_ID=:id',[':id' => $rid])->one()->Restaurant_Name;
 
-        $this->layout = 'user';
-        
-        $rname = Restaurant::find()->where('Restaurant_ID = :id', [':id'=>$rid])->one();
-        $rname = $rname['Restaurant_Name'];
-
-        return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>'recyclebin', 'rname'=>$rname]);
+        return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>'recyclebin', 'rname'=>$rname, 'restaurant'=>$restaurant]);
     }
 
     public function actionDeletePermanent($rid,$id,$page)

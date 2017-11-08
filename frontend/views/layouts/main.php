@@ -33,7 +33,7 @@ NotificationAsset::register($this);
     #cart1{
         line-height:33px;
     }
-    .modal-content-feedback{
+    #feedback-modal .modal-content{
         width:800px;
         margin-left: -230px;
         margin-top: 100px;
@@ -62,6 +62,7 @@ NotificationAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
+
 <?php Modal::begin([
             'header' => '<h2 class="modal-title">Feedback</h2>',
             'id'     => 'feedback-modal',

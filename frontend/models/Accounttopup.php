@@ -72,7 +72,7 @@ class Accounttopup extends \yii\db\ActiveRecord
             'Account_TransactionNumber' => 'Account  Transaction Number',
             'Account_ReceiptPicPath' => 'Account  Receipt Pic Path',
             'Account_SubmitDateTime' => 'Account  Submit Date Time',
-            'Account_RejectReason' => 'Account Reject Reason',
+            'Account_RejectReason' => 'Reject Reason',
         ];
     }
 
@@ -94,6 +94,7 @@ class Accounttopup extends \yii\db\ActiveRecord
 		}
 		
         $query->joinWith(['accounttopup_status','bank' ]);
+        $query->orderBy(['Account_TransactionDate' => SORT_DESC ]);
         //$query->joinWith(['company']);
 
         $dataProvider = new ActiveDataProvider([

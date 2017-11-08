@@ -1,24 +1,21 @@
 /* CSS for frontend topup history and withdraw history */
-#topup-history-container table, 
-#topup-history-container th,
-#topup-history-container td,
-#withdraw-history-container table, 
-#withdraw-history-container th,
-#withdraw-history-container td,
-#mp-history-container table,
-#mp-history-container th,
-#mp-history-container td{
+.history-container table, 
+.history-container th,
+.history-container td,
+{
   border:1px solid #ddd;
   padding: 10px;
 }
 
-#topup-history-container #display td,
+.history-container #display td,
 #mp-history-container #display td,
 #withdraw-history-container #display td{
   border-bottom:hidden; 
+  border-top :hidden;
+  border-left:hidden;
 }
 
-#topup-history-container #withdraw:hover{
+.history-container .link:hover{
   background-color: #fdf8e4;
 }
 
@@ -28,75 +25,182 @@
 #mp-history-container #mp:hover{
 	background-color: #fdf8e4;
 }
-#topup-history-container #display td:active,
+
+.history-container #display td:active,
 #mp-history-container #display td:active,
 #withdraw-history-container #display td:active{
   background-color: #f4d96c;
 }
 
-#topup-history-container #display tr,
+.history-container #display tr,
 #mp-history-container #display tr,
 #withdraw-history-container #display tr{
   text-align: center; 
-  height:60px; 
-  font-size:20px;
+  font-size:1.1em;
 }
 
-#topup-history-container #topup{
-  -webkit-box-shadow: -3px -3px 5px -3px black;
-  -moz-box-shadow: -3px -3px 5px -3px black;
-  box-shadow: -3px -3px 5px -3px black;
+/*
+* user balance history shadow box css
+*/
+#balance-history #right{
+  -webkit-box-shadow: 1px -3px 5px -3px black;
+  -moz-box-shadow: 1px -3px 5px -3px black;
+  box-shadow: 1px -3px 5px -3px black;
 }
 
-#topup-history-container #withdraw{
+#balance-history #middle{
   -webkit-box-shadow: inset 3px -3px 5px -3px black;
   -moz-box-shadow: inset 3px -3px 5px -3px black;
   box-shadow: inset 3px -3px 5px -3px black;
   cursor:pointer; 
 }
-#topup-history-container #mp{
+#balance-history #left{
   -webkit-box-shadow: inset 0px -3px 5px -3px black;
   -moz-box-shadow: inset 0px -3px 5px -3px black;
   box-shadow: inset 0px -3px 5px -3px black;
   cursor:pointer; 
 }
-#withdraw-history-container #topup{
+
+/*
+* user top up history shadow box css
+*/
+#topup-history #right{
   cursor:pointer;  
   -webkit-box-shadow: inset -3px -3px 5px -3px black;
   -moz-box-shadow: inset -3px -3px 5px -3px black;
   box-shadow: inset -3px -3px 5px -3px black;
 }
 
-#withdraw-history-container #withdraw{
+#topup-history #middle{
   -webkit-box-shadow: 3px -3px 5px -3px black;
   -moz-box-shadow: 3px -3px 5px -3px black;
   box-shadow: 3px -3px 5px -3px black;
   border-bottom: hidden;
 }
 
-#withdraw-history-container #mp{
+#topup-history #left{
   cursor:pointer;  
   -webkit-box-shadow: inset 3px -3px 5px -3px black;
   -moz-box-shadow: inset 3px -3px 5px -3px black;
   box-shadow: inset 3px -3px 5px -3px black;
 }
 
-#mp-history-container #topup{
+/*
+* user withdraw up history shadow box css
+*/
+#withdraw-history #right{
   cursor:pointer;  
   -webkit-box-shadow: inset 0px -3px 5px -3px black;
   -moz-box-shadow: inset 0px -3px 5px -3px black;
   box-shadow: inset 0px -3px 5px -3px black;
 }
 
-#mp-history-container #withdraw{
+#withdraw-history #middle{
  -webkit-box-shadow: inset -3px -3px 5px -3px black;
   -moz-box-shadow: inset -3px -3px 5px -3px black;
   box-shadow: inset -3px -3px 5px -3px black;
   cursor:pointer;
 }
-#mp-history-container #mp{
+#withdraw-history #left{
    -webkit-box-shadow: 3px -3px 5px -3px black;
   -moz-box-shadow: 3px -3px 5px -3px black;
   box-shadow: 3px -3px 5px -3px black;
   border-bottom: hidden;
 }
+
+/*
+* for table id table-user-information no padding in class row
+*/
+.right-side{
+  border-left: 1px solid #efefef;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+
+/*
+* a hover for table id table-user-information
+*/
+
+a.remove-all  {
+  text-decoration: none;
+  color:#333;
+}
+
+/*
+* border table for website
+*/
+
+.border{
+  border: 1px solid #ddd;
+}
+
+.border td{
+  border: 1px solid #ddd;
+}
+
+.border th{
+  border: 1px solid #ddd;
+}
+
+@media(max-width: 480px){
+  /* 
+  * table for mobile site in balance history
+  */
+  div.account-history tr{
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+  }
+
+  div.account-history th{
+      display: none;
+  }
+
+  div.account-history .filters{
+     display: none;
+  }
+
+  div.account-history td{
+      display: block;
+  }
+
+  div.account-history .table > tbody >tr >td{
+    border-top : 0px;
+    font-size : 0.8em;
+  }
+
+  div.account-history td:first-child { 
+      padding-top : .5em; 
+  }
+
+  div.account-history td:last-child { 
+      padding-bottom : .5em; 
+  }
+
+  div.account-history td:before { 
+      content : attr(data-th) ": ";
+      width: 6.5em;
+      display: inline-block;
+  }
+
+  /*
+  * remove all table border for mobile site
+  */
+  .border{
+  border: 0px;
+  }
+
+  .border td{
+    border: 0px;
+  }
+
+  .border th{
+    border: 0px;
+  }
+  
+  .history-font{
+    font-size:0.75em;
+  }
+
+}
+

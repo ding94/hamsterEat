@@ -13,6 +13,7 @@ class TopupWithdrawMpHistoryAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/topup-withdraw-mp-history.css',
+        'css/user.css'
     ];
     public $js = [
         // 'js/rating-index.js',

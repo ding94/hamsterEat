@@ -23,3 +23,13 @@ $(function(){
         });
     });
 });
+
+
+
+$(document).ready(function() {
+    // get current URL path and assign 'active' class
+    var pathname = window.location.search;
+    
+    $('ul.nav > li > label >a[href="'+pathname+'"]').parent().addClass('active');
+})
+

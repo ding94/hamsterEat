@@ -100,7 +100,7 @@ class Withdraw extends \yii\db\ActiveRecord
     public function search($params,$action)
     {
         if ($action == 0){
-            $query = self::find();
+            $query = self::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id]);
         }
         elseif ($action >= 1){
             $query = self::find()->where('action = :act',[':act' => $action]);

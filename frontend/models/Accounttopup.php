@@ -80,7 +80,7 @@ class Accounttopup extends \yii\db\ActiveRecord
     {
         
         if ($action == 0){
-              $query = self::find(); //自己就是table,找一找资料
+              $query = self::find()->where('User_Username = :name' ,[':name' => Yii::$app->user->identity->username]); //自己就是table,找一找资料
         }
         elseif ($action >=1 && $action <=4){
             $query= self::find()->where('Account_Action = :act',[':act' =>$action]);

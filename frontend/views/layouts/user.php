@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\bootstrap\Modal;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
@@ -143,7 +144,7 @@ UserAsset::register($this);
         $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
          ['label' => '<h4 class="menu-title">View All</h4>','url' => ['notification/index']];
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
-                       ['label' => 'Profile', 'url' => ['/user/user-profile']],
+                       ['label' => 'Profile', 'url' => ['/user/user-profile'] ,'options'=> ['class'=>'list-user'],],
                         '<li class="divider"></li>',
                     ]];
          $keys = array_keys($menuItems);
@@ -184,11 +185,8 @@ UserAsset::register($this);
         <div class="container vertical-divider">
             <ul id="nav" class="nav nav-default">
                 <li role="presentation"><label class="label-btn"><i class="fa fa-user fa-lg"></i>&nbsp;<?php echo Html::a('Profile',['/user/user-profile'])?></label></li>
-				<li class="vl"></li>
                 <li role="presentation"><label class="label-btn"><i class="fa fa-money fa-lg"></i>&nbsp;<?php echo Html::a('Balance',['/user/userbalance'])?></label></li>
-				<li class="vl"></li>
                 <li role="presentation"><label class="label-btn"><i class="fa fa-cutlery fa-lg"></i>&nbsp;<?php echo Html::a('Order',['/order/my-orders'])?></label></li>
-				<li class="vl"></li>
                 <li role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i>&nbsp;<?php echo Html::a('Messages',['/ticket/index'])?></label></li>
             </ul>
         </div>

@@ -22,27 +22,33 @@ MyOrdersAsset::register($this);
     </div>
     <div class="col-sm-8 tab-content my-orders-table">
       <div id="pending" class="tab-pane fade in active">
+        <?php if (empty($order1)){ ?>
+          <h3>There are no orders...</h3>
+        <?php } else{ ?>
         <table class="table table-user-info orderTable col-sm-8">
-          <tr>
-            <th><center>Delivery ID</th>
-            <th><center>Date and Time Placed</th>
-          </tr>
+          <thead>
+            <tr>
+              <th><center>More</th>
+              <th><center>Delivery ID</th>
+              <th><center>Date and Time Placed</th>
+            </tr>
+          </thead>
           <?php 
             foreach ($order1 as $orders) :
               if($orders['Orders_Status'] == 'Pending')
               {
           ?>
           <tr class="orderRow">
-            <td><center>
-              <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo $orders['Delivery_ID']; ?>
+            <td  class="block">
+              <a class="btn btn-primary" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
+                <i class="fa fa-info-circle"></i>
               </a>
+            <td class="with" data-th="Delivery ID">
+                <?php echo $orders['Delivery_ID']; ?>
             </td>
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
-            <td><center>
-              <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
+            <td class="with" data-th="Date and Time Placed">
                 <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
-              </a>
             </td>
           </tr>
           <?php  
@@ -50,29 +56,37 @@ MyOrdersAsset::register($this);
             endforeach;
           ?>
         </table>
+        <?php }?>
       </div>
-      <div id="preparing" class="tab-pane fade">
+      <div id="preparing" class="tab-pane fade my-orders-table">
+        <?php if (empty($order2)){ ?>
+          <h3>There are no orders...</h3>
+        <?php } else{ ?>
         <table class="table table-user-info orderTable col-sm-8">
-          <tr>
-            <th><center>Delivery ID</th>
-            <th><center>Date and Time Placed</th>
-          </tr>
+          <thead>
+            <tr>
+              <th><center>More</th>
+              <th><center>Delivery ID</th>
+              <th><center>Date and Time Placed</th>
+            </tr>
+          </thead>
           <?php 
             foreach ($order2 as $orders) :
               if($orders['Orders_Status'] == 'Preparing')
               {
           ?>
           <tr class="orderRow">
-            <td><center>
-              <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo $orders['Delivery_ID']; ?>
+            <td  class="block">
+              <a class="btn btn-primary" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
+                <i class="fa fa-info-circle"></i>
               </a>
             </td>
+            <td class="with" data-th="Delivery ID">
+                <?php echo $orders['Delivery_ID']; ?>
+            </td>
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
-            <td><center>
-              <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
+            <td class="with" data-th="Date and Time Placed">
                 <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
-              </a>
             </td>
           </tr>
           <?php  
@@ -80,29 +94,37 @@ MyOrdersAsset::register($this);
             endforeach;
           ?>
         </table>
+        <?php }?>
       </div>
-      <div id="pickup" class="tab-pane fade">
+      <div id="pickup" class="tab-pane fade my-orders-table">
+        <?php if (empty($order3)){ ?>
+          <h3>There are no orders...</h3>
+        <?php } else{ ?>
         <table class="table table-user-info orderTable col-sm-8">
-          <tr>
-            <th><center>Delivery ID</th>
-            <th><center>Date and Time Placed</th>
-          </tr>
+          <thead>
+            <tr>
+              <th><center>More</th>
+              <th><center>Delivery ID</th>
+              <th><center>Date and Time Placed</th>
+            </tr>
+          </thead>
           <?php 
             foreach ($order3 as $orders) :
               if($orders['Orders_Status'] == 'Pick Up in Process')
               {
           ?>
           <tr class="orderRow">
-            <td><center>
-              <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo $orders['Delivery_ID']; ?>
+            <td  class="block">
+              <a class="btn btn-primary" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
+                <i class="fa fa-info-circle"></i>
               </a>
             </td>
+            <td class="with" data-th="Delivery ID">
+                <?php echo $orders['Delivery_ID']; ?>
+            </td>
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
-            <td><center>
-              <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
+            <td class="with" data-th="Date and Time Placed">
                 <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
-              </a>
             </td>
           </tr>
           <?php  
@@ -110,29 +132,37 @@ MyOrdersAsset::register($this);
             endforeach;
           ?>
         </table>
+        <?php }?>
       </div>
-      <div id="ontheway" class="tab-pane fade">
+      <div id="ontheway" class="tab-pane fade my-orders-table">
+        <?php if (empty($order4)){ ?>
+          <h3>There are no orders...</h3>
+        <?php } else{ ?>
         <table class="table table-user-info orderTable col-sm-8">
-          <tr>
-            <th><center>Delivery ID</th>
-            <th><center>Date and Time Placed</th>
-          </tr>
+          <thead>
+            <tr>
+              <th><center>More</th>
+              <th><center>Delivery ID</th>
+              <th><center>Date and Time Placed</th>
+            </tr>
+          </thead>
           <?php 
             foreach ($order4 as $orders) :
               if($orders['Orders_Status'] == 'On The Way')
               {
           ?>
           <tr class="orderRow">
-            <td><center>
-              <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo $orders['Delivery_ID']; ?>
+            <td  class="block">
+              <a class="btn btn-primary" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
+                <i class="fa fa-info-circle"></i>
               </a>
             </td>
+            <td class="with" data-th="Delivery ID">
+                <?php echo $orders['Delivery_ID']; ?>
+            </td>
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
-            <td><center>
-              <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
+            <td class="with" data-th="Date and Time Placed">
                 <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
-              </a>
             </td>
           </tr>
           <?php  
@@ -140,35 +170,43 @@ MyOrdersAsset::register($this);
             endforeach;
           ?>
         </table>
+        <?php }?>
       </div>
-      <div id="completed" class="tab-pane fade">
+      <div id="completed" class="tab-pane fade my-orders-table">
         <table class="table table-user-info orderTable col-sm-8">
-          <tr>
-            <th><center>Delivery ID</th>
-            <th><center>Date and Time Placed</th>
-            <th><center>Rate</th>
-          </tr>
+          <?php if (empty($order5)){ ?>
+            <h3>There are no orders...</h3>
+          <?php } else{ ?>
+          <thead>
+            <tr>
+              <th><center>More</th>
+              <th><center>Delivery ID</th>
+              <th><center>Date and Time Placed</th>
+              <th><center>Rate</th>
+            </tr>
+          </thead>
           <?php 
             foreach ($order5 as $orders) :
               if($orders['Orders_Status'] == 'Completed'|| $orders['Orders_Status']=='Rating Done')
               {
           ?>
           <tr class="orderRow">
-            <td><center>
-              <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <?php echo $orders['Delivery_ID']; ?>
+            <td  class="block">
+              <a class="btn btn-primary" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
+                <i class="fa fa-info-circle"></i>
               </a>
             </td>
+            <td class="with" data-th="Delivery ID">
+                <?php echo $orders['Delivery_ID']; ?>
+            </td>
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
-            <td><center>
-              <a href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
+            <td class="with" data-th="Date and Time Placed">
                 <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
-              </a>
             </td>
             <?php if ($orders['Orders_Status'] != 'Completed'){ ?>
             <td><span class="rating-complete">Rating Done</span></td>
             <?php }else{ ?>
-            <td><center>
+            <td class="block">
               <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$orders['Delivery_ID']], ['class'=>'btn btn-primary']); ?>
             </td>
             <?php } ?>
@@ -178,6 +216,7 @@ MyOrdersAsset::register($this);
             endforeach;
           ?>
         </table>
+        <?php }?>
       </div>
     </div>
   </div>

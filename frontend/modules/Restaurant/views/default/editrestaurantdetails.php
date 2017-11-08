@@ -7,9 +7,10 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\widgets\Select2;
+use frontend\assets\EditRestaurantDetailsAsset;
 
 $this->title = "Edit Restaurant's Details";
-$this->params['breadcrumbs'][] = $this->title;
+EditRestaurantDetailsAsset::register($this);
 
 if (!is_null($restArea))
 {
@@ -26,28 +27,42 @@ if (!is_null($areachosen))
     $restaurantdetails['Restaurant_Area']=$areachosen;
 }
 ?>
-<div class="site-signup">
-           <div class="col-lg-6 col-lg-offset-3">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out the following fields to details:</p>
-</div>
-    <div class="row">
-             <div class="col-lg-6 col-lg-offset-3">
-
+<div id="edit-restaurant-details-container" class="container">
+    <div class="edit-restaurant-details-header">
+        <div class="edit-restaurant-details-header-title"><?= Html::encode($this->title) ?></div>
+    </div>
+    <div class="content">
+        <div class="col-sm-2">
+            <ul id="edit-restaurant-details-nav" class="nav nav-pills nav-stacked">
+                <?php if ($staff['RmanagerLevel_Level'] == 'Owner'){ ?>
+                    <li role="presentation"><?php echo Html::a("View Earnings",['show-monthly-earnings', 'rid'=>$restaurantdetails['Restaurant_ID']],['class'=>'btn-block'])?></li>
+                <?php }
+                    if ($staff['RmanagerLevel_Level'] == 'Owner' || $staff['RmanagerLevel_Level'] == 'Manager') { ?>
+                    <li role="presentation" class="active"><?php echo Html::a("Edit Details",['edit-restaurant-details', 'rid'=>$restaurantdetails['Restaurant_ID'], 'restArea'=>$restaurantdetails['Restaurant_AreaGroup'], 'areachosen'=>$restaurantdetails['Restaurant_Area'], 'postcodechosen'=>$restaurantdetails['Restaurant_Postcode']],['class'=>'btn-block'])?></li>
+                    <li role="presentation"><?php echo Html::a("Manage Staffs",['manage-restaurant-staff', 'rid'=>$restaurantdetails['Restaurant_ID']],['class'=>'btn-block'])?></li>
+                    <li role="presentation"><?php echo Html::a("Restaurants Orders",['/order/restaurant-orders', 'rid'=>$restaurantdetails['Restaurant_ID']],['class'=>'btn-block'])?></li>
+                    <li role="presentation"><?php echo Html::a("Restaurants Orders History",['/order/restaurant-order-history', 'rid'=>$restaurantdetails['Restaurant_ID']],['class'=>'btn-block'])?></li>
+                    <li role="presentation"><?php echo Html::a("Manage Menu",['/food/menu', 'rid'=>$restaurantdetails['Restaurant_ID'],'page'=>'menu'],['class'=>'btn-block'])?></li>
+                <?php } elseif ($staff['RmanagerLevel_Level'] == 'Operator'){ ?>
+                    <li role="presentation"><?php echo Html::a("Restaurants Orders",['/order/restaurant-orders', 'rid'=>$restaurantdetails['Restaurant_ID']],['class'=>'btn-block'])?></li>
+                    <li role="presentation"><?php echo Html::a("Restaurants Orders History",['/order/restaurant-order-history', 'rid'=>$restaurantdetails['Restaurant_ID']],['class'=>'btn-block'])?></li>
+                <?php } ?>
+            </ul>
+        </div>
+        <div id="edit-restaurant-details-content" class="col-sm-10">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
                 <?= $form->field($restaurantdetails, 'Restaurant_Name')->textInput()->label('Restaurant Name') ?>
 
                 <?= $form->field($restaurantdetails, 'Restaurant_LicenseNo')->textInput()->label('Restaurant License No') ?>
+                
+                <strong>Restaurant Area</strong><br><?php echo $restaurantdetails['Restaurant_Area']; ?><br><br>
 
-                <?php echo "<strong>"."Restaurant Area"; ?> </strong> <br> <?php echo $restaurantdetails['Restaurant_Area']; ?> <br> <br>
+                <strong>Restaurant Postcode</strong><br><?php echo $restaurantdetails['Restaurant_Postcode']; ?><br><br>
 
-                <?php echo "<strong>"."Restaurant Postcode"; ?> </strong> <br> <?php echo $restaurantdetails['Restaurant_Postcode']; ?> <br> <br>
+                <strong>Restaurant Group Area</strong><br><?php echo $restaurantdetails['Restaurant_AreaGroup']; ?><br><br>
 
-                <?php echo "<strong>"."Restaurant Group Area"; ?> </strong> <br> <?php echo $restaurantdetails['Restaurant_AreaGroup']; ?> <br> <br>
-
-                <?php echo Html::a('Edit Area', ['edit-restaurant-area', 'rid'=>$restaurantdetails['Restaurant_ID']], ['class'=>'btn btn-default']); ?> <br> <br>
+                <?php echo Html::a('Edit Area', ['edit-restaurant-area', 'rid'=>$restaurantdetails['Restaurant_ID']], ['class'=>'btn btn-default']); ?><br><br>
 
                 <?php echo '<label class="control-label">Type</label>';
                         echo Select2::widget([
@@ -71,7 +86,7 @@ if (!is_null($areachosen))
                 <?= $form->field($restaurantdetails, 'Restaurant_RestaurantPicPath')->fileInput()->label('Picture') ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Done', ['class' => 'btn btn-primary', 'name' => 'save-button']) ?>
+                    <?= Html::submitButton('Save', ['class' => 'btn btn-primary', 'name' => 'save-button']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

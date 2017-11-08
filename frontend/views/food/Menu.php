@@ -1,12 +1,29 @@
 <?php
 use yii\helpers\Html;
 use frontend\controllers\CartController;
+use frontend\assets\FoodMenuAsset;
+
 $this->title = $rname."'s"." Menu";
+FoodMenuAsset::register($this);
 ?>
 
 <div class="container">
-	<div class="col-md-8 col-md-offset-1" id="menu">
-		<?php if ($page == 'menu'){ ?>
+    <div class="food-menu-header">
+        <div class="food-menu-header-title"><?= Html::encode($this->title) ?></div>
+    </div>
+    <div class="content">
+        <div class="col-sm-2">
+            <ul id="edit-restaurant-details" class="nav nav-pills nav-stacked">
+                <li role="presentation"><?php echo Html::a("View Earnings",['Restaurant/default/show-monthly-earnings', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                <li role="presentation"><?php echo Html::a("Edit Details",['Restaurant/default/edit-restaurant-details', 'rid'=>$rid, 'restArea'=>$restaurant['Restaurant_AreaGroup'], 'areachosen'=>$restaurant['Restaurant_Area'], 'postcodechosen'=>$restaurant['Restaurant_Postcode']],['class'=>'btn-block'])?></li>
+                <li role="presentation"><?php echo Html::a("Manage Staffs",['Restaurant/default/manage-restaurant-staff', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                <li role="presentation"><?php echo Html::a("Restaurants Orders",['/order/restaurant-orders', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                <li role="presentation"><?php echo Html::a("Restaurants Orders History",['/order/restaurant-order-history', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                <li role="presentation" class="active"><?php echo Html::a("Manage Menu",['/food/menu', 'rid'=>$rid,'page'=>'menu'],['class'=>'btn-block'])?></li>
+            </ul>
+        </div>
+        <div class="col-sm-8">
+            <?php if ($page == 'menu'){ ?>
         <h1><?php echo $rname."'s";?> Menu</h1>
         <?php } else { ?>
         <h1><?php echo $rname."'s";?> Menu Recycle Bin</h1>
@@ -66,6 +83,6 @@ $this->title = $rname."'s"." Menu";
                 
             }
                    ?>
-            </div>
-            </div>
-        
+        </div>
+    </div>
+</div>

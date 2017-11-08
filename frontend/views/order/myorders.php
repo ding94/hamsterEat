@@ -12,7 +12,7 @@ MyOrdersAsset::register($this);
     </div>
   <div class="content">
     <div class="col-sm-2 ">
-    <ul id="order" class="nav nav-pills nav-stacked">
+    <ul id="my-orders-nav" class="nav nav-pills nav-stacked">
       <li class="active"><a data-toggle="pill" href="#pending">Pending<span class="badge"><?php echo Yii::$app->view->params['countPending'] ?></span></a></li>
       <li><a data-toggle="pill" href="#preparing">Preparing<span class="badge"><?php echo Yii::$app->view->params['countPreparing'] ?></span></a></li>
       <li><a data-toggle="pill" href="#pickup">Pick Up in Process<span class="badge"><?php echo Yii::$app->view->params['countPickup'] ?></span></a></li>

@@ -2,13 +2,22 @@
 	background-color: white;
 }
 
-#order .nav.nav-pills a:focus{
+#my-orders-nav .nav.nav-pills a:focus{
     border-bottom: 1px solid;
 }
 
-#order span.badge{
+#my-orders-nav > li > a {
+  border-bottom: 1px solid #efefef;
+}
+
+#my-orders-nav span.badge{
     margin-left:4px;
     background-color:#1E90FF;
+}
+
+.my-orders-table{
+  border-left: 1px solid #efefef;
+  padding-top: 15px;
 }
 
 .orderTable td{

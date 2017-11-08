@@ -26,10 +26,7 @@ $this->title = 'Delivery Location';
       <?php
       foreach ($area as $area) :
         echo "<tr>";
-        if ($area['Area_Group'] == $area['Area_Group'])
-        {
-            echo "<td><center>".$area['Area_Group']."</td>";
-        }
+        echo "<td><center>".$area['Area_Group']."</td>";
         echo "<td><center>".$area['Area_Area']."</td>";
         echo "<td><center>".$area['Area_Postcode']."</td>";
         echo "<td><center>".$area['Area_State']."</td>";

@@ -57,7 +57,8 @@ class Orders extends \yii\db\ActiveRecord
             [['Orders_Date', 'Orders_Time'], 'safe'],
             [['Orders_Postcode', 'Orders_SessionGroup', 'Orders_DateTimeMade','User_contactno'], 'integer'],
             [['User_Username', 'Orders_PaymentMethod', 'Orders_Deliveryman', 'Orders_InvoiceURL','User_fullname'], 'string', 'max' => 255],
-            [['Orders_Location', 'Orders_Area', 'Orders_Status'], 'string', 'max' => 50],
+            [['Orders_Location'],'string'],
+            [['Orders_Area', 'Orders_Status'], 'string', 'max' => 50],
             [['Delivery_ID'],'safe'],
         ];
     }

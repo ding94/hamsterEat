@@ -358,7 +358,6 @@ class CartController extends CommonController
             //$last = date('11:00:59');
             $last = date('23:00:59');
 
-            var_dump($session['postcode']);exit;
             if ($early <= $timenow && $last >= $timenow)
             {
                 $earlydiscount = CartController::actionRoundoff1decimal($checkout['Orders_Subtotal']) * 0.2;

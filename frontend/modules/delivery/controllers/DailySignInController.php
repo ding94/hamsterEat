@@ -9,6 +9,7 @@ use yii\helpers\ArrayHelper;
 use frontend\models\Deliveryman;
 use common\models\DeliveryAttendence;
 use frontend\controllers\CommonController;
+use common\models\Area;
 /**
  * Default controller for the `delivery` module
  */
@@ -208,6 +209,28 @@ class DailySignInController extends CommonController
     		return false;
     	}
     }
+  public function actionDeliveryLocation()
+    {
+        $postcode = new Area();
+		$postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Group','Area_Group');
+		$area=Area::find()->all();
+		$find = new Deliveryman();
+		// var_dump($find->load(Yii::$app->request->post()));exit;
+		if($find->load(Yii::$app->request->post()))
+        {
+			// var_dump($find);exit;
+			$areaa = $find->DeliveryMan_AreaGroup;
+			
+			$search = Deliveryman::find()->where('User_id = :id', [':id' => Yii::$app->user->identity->id])->one();
+			$search->DeliveryMan_AreaGroup = $areaa;
+			$search->save();
+			Yii::$app->session->setFlash('success', "Update completed");
+            return $this->redirect(['/user/user-profile']);
+			// $sql="UPDATE deliveryman SET DeliveryMan_AreaGroup = ".$postcodeArray." WHERE User_id =18";
+			//  Yii::$app->db->createCommand($sql)->execute();
+		}
 
+        return $this->render('deliverylocation', ['postcode'=>$postcode,'area'=>$area,'postcodeArray'=>$postcodeArray,'find'=>$find]);
+    }
 }
 

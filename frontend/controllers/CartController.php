@@ -223,23 +223,28 @@ class CartController extends CommonController
     }
     }
 
-    public function actionAssignDeliveryMan($did)
+    public function actionAssignDeliveryMan()
     {
        // $purchaser = orders::find()->where('User_Username = :id',[':id'=>Yii::$app->user->identity->username])->one();
       
      
       // $get = deliveryman::find()->all();
-  
+      $area="SELECT * from orders INNER JOIN area ON area.Area_Group=orders.Orders_SessionGroup WHERE orders.Delivery_ID=75 AND orders.Orders_SessionGroup=1";
+    
+      Yii::$app->db->createCommand($area)->execute();
+     
        $data = DailySignInController::getAllDailyRecord();
        if (!empty($data)) {
            $allData ="" ;
            foreach ($data as $id)
            {
-                 
+               if($area)
+                 {
+                     
                 $sql= User::find()->select(['id','deliveryman.DeliveryMan_Assignment'])->JoinWith(['authAssignment','deliveryman'])->where('item_name = :item_name and id = :id',[':item_name' => 'rider',':id'=>$id])->orderBy(['deliveryman.DeliveryMan_Assignment'=>SORT_ASC])->asArray()->one();
                 
                $allData[] = $sql;
-             
+                 }
            }
            return true;
        }

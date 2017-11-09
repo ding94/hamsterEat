@@ -24,7 +24,7 @@
   }
 
   #group-area-index2 .item .inner-item{
-    width: 69%;
+    width: 68%;
   }
 }
 
@@ -116,6 +116,24 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+@media(max-width: 708px){
+  .item .inner-item{
+    float:none;
+  }
+
+  .item .img{
+    float:none;
+  }
+
+  .item img{
+    width: 250px;
+    height: 200px;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 @media(max-width: 480px){

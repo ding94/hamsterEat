@@ -28,19 +28,7 @@ class AccountbalanceHistory extends \yii\db\ActiveRecord
         return 'accountbalance_history';
     }
 
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-            'timestamp' => [
-                'class' => 'yii\behaviors\TimestampBehavior',
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at','updated_at'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
-                ],
-            ],   
-        ];
-    }   
+  
 
     /**
      * @inheritdoc
@@ -49,8 +37,9 @@ class AccountbalanceHistory extends \yii\db\ActiveRecord
     {
         return [
             [['abid', 'type', 'description', 'amount'], 'required'],
-            [['abid', 'type', 'created_at', 'updated_at'], 'integer'],
+            [['abid', 'type'], 'integer'],
             [['description'], 'string'],
+			[['created_at'],'date'],
             [['amount'], 'number'],
         ];
     }

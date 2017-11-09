@@ -73,6 +73,7 @@ class WithdrawController extends CommonController
 	{
 		if ($model->validate() && $balance->validate())
 		{
+			//var_dump($model->validate());exit;
 			$model->save();
 			$balance->save();
 		}

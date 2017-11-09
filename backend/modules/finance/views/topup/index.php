@@ -122,7 +122,21 @@ use common\models\Bank;
                         },
 						'filter' => $list,
 					],
-          'Account_TransactionDate:datetime',
+				/*	[	
+							'label' => 'Time',
+							'value' => 'Account_TransactionDate',
+							 'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'Account_TransactionDate', 'dateFormat' => 'yyyy-MM-dd',]),
+							'format' => 'html',
+							//'contentOptions' => ['data-th' => 'Time'],
+						],*/
+						 [                  
+                 'attribute' => 'Account_TransactionDate',
+                 'value' => 'Account_TransactionDate',
+                 'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'Account_TransactionDate', 'dateFormat' => 'yyyy-MM-dd',]),
+                 'format' => 'datetime',
+          
+            ],
+         // 'Account_TransactionDate:datetime',
           'Account_RejectReason',
 					
     	            'Account_InCharge',

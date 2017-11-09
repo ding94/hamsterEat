@@ -5,7 +5,6 @@ use kartik\widgets\ActiveForm;
 use frontend\assets\StarsAsset;
 use frontend\assets\RestaurantDefaultIndexAsset;
 $this->title = "Available Restaurants";
-
 StarsAsset::register($this);
 RestaurantDefaultIndexAsset::register($this);
 ?>
@@ -14,7 +13,7 @@ RestaurantDefaultIndexAsset::register($this);
     <h1>Order Food for Delivery</h1>
    
     <?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']); ?>
-     <input type="checkbox" id="sidebartoggler" name="" value="">
+    <input type="checkbox" id="sidebartoggler" name="" value="">
     <div class="page-wrap">
       <label for="sidebartoggler" class="toggle">☰</label>
       <div class="filter">
@@ -91,4 +90,4 @@ RestaurantDefaultIndexAsset::register($this);
         <?php endforeach; ?>
       </div>
     </div>
-  </div>
+</div>

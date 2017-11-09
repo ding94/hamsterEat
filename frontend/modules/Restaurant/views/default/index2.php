@@ -16,31 +16,34 @@ RestaurantDefaultIndex2Asset::register($this);
 </style>
 <div class="container" id="group-area-index2">
     <h1>Order Food for Delivery</h1>
-    <div class="filter">
-   
-    <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']);?>
-    <div class="filter container">
-    <div class="input-group">
-    <?php $form = ActiveForm::begin(['id' => 'form-searchfood']) ?>
-    <?= $form->field($search, 'Nickname',['addon'=>['append'=>['content'=>Html::submitButton('<i class="fa fa-search"></i>', ['class' => 'btn btn-default', 'name' => 'search-button2']),'asButton'=>true]]])->textInput(['placeholder' => "Search Food"])->label(''); ?>
-    <?php ActiveForm::end(); ?>
-    </div>
-    <div class ="filter name">
-        <p><i class="fa fa-sliders"> Filter By</i></p>
-     </div>
-    <ul class ="filter list">
-   <?php echo Html::a('<li>All</li>', ['show-by-food', 'groupArea'=>$groupArea])."&nbsp;&nbsp;"; ?>  
-    <?php foreach ($types as $types) :
-            echo Html::a('<li>'.$types['Type_Desc'].'</li>', ['food-filter', 'groupArea'=>$groupArea ,'typefilter'=>$types['ID']])."&nbsp;&nbsp;";
-          endforeach; ?>
-          </ul>
-          
-         
-          </div>
-          </div>
+  
+        <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']);?>
+        <input type="checkbox" id="sidebartoggler" name="" value="">
+        <div class="page-wrap">
+            <label for="sidebartoggler" class="toggle">☰</label>
+            <div class="filter">
+                <div class="filter container">
+                    <div class="input-group">
+                    <?php $form = ActiveForm::begin(['id' => 'form-searchfood']) ?>
+                    <?= $form->field($search, 'Nickname',['addon'=>['append'=>['content'=>Html::submitButton('<i class="fa fa-search"></i>', ['class' => 'btn btn-default icon-button', 'name' => 'search-button2']),'asButton'=>true]]])->textInput(['placeholder' => "Search Food"])->label(false); ?>
+                    <?php ActiveForm::end(); ?>
+                    </div>
+                    <div class ="filter-name">
+                        <p><i class="fa fa-sliders"> Filter By</i></p>
+                    </div>
+                    <ul class ="filter-list">
+                    <?php echo Html::a('<li>All</li>', ['show-by-food', 'groupArea'=>$groupArea])."&nbsp;&nbsp;"; ?>  
+                        <?php foreach ($types as $types) :
+                        echo Html::a('<li>'.$types['Type_Desc'].'</li>', ['food-filter', 'groupArea'=>$groupArea ,'typefilter'=>$types['ID']])."&nbsp;&nbsp;";
+                        endforeach; ?>
+                    </ul> 
+                </div>
+            </div>
+        </div>
+       
+    
     <br>
-    <br>
-    <br>
+  
     <?php if ($mode == 2)
     {
         $foodtype = Foodtype::find()->where('ID = :id', [':id'=>$filter])->one();
@@ -60,47 +63,50 @@ RestaurantDefaultIndex2Asset::register($this);
     <div class="outer-container">
         <div class="menu-container">
         <?php foreach($restaurant as $data) : 
-        if ($mode == 1)
-        {
-            $fooddata=food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $data['Restaurant_ID'], ':status'=> 1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all(); 
-        }
-        elseif ($mode == 2)
-        {
-            $fooddata=food::find()->where('Restaurant_ID=:id and Status = :status and Type_ID = :tid', [':id' => $data['Restaurant_ID'], ':status'=> 1, ':tid'=>$filter])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
-        }
-        elseif ($mode == 3)
-        {
-            $fooddata=food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $data['Restaurant_ID'], ':status'=> 1])->andWhere(['like', 'Name', $keyword])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
-        }
-        elseif ($mode == 4)
-        {
-            $fooddata=food::find()->where('Restaurant_ID=:id and Status = :status and Type_ID = :tid', [':id' => $data['Restaurant_ID'], ':status'=> 1, ':tid'=>$filter])->andWhere(['like', 'Name', $keyword])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
-        }
-                    Modal::begin([
-                        'id'     => 'foodDetail',
-                        'size'   => 'modal-lg',
-                        // 'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
-                    ]);
+            if ($mode == 1)
+            {
+                $fooddata=food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $data['Restaurant_ID'], ':status'=> 1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all(); 
+            }
+            elseif ($mode == 2)
+            {
+                $fooddata=food::find()->where('Restaurant_ID=:id and Status = :status and Type_ID = :tid', [':id' => $data['Restaurant_ID'], ':status'=> 1, ':tid'=>$filter])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+            }
+            elseif ($mode == 3)
+            {
+                $fooddata=food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $data['Restaurant_ID'], ':status'=> 1])->andWhere(['like', 'Name', $keyword])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+            }
+            elseif ($mode == 4)
+            {
+                $fooddata=food::find()->where('Restaurant_ID=:id and Status = :status and Type_ID = :tid', [':id' => $data['Restaurant_ID'], ':status'=> 1, ':tid'=>$filter])->andWhere(['like', 'Name', $keyword])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+            }
+
+            Modal::begin([
+                'id'     => 'foodDetail',
+                'size'   => 'modal-lg',
+                // 'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+            ]);
                     
-                    Modal::end(); ?>
-                <?php foreach($fooddata as $fooddata) : ?>
+            Modal::end(); ?>
+
+            <?php foreach($fooddata as $fooddata) : ?>
                 <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-toggle="modal" data-target="#foodDetail"  data-img="<?php echo $fooddata['PicPath'];?>">
-                <div class="item">
-                    <div class="inner-item">
-                        <span class="foodName"><?php echo $fooddata['Name']; ?></span>
-                        <span class="small-text pull-right stars" alt="<?php echo $fooddata['Rating']; ?>"><?php echo $fooddata['Rating']; ?></span>
-                        <span><p class="price"><?php echo 'RM '.$fooddata['Price']; ?></p></span>
-                        <span><p class="rname"><?php echo $data['Restaurant_Name']; ?></p></span>
-                        <p class="foodDesc"><?php echo $fooddata['Description']; ?></p>
-                        <?php foreach($fooddata['foodType']as $type): ?>
-                        <span class="tag"><?php echo $type['Type_Desc'].'&nbsp;&nbsp;&nbsp;'; ?></span>
-                        <?php endforeach; ?>
+                    <div class="item">
+                        <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata['PicPath']) ?></div>
+                        <div class="inner-item">
+                            <span class="foodName"><?php echo $fooddata['Name']; ?></span>
+                            <span class="small-text pull-right stars" alt="<?php echo $fooddata['Rating']; ?>"><?php echo $fooddata['Rating']; ?></span>
+                            <span><p class="price"><?php echo 'RM '.$fooddata['Price']; ?></p></span>
+                            <span><p class="rname"><?php echo $data['Restaurant_Name']; ?></p></span>
+                            <p class="foodDesc"><?php echo $fooddata['Description']; ?></p>
+                            <?php foreach($fooddata['foodType']as $type): ?>
+                            <span class="tag"><?php echo $type['Type_Desc'].'&nbsp;&nbsp;&nbsp;'; ?></span>
+                            <?php endforeach; ?>
+                        </div>
+                       
                     </div>
-                    <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata['PicPath']) ?></div>
-                </div>
                 </a>
-                <?php endforeach; ?>
-                <?php endforeach; ?>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
         </div>
     </div>
 </div>

@@ -49,7 +49,8 @@ class CartController extends CommonController
              ]
         ];
     }
-    
+
+//--This function continues on from FoodController's actionFoodDetails and adds a food item to cart
     public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks,$rid,$sessiongroup)
     {
         if (Yii::$app->user->isGuest) 
@@ -63,6 +64,7 @@ class CartController extends CommonController
             $session = Yii::$app->session;
             $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
 
+//----------Creates a new cart if there is no cart previously created or in 'not placed' state
             if (empty($cart))
             {
                 $newcart = new Orders;
@@ -81,6 +83,7 @@ class CartController extends CommonController
             $foodareagroup = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$findfood['Restaurant_ID']])->one();
             $foodareagroup = $foodareagroup['Restaurant_AreaGroup'];
 
+//----------Checks if the area the food being added to cart is in the same area as the cart's area then adds the food to cart
             if ($foodareagroup == $cart['Orders_SessionGroup'])
             {
                 $orderitem->Delivery_ID = $cart['Delivery_ID'];
@@ -104,7 +107,7 @@ class CartController extends CommonController
                         $oid = $orderid['Order_ID'];
                     }
                 endforeach;
-
+//--------------Checks if there is any food selections selected and records the selected selections data if there is
                 if ($finalselected != '')
                 {
                     $selected = JSON::decode($finalselected);
@@ -144,13 +147,16 @@ class CartController extends CommonController
                             $orderitemselection->save();
                         }
                     endforeach;
-					//var_dump($foodselectionprice['Price']);exit;
+                    //var_dump($foodselectionprice['Price']);exit;
+
+//------------------Calculates the line total and the selection total price for each order item
                     $selectiontotalprice = $selectiontotalprice * $quantity;
                     $linetotal = $linetotal + $selectiontotalprice;
                     $linetotalupdate = "UPDATE orderitem SET OrderItem_LineTotal = ".$linetotal.", OrderItem_SelectionTotal = ".$selectiontotalprice." WHERE Order_ID = ".$oid."";
                     Yii::$app->db->createCommand($linetotalupdate)->execute();
                 }
 
+//--------------Calculates the subtotal for the order
                 $items = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$cart['Delivery_ID']])->all();
                 $i = 0;
                 $subtotal = 0;
@@ -159,7 +165,7 @@ class CartController extends CommonController
                     $subtotal = $items[$i]['OrderItem_LineTotal'] + $subtotal;
                     $i = $i + 1;
                 }
-
+//--------------Updates the cart's current details
                 $noofrestaurants = "SELECT DISTINCT food.Restaurant_ID FROM food INNER JOIN orderitem ON orderitem.Food_ID = food.Food_ID WHERE orderitem.Delivery_ID = ".$cart['Delivery_ID']."";
                 $result = Yii::$app->db->createCommand($noofrestaurants)->execute();
                 $deliverycharge = $result * 5;
@@ -180,6 +186,7 @@ class CartController extends CommonController
         }
     }
 
+//--This function load's the user's current cart and its details
     public function actionViewCart()
     {
         if (Yii::$app->user->isGuest) 
@@ -224,6 +231,7 @@ class CartController extends CommonController
     }
     }
 
+//--This function is to assign a delivery man when an order has been placed
     public function actionAssignDeliveryMan($did)
     {
        // $purchaser = orders::find()->where('User_Username = :id',[':id'=>Yii::$app->user->identity->username])->one();
@@ -319,6 +327,7 @@ class CartController extends CommonController
             return $dname;
     }
 
+//--This function is to process the order officially as the places his order
     public function actionCheckout($did,$discountcode)
     {
         $checkout = Orders::find()->where('Delivery_ID = :Delivery_ID',[':Delivery_ID' => $did])->one();
@@ -340,6 +349,7 @@ class CartController extends CommonController
 
         $userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => $checkout->User_Username])->one();
         $session = Yii::$app->session;
+
         if (Yii::$app->request->post())
         {
             $checkout->load(Yii::$app->request->post());
@@ -357,7 +367,7 @@ class CartController extends CommonController
             $early = date('08:00:00');
             //$last = date('11:00:59');
             $last = date('23:00:59');
-
+//----------Checks if user is eligible for early discount and if user placed his order within the time 8am to 11am
             if ($early <= $timenow && $last >= $timenow)
             {
                 $earlydiscount = CartController::actionRoundoff1decimal($checkout['Orders_Subtotal']) * 0.2;
@@ -385,7 +395,7 @@ class CartController extends CommonController
                     }
 
                 } 
-               
+//--------------A delivery man is assigned to the order here
                 //$valid = $this->actionAssignDeliveryMan($did);
                 $valid = true;
                 if ($valid == false) {
@@ -488,6 +498,7 @@ class CartController extends CommonController
                         $order->save();
                     }
                 }
+//--------------The total discount for the order is calculated here
                 $checkdiscounts = Orders::find()->where('Delivery_ID = :did', [':did' => $did])->one();
                 $totaldiscount = 0;
                 if ($checkdiscounts['Orders_DiscountVoucherAmount'] != 0 && $checkdiscounts['Orders_DiscountEarlyAmount'] != 0 && $checkdiscounts['Orders_DiscountCodeAmount'] != 0)
@@ -539,7 +550,7 @@ class CartController extends CommonController
 
                     return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
                 }
-
+//--------------The statuses and time for the order and its' order items are updated here
                 $sql2 = "UPDATE orderitem SET OrderItem_Status = 'Pending' WHERE Delivery_ID = '".$did."'";
                 Yii::$app->db->createCommand($sql2)->execute();
 
@@ -763,6 +774,7 @@ class CartController extends CommonController
        return $value;
     }
 
+//--This function runs when an item in the cart is deleted
     public function actionDelete($oid)
     {
         $menu = orderitem::find()->where('Order_ID = :id' ,[':id' => $oid])->one();

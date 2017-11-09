@@ -59,7 +59,7 @@ class FoodController extends CommonController
             ],
         ];
     }
-    
+//--This function loads the food item's details
     public function actionFoodDetails($id,$rid)
     {
         if (!(Yii::$app->user->isGuest)) {
@@ -79,7 +79,6 @@ class FoodController extends CommonController
             Yii::$app->session->setFlash('error', 'This food was not valid now.');
             return $this->redirect(['/Restaurant/default/restaurant-details', 'id'=>$id,'rid'=>$rid]);
         }
-        
         
         $fooddata = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
         
@@ -158,6 +157,7 @@ class FoodController extends CommonController
          
     }
 
+//--This function runs when user creates a new food
     public function actionInsertFood($rid)
     {
         $food = new Food();
@@ -223,6 +223,7 @@ class FoodController extends CommonController
         return $this->render('insertfood',['food' => $food,'foodjunction'=>$foodjunction,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection,'type' => $type]);
     }
     
+//---This function is for loading the restaurant's menu
      public function actionMenu($rid,$page)
      {
          if ($page == 'menu')
@@ -241,6 +242,7 @@ class FoodController extends CommonController
         return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>$page, 'rname'=>$rname, 'restaurant'=>$restaurant]);
      }
 
+//--This function runs when a food is deleted
     public function actionDelete($rid,$id,$page)
     {
         $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->one();
@@ -276,6 +278,7 @@ class FoodController extends CommonController
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+//--This function runs when a food's details are edited
     public function actionEditFood($id)
     {
 
@@ -558,6 +561,7 @@ class FoodController extends CommonController
          return $this->redirect(['menu','menu'=>$menu,'id'=>$id,'rid'=>$rid,'page'=>$page]);
     }
 
+//--This function loads the food's comments
     public function actionViewComments($id)
     {
         $comments = Foodrating::find()->where('Food_ID = :id', [':id'=>$id])->all();

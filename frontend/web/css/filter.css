@@ -35,6 +35,12 @@
      text-decoration:none;
 }
 
+.he-skinny-banner img{
+  display: none;
+  width: 82px;
+  height: 82px
+}
+
 @media(max-width: 560px)
 {
   .filter{
@@ -71,6 +77,22 @@
     padding-bottom: 30px;
   }
 
+  .he-skinny-banner {
+        text-decoration: none;
+        color: rgba(0,0,0,.8);
+        display: block;
+        background-size: cover;
+        background-repeat: no-repeat;
+        position:fixed;
+        right: 15%;
+        top: 30%;
+        z-index:99; 
+    }
+
+    .he-skinny-banner img{
+      display: inline;
+    }
+
 }
 
 @media(max-width: 451px)
@@ -97,23 +119,4 @@
 
 #sidebartoggler:checked + .page-wrap .toggle {
   left: 200px;
-}
-@media(max-width: 560px)
-{   
-    .he-skinny-banner {
-        text-decoration: none;
-        color: rgba(0,0,0,.8);
-        display: block;
-        background-size: cover;
-        background-repeat: no-repeat;
-      	position:fixed;
-      	right: 15%;
-      	top: 30%;
-      	z-index:99;
-       
-    } 
-    .he-skinny-banner img{
-       width: 82px;
-        height: 82px
-    }
 }

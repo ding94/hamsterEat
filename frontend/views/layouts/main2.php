@@ -90,7 +90,7 @@ NotificationAsset::register($this);
             }
         }
         $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
-        $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">View All</h4>','url' => ['notification/index']];
+        $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">View All</h4>','url' => ['/notification/index']];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(

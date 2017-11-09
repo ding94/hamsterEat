@@ -141,7 +141,7 @@ UserAsset::register($this);
             }
         }
         $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
-         ['label' => '<h4 class="menu-title">View All</h4>','url' => ['notification/index']];
+         ['label' => '<h4 class="menu-title">View All</h4>','url' => ['/notification/index']];
         $menuItems[] = ['label' => '' . Yii::$app->user->identity->username . '', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile'] ,'options'=> ['class'=>'list-user'],],
                         '<li class="divider"></li>',

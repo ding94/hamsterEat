@@ -122,7 +122,6 @@ class SiteController extends CommonController
             $session['postcode'] = $pcode;
             $session['area'] = $area;
             $session['group'] = $groupArea;
-
             return $this->redirect(['Restaurant/default/index','groupArea'=>$groupArea]);          
         }   
         

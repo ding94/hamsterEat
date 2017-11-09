@@ -8,3 +8,16 @@
   box-sizing: border-box;
   border-bottom: 1px solid #efefef;
 }
+
+#food-menu-container{
+  background-color: white;
+}
+
+#food-menu-nav > li > a {
+  border-bottom: 1px solid #efefef;
+}
+
+#food-menu-content{
+  border-left: 1px solid #efefef;
+  padding-top: 15px;
+}

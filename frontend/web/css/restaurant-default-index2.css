@@ -4,13 +4,25 @@
   justify-content:center;
 }
 
+.menu-container a{
+  text-decoration: none;
+}
+
 @media (min-width: 1200px){
   #group-area-index2 .menu-container{
     grid-template-columns: 1fr 1fr;
   }
 
   #group-area-index2 .item .inner-item{
-    width: 50%;
+    width: 45%;
+  }
+
+  .item .foodName{
+    width: 185px;
+  }
+
+  .item .foodDesc{
+    width: 185px;
   }
 }
 
@@ -20,7 +32,15 @@
   }
 
   #group-area-index2 .item .inner-item{
-    width: 69%;
+    width: 65%;
+  }
+
+  .item .foodName{
+    width: 420px;
+  }
+
+  .item .foodDesc{
+    width: 420px;
   }
 }
 
@@ -30,7 +50,15 @@
   }
 
   #group-area-index2 .item .inner-item{
-    width: 50%;
+    width: 46%;
+  }
+
+  .item .foodName{
+    width: 185px;
+  }
+
+  .item .foodDesc{
+    width: 185px;
   }
 }
 
@@ -92,38 +120,6 @@
     box-shadow: 0px 0px 20px -2px grey;
 }
 
-.filter{
-    height:auto;
-    width:230px;
-    float:left;
-    margin-left:-10px;
-}
-.filter.container{
-    border: 1px solid #e5e5e5;
-    padding: 20px;
-    margin-top:26px;
-    
-}
-.filter.list{
-    list-style: none;
-    font-size:13px;
-    letter-spacing: .5px;
-    line-height:80%;
-    padding-left:28px;
-}
-.filter.name p{
-    margin-left:11px;
-    letter-spacing: .5px;
-    font-size:15px;
-}
-.filter.list a:hover{
-    text-decoration:none;
-}
-.input-group{
-    position: relative;
-    display: table;
-    border-collapse: separate;
-}
 .input-group-btn {
     position: relative;
     font-size: 0;
@@ -132,7 +128,6 @@
 
 .item .foodName{
   display: block;
-  width: 220px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -140,8 +135,43 @@
 
 .item .foodDesc{
   display: block;
-  width: 220px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+@media(max-width: 745px){
+  .item .inner-item{
+    float:none;
+  }
+
+  .item .img{
+    float:none;
+  }
+
+  .item img{
+    width: 250px;
+    height: 200px;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media(max-width: 480px){
+  .item .inner-item{
+    float:none;
+  }
+
+  .item .img{
+    float:none;
+  }
+
+  .item img{
+    width: 250px;
+    height: 200px;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }

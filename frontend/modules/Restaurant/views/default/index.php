@@ -14,9 +14,10 @@ RestaurantDefaultIndexAsset::register($this);
     <h1>Order Food for Delivery</h1>
    
     <?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']); ?>
-     <input type="checkbox" id="sidebartoggler" name="" value="">
+    <input type="checkbox" id="sidebartoggler" name="" value="">
     <div class="page-wrap">
-      <label for="sidebartoggler" class="toggle">☰</label>
+      <label for="sidebartoggler" class="toggle he-skinny-banner" style="width: 82px;height: 82px;background-image: url(/hamsterEat/frontend/web/SysImg/Icon.png);"> 
+	</label>
       <div class="filter">
         <div class="filter container">
           <div class="input-group">

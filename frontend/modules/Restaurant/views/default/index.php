@@ -9,27 +9,33 @@ $this->title = "Available Restaurants";
 StarsAsset::register($this);
 RestaurantDefaultIndexAsset::register($this);
 ?>
+
 <div class="container" id="group-area-index">
     <h1>Order Food for Delivery</h1>
-    <div class="filter">
+   
     <?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']); ?>
-    <div class="filter container">
-    <div class="input-group">
-    <?php $form = ActiveForm::begin(['id' => 'form-searchrestaurant']) ?>
-    <?= $form->field($search, 'Nickname',['addon'=>['append'=>['content'=>Html::submitButton('<i class="fa fa-search"></i>', ['class' => 'btn btn-default', 'name' => 'search-button2']),'asButton'=>true]]])->textInput(['placeholder' => "Search Restaurant"])->label(''); ?>
-    <?php ActiveForm::end(); ?>
+     <input type="checkbox" id="sidebartoggler" name="" value="">
+    <div class="page-wrap">
+      <label for="sidebartoggler" class="toggle">☰</label>
+      <div class="filter">
+        <div class="filter container">
+          <div class="input-group">
+            <?php $form = ActiveForm::begin(['id' => 'form-searchrestaurant']) ?>
+            <?= $form->field($search, 'Nickname',['addon'=>['append'=>['content'=>Html::submitButton('<i class="fa fa-search"></i>', ['class' => 'btn btn-default icon-button', 'name' => 'search-button2']),'asButton'=>true]]])->textInput(['placeholder' => "Search Restaurant"])->label(false); ?>
+            <?php ActiveForm::end(); ?>
+          </div>
+          <div class ="filter-name">
+            <p><i class="fa fa-sliders"> Filter By</i></p>
+          </div>
+          <ul class ="filter-list">
+          <?php echo Html::a('<li>All</li>', ['index', 'groupArea'=>$groupArea])."&nbsp;&nbsp;"; ?>
+            <?php foreach ($types as $types) :
+              echo Html::a('<li>'.$types['Type_Name'].'</li>', ['restaurant-filter', 'groupArea'=>$groupArea ,'rfilter'=>$types['ID']])."&nbsp;&nbsp;";
+            endforeach; ?>
+          </ul>
+        </div>
+      </div>
     </div>
-      <div class ="filter name">
-        <p><i class="fa fa-sliders"> Filter By</i></p>
-     </div>
-    <ul class ="filter-list">
-    <?php echo Html::a('<li>All</li>', ['index', 'groupArea'=>$groupArea])."&nbsp;&nbsp;"; ?>
-    <?php foreach ($types as $types) :
-            echo Html::a('<li>'.$types['Type_Name'].'</li>', ['restaurant-filter', 'groupArea'=>$groupArea ,'rfilter'=>$types['ID']])."&nbsp;&nbsp;";
-          endforeach; ?>
-                   </ul>
-          </div>
-          </div>
 <br>
     <?php if ($mode == 2)
     {

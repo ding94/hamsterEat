@@ -1,0 +1,88 @@
+.food-container{
+	 background-color: white;
+}
+
+.food-header{
+	box-sizing: border-box;
+  	border-bottom: 1px solid #efefef;
+}
+
+.food-header-title{
+	font-size: 1.6em;
+  	font-weight: 500;
+  	line-height: 2.4em;
+}
+
+.food-content{
+	border-left: 1px solid #efefef;
+  	padding-top: 15px;
+}
+
+.field-food-description {
+	margin-top: 35px;
+}
+
+td.vcenter div.form-group{
+	margin-bottom: 0px;
+}
+
+.food-table-outlet{
+	width: 100%;
+	overflow-y: auto;
+
+}
+
+/*
+* food selection block for mobile
+* disable first
+*/
+/*@media(max-width: 480px){
+	div.food-table-outlet tr{
+	    border-top: 1px solid #ddd;
+	     border-bottom: 1px solid #ddd;
+	}
+
+	div.food-table-outlet th.text-center:first-child{
+		display: block;
+	}
+
+	div.food-table-outlet th{
+      	display: none;
+  	}
+
+  	div.food-table-outlet td:last-child
+  	{
+  		display: block;
+  	}
+
+  	div.food-table-outlet td:last-child .dynamicform_inner th:last-child{
+  		display: block;
+  	}
+
+	div.food-table-outlet td{
+	     display: block;
+	 }
+
+	div.food-table-outlet .table > tbody >tr >td{
+	   	border-top : 0px;
+	    font-size : 0.8em;
+	}
+
+	div.food-table-outlet td:first-child { 
+	    padding-top : .5em; 
+	}
+
+	div.food-table-outlet td:last-child { 
+	    padding-bottom : .5em; 
+	}
+
+	div.food-table-outlet td:before { 
+		
+	    width: 6.5em;
+	    display: inline-block;
+	}
+
+	td.vcenter div.form-group{
+		margin-bottom: 0px;
+	}
+}*/

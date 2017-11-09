@@ -8,6 +8,7 @@
   display: grid;
   width:1200px;
   grid-template-columns: 1fr;
+  grid-row-gap: 15px;
   margin-bottom: 50px;
   align-items: center;
   justify-content:center;
@@ -101,4 +102,20 @@
 }
 #pause:hover{
    background-color: #ff1a1a; 
+}
+
+@media (max-width: 767px){
+  .menu-container{
+    width: 100%;
+  }
+}
+
+@media (max-width: 410px){
+  .img img{
+    display: none;
+  }
+
+  .item-no-border{
+    min-width: 250px;
+  }
 }

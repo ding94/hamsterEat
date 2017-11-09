@@ -143,6 +143,7 @@ Class RatingController extends CommonController
 		return true;
 	}
 
+//--The average rating of the rated food is calculated here
 	protected static function foodRating($data,$id)
 	{
 		$foodrating = new Foodrating;

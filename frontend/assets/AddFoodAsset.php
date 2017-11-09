@@ -7,16 +7,15 @@ use yii\web\AssetBundle;
 /**
  * Main frontend application asset bundle.
  */
-class RestaurantDefaultIndex2Asset extends AssetBundle
+class AddFoodAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/restaurant-default-index2.css',
-        'css/filter.css',
+        'css/add-food.css',
     ];
     public $js = [
-        'js/food-modal.js',
+        // 'js/cart.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -1,0 +1,100 @@
+.icon-button{
+  height: 34px;
+}
+
+.input-group{
+    position: relative;
+    display: table;
+    border-collapse: separate;
+}
+
+.filter{
+    height:auto;
+    width:230px;
+    float:left;
+   margin-left:-10px;
+}
+.filter.container{
+     border: 1px solid #e5e5e5;
+    padding: 20px;
+    margin-top:26px; 
+}
+.filter-list{
+    list-style: none;
+    font-size:13px;
+    letter-spacing: .5px;
+    line-height:80%;
+    padding-left:20px;
+}
+.filter-name p{
+    margin-left:11px;
+    letter-spacing: .5px;
+    font-size:15px;
+}
+.filter.list a:hover{
+     text-decoration:none;
+}
+
+@media(max-width: 560px)
+{
+  .filter{
+    position: fixed;
+    -webkit-transition: all 0.8s;
+    -moz-transition: all 0.8s;
+    transition: all 0.8s;
+    padding:0px;
+    left: -999px;
+    z-index: 4;
+  }
+
+  .filter .container{
+    margin-top: -130px;
+    overflow: auto;
+    height: 100%;
+    background-color: rgba(51, 51, 51,0.9);
+  }
+
+  .filter-name p{
+    color:white;
+  }
+
+  .filter-list a{
+    color:white;
+  }
+
+  .form-vertical .form-group{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .filter-list{
+    padding-bottom: 30px;
+  }
+
+}
+
+@media(max-width: 451px)
+{
+  .filter .container{
+    margin-top: -170px;
+  }
+}
+
+/*
+* for toggle side search menu
+*/
+.toggle{
+  float:right;
+}
+
+#sidebartoggler {
+  display: none;
+}
+
+#sidebartoggler:checked + .page-wrap .filter {
+  left: 0px;
+}
+
+#sidebartoggler:checked + .page-wrap .toggle {
+  left: 200px;
+}

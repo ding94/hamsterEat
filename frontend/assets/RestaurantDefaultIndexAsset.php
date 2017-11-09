@@ -13,9 +13,11 @@ class RestaurantDefaultIndexAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/restaurant-default-index.css',
+        'css/filter.css',
     ];
     public $js = [
         // 'js/PhotoSlider.js',
+        'js/restaurant-default-index.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

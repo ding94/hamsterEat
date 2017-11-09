@@ -1,9 +1,10 @@
 .outer-container{
-  margin-top: 40px;
   display:flex;
   align-items: center;
   justify-content:center;
+
 }
+
 
 @media (min-width: 1200px){
   .menu-container{
@@ -78,39 +79,11 @@
 .menu-container a:hover{
     box-shadow: 0px 0px 20px -2px grey;
 }
-.filter{
-    height:auto;
-    width:230px;
-    float:left;
-   margin-left:-10px;
-}
-.filter.container{
-     border: 1px solid #e5e5e5;
-    padding: 20px;
-    margin-top:26px;
-    
-}
-.filter-list{
-    list-style: none;
-    font-size:13px;
-    letter-spacing: .5px;
-    line-height:80%;
-    padding-left:20px;
-}
-.filter.name p{
-    margin-left:11px;
-    letter-spacing: .5px;
-    font-size:15px;
-}
-.filter.list a:hover{
-     text-decoration:none;
-}
-.input-group{
-        position: relative;
-    display: table;
-    border-collapse: separate;
-}
 
 #group-area-index .rating{
   margin-right: 10px;
 }
+
+
+
+

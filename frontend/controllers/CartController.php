@@ -9,6 +9,7 @@ use common\models\Orders;
 use common\models\Orderitemselection;
 use common\models\food\Foodselectiontype;
 use common\models\food\Foodselection;
+use common\models\Area;
 use common\models\Vouchers;
 use common\models\UserVoucher;
 use common\models\user\Userdetails;
@@ -27,6 +28,8 @@ use frontend\controllers\CommonController;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
+use common\models\Object;
+use yii\web\Session;
 
 class CartController extends CommonController
 {
@@ -38,7 +41,7 @@ class CartController extends CommonController
                  //'only' => ['logout', 'signup','index'],
                  'rules' => [
                     [
-                        'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount','newaddress','editaddress','getaddress','assign-delivery-man'],
+                        'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount','newaddress','editaddress','getaddress','assign-delivery-man','addsession','get-area'],
 
                         'allow' => true,
                         'roles' => ['@'],
@@ -182,46 +185,87 @@ class CartController extends CommonController
 
     public function actionViewCart()
     {
-        if (Yii::$app->user->isGuest) 
-        {
-            $this->redirect(['site/login']);
-        }
+            $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
+            $did = $cart['Delivery_ID'];
+    		//$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();
+    		//$restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$findfood['Restaurant_ID']])->one();
+    		//$foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
+    		//$selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
+    		$cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
+    		foreach($cartitems as $k => $cartitem): 
+    		//$findf = food::find()->where('Food_ID=:fid',[':fid'=>$cartitem['Food_ID']])->one()->Restaurant_ID;
+    		// $fooddetails = Food::find()->where('Food_ID = :fid',[':fid'=>$cartitem['Food_ID']])->one();
+    		//var_dump($cartitems);exit;
+    		endforeach; 
+            $voucher = new Vouchers;
+    		
+            if (Yii::$app->request->post()) 
+            {
+                $data = Yii::$app->request->post();
+                $session = Yii::$app->session;
+                if (is_null($session['area']) || is_null($session['postcode']))
+                { 
+                    Yii::$app->session->setFlash('error', 'Checkout failed. Please provide your delivery postcode and area first.');
+                    return $this->redirect(['site/index']);
+                }
+                elseif ($session['group'] != $cart['Orders_SessionGroup'])
+                {
+                    Yii::$app->session->setFlash('error', 'Checkout failed. The postcode and area you entered are not the same with the item(s) in your cart. Please empty your cart to change your delivery area.');
+                    return $this->redirect(['site/index']);
+                }
+          //  var_dump($data);exit;
+                return $this->redirect(['checkout','did'=>$did, 'discountcode'=>$data['Orders']['Orders_TotalPrice']]);
+            }
+            return $this->render('cart', ['did'=>$did,'cartitems'=>$cartitems,'voucher'=>$voucher]);
+    }
 
-        else
-        {
-        $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
-        $did = $cart['Delivery_ID'];
-		//$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();
-		//$restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$findfood['Restaurant_ID']])->one();
-		//$foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
-		//$selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
-		$cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
-		foreach($cartitems as $k => $cartitem): 
-		//$findf = food::find()->where('Food_ID=:fid',[':fid'=>$cartitem['Food_ID']])->one()->Restaurant_ID;
-		// $fooddetails = Food::find()->where('Food_ID = :fid',[':fid'=>$cartitem['Food_ID']])->one();
-		//var_dump($cartitems);exit;
-		endforeach; 
-        $voucher = new Vouchers;
-		
+    public function actionAddsession()
+    {
+        $model = new Area;
+        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
+        $this->layout = 'content';
         if (Yii::$app->request->post()) 
         {
-            $data = Yii::$app->request->post();
-            $session = Yii::$app->session;
-            if (is_null($session['area']) || is_null($session['postcode']))
-            {
-                Yii::$app->session->setFlash('error', 'Checkout failed. Please provide your delivery postcode and area first.');
-                return $this->redirect(['site/index']);
-            }
-            elseif ($session['group'] != $cart['Orders_SessionGroup'])
-            {
-                Yii::$app->session->setFlash('error', 'Checkout failed. The postcode and area you entered are not the same with the item(s) in your cart. Please empty your cart to change your delivery area.');
-                return $this->redirect(['site/index']);
-            }
-      //  var_dump($data);exit;
-            return $this->redirect(['checkout','did'=>$did, 'discountcode'=>$data['Orders']['Orders_TotalPrice']]);
+            $model->load(Yii::$app->request->post());
+            $groupArea = Area::find()->where('Area_Postcode = :p and Area_Area = :a',[':p'=> $model['Area_Postcode'] , ':a'=>$model['Area_Area']])->one()->Area_Group;
+            $session = new Session;
+            $session->open();
+            $session['postcode'] = $model['Area_Postcode'];
+            $session['area'] = $model['Area_Area'];
+            $session['group'] = $groupArea;
+
+            return $this->redirect(['/cart/view-cart']);
         }
-        return $this->render('cart', ['did'=>$did,'cartitems'=>$cartitems,'voucher'=>$voucher]);
+        return $this->render('addsession',['model'=>$model,'postcodeArray'=>$postcodeArray]);
     }
+
+    /* Function for dependent dropdown in frontend index page. */
+    public function actionGetArea()
+    {
+    if (isset($_POST['depdrop_parents'])) {
+        $parents = $_POST['depdrop_parents'];
+        if ($parents != null) {
+            $cat_id = $parents[0];
+            $out = self::getAreaList($cat_id); 
+            echo json_encode(['output'=>$out, 'selected'=>'']);
+            return;
+        }
+    }
+    echo json_encode(['output'=>'', 'selected'=>'']);
+    }
+
+    public static function getAreaList($postcode)
+    {
+        $area = Area::find()->where(['like','Area_Postcode' , $postcode])->select(['Area_ID', 'Area_Area'])->all();
+        $areaArray = [];
+        foreach ($area as $area) {
+            $object = new Object();
+            $object->id = $area['Area_Area'];
+            $object->name = $area['Area_Area'];
+
+            $areaArray[] = $object;
+        }
+        return $areaArray;
     }
 
     public function actionAssignDeliveryMan($did)

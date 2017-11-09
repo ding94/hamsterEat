@@ -34,34 +34,68 @@ TopupWithdrawMpHistoryAsset::register($this);
               </table>
             </div> 
             <div class="account-history">
-              <table class="table table-hover border">
-                <thead>
-                  <tr>
-                    <th>Time</th>
-                    <th>Description</th>
-                    <th>Type</th>
-                    <th>Amount(RM)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php foreach($history as $data):?>
-                    <tr>
-                      <td data-th="Time"><?php echo Yii::$app->formatter->asDatetime($data->created_at, "php:d-m-Y H:i:s")?></td>
-                      <td data-th="Decription"><?php echo $data->description?></td>
-                      <td data-th="Type"><?php echo $data->type == 0 ? "Minus" : "Postive" ?></td>
-                      <td data-th="Amount(RM)"><?php echo $data->amount?></td>
-                    </tr>
-                  <?php endforeach ;?> 
-                </tbody>
-              </table>
+            
+		
+             	<?= GridView::widget([
+					'dataProvider' => $model,
+					'filterModel' => $searchModel,
+					'tableOptions'=>['class'=>'table table-hover border'],
+					'summary' => '',
+					'columns' => [
+						[	
+							'label' => 'Time',
+							'value' => 'created_at',
+							 'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'created_at', 'dateFormat' => 'yyyy-MM-dd',]),
+							'format' => 'html',
+							//'contentOptions' => ['data-th' => 'Time'],
+						],
+						[
+		                    'attribute' => 'description',
+		                    'filterInputOptions' => [
+		                            'class'       => 'form-control',
+		                            'placeholder' => 'Search Description',
+		                    ],
+		                    'contentOptions' => ['data-th' => 'Description'],
+								
+		                ],
+						
+						[
+			                'attribute' => 'type',
+							'value' => function($model){
+								if($model->type==0){
+									return $model->type="Negative";
+								}
+								else{
+									return $model->type="Positive";
+								}
+		                           
+								   },
+		                    'filter' => array( "0"=>"Negative","1"=>"Positive"),
+			                /*'filterInputOptions' => [
+			                    'class'       => 'form-control',
+			                    'placeholder' => 'Search Type',
+			                ],*/
+			                'contentOptions' => ['data-th' => 'Type'],
+		            	],
+						[
+						'label' => 'Amount(RM)',
+		                'attribute' => 'amount',
+		                'filterInputOptions' => [
+		                    'class'       => 'form-control',
+		                    'placeholder' => 'Search Amount',
+		                ],
+		                'contentOptions' => ['data-th' => 'Amount'],
+		            ],
+					],
+				]); ?>
+			
+            </div>
              
-              <?php echo LinkPager::widget([
-                  'pagination' => $historypagination,
-              ]); ?>
+              
             </div>
         </div>
     </div>
-</div>
+
 
 <?php 
 /*Modal::begin([

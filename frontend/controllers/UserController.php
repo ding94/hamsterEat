@@ -111,16 +111,19 @@ class UserController extends CommonController
 
 	public function actionUserbalance()
  	{
-        $account = Accountbalance::find()->where('User_Username = :name',[':name' => Yii::$app->user->identity->username])->one();
-
-        $query = AccountbalanceHistory::find()->where('abid = :aid',[':aid' => $account->AB_ID]);
-        $count = $query->count();
+        $searchModel = new AccountbalanceHistory();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,5);
+		$account = Accountbalance::find()->where('User_Username = :name',[':name' => Yii::$app->user->identity->username])->one();
+//var_dump( $model);exit;       
+	   $query = AccountbalanceHistory::find()->where('abid = :aid',[':aid' => $account->AB_ID]);
+  
+	   $count = $query->count();
         $historypagination = new Pagination(['totalCount' => $count,'pageSize'=>10]);
         $historypage = $query->offset($historypagination->offset)->limit($historypagination->limit)->orderBy(['created_at'=> SORT_DESC])->all();
 
  		$this->layout = 'user';
         $this->view->title = 'User Balance History';
-		return $this->render('userbalance', ['history' => $historypage ,'historypagination' => $historypagination]);
+		return $this->render('userbalance', ['model'=>$dataProvider,'historypage' => $historypage ,'historypagination' => $historypagination, 'searchModel' => $searchModel]);
  	}
     
     public function actionChangepassword()

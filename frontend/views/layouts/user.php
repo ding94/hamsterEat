@@ -33,7 +33,7 @@ UserAsset::register($this);
     #cart1{
         line-height:33px;
     }
-    .modal-content{
+    #feedback-modal .modal-content{
         width:800px;
         margin-left: -230px;
         margin-top: 100px;
@@ -213,9 +213,8 @@ UserAsset::register($this);
                 <ul id="linklist" class="list-unstyled">
                     <li><?php echo Html::a('Feedback', Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal']) ?></li>
                     <li><?php echo Html::a('About Us' ,['site/about']) ?></li>
+                    <li><?php echo Html::a('Guide' ,['site/faq']) ?></li>
                     <li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>
-                    <li><?php echo Html::a('Login' ,['site/login']) ?></li>
-                    <li><?php echo Html::a('Signup' ,['site/ruser']) ?></li>
                 </ul>
                 
             </div>

@@ -89,7 +89,7 @@ class Orders extends \yii\db\ActiveRecord
             'Orders_DiscountEarlyAmount' => 'Orders  Discount Early Amount',
             'Orders_DiscountTotalAmount' => 'Orders  Discount Total Amount',
             'Orders_InvoiceURL' => 'Orders  Invoice Url',
-            'User_fullname' => "User's Contact Number",
+            'User_fullname' => "User's Full Name",
             'User_contactno' => "User's Contact Number",
         ];
     }

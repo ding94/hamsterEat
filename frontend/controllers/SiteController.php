@@ -120,7 +120,6 @@ class SiteController extends CommonController
             $session['postcode'] = $pcode;
             $session['area'] = $area;
             $session['group'] = $groupArea;
-
             return $this->redirect(['Restaurant/default/index','groupArea'=>$groupArea]);          
         }   
         
@@ -665,7 +664,7 @@ class SiteController extends CommonController
             $feedback->Feedback_DateTime = time();
             $feedback->Feedback_Link = $link;
 
-            $feedback->save();
+            $feedback->save(false);
             
             Yii::$app->getSession()->setFlash('success','Thank you for submitting your feedback. We will improve to serve you better.');
             return $this->redirect(['index', 'postcode'=>$postcode ,'list'=>$list,'postcodeArray'=>$postcodeArray,'banner'=>$banner]);

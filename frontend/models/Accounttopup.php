@@ -80,7 +80,7 @@ class Accounttopup extends \yii\db\ActiveRecord
     {
         
         if ($action == 0){
-              $query = self::find()->where('User_Username = :name' ,[':name' => Yii::$app->user->identity->username]); //自己就是table,找一找资料
+              $query = self::find(); //自己就是table,找一找资料
         }
         elseif ($action >=1 && $action <=4){
             $query= self::find()->where('Account_Action = :act',[':act' =>$action]);
@@ -112,7 +112,8 @@ class Accounttopup extends \yii\db\ActiveRecord
                 ->andFilterWhere(['like','Account_TopUpAmount' ,  $this->Account_TopUpAmount])
                // ->andFilterWhere(['like','Account_ChosenBank' ,  $this->Account_ChosenBank])
 			   ->andFilterWhere(['like',Bank::tableName().'.Bank_Name' , $this->getAttribute('bank.Bank_Name')])
-                ->andFilterWhere(['like','Account_InCharge' ,  $this->Account_InCharge]);
+                ->andFilterWhere(['like','Account_InCharge' ,  $this->Account_InCharge])
+				->andFilterWhere(['like','FROM_UNIXTIME(Account_TransactionDate, "%Y-%m-%d")' ,  $this->Account_TransactionDate]);
         //var_dump($query);
         //$query->andFilterWhere(['like','cmpyName' , $this->company]);// 用来查找资料, (['方式','对应资料地方','资料来源'])
 

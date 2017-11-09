@@ -112,7 +112,7 @@ class UserController extends CommonController
 	public function actionUserbalance()
  	{
         $searchModel = new AccountbalanceHistory();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,5);
 		$account = Accountbalance::find()->where('User_Username = :name',[':name' => Yii::$app->user->identity->username])->one();
 //var_dump( $model);exit;       
 	   $query = AccountbalanceHistory::find()->where('abid = :aid',[':aid' => $account->AB_ID]);

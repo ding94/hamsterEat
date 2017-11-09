@@ -36,10 +36,10 @@ Modal::end();
 	<tr>
 	<th></th>
         <th>Food</th>
-       <th>Unit Price (RM)</th>
+        <th>Unit Price (RM)</th>
         <th>Quantity</th>
         <th>LineTotal (RM)</th>
-         <th></th>
+        <th></th>
 		</tr>
     </thead>
 	<tbody>

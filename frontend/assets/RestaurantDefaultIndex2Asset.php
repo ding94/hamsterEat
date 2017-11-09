@@ -13,6 +13,7 @@ class RestaurantDefaultIndex2Asset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/restaurant-default-index2.css',
+        'css/filter.css',
     ];
     public $js = [
         'js/food-modal.js',

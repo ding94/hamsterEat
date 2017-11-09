@@ -99,17 +99,21 @@
   left: 200px;
 }
 @media(max-width: 560px)
-{
-.he-skinny-banner {
-    text-decoration: none;
-    color: rgba(0,0,0,.8);
-    display: block;
-    background-size: cover;
-    background-repeat: no-repeat;
-	position:fixed;
-	right: 15%;
-	top: 30%;
-	z-index:99;
-}
-
+{   
+    .he-skinny-banner {
+        text-decoration: none;
+        color: rgba(0,0,0,.8);
+        display: block;
+        background-size: cover;
+        background-repeat: no-repeat;
+      	position:fixed;
+      	right: 15%;
+      	top: 30%;
+      	z-index:99;
+       
+    } 
+    .he-skinny-banner img{
+       width: 82px;
+        height: 82px
+    }
 }

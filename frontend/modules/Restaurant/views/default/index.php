@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use common\models\Restauranttype;
 use kartik\widgets\ActiveForm;
 use frontend\assets\StarsAsset;
@@ -15,8 +16,7 @@ RestaurantDefaultIndexAsset::register($this);
     <?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']); ?>
     <input type="checkbox" id="sidebartoggler" name="" value="">
     <div class="page-wrap">
-      <label for="sidebartoggler" class="toggle he-skinny-banner" style="width: 82px;height: 82px;background-image: url(/SysImg/Icon.png);"> 
-	   </label>
+      <?php echo Html::label('<img src='.Url::to('@web/SysImg/Icon.png').'></img>', 'sidebartoggler',['class' => 'toggle he-skinny-banner'])?>
       <div class="filter">
         <div class="filter container">
           <div class="input-group">

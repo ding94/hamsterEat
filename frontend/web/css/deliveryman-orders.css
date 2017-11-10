@@ -1,0 +1,68 @@
+.deliveryman-orders-header-title{
+  font-size: 1.6em;
+  font-weight: 500;
+  line-height: 2.4em;
+}
+
+.deliveryman-orders-header{
+  box-sizing: border-box;
+  border-bottom: 1px solid #efefef;
+}
+
+#deliveryman-orders-container{
+  background-color: white;
+}
+
+#deliveryman-orders-nav > li > a {
+  border-bottom: 1px solid #efefef;
+}
+
+#deliveryman-orders-content{
+  border-left: 1px solid #efefef;
+  padding-top: 15px;
+}
+
+.deliveryman-orders-table{
+  border: 1px solid black;
+}
+
+.btn-signin{
+  margin-bottom: 10px;
+}
+
+@media (max-width: 700px){
+  #deliveryman-orders-content > table, thead, tbody, th, td, tr { 
+    display: block; 
+  }
+
+/* Hide table headers (but not display: none;, for accessibility) */
+  #deliveryman-orders-content thead tr { 
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  #deliveryman-orders-content tr { border: 1px solid #ccc; }
+  
+  #deliveryman-orders-content td { 
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee; 
+    position: relative;
+  }
+  
+  div#deliveryman-orders-content td:before { 
+      content : attr(data-th) ": ";
+      width: 5.5em;
+      display: inline-block;
+      font-weight: bold;
+  }
+
+  #deliveryman-orders-content td > a{
+    display: block;
+  }
+
+  .btn-signin{
+    display: block;
+  }
+}

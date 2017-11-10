@@ -155,38 +155,21 @@ class DefaultController extends CommonController
     public function actionNewRestaurantLocation()
     {
         $postcode = new Area();
-        $list =array();
-        $postcode->detectArea = 0;
+        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
         if(Yii::$app->request->isPost)
         {
-            $postcode->detectArea = 1;
             $area = Yii::$app->request->post('Area');
-            $postcode->Area_Postcode = $area['Area_Postcode'];
-            $dataArea = Area::find()->where(['like','Area_Postcode' , $area['Area_Postcode']])->all();
-            $list = ArrayHelper::map($dataArea,'Area_Area' ,'Area_Area');
-            
-            if(empty($list)) {
-                $postcode->detectArea = 0;
-                Yii::$app->session->setFlash('error', 'There is no available area under that postcode.');
-            }
+            $postcodechosen = $area['Area_Postcode'];
+            $areachosen = $area['Area_Area'];
+            $restArea = Area::find()->where('Area_Postcode = :area_postcode and Area_Area = :area_area',[':area_postcode'=> $area['Area_Postcode'] , ':area_area'=>$area['Area_Area']])->one();        
+            $restArea = $restArea['Area_Group'];
+            // return $this->actionEditRestaurantDetails2($restArea, $postcodechosen, $areachosen, $rid);
+            return $this->redirect(['new-restaurant', 'restArea'=>$restArea, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen]);
         }
 
-        return $this->render('newrestaurantlocation', ['postcode'=>$postcode ,'list'=>$list]);
+        return $this->render('newrestaurantlocation',['postcode'=>$postcode, 'postcodeArray'=>$postcodeArray]);
     }
     
-//--This passes the new restaurant location details to the function actionNewRestaurant
-    public function actionNewRestaurantDetails()
-    {
-        $area = Yii::$app->request->post('Area');
-        $pcode = Area::find()->where('Area_Area = :area', [':area'=>$area['Area_Area']])->one();
-        $postcodechosen = $pcode['Area_Postcode'];
-        $areachosen = $area['Area_Area'];
-        $restArea = Area::find()->where('Area_Postcode = :area_postcode and Area_Area = :area_area',[':area_postcode'=> $area['Area_Postcode'] , ':area_area'=>$area['Area_Area']])->one();        
-        $restArea = $restArea['Area_Group'];
-
-        return $this->actionNewRestaurant($restArea, $postcodechosen, $areachosen);
-    }
-
 //--This creates a new restaurant
     public function actionNewRestaurant($restArea, $postcodechosen, $areachosen)
     {
@@ -244,6 +227,7 @@ class DefaultController extends CommonController
             }
     }
 
+//--This saves the edited restaurant details
     public function actionEditRestaurantDetails($rid, $postcodechosen, $areachosen, $restArea)
     {
         $upload = new Upload();
@@ -391,6 +375,7 @@ class DefaultController extends CommonController
         return $this->render('editrestaurantlocation',['restaurantdetails'=>$restaurantdetails, 'postcode'=>$postcode , 'rid'=>$rid, 'postcodeArray'=>$postcodeArray]);
     }
 
+//--This function shows all the staff under a specific restaurant
     public function actionManageRestaurantStaff($rid)
     {
         $rid = $rid;
@@ -404,6 +389,7 @@ class DefaultController extends CommonController
         return $this->render('managerestaurantstaff',['rid'=>$rid, 'rstaff'=>$rstaff, 'id'=>$id, 'me'=>$me]);
     }
 
+//--This function deletes a staff from a specific restaurant
     public function actionDeleteRestaurantStaff($rid, $uname)
     {
         $sql = "DELETE FROM rmanagerlevel WHERE User_Username = '$uname' AND Restaurant_ID = $rid";
@@ -415,6 +401,8 @@ class DefaultController extends CommonController
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+
+//--This function lists all the restaurant managers in hamsterEat
     public function actionAllRmanagers($rid)
     {
         $allrmanagers = user::find()->innerJoinWith('authAssignment','user.id = authAssignment.user_id')->where(['auth_assignment.item_name' => "restaurant manager"])->all();
@@ -423,6 +411,7 @@ class DefaultController extends CommonController
 
         $keyword = '';
 
+//------This filters the restaurant managers according to their name and search text
         if ($food->load(Yii::$app->request->post()))
         {
             $keyword = $food->Nickname;
@@ -435,6 +424,7 @@ class DefaultController extends CommonController
         return $this->render('allrmanagers',['allrmanagers'=>$allrmanagers, 'rid'=>$rid, 'food'=>$food, 'keyword'=>$keyword]);
     }
 
+//--This function adds restaurant managers as a staff to a specific restaurant and under different positions
     public function actionAddStaff($rid, $uname, $num)
     {
         $time = time();
@@ -456,6 +446,7 @@ class DefaultController extends CommonController
         return $this->redirect(['manage-restaurant-staff','rid'=>$rid]);
     }
 
+//--This shows the food available in the area group according to user keyed in postcode and area
     public function actionShowByFood($groupArea)
     {
         $restaurant = Restaurant::find()->where('Restaurant_AreaGroup = :group' ,[':group' => $groupArea])->all();
@@ -475,6 +466,7 @@ class DefaultController extends CommonController
         return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search]);
     }
 
+//--This function filters the food in the area based on the food name and type
     public function actionFoodFilter($groupArea,$typefilter)
     {
         $restaurant = Restaurant::find()->where('Restaurant_AreaGroup = :group' ,[':group' => $groupArea])->all();
@@ -494,6 +486,7 @@ class DefaultController extends CommonController
         return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'filter'=>$type, 'search'=>$search]);
     }
 
+//--This function searches for a food in the are
     public function actionSearchFood($groupArea, $keyword)
     {
         $restaurant = Restaurant::find()->where('Restaurant_AreaGroup = :group' ,[':group' => $groupArea])->all();
@@ -503,6 +496,7 @@ class DefaultController extends CommonController
         return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'keyword'=>$keyword]);
     }
 
+//--This function loads the all the restaurants that the specific user is a staff in
     public function actionViewRestaurant()
     {
 		//$uname = user::find()->where('username = :uname',[':uname' => Yii::$app->user->identity->username])->one();
@@ -512,6 +506,7 @@ class DefaultController extends CommonController
         return $this->render('ViewRestaurant',['restaurants'=>$restaurants]);
     }
 
+//--This changes the restaurant status from under renovation to operating when a food is added
     public static function updateRestaurant($rid)
     {
         $data = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
@@ -527,6 +522,7 @@ class DefaultController extends CommonController
         return true;
     }
 
+//--This shows the restaurant's monthly earnings
     public function actionShowMonthlyEarnings($rid)
     {
         $restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid' => $rid])->one();
@@ -540,6 +536,7 @@ class DefaultController extends CommonController
         $months = ArrayHelper::map(MonthlyUnix::find()->select('*')->distinct()->all(),'Month', 'Month');
         $year = ArrayHelper::map(MonthlyUnix::find()->select('*')->distinct()->all(),'Year', 'Year');
 
+//------This filters the restaurant's earnings based on chosen month
         if($selected->load(Yii::$app->request->post()))
         {
             $selectedmonth = $selected->Month;

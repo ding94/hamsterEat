@@ -12,8 +12,7 @@ $this->title = 'Login';
 <div class="site-login">
     <div class="col-lg-6 col-lg-offset-3" style="text-align:center">
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out the following fields to login:</p>
+<br>
  </div>
     <div class="container">
   <div class="col-lg-6 col-lg-offset-3">
@@ -26,7 +25,7 @@ $this->title = 'Login';
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
                 <div style="color:#999;margin:1em 0">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
+                     <?= Html::a('Forgot Your Password?', ['site/request-password-reset']) ?>.
                 </div>
 
                 <div class="form-group">
@@ -36,5 +35,4 @@ $this->title = 'Login';
             <?php ActiveForm::end(); ?>
         </div>
 		  </div>
-   
 </div>

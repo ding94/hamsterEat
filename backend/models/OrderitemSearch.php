@@ -7,18 +7,21 @@ use yii\data\ActiveDataProvider;
 use common\models\Orderitemstatuschange;
 use common\models\Ordersstatuschange;
 use common\models\Orderitemselection;
+use common\models\problem\ProblemOrder;
 
 Class OrderitemSearch extends Orders
 {
 	public $Order_ID;
-	public $food;
-	public $food_selection;
-	public $userfullname;
-	public $usercontact;
+    public $reasons;
+    public $foodName;
+    public $foodSelect;
+    public $description;
+
 	public function rules()
     {
         return [
-            [['Order_ID','userfullname','usercontact','food','order_selection'],'safe'],
+            //[['userfullname','usercontact','food','order_selection'],'safe'],
+            [['Order_ID','Delivery_ID','reasons'],'safe'],
         ];
     }
 
@@ -26,12 +29,19 @@ Class OrderitemSearch extends Orders
 	{
 		switch ($case) {
 			case 1:
-				$query = Orderitem::find()->where('Orders_Status=:s',[':s'=>'Problematic'])->andWhere('Orders_DateTimeMade > '.strtotime(date('Y-m-d')));
+				$query = ProblemOrder::find()->where('status=:s',[':s'=>'1'])->andWhere('datetime > '.strtotime(date('Y-m-d')))->orderby('Order_ID ASC');
+				$query->joinWith(['order_item']);
 				$query->joinWith(['order']);
-				$query->joinWith(['food']);
 				break;
+
+				case 2:
+				$query = ProblemOrder::find()->where('status=:s',[':s'=>'0'])->orderby('Order_ID ASC');
+				$query->joinWith(['order_item']);
+				$query->joinWith(['order']);
+				break;
+
 			default:
-				# code...
+				$query = ProblemOrder::find()->all();
 				break;
 		}
 		
@@ -39,27 +49,26 @@ Class OrderitemSearch extends Orders
             'query' => $query,
         ]);
 
-        $dataProvider->sort->attributes['userfullname'] = [
-	        'asc' => ['User_fullname' => SORT_ASC],
-	        'desc' => ['User_fullname' => SORT_DESC],
+        $dataProvider->sort->attributes['Order_ID'] = [
+	        'asc' => ['Order_ID' => SORT_ASC],
+	        'desc' => ['Order_ID' => SORT_DESC],
 	    ];
 
-	    $dataProvider->sort->attributes['usercontact'] = [
-	        'asc' => ['User_contactno' => SORT_ASC],
-	        'desc' => ['User_contactno' => SORT_DESC],
+	    $dataProvider->sort->attributes['Delivery_ID'] = [
+	        'asc' => ['orderitem.Delivery_ID' => SORT_ASC],
+	        'desc' => ['orderitem.Delivery_ID' => SORT_DESC],
 	    ];
 
-	    $dataProvider->sort->attributes['food'] = [
-	        'asc' => ['Name' => SORT_ASC],
-	        'desc' => ['Name' => SORT_DESC],
+	    $dataProvider->sort->attributes['reasons'] = [
+	        'asc' => ['reason' => SORT_ASC],
+	        'desc' => ['reason' => SORT_DESC],
 	    ];
 
         $this->load($params);
 
         $query->andFilterWhere(['like','Order_ID',$this->Order_ID]);
-        $query->andFilterWhere(['like','User_fullname',$this->userfullname]);
-        $query->andFilterWhere(['like','User_contactno',$this->usercontact]);
-        $query->andFilterWhere(['like','Name',$this->food]);
+        $query->andFilterWhere(['like','problem_order.Delivery_ID',$this->Delivery_ID]);
+        $query->andFilterWhere(['like','reason',$this->reasons]);
 
         return $dataProvider;
 	}

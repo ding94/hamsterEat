@@ -13,6 +13,7 @@ class ManageStaffAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/manage-staff.css',
+        'css/drop-down-mobile.css',
     ];
     public $js = [
         // 'js/cart.js',

@@ -6,6 +6,7 @@ use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
+use kartik\widgets\Select2;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
@@ -18,11 +19,32 @@ use yii\helpers\ArrayHelper;
     </div>
    <div class="userprofile-detail">
         <div class="col-sm-2">
-           <ul class="nav nav-pills nav-stacked">
-                <li role="presentation"><?php echo Html::a("All",['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-                <li role="presentation"><?php echo Html::a("Submit Ticket",['/ticket/submit-ticket'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-				<li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Completed Ticket</a></li>
-            </ul>
+            <div class="dropdown-url">
+                <?php 
+                    echo Select2::widget([
+                        'name' => 'url-redirect',
+                        'hideSearch' => true,
+                        'data' => $link,
+                        'options' => [
+                            'placeholder' => 'Go To ...',
+                            'multiple' => false,
+
+                        ],
+                        'pluginEvents' => [
+                             "change" => 'function (e){
+                                location.href =this.value;
+                            }',
+                        ]
+                    ])
+                ;?>
+            </div>
+            <div class="nav-url">
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation"><?php echo Html::a("All",['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation"><?php echo Html::a("Submit Ticket",['/ticket/submit-ticket'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Completed Ticket</a></li>
+                </ul>
+            </div>
         </div>
 <div class="col-sm-8 userprofile-edit-input">
 <p style="text-align:center;">

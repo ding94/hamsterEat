@@ -1,0 +1,13 @@
+.dropdown-url{
+	display: none;
+}
+
+@media(max-width: 767px){
+	.dropdown-url{
+		display: initial;
+		margin:100px;
+	}
+	.nav-url{
+		display: none;
+	}
+}

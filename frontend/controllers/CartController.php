@@ -428,17 +428,7 @@ class CartController extends CommonController
                 $setdate = date("Y-m-d");
                 $settime = "13:00:00";
 
-                if ($checkout->Orders_PaymentMethod == 'Account Balance') 
-                {
-                    $payment = PaymentController::Payment($did,$order);
-                    if(!$payment)
-                    {
-                         Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
-                        
-                         return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
-                    }
-
-                } 
+                
 //--------------A delivery man is assigned to the order here
                 //$valid = $this->actionAssignDeliveryMan($did);
                 $valid = true;
@@ -542,6 +532,20 @@ class CartController extends CommonController
                         $order->save();
                     }
                 }
+
+                // account balance functions
+                if ($checkout->Orders_PaymentMethod == 'Account Balance') 
+                {
+                    $payment = PaymentController::Payment($did,$order);
+                    if(!$payment)
+                    {
+                         Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
+                        
+                         return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
+                    }
+
+                }
+
 //--------------The total discount for the order is calculated here
                 $checkdiscounts = Orders::find()->where('Delivery_ID = :did', [':did' => $did])->one();
                 $totaldiscount = 0;

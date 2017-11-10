@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\LinkPager;
 use frontend\assets\NotificationAsset;
 
 $this->title = "Notification";
@@ -8,30 +9,51 @@ $this->title = "Notification";
 NotificationAsset::register($this);
 ?>
 
-<div class="container">
-	<div class="row">
-		<h3>Your Notification</h3>
+<div id="userprofile" class="row">
+	<div class="userprofile-header">
+       <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
+    </div>
+    <div class="userprofile-detail">
+    	<div class="col-sm-2">
+    		<ul class="nav nav-pills nav-stacked">
+                <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">All Notification</a></li>
+            </ul>
+    	</div>
+    </div>
+    <div class="col-sm-10 notifcation-right">
 		<?php if(empty($notification)) : ?>
 			<h4>You  have not receive any notifcaiton yet</h4>
 		<?php else :?>
 			<?php foreach($notification as $i=> $notic) :?>
-				<div class="panel panel-primary col-md-9">
-					<h4><?php echo $list[$i]['description']?></h4>
-				</div>
-				<?php foreach($notic as $data):?>
-					<?php $ago = Yii::$app->formatter->asRelativeTime($data['created_at']);?>
-					<div class="col-md-9 notic">
-						<?php if($data['type'] == 2 || $data['type'] == 4):?>
-							<?php echo Html::a($data['description'].'<span class="pull-right">'.$ago.'</span>',['/order/order-details','did'=>$data['rid']],['class'=> 'a-notic'])?>
-						<?php elseif($data['type'] == 1) :?>
-							<?php echo Html::a($data['description'].'<span class="pull-right">'.$ago.'</span>',["order/restaurant-orders",'rid' => $data['rid']],['class'=> 'a-notic'])?>
-						<?php else :?>
-							<?php echo Html::a($data['description'].'<span class="pull-right">'.$ago.'</span>',[$list[$i]['url']],['class'=> 'a-notic'])?>
-						<?php endif;?>
+				
+				<?php $ago = Yii::$app->formatter->asRelativeTime($notic['created_at']);?>
+				<div class="col-md-12 notic">
+					<?php if($notic['type'] == 2 || $notic['type'] == 4):?>
+					<div>
+						<?php echo Html::a($notic['description'],['/order/order-details','did'=>$data['rid']],['class'=> 'a-notic'])?>
+					
+						<span class="pull-right">From <?php echo $ago?></span>	
 					</div>
-				<?php endforeach ;?>
+					<?php elseif($notic['type'] == 1) :?>
+					<div>
+						<?php echo Html::a($notic['description'],["order/restaurant-orders",'rid' => $notic['rid']],['class'=> 'a-notic'])?>
+						
+						<span class="pull-right">From <?php echo $ago?></span>	
+					</div>
+					<?php else :?>
+					<div>
+						<?php echo Html::a($notic['description'],[$list[$i]['url']],['class'=> 'a-notic'])?>
+						
+						<span class="pull-right">From <?php echo $ago?></span>	
+					</div>
+					<?php endif;?>
+				</div>
 			<?php endforeach ;?>
-		<?php endif ;?>
-	</div>
-</div>
 
+		<?php endif ;?>
+    	<?php echo LinkPager::widget([
+			'pagination' => $pages,
+		]);?>	
+    </div>
+
+</div>

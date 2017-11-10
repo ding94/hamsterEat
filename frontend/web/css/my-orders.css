@@ -17,7 +17,6 @@
 
 .my-orders-table{
   border-left: 1px solid #efefef;
-  padding-top: 15px;
 }
 
 @media (min-width: 481px){
@@ -56,6 +55,11 @@
   padding: 5px;
   border-radius: 4px;
   text-align: center;
+}
+.order-icon{
+  text-align: center;
+  margin-right:-150px;
+  padding-top:30px;
 }
 
 @media (max-width: 480px){

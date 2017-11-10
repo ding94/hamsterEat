@@ -7,17 +7,15 @@ use yii\web\AssetBundle;
 /**
  * Main frontend application asset bundle.
  */
-class TopupIndexAsset extends AssetBundle
+class DeliveryLocationAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/topup-index.css',
-        'css/user.css',
-        'css/drop-down-mobile.css',
+        'css/delivery-location.css',
     ];
     public $js = [
-        
+        // 'js/cart.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -10,6 +10,7 @@ use common\models\Orderitem;
 use common\models\Orders;
 use common\models\Notification;
 use common\models\NotificationSetting;
+use yii\data\Pagination;
 use frontend\controllers\CommonController;
 use frontend\modules\UserPackage\controllers\PackageController;
 
@@ -22,17 +23,15 @@ class NotificationController extends CommonController
 	*/
 	public function actionIndex()
 	{
-		$notification = [];
+	
 		$this->layout = 'user';
 		self::turnOffNotification();
-		$model = Notification::find()->where('uid = :uid',[':uid' =>Yii::$app->user->identity->id ])->asArray()->all();
-		$listOfNotic = ArrayHelper::index(NotificationSetting::find()->asArray()->all(), 'id');
-		foreach($model as $single)
-		{
-			$notification[$single['type']][] = $single;
-		}
-		
-		return $this->render('index',['notification'=>$notification,'list' => $listOfNotic]);
+		$query = Notification::find()->where('uid = :uid',[':uid' =>Yii::$app->user->identity->id ]);
+	    $count = $query->count();
+      
+        $pagination = new Pagination(['totalCount' => $count,'pageSize'=>10]);		    
+        $notification = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at'=> SORT_DESC])->all();
+		return $this->render('index',['notification'=>$notification,'pages' => $pagination]);
 	}
 
 	/*

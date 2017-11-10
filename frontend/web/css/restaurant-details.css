@@ -4,8 +4,102 @@
   justify-content:center;
 }
 
-@media(max-width:991px){
-    .menu-container{
+.restaurant-img{
+  height:250px; 
+  width:350px; 
+  margin:auto;
+}
+
+@media(min-width: 320px) and (max-width: 370px){
+  #button-container{
+    float:none; 
+  }
+
+  #button-container a{
+    display: block;
+  }
+}
+
+@media(max-width: 449px){
+  .img{
+    float: none;
+  }
+}
+
+@media(max-width: 730px){
+  .img img{
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .restaurant-info-inner{
+    float: left;
+    width: 100%;
+  }
+
+  hr{
+    margin-top:400px; 
+  }
+
+  .item .inner-item{
+    margin:10px 10px 10px 10px;
+  }
+
+  .restaurant-info-container .rating{
+    margin-top: 80px;
+    margin-bottom: 15px;
+  }
+}
+
+@media(min-width: 320px){
+  .menu-container{
+    display: grid;
+    width:1200px;
+    grid-template-columns: 1fr;
+    grid-column-gap: 15px;
+    grid-row-gap: 15px;
+    margin-bottom: 50px;
+    align-items: center;
+    justify-content:center;
+  }
+}
+
+@media(max-width: 730px) and (min-width: 531px){
+  .restaurant-info-inner{
+    float: left;
+    width: 100%;
+  }
+
+  hr{
+    margin-top:400px; 
+  }
+
+  .restaurant-info-container .rating{
+    margin-top: 35px;
+  }
+
+  .item .inner-item{
+    margin:10px 10px 10px 10px;
+    float:right;
+    width: 58%;
+  }
+
+  #button-container{
+    margin-top: 6px;
+  }
+
+  .restaurant-info-container{
+    margin-bottom: 0px;
+  }
+
+  .item .img{
+    float:left;
+  }
+}
+
+@media (min-width: 731px){
+  .menu-container{
     display: grid;
     width:1200px;
     grid-template-columns: 1fr;
@@ -16,6 +110,21 @@
     justify-content:center;
   }
 
+  #button-container{
+    margin-top: 100px;
+    float: right;
+  }
+
+  .restaurant-info-container{
+    margin-bottom: 150px;
+  }
+
+  .item .img{
+    float:left;
+  }
+}
+
+@media(max-width:991px) and (min-width: 731px){
   .restaurant-info-container h1{
     margin-left: 51%;
   }
@@ -30,9 +139,9 @@
   }
 
   .item .inner-item{
-  margin:10px 10px 10px 10px;
-  float:right;
-  width: 66%;
+    margin:10px 10px 10px 10px;
+    float:right;
+    width: 66%;
   }
 }
 
@@ -121,10 +230,6 @@
     color: grey;
 }
 
-.item .img{
-  float:left;
-}
-
 .item img{
   width:188px;
   height:188px;
@@ -139,10 +244,6 @@
 .info li.none{
    list-style-type: none;
    margin-left:-20px;
-}
-
-.restaurant-info-container{
-  margin-bottom: 150px;
 }
 
 .item .foodName{
@@ -166,5 +267,5 @@
 }
 
 .menu-container a:hover{
-    box-shadow: 0px 0px 20px -2px grey;
+  box-shadow: 0px 0px 20px -2px grey;
 }

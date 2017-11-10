@@ -8,6 +8,7 @@ use frontend\assets\StarsAsset;
 use frontend\assets\CartAsset;
 use yii\bootstrap\Modal;
 use frontend\assets\FoodServiceAsset;
+use kartik\widgets\Select2;
 
 $this->title = $rname."'s"." Menu";
 FoodMenuAsset::register($this);
@@ -30,7 +31,27 @@ Modal::end();
     </div>
     <div class="content">
         <div class="col-sm-2">
-            <ul id="food-menu-nav" class="nav nav-pills nav-stacked">
+            <div class="dropdown-url">
+                <?php 
+                    echo Select2::widget([
+                        'name' => 'url-redirect',
+                        'hideSearch' => true,
+                        'data' => $link,
+                        'options' => [
+                            'placeholder' => 'Go To ...',
+                            'multiple' => false,
+
+                        ],
+                        'pluginEvents' => [
+                             "change" => 'function (e){
+                                location.href =this.value;
+                            }',
+                        ]
+                    ])
+                ;?>
+            </div>
+            <div class="nav-url">
+              <ul id="food-menu-nav" class="nav nav-pills nav-stacked">
                 <?php if ($staff['RmanagerLevel_Level'] == 'Owner'){ ?>
                     <li role="presentation"><?php echo Html::a("View Earnings",['Restaurant/default/show-monthly-earnings', 'rid'=>$rid],['class'=>'btn-block'])?></li>
                 <?php }
@@ -44,7 +65,8 @@ Modal::end();
                     <li role="presentation"><?php echo Html::a("Restaurants Orders",['/order/restaurant-orders', 'rid'=>$rid],['class'=>'btn-block'])?></li>
                     <li role="presentation"><?php echo Html::a("Restaurants Orders History",['/order/restaurant-order-history', 'rid'=>$rid],['class'=>'btn-block'])?></li>
                 <?php } ?>
-            </ul>
+              </ul>
+            </div>
         </div>
         <div id="food-menu-content" class="col-sm-10">
           <?php echo Html::a('Insert Food', ['/food/insert-food','rid'=>$rid], ['class'=>'btn btn-primary']); ?>

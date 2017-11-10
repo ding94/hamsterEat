@@ -12,18 +12,22 @@ MyOrdersAsset::register($this);
     </div>
   <div class="content">
     <div class="col-sm-2 ">
-    <ul id="my-orders-nav" class="nav nav-pills nav-stacked">
-      <li class="active"><a data-toggle="pill" href="#pending">Pending<span class="badge"><?php echo Yii::$app->view->params['countPending'] ?></span></a></li>
-      <li><a data-toggle="pill" href="#preparing">Preparing<span class="badge"><?php echo Yii::$app->view->params['countPreparing'] ?></span></a></li>
-      <li><a data-toggle="pill" href="#pickup">Pick Up in Process<span class="badge"><?php echo Yii::$app->view->params['countPickup'] ?></span></a></li>
-      <li><a data-toggle="pill" href="#ontheway">On The Way<span class="badge"><?php echo Yii::$app->view->params['countOntheway'] ?></span></a></li>
-      <li><a data-toggle="pill" href="#completed">Completed<span class="badge"><?php echo Yii::$app->view->params['countCompleted'] ?></span></a></li>
-    </ul>
+
+      <ul id="my-orders-nav" class="nav nav-pills nav-stacked">
+        <li class="active"><a data-toggle="pill" href="#pending">Pending<span class="badge"><?php echo Yii::$app->view->params['countPending'] ?></span></a></li>
+        <li><a data-toggle="pill" href="#preparing">Preparing<span class="badge"><?php echo Yii::$app->view->params['countPreparing'] ?></span></a></li>
+        <li><a data-toggle="pill" href="#pickup">Pick Up in Process<span class="badge"><?php echo Yii::$app->view->params['countPickup'] ?></span></a></li>
+        <li><a data-toggle="pill" href="#ontheway">On The Way<span class="badge"><?php echo Yii::$app->view->params['countOntheway'] ?></span></a></li>
+        <li><a data-toggle="pill" href="#completed">Completed<span class="badge"><?php echo Yii::$app->view->params['countCompleted'] ?></span></a></li>
+      </ul>
     </div>
     <div class="col-sm-8 tab-content my-orders-table">
       <div id="pending" class="tab-pane fade in active">
         <?php if (empty($order1)){ ?>
-          <h3>There are no orders...</h3>
+        <div class ="order-icon">
+         <?php echo Html::img('@web/imageLocation/Img/order-icon.png',['style'=>'width:100px; height:100px; margin-right:-13px; ']); ?>
+          <p>No orders yet</p>
+          </div>
         <?php } else{ ?>
         <table class="table table-user-info orderTable col-sm-8">
           <thead>
@@ -60,7 +64,10 @@ MyOrdersAsset::register($this);
       </div>
       <div id="preparing" class="tab-pane fade my-orders-table">
         <?php if (empty($order2)){ ?>
-          <h3>There are no orders...</h3>
+         <div class ="order-icon">
+         <?php echo Html::img('@web/imageLocation/Img/order-icon.png',['style'=>'width:100px; height:100px; margin-right:-13px; ']); ?>
+          <p>No orders yet</p>
+          </div>
         <?php } else{ ?>
         <table class="table table-user-info orderTable col-sm-8">
           <thead>
@@ -98,7 +105,10 @@ MyOrdersAsset::register($this);
       </div>
       <div id="pickup" class="tab-pane fade my-orders-table">
         <?php if (empty($order3)){ ?>
-          <h3>There are no orders...</h3>
+           <div class ="order-icon">
+         <?php echo Html::img('@web/imageLocation/Img/order-icon.png',['style'=>'width:100px; height:100px; margin-right:-13px; ']); ?>
+          <p>No orders yet</p>
+          </div>
         <?php } else{ ?>
         <table class="table table-user-info orderTable col-sm-8">
           <thead>
@@ -136,7 +146,10 @@ MyOrdersAsset::register($this);
       </div>
       <div id="ontheway" class="tab-pane fade my-orders-table">
         <?php if (empty($order4)){ ?>
-          <h3>There are no orders...</h3>
+           <div class ="order-icon">
+         <?php echo Html::img('@web/imageLocation/Img/order-icon.png',['style'=>'width:100px; height:100px; margin-right:-13px; ']); ?>
+          <p>No orders yet</p>
+          </div>
         <?php } else{ ?>
         <table class="table table-user-info orderTable col-sm-8">
           <thead>
@@ -175,7 +188,10 @@ MyOrdersAsset::register($this);
       <div id="completed" class="tab-pane fade my-orders-table">
         <table class="table table-user-info orderTable col-sm-8">
           <?php if (empty($order5)){ ?>
-            <h3>There are no orders...</h3>
+            <div class ="order-icon">
+         <?php echo Html::img('@web/imageLocation/Img/order-icon.png',['style'=>'width:100px; height:100px; margin-right:-13px; ']); ?>
+          <p>No orders yet</p>
+          </div>
           <?php } else{ ?>
           <thead>
             <tr>

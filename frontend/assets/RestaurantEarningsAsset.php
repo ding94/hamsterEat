@@ -13,6 +13,7 @@ class RestaurantEarningsAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/restaurant-earnings.css',
+        'css/drop-down-mobile.css',
     ];
     public $js = [
         // 'js/cart.js',

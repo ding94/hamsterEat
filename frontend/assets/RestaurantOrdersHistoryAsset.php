@@ -13,6 +13,7 @@ class RestaurantOrdersHistoryAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/restaurant-orders-history.css',
+        'css/drop-down-mobile.css',
     ];
     public $js = [
         // 'js/cart.js',

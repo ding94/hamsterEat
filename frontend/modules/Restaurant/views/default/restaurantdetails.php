@@ -35,8 +35,9 @@ RestaurantDetailsAsset::register($this);
         if (is_null($id['Restaurant_RestaurantPicPath'])){
             $picpath = "DefaultRestaurant.jpg";
         }
-         echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive pull-left', 'style'=>'height:250px; width:350px; margin:auto;']) ?> <?php echo "</th>"; ?>
-    <h1><?php echo $id['Restaurant_Name']; ?><span class="pull-right"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'btn btn-primary','data-toggle'=>'modal','data-target'=>'#report-modal']) ?></span></h1>
+         echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive pull-left restaurant-img']) ?> <?php echo "</th>"; ?>
+         <div class="restaurant-info-inner">
+             <h1><?php echo $id['Restaurant_Name']; ?><span class="pull-right"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'btn btn-primary','data-toggle'=>'modal','data-target'=>'#report-modal']) ?></span></h1>
       <ul class="info">
         <?php if ($id['Restaurant_Pricing'] == 1){ ?>
         <li class="none">$</li>
@@ -55,8 +56,9 @@ RestaurantDetailsAsset::register($this);
       </ul>
       <div class="rating">
         <span class="small-text stars"><?php echo $id['Restaurant_Rating']; ?></span>
-        <?php if(!empty($staff)) : ?>
-            <div  style="float: right;">
+    </div>
+    <?php if(!empty($staff)) : ?>
+            <div id="button-container">
                 <span><?php echo Html::a('Manage Restaurant', Url::to(['/Restaurant/default/manage-restaurant-staff' ,'rid'=>$id['Restaurant_ID']]), ['class'=>'btn btn-primary']) ?></span>
                 <span> <?php if ($id['Restaurant_Status'] == "Closed"): ?>
                     <?=Html::a('Resume Resturant Operate', Url::to(['restaurant/active', 'id'=>$id['Restaurant_ID'],'item'=>1]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-success'])?>
@@ -65,7 +67,7 @@ RestaurantDetailsAsset::register($this);
                 <?php endif ?></span>
             </div>
         <?php endif ?>
-    </div>
+         </div>
     </div>
     <br>
     <hr>
@@ -83,6 +85,7 @@ RestaurantDetailsAsset::register($this);
             ?>
         <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>"  data-toggle="modal" data-target="#foodDetail" data-img="<?php echo $data['PicPath'];?>">
         <div class="item">
+            <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$data['PicPath']) ?></div>
             <div class="inner-item">
             <span class="foodName"><?php echo $data['Name']; ?></span>
             <span class="small-text pull-right stars" alt="<?php echo $data['Rating']; ?>"><?php echo $data['Rating']; ?></span>
@@ -92,7 +95,6 @@ RestaurantDetailsAsset::register($this);
             <span class="tag"><?php echo $type['Type_Desc'].'&nbsp;&nbsp;&nbsp;'; ?></span>
             <?php endforeach; ?>
             </div>
-            <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$data['PicPath']) ?></div>
         </div>
         </a>
         <?php endforeach; ?>

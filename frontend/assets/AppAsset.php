@@ -21,6 +21,7 @@ class AppAsset extends AssetBundle
         'js/FlashTimer.js',
         'js/feedback-modal.js',
         'js/feedback-modal-1.js',
+        'js/login-modal.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

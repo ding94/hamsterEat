@@ -25,6 +25,7 @@ class PaymentController extends CommonController
                 $payment->save();
 
                 $userbalance->User_Balance -= $order->Orders_TotalPrice; /* order price amount */
+                $userbalance->AB_minus += $order->Orders_TotalPrice;
                 $userbalance->type = 5;
                 $userbalance->deliveryid = $did;
                 $userbalance->defaultAmount = $order->Orders_TotalPrice;

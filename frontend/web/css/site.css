@@ -520,3 +520,9 @@ box-shadow: 1px 2px 2px 4px rgba(204,204,204,1);
 #faq ul{
   list-style-type:none;
 }
+
+@media(max-width: 991px){
+  .form{
+    width: 80%;
+  }
+}

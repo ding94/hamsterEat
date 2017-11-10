@@ -93,7 +93,7 @@ class CommonController extends Controller
     				   ];
     			break;
     		default:
-    			$data ="";
+    			$data =[];
     			break;	
     	}
        	

@@ -388,8 +388,9 @@ class DefaultController extends CommonController
 
         $me = Rmanagerlevel::find()->where('Restaurant_ID = :rid and User_Username = :uname', [':rid'=>$rid, ':uname'=>Yii::$app->user->identity->username])->one();
         // var_dump($me);exit;
-        
-        return $this->render('managerestaurantstaff',['rid'=>$rid, 'rstaff'=>$rstaff, 'id'=>$id, 'me'=>$me]);
+        $link = CommonController::getRestaurantUrl($rid,$id['Restaurant_AreaGroup'],$id['Restaurant_Area'],$id['Restaurant_Postcode'],$me['RmanagerLevel_Level']);
+
+        return $this->render('managerestaurantstaff',['rid'=>$rid, 'rstaff'=>$rstaff, 'id'=>$id, 'me'=>$me ,'link'=>$link]);
     }
 
 //--This function deletes a staff from a specific restaurant
@@ -530,7 +531,8 @@ class DefaultController extends CommonController
     {
         $restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid' => $rid])->one();
         $restaurantname = $restaurant['Restaurant_Name'];
-        $link = CommonController::getRestaurantUrl($rid,$restaurant['Restaurant_AreaGroup'],$restaurant['Restaurant_Area'],$restaurant['Restaurant_Postcode']);
+        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
+        $link = CommonController::getRestaurantUrl($rid,$restaurant['Restaurant_AreaGroup'],$restaurant['Restaurant_Area'],$restaurant['Restaurant_Postcode'],$staff['RmanagerLevel_Level']);
         $currentmonth = date('F');
         $currentmonthnum = date('n');
         $currentyear = date('Y');
@@ -578,7 +580,6 @@ class DefaultController extends CommonController
 
             $thefinaltotalearnings = $totalearnings + $thefinaltotalearnings;
             $mode = 2;
-            $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
 
             return $this->render('restaurantearnings', ['rid'=>$rid , 'restaurant'=>$restaurant, 'restaurantname'=>$restaurantname, 'months'=>$months, 'selected'=>$selected, 'year'=>$year, 'currentmonth'=>$currentmonth, 'currentyear'=>$currentyear, 'currentmonthnum'=>$currentmonthnum, 'totalearnings'=>$thefinaltotalearnings, 'mode'=>$mode, 'selectedmonth'=>$selectedmonth, 'selectedyear'=>$selectedyear, 'staff'=>$staff,'link'=>$link]);
         }
@@ -616,7 +617,7 @@ class DefaultController extends CommonController
         endforeach;
 
         $thefinaltotalearnings = $totalearnings + $thefinaltotalearnings;
-        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
+      
 
         
         return $this->render('restaurantearnings', ['rid'=>$rid , 'restaurant'=>$restaurant, 'restaurantname'=>$restaurantname, 'months'=>$months, 'selected'=>$selected, 'year'=>$year, 'currentmonth'=>$currentmonth, 'currentyear'=>$currentyear, 'currentmonthnum'=>$currentmonthnum, 'totalearnings'=>$thefinaltotalearnings, 'mode'=>$mode, 'staff'=>$staff,'link'=>$link]);

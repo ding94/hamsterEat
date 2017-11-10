@@ -41,9 +41,9 @@ RestaurantOrdersAsset::register($this);
                 <h2>There are no orders currently...</h2>
             <?php }else {
             foreach ($result as $result) : ?>
+                    <?php $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$result['Delivery_ID']])->one();?>
+                    <?php if($orderdetails['Orders_Status'] == 'Pending' || $orderdetails['Orders_Status'] == 'Preparing' || $orderdetails['Orders_Status'] == 'Ready For Pick Up'): ?>
                 <table class="table table-hover" style="border:1px solid black;">  
-                    <?php $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$result['Delivery_ID']])->one();
-                    ?>
                     <thead>
                         <tr>
                             <th colspan = '6' data-th="Delivery_ID" ><center>Delivery ID: <?php echo $orderdetails['Delivery_ID']; ?></th>
@@ -59,10 +59,12 @@ RestaurantOrdersAsset::register($this);
                             <th> Update Status </th>
                         </tr>
                     </thead>
+
                     <?php 
                     $orderitemdetails = "SELECT * from orderitem INNER JOIN food ON orderitem.Food_ID = food.Food_ID INNER JOIN restaurant on restaurant.Restaurant_ID = food.Restaurant_ID WHERE food.Restaurant_ID = ".$restaurantname['Restaurant_ID']." AND orderitem.Delivery_ID = ".$orderdetails['Delivery_ID']."";
                     $resultz = Yii::$app->db->createCommand($orderitemdetails)->queryAll();
                     foreach ($resultz as $orderitemdetails) : ?>
+                    <?php if ($orderitemdetails['OrderItem_Status'] == 'Pending' || $orderitemdetails['OrderItem_Status'] == 'Preparing' || $orderitemdetails['OrderItem_Status'] == 'Ready For Pick Up'): ?>
                         <tr>
                             <td data-th="Order ID"><?php echo $orderitemdetails['Order_ID']; ?></td>
                             <?php 
@@ -97,10 +99,12 @@ RestaurantOrdersAsset::register($this);
                                 <td data-th="Update Status"><span class='label label-warning'> Waiting for Pick Up </span></td>
                             <?php } ?>
                         </tr>
+                    <?php endif ?>
                     <?php endforeach; ?>
                 </table>
                 <br>
                 <br>
+                <?php endif ?>
             <?php endforeach; 
             } ?>
         </div>

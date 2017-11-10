@@ -13,6 +13,7 @@ class DeliverymanOrdersHistoryAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/deliveryman-orders-history.css',
+        'css/drop-down-mobile.css',
     ];
     public $js = [
         // 'js/cart.js',

@@ -153,8 +153,9 @@ class OrderController extends CommonController
         $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status != :status and Orders_Status != :status1', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status1'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
 
         $record = DailySignInController::getDailyData(1);
+        $link = CommonController::createUrlLink(5);
 
-        return $this->render('deliverymanorder', ['dman'=>$dman,'record'=>$record]);
+        return $this->render('deliverymanorder', ['dman'=>$dman,'record'=>$record,'link'=>$link]);
     }
 
 //--This function updares the order's status and the specific order item status to preparing
@@ -364,8 +365,9 @@ class OrderController extends CommonController
     public function actionDeliverymanOrderHistory()
     {
         $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status = :status or Orders_status = :status2', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status2'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
+        $link = CommonController::createUrlLink(5);
 
-        return $this->render('deliverymanorderhistory', ['dman'=>$dman]);
+        return $this->render('deliverymanorderhistory', ['dman'=>$dman,'link'=>$link]);
     }
 
 //--This function loads the user's orders history in normal form

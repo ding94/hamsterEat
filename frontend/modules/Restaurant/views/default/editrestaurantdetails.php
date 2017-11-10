@@ -52,7 +52,7 @@ if (!is_null($areachosen))
                     ])
                 ;?>
             </div>
-            <div class="">
+            <div class="nav-url">
                 <ul id="edit-restaurant-details-nav" class="nav nav-pills nav-stacked">
                 <?php if ($staff['RmanagerLevel_Level'] == 'Owner'){ ?>
                     <li role="presentation"><?php echo Html::a("View Earnings",['show-monthly-earnings', 'rid'=>$restaurantdetails['Restaurant_ID']],['class'=>'btn-block'])?></li>

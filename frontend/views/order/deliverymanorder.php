@@ -45,7 +45,14 @@ $this->title = "Delivery Orders";
                        // date_default_timezone_set("Asia/Kuala_Lumpur");
                        // $timeplaced = date('d/m/Y H:i:s', $orderdetails['Orders_DateTimeMade']);
                        // echo "<td><center> $timeplaced </td>";
-                        echo "<td ><center>".$orderdetails['Orders_TotalPrice']."</td>";
+                       if ($orderdetails['Orders_PaymentMethod'] != 'Cash on Delivery')
+                       {
+                            echo "<td ><center> 0.00 </td>";
+                       }
+                       else
+                       {
+                            echo "<td ><center>".$orderdetails['Orders_TotalPrice']."</td>";
+                       }
                          echo "<td ><center><a class='btn btn-info' target='_blank' href='http://maps.google.com/maps?daddr=".$location.",+".$postcode.",+".$district.",+Malaysia&amp;ll='>Show Location</a></td>";
 
                     echo "</tr>";

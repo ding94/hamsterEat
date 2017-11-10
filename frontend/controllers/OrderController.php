@@ -14,6 +14,7 @@ use yii\filters\AccessControl;
 use common\models\Orderitemselection;
 use common\models\food\Foodselection;
 use common\models\Rmanagerlevel;
+use frontend\modules\delivery\controllers\DailySignInController;
 
 class OrderController extends CommonController
 {
@@ -152,7 +153,9 @@ class OrderController extends CommonController
     {
         $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status != :status and Orders_Status != :status1', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status1'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
 
-        return $this->render('deliverymanorder', ['dman'=>$dman]);
+        $record = DailySignInController::getDailyData(1);
+
+        return $this->render('deliverymanorder', ['dman'=>$dman,'record'=>$record]);
     }
 
 //--This function updares the order's status and the specific order item status to preparing

@@ -43,6 +43,14 @@ NotificationAsset::register($this);
         height: 740px;
     }
 
+    #login-modal .modal-content{
+
+        width:450px;
+        margin-left: -50px;
+        margin-top: 100px;
+        height:500px;
+    }
+
     #feedback-modal-1 .modal-content{
 
         width:800px;
@@ -91,6 +99,16 @@ NotificationAsset::register($this);
     ]);
     
     Modal::end() ?>
+
+<?php Modal::begin([
+            'header' => '<h2 class="modal-title">Login</h2>',
+            'id'     => 'login-modal',
+            'size'   => 'modal-sm',
+            //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    
+    Modal::end() ?>
+
 <?php $this->beginBody() ?>
 
 <div class="wrap">
@@ -114,7 +132,7 @@ NotificationAsset::register($this);
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => '<span id ="cart1" class="glyphicon glyphicon-shopping-cart"></span> ', 'url' => ['/cart/view-cart']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span> Signup', 'url' => ['/site/ruser']];
-        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> Login', 'url' => ['/site/login'],'linkOptions'=>['data-toggle'=>'modal','data-target'=>'#login-modal']]; 
     } else {
         $menuItems[] = ['label' => '<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']];
         $menuItems[] = ['label' => '<span class=""> <i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>'];
@@ -230,7 +248,7 @@ NotificationAsset::register($this);
 					<li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>
                     <?php if (Yii::$app->user->isGuest)
                     { ?>
-                        <li><?php echo Html::a('Login' ,['site/login']) ?></li>
+                        <li><?php echo Html::a('Login' ,['site/login'], ['data-toggle'=>'modal','data-target'=>'#login-modal']) ?></li>
                         <li><?php echo Html::a('Signup' ,['site/ruser']) ?></li> <?php
                     }
                     ?>

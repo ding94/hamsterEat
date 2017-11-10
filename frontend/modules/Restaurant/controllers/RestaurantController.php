@@ -7,8 +7,14 @@ use yii\web\Controller;
 use backend\models\RestaurantSearch;
 use common\models\Restaurant;
 use common\models\Rmanager;
+use common\models\Orders;
+use common\models\Orderitem;
+use common\models\Account\Accountbalance;
+use common\models\problem\ProblemOrder;
+use common\models\problem\ProblemStatus;
 use common\models\food\Food;
 use common\models\food\Foodstatus;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use frontend\controllers\CommonController;
 
@@ -38,6 +44,55 @@ class RestaurantController extends CommonController
 
         $this->layout = "/user";
         return $this->render('foodservice',['foods'=>$foods,'rid'=>$id]);
+    }
+
+    public function actionProvidereason($id,$rid,$item)
+    {
+        $reason = new ProblemOrder;
+        $list = ArrayHelper::map(ProblemStatus::find()->all(),'id','description');
+
+        if (Yii::$app->request->post()) {
+            $orderitem = Orderitem::find()->where('Food_ID=:id AND OrderItem_Status=:s',[':id'=>$id, ':s'=>'Pending'])->all();
+            if (!empty($orderitem)) {
+                    foreach ($orderitem as $k => $value) {
+                    $order = Orders::find()->where('Delivery_ID=:id',[':id'=>$value['Delivery_ID']])->one();
+                        if ($order['Orders_DateTimeMade'] > strtotime(date('Y-m-d'))) {
+                            $reason = new ProblemOrder; // set new value to db, away from covering value
+                            $reason->load(Yii::$app->request->post());
+                            $reason['Order_ID'] = $value['Order_ID'];
+                            $reason['Delivery_ID'] = $value['Delivery_ID'];
+                            $reason['status'] = 1;
+                            $reason['datetime'] = time();
+                            $order['Orders_Status'] = 'Canceled';
+                            $value['OrderItem_Status'] = 'Canceled';
+
+                            //check did user use balance to pay
+                            if ($order['Orders_PaymentMethod'] == 'Account Balance') {
+                                $reason['refund'] = $order['Orders_TotalPrice'];
+                                $acc = Accountbalance::find()->where('User_Username=:us',[':us'=>$order['User_Username']])->one();
+                                $acc['User_Balance'] += $order['Orders_TotalPrice'];
+                                $acc['AB_minus'] -= $order['Orders_TotalPrice'];
+                                if ($acc->validate()) {
+                                    $acc->save();
+                                    $order['Orders_Status'] = 'Canceled and Refunded';
+                                    $value['OrderItem_Status'] = 'Canceled and Refunded';
+                                }
+                            }
+                            if ($reason->validate() && $value->validate() && $order->validate()) {
+                                $reason->save();
+                                $value->save();
+                                $order->save();
+                            }
+                        }
+                    }
+                }
+                self::actionDeactive($id,$item);
+                Yii::$app->session->setFlash('warning', "Status changed! Please inform customer service.");
+                return $this->redirect(['/food/menu','rid'=>$rid,'page'=>'menu']);
+            }
+            
+        return $this->renderAjax('reason',['reason'=>$reason,'list'=>$list]);
+
     }
 
     public function actionActive($id,$item)

@@ -1,0 +1,31 @@
+.delivery-location-header-title{
+  font-size: 1.6em;
+  font-weight: 500;
+  line-height: 2.4em;
+}
+
+.delivery-location-header{
+  box-sizing: border-box;
+  border-bottom: 1px solid #efefef;
+}
+
+#delivery-location-container{
+  background-color: white;
+}
+
+#delivery-location-nav > li > a {
+  border-bottom: 1px solid #efefef;
+}
+
+#delivery-location-content{
+  border-left: 1px solid #efefef;
+  padding-top: 15px;
+}
+
+.delivery-location-table{
+  border: 1px solid black;
+}
+
+.border-left{
+  border-right: 1px solid #efefef;
+}

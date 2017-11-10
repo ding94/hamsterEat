@@ -23,6 +23,7 @@ DeliverymanOrdersHistoryAsset::register($this);
             <ul id="deliveryman-orders-history-nav" class="nav nav-pills nav-stacked">
                 <li role="presentation"><?php echo Html::a("Deliveryman Orders",['order/deliveryman-orders'],['class'=>'btn-block'])?></li>
                 <li role="presentation" class="active"><?php echo Html::a("Deliveryman Orders History",['order/deliveryman-order-history'],['class'=>'btn-block'])?></li>
+                <li role="presentation"><?php echo Html::a("Delivery Location",['/Delivery/daily-sign-in/delivery-location'],['class'=>'btn-block'])?></li>
             </ul>
         </div>
         <div id="deliveryman-orders-history-content" class="col-sm-10">

@@ -143,7 +143,14 @@ class SiteController extends CommonController
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
-        } else {
+        } 
+        elseif ($model->load(Yii::$app->request->post()))
+        {
+            Yii::$app->session->setFlash('danger', 'Either username or password is incorrect.');
+            return $this->goBack();
+        }
+        else
+        {
             return $this->renderAjax('login', [
                 'model' => $model,
             ]);

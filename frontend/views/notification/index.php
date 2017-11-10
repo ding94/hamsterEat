@@ -1,8 +1,11 @@
 <?php
 
 use yii\helpers\Html;
+use frontend\assets\NotificationAsset;
 
 $this->title = "Notification";
+
+NotificationAsset::register($this);
 ?>
 
 <div class="container">
@@ -31,3 +34,4 @@ $this->title = "Notification";
 		<?php endif ;?>
 	</div>
 </div>
+

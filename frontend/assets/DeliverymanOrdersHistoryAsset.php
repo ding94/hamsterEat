@@ -7,16 +7,15 @@ use yii\web\AssetBundle;
 /**
  * Main frontend application asset bundle.
  */
-class NotificationAsset extends AssetBundle
+class DeliverymanOrdersHistoryAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/notification.css',
-        'css/user.css',
+        'css/deliveryman-orders-history.css',
     ];
     public $js = [
-        // 'js/rating-index.js',
+        // 'js/cart.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -2,39 +2,44 @@
 
 use yii\helpers\Html;
 use wbraganca\dynamicform\DynamicFormWidget;
+use frontend\assets\AddFoodAsset;
 
+AddFoodAsset::register($this);
 ?>           
   
-             <?php DynamicFormWidget::begin([
-                    'widgetContainer' => 'dynamicform_inner',
-                    'widgetBody' => '.container-rooms',
-                    'widgetItem' => '.room-item',
-                    'limit' => 10,
-                    'min' => 1,
-                    'insertButton' => '.add-room',
-                    'deleteButton' => '.remove-room',
-                    'model' => $foodselection[0],
-                    'formId' => 'dynamic-form',
-                    'formFields' => [
-                    'Food_ID',
-                    'Name',
-                    'Price',
-                    'BeforeMarkedUp',
-                    'Nickname',
+<?php DynamicFormWidget::begin([
+    'widgetContainer' => 'dynamicform_inner',
+    'widgetBody' => '.container-rooms',
+    'widgetItem' => '.room-item',
+    'limit' => 10,
+    'min' => 1,
+    'insertButton' => '.add-room',
+    'deleteButton' => '.remove-room',
+    'model' => $foodselection[0],
+    'formId' => 'dynamic-form',
+    'formFields' => [
+        'Food_ID',
+        'Name',
+        'Price',
+        'BeforeMarkedUp',
+        'Nickname',
     ],
 ]); ?>
 <table class="table table-bordered selectionTable" >
     <thead>
         <tr>
-            <th>Selection Name</th><th>Received</th><th>Price</th><th>Nickname</th>
-            <th class="text-center">
+             <th class="text-center">
                 <button type="button" class="add-room btn btn-success btn-xs"><span class="glyphicon glyphicon-plus"></span></button>
             </th>
+            <th>Selection Name</th><th>Received</th><th>Price</th><th>Nickname</th>
         </tr>
     </thead>
     <tbody class="container-rooms">
     <?php foreach ($foodselection as $ix => $foodselection): ?>
         <tr class="room-item" >
+             <td class="text-center vcenter" ">
+                <button type="button" class="remove-room btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span></button>
+            </td>
             <td class="vcenter">
                 <?php
                     // necessary for update action.
@@ -49,9 +54,6 @@ use wbraganca\dynamicform\DynamicFormWidget;
              <td class="vcenter selectionBefore"><?= $form->field($foodselection, "[{$i}][{$ix}]BeforeMarkedUp")->label(false)->textInput(['readonly'=>true,'maxlength' => true]) ?></td>
              <td class="vcenter selectionPrice"><?= $form->field($foodselection, "[{$i}][{$ix}]Price")->label(false)->textInput(['maxlength' => true,'onChange' => 'beforeMarkUp()']) ?></td>  
              <td class="vcenter"><?= $form->field($foodselection, "[{$i}][{$ix}]Nickname")->label(false)->textInput(['maxlength' => true]) ?></td>
-            <td class="text-center vcenter" style="width: 90px;">
-                <button type="button" class="remove-room btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span></button>
-            </td>
         </tr>
      <?php endforeach; ?>
     </tbody>

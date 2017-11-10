@@ -8,9 +8,19 @@ Use common\models\Orders;
 use yii\bootstrap\ActiveForm;
 use frontend\controllers\CartController;
 use frontend\assets\CartAsset;
+use yii\bootstrap\Modal;
 
 $this->title = "My Cart";
 CartAsset::register($this);
+
+Modal::begin([
+      'header' => '<h2 class="modal-title">Please choose delivery place</h2>',
+      'id'     => 'add-session-modal',
+      'size'   => 'modal-md',
+      'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+]);
+Modal::end();
+
 ?>
 <?php
 			if($cartitems == true)
@@ -124,7 +134,15 @@ CartAsset::register($this);
    </table>
     <?= $form->field($did, 'Orders_TotalPrice')->hiddenInput()->label('') ?>
   <?php echo Html::a('Back',Yii::$app->request->referrer,['class' => 'btn btn-primary']) ;?>
-  <?php echo Html::submitButton('Checkout', ['class' => 'btn btn-primary', 'name' => 'newrestaurant-button']);   ?>
+
+  <?php 
+    if (empty(Yii::$app->session['area']) || empty(Yii::$app->session['postcode'])) {
+      echo Html::a('Checkout',['/cart/addsession'],['class' => 'btn btn-primary','data-toggle'=>'modal','data-target'=>'#add-session-modal']);
+    }
+    else{
+      echo Html::submitButton('Checkout', ['class' => 'btn btn-primary', 'name' => 'newrestaurant-button']);
+    }
+  ?>
   <?php ActiveForm::end(); ?>
     
  </div>

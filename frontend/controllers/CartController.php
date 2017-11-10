@@ -9,6 +9,7 @@ use common\models\Orders;
 use common\models\Orderitemselection;
 use common\models\food\Foodselectiontype;
 use common\models\food\Foodselection;
+use common\models\Area;
 use common\models\Vouchers;
 use common\models\UserVoucher;
 use common\models\user\Userdetails;
@@ -27,6 +28,8 @@ use frontend\controllers\CommonController;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
+use common\models\Object;
+use yii\web\Session;
 
 class CartController extends CommonController
 {
@@ -38,7 +41,7 @@ class CartController extends CommonController
                  //'only' => ['logout', 'signup','index'],
                  'rules' => [
                     [
-                        'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount','newaddress','editaddress','getaddress','assign-delivery-man'],
+                        'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount','newaddress','editaddress','getaddress','assign-delivery-man','addsession','get-area'],
 
                         'allow' => true,
                         'roles' => ['@'],
@@ -49,7 +52,8 @@ class CartController extends CommonController
              ]
         ];
     }
-    
+
+//--This function continues on from FoodController's actionFoodDetails and adds a food item to cart
     public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks,$rid,$sessiongroup)
     {
         if (Yii::$app->user->isGuest) 
@@ -63,6 +67,7 @@ class CartController extends CommonController
             $session = Yii::$app->session;
             $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
 
+//----------Creates a new cart if there is no cart previously created or in 'not placed' state
             if (empty($cart))
             {
                 $newcart = new Orders;
@@ -81,6 +86,7 @@ class CartController extends CommonController
             $foodareagroup = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$findfood['Restaurant_ID']])->one();
             $foodareagroup = $foodareagroup['Restaurant_AreaGroup'];
 
+//----------Checks if the area the food being added to cart is in the same area as the cart's area then adds the food to cart
             if ($foodareagroup == $cart['Orders_SessionGroup'])
             {
                 $orderitem->Delivery_ID = $cart['Delivery_ID'];
@@ -104,7 +110,7 @@ class CartController extends CommonController
                         $oid = $orderid['Order_ID'];
                     }
                 endforeach;
-
+//--------------Checks if there is any food selections selected and records the selected selections data if there is
                 if ($finalselected != '')
                 {
                     $selected = JSON::decode($finalselected);
@@ -144,13 +150,16 @@ class CartController extends CommonController
                             $orderitemselection->save();
                         }
                     endforeach;
-					//var_dump($foodselectionprice['Price']);exit;
+                    //var_dump($foodselectionprice['Price']);exit;
+
+//------------------Calculates the line total and the selection total price for each order item
                     $selectiontotalprice = $selectiontotalprice * $quantity;
                     $linetotal = $linetotal + $selectiontotalprice;
                     $linetotalupdate = "UPDATE orderitem SET OrderItem_LineTotal = ".$linetotal.", OrderItem_SelectionTotal = ".$selectiontotalprice." WHERE Order_ID = ".$oid."";
                     Yii::$app->db->createCommand($linetotalupdate)->execute();
                 }
 
+//--------------Calculates the subtotal for the order
                 $items = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$cart['Delivery_ID']])->all();
                 $i = 0;
                 $subtotal = 0;
@@ -159,7 +168,7 @@ class CartController extends CommonController
                     $subtotal = $items[$i]['OrderItem_LineTotal'] + $subtotal;
                     $i = $i + 1;
                 }
-
+//--------------Updates the cart's current details
                 $noofrestaurants = "SELECT DISTINCT food.Restaurant_ID FROM food INNER JOIN orderitem ON orderitem.Food_ID = food.Food_ID WHERE orderitem.Delivery_ID = ".$cart['Delivery_ID']."";
                 $result = Yii::$app->db->createCommand($noofrestaurants)->execute();
                 $deliverycharge = $result * 5;
@@ -180,50 +189,93 @@ class CartController extends CommonController
         }
     }
 
+//--This function load's the user's current cart and its details
     public function actionViewCart()
     {
-        if (Yii::$app->user->isGuest) 
-        {
-            $this->redirect(['site/login']);
-        }
+            $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
+            $did = $cart['Delivery_ID'];
+    		//$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();
+    		//$restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$findfood['Restaurant_ID']])->one();
+    		//$foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
+    		//$selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
+    		$cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
+    		foreach($cartitems as $k => $cartitem): 
+    		//$findf = food::find()->where('Food_ID=:fid',[':fid'=>$cartitem['Food_ID']])->one()->Restaurant_ID;
+    		// $fooddetails = Food::find()->where('Food_ID = :fid',[':fid'=>$cartitem['Food_ID']])->one();
+    		//var_dump($cartitems);exit;
+    		endforeach; 
+            $voucher = new Vouchers;
+    		
+            if (Yii::$app->request->post()) 
+            {
+                $data = Yii::$app->request->post();
+                $session = Yii::$app->session;
+                if (is_null($session['area']) || is_null($session['postcode']))
+                { 
+                    Yii::$app->session->setFlash('error', 'Checkout failed. Please provide your delivery postcode and area first.');
+                    return $this->redirect(['site/index']);
+                }
+                elseif ($session['group'] != $cart['Orders_SessionGroup'])
+                {
+                    Yii::$app->session->setFlash('error', 'Checkout failed. The postcode and area you entered are not the same with the item(s) in your cart. Please empty your cart to change your delivery area.');
+                    return $this->redirect(['site/index']);
+                }
+          //  var_dump($data);exit;
+                return $this->redirect(['checkout','did'=>$did, 'discountcode'=>$data['Orders']['Orders_TotalPrice']]);
+            }
+            return $this->render('cart', ['did'=>$did,'cartitems'=>$cartitems,'voucher'=>$voucher]);
+    }
 
-        else
-        {
-        $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
-        $did = $cart['Delivery_ID'];
-		//$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();
-		//$restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$findfood['Restaurant_ID']])->one();
-		//$foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
-		//$selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
-		$cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
-		foreach($cartitems as $k => $cartitem): 
-		//$findf = food::find()->where('Food_ID=:fid',[':fid'=>$cartitem['Food_ID']])->one()->Restaurant_ID;
-		// $fooddetails = Food::find()->where('Food_ID = :fid',[':fid'=>$cartitem['Food_ID']])->one();
-		//var_dump($cartitems);exit;
-		endforeach; 
-        $voucher = new Vouchers;
-		
+    public function actionAddsession()
+    {
+        $model = new Area;
+        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
+        $this->layout = 'content';
         if (Yii::$app->request->post()) 
         {
-            $data = Yii::$app->request->post();
-            $session = Yii::$app->session;
-            if (is_null($session['area']) || is_null($session['postcode']))
-            {
-                Yii::$app->session->setFlash('error', 'Checkout failed. Please provide your delivery postcode and area first.');
-                return $this->redirect(['site/index']);
-            }
-            elseif ($session['group'] != $cart['Orders_SessionGroup'])
-            {
-                Yii::$app->session->setFlash('error', 'Checkout failed. The postcode and area you entered are not the same with the item(s) in your cart. Please empty your cart to change your delivery area.');
-                return $this->redirect(['site/index']);
-            }
-      //  var_dump($data);exit;
-            return $this->redirect(['checkout','did'=>$did, 'discountcode'=>$data['Orders']['Orders_TotalPrice']]);
+            $model->load(Yii::$app->request->post());
+            $groupArea = Area::find()->where('Area_Postcode = :p and Area_Area = :a',[':p'=> $model['Area_Postcode'] , ':a'=>$model['Area_Area']])->one()->Area_Group;
+            $session = new Session;
+            $session->open();
+            $session['postcode'] = $model['Area_Postcode'];
+            $session['area'] = $model['Area_Area'];
+            $session['group'] = $groupArea;
+
+            return $this->redirect(['/cart/view-cart']);
         }
-        return $this->render('cart', ['did'=>$did,'cartitems'=>$cartitems,'voucher'=>$voucher]);
-    }
+        return $this->render('addsession',['model'=>$model,'postcodeArray'=>$postcodeArray]);
     }
 
+    /* Function for dependent dropdown in frontend index page. */
+    public function actionGetArea()
+    {
+    if (isset($_POST['depdrop_parents'])) {
+        $parents = $_POST['depdrop_parents'];
+        if ($parents != null) {
+            $cat_id = $parents[0];
+            $out = self::getAreaList($cat_id); 
+            echo json_encode(['output'=>$out, 'selected'=>'']);
+            return;
+        }
+    }
+    echo json_encode(['output'=>'', 'selected'=>'']);
+    }
+
+    public static function getAreaList($postcode)
+    {
+        $area = Area::find()->where(['like','Area_Postcode' , $postcode])->select(['Area_ID', 'Area_Area'])->all();
+        $areaArray = [];
+        foreach ($area as $area) {
+            $object = new Object();
+            $object->id = $area['Area_Area'];
+            $object->name = $area['Area_Area'];
+
+            $areaArray[] = $object;
+        }
+        return $areaArray;
+    }
+
+//--This function is to assign a delivery man when an order has been placed
     public function actionAssignDeliveryMan($did)
     {
        // $purchaser = orders::find()->where('User_Username = :id',[':id'=>Yii::$app->user->identity->username])->one();
@@ -319,6 +371,7 @@ class CartController extends CommonController
             return $dname;
     }
 
+//--This function is to process the order officially as the places his order
     public function actionCheckout($did,$discountcode)
     {
         $checkout = Orders::find()->where('Delivery_ID = :Delivery_ID',[':Delivery_ID' => $did])->one();
@@ -340,6 +393,7 @@ class CartController extends CommonController
 
         $userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => $checkout->User_Username])->one();
         $session = Yii::$app->session;
+
         if (Yii::$app->request->post())
         {
             $checkout->load(Yii::$app->request->post());
@@ -357,7 +411,7 @@ class CartController extends CommonController
             $early = date('08:00:00');
             //$last = date('11:00:59');
             $last = date('23:00:59');
-
+//----------Checks if user is eligible for early discount and if user placed his order within the time 8am to 11am
             if ($early <= $timenow && $last >= $timenow)
             {
                 $earlydiscount = CartController::actionRoundoff1decimal($checkout['Orders_Subtotal']) * 0.2;
@@ -385,7 +439,7 @@ class CartController extends CommonController
                     }
 
                 } 
-               
+//--------------A delivery man is assigned to the order here
                 //$valid = $this->actionAssignDeliveryMan($did);
                 $valid = true;
                 if ($valid == false) {
@@ -488,6 +542,7 @@ class CartController extends CommonController
                         $order->save();
                     }
                 }
+//--------------The total discount for the order is calculated here
                 $checkdiscounts = Orders::find()->where('Delivery_ID = :did', [':did' => $did])->one();
                 $totaldiscount = 0;
                 if ($checkdiscounts['Orders_DiscountVoucherAmount'] != 0 && $checkdiscounts['Orders_DiscountEarlyAmount'] != 0 && $checkdiscounts['Orders_DiscountCodeAmount'] != 0)
@@ -539,7 +594,7 @@ class CartController extends CommonController
 
                     return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
                 }
-
+//--------------The statuses and time for the order and its' order items are updated here
                 $sql2 = "UPDATE orderitem SET OrderItem_Status = 'Pending' WHERE Delivery_ID = '".$did."'";
                 Yii::$app->db->createCommand($sql2)->execute();
 
@@ -763,6 +818,7 @@ class CartController extends CommonController
        return $value;
     }
 
+//--This function runs when an item in the cart is deleted
     public function actionDelete($oid)
     {
         $menu = orderitem::find()->where('Order_ID = :id' ,[':id' => $oid])->one();

@@ -95,7 +95,7 @@ class DailySignInController extends CommonController
     * 1 => get decode today sign in data 
     * 2 => pass all data
     */
-    protected static function getDailyData($type)
+    public static function getDailyData($type)
     {
     	$today = date("Y-m");
     	$date = date("j");

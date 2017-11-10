@@ -8,113 +8,144 @@ use common\models\Orders;
 use common\models\Orderitem;
 use common\models\Restaurant;
 use yii\helpers\Html;
-$this->title = "Delivery Orders";
-?>
+use frontend\assets\DeliverymanOrdersAsset;
 
-<div class = "container">
-<h1>Delivery Orders</h1>
-    <div><?php
-   
-            foreach ($dman as $dman) :
-                echo "<table class= table table-user-info style= 'border:1px solid black;'>";
-                    echo "<tr>";
-                        echo "<th ><center> Delivery ID </th>";
-                       // echo "<th><center> Username </th>";
-                       // echo "<th><center> Date to be Received </th>";
-                        echo "<th><center> Time to be Received </th>";
-                         echo "<th><center> Order address </th>";
-                          echo "<th ><center> Order Postcode</th>";
-                        //echo "<th><center> Current Status </th>";
-                       // echo "<th><center> Time Placed </th>";
-                        echo "<th ><center> Collect (RM) </th>";
-                        echo "<th ><center> View Map </th>";
-                    echo "</tr>";
-                    
+$this->title = "Delivery Orders";
+DeliverymanOrdersAsset::register($this);
+?>
+<div class="container" id="deliveryman-orders-container">
+    <div class="deliveryman-orders-header">
+        <div class="deliveryman-orders-header-title"><?= Html::encode($this->title) ?></div>
+    </div>
+    <div class="content">
+        <div class="col-sm-2">
+            <ul id="deliveryman-orders-nav" class="nav nav-pills nav-stacked">
+                <li role="presentation" class="active"><?php echo Html::a("Deliveryman Orders",['order/deliveryman-orders'],['class'=>'btn-block'])?></li>
+                <li role="presentation"><?php echo Html::a("Deliveryman Orders History",['order/deliveryman-order-history'],['class'=>'btn-block'])?></li>
+            </ul>
+        </div>
+        <div id="deliveryman-orders-content" class="col-sm-10">
+            <?php if($record->result == 1):?>
+                <h3>You can receive delivery orders for today!</h3>
+              <?=Html::a('Already Sign In',['Delivery/daily-sign-in/signin'],['class' => 'btn btn-primary btn-lg btn-signin', 'disabled' =>"true"]);?>
+            <?php else :?>
+                <h3>Sign in to receive delivery orders!</h3>
+              <?=Html::a('Sign In',['Delivery/daily-sign-in/signin'],['class' => 'btn btn-primary btn-lg btn-signin']);?>
+            <?php endif ;?>
+            <?php 
+                if (empty($dman)){
+            ?>
+                <h3>You have no orders to deliver at the moment.</h3>
+            <?php
+                } else {
+                foreach ($dman as $dman) : 
+            ?>
+            <table class="table table-user-info deliveryman-orders-table">
+                <thead>
+                    <tr>
+                        <th>Delivery ID</th>
+                        <th>Time to be Received</th>
+                        <th>Order Address</th>
+                        <th>Order Postcode</th>
+                        <th>Collect (RM)</th>
+                        <th>View Map</th>
+                    </tr>
+                </thead>
+                <?php 
                     $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$dman['Delivery_ID']])->one();
                     $location=$dman['Orders_Location'];
                     $postcode=$dman['Orders_Postcode'];
-                    $district=$dman['Orders_Area'];
-                    echo "<tr>";
-                        echo "<td ><center>".$orderdetails['Delivery_ID']."</td>";
-                        //echo "<td><center>".$orderdetails['User_Username']."</td>";
-                      //  echo "<td><center>".$orderdetails['Orders_Date']."</td>";
-                        echo "<td ><center>".$orderdetails['Orders_Time']."</td>";
-                         echo "<td ><center>".$orderdetails['Orders_Location']."</td>";
-                          echo "<td ><center>".$orderdetails['Orders_Postcode']."</td>";
-                        //echo "<td><center>".$orderdetails['Orders_Status']."</td>";
-                       // date_default_timezone_set("Asia/Kuala_Lumpur");
-                       // $timeplaced = date('d/m/Y H:i:s', $orderdetails['Orders_DateTimeMade']);
-                       // echo "<td><center> $timeplaced </td>";
-                        echo "<td ><center>".$orderdetails['Orders_TotalPrice']."</td>";
-                         echo "<td ><center><a class='btn btn-info' target='_blank' href='http://maps.google.com/maps?daddr=".$location.",+".$postcode.",+".$district.",+Malaysia&amp;ll='>Show Location</a></td>";
-
-                    echo "</tr>";
-                    echo "<tr>";
-                       // echo "<th><center> Order ID </th>";
-                        echo "<th><center> Restaurant Name </th>";
-                        echo "<th colspan = 2><center> Area </th>";
-                        echo "<th><center> Quantity </th>";
-                        echo "<th><center> Current Status </th>";
-                        echo "<th><center> Update Status </th>";
-                    echo "</tr>";
-
+                    $district=$dman['Orders_Area']; 
+                ?>
+                <tr>
+                    <td data-th="Delivery ID"><?php echo $orderdetails['Delivery_ID']; ?></td>
+                    <td data-th="Time to be Received"><?php echo $orderdetails['Orders_Time']; ?></td>
+                    <td data-th="Order Address"><?php echo $orderdetails['Orders_Location']; ?></td>
+                    <td data-th="Order Postcode"><?php echo $orderdetails['Orders_Postcode']; ?></td>
+                    <td data-th="Collect (RM)"><?php echo $orderdetails['Orders_TotalPrice']; ?></td>
+                    <td data-th="View Map"><a class='btn btn-info' target='_blank' href='http://maps.google.com/maps?daddr="<?php echo $location; ?>",+"<?php echo $postcode; ?>",+"<?php echo $district; ?>",+Malaysia&amp;ll='>Show Location</a></td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th>Restaurant Name</th>
+                        <th colspan="2">Area</th>
+                        <th>Quantity</th>
+                        <th>Current Status</th>
+                        <th>Update Status</th>
+                    </tr>
+                </thead>
+                <?php
                     $orderitemdetails = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$orderdetails['Delivery_ID']])->orderBy(['Order_ID'=>SORT_ASC])->all();
                     
                     foreach ($orderitemdetails as $orderitemdetails) :
-                        echo "<tr>";
-                           // echo "<td><center>".$orderitemdetails['Order_ID']."</td>";
-                            $foodname = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitemdetails['Food_ID']])->one();
-                            $restname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$foodname['Restaurant_ID']])->one();
-                            echo "<td><center>".$restname['Restaurant_Name']."</td>";
-                            echo "<td colspan = 2><center>".$restname['Restaurant_Area']."</td>";
-
-                            echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";
-                            if($orderitemdetails['OrderItem_Status']== 'Pending')
-                            {
-                                $label='<span class="label label-warning">'.$orderitemdetails['OrderItem_Status'].'</span>';
-                            }
-                            elseif($orderitemdetails['OrderItem_Status']== 'Preparing')
-                            {
-                                $label='<span class="label label-info">'.$orderitemdetails['OrderItem_Status'].'</span>';
-                            }
-                            elseif($orderitemdetails['OrderItem_Status']== 'Ready For Pick Up')
-                            {
-                                $label='<span class="label label-info">'.$orderitemdetails['OrderItem_Status'].'</span>';
-                            }
-                            elseif($orderitemdetails['OrderItem_Status']== 'Picked Up')
-                            {
-                                $label='<span class="label label-info">'.$orderitemdetails['OrderItem_Status'].'</span>';
-                            }
-                            echo "<td><center>".$label."</td>";
-                            if ($orderitemdetails['OrderItem_Status'] == 'Pending') :
-                            {
-                                echo "<td><center><span class='label label-warning'> Wait for Food to be Prepared </span></td>";
-                            }
-                            elseif ($orderitemdetails['OrderItem_Status'] == 'Preparing') :
-                            {
-                                echo "<td><center><span class='label label-warning'> Wait for Food to be Prepared </span></td>";
-                            }
-                            elseif ($orderitemdetails['OrderItem_Status'] == 'Ready For Pick Up') :
-                            {
-                                echo "<td><center>".Html::a('Picked Up', ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$dman['Delivery_ID']], ['class'=>'btn btn-primary'])."</td>";
-                            }
-                            endif;
-
-                            if ($orderdetails['Orders_Status'] != 'On The Way') :
-                            {
-                                echo "</tr>";
-                            }
-                            else :
-                            {
-                                echo "<td><center>".Html::a('Completed', ['update-completed', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$dman['Delivery_ID']], ['class'=>'btn btn-primary'])."</td>";
-                                echo "</tr>";
-                            }
-                            endif;
+                ?>
+                <tr>
+                    <?php
+                         $foodname = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitemdetails['Food_ID']])->one();
+                        $restname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$foodname['Restaurant_ID']])->one();
+                    ?>
+                    <td data-th="Restaurant Name"><?php echo $restname['Restaurant_Name']; ?></td>
+                    <td colspan="2" data-th="Area"><?php echo $restname['Restaurant_Area']; ?></td>
+                    <td data-th="Quantity"><?php echo $orderitemdetails['OrderItem_Quantity']; ?></td>
+                    <?php
+                        if ($orderitemdetails['OrderItem_Status'] == 'Pending'){
+                    ?>
+                    <td data-th="Current Status"><span class="label label-warning"><?php echo $orderitemdetails['OrderItem_Status'];?></span></td>
+                    <?php
+                        }
+                        elseif($orderitemdetails['OrderItem_Status']== 'Preparing')
+                        {
+                    ?>
+                    <td data-th="Current Status"><span class="label label-info"><?php echo $orderitemdetails['OrderItem_Status'];?></span></td>
+                    <?php
+                        }
+                        elseif($orderitemdetails['OrderItem_Status']== 'Ready For Pick Up')
+                        {
+                    ?>
+                    <td data-th="Current Status"><span class="label label-info"><?php echo $orderitemdetails['OrderItem_Status'];?></span></td>
+                    <?php
+                        }
+                        elseif($orderitemdetails['OrderItem_Status']== 'Picked Up')
+                        {
+                    ?>
+                    <td data-th="Current Status"><span class="label label-info"><?php echo $orderitemdetails['OrderItem_Status'];?></span></td>
+                    <?php
+                        }
+                        if ($orderitemdetails['OrderItem_Status'] == 'Pending')
+                        {
+                    ?>
+                    <td data-th="Current Status"><span class='label label-warning'> Wait for Food to be Prepared </span></td>
+                    <?php
+                        }
+                        elseif ($orderitemdetails['OrderItem_Status'] == 'Preparing')
+                        {
+                    ?>
+                    <td data-th="Current Status"><span class='label label-warning'> Wait for Food to be Prepared </span></td>
+                    <?php
+                        }
+                        elseif ($orderitemdetails['OrderItem_Status'] == 'Ready For Pick Up')
+                        {
+                    ?>
+                    <td data-th="Update Status"><?php echo Html::a('Picked Up', ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$dman['Delivery_ID']], ['class'=>'btn btn-primary']); ?></td>
+                    <?php
+                        }
+                        if ($orderdetails['Orders_Status'] != 'On The Way')
+                        {
+                    ?>
+                </tr>
+                    <?php
+                        }
+                        else
+                        {
+                    ?>
+                    <td data-th="Update Status"><?php echo Html::a('Completed', ['update-completed', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$dman['Delivery_ID']], ['class'=>'btn btn-primary']); ?></td>
+                </tr>
+                    <?php
+                        }
                     endforeach;
-                echo "</table>";
-                echo "<br>";
-                echo "<br>";
-            endforeach;
-        ?>
+                    ?>
+            </table>
+        <?php endforeach; } ?>
+        </div>
     </div>
 </div>

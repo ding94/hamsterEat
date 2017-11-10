@@ -100,6 +100,8 @@ class SiteController extends CommonController
      *
      * @return mixed
      */
+
+//--This function captures the user's area group from the entered postcodes and area
     public function actionIndex()
     {
         $postcode = new Area();
@@ -120,7 +122,6 @@ class SiteController extends CommonController
             $session['postcode'] = $pcode;
             $session['area'] = $area;
             $session['group'] = $groupArea;
-
             return $this->redirect(['Restaurant/default/index','groupArea'=>$groupArea]);          
         }   
         
@@ -622,6 +623,7 @@ class SiteController extends CommonController
         return $this->render('faq');
     }
 
+//--This function gets the user to submit his requested area for expansion
     public function actionRequestArea()
     {
         $expansion = new Expansion();
@@ -643,6 +645,7 @@ class SiteController extends CommonController
         return $this->render('expansion', ['expansion'=>$expansion]);
     }
 
+//--This function gets the user's feedback / bug report for a specific page
     public function actionFeedBack($link)
     {
         $feedback = new Feedback();

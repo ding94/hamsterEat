@@ -1,5 +1,4 @@
 <?php
-
 namespace frontend\modules\Restaurant\controllers;
 
 use yii;
@@ -61,6 +60,7 @@ class DefaultController extends CommonController
         ];
     }
 
+//--This function gets the restaurants in the area according to the users postcode and area
     public function actionIndex($groupArea)
     {
         //$aa = Yii::$app->request->get();
@@ -83,6 +83,7 @@ class DefaultController extends CommonController
         return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search]);
     }
 
+//--This function filters the available restaurants in the area according to the restaurant's name and type
     public function actionRestaurantFilter($groupArea, $rfilter)
     {
         $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status and Type_ID = :tid' ,[':group' => $groupArea, ':status'=>'Operating', ':tid'=>$rfilter])->innerJoinWith('restaurantType',true)->all();
@@ -105,6 +106,7 @@ class DefaultController extends CommonController
         return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'rfilter'=>$rfilter, 'mode'=>$mode, 'search'=>$search]);
     }
 
+//--This function loads the restaurant's details
     public function actionRestaurantDetails($rid)
     {
         if (!(Yii::$app->user->isGuest)) {
@@ -122,32 +124,25 @@ class DefaultController extends CommonController
 
         $model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
         
-        if (!empty($rmanager)) {
-           $model = food::find()->where('Restaurant_ID=:id', [':id' => $rid])->andWhere(["!=","Status",'-1'])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
-        }
+        // if (!empty($rmanager)) {
+        //    $model = food::find()->where('Restaurant_ID=:id', [':id' => $rid])->andWhere(["!=","Status",'-1'])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
+        // }
         
-        //$countmodel = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true);
-        // $countmodel = "SELECT DISTINCT food.Food_ID FROM food INNER JOIN foodstatus ON foodstatus.Food_ID = food.Food_ID WHERE food.Restaurant_ID = ".$rid." AND foodstatus.Status = ".true."";
-        // $resultcountmodel = Yii::$app->db->createCommand($countmodel)->execute();
-        // $rowfood = $model->all();
-        // var_dump($model->count());exit;
-        // var_dump($countmodel->count());exit;
-        // $pagination = new Pagination(['totalCount'=>$resultcountmodel,'pageSize'=>10]);
-        // var_dump($resultcountmodel);exit;
-        // $rowfood = $model->offset($pagination->offset)
-        // ->limit($pagination->limit)
-        // ->all();
-        $rowfood = $model->all();
+        $countmodel = "SELECT DISTINCT food.Food_ID FROM food INNER JOIN foodstatus ON foodstatus.Food_ID = food.Food_ID WHERE food.Restaurant_ID = ".$rid." AND foodstatus.Status = ".true."";
+        $resultcountmodel = Yii::$app->db->createCommand($countmodel)->execute();
+        $pagination = new Pagination(['totalCount'=>$resultcountmodel,'pageSize'=>10]);
+        $rowfood = $model->offset($pagination->offset)
+        ->limit($pagination->limit)
+        ->all();
 
         if (!(Yii::$app->user->isGuest)) {
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
-        // return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood, 'staff'=>$staff,'pagination'=>$pagination, 'rid'=>$rid]);
-        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood, 'staff'=>$staff,'rid'=>$rid]);
+        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood, 'staff'=>$staff,'pagination'=>$pagination, 'rid'=>$rid]);
         }
-        // return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood,'pagination'=>$pagination, 'rid'=>$rid]);
-        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood,'rid'=>$rid]);
+        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood,'pagination'=>$pagination, 'rid'=>$rid]);
     }
 
+//--This function loads the Food Details according to the FoodController
     public function actionFoodDetails($fid)
     {
         $fooddata = food::find()->where('Food_ID=:id',[':id'=>$fid])->one();
@@ -156,6 +151,7 @@ class DefaultController extends CommonController
         return $this->redirect(['/food/food-details', 'id'=>$foodid]);
     }
 
+//--This function captures the new restaurant's area group based on the entered postcode and area
     public function actionNewRestaurantLocation()
     {
         $postcode = new Area();
@@ -178,6 +174,7 @@ class DefaultController extends CommonController
         return $this->render('newrestaurantlocation', ['postcode'=>$postcode ,'list'=>$list]);
     }
     
+//--This passes the new restaurant location details to the function actionNewRestaurant
     public function actionNewRestaurantDetails()
     {
         $area = Yii::$app->request->post('Area');
@@ -190,6 +187,7 @@ class DefaultController extends CommonController
         return $this->actionNewRestaurant($restArea, $postcodechosen, $areachosen);
     }
 
+//--This creates a new restaurant
     public function actionNewRestaurant($restArea, $postcodechosen, $areachosen)
     {
         $restaurant = new Restaurant();
@@ -223,7 +221,8 @@ class DefaultController extends CommonController
                 $restaurant->save();
 
                 RestauranttypeController::newRestaurantJunction($post['Type_ID'],$restaurant->Restaurant_ID);
-
+                
+//--------------The restaurant creator is created here
                 $rmanagerlevel = new Rmanagerlevel();
                 $asd =  restaurant::find()->where('Restaurant_Manager = :restaurantowner and Restaurant_DateTimeCreated = :timecreated',[':restaurantowner'=>Yii::$app->user->identity->username, ':timecreated'=>$time])->one();
                 $rid = $asd['Restaurant_ID'];

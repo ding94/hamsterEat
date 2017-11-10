@@ -14,6 +14,7 @@ use yii\filters\AccessControl;
 use common\models\Orderitemselection;
 use common\models\food\Foodselection;
 use common\models\Rmanagerlevel;
+use frontend\modules\delivery\controllers\DailySignInController;
 
 class OrderController extends CommonController
 {
@@ -45,7 +46,7 @@ class OrderController extends CommonController
              ]
         ];
     }
-
+//--This function loads all the user's orders
     public function actionMyOrders()
     {
         $order1 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'Pending'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
@@ -54,7 +55,7 @@ class OrderController extends CommonController
         $order4 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'On The Way'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
         $order5 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2 or Orders_Status = :status1', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'Completed',':status1'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
 
-     
+//--------The orders are differentiated by their statuses here
           $count = count($order1);
 			$count = $count ==0 ? "" : $count;
             $this->view->params['countPending'] = $count;
@@ -86,6 +87,7 @@ class OrderController extends CommonController
         return $this->render('myorders', ['order1'=>$order1,'order2'=>$order2,'order3'=>$order3,'order4'=>$order4,'order5'=>$order5]);
     }
 
+//--This function loads the specific user's order details
     public function actionOrderDetails($did)
     {
         $ordersdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
@@ -132,6 +134,7 @@ class OrderController extends CommonController
                              'totalprice'=>$totalprice, 'date'=>$date, 'time'=>$time, 'address'=>$address, 'paymethod'=>$paymethod, 'label'=>$label, 'timeplaced'=>$timeplaced]);
     }
 
+//--This function loads all the restaurant's running orders (not completed)
     public function actionRestaurantOrders($rid)
     {
         $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
@@ -145,13 +148,17 @@ class OrderController extends CommonController
         return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff]);
     }
 
+//--This function loads all the specific delivery man's assigned orders (not completed)
     public function actionDeliverymanOrders()
     {
         $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status != :status and Orders_Status != :status1', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status1'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
 
-        return $this->render('deliverymanorder', ['dman'=>$dman]);
+        $record = DailySignInController::getDailyData(1);
+
+        return $this->render('deliverymanorder', ['dman'=>$dman,'record'=>$record]);
     }
 
+//--This function updares the order's status and the specific order item status to preparing
     public function actionUpdatePreparing($oid, $rid)
     {
         $sql = "UPDATE orderitem SET OrderItem_Status = 'Preparing' WHERE Order_ID = ".$oid."";
@@ -178,6 +185,7 @@ class OrderController extends CommonController
         return $this->redirect(['restaurant-orders', 'rid'=>$rid]);
     }
 
+//--This function updates the specific order item status to ready for pick up
     public function actionUpdateReadyforpickup($oid, $rid)
     {
         $sql = "UPDATE orderitem SET OrderItem_Status = 'Ready For Pick Up' WHERE Order_ID = ".$oid."";
@@ -191,6 +199,7 @@ class OrderController extends CommonController
         return $this->redirect(['restaurant-orders', 'rid'=>$rid]);
     }
 
+//This function updates the orders status to on the way and specific order item status to picked up
     public function actionUpdatePickedup($oid, $did)
     {
         $sql = "UPDATE orderitem SET OrderItem_Status = 'Picked Up' WHERE Order_ID = ".$oid."";
@@ -216,6 +225,7 @@ class OrderController extends CommonController
         $result1 = "SELECT * FROM orderitem WHERE Delivery_ID = ".$did." AND OrderItem_Status = 'Picked Up'";
         $results1 = Yii::$app->db->createCommand($result1)->execute();
         //var_dump($results1);exit;
+//------If there are more order the amount of order item with status = picked up is the same with the total number of order item in the order then the order's status will be updated to on the way
         if ($results == $results1)
         {
 
@@ -242,6 +252,7 @@ class OrderController extends CommonController
         return $this->redirect(['deliveryman-orders']);
     }
 
+//--This function updates the order's status to completed
     public function actionUpdateCompleted($oid, $did)
     {
         $sql = "UPDATE orders SET Orders_Status = 'Completed' WHERE Delivery_ID = ".$did."";
@@ -252,7 +263,7 @@ class OrderController extends CommonController
         Yii::$app->db->createCommand($sql3)->execute();
         NotificationController::createNotification($did,4);
 
-// This calculates the restaurant's earning in the whole order
+//------This calculates the restaurant's earning in the whole order
         $orderids = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
         $thefinalselectionprice = 0;
         $thefinalmoneycollected = 0;
@@ -314,6 +325,7 @@ class OrderController extends CommonController
         return $this->redirect(['deliveryman-orders']);
     }
 
+//--This loads the order history as an invoice in pdf form
     public function actionInvoicePdf($did)
     {
         $ordersdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
@@ -334,6 +346,7 @@ class OrderController extends CommonController
         return $pdf->render();
     }
 
+//--This function loads the restaurant's orders which have been completed
     public function actionRestaurantOrderHistory($rid)
     {
         $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
@@ -348,6 +361,7 @@ class OrderController extends CommonController
         return $this->render('restaurantorderhistory', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff]);
     }
 
+//--This function loads the delivery man's assigned orders which have been completed
     public function actionDeliverymanOrderHistory()
     {
         $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status = :status or Orders_status = :status2', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status2'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
@@ -355,6 +369,7 @@ class OrderController extends CommonController
         return $this->render('deliverymanorderhistory', ['dman'=>$dman]);
     }
 
+//--This function loads the user's orders history in normal form
     public function actionMyOrderHistory()
     {
         $orders = Orders::find()->where('User_Username = :uname and Orders_Status = :status', [':uname'=>Yii::$app->user->identity->username, ':status'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();

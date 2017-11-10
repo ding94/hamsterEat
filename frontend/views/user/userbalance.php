@@ -1,6 +1,7 @@
 <?php
 use yii\bootstrap\ActiveForm;
 use yii\grid\GridView;
+use kartik\widgets\Select2;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use yii\bootstrap\Modal;
@@ -17,11 +18,32 @@ TopupWithdrawMpHistoryAsset::register($this);
     </div>
     <div class="topup-detail">
         <div class="col-sm-2 ">
-           <ul class="nav nav-pills nav-stacked">
-                <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Balance history</a></li>
-                <li role="presentation"><?php echo Html::a("Top Up",['/topup/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-                <li role="presentation"><?php echo Html::a("Withdraw",['/withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-            </ul>
+        	<div class="dropdown-url">
+                <?php 
+                    echo Select2::widget([
+                        'name' => 'url-redirect',
+                        'hideSearch' => true,
+                        'data' => $link,
+                        'options' => [
+                            'placeholder' => 'Go To ...',
+                            'multiple' => false,
+
+                        ],
+                        'pluginEvents' => [
+                             "change" => 'function (e){
+                                location.href =this.value;
+                            }',
+                        ]
+                    ])
+                ;?>
+            </div>
+          	<div class="nav-url">
+          		<ul class="nav nav-pills nav-stacked">
+	                <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Balance history</a></li>
+	                <li role="presentation"><?php echo Html::a("Top Up",['/topup/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+	                <li role="presentation"><?php echo Html::a("Withdraw",['/withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+	            </ul>
+          	</div>
         </div>
         <div class="col-sm-10 right-side">
             <div  id="balance-history" class="history-container">

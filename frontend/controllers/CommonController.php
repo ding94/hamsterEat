@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use yii\helpers\Html;
 use yii\web\Controller;
 use Yii;
+use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use common\models\Notification;
@@ -53,4 +54,82 @@ class CommonController extends Controller
 
 		$this->view->params['number'] = $number;
 	}
+
+	/*
+    * url link for dropdown in mobile site
+    * 1=>user profile link
+    * 2=>user balance link
+    */
+    public static function createUrlLink($type)
+    {
+    	switch ($type) {
+    		case 1:
+    			$data = [	
+    						Url::to(['/user/userdetails']) => 'Edit User Details',
+    						Url::to(['/user/changepassword']) => 'Change Password'
+    					];
+    			break;
+    		case 2:
+    			$data = [	
+    						Url::to(['/user/userbalance']) => 'Balance History',
+    						Url::to(['/topup/index']) => 'Top Up',
+    						Url::to(['/withdraw/index']) => 'Withdraw',
+    					];
+    			break;
+    		case 3:
+    			$data = [
+    						'#pending' => 'Pending',
+    						'#preparing' => 'Preparing',
+    						'#pickup' => 'Pick Up In ',
+    						'#ontheway' => 'On The Way',
+    						'#Completed' => 'Completed',
+    					];
+    			break;
+    		case 4:
+    			$data = [
+    						Url::to(['/ticket/index']) => 'All',
+    						Url::to(['/ticket/submit-ticket']) => 'Submit Ticket',
+    						Url::to(['/ticket/completed']) => 'Completed Ticket',
+    				   ];
+    			break;
+    		default:
+    			$data ="";
+    			break;	
+    	}
+       	
+        return $data;
+    }
+
+    public static function getRestaurantUrl($rid,$restArea,$areachosen,$postcodechosen,$staff)
+    {
+		if($staff = "Owner")
+    	{
+    		$data = [
+	    				Url::to(['/Restaurant/default/show-monthly-earnings','rid'=>$rid]) => 'Views Earnings',
+	    				Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid,'restArea' => $restArea,'areachosen' => $areachosen,'postcodechosen' => $postcodechosen]) => 'Edit Details',
+	    				Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid]) => 'Manage Staffs',
+	    				Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
+	    				Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',
+	    				Url::to(['/food/menu','rid'=>$rid,'page'=>'menu']) => 'Manage Menu',
+    				];
+    	}
+    	elseif($staff ="Manager")
+    	{
+    		$data = [
+	    				Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid,'restArea' => $restArea,'areachosen' => $areachosen,'postcodechosen' => $postcodechosen]) => 'Edit Details',
+	    				Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid]) => 'Manage Staffs',
+	    				Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
+	    				Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',
+	    				Url::to(['/food/menu','rid'=>$rid,'page'=>'menu']) => 'Manage Menu',
+    				];
+    	}
+    	else
+    	{
+    		$data = [
+	        			Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
+	    				Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',
+    				];
+    	}
+    	return $data;
+    }
 }

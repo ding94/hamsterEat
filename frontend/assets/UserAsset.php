@@ -13,6 +13,7 @@ class UserAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/user.css',
+        'css/drop-down-mobile.css'
     ];
     public $js = [
         // 'js/rating-index.js',

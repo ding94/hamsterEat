@@ -12,13 +12,14 @@ MyOrdersAsset::register($this);
     </div>
   <div class="content">
     <div class="col-sm-2 ">
-    <ul id="my-orders-nav" class="nav nav-pills nav-stacked">
-      <li class="active"><a data-toggle="pill" href="#pending">Pending<span class="badge"><?php echo Yii::$app->view->params['countPending'] ?></span></a></li>
-      <li><a data-toggle="pill" href="#preparing">Preparing<span class="badge"><?php echo Yii::$app->view->params['countPreparing'] ?></span></a></li>
-      <li><a data-toggle="pill" href="#pickup">Pick Up in Process<span class="badge"><?php echo Yii::$app->view->params['countPickup'] ?></span></a></li>
-      <li><a data-toggle="pill" href="#ontheway">On The Way<span class="badge"><?php echo Yii::$app->view->params['countOntheway'] ?></span></a></li>
-      <li><a data-toggle="pill" href="#completed">Completed<span class="badge"><?php echo Yii::$app->view->params['countCompleted'] ?></span></a></li>
-    </ul>
+
+      <ul id="my-orders-nav" class="nav nav-pills nav-stacked">
+        <li class="active"><a data-toggle="pill" href="#pending">Pending<span class="badge"><?php echo Yii::$app->view->params['countPending'] ?></span></a></li>
+        <li><a data-toggle="pill" href="#preparing">Preparing<span class="badge"><?php echo Yii::$app->view->params['countPreparing'] ?></span></a></li>
+        <li><a data-toggle="pill" href="#pickup">Pick Up in Process<span class="badge"><?php echo Yii::$app->view->params['countPickup'] ?></span></a></li>
+        <li><a data-toggle="pill" href="#ontheway">On The Way<span class="badge"><?php echo Yii::$app->view->params['countOntheway'] ?></span></a></li>
+        <li><a data-toggle="pill" href="#completed">Completed<span class="badge"><?php echo Yii::$app->view->params['countCompleted'] ?></span></a></li>
+      </ul>
     </div>
     <div class="col-sm-8 tab-content my-orders-table">
       <div id="pending" class="tab-pane fade in active">

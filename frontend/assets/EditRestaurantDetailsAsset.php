@@ -13,6 +13,7 @@ class EditRestaurantDetailsAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/edit-restaurant-details.css',
+        'css/drop-down-mobile.css',
     ];
     public $js = [
         // 'js/cart.js',

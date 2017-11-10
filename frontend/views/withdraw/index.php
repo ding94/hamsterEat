@@ -3,6 +3,7 @@ use yii\bootstrap\ActiveForm;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
+use kartik\widgets\Select2;
 use frontend\assets\TopupIndexAsset;
 /* @var $this yii\web\View */
 $this->title = "Withdraw money";
@@ -17,11 +18,32 @@ TopupIndexAsset::register($this);
     </div>
     <div class="userprofile-detail">
         <div class="col-md-2 ">
-            <ul class="nav nav-pills nav-stacked">
-		        <li role="presentation" ><?php echo Html::a("User Balance",['/user/userbalance'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-		        <li role="presentation"><?php echo Html::a("Top Up",['/topup/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-		        <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Withdraw</a></li>
-	    	</ul>
+        	<div class="dropdown-url">
+                <?php 
+                    echo Select2::widget([
+                        'name' => 'url-redirect',
+                        'hideSearch' => true,
+                        'data' => $link,
+                        'options' => [
+                            'placeholder' => 'Go To ...',
+                            'multiple' => false,
+
+                        ],
+                        'pluginEvents' => [
+                             "change" => 'function (e){
+                                location.href =this.value;
+                            }',
+                        ]
+                    ])
+                ;?>
+            </div>
+           	<div class="nav-url">
+           		<ul class="nav nav-pills nav-stacked">
+		        	<li role="presentation" ><?php echo Html::a("User Balance",['/user/userbalance'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+		        	<li role="presentation"><?php echo Html::a("Top Up",['/topup/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+		        	<li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Withdraw</a></li>
+	    		</ul>
+           	</div>
         </div>
         <div class="col-md-8 withdraw-right">
 	        <br><i><p>My Balance: <?php echo $balance['User_Balance']; ?></i></p>

@@ -60,7 +60,8 @@
                     ],
                     [   'label' => 'C.S Controller', 'icon' => 'user', 'url' => "#",
                         'items' =>  [
-                                        [ 'label' => 'Problematic List', 'icon' => 'circle-o', 'url' => ['/customerservice/pausedorder']],
+                                        [ 'label' => 'Cancelled Order List', 'icon' => 'circle-o', 'url' => ['/customerservice/pausedorder']],
+                                        [ 'label' => 'Solved Order List', 'icon' => 'circle-o', 'url' => ['/customerservice/comproblem']],
                                     ],
                         'options' => ['class' => 'active'],
                     ],

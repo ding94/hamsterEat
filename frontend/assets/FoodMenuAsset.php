@@ -13,6 +13,7 @@ class FoodMenuAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/food-menu.css',
+        'css/drop-down-mobile.css',
     ];
     public $js = [
         // 'js/cart.js',

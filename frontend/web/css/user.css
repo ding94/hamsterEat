@@ -171,6 +171,10 @@
     border-bottom: 1px solid #efefef;
     height: 23em;
   }
+  
+  .userprofile-edit-input{
+    border:0px;
+  }
   .col-xs-2{
     width: 30%;
   }

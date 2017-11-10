@@ -15,14 +15,27 @@
     padding-top:3%;
     height:100px;
 }
-#monthlyunix-year{
-    margin-left:15px;
-    margin-top:20px;
+
+#month{
+  padding-right: 5px;
 }
-.btn-primary{
-    height:33px;
-    margin-top:25px;
-    margin-left:15px;
+#year{
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+#filter-button{
+   margin-top: 5px
+}
+
+
+
+.earning-left{
+  margin-top:2em;
+}
+
+.earning-left .form-group{
+  margin-bottom: 15px;
 }
 
 .restaurant-earnings-header-title{
@@ -36,22 +49,19 @@
   border-bottom: 1px solid #efefef;
 }
 
-@media (min-width: 768px){
-  #monthlyunix-year{
-    width:120px;
-  }
-
-  .btn-primary{
-    width: 80px;
+@media (max-width: 768px){
+ 
+  #restaurant-earnings-content{
+    border-left: 0px;
   }
 }
 
-@media (max-width: 767px){
-  #monthlyunix-year{
-    width:80px;
+@media(max-width: 480px){
+  #year{
+    width: 50%;
+     padding-right: 15px;
   }
-
-  .btn-primary{
-    width: 55px;
+  #month{
+    width: 50%;
   }
 }

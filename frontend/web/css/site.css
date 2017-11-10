@@ -102,11 +102,6 @@ h2
 * navbar drop down design end
 */
 
-
-.form-group{
-	margin-bottom: 35px;
-}
-
 .jumbotron {
     text-align: center;
     background-color: transparent;
@@ -524,4 +519,10 @@ box-shadow: 1px 2px 2px 4px rgba(204,204,204,1);
 
 #faq ul{
   list-style-type:none;
+}
+
+@media(max-width: 991px){
+  .form{
+    width: 80%;
+  }
 }

@@ -143,8 +143,8 @@ class OrderController extends CommonController
         $deliveryid = "SELECT DISTINCT orderitem.Delivery_ID FROM orderitem INNER JOIN food ON orderitem.Food_ID = food.Food_ID INNER JOIN orders on orderitem.Delivery_ID = orders.Delivery_ID WHERE food.Restaurant_ID = ".$restaurantname['Restaurant_ID']." AND orders.Orders_Status != 'Not Placed' AND orders.Orders_Status != 'Completed' AND orders.Orders_Status != 'Rating Done' ORDER BY orderitem.Delivery_ID";
         $result = Yii::$app->db->createCommand($deliveryid)->queryAll();
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
-
-        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff]);
+        $link = CommonController::getRestaurantUrl($rid,$restaurantname['Restaurant_AreaGroup'],$restaurantname['Restaurant_Area'],$restaurantname['Restaurant_Postcode'],$staff['RmanagerLevel_Level']);
+        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link]);
     }
 
 //--This function loads all the specific delivery man's assigned orders (not completed)
@@ -153,8 +153,9 @@ class OrderController extends CommonController
         $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status != :status and Orders_Status != :status1', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status1'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
 
         $record = DailySignInController::getDailyData(1);
+        $link = CommonController::createUrlLink(5);
 
-        return $this->render('deliverymanorder', ['dman'=>$dman,'record'=>$record]);
+        return $this->render('deliverymanorder', ['dman'=>$dman,'record'=>$record,'link'=>$link]);
     }
 
 //--This function updares the order's status and the specific order item status to preparing
@@ -356,16 +357,17 @@ class OrderController extends CommonController
         $result = Yii::$app->db->createCommand($deliveryid)->queryAll();
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
 
-
-        return $this->render('restaurantorderhistory', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff]);
+        $link = CommonController::getRestaurantUrl($rid,$restaurantname['Restaurant_AreaGroup'],$restaurantname['Restaurant_Area'],$restaurantname['Restaurant_Postcode'],$staff['RmanagerLevel_Level']);
+        return $this->render('restaurantorderhistory', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link]);
     }
 
 //--This function loads the delivery man's assigned orders which have been completed
     public function actionDeliverymanOrderHistory()
     {
         $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status = :status or Orders_status = :status2', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status2'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
+        $link = CommonController::createUrlLink(5);
 
-        return $this->render('deliverymanorderhistory', ['dman'=>$dman]);
+        return $this->render('deliverymanorderhistory', ['dman'=>$dman,'link'=>$link]);
     }
 
 //--This function loads the user's orders history in normal form

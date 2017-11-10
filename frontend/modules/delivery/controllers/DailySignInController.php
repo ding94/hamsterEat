@@ -216,6 +216,7 @@ class DailySignInController extends CommonController
 		$area="SELECT DISTINCT Area_Group from area";
 		$area = Yii::$app->db->createCommand($area)->queryAll();
 		$find = new Deliveryman();
+        $link = CommonController::createUrlLink(5);
 		// var_dump($find->load(Yii::$app->request->post()));exit;
 		if($find->load(Yii::$app->request->post()))
         {
@@ -231,7 +232,7 @@ class DailySignInController extends CommonController
 			//  Yii::$app->db->createCommand($sql)->execute();
 		}
 
-        return $this->render('deliverylocation', ['postcode'=>$postcode,'area'=>$area,'postcodeArray'=>$postcodeArray,'find'=>$find]);
+        return $this->render('deliverylocation', ['postcode'=>$postcode,'area'=>$area,'postcodeArray'=>$postcodeArray,'find'=>$find,'link'=>$link]);
     }
 }
 

@@ -226,6 +226,18 @@ class OrderController extends CommonController
             $time1 = time();
             $sql11 = "UPDATE ordersstatuschange SET OChange_OnTheWayDateTime = ".$time1." WHERE Delivery_ID = ".$did."";
             Yii::$app->db->createCommand($sql11)->execute();
+
+            //Send Email for On The Way
+            $sql12="SELECT * FROM orders INNER JOIN user ON user.username = orders.User_Username WHERE orders.Orders_Status ='On The Way' AND orders.Delivery_ID=".$did."";
+             $sql12=Yii::$app->db->createCommand($sql12)->queryAll();
+       
+            $email = \Yii::$app->mailer->compose(['html' => 'orderLink-html'],
+            ['sql12'=>$sql12])//html file, word file in email
+                  
+                ->setTo($sql12[0]['email'])
+                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                ->setSubject('Order is on Its Way (No Reply)')
+                ->send();
         }
         return $this->redirect(['deliveryman-orders']);
     }
@@ -349,5 +361,12 @@ class OrderController extends CommonController
         $this->layout = 'user';
 
         return $this->render('myordershistory', ['orders'=>$orders]);
+    }
+
+    public function actionSendOrder()
+    {
+       
+
+
     }
 }

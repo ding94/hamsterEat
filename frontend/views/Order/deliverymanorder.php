@@ -63,7 +63,14 @@ DeliverymanOrdersAsset::register($this);
                     <td data-th="Time to be Received"><?php echo $orderdetails['Orders_Time']; ?></td>
                     <td data-th="Order Address"><?php echo $orderdetails['Orders_Location']; ?></td>
                     <td data-th="Order Postcode"><?php echo $orderdetails['Orders_Postcode']; ?></td>
-                    <td data-th="Collect (RM)"><?php echo $orderdetails['Orders_TotalPrice']; ?></td>
+                    <?php if ($orderdetails['Orders_PaymentMethod'] != 'Cash on Delivery')
+                    { ?>
+                        <td data-th="Collect (RM)"><?php echo "0.00"; ?></td>
+                    <?php }
+                    else
+                    { ?>
+                        <td data-th="Collect (RM)"><?php echo $orderdetails['Orders_TotalPrice']; ?></td>
+                    <?php } ?>
                     <td data-th="View Map"><a class='btn btn-info' target='_blank' href='http://maps.google.com/maps?daddr="<?php echo $location; ?>",+"<?php echo $postcode; ?>",+"<?php echo $district; ?>",+Malaysia&amp;ll='>Show Location</a></td>
                 </tr>
                 <thead>

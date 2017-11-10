@@ -28,8 +28,10 @@ class Expansion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Expansion_Postcode', 'Expansion_DateTime'], 'string', 'max' => 5],
-            [['User_Username', 'Expansion_Area'], 'string', 'max' => 50],
+            [['Expansion_Postcode','Expansion_Area','User_Username'], 'required'],
+            [['Expansion_Postcode'], 'string', 'max' => 5],
+            [['Expansion_Area'], 'string', 'max' => 50],
+            [['User_Username'], 'email'],
         ];
     }
 
@@ -39,7 +41,7 @@ class Expansion extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'User_Username' => 'User  Username',
+            'User_Username' => 'Email',
             'Expansion_Postcode' => 'Postcode',
             'Expansion_Area' => 'Area',
             'Expansion_DateTime' => 'Expansion  Date Time',

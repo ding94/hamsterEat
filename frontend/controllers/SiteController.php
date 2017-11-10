@@ -641,8 +641,11 @@ class SiteController extends CommonController
         if ($expansion->load(Yii::$app->request->post()))
         {
             $expansion->Expansion_DateTime = time();
-            $expansion->User_Username = Yii::$app->user->identity->username;
-            //var_dump($expansion->save());exit;
+            if (!Yii::$app->user->isGuest)
+            {
+                $expansion->User_Username = Yii::$app->user->identity->username;
+            }
+
             $expansion->save(false);
 
             Yii::$app->getSession()->setFlash('success','Thank you for submitting your area expansion request. We hope to receive your order soon.');
@@ -671,7 +674,11 @@ class SiteController extends CommonController
             $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
             $list =array();
             $banner = Banner::find()->where(['<=','startTime',date("Y-m-d H:i:s")])->andWhere(['>=','endTime',date("Y-m-d H:i:s")])->all();
-            $feedback->User_Username = Yii::$app->user->identity->username;
+            if (!Yii::$app->user->isGuest)
+            {
+                $feedback->User_Username = Yii::$app->user->identity->username;
+            }
+            
             $feedback->Feedback_DateTime = time();
             $feedback->Feedback_Link = $link;
 

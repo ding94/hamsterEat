@@ -9,6 +9,7 @@ use frontend\assets\CartAsset;
 use yii\bootstrap\Modal;
 use frontend\assets\FoodServiceAsset;
 use kartik\widgets\Select2;
+use yii\widgets\LinkPager;
 
 $this->title = $rname."'s"." Menu";
 FoodMenuAsset::register($this);
@@ -70,9 +71,7 @@ Modal::end();
         </div>
         <div id="food-menu-content" class="col-sm-10">
           <?php echo Html::a('Insert Food', ['/food/insert-food','rid'=>$rid], ['class'=>'btn btn-primary']); ?>
-          <?php echo \yii\widgets\LinkPager::widget([
-          'pagination' => $pagination,
-          ]); ?>
+          
           <div class="outer-container" id="outer">
             <div class="menu-container" id="menucon">
               <?php foreach ($menu as $menu){ 
@@ -106,6 +105,9 @@ Modal::end();
                 } ?>
             </div>
           </div>
+          <?php echo LinkPager::widget([
+          'pagination' => $pagination,
+          ]); ?>
         </div>
     </div>
 </div>

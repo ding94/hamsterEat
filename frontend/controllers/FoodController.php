@@ -229,8 +229,8 @@ class FoodController extends CommonController
      public function actionMenu($rid,$page)
      {
         $menu = Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid]);
-       
-        $pagination = new Pagination(['totalCount'=>count($menu),'pageSize'=>10]);
+        $count = count(Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->all());
+        $pagination = new Pagination(['totalCount'=>$count,'pageSize'=>10]);
         $menu = $menu->offset($pagination->offset)
         ->limit($pagination->limit)
         ->all();

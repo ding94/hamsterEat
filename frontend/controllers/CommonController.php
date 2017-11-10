@@ -59,6 +59,9 @@ class CommonController extends Controller
     * url link for dropdown in mobile site
     * 1=>user profile link
     * 2=>user balance link
+    * 3=>my orders link
+    * 4=>ticket link
+    * 5=>deliveryman link
     */
     public static function createUrlLink($type)
     {
@@ -92,6 +95,13 @@ class CommonController extends Controller
     						Url::to(['/ticket/completed']) => 'Completed Ticket',
     				   ];
     			break;
+            case 5:
+                $data = [
+                            Url::to(['/order/deliveryman-orders']) => 'Deliveryman Orders',
+                            Url::to(['/order/deliveryman-order-history']) => 'Deliveryman Orders History',
+                            Url::to(['/Delivery/daily-sign-in/delivery-location']) => 'Delivery Location',
+                        ];
+                break;
     		default:
     			$data =[];
     			break;	

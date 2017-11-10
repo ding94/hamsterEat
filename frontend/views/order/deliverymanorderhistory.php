@@ -10,6 +10,7 @@ use common\models\Orderitem;
 use common\models\Restaurant;
 use yii\helpers\Html;
 use frontend\assets\DeliverymanOrdersHistoryAsset;
+use kartik\widgets\Select2;
 
 $this->title = "Deliveryman Order's History";
 DeliverymanOrdersHistoryAsset::register($this);
@@ -20,11 +21,32 @@ DeliverymanOrdersHistoryAsset::register($this);
     </div>
     <div class="content">
         <div class="col-sm-2">
-            <ul id="deliveryman-orders-history-nav" class="nav nav-pills nav-stacked">
-                <li role="presentation"><?php echo Html::a("Deliveryman Orders",['order/deliveryman-orders'],['class'=>'btn-block'])?></li>
-                <li role="presentation" class="active"><?php echo Html::a("Deliveryman Orders History",['order/deliveryman-order-history'],['class'=>'btn-block'])?></li>
-                <li role="presentation"><?php echo Html::a("Delivery Location",['/Delivery/daily-sign-in/delivery-location'],['class'=>'btn-block'])?></li>
-            </ul>
+            <div class="dropdown-url">
+                 <?php 
+                    echo Select2::widget([
+                        'name' => 'url-redirect',
+                        'hideSearch' => true,
+                        'data' => $link,
+                        'options' => [
+                            'placeholder' => 'Go To ...',
+                            'multiple' => false,
+
+                        ],
+                        'pluginEvents' => [
+                             "change" => 'function (e){
+                                location.href =this.value;
+                            }',
+                        ]
+                    ])
+                ;?>
+            </div>
+            <div class="nav-url">
+                <ul id="deliveryman-orders-history-nav" class="nav nav-pills nav-stacked">
+                    <li role="presentation"><?php echo Html::a("Deliveryman Orders",['order/deliveryman-orders'],['class'=>'btn-block'])?></li>
+                    <li role="presentation" class="active"><?php echo Html::a("Deliveryman Orders History",['order/deliveryman-order-history'],['class'=>'btn-block'])?></li>
+                    <li role="presentation"><?php echo Html::a("Delivery Location",['/Delivery/daily-sign-in/delivery-location'],['class'=>'btn-block'])?></li>
+                </ul>
+            </div>
         </div>
         <div id="deliveryman-orders-history-content" class="col-sm-10">
             <?php

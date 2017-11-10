@@ -13,6 +13,7 @@ class DeliveryLocationAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/delivery-location.css',
+        'css/drop-down-mobile.css',
     ];
     public $js = [
         // 'js/cart.js',

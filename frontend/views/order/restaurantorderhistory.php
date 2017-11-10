@@ -8,6 +8,7 @@ use common\models\food\Foodselectiontype;
 use common\models\Orders;
 use common\models\Orderitem;
 use yii\helpers\Html;
+use kartik\widgets\Select2;
 use frontend\controllers\CartController;
 use frontend\assets\RestaurantOrdersHistoryAsset;
 
@@ -20,23 +21,48 @@ RestaurantOrdersHistoryAsset::register($this);
     </div>
     <div class="content">
         <div class="col-sm-2">
-            <ul id="restaurant-orders-history-nav" class="nav nav-pills nav-stacked">
-                <?php if ($staff['RmanagerLevel_Level'] == 'Owner'){ ?>
-                    <li role="presentation"><?php echo Html::a("View Earnings",['Restaurant/default/show-monthly-earnings', 'rid'=>$rid],['class'=>'btn-block'])?></li>
-                <?php }
+            <div class="dropdown-url">
+                <?php 
+                    echo Select2::widget([
+                        'name' => 'url-redirect',
+                        'hideSearch' => true,
+                        'data' => $link,
+                        'options' => [
+                            'placeholder' => 'Go To ...',
+                            'multiple' => false,
+
+                        ],
+                        'pluginEvents' => [
+                             "change" => 'function (e){
+                                location.href =this.value;
+                            }',
+                        ]
+                    ])
+                ;?>
+            </div>
+            <div class="nav-url">
+                <ul id="restaurant-orders-history-nav" class="nav nav-pills nav-stacked">
+                    <?php if ($staff['RmanagerLevel_Level'] == 'Owner'){ ?>
+                        <li role="presentation"><?php echo Html::a("View Earnings",['Restaurant/default/show-monthly-earnings', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                    <?php }
                     if ($staff['RmanagerLevel_Level'] == 'Owner' || $staff['RmanagerLevel_Level'] == 'Manager') { ?>
-                    <li role="presentation"><?php echo Html::a("Edit Details",['Restaurant/default/edit-restaurant-details', 'rid'=>$rid, 'restArea'=>$restaurantname['Restaurant_AreaGroup'], 'areachosen'=>$restaurantname['Restaurant_Area'], 'postcodechosen'=>$restaurantname['Restaurant_Postcode']],['class'=>'btn-block'])?></li>
-                    <li role="presentation"><?php echo Html::a("Manage Staffs",['Restaurant/default/manage-restaurant-staff', 'rid'=>$rid],['class'=>'btn-block'])?></li>
-                    <li role="presentation"><?php echo Html::a("Restaurants Orders",['/order/restaurant-orders', 'rid'=>$rid],['class'=>'btn-block'])?></li>
-                    <li role="presentation" class="active"><?php echo Html::a("Restaurants Orders History",['/order/restaurant-order-history', 'rid'=>$rid],['class'=>'btn-block'])?></li>
-                    <li role="presentation"><?php echo Html::a("Manage Menu",['/food/menu', 'rid'=>$rid,'page'=>'menu'],['class'=>'btn-block'])?></li>
-                <?php } elseif ($staff['RmanagerLevel_Level'] == 'Operator'){ ?>
-                    <li role="presentation"><?php echo Html::a("Restaurants Orders",['/order/restaurant-orders', 'rid'=>$rid],['class'=>'btn-block'])?></li>
-                    <li role="presentation" class="active"><?php echo Html::a("Restaurants Orders History",['/order/restaurant-order-history', 'rid'=>$rid],['class'=>'btn-block'])?></li>
-                <?php } ?>
-            </ul>
+                        <li role="presentation"><?php echo Html::a("Edit Details",['Restaurant/default/edit-restaurant-details', 'rid'=>$rid, 'restArea'=>$restaurantname['Restaurant_AreaGroup'], 'areachosen'=>$restaurantname['Restaurant_Area'], 'postcodechosen'=>$restaurantname['Restaurant_Postcode']],['class'=>'btn-block'])?></li>
+                        <li role="presentation"><?php echo Html::a("Manage Staffs",['Restaurant/default/manage-restaurant-staff', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                        <li role="presentation"><?php echo Html::a("Restaurants Orders",['/order/restaurant-orders', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                        <li role="presentation" class="active"><?php echo Html::a("Restaurants Orders History",['/order/restaurant-order-history', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                        <li role="presentation"><?php echo Html::a("Manage Menu",['/food/menu', 'rid'=>$rid,'page'=>'menu'],['class'=>'btn-block'])?></li>
+                    <?php } elseif ($staff['RmanagerLevel_Level'] == 'Operator'){ ?>
+                        <li role="presentation"><?php echo Html::a("Restaurants Orders",['/order/restaurant-orders', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                        <li role="presentation" class="active"><?php echo Html::a("Restaurants Orders History",['/order/restaurant-order-history', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                    <?php } ?>
+                </ul>
+            </div>
+            
         </div>
         <div id="restaurant-orders-history-content" class="col-sm-10">
+            <?php if(empty($result)) :?>
+                 <h2>There are no orders currently...</h2>
+            <?php else :?>
             <?php 
             foreach ($result as $result) :
             ?>  
@@ -164,9 +190,11 @@ RestaurantOrdersHistoryAsset::register($this);
                 </table>
                 <br>
                 <br>
+            </center>
         <?php
             endforeach;
         ?>
+        <?php endif ;?>
         </div>
     </div>
 </div>

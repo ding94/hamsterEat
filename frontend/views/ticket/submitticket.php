@@ -47,7 +47,7 @@ $this->title = 'Submit Ticket';
  </div>
     <div class="container">
      <div class="col-sm-8 userprofile-edit-input">
-	 <a class="back" href="../web/index.php?r=ticket%2Findex"><i class="fa fa-angle-left">&nbsp;Back</i></a><br>
+	 <a class="back" href=<?php echo yii\helpers\Url::to(['/ticket/index'])?>><i class="fa fa-angle-left">&nbsp;Back</i></a><br>
 	  <p style="text-align:center; padding-top:20px;">
         If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
     </p><br>

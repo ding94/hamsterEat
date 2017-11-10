@@ -13,6 +13,7 @@ class RestaurantDetailsAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/restaurant-details.css',
+        
     ];
     public $js = [
         'js/food-modal.js',

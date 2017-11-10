@@ -58,7 +58,7 @@ class UserController extends CommonController
         $path = Yii::$app->request->baseUrl.'/imageLocation';
         
        // return $this->render('upload', ['detail' => $detail]);
-
+        $link = CommonController:: createUrlLink(1);
         $detail = Userdetails::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one();
         
              $picpath = $detail['User_PicPath']; 
@@ -106,7 +106,7 @@ class UserController extends CommonController
 	
 		//$this->view->title = 'Update Profile';
 		$this->layout = 'user';
-		return $this->render("userdetails",['detail' => $detail]);
+		return $this->render("userdetails",['detail' => $detail,'link' => $link]);
     }
 
 	public function actionUserbalance()
@@ -120,31 +120,31 @@ class UserController extends CommonController
 	   $count = $query->count();
         $historypagination = new Pagination(['totalCount' => $count,'pageSize'=>10]);
         $historypage = $query->offset($historypagination->offset)->limit($historypagination->limit)->orderBy(['created_at'=> SORT_DESC])->all();
-
+        $link = CommonController::createUrlLink(2);
  		$this->layout = 'user';
         $this->view->title = 'User Balance History';
-		return $this->render('userbalance', ['model'=>$dataProvider,'historypage' => $historypage ,'historypagination' => $historypagination, 'searchModel' => $searchModel]);
+		return $this->render('userbalance', ['model'=>$dataProvider,'historypage' => $historypage ,'historypagination' => $historypagination, 'searchModel' => $searchModel,'link'=>$link]);
  	}
     
     public function actionChangepassword()
  	{      
 	    $model = new Changepassword;
-	 
-	     if($model->load(Yii::$app->request->post()) ){
+	    $link = CommonController::createUrlLink(1);
+
+	    if($model->load(Yii::$app->request->post()) ){
 	 		if ($model->check()) {
 	 			 Yii::$app->session->setFlash('success', 'Successfully changed password');
 	 			    return $this->redirect(['user/changepassword']);
 	 		}
-	     
-	         
-	         else {
+	        
+	        else {
 	         	Yii::$app->session->setFlash('warning', 'changed password failed');
 	        }
 	      
 	    }
 	    $this->view->title = 'Change Password';
 	 	$this->layout = 'user';
-	    return $this->render('changepassword',['model'=>$model]); 
+	    return $this->render('changepassword',['model'=>$model,'link' => $link]); 
  	}
 
     /*

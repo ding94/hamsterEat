@@ -35,6 +35,7 @@ class TopupController extends CommonController
     {
     	$model = new Accounttopup;
     	$upload = new Upload;
+        $link = CommonController::createUrlLink(2);
        // $bank = ArrayHelper::map(Bank::find()->all(),'Bank_ID','Bank_Name');
 	  // $bank = ArrayHelper::map(Bank::find()->all(),'Bank_ID','Bank_Name','Bank_AccNo','Bank_PicPath','redirectUrl');
         $bank = Bank::find()->where('status = :status',[':status' => 10])->all();
@@ -75,7 +76,7 @@ class TopupController extends CommonController
 		$model->Account_TopUpAmount ="";
 		//$model->description ="";
 		$this->layout = 'user';
-		    	return $this->render('index' ,['model' => $model ,'upload' => $upload ,'bank' => $bank ,'banklist' => $banklist]);
+		    	return $this->render('index' ,['model' => $model ,'upload' => $upload ,'bank' => $bank ,'banklist' => $banklist ,'link' => $link]);
 		//Yii::app()->end();
     }
 	

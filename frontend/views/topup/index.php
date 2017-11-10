@@ -4,6 +4,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
+use kartik\widgets\Select2;
 use common\models\Bank;
 use frontend\assets\TopupIndexAsset;
 $this->title = "Top up";	
@@ -16,11 +17,32 @@ TopupIndexAsset::register($this);
     </div>
     <div class="userprofile-detail">
         <div class="col-md-2 ">
-            <ul class="nav nav-pills nav-stacked">
-		        <li role="presentation" ><?php echo Html::a("User Balance",['/user/userbalance'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-		        <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Top Up</a></li>
-		        <li role="presentation"><?php echo Html::a("Withdraw",['/withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-	    	</ul>
+        	<div class="dropdown-url">
+                <?php 
+                    echo Select2::widget([
+                        'name' => 'url-redirect',
+                        'hideSearch' => true,
+                        'data' => $link,
+                        'options' => [
+                            'placeholder' => 'Go To ...',
+                            'multiple' => false,
+
+                        ],
+                        'pluginEvents' => [
+                             "change" => 'function (e){
+                                location.href =this.value;
+                            }',
+                        ]
+                    ])
+                ;?>
+            </div>
+           	<div class ="nav-url">
+           		 <ul class="nav nav-pills nav-stacked">
+		        	<li role="presentation" ><?php echo Html::a("User Balance",['/user/userbalance'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+		        	<li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Top Up</a></li>
+		        	<li role="presentation"><?php echo Html::a("Withdraw",['/withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+	    		</ul>
+           	</div>
         </div>
         <div class="col-md-10 toptup-right">
 	        <div class="row">

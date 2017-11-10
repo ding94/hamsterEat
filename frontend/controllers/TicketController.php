@@ -38,13 +38,15 @@ class TicketController extends CommonController
     public function actionIndex()
     {
         $model = Ticket::find()->joinWith('adminreply')->where('User_id = :id ', [':id'=>Yii::$app->user->identity->id])->andWhere('Ticket_Status <3')->orderBy('Ticket_ID DESC')->all();
+        $link = CommonController::createUrlLink(4);
         $this->layout = 'user';
-        return $this->render('processticket', ['model'=>$model]);
+        return $this->render('processticket', ['model'=>$model,'link'=>$link]);
     }
 
     public function actionSubmitTicket()
     {
         $model = new Ticket;
+        $link = CommonController::createUrlLink(4);
         $type = Ticketcategorytypes::find()->all();
         $data = ArrayHelper::map($type,'Category_Name','Category_Name');
         $path = Yii::$app->params['submitticket'];
@@ -80,7 +82,7 @@ class TicketController extends CommonController
            
         }
         $this->layout = 'user';
-        return $this->render("submitticket",['model' => $model, 'data' => $data,'upload'=>$upload]);
+        return $this->render("submitticket",['model' => $model, 'data' => $data,'upload'=>$upload,'link'=>$link]);
     }
 
 
@@ -146,7 +148,8 @@ class TicketController extends CommonController
     public function actionCompleted()
     {
         $model = Ticket::find()->joinWith('adminreply')->where('User_id = :id ', [':id'=>Yii::$app->user->identity->id])->andWhere('Ticket_Status =3')->orderBy('Ticket_ID DESC')->all();
+        $link = CommonController::createUrlLink(4);
         $this->layout = 'user';
-        return $this->render('completed', ['model'=>$model]);
+        return $this->render('completed', ['model'=>$model,'link' => $link]);
     }
 }

@@ -3,6 +3,7 @@
 	padding: 0;
 	align-items: center;
 	justify-content: center;
+  border: 1px solid aliceblue;
 }
 
 .notic .a-notic{
@@ -34,3 +35,8 @@ margin-top: -10px;
 .a-notic:active {
     text-decoration: none;
 }
+
+.notifcation-right{
+  border-left:1px solid #efefef;;
+}
+

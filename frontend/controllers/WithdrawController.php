@@ -33,6 +33,7 @@ class WithdrawController extends CommonController
     public function actionIndex()
     {
         $model = new Withdraw;
+        $link = CommonController::createUrlLink(2);
     	//$upload = new Upload;
     	$balance = Accountbalance::find()->where('User_Username = :User_Username' ,[':User_Username' => Yii::$app->user->identity->username])->one();
 		$bank = ArrayHelper::map(Bank::find()->all(),'Bank_ID','Bank_Name');
@@ -66,7 +67,7 @@ class WithdrawController extends CommonController
 		$model->withdraw_amount ="";
 		$model->to_bank ="";
 		$this->layout = 'user';
-    	return $this->render('index' ,['model' => $model,'balance'=>$balance,'bank' => $bank]);
+    	return $this->render('index' ,['model' => $model,'balance'=>$balance,'bank' => $bank ,'link' => $link]);
     }
 	
 	public function actionValidation($model,$balance)

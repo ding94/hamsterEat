@@ -16,6 +16,7 @@ use common\models\food\Food;
 use common\models\food\Foodstatus;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 use frontend\controllers\CommonController;
 
 class RestaurantController extends CommonController
@@ -30,12 +31,15 @@ class RestaurantController extends CommonController
 
     public function actionRestaurantService()
     {
-        if (Rmanager::find()->where('uid=:id',[':id' => Yii::$app->user->identity->id])->one()) {
+        $rightperson = Rmanager::find()->where('uid=:id',[':id' => Yii::$app->user->identity->id])->one();
+        if ($rightperson) {
             $restaurant = Restaurant::find()->where('Restaurant_Manager=:r',[':r' => Yii::$app->user->identity->username])->all();
-             $this->layout = "/user";
+           
             return $this->render('restaurantservice',['restaurant'=>$restaurant]);
         }
-        
+
+        Yii::$app->session->setFlash('warning', "You Are Not The Right Person In This Page!");
+        return $this->redirect(Yii::$app->request->referrer); 
     }
 
     public function actionFoodService($id)

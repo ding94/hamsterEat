@@ -40,9 +40,22 @@
   width: 82px;
   height: 82px
 }
-
+#banner2{
+	  display: none;
+}
+.toggle{
+	display:none;
+}
 @media(max-width: 560px)
 {
+	.button {
+    position:fixed;
+    bottom:0;
+    right:30%;
+    background-color:grey;
+    padding:4px;
+}
+  
   .filter{
     position: fixed;
     -webkit-transition: all 0.8s;
@@ -84,14 +97,86 @@
         background-size: cover;
         background-repeat: no-repeat;
         position:fixed;
-        right: 15%;
-        top: 30%;
+        right: 8%;
+        top: 60%;
         z-index:99; 
     }
 
     .he-skinny-banner img{
       display: inline;
     }
+
+	
+.fa-arrow-up{
+	 
+	  position:fixed;
+        right: 15%;
+        top: 75%;
+	   z-index:99; 
+
+}
+.fa-chevron-up{
+	 position:fixed;
+        right: 15%;
+        top: 75%;
+	   z-index:99; 
+	
+}
+.text-muted-3{
+	position:fixed;
+        right: 10%;
+        top: 80%;
+	   z-index:99;
+}
+.toggle{
+display:inline;
+  position:fixed;
+  right: 8%;
+  top: 25%;
+  float:right;  
+  border-radius:20px;
+  padding-top: 10px;
+  padding-right:20px;
+  padding-left:20px;
+  padding-bottom:10px;
+  border:1px solid white;
+  background-color: #FFDA00;
+}
+#banner2{
+		 display: inline;
+		 position:fixed;
+        right: 8%;
+        top: 80%;
+        z-index:99; 
+		width:40px; /*width of your image*/
+	height:40px;
+	background-color:#FFDA00;
+	border-radius: 50%;
+	  padding: 5px;
+	
+	}
+
+.scrollToTop{
+	padding:25px; 
+	z-index:99; 
+	text-align:center; 
+	background-color:#FFDA00;
+	font-weight: bold;
+	color: #444;
+	text-decoration: none;
+	position:fixed;
+	top:80%;
+	right:8%;
+	display:none;
+	background: url('/hamsterEat/frontend/web/SysImg/Icon2.png') no-repeat;
+	background-size: 50px 50px;
+	background-color:#FFDA00;
+	border-radius: 50%;
+	margin-top:20px;
+}
+.scrollToTop:hover{
+	text-decoration:none;
+}
 
 }
 
@@ -105,18 +190,15 @@
 /*
 * for toggle side search menu
 */
-.toggle{
-  float:right;
-}
 
 #sidebartoggler {
   display: none;
 }
-
+/*for filter*/
 #sidebartoggler:checked + .page-wrap .filter {
-  left: 0px;
+  left: 0px; 
 }
-
+/*for filter icon*/
 #sidebartoggler:checked + .page-wrap .toggle {
-  left: 200px;
+ 
 }

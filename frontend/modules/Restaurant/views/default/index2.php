@@ -15,14 +15,17 @@ RestaurantDefaultIndex2Asset::register($this);
 <style>
 
 </style>
+ <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <div class="container" id="group-area-index2">
     <h1>Order Food for Delivery</h1>
   
         <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']);?>
         <input type="checkbox" id="sidebartoggler" name="" value="">
         <div class="page-wrap">
-            <?php echo Html::label('<img src='.Url::to('@web/SysImg/Icon.png').'></img>', 'sidebartoggler',['class' => 'toggle he-skinny-banner'])?>
-          
+
+			  <label for="sidebartoggler" class="toggle">Filter</label>
+		<!--<a href="#top" title="Go to top of page"><span><i class="fa fa-chevron-up fa-2x" aria-hidden="true"></i></span>-->
+		<a href="#top" class="scrollToTop"></a>
             <div class="filter">
                 <div class="filter container">
                     <div class="input-group">

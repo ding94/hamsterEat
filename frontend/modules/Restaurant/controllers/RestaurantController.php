@@ -176,6 +176,12 @@ class RestaurantController extends CommonController
 
             case 2:
                 $model = Foodstatus::find()->where('Food_ID=:id',[':id'=>$id])->one();
+                $food = Food::find()->where('Food_ID=:id',[':id'=>$model['Food_ID']])->one();
+                $restaurant = self::findModel($food['Restaurant_ID']);
+                if ($restaurant['Restaurant_Status'] == 'Closed') {
+                    Yii::$app->session->setFlash('error', "Restaurant was not opening.");
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
                 $model->Status = 1;
                 if($model->validate())
                 {

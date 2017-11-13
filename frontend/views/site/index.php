@@ -29,7 +29,7 @@ $this->title = 'hamsterEat';
 			<?php
 			  foreach ($banner as $k => $banners) {
 			  ?>
-			    <a href="<?php echo $banners['redirectUrl'] ?>" target="_blank"><?= Html::img('@web/'.$banners['name'], ['class'=>'mySlides', 'style'=>"width:100%;height:480px;" , 'title' => $banners['title']]);?></a>
+			    <a href="<?php echo $banners['redirectUrl'] ?>" target="_blank"><?= Html::img('@web/'.$banners['name'], ['class'=>'mySlides', 'title' => $banners['title']]);?></a>
 			  <?php
 			    }
 			  ?>

@@ -64,7 +64,11 @@ class DefaultController extends CommonController
     public function actionIndex($groupArea)
     {
         //$aa = Yii::$app->request->get();
-        $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->innerJoinWith('restaurantType',true)->all();
+        $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating']);
+        $pagination = new Pagination(['totalCount'=>$restaurant->count(),'pageSize'=>10]);
+        $restaurant = $restaurant->offset($pagination->offset)
+        ->limit($pagination->limit)
+        ->all();
         // var_dump($restaurant[0]['restaurantType'][0]);exit;
         $types = Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all();
         $mode = 1;
@@ -75,12 +79,16 @@ class DefaultController extends CommonController
         {
             $mode = 3;
             $keyword = $search->Nickname;
-            $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->andWhere(['like', 'Restaurant_Name', $keyword])->all();
+            $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->andWhere(['like', 'Restaurant_Name', $keyword]);
+            $pagination = new Pagination(['totalCount'=>$restaurant->count(),'pageSize'=>10]);
+            $restaurant = $restaurant->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
 
-            return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword]);
+            return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword,'pagination'=>$pagination]);
         }
 
-        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search]);
+        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search,'pagination'=>$pagination]);
     }
 
 //--This function filters the available restaurants in the area according to the restaurant's name and type
@@ -122,19 +130,23 @@ class DefaultController extends CommonController
 
         $id = restaurant::find()->where('restaurant.Restaurant_ID = :rid' ,[':rid' => $rid])->innerJoinWith('restaurantType')->one();
 
-        $model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
-        
+        //$model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
+        $model = food::find()->where('Restaurant_ID=:id',[':id' => $rid])->joinWith(['foodStatus'=>function($query){
+            $query->where('Status = 1');
+        }]);
         // if (!empty($rmanager)) {
         //    $model = food::find()->where('Restaurant_ID=:id', [':id' => $rid])->andWhere(["!=","Status",'-1'])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
         // }
-        
-        $countmodel = "SELECT DISTINCT food.Food_ID FROM food INNER JOIN foodstatus ON foodstatus.Food_ID = food.Food_ID WHERE food.Restaurant_ID = ".$rid." AND foodstatus.Status = ".true."";
-        $resultcountmodel = Yii::$app->db->createCommand($countmodel)->execute();
-        $pagination = new Pagination(['totalCount'=>$resultcountmodel,'pageSize'=>10]);
+       
+        //$countmodel = "SELECT DISTINCT food.Food_ID FROM food INNER JOIN foodstatus ON foodstatus.Food_ID = food.Food_ID WHERE food.Restaurant_ID = ".$rid." AND foodstatus.Status = ".true."";
+        //$resultcountmodel = Yii::$app->db->createCommand($countmodel)->execute();
+        $countQuery = clone $model;
+        $pagination = new Pagination(['totalCount'=>$countQuery->count(),'pageSize'=>10]);
         $rowfood = $model->offset($pagination->offset)
         ->limit($pagination->limit)
+      
         ->all();
-
+        
         if (!(Yii::$app->user->isGuest)) {
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
         return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood, 'staff'=>$staff,'pagination'=>$pagination, 'rid'=>$rid]);

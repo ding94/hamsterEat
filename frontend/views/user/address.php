@@ -8,6 +8,8 @@ use kartik\widgets\ActiveForm;
 UserAsset::register($this);
 ?>
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
+      <?= $form->field($model, 'recipient')->textInput() ?>
+      <?= $form->field($model, 'contactno')->textInput() ?>
       <?= $form->field($model, 'address')->textArea() ?>
       <?= $form->field($model, 'city')->textInput() ?>
       <?= $form->field($model, 'postcode')->textInput() ?>

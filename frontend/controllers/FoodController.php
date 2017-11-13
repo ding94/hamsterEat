@@ -230,10 +230,12 @@ class FoodController extends CommonController
      {
         $menu = Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid]);
         $count = count(Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->all());
+        // var_dump($count);exit;
         $pagination = new Pagination(['totalCount'=>$count,'pageSize'=>10]);
-        $menu = $menu->offset($pagination->offset)
-        ->limit($pagination->limit)
+        $menu = $menu
         ->all();
+
+        // var_dump($menu);exit;
       
         $restaurant = Restaurant::find()->where('Restaurant_ID = :id', [':id'=>$rid])->one();
         $rname = $restaurant['Restaurant_Name'];

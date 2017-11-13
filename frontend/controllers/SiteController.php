@@ -144,6 +144,24 @@ class SiteController extends CommonController
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         } 
+        else
+        {
+            return $this->render('login', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionLoginPopup()
+    {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        } 
         elseif ($model->load(Yii::$app->request->post()))
         {
             Yii::$app->session->setFlash('danger', 'Either username or password is incorrect.');
@@ -151,7 +169,7 @@ class SiteController extends CommonController
         }
         else
         {
-            return $this->renderAjax('login', [
+            return $this->renderAjax('loginpopup', [
                 'model' => $model,
             ]);
         }
@@ -674,11 +692,12 @@ class SiteController extends CommonController
             $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
             $list =array();
             $banner = Banner::find()->where(['<=','startTime',date("Y-m-d H:i:s")])->andWhere(['>=','endTime',date("Y-m-d H:i:s")])->all();
+            
             if (!Yii::$app->user->isGuest)
             {
                 $feedback->User_Username = Yii::$app->user->identity->username;
             }
-            
+
             $feedback->Feedback_DateTime = time();
             $feedback->Feedback_Link = $link;
 

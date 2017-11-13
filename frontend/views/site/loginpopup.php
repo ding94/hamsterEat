@@ -14,7 +14,7 @@ $this->title = 'Login';
 .container-login
 {
     padding-top:20px;
-    margin-left:330px;
+    padding-left:22px;
 }
 
 .forgotpassword
@@ -23,20 +23,12 @@ $this->title = 'Login';
     margin-left:200px;
 }
 
-#login
-{
-    margin-left:110px;
-}
-
 </style>
 <div class="container-login">
-  <div class="col-lg-6 col-lg-offset-3">
-            <h1 id = "login">Login</h1>
-            <br><br>
+
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true, 'style'=>'width:320px;'])->label('Username or Email') ?>
-                <br>
                 
                 <?= $form->field($model, 'password')->passwordInput(['style'=>'width:320px;'])->label('Password') ?>
 
@@ -51,6 +43,6 @@ $this->title = 'Login';
                 </div>
 
             <?php ActiveForm::end(); ?>
-        </div>
-		  </div>
+        
+
 </div>

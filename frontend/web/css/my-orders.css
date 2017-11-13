@@ -23,6 +23,13 @@
   .my-orders-table td{
     text-align: center;
   }
+
+}
+
+@media(max-width: 480px){
+  .#my-orders-container{
+    margin:0px;
+  }
 }
 
 .orderTable td{

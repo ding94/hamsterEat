@@ -9,8 +9,8 @@ MyOrdersAsset::register($this);
 <div class="order">
 <div id="my-orders-container" class = "container">
   <div class="my-orders-header">
-        <div class="my-orders-header-title"><?php echo Html::encode($this->title)?></div>
-    </div>
+      <div class="my-orders-header-title"><?php echo Html::encode($this->title)?></div>
+  </div>
   <div class="content">
     <div class="col-sm-2 ">
 
@@ -206,7 +206,7 @@ MyOrdersAsset::register($this);
             foreach ($order5 as $orders) :
               if($orders['Orders_Status'] == 'Completed'|| $orders['Orders_Status']=='Rating Done')
               {
-          ?>
+            ?>
           <tr class="orderRow">
             <td  class="block">
               <?php echo Html::a("<i class='fa fa-info-circle'></i> Invoice" ,['invoice-pdf','did'=>$orders['Delivery_ID']], ['target'=>'_blank' ,'class'=>'btn btn-primary']); ?>
@@ -230,8 +230,9 @@ MyOrdersAsset::register($this);
               }
             endforeach;
           ?>
+          <?php }?>
         </table>
-        <?php }?>
+       
       </div>
     </div>
   </div>

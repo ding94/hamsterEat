@@ -192,7 +192,7 @@ UserAsset::register($this);
                 <li id="balance" role="presentation"><label class="label-btn"><i class="fa fa-money fa-lg"></i><?php echo Html::a('<span>Balance</span>',['/user/userbalance'])?></label></li>
                 <li  id="order" role="presentation"><label class="label-btn"><i class="fa fa-cutlery fa-lg"></i><?php echo Html::a('<span>Order</span>',['/order/my-orders'])?></label></li>
                 <li id="ticket" role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i><?php echo Html::a('<span>Ticket</span>',['/ticket/index'])?></label></li>
-                <li id="voucher" role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i><?php echo Html::a('<span>Vouchers</span>',['/vouchers/index'])?></label></li>
+                <li id="voucher" role="presentation"><label class="label-btn"><i class="fa fa-ticket fa-lg"></i><?php echo Html::a('<span>Vouchers</span>',['/vouchers/index'])?></label></li>
 
             </ul>
         </div>

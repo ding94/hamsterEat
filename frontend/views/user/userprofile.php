@@ -88,7 +88,7 @@ UserAsset::register($this);
                   <?php foreach($user->address as $i=>$address):?>
                     <tr>
                       <td><?php echo $i+1?></td>
-                      <td><?php echo $address->level == 1 ? '<span class="btn btn-success btn-block">Primary</span>': Html::a('<i class="fa fa-check"></i> Mark as Primary',['/user/primary-address','id' => $address->id],['class'=>'btn btn-block primary-btn'])?></td>
+                      <td><?php echo $address->level == 1 ? '<span class="primary">Primary</span>': Html::a('<i class="fa fa-check"></i> Mark as Primary',['/user/primary-address','id' => $address->id],['class'=>'btn btn-block primary-btn'])?></td>
                       <td><?php echo $address->FullAddress?></td>
                       <td>
                         <div class="row">

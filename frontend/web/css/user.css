@@ -27,9 +27,7 @@
   padding-top: 3em;
 }
 
-.userprofile-right{
-  height: 25em;
-}
+
 
 .userprofile-avatar{
   margin:20px 20px;
@@ -105,9 +103,6 @@
 
   .userprofile-header-title{
     text-align: center;
-  }
-  .userprofile-right{
-    height: 55em;
   }
 
   .userprofile-address .add-new-address-btn{
@@ -200,16 +195,18 @@
 }
 
 
-.fa-user,.fa-money,.fa-cutlery,.fa-comment{
+.fa-user,.fa-money,.fa-cutlery,.fa-comment,.fa-ticket{
     color:#FFDA00;
 }
 
-@media(max-width: 388px){
+@media(max-width: 480px){
 	.fa-user,.fa-money,.fa-cutlery,.fa-comment{
-    color:#FFDA00;
+  color:#FFDA00;
 	position:relative;
-	padding-left:20px;
-}
+  }
+  .nav-default > li > .label-btn > a{
+    font-size: 0.7em;
+  }
 }
 
 .container3{
@@ -223,12 +220,6 @@
 	color:#636363;
 }
 
-#nav > li >.active{
-  background-color:white;
-  border-top:1px solid #FFDA00;
-
-}
-
 /*
 * user nav id nav
 * class nav-default css
@@ -238,11 +229,19 @@
   justify-content:space-between;
 
 }
+
+#nav > li.active{
+  background-color:white;
+  border-top:1px solid #FFDA00;
+
+}
+
+
 .nav-default.ul {
   max-width: 960px;
   width: 100%;
   margin: 15px auto;
-  text-align: center;
+ 
   align-items: stretch;
 }
 .nav-default >li { 
@@ -251,26 +250,28 @@
   list-style-position: inside;
 }
 
-.nav-default >li:last-child > .label-btn{
+.nav-default >li:last-child {
   border-right: 0px;
 }
 
 .nav-default .ul {  }
-.nav-default .li{ }
+.nav-default > li{
+  border-right: 1px solid #FFDA00; }
 .label-btn {
-  display:block;
+  display:grid;
   padding: 10px 5px;
   text-align: center;
   list-style-position:inside;
   margin-bottom: 0px;
-  border-right: 1px solid #FFDA00;
 }
 
-#nav > li:first-child > .active{
+
+
+#nav > li:first-child.active{
    border-left:1px solid #FFDA00;
 }
 
-#nav > li:last-child > .active{
+#nav > li:last-child.active{
    border-right:1px solid #FFDA00;
 }
 /*

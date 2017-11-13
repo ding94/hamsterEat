@@ -17,6 +17,7 @@ class RestaurantDefaultIndex2Asset extends AssetBundle
     ];
     public $js = [
         'js/food-modal.js',
+		'js/scrolltop.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

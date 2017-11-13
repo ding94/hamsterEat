@@ -19,7 +19,7 @@ CartAsset::register($this);
 
 Modal::begin([
       'header' => '<h2 class="modal-title">Please Provide Reason</h2>',
-      'id'     => 'add-session-modal',
+      'id'     => 'add-modal',
       'size'   => 'modal-md',
       'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
 ]);
@@ -95,7 +95,7 @@ Modal::end();
                       if ($status['Status'] == 0) :
                         echo Html::a('Resume Food Service', Url::to(['/Restaurant/restaurant/active', 'id'=>$menu['Food_ID'],'item'=>2]), ['id'=>'res','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-success']);
                       elseif ($status['Status'] == 1) :
-                        echo Html::a('Pause Food Service', Url::to(['/Restaurant/restaurant/providereason', 'id'=>$menu['Food_ID'],'rid'=>$rid,'item'=>2]), ['id'=>'res','class'=>'btn btn-danger','data-toggle'=>'modal','data-target'=>'#add-session-modal']);
+                        echo Html::a('Pause Food Service', Url::to(['/Restaurant/restaurant/providereason', 'id'=>$menu['Food_ID'],'rid'=>$rid,'item'=>2]), ['id'=>'res','class'=>'btn btn-danger','data-toggle'=>'modal','data-target'=>'#add-modal']);
                       endif;
                   endif;
                 ?>

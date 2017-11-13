@@ -229,9 +229,8 @@ MyOrdersAsset::register($this);
           <?php  
               }
             endforeach;
-          ?>
+           }?>
         </table>
-        <?php }?>
       </div>
     </div>
   </div>

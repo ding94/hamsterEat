@@ -10,14 +10,15 @@ $this->title = "Available Restaurants";
 StarsAsset::register($this);
 RestaurantDefaultIndexAsset::register($this);
 ?>
-
+ <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <div class="container" id="group-area-index">
     <h1>Order Food for Delivery</h1>
    
     <?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']); ?>
     <input type="checkbox" id="sidebartoggler" name="" value="">
     <div class="page-wrap">
-      <?php echo Html::label('<img src='.Url::to('@web/SysImg/Icon.png').'></img>', 'sidebartoggler',['class' => 'toggle he-skinny-banner'])?>
+       <label for="sidebartoggler" class="toggle">Filter</label>
+	  <a href="#top" class="scrollToTop"></a>
       <div class="filter">
         <div class="filter container">
           <div class="input-group">

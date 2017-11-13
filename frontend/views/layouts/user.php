@@ -188,12 +188,12 @@ UserAsset::register($this);
         ]) ?>
         <div class="container vertical-divider">
             <ul id="nav" class="nav nav-default">
+                <li id="profile" role="presentation"><label class="label-btn"><i class="fa fa-user fa-lg"></i><?php echo Html::a('<span>Profile</span>',['/user/user-profile'])?></label></li>
+                <li id="balance" role="presentation"><label class="label-btn"><i class="fa fa-money fa-lg"></i><?php echo Html::a('<span>Balance</span>',['/user/userbalance'])?></label></li>
+                <li  id="order" role="presentation"><label class="label-btn"><i class="fa fa-cutlery fa-lg"></i><?php echo Html::a('<span>Order</span>',['/order/my-orders'])?></label></li>
+                <li id="ticket" role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i><?php echo Html::a('<span>Ticket</span>',['/ticket/index'])?></label></li>
+                <li id="voucher" role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i><?php echo Html::a('<span>Vouchers</span>',['/vouchers/index'])?></label></li>
 
-                <li role="presentation"><label id="profile" class="label-btn"><i class="fa fa-user fa-lg"></i>&nbsp;<?php echo Html::a('Profile',['/user/user-profile'])?></label></li>
-                <li role="presentation"><label id="balance" class="label-btn"><i class="fa fa-money fa-lg"></i>&nbsp;<?php echo Html::a('Balance',['/user/userbalance'])?></label></li>
-                <li role="presentation"><label id="order" class="label-btn"><i class="fa fa-cutlery fa-lg"></i>&nbsp;<?php echo Html::a('Order',['/order/my-orders'])?></label></li>
-                <li role="presentation"><label id="ticket" class="label-btn"><i class="fa fa-comment fa-lg"></i>&nbsp;<?php echo Html::a('Ticket',['/ticket/index'])?></label></li>
-                <li role="presentation"><label id="voucher" class="label-btn"><i class="fa fa-ticket fa-lg"></i>&nbsp;<?php echo Html::a('Vouchers',['/vouchers/index'])?></label></li>
             </ul>
         </div>
         <div class="outer-content">

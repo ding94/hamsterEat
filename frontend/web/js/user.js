@@ -13,7 +13,7 @@ $(function(){
 
 $(function(){
     $('#edit-address-modal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
+        var button = $(event.   relatedTarget);
         var modal = $(this);
         var href = button.attr('href');
         modal.find('.modal-body').html('<i class=\"fa fa-spinner fa-spin\"></i>');
@@ -33,7 +33,7 @@ $(document).ready(function() {
   
     //$('ul.nav > li > label >a[href="'+pathname+'"]').parent().addClass('active');
     outerdiv = $("div.outer-content").children('div').attr('class');
-    $('ul.nav > li > label#'+outerdiv+'').addClass('active');
+    $('ul.nav > li#'+outerdiv+'').addClass('active');
     //console.log(data.attr('class'));
 })
 

@@ -14,9 +14,11 @@ class FoodMenuAsset extends AssetBundle
     public $css = [
         'css/food-menu.css',
         'css/drop-down-mobile.css',
+		'css/filter.css',
     ];
     public $js = [
         // 'js/cart.js',
+		'js/scrolltop.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

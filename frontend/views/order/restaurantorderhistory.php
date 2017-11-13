@@ -19,6 +19,7 @@ RestaurantOrdersHistoryAsset::register($this);
     <div class="restaurant-orders-history-header">
         <div class="restaurant-orders-history-header-title"><?= Html::encode($this->title) ?></div>
     </div>
+	<a href="#top" class="scrollToTop"></a>
     <div class="content">
         <div class="col-sm-2">
             <div class="dropdown-url">

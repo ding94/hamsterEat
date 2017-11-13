@@ -12,8 +12,7 @@ MyOrdersAsset::register($this);
         <div class="my-orders-header-title"><?php echo Html::encode($this->title)?></div>
     </div>
   <div class="content">
-    <div class="col-sm-2 ">
-
+    <div class="col-sm-2">
       <ul id="my-orders-nav" class="nav nav-pills nav-stacked">
         <li class="active"><a data-toggle="pill" href="#pending">Pending<span class="badge"><?php echo Yii::$app->view->params['countPending'] ?></span></a></li>
         <li><a data-toggle="pill" href="#preparing">Preparing<span class="badge"><?php echo Yii::$app->view->params['countPreparing'] ?></span></a></li>
@@ -22,18 +21,18 @@ MyOrdersAsset::register($this);
         <li><a data-toggle="pill" href="#completed">Completed<span class="badge"><?php echo Yii::$app->view->params['countCompleted'] ?></span></a></li>
       </ul>
     </div>
-    <div class="col-sm-8 tab-content my-orders-table">
-      <div id="pending" class="tab-pane fade in active">
+    <div class="col-sm-8 tab-content">
+      <div id="pending" class="tab-pane fade my-orders-table in active">
         <?php if (empty($order1)){ ?>
         <div class ="order-icon">
          <?php echo Html::img('@web/imageLocation/Img/order-icon.png',['style'=>'width:100px; height:100px; margin-right:-13px; ']); ?>
           <p>No orders yet</p>
           </div>
         <?php } else{ ?>
-        <table class="table table-user-info orderTable col-sm-8">
+        <table class="table table-user-info orderTable">
           <thead>
             <tr>
-              <th><center>More</th>
+              <th colspan="2"><center>More</th>
               <th><center>Delivery ID</th>
               <th><center>Date and Time Placed</th>
             </tr>
@@ -44,7 +43,7 @@ MyOrdersAsset::register($this);
               {
           ?>
           <tr class="orderRow">
-            <td  class="block">
+            <td colspan="2" class="block">
               <a class="btn btn-primary" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
                 <i class="fa fa-info-circle"></i>
               </a>
@@ -70,10 +69,10 @@ MyOrdersAsset::register($this);
           <p>No orders yet</p>
           </div>
         <?php } else{ ?>
-        <table class="table table-user-info orderTable col-sm-8">
+        <table class="table table-user-info orderTable">
           <thead>
             <tr>
-              <th><center>More</th>
+              <th colspan="2"><center>More</th>
               <th><center>Delivery ID</th>
               <th><center>Date and Time Placed</th>
             </tr>
@@ -84,7 +83,7 @@ MyOrdersAsset::register($this);
               {
           ?>
           <tr class="orderRow">
-            <td  class="block">
+            <td colspan="2" class="block">
               <a class="btn btn-primary" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
                 <i class="fa fa-info-circle"></i>
               </a>
@@ -111,10 +110,10 @@ MyOrdersAsset::register($this);
           <p>No orders yet</p>
           </div>
         <?php } else{ ?>
-        <table class="table table-user-info orderTable col-sm-8">
+        <table class="table table-user-info orderTable">
           <thead>
             <tr>
-              <th><center>More</th>
+              <th colspan="2"><center>More</th>
               <th><center>Delivery ID</th>
               <th><center>Date and Time Placed</th>
             </tr>
@@ -125,7 +124,7 @@ MyOrdersAsset::register($this);
               {
           ?>
           <tr class="orderRow">
-            <td  class="block">
+            <td colspan="2" class="block">
               <a class="btn btn-primary" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
                 <i class="fa fa-info-circle"></i>
               </a>
@@ -152,9 +151,10 @@ MyOrdersAsset::register($this);
           <p>No orders yet</p>
           </div>
         <?php } else{ ?>
-        <table class="table table-user-info orderTable col-sm-8">
+        <table class="table table-user-info orderTable">
           <thead>
             <tr>
+              <th><center></th>
               <th><center>More</th>
               <th><center>Delivery ID</th>
               <th><center>Date and Time Placed</th>
@@ -166,7 +166,8 @@ MyOrdersAsset::register($this);
               {
           ?>
           <tr class="orderRow">
-            <td  class="block">
+            <td></td>
+            <td class="block">
               <a class="btn btn-primary" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
                 <i class="fa fa-info-circle"></i>
               </a>
@@ -187,13 +188,13 @@ MyOrdersAsset::register($this);
         <?php }?>
       </div>
       <div id="completed" class="tab-pane fade my-orders-table">
-        <table class="table table-user-info orderTable col-sm-8">
           <?php if (empty($order5)){ ?>
             <div class ="order-icon">
          <?php echo Html::img('@web/imageLocation/Img/order-icon.png',['style'=>'width:100px; height:100px; margin-right:-13px; ']); ?>
           <p>No orders yet</p>
           </div>
           <?php } else{ ?>
+        <table class="table table-user-info orderTable">
           <thead>
             <tr>
               <th><center>More</th>
@@ -208,7 +209,7 @@ MyOrdersAsset::register($this);
               {
           ?>
           <tr class="orderRow">
-            <td  class="block">
+            <td class="block">
               <?php echo Html::a("<i class='fa fa-info-circle'></i> Invoice" ,['invoice-pdf','did'=>$orders['Delivery_ID']], ['target'=>'_blank' ,'class'=>'btn btn-primary']); ?>
             </td>
             <td class="with" data-th="Delivery ID">

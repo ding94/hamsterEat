@@ -29,7 +29,11 @@ td.vcenter div.form-group{
 .food-table-outlet{
 	width: 100%;
 	overflow-y: auto;
+}
 
+#add-food-nav > li > a {
+  font-size: large;
+  border-bottom: 1px solid #efefef;
 }
 
 /*

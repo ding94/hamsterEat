@@ -15,7 +15,7 @@ AddStaffAsset::register($this);
     <div class="content">
         <div class="col-sm-2">
             <ul id="add-staff-nav" class="nav nav-pills nav-stacked">
-                <li role="presentation"><?php echo Html::a("Back",['manage-restaurant-staff', 'rid'=>$rid],['class'=>'btn-block'])?></li>
+                <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i> Back",['manage-restaurant-staff', 'rid'=>$rid],['class'=>'btn-block'])?></li>
             </ul>
         </div>
         <div id="add-staff-content" class="col-sm-10">

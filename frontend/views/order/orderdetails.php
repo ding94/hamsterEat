@@ -21,7 +21,7 @@ OrderDetailsAsset::register($this);
     <div class="content">
         <div class="col-sm-2">
             <ul id="order-details-nav" class="nav nav-pills nav-stacked">
-                <li role="presentation"><?php echo Html::a("Back",['order/my-orders'],['class'=>'btn-block'])?></li>
+                <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i> Back",['order/my-orders'],['class'=>'btn-block'])?></li>
             </ul>
         </div>
         <div id="order-details-content" class="col-sm-10">

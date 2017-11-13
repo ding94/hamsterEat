@@ -16,6 +16,7 @@ class StarsAsset extends AssetBundle
     ];
     public $js = [
         'js/stars.js',
+		
     ];
     public $depends = [
         'yii\web\YiiAsset',

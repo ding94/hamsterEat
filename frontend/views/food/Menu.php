@@ -25,11 +25,12 @@ Modal::begin([
 ]);
 Modal::end();
 ?>
-
+ <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <div id="food-menu-container" class="container">
     <div class="food-menu-header">
         <div class="food-menu-header-title"><?= Html::encode($this->title) ?></div>
     </div>
+	
     <div class="content">
         <div class="col-sm-2">
             <div class="dropdown-url">
@@ -69,6 +70,7 @@ Modal::end();
               </ul>
             </div>
         </div>
+		<a href="#top" class="scrollToTop"></a>
         <div id="food-menu-content" class="col-sm-10">
           <?php echo Html::a('Insert Food', ['/food/insert-food','rid'=>$rid], ['class'=>'btn btn-primary']); ?>
           

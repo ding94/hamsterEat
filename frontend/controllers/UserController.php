@@ -184,6 +184,8 @@ class UserController extends CommonController
         }
 
         $model = new Useraddress;
+        $model['recipient'] = 'Full name';
+        $model['contactno'] = '0123456789';
         if($model->load(Yii::$app->request->post()))
         {
             

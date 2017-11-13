@@ -1,5 +1,4 @@
 .toptup-right{
-  height: 37em;
   border-left: 1px solid #efefef;
   padding-left: 5em;
   padding-right: 5em;
@@ -7,7 +6,6 @@
 }
 
 .withdraw-right{
-  height: 45em;
   border-left: 1px solid #efefef;
   padding-left: 5em;
   padding-right: 5em;
@@ -38,13 +36,11 @@ a:hover {
   .toptup-right{
     border-top: 1px solid #efefef;
     border-left:0px;
-    height: 30em;
   }
 
   .withdraw-right{
     border-top: 1px solid #efefef;
     border-left:0px;
-    height: 45em;
   }
 
   .label-final-outlet{
@@ -72,8 +68,6 @@ a:hover {
 @media(max-width: 400px)
 {
   .toptup-right{
-    height: 30em;
-   
     padding-left: 1em;
     padding-right:1em;
     margin-left: 1em;
@@ -81,7 +75,6 @@ a:hover {
   }
 
   .withdraw-right{
-    height: 50em;
    padding-left: 1em;
     padding-right:1em;
     margin-left: 1em;

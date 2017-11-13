@@ -12,6 +12,7 @@ use frontend\assets\TopupWithdrawMpHistoryAsset;
 TopupWithdrawMpHistoryAsset::register($this);
 ?>
 
+<div class="balance">
 <div id="userprofile" class="row">
    <div class="userprofile-header">
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
@@ -117,7 +118,7 @@ TopupWithdrawMpHistoryAsset::register($this);
             </div>
         </div>
     </div>
-
+</div>
 
 <?php 
 /*Modal::begin([

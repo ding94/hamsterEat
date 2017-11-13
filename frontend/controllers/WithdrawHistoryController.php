@@ -34,7 +34,7 @@ class WithdrawHistoryController extends CommonController
     public function actionIndex()
     {
        $searchModel = new Withdraw();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,0);
+        $dataProvider = $searchModel->searchUser(Yii::$app->request->queryParams);
 
 		$list = ArrayHelper::map(AccounttopupStatus::find()->all() ,'title' ,'title');
 		$name=ArrayHelper::map(Bank::find()->all() ,'Bank_ID' ,'Bank_Name');

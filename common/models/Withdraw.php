@@ -83,10 +83,35 @@ class Withdraw extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Bank::className(),['Bank_ID' => 'bank_name']); 
     }
+    public function searchUser($params)
+    {
+        $query = self::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id]);
+        
+        $query->joinWith(['accounttopup_status','bank']);
+       
+
+        $dataProvider = new ActiveDataProvider(['query' => $query,
+        ]);
+
+        $this->load($params);
+        $query->andFilterWhere([
+            'title' => $this->getAttribute('accounttopup_status.title'),
+        ]);
+
+        $query->andFilterWhere(['like','acc_name' ,  $this->acc_name])
+                ->andFilterWhere(['like','withdraw_amount' ,  $this->withdraw_amount])
+                ->andFilterWhere(['like','to_bank' ,  $this->to_bank])
+               // ->andFilterWhere(['like','bank_name' ,  $this->bank_name])
+			    ->andFilterWhere(['like',Bank::tableName().'.Bank_Name' , $this->getAttribute('bank.Bank_Name')])
+                ->andFilterWhere(['like','inCharge' ,  $this->inCharge])
+                ->andFilterWhere(['like','reason' ,  $this->reason]);
+        return $dataProvider;
+    }
+
     public function search($params,$action)
     {
         if ($action == 0){
-            $query = self::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id]);
+            $query = self::find();
         }
         elseif ($action >= 1){
             $query = self::find()->where('action = :act',[':act' => $action]);
@@ -107,7 +132,7 @@ class Withdraw extends \yii\db\ActiveRecord
                 ->andFilterWhere(['like','withdraw_amount' ,  $this->withdraw_amount])
                 ->andFilterWhere(['like','to_bank' ,  $this->to_bank])
                // ->andFilterWhere(['like','bank_name' ,  $this->bank_name])
-			    ->andFilterWhere(['like',Bank::tableName().'.Bank_Name' , $this->getAttribute('bank.Bank_Name')])
+                ->andFilterWhere(['like',Bank::tableName().'.Bank_Name' , $this->getAttribute('bank.Bank_Name')])
                 ->andFilterWhere(['like','inCharge' ,  $this->inCharge])
                 ->andFilterWhere(['like','reason' ,  $this->reason]);
         return $dataProvider;

@@ -188,7 +188,6 @@ UserAsset::register($this);
         ]) ?>
         <div class="container vertical-divider">
             <ul id="nav" class="nav nav-default">
-
                 <li id="profile" role="presentation"><label class="label-btn"><i class="fa fa-user fa-lg"></i><?php echo Html::a('<span>Profile</span>',['/user/user-profile'])?></label></li>
                 <li id="balance" role="presentation"><label class="label-btn"><i class="fa fa-money fa-lg"></i><?php echo Html::a('<span>Balance</span>',['/user/userbalance'])?></label></li>
                 <li  id="order" role="presentation"><label class="label-btn"><i class="fa fa-cutlery fa-lg"></i><?php echo Html::a('<span>Order</span>',['/order/my-orders'])?></label></li>

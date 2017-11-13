@@ -10,6 +10,7 @@ $this->title = 'Change Password';
 UserAsset::register($this);
 ?>
 
+<div class="profile">
 <div id="userprofile" class="row">
    <div class="userprofile-header">
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
@@ -43,22 +44,23 @@ UserAsset::register($this);
             </div>
         </div>
         </div>
-		<div class="container">
+        <div class="container">
         <div class="col-sm-8 userprofile-edit-input">
             <?php $form = ActiveForm::begin(); ?>
             
                 <?php $form = ActiveForm::begin();?>
-		<?= $form->field($model, 'old_password')->passwordInput() ?>
-		<?= $form->field($model, 'new_password')->passwordInput() ?>
-		<?= $form->field($model, 'repeat_password')->passwordInput()->label("Confirm New Password") ?>
-    	<div class="form-group">
-	        <?= Html::submitButton('Update', ['class' => 'btn btn-success']) ?>
-	        <?php echo Html::a("Back" ,['/user/user-profile'],['class'=>'btn btn-primary'])?>
-	   </div>
-	<?php ActiveForm::end();?>
+        <?= $form->field($model, 'old_password')->passwordInput() ?>
+        <?= $form->field($model, 'new_password')->passwordInput() ?>
+        <?= $form->field($model, 'repeat_password')->passwordInput()->label("Confirm New Password") ?>
+        <div class="form-group">
+            <?= Html::submitButton('Update', ['class' => 'btn btn-success']) ?>
+            <?php echo Html::a("Back" ,['/user/user-profile'],['class'=>'btn btn-primary'])?>
+       </div>
+    <?php ActiveForm::end();?>
 
 
             <?php ActiveForm::end(); ?>
         </div>
     </div>
+</div>
 </div>

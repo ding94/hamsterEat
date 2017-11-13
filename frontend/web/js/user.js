@@ -24,10 +24,16 @@ $(function(){
     });
 });
 
+/*
+* function only avaialbe for prettry url only
+*/
 $(document).ready(function() {
     // get current URL path and assign 'active' class
-    var pathname = window.location.search;
-    
+    var pathname = window.location.pathname;
+  
     $('ul.nav > li > label >a[href="'+pathname+'"]').parent().addClass('active');
+    data = $("div.content").children('div');
+    console.log(data);
 })
+
 

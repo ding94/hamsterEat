@@ -294,12 +294,12 @@ class CartController extends CommonController
                if($area)
                  {
                      
-                $sql= User::find()->select(['id','deliveryman.DeliveryMan_Assignment'])->JoinWith(['authAssignment','deliveryman'])->where('item_name = :item_name and id = :id and DeliveryMan_AreaGroup =:DeliveryMan_AreaGroup',[':item_name' => 'rider',':id'=>$id,':DeliveryMan_AreaGroup'=>$grouparea])->orderBy(['deliveryman.DeliveryMan_Assignment'=>SORT_ASC])->asArray()->one();
+                    $sql= User::find()->select(['id','deliveryman.DeliveryMan_Assignment'])->JoinWith(['authAssignment','deliveryman'])->where('item_name = :item_name and id = :id and DeliveryMan_AreaGroup =:DeliveryMan_AreaGroup',[':item_name' => 'rider',':id'=>$id,':DeliveryMan_AreaGroup'=>$grouparea])->orderBy(['deliveryman.DeliveryMan_Assignment'=>SORT_ASC])->asArray()->one();
                
-               $allData[] = $sql;
+                $allData[] = $sql;
                  }
            }
-           return true;
+           //return true;
        }
        else
        {
@@ -360,15 +360,14 @@ class CartController extends CommonController
             $sql1 = "UPDATE deliveryman SET DeliveryMan_Assignment = ".$task." WHERE User_id = '".$assign."'";
            
             Yii::$app->db->createCommand($sql1)->execute();
-       
-            echo "<script type='text/javascript'>alert('The delivery man assigned to this order is ".$assign."');</script>";
+            
             $dname = user::find()->where('id = :uid', [':uid'=>$assign])->one();
             $dname = $dname['username'];
 
             $sql6 = "UPDATE orders SET Orders_DeliveryMan = '".$dname."' WHERE Delivery_ID = ".$did."";
             Yii::$app->db->createCommand($sql6)->execute();
 
-            return $dname;
+            return true;
     }
 
 //--This function is to process the order officially as the places his order
@@ -396,6 +395,7 @@ class CartController extends CommonController
 
         if (Yii::$app->request->post())
         {
+
             $checkout->load(Yii::$app->request->post());
             if (empty($checkout['Orders_Location']) || empty($checkout['Orders_PaymentMethod']) || empty($checkout['User_contactno']) || empty($checkout['User_fullname'])) {
                 Yii::$app->session->setFlash('error', 'Please fill in all information correctly!');
@@ -412,8 +412,10 @@ class CartController extends CommonController
             //$last = date('11:00:59');
             $last = date('23:00:59');
 //----------Checks if user is eligible for early discount and if user placed his order within the time 8am to 11am
+            
             if ($early <= $timenow && $last >= $timenow)
             {
+
                 $earlydiscount = CartController::actionRoundoff1decimal($checkout['Orders_Subtotal']) * 0.2;
                 $earlydiscount = CartController::actionRoundoff1decimal($earlydiscount);
                 $newtotalprice = CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($checkout['Orders_Subtotal']) - $earlydiscount + CartController::actionRoundoff1decimal($checkout['Orders_DeliveryCharge']));
@@ -430,12 +432,14 @@ class CartController extends CommonController
 
                 
 //--------------A delivery man is assigned to the order here
-                //$valid = $this->actionAssignDeliveryMan($did);
-                $valid = true;
+                $valid = $this->actionAssignDeliveryMan($did);
+                //$valid = true;
                 if ($valid == false) {
                     return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
                 }
+
                 $voucher = Vouchers::find()->where('code = :c',[':c' => $discountcode])->all();
+
                 if (!empty($voucher)) 
                 {
                     foreach ($voucher as $k => $vou) 
@@ -533,6 +537,7 @@ class CartController extends CommonController
                     }
                 }
 
+
                 // account balance functions
                 if ($checkout->Orders_PaymentMethod == 'Account Balance') 
                 {
@@ -549,6 +554,7 @@ class CartController extends CommonController
 //--------------The total discount for the order is calculated here
                 $checkdiscounts = Orders::find()->where('Delivery_ID = :did', [':did' => $did])->one();
                 $totaldiscount = 0;
+
                 if ($checkdiscounts['Orders_DiscountVoucherAmount'] != 0 && $checkdiscounts['Orders_DiscountEarlyAmount'] != 0 && $checkdiscounts['Orders_DiscountCodeAmount'] != 0)
                 {
                     $totaldiscount = $checkdiscounts['Orders_DiscountEarlyAmount'] + $checkdiscounts['Orders_DiscountVoucherAmount'] + $checkdiscounts['Orders_DiscountCodeAmount'];
@@ -598,6 +604,7 @@ class CartController extends CommonController
 
                     return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
                 }
+
 //--------------The statuses and time for the order and its' order items are updated here
                 $sql2 = "UPDATE orderitem SET OrderItem_Status = 'Pending' WHERE Delivery_ID = '".$did."'";
                 Yii::$app->db->createCommand($sql2)->execute();
@@ -635,14 +642,16 @@ class CartController extends CommonController
                 endforeach;
 
                 $session = Yii::$app->session;
-                $session->close();
+                //$session->close();
                 NotificationController::createNotification($did,3);
                 MemberpointController::addMemberpoint($order->Orders_TotalPrice,1);
                
             }
             else
             {
+                
                 Yii::$app->session->setFlash('error', 'The allowed time to place order is over. Please place your order in between 8am and 11am daily.');
+                return $this->redirect(Yii::$app->request->referrer);
             }
             
             return $this->redirect(['aftercheckout','did'=>$did]);

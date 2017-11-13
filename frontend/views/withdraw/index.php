@@ -10,6 +10,7 @@ $this->title = "Withdraw money";
 TopupIndexAsset::register($this);
 ?>
 
+<div class="balance">
 <div class="container">
 
 <div id="userprofile" class="row">
@@ -73,3 +74,4 @@ TopupIndexAsset::register($this);
     </div>
 </div>
 </div>
+</div>  

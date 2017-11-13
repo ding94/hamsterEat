@@ -7,7 +7,7 @@ $this->title = 'My Profile';
 
 UserAsset::register($this);
 ?>
-		
+<div class="prfofile">		
 <?php 
   //user report modal
   Modal::begin([
@@ -35,7 +35,8 @@ UserAsset::register($this);
   Modal::end() 
 ?>
 
-    <div id="userprofile" class="row">
+
+  <div id="userprofile" class="row">
       <div class="userprofile-header">
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
       </div>
@@ -107,8 +108,8 @@ UserAsset::register($this);
           </div>
         </div>
       </div>
-
     </div>
+</div>
 </div>
         
         

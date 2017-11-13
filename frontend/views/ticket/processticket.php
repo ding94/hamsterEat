@@ -14,6 +14,7 @@ use backend\models\Admin;
 
     $this->title = 'My Questions';
 ?>
+<div class="ticket">
 <div class="container" id="userprofile">
 
    <div class="userprofile-header">
@@ -103,7 +104,6 @@ use backend\models\Admin;
     </div>
     </div>
     </div>
- 
-
+</div>
 
 

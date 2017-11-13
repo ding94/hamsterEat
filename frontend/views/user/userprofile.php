@@ -7,7 +7,7 @@ $this->title = 'My Profile';
 
 UserAsset::register($this);
 ?>
-<div class="prfofile">		
+<div class="profile">		
 <?php 
   //user report modal
   Modal::begin([

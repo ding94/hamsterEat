@@ -11,6 +11,7 @@ use kartik\widgets\Select2;
 
 $this->title = 'Submit Ticket';
 ?>
+<div class="ticket">
 <div class="container" id="userprofile">
 	 <div class="userprofile-header">
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
@@ -67,4 +68,5 @@ $this->title = 'Submit Ticket';
         </div>
     </div>
 
+</div>
 </div>

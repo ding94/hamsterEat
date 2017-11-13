@@ -6,6 +6,7 @@ $this->title = "My Orders";
 
 MyOrdersAsset::register($this);
 ?>
+<div class="order">
 <div id="my-orders-container" class = "container">
   <div class="my-orders-header">
         <div class="my-orders-header-title"><?php echo Html::encode($this->title)?></div>
@@ -236,4 +237,5 @@ MyOrdersAsset::register($this);
       </div>
     </div>
   </div>
+</div>
 </div>

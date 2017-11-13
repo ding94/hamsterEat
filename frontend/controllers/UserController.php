@@ -254,7 +254,3 @@ class UserController extends CommonController
     }
 
 }
-
-
-
-

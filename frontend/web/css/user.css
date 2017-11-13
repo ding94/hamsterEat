@@ -273,15 +273,13 @@
 #nav > li:last-child > .active{
    border-right:1px solid #FFDA00;
 }
+/*
+* end
+*/
 
 .primary-btn{
   box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
 }
-
-
-/*
-* end
-*/
 
 .primary{
   display: block;

@@ -188,10 +188,14 @@ UserAsset::register($this);
         ]) ?>
         <div class="container vertical-divider">
             <ul id="nav" class="nav nav-default">
+
                 <li role="presentation"><label id="profile" class="label-btn"><i class="fa fa-user fa-lg"></i>&nbsp;<?php echo Html::a('Profile',['/user/user-profile'])?></label></li>
                 <li role="presentation"><label id="balance" class="label-btn"><i class="fa fa-money fa-lg"></i>&nbsp;<?php echo Html::a('Balance',['/user/userbalance'])?></label></li>
                 <li role="presentation"><label id="order" class="label-btn"><i class="fa fa-cutlery fa-lg"></i>&nbsp;<?php echo Html::a('Order',['/order/my-orders'])?></label></li>
                 <li role="presentation"><label id="ticket" class="label-btn"><i class="fa fa-comment fa-lg"></i>&nbsp;<?php echo Html::a('Ticket',['/ticket/index'])?></label></li>
+
+                <li role="presentation"><label id="voucher" class="label-btn"><i class="fa fa-comment fa-lg"></i>&nbsp;<?php echo Html::a('Vouchers',['/vouchers/index'])?></label></li>
+
             </ul>
         </div>
         <div class="outer-content">

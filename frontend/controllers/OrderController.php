@@ -31,7 +31,7 @@ class OrderController extends CommonController
 
                     ],
                     [
-                        'actions' => ['restaurant-orders','restaurant-order-history','update-preparing','update-readyforpickup'],
+                        'actions' => ['restaurant-orders','restaurant-order-history','update-preparing','update-readyforpickup','switch-mode'],
                         'allow' => true,
                         'roles' => ['restaurant manager'],
                     ],
@@ -140,11 +140,15 @@ class OrderController extends CommonController
 
         $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
 
+        $mode = 1;
+
         $deliveryid = "SELECT DISTINCT orderitem.Delivery_ID FROM orderitem INNER JOIN food ON orderitem.Food_ID = food.Food_ID INNER JOIN orders on orderitem.Delivery_ID = orders.Delivery_ID WHERE food.Restaurant_ID = ".$restaurantname['Restaurant_ID']." AND orders.Orders_Status != 'Not Placed' AND orders.Orders_Status != 'Completed' AND orders.Orders_Status != 'Rating Done' ORDER BY orderitem.Delivery_ID";
         $result = Yii::$app->db->createCommand($deliveryid)->queryAll();
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
         $link = CommonController::getRestaurantUrl($rid,$restaurantname['Restaurant_AreaGroup'],$restaurantname['Restaurant_Area'],$restaurantname['Restaurant_Postcode'],$staff['RmanagerLevel_Level']);
-        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link]);
+
+        
+        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link, 'mode'=>$mode]);
     }
 
 //--This function loads all the specific delivery man's assigned orders (not completed)
@@ -384,5 +388,28 @@ class OrderController extends CommonController
        
 
 
+    }
+
+    public function actionSwitchMode($mode, $rid)
+    {
+        $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
+        
+        $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
+
+        $deliveryid = "SELECT DISTINCT orderitem.Delivery_ID FROM orderitem INNER JOIN food ON orderitem.Food_ID = food.Food_ID INNER JOIN orders on orderitem.Delivery_ID = orders.Delivery_ID WHERE food.Restaurant_ID = ".$restaurantname['Restaurant_ID']." AND orders.Orders_Status != 'Not Placed' AND orders.Orders_Status != 'Completed' AND orders.Orders_Status != 'Rating Done' ORDER BY orderitem.Delivery_ID";
+        $result = Yii::$app->db->createCommand($deliveryid)->queryAll();
+        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
+        $link = CommonController::getRestaurantUrl($rid,$restaurantname['Restaurant_AreaGroup'],$restaurantname['Restaurant_Area'],$restaurantname['Restaurant_Postcode'],$staff['RmanagerLevel_Level']);
+
+        if ($mode ==1)
+        {
+            $mode = 2;
+        }
+        else
+        {
+            $mode = 1;
+        }
+
+        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link, 'mode'=>$mode]);
     }
 }

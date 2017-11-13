@@ -14,6 +14,16 @@ use frontend\assets\RestaurantOrdersAsset;
 $this->title = "Restaurant Orders";
 RestaurantOrdersAsset::register($this);
 ?>
+
+<style>
+
+    .switchbutton
+    {
+        float:right;
+    }
+
+</style>
+
 <div id="restaurant-orders-container" class = "container">
     <div class="restaurant-orders-header">
         <div class="restaurant-orders-header-title"><?= Html::encode($this->title) ?></div>
@@ -61,7 +71,17 @@ RestaurantOrdersAsset::register($this);
         <?php
             if (empty($result)) { ?>
                 <h2>There are no orders currently...</h2>
-            <?php }else {
+            <?php }else { ?>
+            <div class = "switchbutton"> <?php
+                if ($mode == 1)
+                {
+                    echo Html::a('View Nicknames', ['switch-mode', 'mode'=>$mode, 'rid'=>$rid], ['class'=>'btn btn-default fa fa-exchange swap-button', 'style'=>'height:38px; margin-bottom:20px; padding-top:11px;']);
+                }
+                else
+                {
+                    echo Html::a('View Food Names', ['switch-mode', 'mode'=>$mode, 'rid'=>$rid], ['class'=>'btn btn-default fa fa-exchange swap-button', 'style'=>'height:38px; margin-bottom:20px; padding-top:11px;']);
+                } ?>
+            </div> <?php
             foreach ($result as $result) : ?>
                     <?php $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$result['Delivery_ID']])->one();?>
                     <?php if($orderdetails['Orders_Status'] == 'Pending' || $orderdetails['Orders_Status'] == 'Preparing' || $orderdetails['Orders_Status'] == 'Ready For Pick Up'): ?>
@@ -90,8 +110,14 @@ RestaurantOrdersAsset::register($this);
                         <tr>
                             <td data-th="Order ID"><?php echo $orderitemdetails['Order_ID']; ?></td>
                             <?php 
-                            $foodname = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitemdetails['Food_ID']])->one(); ?>
-                            <td data-th="Food Name"><?php echo $foodname['Name']; ?></td>
+                            $foodname = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitemdetails['Food_ID']])->one();
+                            if ($mode == 1)
+                            { ?>
+                                <td data-th="Food Name"><?php echo $foodname['Name']; ?></td>
+                            <?php } else { ?>
+                                <td data-th="Food Name"><?php echo $foodname['Nickname']; ?></td>
+                            <?php } ?>
+
                             <?php 
                             $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$orderitemdetails['Order_ID']])->all(); ?>
                             <td data-th="Selections">

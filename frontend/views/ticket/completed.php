@@ -13,8 +13,9 @@ use yii\helpers\ArrayHelper;
 
     $this->title = 'My Completed Questions';
 ?>
+<div class="ticket">
 <div class="container" id="userprofile">
-<div class="userprofile-header">
+    <div class="userprofile-header">
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
     </div>
    <div class="userprofile-detail">
@@ -94,5 +95,6 @@ We would like to thank you for writing to us, have a great day!</p><br>
             <?= Html::a('Processing Ticket', ['/ticket/index'], ['class'=>'btn btn-primary']) ?>
         </div>
     </div>
+</div>
 </div>
 </div>

@@ -18,12 +18,23 @@
 }
 
 #add-staff-nav > li > a {
+  font-size: large;
   border-bottom: 1px solid #efefef;
 }
 
 #add-staff-content{
   border-left: 1px solid #efefef;
   padding-top: 15px;
+}
+
+@media (max-width: 767px){
+  #add-staff-nav > li > a {
+    font-size: large;
+    border-bottom: 1px solid #efefef;
+    text-align: center;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+    margin-top: 10px;
+  }
 }
 
 @media (max-width: 700px){

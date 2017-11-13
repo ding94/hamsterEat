@@ -7,7 +7,7 @@ $this->title = 'My Profile';
 
 UserAsset::register($this);
 ?>
-		
+<div class="profile">		
 <?php 
   //user report modal
   Modal::begin([
@@ -35,7 +35,8 @@ UserAsset::register($this);
   Modal::end() 
 ?>
 
-    <div id="userprofile" class="row">
+
+  <div id="userprofile" class="row">
       <div class="userprofile-header">
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
       </div>
@@ -87,7 +88,7 @@ UserAsset::register($this);
                   <?php foreach($user->address as $i=>$address):?>
                     <tr>
                       <td><?php echo $i+1?></td>
-                      <td><?php echo $address->level == 1 ? '<span class="btn btn-danger btn-block">Primary</span>': Html::a('Mark as Primary',['/user/primary-address','id' => $address->id ])?></td>
+                      <td><?php echo $address->level == 1 ? '<span class="primary">Primary</span>': Html::a('<i class="fa fa-check"></i> Mark as Primary',['/user/primary-address','id' => $address->id],['class'=>'btn btn-block primary-btn'])?></td>
                       <td><?php echo $address->FullAddress?></td>
                       <td>
                         <div class="row">
@@ -107,8 +108,8 @@ UserAsset::register($this);
           </div>
         </div>
       </div>
-
     </div>
+</div>
 </div>
         
         

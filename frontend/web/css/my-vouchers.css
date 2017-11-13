@@ -1,0 +1,53 @@
+.voucher-header-title{
+  font-size: 1.6em;
+  font-weight: 500;
+  line-height: 2.4em;
+}
+
+.voucher-header{
+  box-sizing: border-box;
+  border-bottom: 1px solid #efefef;
+}
+
+#voucher-container{
+  background-color: white;
+}
+
+#voucher-nav > li > a {
+  border-bottom: 1px solid #efefef;
+}
+
+#voucher-content{
+  border-left: 1px solid #efefef;
+  padding-top: 15px;
+}
+
+@media (max-width: 600px){
+  .my-vouchers-table > table, thead, tbody, th, td, tr { 
+    display: block; 
+  }
+
+/* Hide table headers (but not display: none;, for accessibility) */
+  .my-vouchers-table thead tr { 
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  .my-vouchers-table tr { border: 1px solid #ccc; margin-bottom: 10px; }
+  
+  .my-vouchers-table td { 
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee; 
+    position: relative;
+    padding-left: 50%; 
+  }
+
+  div.my-vouchers-table td:before {
+      font-weight: bold; 
+      content : attr(data-th) ": ";
+      width: 5.5em;
+      display: inline-block;
+  }
+}

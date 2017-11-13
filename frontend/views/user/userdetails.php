@@ -12,7 +12,9 @@ use frontend\assets\UserAsset;
 $this->title = 'Edit details';
 UserAsset::register($this);
 ?>
-<div id="userprofile" class="row">
+
+<div class="profile">
+    <div id="userprofile" class="row">
    <div class="userprofile-header">
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
     </div>
@@ -68,4 +70,5 @@ UserAsset::register($this);
             <?php ActiveForm::end(); ?>
         </div>
     </div>
+</div>
 </div>

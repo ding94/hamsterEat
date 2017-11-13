@@ -6,6 +6,7 @@ $this->title = "My Orders";
 
 MyOrdersAsset::register($this);
 ?>
+<div class="order">
 <div id="my-orders-container" class = "container">
   <div class="my-orders-header">
         <div class="my-orders-header-title"><?php echo Html::encode($this->title)?></div>
@@ -208,9 +209,7 @@ MyOrdersAsset::register($this);
           ?>
           <tr class="orderRow">
             <td  class="block">
-              <a class="btn btn-primary" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <i class="fa fa-info-circle"></i>
-              </a>
+              <?php echo Html::a("<i class='fa fa-info-circle'></i> Invoice" ,['invoice-pdf','did'=>$orders['Delivery_ID']], ['target'=>'_blank' ,'class'=>'btn btn-primary']); ?>
             </td>
             <td class="with" data-th="Delivery ID">
                 <?php echo $orders['Delivery_ID']; ?>
@@ -236,4 +235,5 @@ MyOrdersAsset::register($this);
       </div>
     </div>
   </div>
+</div>
 </div>

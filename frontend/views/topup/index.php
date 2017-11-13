@@ -11,6 +11,7 @@ $this->title = "Top up";
 TopupIndexAsset::register($this);
 ?>
 
+<div class="balance">
 <div id="userprofile" class="row">
    <div class="userprofile-header">
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
@@ -75,4 +76,5 @@ TopupIndexAsset::register($this);
 	  		</div>
         </div>
     </div>
+</div>
 </div>

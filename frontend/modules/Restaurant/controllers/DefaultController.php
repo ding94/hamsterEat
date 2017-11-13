@@ -64,7 +64,11 @@ class DefaultController extends CommonController
     public function actionIndex($groupArea)
     {
         //$aa = Yii::$app->request->get();
-        $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->innerJoinWith('restaurantType',true)->all();
+        $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating']);
+        $pagination = new Pagination(['totalCount'=>$restaurant->count(),'pageSize'=>10]);
+        $restaurant = $restaurant->offset($pagination->offset)
+        ->limit($pagination->limit)
+        ->all();
         // var_dump($restaurant[0]['restaurantType'][0]);exit;
         $types = Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all();
         $mode = 1;
@@ -75,12 +79,16 @@ class DefaultController extends CommonController
         {
             $mode = 3;
             $keyword = $search->Nickname;
-            $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->andWhere(['like', 'Restaurant_Name', $keyword])->all();
+            $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->andWhere(['like', 'Restaurant_Name', $keyword]);
+            $pagination = new Pagination(['totalCount'=>$restaurant->count(),'pageSize'=>10]);
+            $restaurant = $restaurant->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
 
-            return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword]);
+            return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword,'pagination'=>$pagination]);
         }
 
-        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search]);
+        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search,'pagination'=>$pagination]);
     }
 
 //--This function filters the available restaurants in the area according to the restaurant's name and type

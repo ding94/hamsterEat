@@ -63,7 +63,7 @@ RestaurantDetailsAsset::register($this);
                 <span> <?php if ($id['Restaurant_Status'] == "Closed"): ?>
                     <?=Html::a('Resume Resturant Operate', Url::to(['restaurant/active', 'id'=>$id['Restaurant_ID'],'item'=>1]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-success'])?>
                     <?php elseif($id['Restaurant_Status'] == "Operating"): ?>
-                    <?=Html::a('Pause Resturant Operate', Url::to(['restaurant/deactive', 'id'=>$id['Restaurant_ID'],'item'=>1]), ['id'=>'pause','data-confirm'=>"Do you want to Pause Operate?",'class'=>'btn btn-danger'])?>  
+                    <?=Html::a('Pause Resturant Operate', Url::to(['restaurant/pauserestaurant', 'id'=>$id['Restaurant_ID'],'item'=>1]), ['id'=>'pause','data-confirm'=>"Do you want to Pause Operate?",'class'=>'btn btn-danger'])?>  
                 <?php endif ?></span>
             </div>
         <?php endif ?>

@@ -32,18 +32,6 @@
   }
 }
 
-.orderTable td{
-    padding: 8px 0px !important;
-}
-
-.orderTable .orderRow:hover{
-    background-color: #FFBE58;
-}
-
-.orderTable td.block a{
-    display: block;
-}
-
 .my-orders-header-title{
   font-size: 1.6em;
   font-weight: 500;

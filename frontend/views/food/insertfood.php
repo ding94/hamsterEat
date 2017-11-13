@@ -21,8 +21,8 @@ AddFoodAsset::register($this);
     </div>
     <div class="content">
        <div class="col-sm-2">
-            <ul class="nav nav-pills nav-stacked">
-                <li role="presentation"><?php echo Html::a("Back",['/food/menu','rid' => $rid,'page' => 'menu'])?></li>
+            <ul id="add-food-nav" class="nav nav-pills nav-stacked">
+                <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i> Back",['/food/menu','rid' => $rid,'page' => 'menu'])?></li>
             </ul>
        </div>
        <div class="col-sm-10 food-content">

@@ -13,7 +13,7 @@ class NotificationAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/notification.css',
-        'css/user.css',
+        // 'css/user.css',
     ];
     public $js = [
         // 'js/rating-index.js',

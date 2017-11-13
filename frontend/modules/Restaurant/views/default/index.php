@@ -5,6 +5,7 @@ use common\models\Restauranttype;
 use kartik\widgets\ActiveForm;
 use frontend\assets\StarsAsset;
 use frontend\assets\RestaurantDefaultIndexAsset;
+use yii\widgets\LinkPager;
 $this->title = "Available Restaurants";
 StarsAsset::register($this);
 RestaurantDefaultIndexAsset::register($this);
@@ -92,4 +93,7 @@ RestaurantDefaultIndexAsset::register($this);
         <?php endforeach; ?>
       </div>
     </div>
+    <?php echo LinkPager::widget([
+          'pagination' => $pagination,
+          ]); ?>
 </div>

@@ -14,9 +14,11 @@ class RestaurantOrdersAsset extends AssetBundle
     public $css = [
         'css/restaurant-orders.css',
         'css/drop-down-mobile.css',
+		 'css/filter.css',
     ];
     public $js = [
         // 'js/cart.js',
+	  'js/scrolltop.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

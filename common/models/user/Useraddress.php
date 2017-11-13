@@ -55,7 +55,7 @@ class Useraddress extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['uid', 'address', 'postcode', 'city'], 'required'],
+            [['uid', 'address', 'postcode', 'city','recipient','contactno'], 'required'],
             [['uid', 'postcode', 'level', 'created_at', 'updated_at'], 'integer'],
             [['address'], 'string'],
             [['city', 'state', 'country'], 'string', 'max' => 50],

@@ -19,17 +19,18 @@ CartAsset::register($this);
 
 Modal::begin([
       'header' => '<h2 class="modal-title">Please Provide Reason</h2>',
-      'id'     => 'add-session-modal',
+      'id'     => 'add-modal',
       'size'   => 'modal-md',
       'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
 ]);
 Modal::end();
 ?>
-
+ <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <div id="food-menu-container" class="container">
     <div class="food-menu-header">
         <div class="food-menu-header-title"><?= Html::encode($this->title) ?></div>
     </div>
+	
     <div class="content">
         <div class="col-sm-2">
             <div class="dropdown-url">
@@ -69,6 +70,7 @@ Modal::end();
               </ul>
             </div>
         </div>
+		<a href="#top" class="scrollToTop"></a>
         <div id="food-menu-content" class="col-sm-10">
           <?php echo Html::a('Insert Food', ['/food/insert-food','rid'=>$rid], ['class'=>'btn btn-primary']); ?>
           
@@ -95,7 +97,7 @@ Modal::end();
                       if ($status['Status'] == 0) :
                         echo Html::a('Resume Food Service', Url::to(['/Restaurant/restaurant/active', 'id'=>$menu['Food_ID'],'item'=>2]), ['id'=>'res','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-success']);
                       elseif ($status['Status'] == 1) :
-                        echo Html::a('Pause Food Service', Url::to(['/Restaurant/restaurant/providereason', 'id'=>$menu['Food_ID'],'rid'=>$rid,'item'=>2]), ['id'=>'res','class'=>'btn btn-danger','data-toggle'=>'modal','data-target'=>'#add-session-modal']);
+                        echo Html::a('Pause Food Service', Url::to(['/Restaurant/restaurant/providereason', 'id'=>$menu['Food_ID'],'rid'=>$rid,'item'=>2]), ['id'=>'res','class'=>'btn btn-danger','data-toggle'=>'modal','data-target'=>'#add-modal']);
                       endif;
                   endif;
                 ?>

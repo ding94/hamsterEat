@@ -88,7 +88,7 @@ Modal::end();
              'buttons' => [
                 'solved' => function($url , $model)
                 {
-                    return Html::a(FA::icon('check 2x') , $url , ['title' => 'Problem Solved','data-confirm'=>"Prolem solved?"]);
+                    return $model['status']==1 ? Html::a(FA::icon('check 2x') , $url , ['title' => 'Problem Solved','data-confirm'=>"Prolem solved?"]) : "";
                 },
               ],
             ],

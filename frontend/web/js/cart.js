@@ -1,5 +1,5 @@
 $(function(){
-    $('#add-session-modal').on('show.bs.modal', function (event) {
+    $('#add-modal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var modal = $(this);
         var href = button.attr('href');

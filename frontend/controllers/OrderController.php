@@ -16,7 +16,6 @@ use common\models\Orderitemselection;
 use common\models\food\Foodselection;
 use common\models\Rmanagerlevel;
 use frontend\modules\delivery\controllers\DailySignInController;
-use yii\data\Pagination;
 
 class OrderController extends CommonController
 {

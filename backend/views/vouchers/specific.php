@@ -17,7 +17,7 @@ use common\models\Vouchers;
     
 ?>
 	<?=Html::beginForm(['vouchers/delete','direct'=>'3'],'post'); ?>
-    	<?= Html::a('Create New Voucher', ['/vouchers/add'], ['class'=>'btn btn-success']) ?>
+    	<?= Html::a('Create New Voucher', ['/vouchers/addspec'], ['class'=>'btn btn-success']) ?>
         <?= Html::submitButton('Remove Vouchers',  [
             'class' => 'btn btn-danger', 
             'data' => [

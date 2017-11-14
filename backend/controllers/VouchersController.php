@@ -74,6 +74,7 @@ class VouchersController extends Controller
 
 	}	
 
+	//function for adding normal vouchers
 	public function actionAdd()
 	{
 		$model = new Vouchers;
@@ -102,6 +103,35 @@ class VouchersController extends Controller
        	return $this->render('addvoucher',['model' => $model,'type'=>$type,'item'=>$item]);
 	}
 
+
+	//function for addding employee's vouchers
+	public function actionAddspec()
+	{
+		$model = new Vouchers;
+		$model->scenario = 'initial';
+		$model->startDate = date('Y-m-d');
+		$type = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>100],['id'=>101]])->all(),'id','type');
+		$item = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>7],['id'=>8],['id'=>9]])->all(),'id','description');
+
+		if (Yii::$app->request->post()) {
+
+			$model->load(Yii::$app->request->post());
+			$valid = ValidController::VoucherCheckValid($model,4);
+			if ($valid ==true) 
+			{
+				$model = self::actionCreate($model);
+				
+				$valid = ValidController::SaveValidCheck($model,1);
+				if ($valid==true) 
+				{
+					return $this->redirect(['/vouchers/specific']);
+				}
+			}
+		}
+       	return $this->render('addvoucher',['model' => $model,'type'=>$type,'item'=>$item]);
+	}
+
+	//create a voucher
 	public function actionCreate($model)
 	{
 		$model->startDate = time($model->startDate);
@@ -116,6 +146,7 @@ class VouchersController extends Controller
 		return $model;
 	}
 
+	//create amount of vouchers
 	public function actionGenerate()
 	{
 		$model = new Vouchers;
@@ -140,6 +171,7 @@ class VouchersController extends Controller
 		return $this->render('gencodes',['model'=>$model,'type'=>$type,'item'=>$item]);
 	}
 
+	//voucher code generation
 	public function actionGencodes($post)
 	{
 		$chars ="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";//code 包含字母
@@ -183,6 +215,7 @@ class VouchersController extends Controller
 	        return $valid;
 	}
 
+	//adding second functions to a voucher
 	public function actionMore($id)
 	{
 		$voucher = Vouchers::find()->where('id = :id',[':id'=>$id])->one();
@@ -233,6 +266,7 @@ class VouchersController extends Controller
 		return $this->render('morediscount',['model'=>$model,'item'=>$item,'voucher'=>$voucher,'type'=>$type]);
 	}
 
+	//show employee's vouchers
 	public function actionSpecific()
 	{
 		$searchModel = new Vouchers();
@@ -241,6 +275,7 @@ class VouchersController extends Controller
        	return $this->render('specific',['model'=>$dataProvider, 'searchModel'=>$searchModel]);
 	}
 
+	//adding vouchers function for employee voucher
 	public function actionMorespec($id)
 	{
 		$voucher = Vouchers::find()->where('id = :id',[':id'=>$id])->one();

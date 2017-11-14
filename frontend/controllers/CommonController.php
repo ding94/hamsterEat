@@ -81,11 +81,12 @@ class CommonController extends Controller
     			break;
     		case 3:
     			$data = [
-    						'#pending' => 'Pending',
-    						'#preparing' => 'Preparing',
-    						'#pickup' => 'Pick Up In ',
-    						'#ontheway' => 'On The Way',
-    						'#Completed' => 'Completed',
+                            Url::to(['/order/my-orders']) => 'All',
+                            Url::to(['/order/my-orders','status'=>'Pending']) => 'Pending',
+                            Url::to(['/order/my-orders','status'=>'Preparing']) => 'Preparing',
+                            Url::to(['/order/my-orders','status'=>'Pick Up In']) => 'Pick Up In',
+                            Url::to(['/order/my-orders','status'=>'On The Way']) => 'On The Way',
+                            Url::to(['/order/my-orders','status'=>'Completed']) => 'Completed',
     					];
     			break;
     		case 4:

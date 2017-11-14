@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use common\models\Orders;
 use Yii;
 use yii\web\Controller;
+use yii\data\Pagination;
 use common\models\Orderitem;
 use common\models\food\Food;
 use common\models\Restaurant;
@@ -48,55 +49,66 @@ class OrderController extends CommonController
         ];
     }
 //--This function loads all the user's orders
-    public function actionMyOrders()
-    {
-        $order1 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'Pending'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
-        // $order1 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'Pending'])->orderBy(['Delivery_ID'=>SORT_ASC]);
-        // $pagination = new Pagination(['totalCount'=>$order1->count(),'pageSize'=>1]);
-        // $order1 = $order1->offset($pagination->offset)
-        // ->limit($pagination->limit)
-        // ->all();
+    public function actionMyOrders($status = "")
+    {    
+        $countOrder = $this->getTotalOrder();
+        $query = Orders::find()->where('User_Username = :uname ', [':uname'=>Yii::$app->user->identity->username]);
+        if(!empty($status))
+        {
+            if($status == "Completed")
+            {
+                $query->andWhere(['or',
+                   ['Orders_Status'=> 'Rating Done'],
+                   ['Orders_Status'=> $status],
+               ]);
+            }
+            else
+            {
+                $query->andWhere('Orders_Status = :status',[':status' => $status]);
+            }
+        }
 
-        $order2 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'Preparing'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
-        // $order2 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'Preparing'])->orderBy(['Delivery_ID'=>SORT_ASC]);
-        // $pagination = new Pagination(['totalCount'=>$order2->count(),'pageSize'=>1]);
-        // $order2 = $order2->offset($pagination->offset)
-        // ->limit($pagination->limit)
-        // ->all();
-
-        $order3 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'Pick Up in Process'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
-        $order4 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'On The Way'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
-        $order5 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2 or Orders_Status = :status1', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'Completed',':status1'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
-
-//--------The orders are differentiated by their statuses here
-          $count = count($order1);
-			$count = $count ==0 ? "" : $count;
-            $this->view->params['countPending'] = $count;
-
-       
-          $count = count($order2);
-			$count = $count ==0 ? "" : $count;
-            $this->view->params['countPreparing'] = $count;
-
-            
-          $count = count($order3);
-			$count = $count ==0 ? "" : $count;
-            $this->view->params['countPickup'] = $count;
-
-       
-          $count = count($order4);
-			$count = $count ==0 ? "" : $count;
-            $this->view->params['countOntheway'] = $count;
-
-       
-          $count = count($order5);
-			$count = $count ==0 ? "" : $count;
-            $this->view->params['countCompleted'] = $count;
-
-        //$link = CommonController::createUrlLink(3);
-
+        $pagination = new Pagination(['totalCount'=>$query->count(),'pageSize'=>10]);
+        $order = $query->offset($pagination->offset)
+        ->limit($pagination->limit)
+        ->all();
+        $link = CommonController::createUrlLink(3);
         $this->layout = 'user';
-        return $this->render('myorders', ['order1'=>$order1,'order2'=>$order2,'order3'=>$order3,'order4'=>$order4,'order5'=>$order5]);
+        return $this->render('myorders', ['order'=>$order,'pagination' => $pagination,'countOrder'=>$countOrder,'link'=> $link ,'status' => empty($status) ? "All" : $status ]);
+    }
+
+    /*
+    * count all order status order
+    * if empty let it empty
+    * Completed and Rating Done Count as One
+    */
+    public static function getTotalOrder()
+    {
+        $countOrder['Pending']['total'] = 0;   
+        $countOrder['Preparing']['total'] = 0;   
+        $countOrder['Pick Up in Process']['total'] = 0;   
+        $countOrder['On The Way']['total'] = 0;   
+        $countOrder['Completed']['total'] = 0;   
+        $query = Orders::find()->where('User_Username = :uname ', [':uname'=>Yii::$app->user->identity->username])->all();
+        foreach($query as $data)
+        {
+            if($data['Orders_Status'] == 'Completed' || $data['Orders_Status'] == 'Rating Done')
+            {
+                 $countOrder['Completed']['total'] += 1;
+            }
+            else
+            {
+                $countOrder[$data['Orders_Status']]['total'] += 1;
+            }
+          
+        }
+
+        foreach($countOrder as $i=> $data)
+        {
+            $countOrder[$i]['total'] = $data['total'] == 0 ? "" : $data['total'];
+        }
+       
+        return $countOrder;
     }
 
 //--This function loads the specific user's order details

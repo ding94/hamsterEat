@@ -10,6 +10,7 @@ use common\models\Orderitem;
 use kartik\widgets\Select2;
 use yii\helpers\Html;
 use frontend\assets\RestaurantOrdersAsset;
+use yii\widgets\LinkPager;
 
 $this->title = "Restaurant Orders";
 RestaurantOrdersAsset::register($this);
@@ -64,12 +65,10 @@ RestaurantOrdersAsset::register($this);
                 <h2>There are no orders currently...</h2>
             <?php }else {
             foreach ($result as $result) : ?>
-                    <?php $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$result['Delivery_ID']])->one();?>
-                    <?php if($orderdetails['Orders_Status'] == 'Pending' || $orderdetails['Orders_Status'] == 'Preparing' || $orderdetails['Orders_Status'] == 'Ready For Pick Up'): ?>
                 <table class="table table-hover" style="border:1px solid black;">  
                     <thead>
                         <tr>
-                            <th colspan = '6' data-th="Delivery_ID" ><center>Delivery ID: <?php echo $orderdetails['Delivery_ID']; ?></th>
+                            <th colspan = '6' data-th="Delivery_ID" ><center>Delivery ID: <?php echo $result['Delivery_ID']; ?></th>
                         </tr>
                     </thead>
                     <thead class='none'>
@@ -82,19 +81,11 @@ RestaurantOrdersAsset::register($this);
                             <th> Update Status </th>
                         </tr>
                     </thead>
-
-                    <?php 
-                    $orderitemdetails = "SELECT * from orderitem INNER JOIN food ON orderitem.Food_ID = food.Food_ID INNER JOIN restaurant on restaurant.Restaurant_ID = food.Restaurant_ID WHERE food.Restaurant_ID = ".$restaurantname['Restaurant_ID']." AND orderitem.Delivery_ID = ".$orderdetails['Delivery_ID']."";
-                    $resultz = Yii::$app->db->createCommand($orderitemdetails)->queryAll();
-                    foreach ($resultz as $orderitemdetails) : ?>
-                    <?php if ($orderitemdetails['OrderItem_Status'] == 'Pending' || $orderitemdetails['OrderItem_Status'] == 'Preparing' || $orderitemdetails['OrderItem_Status'] == 'Ready For Pick Up'): ?>
                         <tr>
-                            <td data-th="Order ID"><?php echo $orderitemdetails['Order_ID']; ?></td>
+                            <td data-th="Order ID"><?php echo $result['Order_ID']; ?></td>
+                            <td data-th="Food Name"><?php echo $result['food']['Name']; ?></td>
                             <?php 
-                            $foodname = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitemdetails['Food_ID']])->one(); ?>
-                            <td data-th="Food Name"><?php echo $foodname['Name']; ?></td>
-                            <?php 
-                            $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$orderitemdetails['Order_ID']])->all(); ?>
+                            $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$result['Order_ID']])->all(); ?>
                             <td data-th="Selections">
                             <?php foreach ($selections as $selections) :
                                 $selectionname = Foodselection::find()->where('ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
@@ -106,28 +97,28 @@ RestaurantOrdersAsset::register($this);
                                 }
                             endforeach; ?>
                             </td>
-                            <td data-th="Quantity"><?php echo $orderitemdetails['OrderItem_Quantity']; ?></td>
-                            <td data-th="Remarks"><?php echo $orderitemdetails['OrderItem_Remark']; ?></td>
+                            <td data-th="Quantity"><?php echo $result['OrderItem_Quantity']; ?></td>
+                            <td data-th="Remarks"><?php echo $result['OrderItem_Remark']; ?></td>
                             <?php 
-                            if ($orderitemdetails['OrderItem_Status'] == 'Pending')
+                            if ($result['OrderItem_Status'] == 'Pending')
                             { ?>
-                                <td data-th="Update Status"><?php echo Html::a('Preparing', ['update-preparing', 'oid'=>$orderitemdetails['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary']); ?></td>
+                                <td data-th="Update Status"><?php echo Html::a('Preparing', ['update-preparing', 'oid'=>$result['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary']); ?></td>
                             <?php }
-                            elseif ($orderitemdetails['OrderItem_Status'] == 'Preparing')
+                            elseif ($result['OrderItem_Status'] == 'Preparing')
                             { ?>
-                                <td data-th="Update Status"><?php echo Html::a('Ready for Pick Up', ['update-readyforpickup', 'oid'=>$orderitemdetails['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary']); ?></td>
+                                <td data-th="Update Status"><?php echo Html::a('Ready for Pick Up', ['update-readyforpickup', 'oid'=>$result['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary']); ?></td>
                             <?php }
-                            elseif ($orderitemdetails['OrderItem_Status'] == 'Ready For Pick Up')
+                            elseif ($result['OrderItem_Status'] == 'Ready For Pick Up')
                             { ?>
                                 <td data-th="Update Status"><span class='label label-warning'> Waiting for Pick Up </span></td>
                             <?php } ?>
                         </tr>
-                    <?php endif ?>
-                    <?php endforeach; ?>
                 </table>
+                <?php echo LinkPager::widget([
+                  'pagination' => $pagination,
+                  ]); ?>
                 <br>
                 <br>
-                <?php endif ?>
             <?php endforeach; 
             } ?>
         </div>

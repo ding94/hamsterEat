@@ -15,6 +15,7 @@ use common\models\Orderitemselection;
 use common\models\food\Foodselection;
 use common\models\Rmanagerlevel;
 use frontend\modules\delivery\controllers\DailySignInController;
+use yii\data\Pagination;
 
 class OrderController extends CommonController
 {
@@ -50,7 +51,19 @@ class OrderController extends CommonController
     public function actionMyOrders()
     {
         $order1 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'Pending'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
+        // $order1 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'Pending'])->orderBy(['Delivery_ID'=>SORT_ASC]);
+        // $pagination = new Pagination(['totalCount'=>$order1->count(),'pageSize'=>1]);
+        // $order1 = $order1->offset($pagination->offset)
+        // ->limit($pagination->limit)
+        // ->all();
+
         $order2 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'Preparing'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
+        // $order2 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'Preparing'])->orderBy(['Delivery_ID'=>SORT_ASC]);
+        // $pagination = new Pagination(['totalCount'=>$order2->count(),'pageSize'=>1]);
+        // $order2 = $order2->offset($pagination->offset)
+        // ->limit($pagination->limit)
+        // ->all();
+
         $order3 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'Pick Up in Process'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
         $order4 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'On The Way'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
         $order5 = Orders::find()->where('User_Username = :uname and Orders_Status = :status2 or Orders_Status = :status1', [':uname'=>Yii::$app->user->identity->username, ':status2'=>'Completed',':status1'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
@@ -140,11 +153,15 @@ class OrderController extends CommonController
 
         $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
 
-        $deliveryid = "SELECT DISTINCT orderitem.Delivery_ID FROM orderitem INNER JOIN food ON orderitem.Food_ID = food.Food_ID INNER JOIN orders on orderitem.Delivery_ID = orders.Delivery_ID WHERE food.Restaurant_ID = ".$restaurantname['Restaurant_ID']." AND orders.Orders_Status != 'Not Placed' AND orders.Orders_Status != 'Completed' AND orders.Orders_Status != 'Rating Done' ORDER BY orderitem.Delivery_ID";
-        $result = Yii::$app->db->createCommand($deliveryid)->queryAll();
+        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->andWhere(['!=', 'Orders_Status', 'Not Placed'])->andWhere(['!=', 'Orders_Status', 'Completed'])->andWhere(['!=', 'Orders_Status', 'Rating Done'])->joinWith('food')->joinWith('order');
+        $pagination = new Pagination(['totalCount'=>$result->count(),'pageSize'=>10]);
+        $result = $result->offset($pagination->offset)
+        ->limit($pagination->limit)
+        ->all();
+
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
         $link = CommonController::getRestaurantUrl($rid,$restaurantname['Restaurant_AreaGroup'],$restaurantname['Restaurant_Area'],$restaurantname['Restaurant_Postcode'],$staff['RmanagerLevel_Level']);
-        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link]);
+        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination]);
     }
 
 //--This function loads all the specific delivery man's assigned orders (not completed)
@@ -353,12 +370,19 @@ class OrderController extends CommonController
         
         $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
 
-        $deliveryid = "SELECT DISTINCT orderitem.Delivery_ID FROM orderitem INNER JOIN food ON orderitem.Food_ID = food.Food_ID INNER JOIN orders on orderitem.Delivery_ID = orders.Delivery_ID WHERE food.Restaurant_ID = ".$restaurantname['Restaurant_ID']." AND orders.Orders_Status = 'Completed' OR orders.Orders_Status = 'Rating Done' ORDER BY orderitem.Delivery_ID";
-        $result = Yii::$app->db->createCommand($deliveryid)->queryAll();
+        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->andWhere(['like', 'Orders_Status', 'Completed'])->orWhere(['like', 'Orders_Status', 'Rating Done'])->joinWith('food')->joinWith('order');
+        
+        /* Code to generate pagination */
+        $pagination = new Pagination(['totalCount'=>$result->count(),'pageSize'=>10]);
+        $result = $result->offset($pagination->offset)
+        ->limit($pagination->limit)
+        ->all();
+        /* end.. */
+
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
 
         $link = CommonController::getRestaurantUrl($rid,$restaurantname['Restaurant_AreaGroup'],$restaurantname['Restaurant_Area'],$restaurantname['Restaurant_Postcode'],$staff['RmanagerLevel_Level']);
-        return $this->render('restaurantorderhistory', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link]);
+        return $this->render('restaurantorderhistory', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination]);
     }
 
 //--This function loads the delivery man's assigned orders which have been completed

@@ -43,9 +43,13 @@ RestaurantDefaultIndex2Asset::register($this);
                     </div>
                     <ul class ="filter-list">
                     <?php echo Html::a('<li>All</li>', ['show-by-food', 'groupArea'=>$groupArea])."&nbsp;&nbsp;"; ?>  
-                        <?php foreach ($allfoodtype as $i=> $data) :
-                        echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/show-by-food', 'groupArea'=>$groupArea ,'type'=>$i])."&nbsp;&nbsp;";
-                        endforeach; ?>
+                        <?php foreach ($allfoodtype as $i=> $data) : ?>
+                            <?php if(empty($filter)) :?>
+                                <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/show-by-food', 'groupArea'=>$groupArea ,'type'=>$i])."&nbsp;&nbsp;"; ?>
+                            <?php else :?>
+                                <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/show-by-food', 'groupArea'=>$groupArea ,'type'=>$i ,'filter'=>$filter])."&nbsp;&nbsp;"; ?>
+                            <?php endif ;?>
+                        <?php endforeach; ?>
                     </ul> 
                 </div>
             </div>

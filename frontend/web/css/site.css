@@ -64,6 +64,9 @@ h2
     padding-right: 40px;
     width : 200px;
   }
+  .container{
+  width: 100%;
+  }
 }
 
 @media(max-width: 480px){

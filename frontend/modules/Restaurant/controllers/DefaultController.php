@@ -464,7 +464,7 @@ class DefaultController extends CommonController
 
         if(!empty($filter))
         {
-            $query->andWhere('Name = :n',[':n' => $filter]);
+            $query->andWhere(['like','Name',$filter]);
         }
         
         $countQuery = clone $query;

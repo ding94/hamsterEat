@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\LinkPager;
 use common\models\Restauranttype;
 use kartik\widgets\ActiveForm;
 use frontend\assets\StarsAsset;
@@ -35,9 +36,13 @@ RestaurantDefaultIndexAsset::register($this);
           </div>
           <ul class ="filter-list">
           <?php echo Html::a('<li>All</li>', ['index', 'groupArea'=>$groupArea])."&nbsp;&nbsp;"; ?>
-            <?php foreach ($allrestauranttype as $i=> $data) :
-              echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/index', 'groupArea'=>$groupArea ,'type'=>$i])."&nbsp;&nbsp;";
-            endforeach; ?>
+            <?php foreach ($allrestauranttype as $i=> $data) : ?>
+              <?php if(empty($filter)) :?>
+                <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/index', 'groupArea'=>$groupArea ,'type'=>$i])."&nbsp;&nbsp;"; ?>
+              <?php else :?>
+                 <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/index', 'groupArea'=>$groupArea ,'type'=>$i ,'filter'=>$filter])."&nbsp;&nbsp;"; ?>
+              <?php endif ;?>
+            <?php endforeach; ?>
           </ul>
         </div>
       </div>
@@ -94,5 +99,5 @@ RestaurantDefaultIndexAsset::register($this);
     </div>
     <?php echo LinkPager::widget([
           'pagination' => $pagination,
-          ]); ?>
+    ]); ?>
 </div>

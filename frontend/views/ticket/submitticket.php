@@ -8,8 +8,10 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 use kartik\widgets\Select2;
+use frontend\assets\UserAsset;
 
 $this->title = 'Submit Ticket';
+UserAsset::register($this);
 ?>
 <div class="ticket">
 <div class="container" id="userprofile">

@@ -87,7 +87,7 @@ class OrderController extends CommonController
         $countOrder['Preparing']['total'] = 0;   
         $countOrder['Pick Up in Process']['total'] = 0;   
         $countOrder['On The Way']['total'] = 0;   
-        $countOrder['Completed']['total'] = 0;   
+        $countOrder['Completed']['total'] = 0;  
         $query = Orders::find()->where('User_Username = :uname ', [':uname'=>Yii::$app->user->identity->username])->all();
         foreach($query as $data)
         {
@@ -107,6 +107,34 @@ class OrderController extends CommonController
             $countOrder[$i]['total'] = $data['total'] == 0 ? "" : $data['total'];
         }
        
+        return $countOrder;
+    }
+
+    public static function getTotalOrderRestaurant($rid)
+    {
+        $countOrder['Pending']['total'] = 0;   
+        $countOrder['Preparing']['total'] = 0;   
+        $countOrder['Pick Up in Process']['total'] = 0;   
+        $countOrder['On The Way']['total'] = 0;
+        $count = 0;   
+        $query = Orders::find()->where('Restaurant_ID = :rid ', [':rid'=>$rid])->joinWith('order_item')->joinWith('order_item.food')->all();
+        foreach($query as $data)
+        {
+            if($data['Orders_Status'] == 'Completed' || $data['Orders_Status'] == 'Rating Done')
+            {
+                $count+=1;
+            }
+            else
+            {
+                $countOrder[$data['Orders_Status']]['total'] += 1;
+            }
+          
+        }
+
+        foreach($countOrder as $i=> $data)
+        {
+            $countOrder[$i]['total'] = $data['total'] == 0 ? "" : $data['total'];
+        }
         return $countOrder;
     }
 
@@ -158,21 +186,22 @@ class OrderController extends CommonController
     }
 
 //--This function loads all the restaurant's running orders (not completed)
-    public function actionRestaurantOrders($rid)
+    public function actionRestaurantOrders($rid,$status = "")
     {
+        $countOrder = $this->getTotalOrderRestaurant($rid);
         $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
 
         $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
 
-        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->andWhere(['!=', 'Orders_Status', 'Not Placed'])->andWhere(['!=', 'Orders_Status', 'Completed'])->andWhere(['!=', 'Orders_Status', 'Rating Done'])->joinWith('food')->joinWith('order');
+        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->andWhere(['Orders_Status'=>$status])->joinWith('food')->joinWith('order');
         $pagination = new Pagination(['totalCount'=>$result->count(),'pageSize'=>10]);
         $result = $result->offset($pagination->offset)
         ->limit($pagination->limit)
         ->all();
 
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
-        $link = CommonController::getRestaurantUrl($rid,$restaurantname['Restaurant_AreaGroup'],$restaurantname['Restaurant_Area'],$restaurantname['Restaurant_Postcode'],$staff['RmanagerLevel_Level']);
-        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination]);
+        $link = CommonController::getRestaurantOrdersUrl($rid);
+        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination,'status'=>$status,'countOrder'=>$countOrder]);
     }
 
 //--This function loads all the specific delivery man's assigned orders (not completed)

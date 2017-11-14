@@ -375,8 +375,10 @@ class DefaultController extends CommonController
         $rid = $restaurantdetails['Restaurant_ID'];
         $postcode = new Area();
         $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
-        if(Yii::$app->request->isPost)
+
+        if($postcode->load(Yii::$app->request->post()))
         {
+            //var_dump('a');exit;
             $area = Yii::$app->request->post('Area');
             $postcodechosen = $area['Area_Postcode'];
             $areachosen = $area['Area_Area'];
@@ -387,7 +389,7 @@ class DefaultController extends CommonController
             return $this->redirect(['edit-restaurant-details', 'restArea'=>$restArea, 'postcodechosen'=>$postcodechosen, 'rid'=>$rid, 'areachosen'=>$areachosen]);
         }
 
-        return $this->render('editrestaurantlocation',['restaurantdetails'=>$restaurantdetails, 'postcode'=>$postcode , 'rid'=>$rid, 'postcodeArray'=>$postcodeArray]);
+        return $this->renderAjax('editrestaurantlocation',['restaurantdetails'=>$restaurantdetails, 'postcode'=>$postcode , 'rid'=>$rid, 'postcodeArray'=>$postcodeArray]);
     }
 
 //--This function shows all the staff under a specific restaurant

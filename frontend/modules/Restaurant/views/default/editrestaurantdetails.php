@@ -8,9 +8,22 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\widgets\Select2;
 use frontend\assets\EditRestaurantDetailsAsset;
+use yii\bootstrap\Modal;
 
 $this->title = "Edit Restaurant's Details";
-EditRestaurantDetailsAsset::register($this);
+EditRestaurantDetailsAsset::register($this); ?>
+<body>
+
+<?php Modal::begin([
+            'header' => '<h2 class="modal-title">Edit Location</h2>',
+            'id'     => 'location-modal',
+            'size'   => 'modal-sm',
+            //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    
+    Modal::end() ?>
+
+</body> <?php
 
 if (!is_null($restArea))
 {
@@ -83,7 +96,7 @@ if (!is_null($areachosen))
 
                 <strong>Restaurant Group Area</strong><br><?php echo $restaurantdetails['Restaurant_AreaGroup']; ?><br><br>
 
-                <?php echo Html::a('Edit Area', ['edit-restaurant-area', 'rid'=>$restaurantdetails['Restaurant_ID']], ['class'=>'btn btn-default']); ?><br><br>
+                <?php echo Html::a('Edit Area', ['edit-restaurant-area', 'rid'=>$restaurantdetails['Restaurant_ID']], ['class'=>'btn btn-default','data-toggle'=>'modal','data-target'=>'#location-modal']); ?><br><br>
 
                 <?php echo '<label class="control-label">Type</label>';
                         echo Select2::widget([

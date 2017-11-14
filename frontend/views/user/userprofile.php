@@ -52,19 +52,19 @@ UserAsset::register($this);
           <h4>Detail</h4>
           <div class="userprofile-input">
               <div class="row">
-                <div class="col-xs-2  userprofile-label">user name</div>
-                <div class="col-xs-4  userprofile-text"><?php echo $user->username?></div>
+                <div class="col-xs-2  userprofile-label">User Name:</div>
+                <div class="col-xs-2  userprofile-text"><?php echo $user->username?></div>
               
-                <div class="col-sm-2 col-xs-2 userprofile-label">full name</div>
-                <div class="col-sm-4 col-xs-6 userprofile-text"><?php echo $user->userdetails->fullname ?></div>
+                <div class="col-sm-2 col-xs-2 userprofile-label">Full Name:</div>
+                <div class="col-sm-4 col-xs-5 userprofile-text"><?php echo $user->userdetails->fullname ?></div>
               </div>
               <div class="row">
-                <div class="col-xs-2 userprofile-label">contact</div>
-                <div class="col-xs-6 userprofile-text"><?php echo empty($user->userdetails->User_ContactNo) ? "not set" :$user->userdetails->User_ContactNo ?></div>
+                <div class="col-xs-2 userprofile-label">Contact:</div>
+                <div class="col-xs-5 userprofile-text"><?php echo empty($user->userdetails->User_ContactNo) ? "not set" :$user->userdetails->User_ContactNo ?></div>
               </div>
               <div class="row">
-                <div class="col-xs-2 userprofile-label">Balance(RM)</div>
-                <div class="col-xs-6 userprofile-text"><?php echo $user->balance->User_Balance?></div>
+                <div class="col-xs-2 userprofile-label">Balance(RM): </div>
+                <div class="col-xs-5 userprofile-text"><?php echo $user->balance->User_Balance?></div>
               </div>
           </div>
 

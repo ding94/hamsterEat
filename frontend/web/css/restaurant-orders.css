@@ -22,6 +22,11 @@
   padding-top: 15px;
 }
 
+#restaurant-orders-nav span.badge{
+    margin-left:4px;
+    background-color:#1E90FF;
+}
+
 @media (max-width: 549px){
 	#restaurant-orders-content > table, thead, tbody, th, td, tr { 
     display: block; 

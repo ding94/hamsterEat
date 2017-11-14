@@ -40,8 +40,9 @@ class TopupHistoryController extends CommonController
 	    $list = ArrayHelper::map(AccounttopupStatus::find()->all() ,'title' ,'title');
 		$name=ArrayHelper::map(Bank::find()->all() ,'Bank_ID' ,'Bank_Name');
 		//var_dump($name);exit;
+        $link = CommonController::createUrlLink(2);
 		$this->layout = 'user';
-	    return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel,'list'=>$list,'name'=>$name ]);
+	    return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel,'list'=>$list,'name'=>$name ,'link'=>$link]);
     }
 
 }

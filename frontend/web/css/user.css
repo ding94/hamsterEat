@@ -69,11 +69,6 @@
   margin-top: 3em;
 }
 
-
-.userprofile-address{
-  height: 75%;
-}
-
 .userprofile-pencil{
   color: #315f9c;
   font-size:1.5em;
@@ -112,7 +107,6 @@
 
   div.userprofile-address * { 
     display: block; 
-    border-top: 1px solid #efefef;
   }
 
 /* Hide table headers (but not display: none;, for accessibility) */
@@ -144,8 +138,6 @@
   }
 }
 
- 
-
 @media(max-width: 990px){
   .userprofile-avatar{
     margin : -17px;
@@ -172,6 +164,11 @@
   }
   .col-xs-2{
     width: 30%;
+  }
+
+  div.userprofile-label
+  {
+    margin-left:45px;
   }
   
 }
@@ -207,6 +204,9 @@
   .nav-default > li > .label-btn > a{
     font-size: 0.7em;
   }
+
+div.userprofile-input{margin: 0px 0px 55px 0px;}
+
 }
 
 .container3{

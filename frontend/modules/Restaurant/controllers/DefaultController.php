@@ -61,16 +61,29 @@ class DefaultController extends CommonController
     }
 
 //--This function gets the restaurants in the area according to the users postcode and area
-    public function actionIndex($groupArea)
+    public function actionIndex($groupArea,$type=0,$filter="")
     {
         //$aa = Yii::$app->request->get();
-        $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating']);
-        $pagination = new Pagination(['totalCount'=>$restaurant->count(),'pageSize'=>10]);
-        $restaurant = $restaurant->offset($pagination->offset)
+        $query = restaurant::find()->distinct()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->joinWith(['rJunction']);
+
+        if($type !=0)
+        {
+            $query->andWhere('Type_ID = :tid',[':tid' => $type]);
+        }
+
+        if(!empty($filter))
+        {
+            $query->andWhere(['like','Restaurant_Name',$filter]);
+        }
+
+        $pagination = new Pagination(['totalCount'=>$query->count(),'pageSize'=>10]);
+        $restaurant = $query->offset($pagination->offset)
         ->limit($pagination->limit)
         ->all();
+
+        $allrestauranttype = ArrayHelper::map(Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all(),'ID','Type_Name');
         // var_dump($restaurant[0]['restaurantType'][0]);exit;
-        $types = Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all();
+        /*$types = Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all();
         $mode = 1;
 
         $search = new Food();
@@ -86,33 +99,11 @@ class DefaultController extends CommonController
             ->all();
 
             return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword,'pagination'=>$pagination]);
-        }
+        }*/
 
-        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search,'pagination'=>$pagination]);
+        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'allrestauranttype'=>$allrestauranttype ,'type' => $type,'filter'=>$filter,'pagination'=>$pagination]);
     }
 
-//--This function filters the available restaurants in the area according to the restaurant's name and type
-    public function actionRestaurantFilter($groupArea, $rfilter)
-    {
-        $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status and Type_ID = :tid' ,[':group' => $groupArea, ':status'=>'Operating', ':tid'=>$rfilter])->innerJoinWith('restaurantType',true)->all();
-
-        $types = Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all();
-
-        $mode = 2;
-
-        $search = new Food();
-
-        if ($search->load(Yii::$app->request->post()))
-        {
-            $mode = 4;
-            $keyword = $search->Nickname;
-            $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status and Type_ID = :tid' ,[':group' => $groupArea, ':status'=>'Operating', ':tid'=>$rfilter])->andWhere(['like', 'Restaurant_Name', $keyword])->innerJoinWith('restaurantType',true)->all();
-
-            return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword, 'rfilter'=>$rfilter]);
-        }
-
-        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'rfilter'=>$rfilter, 'mode'=>$mode, 'search'=>$search]);
-    }
 
 //--This function loads the restaurant's details
     public function actionRestaurantDetails($rid)
@@ -465,11 +456,30 @@ class DefaultController extends CommonController
     }
 
 //--This shows the food available in the area group according to user keyed in postcode and area
-    public function actionShowByFood($groupArea)
+    public function actionShowByFood($groupArea,$type = 0,$filter="")
     {
-        $restaurant = Restaurant::find()->where('Restaurant_AreaGroup = :group' ,[':group' => $groupArea])->all();
-        $types = Foodtype::find()->orderBy(['Type_Desc'=>SORT_ASC])->all();
-        $mode = 1;
+        $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $groupArea])->joinWith(['restaurant','junction','foodStatus']);
+        if($type != 0)
+        {
+          $query->andWhere('foodtypejunction.Type_ID = :tid', [':tid' => $type]);
+        }
+
+        if(!empty($filter))
+        {
+            $query->andWhere(['like','Name',$filter]);
+        }
+        
+        $countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->count()]);
+        $food = $query->offset($pages->offset)
+        ->limit($pages->limit)
+        ->all();
+        //$food = food::find()->where('restaurant.Restaurant_AreaGroup = :group',[':group' => $groupArea])->joinWith(['restaurant' ,'junction'])->all();
+        
+       
+        $allfoodtype = ArrayHelper::map(Foodtype::find()->orderBy(['Type_Desc'=>SORT_ASC])->all(),'ID','Type_Desc');
+        
+/*        $mode = 1;
 
         $search = new Food();
         if ($search->load(Yii::$app->request->post()))
@@ -478,41 +488,12 @@ class DefaultController extends CommonController
             $keyword = $search->Nickname;
 
             return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword]);
-        }
+        }*/
 
         //var_dump($types);exit;
-        return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search]);
+        return $this->render('index2',['food'=>$food, 'pagination' => $pages, 'groupArea'=>$groupArea, 'allfoodtype'=>$allfoodtype, 'filter'=>$filter,'type' => $type]);
     }
 
-//--This function filters the food in the area based on the food name and type
-    public function actionFoodFilter($groupArea,$typefilter)
-    {
-        $restaurant = Restaurant::find()->where('Restaurant_AreaGroup = :group' ,[':group' => $groupArea])->all();
-        $mode = 2;
-        $types = Foodtype::find()->orderBy(['Type_Desc'=>SORT_ASC])->all();
-        $type = $typefilter;
-        $search = new Food();
-
-        if ($search->load(Yii::$app->request->post()))
-        {
-            $mode = 4;
-            $keyword = $search->Nickname;
-
-            return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword, 'filter'=>$type]);
-        }
-
-        return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'filter'=>$type, 'search'=>$search]);
-    }
-
-//--This function searches for a food in the are
-    public function actionSearchFood($groupArea, $keyword)
-    {
-        $restaurant = Restaurant::find()->where('Restaurant_AreaGroup = :group' ,[':group' => $groupArea])->all();
-        $mode = 3;
-        $types = Foodtype::find()->orderBy(['Type_Desc'=>SORT_ASC])->all();
-
-        return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'keyword'=>$keyword]);
-    }
 
 //--This function loads the all the restaurants that the specific user is a staff in
     public function actionViewRestaurant()

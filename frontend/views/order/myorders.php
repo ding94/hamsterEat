@@ -1,8 +1,13 @@
 <?php
 /* @var $this yii\web\View */
 use yii\helpers\Html;
+use yii\widgets\LinkPager;
+use kartik\widgets\Select2;
 use frontend\assets\MyOrdersAsset;
-$this->title = "My Orders";
+
+$this->title = "My Orders : ". $status;
+
+
 
 MyOrdersAsset::register($this);
 ?>
@@ -13,227 +18,79 @@ MyOrdersAsset::register($this);
   </div>
   <div class="content">
     <div class="col-sm-2">
-      <ul id="my-orders-nav" class="nav nav-pills nav-stacked">
-        <li class="active"><a data-toggle="pill" href="#pending">Pending<span class="badge"><?php echo Yii::$app->view->params['countPending'] ?></span></a></li>
-        <li><a data-toggle="pill" href="#preparing">Preparing<span class="badge"><?php echo Yii::$app->view->params['countPreparing'] ?></span></a></li>
-        <li><a data-toggle="pill" href="#pickup">Pick Up in Process<span class="badge"><?php echo Yii::$app->view->params['countPickup'] ?></span></a></li>
-        <li><a data-toggle="pill" href="#ontheway">On The Way<span class="badge"><?php echo Yii::$app->view->params['countOntheway'] ?></span></a></li>
-        <li><a data-toggle="pill" href="#completed">Completed<span class="badge"><?php echo Yii::$app->view->params['countCompleted'] ?></span></a></li>
-      </ul>
+        <div class="dropdown-url">
+          <?php echo Select2::widget([
+              'name' => 'url-redirect',
+              'hideSearch' => true,
+              'data' => $link,
+              'options' => [
+                  'placeholder' => 'Go To ...',
+                  'multiple' => false,
+                ],
+              'pluginEvents' => [
+                    "change" => 'function (e){
+                      location.href =this.value;
+                  }',
+              ]
+          ]);?>
+        </div>
+        <div class="nav-url">
+          <ul id="my-orders-nav" class="nav nav-pills nav-stacked">
+            <li><?php echo Html::a("All",['/order/my-orders'])?></li>
+            <?php foreach($countOrder as $i=> $count):?>
+              <li><?php echo Html::a($i.'<span class="badge">'.$count['total'].'</span>',['/order/my-orders','status'=>$i])?></li>
+            <?php endforeach ;?>
+        </ul>
+      </div>
     </div>
-    <div class="col-sm-8 tab-content">
+    <div class="col-sm-10 tab-content">
       <div id="pending" class="tab-pane fade my-orders-table in active">
-        <?php if (empty($order1)){ ?>
+        <?php if (empty($order)) : ?>
         <div class ="order-icon">
-         <?php echo Html::img('@web/imageLocation/Img/order-icon.png',['style'=>'width:100px; height:100px; margin-right:-13px; ']); ?>
+         <?php echo Html::img('@web/imageLocation/Img/order-icon.png',['class' =>'empty-img']); ?>
           <p>No orders yet</p>
-          </div>
-        <?php } else{ ?>
+        </div>
+        <?php  else : ?>
         <table class="table table-user-info orderTable">
           <thead>
             <tr>
               <th colspan="2"><center>More</th>
               <th><center>Delivery ID</th>
               <th><center>Date and Time Placed</th>
+              <th></th>
             </tr>
           </thead>
-          <?php 
-            foreach ($order1 as $orders) :
-              if($orders['Orders_Status'] == 'Pending')
-              {
-          ?>
+          <?php foreach ($order as $data) :?>
           <tr class="orderRow">
             <td colspan="2" class="block">
-              <a class="btn btn-primary" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <i class="fa fa-info-circle"></i>
-              </a>
+              <?php if($data['Orders_Status'] == "Completed" || $data['Orders_Status'] == "Rating Done"): ?>
+                 <?php echo Html::a("Invoice Detail" ,['invoice-pdf','did'=>$data['Delivery_ID']], ['target'=>'_blank' ,'class'=>'btn btn-primary btn-block']); ?>
+              <?php else :?>
+                <a class="btn btn-primary btn-block" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$data['Delivery_ID']]); ?>">
+                  <i class="fa fa-info-circle"></i>
+                </a>
+              <?php endif ;?>
+            </td>
             <td class="with" data-th="Delivery ID">
-                <?php echo $orders['Delivery_ID']; ?>
+                <?php echo $data['Delivery_ID']; ?>
             </td>
             <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
             <td class="with" data-th="Date and Time Placed">
-                <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
+                <?php echo date('Y-m-d h:i:s',$data['Orders_DateTimeMade']); ?>
             </td>
+            <?php if($data['Orders_Status'] == "Completed"): ?>
+              <td class="with" data-th="Rating">
+                <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$data['Delivery_ID']], ['class'=>'btn btn-primary']); ?>
+              </td>
+            <?php endif;?>
           </tr>
-          <?php  
-              }
-            endforeach;
-          ?>
+          <?php endforeach;?>
         </table>
-        <?php }?>
+        <?php endif ;?>
       </div>
-      <div id="preparing" class="tab-pane fade my-orders-table">
-        <?php if (empty($order2)){ ?>
-         <div class ="order-icon">
-         <?php echo Html::img('@web/imageLocation/Img/order-icon.png',['style'=>'width:100px; height:100px; margin-right:-13px; ']); ?>
-          <p>No orders yet</p>
-          </div>
-        <?php } else{ ?>
-        <table class="table table-user-info orderTable">
-          <thead>
-            <tr>
-              <th colspan="2"><center>More</th>
-              <th><center>Delivery ID</th>
-              <th><center>Date and Time Placed</th>
-            </tr>
-          </thead>
-          <?php 
-            foreach ($order2 as $orders) :
-              if($orders['Orders_Status'] == 'Preparing')
-              {
-          ?>
-          <tr class="orderRow">
-            <td colspan="2" class="block">
-              <a class="btn btn-primary" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <i class="fa fa-info-circle"></i>
-              </a>
-            </td>
-            <td class="with" data-th="Delivery ID">
-                <?php echo $orders['Delivery_ID']; ?>
-            </td>
-            <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
-            <td class="with" data-th="Date and Time Placed">
-                <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
-            </td>
-          </tr>
-          <?php  
-              }
-            endforeach;
-          ?>
-        </table>
-        <?php }?>
-      </div>
-      <div id="pickup" class="tab-pane fade my-orders-table">
-        <?php if (empty($order3)){ ?>
-           <div class ="order-icon">
-         <?php echo Html::img('@web/imageLocation/Img/order-icon.png',['style'=>'width:100px; height:100px; margin-right:-13px; ']); ?>
-          <p>No orders yet</p>
-          </div>
-        <?php } else{ ?>
-        <table class="table table-user-info orderTable">
-          <thead>
-            <tr>
-              <th colspan="2"><center>More</th>
-              <th><center>Delivery ID</th>
-              <th><center>Date and Time Placed</th>
-            </tr>
-          </thead>
-          <?php 
-            foreach ($order3 as $orders) :
-              if($orders['Orders_Status'] == 'Pick Up in Process')
-              {
-          ?>
-          <tr class="orderRow">
-            <td colspan="2" class="block">
-              <a class="btn btn-primary" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <i class="fa fa-info-circle"></i>
-              </a>
-            </td>
-            <td class="with" data-th="Delivery ID">
-                <?php echo $orders['Delivery_ID']; ?>
-            </td>
-            <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
-            <td class="with" data-th="Date and Time Placed">
-                <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
-            </td>
-          </tr>
-          <?php  
-              }
-            endforeach;
-          ?>
-        </table>
-        <?php }?>
-      </div>
-      <div id="ontheway" class="tab-pane fade my-orders-table">
-        <?php if (empty($order4)){ ?>
-           <div class ="order-icon">
-         <?php echo Html::img('@web/imageLocation/Img/order-icon.png',['style'=>'width:100px; height:100px; margin-right:-13px; ']); ?>
-          <p>No orders yet</p>
-          </div>
-        <?php } else{ ?>
-        <table class="table table-user-info orderTable">
-          <thead>
-            <tr>
-              <th><center></th>
-              <th><center>More</th>
-              <th><center>Delivery ID</th>
-              <th><center>Date and Time Placed</th>
-            </tr>
-          </thead>
-          <?php 
-            foreach ($order4 as $orders) :
-              if($orders['Orders_Status'] == 'On The Way')
-              {
-          ?>
-          <tr class="orderRow">
-            <td></td>
-            <td class="block">
-              <a class="btn btn-primary" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
-                <i class="fa fa-info-circle"></i>
-              </a>
-            </td>
-            <td class="with" data-th="Delivery ID">
-                <?php echo $orders['Delivery_ID']; ?>
-            </td>
-            <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
-            <td class="with" data-th="Date and Time Placed">
-                <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
-            </td>
-          </tr>
-          <?php  
-              }
-            endforeach;
-          ?>
-        </table>
-        <?php }?>
-      </div>
-      <div id="completed" class="tab-pane fade my-orders-table">
-          <?php if (empty($order5)){ ?>
-            <div class ="order-icon">
-         <?php echo Html::img('@web/imageLocation/Img/order-icon.png',['style'=>'width:100px; height:100px; margin-right:-13px; ']); ?>
-          <p>No orders yet</p>
-          </div>
-          <?php } else{ ?>
-        <table class="table table-user-info orderTable">
-          <thead>
-            <tr>
-              <th><center>More</th>
-              <th><center>Delivery ID</th>
-              <th><center>Date and Time Placed</th>
-              <th><center>Rate</th>
-            </tr>
-          </thead>
-          <?php 
-            foreach ($order5 as $orders) :
-              if($orders['Orders_Status'] == 'Completed'|| $orders['Orders_Status']=='Rating Done')
-              {
-            ?>
-          <tr class="orderRow">
-            <td class="block">
-              <?php echo Html::a("<i class='fa fa-info-circle'></i> Invoice" ,['invoice-pdf','did'=>$orders['Delivery_ID']], ['target'=>'_blank' ,'class'=>'btn btn-primary']); ?>
-            </td>
-            <td class="with" data-th="Delivery ID">
-                <?php echo $orders['Delivery_ID']; ?>
-            </td>
-            <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
-            <td class="with" data-th="Date and Time Placed">
-                <?php echo date('Y-m-d h:i:s',$orders['Orders_DateTimeMade']); ?>
-            </td>
-            <?php if ($orders['Orders_Status'] != 'Completed'){ ?>
-            <td><span class="rating-complete">Rating Done</span></td>
-            <?php }else{ ?>
-            <td class="block">
-              <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$orders['Delivery_ID']], ['class'=>'btn btn-primary']); ?>
-            </td>
-            <?php } ?>
-          </tr>
-          <?php  
-              }
-            endforeach;
-          ?>
-          <?php }?>
-        </table>
-      </div>
+      <?php echo LinkPager::widget([
+          'pagination' => $pagination,
+    ]); ?>
     </div>
   </div>
 </div>

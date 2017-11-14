@@ -56,15 +56,8 @@ class CartController extends CommonController
 //--This function continues on from FoodController's actionFoodDetails and adds a food item to cart
     public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks,$rid,$sessiongroup)
     {
-        if (Yii::$app->user->isGuest) 
-        {
-            $this->redirect(['site/login']);
-        }
-
-        else
-        {
-
-            $session = Yii::$app->session;
+    
+        $session = Yii::$app->session;
             $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
 
 //----------Creates a new cart if there is no cart previously created or in 'not placed' state
@@ -93,13 +86,13 @@ class CartController extends CommonController
                 $orderitem->Food_ID = $Food_ID;
                 $orderitem->OrderItem_Quantity = $quantity;
                 $linetotal = $findfoodprice * $quantity;
-				//Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
-				//$orderitem->OrderItem_UP = $findfoodprice + $;
-			
+                //Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
+                //$orderitem->OrderItem_UP = $findfoodprice + $;
+            
                 $orderitem->OrderItem_LineTotal = $linetotal;
                 $orderitem->OrderItem_Status = 'Not Placed';
                 $orderitem->OrderItem_Remark = $remarks;
-			//	var_dump($orderitem);exit;
+            //  var_dump($orderitem);exit;
                 $orderitem->save();
 
                 $findorderid = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$cart['Delivery_ID']])->all();
@@ -127,11 +120,11 @@ class CartController extends CommonController
                             //var_dump($orderitemselection->Selection_ID);exit;
                             $foodtypeid = Foodselection::find()->where('ID = :sid',[':sid'=>$orderitemselection->Selection_ID])->one();
                             $foodtypeid = $foodtypeid['Type_ID'];
-							
+                            
                             $orderitemselection->FoodType_ID = $foodtypeid;
                             //var_dump($orderitemselection->Selection_ID);exit;
                             $foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$orderitemselection->Selection_ID])->one();
-							//$up = $foodselectionprice['Price'] + $findfoodprice;
+                            //$up = $foodselectionprice['Price'] + $findfoodprice;
                             //var_dump($up);exit;
                             $selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
                             $orderitemselection->save();
@@ -185,8 +178,8 @@ class CartController extends CommonController
             {
                 Yii::$app->session->setFlash('error', 'Failed to add item to cart. This item is in a different area from the item(s) in your cart. Please empty your cart to start ordering from a new area.');
                 return $this->redirect(['/Restaurant/default/restaurant-details', 'rid' => $rid]);
-            }
-        }
+            } 
+
     }
 
 //--This function load's the user's current cart and its details
@@ -432,8 +425,8 @@ class CartController extends CommonController
 
                 
 //--------------A delivery man is assigned to the order here
-                $valid = $this->actionAssignDeliveryMan($did);
-                //$valid = true;
+                //$valid = $this->actionAssignDeliveryMan($did);
+                $valid = true;
                 if ($valid == false) {
                     return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
                 }
@@ -508,9 +501,11 @@ class CartController extends CommonController
                                             $order['Orders_DiscountCodeAmount'] += CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($d));
                                         }
 
-                                        if ($vou['discount_type'] != 100|| $vou['discount_type'] != 101) {
-                                            $vou['discount_type'] += 1;
-                                            $vou['usedTimes'] += 1;
+                                        if ($vou['discount_type'] != 100) {
+                                            if ($vou['discount_type'] != 101) {
+                                                $vou['discount_type'] += 1;
+                                                $vou['usedTimes'] += 1;
+                                            }
                                         }
 
                                         // -----save order-------

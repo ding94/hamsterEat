@@ -1,11 +1,12 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\LinkPager;
 use common\models\Restauranttype;
 use kartik\widgets\ActiveForm;
 use frontend\assets\StarsAsset;
 use frontend\assets\RestaurantDefaultIndexAsset;
-use yii\widgets\LinkPager;
+
 $this->title = "Available Restaurants";
 StarsAsset::register($this);
 RestaurantDefaultIndexAsset::register($this);
@@ -22,8 +23,12 @@ RestaurantDefaultIndexAsset::register($this);
       <div class="filter">
         <div class="filter container">
           <div class="input-group">
-            <?php $form = ActiveForm::begin(['id' => 'form-searchrestaurant']) ?>
-            <?= $form->field($search, 'Nickname',['addon'=>['append'=>['content'=>Html::submitButton('<i class="fa fa-search"></i>', ['class' => 'btn btn-default icon-button', 'name' => 'search-button2']),'asButton'=>true]]])->textInput(['placeholder' => "Search Restaurant"])->label(false); ?>
+            <?php $form = ActiveForm::begin(['id' => 'form-searchrestaurant','method' => 'get']) ?>
+              <div class="input-group">
+                <input id="food-nickname" class="form-control" name="filter" placeholder="Search Restaurant" type="text"><span class="input-group-btn"><button type="submit" class="btn btn-default icon-button"><i class="fa fa-search"></i>
+                </button></span>
+              </div>
+           
             <?php ActiveForm::end(); ?>
           </div>
           <div class ="filter-name">
@@ -31,29 +36,28 @@ RestaurantDefaultIndexAsset::register($this);
           </div>
           <ul class ="filter-list">
           <?php echo Html::a('<li>All</li>', ['index', 'groupArea'=>$groupArea])."&nbsp;&nbsp;"; ?>
-            <?php foreach ($types as $types) :
-              echo Html::a('<li>'.$types['Type_Name'].'</li>', ['restaurant-filter', 'groupArea'=>$groupArea ,'rfilter'=>$types['ID']])."&nbsp;&nbsp;";
-            endforeach; ?>
+            <?php foreach ($allrestauranttype as $i=> $data) : ?>
+              <?php if(empty($filter)) :?>
+                <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/index', 'groupArea'=>$groupArea ,'type'=>$i])."&nbsp;&nbsp;"; ?>
+              <?php else :?>
+                 <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/index', 'groupArea'=>$groupArea ,'type'=>$i ,'filter'=>$filter])."&nbsp;&nbsp;"; ?>
+              <?php endif ;?>
+            <?php endforeach; ?>
           </ul>
         </div>
       </div>
     </div>
 <br>
-    <?php if ($mode == 2)
-    {
-      $restauranttype = Restauranttype::find()->where('ID = :id', [':id'=>$rfilter])->one();
-      echo "<h3>Filtering By ".$restauranttype['Type_Name']."</h3>";
-    }
-    elseif ($mode == 3)
-    {
-      echo "<h3>Showing results similar to ".$keyword."</h3>";
-    }
-    elseif ($mode == 4)
-    {
-      $restauranttype = Restauranttype::find()->where('ID = :id', [':id'=>$rfilter])->one();
-      echo "<h3>Showing results similar to ".$keyword." with filter ".$restauranttype['Type_Name']."</h3>";
-    }
-    ?>
+
+  <?php if(!empty($filter) && !empty($type)) : ?>
+
+        <h3>Showing results similar to <?php echo $filter ?> with filter <?php echo $allrestauranttype[$type]?></h3>
+    <?php elseif(!empty($type)) : ?>
+        <h3>Filter By <?php echo $allrestauranttype[$type]?></h3>
+    <?php elseif(!empty($filter)) :?>
+        <h3>Showing results similar to <?php echo $filter ?></h3>
+    <?php endif ;?>
+
     <div class="outer-container">
       <div class="menu-container">
         <?php foreach($restaurant as $data) :?>
@@ -95,5 +99,5 @@ RestaurantDefaultIndexAsset::register($this);
     </div>
     <?php echo LinkPager::widget([
           'pagination' => $pagination,
-          ]); ?>
+    ]); ?>
 </div>

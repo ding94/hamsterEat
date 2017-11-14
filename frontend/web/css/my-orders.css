@@ -1,3 +1,4 @@
+
 #my-orders-container{
 	background-color: white;
 }
@@ -19,6 +20,18 @@
   border-left: 1px solid #efefef;
 }
 
+.empty-img{
+  width:150px; 
+  height:150px; 
+  margin-right:-13px; 
+}
+
+.order-icon{
+  text-align: center;
+  margin-right:-130px;
+  padding-top:40px;
+}
+
 @media (min-width: 481px){
   .my-orders-table td{
     text-align: center;
@@ -26,9 +39,21 @@
 
 }
 
+@media(max-width: 767px){
+  .order-icon{
+   padding-top:0px;
+    margin-right: 0px;
+  }
+}
+
 @media(max-width: 480px){
   .#my-orders-container{
     margin:0px;
+  }
+
+  .order-icon{
+   padding-top:0px;
+    margin-right: 0px;
   }
 }
 
@@ -51,11 +76,7 @@
   border-radius: 4px;
   text-align: center;
 }
-.order-icon{
-  text-align: center;
-  margin-right:-150px;
-  padding-top:30px;
-}
+
 
 @media (max-width: 480px){
 	.my-orders-table > table, thead, tbody, th, td, tr { 

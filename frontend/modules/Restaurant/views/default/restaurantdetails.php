@@ -80,6 +80,7 @@ RestaurantDetailsAsset::register($this);
     ?>
     <div class="outer-container">
     <div class="menu-container">
+       
             <?php
               foreach($rowfood as $data): 
             ?>

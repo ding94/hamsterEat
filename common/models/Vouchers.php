@@ -73,7 +73,7 @@ class Vouchers extends \yii\db\ActiveRecord
 
             ['digit', 'integer','min'=> 8,'max'=> 20],
             ['amount','integer','min'=> 1,'max'=> 100],
-            ['discount','integer','min'=> 1],
+            ['discount','number','min'=> 1],
 
             [['id','voucher_type.description','voucher_item.description','endDate','voucher_type.type'], 'safe'],
         ];

@@ -20,7 +20,7 @@ class ValidController extends Controller
 					Yii::$app->session->setFlash('error','Voucher code repeated!');
 					return false;
 				}
-				elseif ($post->discount_type == 1 && $post->discount >=101) 
+				if ($post->discount_type == 1 && $post->discount >=101) 
 				{
 					Yii::$app->session->setFlash('error','Discount cannot higher than 100% !');
 					return false;
@@ -55,6 +55,29 @@ class ValidController extends Controller
 
 			case 3:
 				return true;
+				break;
+
+			case 4:
+				
+				if (!empty(Vouchers::find()->where('code = :c',[':c' => $post->code])->one())) 
+				{
+					Yii::$app->session->setFlash('error','Voucher code repeated!');
+					return false;
+				}
+				if ($post->discount_type == 100 && $post->discount >=101) 
+				{
+					Yii::$app->session->setFlash('error','Discount cannot higher than 100% !');
+					return false;
+				}
+				elseif ($post->discount_type == 101 && $post->discount >=501) 
+				{
+					Yii::$app->session->setFlash('error','Discount cannot higher than RM500 !');
+					return false;
+				}
+				else
+				{
+					return true;
+				}
 				break;
 				
 			default:

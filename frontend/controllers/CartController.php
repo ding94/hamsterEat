@@ -432,8 +432,8 @@ class CartController extends CommonController
 
                 
 //--------------A delivery man is assigned to the order here
-                $valid = $this->actionAssignDeliveryMan($did);
-                //$valid = true;
+                //$valid = $this->actionAssignDeliveryMan($did);
+                $valid = true;
                 if ($valid == false) {
                     return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
                 }
@@ -508,9 +508,11 @@ class CartController extends CommonController
                                             $order['Orders_DiscountCodeAmount'] += CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($d));
                                         }
 
-                                        if ($vou['discount_type'] != 100|| $vou['discount_type'] != 101) {
-                                            $vou['discount_type'] += 1;
-                                            $vou['usedTimes'] += 1;
+                                        if ($vou['discount_type'] != 100) {
+                                            if ($vou['discount_type'] != 101) {
+                                                $vou['discount_type'] += 1;
+                                                $vou['usedTimes'] += 1;
+                                            }
                                         }
 
                                         // -----save order-------

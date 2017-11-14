@@ -43,8 +43,7 @@ class TopupController extends CommonController
 
 		//var_dump($bank);exit;
         $upload->scenario = 'ticket';
-    	$path = Yii::$app->params['imageLocation'];
-
+    	
 		// $items = ArrayHelper::map(BankDetails::find()->all(), 'bank_name', 'bank_name');
     	if(Yii::$app->request->post())
     	{

@@ -10,8 +10,10 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use backend\models\Admin;
-
-    $this->title = 'My Questions';
+use frontend\assets\UserAsset;
+  
+$this->title = 'My Questions';
+UserAsset::register($this);
 ?>
 
 <div class="container" style="background-color:white;">

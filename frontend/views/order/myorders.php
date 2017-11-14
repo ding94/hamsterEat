@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 use frontend\assets\MyOrdersAsset;
+use yii\widgets\LinkPager;
 $this->title = "My Orders";
 
 MyOrdersAsset::register($this);
@@ -27,7 +28,7 @@ MyOrdersAsset::register($this);
         <div class ="order-icon">
          <?php echo Html::img('@web/imageLocation/Img/order-icon.png',['style'=>'width:100px; height:100px; margin-right:-13px; ']); ?>
           <p>No orders yet</p>
-          </div>
+        </div>
         <?php } else{ ?>
         <table class="table table-user-info orderTable">
           <thead>
@@ -44,9 +45,10 @@ MyOrdersAsset::register($this);
           ?>
           <tr class="orderRow">
             <td colspan="2" class="block">
-              <a class="btn btn-primary" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
+              <a class="btn btn-primary btn-block" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$orders['Delivery_ID']]); ?>">
                 <i class="fa fa-info-circle"></i>
               </a>
+            </td>
             <td class="with" data-th="Delivery ID">
                 <?php echo $orders['Delivery_ID']; ?>
             </td>

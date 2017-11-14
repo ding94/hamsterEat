@@ -18,7 +18,7 @@ TopupWithdrawMpHistoryAsset::register($this);
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
     </div>
     <div class="topup-detail">
-        <div class="col-sm-2 ">
+        <div class="col-sm-2" style="padding-bottom:20px;">
         	<div class="dropdown-url">
                 <?php 
                     echo Select2::widget([
@@ -56,7 +56,7 @@ TopupWithdrawMpHistoryAsset::register($this);
                 </tr>  
               </table>
             </div> 
-            <div class="account-history">
+            <div class="balance-history">
             
 		
              	<?= GridView::widget([
@@ -70,7 +70,8 @@ TopupWithdrawMpHistoryAsset::register($this);
 							'value' => 'created_at',
 							 'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'created_at', 'dateFormat' => 'yyyy-MM-dd',]),
 							'format' => 'html',
-							//'contentOptions' => ['data-th' => 'Time'],
+							'contentOptions' => ['data-th' => 'Time'],
+						
 						],
 						[
 		                    'attribute' => 'description',

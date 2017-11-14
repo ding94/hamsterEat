@@ -89,7 +89,12 @@ UserAsset::register($this);
                     <tr>
                       <td><?php echo $i+1?></td>
                       <td><?php echo $address->level == 1 ? '<span class="primary">Primary</span>': Html::a('<i class="fa fa-check"></i> Mark as Primary',['/user/primary-address','id' => $address->id],['class'=>'btn btn-block primary-btn'])?></td>
-                      <td><?php echo $address->FullAddress?></td>
+                      <td>
+                        <?php echo $address->FullAddress?>
+                        <br><br>
+                        <strong>Name: </strong><?= $address['recipient']; ?>
+                        <br>
+                        <strong>Contact No: </strong><?= $address['contactno']; ?></td>
                       <td>
                         <div class="row">
                           <div class="col-xs-6">

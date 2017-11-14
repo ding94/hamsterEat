@@ -70,7 +70,6 @@ RestaurantDefaultIndex2Asset::register($this);
     <div class="outer-container">
         <div class="menu-container">
         <?php foreach($food as $fooddata) : 
-           
 
             Modal::begin([
                 'id'     => 'foodDetail',
@@ -99,11 +98,9 @@ RestaurantDefaultIndex2Asset::register($this);
                 </a>
            
         <?php endforeach; ?>
-        <?php 
-            echo LinkPager::widget([
-                'pagination' => $pagination,
-            ]);
-        ?>
         </div>
     </div>
+    <?php echo LinkPager::widget([
+          'pagination' => $pagination,
+          ]); ?>
 </div>

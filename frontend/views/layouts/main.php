@@ -43,17 +43,7 @@ NotificationAsset::register($this);
         height: 740px;
         
     }
-    
-    @media(min-width: 400px){
-    #login-modal .modal-content{
 
-        width:400px;
-       margin-left:109px;
-        margin-top: 100px;
-        
-    }
- 
-}
     #feedback-modal-1 .modal-content{
 
         width:800px;

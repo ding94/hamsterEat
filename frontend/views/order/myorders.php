@@ -4,7 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\LinkPager;
 use kartik\widgets\Select2;
 use frontend\assets\MyOrdersAsset;
+
 $this->title = "My Orders : ". $status;
+
+
 
 MyOrdersAsset::register($this);
 ?>

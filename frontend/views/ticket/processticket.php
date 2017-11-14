@@ -11,8 +11,10 @@ use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use kartik\widgets\Select2;
 use backend\models\Admin;
+use frontend\assets\UserAsset;
 
-    $this->title = 'My Questions';
+$this->title = 'My Questions';
+UserAsset::register($this);
 ?>
 <div class="ticket">
 <div class="container" id="userprofile">

@@ -11,7 +11,7 @@ AddFoodAsset::register($this);
     'widgetContainer' => 'dynamicform_inner',
     'widgetBody' => '.container-rooms',
     'widgetItem' => '.room-item',
-    'limit' => 10,
+    'limit' => 20,
     'min' => 1,
     'insertButton' => '.add-room',
     'deleteButton' => '.remove-room',

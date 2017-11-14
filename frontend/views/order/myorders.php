@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 use frontend\assets\MyOrdersAsset;
+use yii\widgets\LinkPager;
 $this->title = "My Orders";
 
 MyOrdersAsset::register($this);

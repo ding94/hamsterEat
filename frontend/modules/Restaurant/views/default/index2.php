@@ -7,6 +7,8 @@ use common\models\food\Foodtype;
 use kartik\widgets\ActiveForm;
 use frontend\assets\StarsAsset;
 use frontend\assets\RestaurantDefaultIndex2Asset;
+use yii\widgets\LinkPager;
+use yii\data\Pagination;
 $this->title = "Available Restaurants";
 
 StarsAsset::register($this);
@@ -70,7 +72,14 @@ RestaurantDefaultIndex2Asset::register($this);
         <?php foreach($restaurant as $data) : 
             if ($mode == 1)
             {
-                $fooddata=food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $data['Restaurant_ID'], ':status'=> 1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all(); 
+                $fooddata=food::find()->where('Restaurant_ID=:id', [':id' => $data['Restaurant_ID']])->joinWith(['foodStatus'=>function($query){
+                    $query->where('Status = 1');
+                }]); 
+                var_dump($fooddata->count());exit;
+                $pagination = new Pagination(['totalCount'=>$fooddata->count(),'pageSize'=>1]);
+                $fooddata = $fooddata->offset($pagination->offset)
+                ->limit($pagination->limit)
+                ->all();
             }
             elseif ($mode == 2)
             {
@@ -114,4 +123,7 @@ RestaurantDefaultIndex2Asset::register($this);
         <?php endforeach; ?>
         </div>
     </div>
+    <?php echo LinkPager::widget([
+          'pagination' => $pagination,
+          ]); ?>
 </div>

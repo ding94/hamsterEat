@@ -17,6 +17,7 @@ class EditRestaurantDetailsAsset extends AssetBundle
     ];
     public $js = [
         // 'js/cart.js',
+        'js/location-modal.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

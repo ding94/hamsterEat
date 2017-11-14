@@ -822,7 +822,8 @@ class CartController extends CommonController
        
         $value = 0;
        }
-       $value = Json::encode($value);
+       $value=  Json::encode($value);
+       
        return $value;
     }
 

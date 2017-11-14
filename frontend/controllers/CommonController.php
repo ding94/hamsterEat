@@ -111,6 +111,18 @@ class CommonController extends Controller
         return $data;
     }
 
+    public static function getRestaurantOrdersUrl($rid){
+        $data = [
+                    Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid]) => 'Back',
+                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Pending']) => 'Pending',
+                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Preparing']) => 'Preparing',
+                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Pick Up In']) => 'Pick Up In',
+                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'On The Way']) => 'On The Way',
+                ];
+
+        return $data;
+    }
+
     public static function getRestaurantUrl($rid,$restArea,$areachosen,$postcodechosen,$staff)
     {
 		if($staff = "Owner")

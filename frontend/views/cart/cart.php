@@ -27,11 +27,12 @@ Modal::end();
 			{
 		?>
 <div class="container">
+  <input class="did" type="hidden" value=<?php echo $did['Delivery_ID']?>></input>
   <div class="tab-content col-md-8 col-md-offset-2"  style="display: inline-block;" id="cart">
 
     <table class="table table-hover">
 	<h1>Cart</h1>
-	
+
 	<thead>
 	<tr>
 	<th></th>
@@ -164,56 +165,7 @@ Modal::end();
 		}
 		?>
 	</div>
-  <script>
-    function showHidden()
-  {
-      document.getElementById("label").style.display ='block';
-      document.getElementById("input").style.display ='block';
-      document.getElementById("apply").style.display ='block';
-      document.getElementById("hide2").style.display ='none';
-  }
 
-  function discount()
-  { 
-    $.ajax({
-   url :"index.php?r=cart/getdiscount",
-   type: "get",
-   data :{
-        dis: document.getElementById("input").value.replace(/\s+/g, ''),
-        did: <?php echo $did['Delivery_ID'];?>,
-   },
-   success: function (data) {
-      var obj = JSON.parse(data);
-       if (obj != 0 ) 
-      {
-        document.getElementById("subtotal").innerHTML = (obj['Orders_Subtotal']).toFixed(2);
-        document.getElementById("delivery").innerHTML = (obj['Orders_DeliveryCharge']).toFixed(2);
-        document.getElementById("total").innerHTML = (obj['Orders_TotalPrice'] + parseFloat(document.getElementById("early").innerHTML)).toFixed(2);
-
-        document.getElementById("label").style.display ='none';
-        document.getElementById("input").style.display ='none';
-        document.getElementById("apply").style.display ='none';
-        document.getElementById("reset").style.display ='block';
-        document.getElementById("orders-orders_totalprice").value = document.getElementById("input").value;
-      }
-
-      else if (obj ==0) 
-      {
-        alert("No coupon found or coupon expired! Please check your account > Discount Codes");
-      }
-   },
-   error: function (request, status, error) {
-    //alert(request.responseText);
-   }
-
-   });
-  }
-
-  function refresh()
-  {
-    location.reload();
-  }
-  </script>
  <!-- js for quantity 
 <script>
 const arrows = document.querySelector('.quantity').querySelectorAll('.fa'); 

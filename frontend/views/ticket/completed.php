@@ -10,8 +10,10 @@ use kartik\widgets\Select2;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+use frontend\assets\UserAsset;
 
-    $this->title = 'My Completed Questions';
+$this->title = 'My Completed Questions';
+UserAsset::register($this);
 ?>
 <div class="ticket">
 <div class="container" id="userprofile">

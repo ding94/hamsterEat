@@ -188,7 +188,7 @@ Modal::end();
       {
         document.getElementById("subtotal").innerHTML = (obj['Orders_Subtotal']).toFixed(2);
         document.getElementById("delivery").innerHTML = (obj['Orders_DeliveryCharge']).toFixed(2);
-        document.getElementById("total").innerHTML = (obj['Orders_TotalPrice'] + parseInt(document.getElementById("early").innerHTML)).toFixed(2);
+        document.getElementById("total").innerHTML = (obj['Orders_TotalPrice'] + parseFloat(document.getElementById("early").innerHTML)).toFixed(2);
 
         document.getElementById("label").style.display ='none';
         document.getElementById("input").style.display ='none';

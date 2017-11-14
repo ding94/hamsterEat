@@ -68,11 +68,11 @@ RestaurantOrdersAsset::register($this);
             <div class = "switchbutton"> <?php
                 if ($mode == 1)
                 {
-                    echo Html::a('View Nicknames', ['switch-mode', 'mode'=>$mode, 'rid'=>$rid], ['class'=>'btn btn-default fa fa-exchange swap-button', 'style'=>'height:38px; margin-bottom:20px; padding-top:11px;']);
+                    echo Html::a('View Nicknames', ['switch-mode', 'mode'=>$mode, 'rid'=>$rid, 'status'=>$status], ['class'=>'btn btn-default fa fa-exchange swap-button', 'style'=>'height:38px; margin-bottom:20px; padding-top:11px;']);
                 }
                 else
                 {
-                    echo Html::a('View Food Names', ['switch-mode', 'mode'=>$mode, 'rid'=>$rid], ['class'=>'btn btn-default fa fa-exchange swap-button', 'style'=>'height:38px; margin-bottom:20px; padding-top:11px;']);
+                    echo Html::a('View Food Names', ['switch-mode', 'mode'=>$mode, 'rid'=>$rid, 'status'=>$status], ['class'=>'btn btn-default fa fa-exchange swap-button', 'style'=>'height:38px; margin-bottom:20px; padding-top:11px;']);
                 } ?>
             </div> <?php
             foreach ($result as $result) : ?>
@@ -93,21 +93,14 @@ RestaurantOrdersAsset::register($this);
                         </tr>
                     </thead>
                         <tr>
-<<<<<<< HEAD
-                            <td data-th="Order ID"><?php echo $orderitemdetails['Order_ID']; ?></td>
+                            <td data-th="Order ID"><?php echo $result['Order_ID']; ?></td>
                             <?php 
-                            $foodname = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitemdetails['Food_ID']])->one();
                             if ($mode == 1)
                             { ?>
-                                <td data-th="Food Name"><?php echo $foodname['Name']; ?></td>
+                                <td data-th="Food Name"><?php echo $result['food']['Name']; ?></td>
                             <?php } else { ?>
-                                <td data-th="Food Name"><?php echo $foodname['Nickname']; ?></td>
+                                <td data-th="Food Name"><?php echo $result['food']['Nickname']; ?></td>
                             <?php } ?>
-
-=======
-                            <td data-th="Order ID"><?php echo $result['Order_ID']; ?></td>
-                            <td data-th="Food Name"><?php echo $result['food']['Name']; ?></td>
->>>>>>> 55d43885b89e5eab152ccf7ce35239f40790094f
                             <?php 
                             $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$result['Order_ID']])->all(); ?>
                             <td data-th="Selections">
@@ -138,13 +131,13 @@ RestaurantOrdersAsset::register($this);
                             <?php } ?>
                         </tr>
                 </table>
-                <?php echo LinkPager::widget([
-                  'pagination' => $pagination,
-                  ]); ?>
                 <br>
                 <br>
             <?php endforeach; 
             } ?>
+            <?php echo LinkPager::widget([
+                  'pagination' => $pagination,
+                  ]); ?>
         </div>
     </div>
 </div>

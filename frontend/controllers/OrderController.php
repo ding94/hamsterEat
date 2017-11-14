@@ -122,7 +122,7 @@ class OrderController extends CommonController
         $query = Orders::find()->where('Restaurant_ID = :rid ', [':rid'=>$rid])->joinWith('order_item')->joinWith('order_item.food')->all();
         foreach($query as $data)
         {
-            if($data['Orders_Status'] == 'Completed' || $data['Orders_Status'] == 'Rating Done')
+            if($data['Orders_Status'] == 'Completed' || $data['Orders_Status'] == 'Rating Done' || $data['Orders_Status'] == 'Not Placed')
             {
                 $count+=1;
             }
@@ -192,7 +192,7 @@ class OrderController extends CommonController
     {
         $countOrder = $this->getTotalOrderRestaurant($rid);
         $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
-
+        $mode = 1;
         $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
 
         $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->andWhere(['Orders_Status'=>$status])->joinWith('food')->joinWith('order');
@@ -203,7 +203,7 @@ class OrderController extends CommonController
 
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
         $link = CommonController::getRestaurantOrdersUrl($rid);
-        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination,'status'=>$status,'countOrder'=>$countOrder]);
+        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination,'status'=>$status,'countOrder'=>$countOrder, 'mode'=>$mode]);
     }
 
 //--This function loads all the specific delivery man's assigned orders (not completed)
@@ -452,16 +452,20 @@ class OrderController extends CommonController
 
     }
 
-    public function actionSwitchMode($mode, $rid)
+    public function actionSwitchMode($mode, $rid, $status)
     {
+        $countOrder = $this->getTotalOrderRestaurant($rid);
         $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
-        
         $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
 
-        $deliveryid = "SELECT DISTINCT orderitem.Delivery_ID FROM orderitem INNER JOIN food ON orderitem.Food_ID = food.Food_ID INNER JOIN orders on orderitem.Delivery_ID = orders.Delivery_ID WHERE food.Restaurant_ID = ".$restaurantname['Restaurant_ID']." AND orders.Orders_Status != 'Not Placed' AND orders.Orders_Status != 'Completed' AND orders.Orders_Status != 'Rating Done' ORDER BY orderitem.Delivery_ID";
-        $result = Yii::$app->db->createCommand($deliveryid)->queryAll();
+        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->andWhere(['Orders_Status'=>$status])->joinWith('food')->joinWith('order');
+        $pagination = new Pagination(['totalCount'=>$result->count(),'pageSize'=>10]);
+        $result = $result->offset($pagination->offset)
+        ->limit($pagination->limit)
+        ->all();
+
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
-        $link = CommonController::getRestaurantUrl($rid,$restaurantname['Restaurant_AreaGroup'],$restaurantname['Restaurant_Area'],$restaurantname['Restaurant_Postcode'],$staff['RmanagerLevel_Level']);
+        $link = CommonController::getRestaurantOrdersUrl($rid);
 
         if ($mode ==1)
         {
@@ -472,6 +476,6 @@ class OrderController extends CommonController
             $mode = 1;
         }
 
-        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link, 'mode'=>$mode]);
+        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination,'status'=>$status,'countOrder'=>$countOrder, 'mode'=>$mode]);
     }
 }

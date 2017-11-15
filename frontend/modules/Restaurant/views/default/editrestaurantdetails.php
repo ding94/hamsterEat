@@ -10,7 +10,7 @@ use kartik\widgets\Select2;
 use frontend\assets\EditRestaurantDetailsAsset;
 use yii\bootstrap\Modal;
 
-$this->title = "Edit Restaurant's Details";
+$this->title = "Edit ".$restaurantdetails['Restaurant_Name']."'s Details";
 EditRestaurantDetailsAsset::register($this); ?>
 
 <body>

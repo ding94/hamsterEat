@@ -8,7 +8,7 @@ use frontend\controllers\CartController;
 use kartik\widgets\Select2;
 use frontend\assets\RestaurantEarningsAsset;
 
-$this->title = "Restaurant Monthly Earnings";
+$this->title = $restaurantname."'s Monthly Earnings";
 RestaurantEarningsAsset::register($this);
 ?>
 <div id="restaurant-earnings-container" class = "container">

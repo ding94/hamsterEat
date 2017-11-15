@@ -13,7 +13,7 @@ use frontend\controllers\CartController;
 use frontend\assets\RestaurantOrdersHistoryAsset;
 use yii\widgets\LinkPager;
 
-$this->title = "Restaurant Orders History";
+$this->title = $restaurantname['Restaurant_Name']."'s Orders History";
 RestaurantOrdersHistoryAsset::register($this);
 ?>
 <div id="restaurant-orders-history-container" class = "container">

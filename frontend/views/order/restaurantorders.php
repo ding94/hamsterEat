@@ -12,7 +12,7 @@ use yii\helpers\Html;
 use frontend\assets\RestaurantOrdersAsset;
 use yii\widgets\LinkPager;
 
-$this->title = "Restaurant Orders";
+$this->title = $restaurantname['Restaurant_Name']."'s Orders";
 RestaurantOrdersAsset::register($this);
 ?>
 

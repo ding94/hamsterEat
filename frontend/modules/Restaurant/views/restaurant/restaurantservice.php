@@ -9,7 +9,6 @@ $this->title = "Owned/Manage Restaurants";
 StarsAsset::register($this);
 RestaurantServiceAsset::register($this);
 ?>
-<body>
 <div class ="container" ><h1>Manage Owned Restaurants</h1>
  <div class="outer-container" id="outer" >
     <div class="menu-container" id="menucon">
@@ -31,4 +30,3 @@ RestaurantServiceAsset::register($this);
     </div>
 	</div>
 </div>
-</body>

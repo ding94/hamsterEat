@@ -10,7 +10,6 @@ $this->title = $id['Restaurant_Name'];
 StarsAsset::register($this);
 RestaurantDetailsAsset::register($this);
 ?>
-<body>
 
 <?php Modal::begin([
             'id'     => 'foodDetail',
@@ -104,4 +103,3 @@ RestaurantDetailsAsset::register($this);
       'pagination' => $pagination,
     ]); ?>
 </div>
-</body>

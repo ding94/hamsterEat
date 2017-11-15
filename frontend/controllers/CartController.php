@@ -435,6 +435,7 @@ class CartController extends CommonController
 
                 if (!empty($voucher)) 
                 {
+                    $d = 0;
                     foreach ($voucher as $k => $vou) 
                     {
                         if ($order['Orders_TotalPrice'] >0) 
@@ -455,50 +456,51 @@ class CartController extends CommonController
                                 if (!empty($user) || $vou['discount_type'] == 100 || $vou['discount_type'] == 101)
                                 {
                                     if ($vou['discount_type'] == 2 || $vou['discount_type'] == 5 || $vou['discount_type'] == 100 || $vou['discount_type'] == 101) {
-                                        $lasttotal = $order['Orders_TotalPrice'];
 
                                         // -------------detect discount item, do discount--------------------
                                         if ($vou['discount_item'] == 7) 
                                         {
-                                            $disamount = $order['Orders_Subtotal'];
                                             $dis = DiscountController::Discount($vou['id'],$order['Orders_Subtotal']);
                                             if ($dis <= 0) {
                                                 $dis = 0.00;
                                             }
+                                            $d = DiscountController::Reversediscount($vou['id'],$order['Orders_Subtotal']);
                                             $order['Orders_Subtotal'] = $dis;
                                             $order['Orders_TotalPrice'] = $dis + $order['Orders_DeliveryCharge'];
+
+                                            
                                         }
                                         elseif ($vou['discount_item'] == 8) 
                                         {
-                                            $disamount = $order['Orders_DeliveryCharge'];
                                             $dis = DiscountController::Discount($vou['id'],$order['Orders_DeliveryCharge']);
                                             if ($dis <= 0) {
                                                 $dis = 0.00;
                                             }
+                                            $d = DiscountController::Reversediscount($vou['id'],$order['Orders_DeliveryCharge']);
                                             $order['Orders_DeliveryCharge'] = $dis;
                                             $order['Orders_TotalPrice'] = $order['Orders_Subtotal'] + $dis;
+                                            
                                         }
                                         elseif ($vou['discount_item'] == 9) 
                                         {
-                                            $disamount = $order['Orders_TotalPrice'];
                                             $dis = DiscountController::Discount($vou['id'],$order['Orders_TotalPrice']);
                                             if ($dis <= 0) {
                                                 $dis = 0.00;
                                             }
+                                            $d = DiscountController::Reversediscount($vou['id'],$order['Orders_TotalPrice']);
                                             $order['Orders_TotalPrice'] = $dis;
+                                            
+                                            
                                         }
                                         // -------------detect code or voucher, record--------------
                                         if (($vou['discount_type'] >= 1 && $vou['discount_type']<= 3) || $vou['discount_type'] == 100) 
                                         {
-                                            $d = DiscountController::Reversediscount($vou['id'],$disamount);
-                                            $v = (($d/$lasttotal)*100);
-                                            $order['Orders_DiscountVoucherAmount'] = ($order['Orders_DiscountVoucherAmount'] + CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($v)))/($k+1);
+                                            $order['Orders_DiscountVoucherAmount'] += CartController::Roundoff($d,2);
                                             
                                         }
                                         elseif (($vou['discount_type'] >= 4 && $vou['discount_type']<= 6) || $vou['discount_type'] == 101) 
                                         {
-                                            $d = DiscountController::Reversediscount($vou['id'],$order['Orders_DeliveryCharge']);
-                                            $order['Orders_DiscountCodeAmount'] += CartController::actionRoundoff1decimal(CartController::actionRoundoff1decimal($d));
+                                            $order['Orders_DiscountCodeAmount'] += CartController::Roundoff($d,2);
                                         }
 
                                         if ($vou['discount_type'] != 100) {
@@ -508,11 +510,10 @@ class CartController extends CommonController
                                             }
                                         }
 
-                                        // -----save order-------
-                                        if ($order->validate() && $vou->validate()) 
+                                        // -----save voucher-------
+                                        if ($vou->validate()) 
                                         {
                                             $vou->save();
-                                            $order->save();
                                         }
                                         else
                                         {
@@ -526,12 +527,12 @@ class CartController extends CommonController
                             }
                         }
                     }
+                    // ---------save order ----------
                     $order['Orders_TotalPrice'] =  $order['Orders_TotalPrice'] -  $order['Orders_DiscountEarlyAmount'];
                     if ($order->validate()) {
                         $order->save();
                     }
                 }
-
 
                 // account balance functions
                 if ($checkout->Orders_PaymentMethod == 'Account Balance') 
@@ -876,5 +877,10 @@ class CartController extends CommonController
     public static function actionRoundoff1decimal($price)
     {
         return self::actionDisplay2decimal(number_format((float)$price,1,'.',''));
+    }
+
+    public static function Roundoff($post,$digit)
+    {
+        return number_format((float)$post,$digit,'.','');
     }
 }

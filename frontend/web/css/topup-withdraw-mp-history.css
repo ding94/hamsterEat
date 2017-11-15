@@ -43,19 +43,19 @@
 /*
 * user balance history shadow box css
 */
-#balance-history #right{
+#account-history #right{
   -webkit-box-shadow: 1px -3px 5px -3px black;
   -moz-box-shadow: 1px -3px 5px -3px black;
   box-shadow: 1px -3px 5px -3px black;
 }
 
-#balance-history #middle{
+#account-history #middle{
   -webkit-box-shadow: inset 3px -3px 5px -3px black;
   -moz-box-shadow: inset 3px -3px 5px -3px black;
   box-shadow: inset 3px -3px 5px -3px black;
   cursor:pointer; 
 }
-#balance-history #left{
+#account-history #left{
   -webkit-box-shadow: inset 0px -3px 5px -3px black;
   -moz-box-shadow: inset 0px -3px 5px -3px black;
   box-shadow: inset 0px -3px 5px -3px black;
@@ -143,6 +143,7 @@ a.remove-all  {
 .border th{
   border: 1px solid #ddd;
 }
+
 
 @media(max-width: 480px){
   /* 

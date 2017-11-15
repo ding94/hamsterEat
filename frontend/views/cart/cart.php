@@ -15,7 +15,7 @@ CartAsset::register($this);
 
 Modal::begin([
       'header' => '<h2 class="modal-title">Please choose delivery place</h2>',
-      'id'     => 'add-session-modal',
+      'id'     => 'add-modal',
       'size'   => 'modal-md',
       'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
 ]);
@@ -139,7 +139,7 @@ Modal::end();
 
   <?php 
     if (empty(Yii::$app->session['area']) || empty(Yii::$app->session['postcode'])) {
-      echo Html::a('Checkout',['/cart/addsession'],['class' => 'btn btn-primary','data-toggle'=>'modal','data-target'=>'#add-session-modal']);
+      echo Html::a('Checkout',['/cart/addsession'],['class' => 'btn btn-primary','data-toggle'=>'modal','data-target'=>'#add-modal']);
     }
     else{
       echo Html::submitButton('Checkout', ['class' => 'btn btn-primary', 'name' => 'newrestaurant-button']);

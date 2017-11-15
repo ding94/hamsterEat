@@ -77,8 +77,12 @@
   text-align: center;
 }
 
+.my-orders-content{
+  margin-top: 20px;
+}
 
-@media (max-width: 480px){
+
+@media (max-width: 600px){
 	.my-orders-table > table, thead, tbody, th, td, tr { 
     display: block; 
   }

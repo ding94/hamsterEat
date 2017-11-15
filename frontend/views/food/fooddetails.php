@@ -26,26 +26,19 @@ FoodDetailsAsset::register($this);
   <div class="row">
   	<div class="tab-content col-md-12" id="fooddetails">
 
-      <?php if($fooddata->foodPackage == 1) :?>
      
-        <?php $form = ActiveForm::begin(['action' => ['UserPackage/package/subscribepackage'],'id' => 'a2cart' ,'method' => 'get']); ?>
-      <?php else :?>
-        <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
-      <?php endif ;?>
-  		<!--<table class="table-user-information" style="width:60%; margin:auto;">-->
-     
-                   
-                    <!--<?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata->PicPath, ['class' => 'img-rounded img-responsive','style'=>'height:300px; width:598px; margin:auto;']) ?>-->
-              
-        
+      <?php $form = ActiveForm::begin(['id' => 'a2cart' ,'action' => ['/cart/addto-cart','id'=>$fooddata->Food_ID]]); ?>
+  		<!--<table class="table-user-information" style="width:60%; margin:auto;">-->         
              <br>
               <div class="foodname">
                     <!--<td>Food Name:</td>-->
+
                      <?php echo $fooddata->Name;?>
             </div>
               
           <div class="foodprice">
                     <!--<td>Food Price (RM):</td>-->
+
                  RM <?php echo CartController::actionRoundoff1decimal($fooddata->Price);?>
                      </div>
             
@@ -71,7 +64,7 @@ FoodDetailsAsset::register($this);
                         <span>*Please Select only 1 item.</span>
                       
                       
-                        <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->radioList($data,[
+                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']')->radioList($data,[
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="radio">';
@@ -96,7 +89,7 @@ FoodDetailsAsset::register($this);
                         </span>
                       
                      
-                        <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data,[
+                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']')->checkboxlist($data,[
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="checkbox">';
@@ -121,7 +114,7 @@ FoodDetailsAsset::register($this);
                         </span>
                      
                     
-                        <?= $form->field($orderItemSelection,'FoodType_ID['.$foodtype['ID'].']')->checkboxlist($data,[
+                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']')->checkboxlist($data,[
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="checkbox">';
@@ -139,14 +132,14 @@ FoodDetailsAsset::register($this);
                 <?php } endforeach; ?>
                  </div>
              
-                 <?= $form->field($orderitem, 'OrderItem_Remark')->label('Remarks'); ?>
+                 <?= $form->field($cart, 'remark')->label('Remarks'); ?>
           
              
         			<div>
                
-                <?= $form->field($orderitem, 'OrderItem_Quantity',['options'=>['style'=>'width:25%;']])->widget(TouchSpin::classname(), [
+                <?= $form->field($cart, 'quantity',['options'=>['style'=>'width:25%;']])->widget(TouchSpin::classname(), [
                     'options' => [
-                        'id'=>'orderitem-orderitem_quantity'.$fooddata->Food_ID,
+                        
                         'style'=>'height:40px;'
                     ],
                     'pluginOptions' => [
@@ -158,38 +151,13 @@ FoodDetailsAsset::register($this);
                         'buttonup_txt' => '<i class="fa fa-plus"></i>', 
                         'buttondown_txt' => '<i class="fa fa-minus"></i>'
                     ],
-                ])->label(false); ?>   <?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart','style'=>'margin-top:-51px;width:48%; height:48px; font-size: 18px;']) ?>
+                ])->label(false); ?>   
+                <?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart','style'=>'margin-top:-51px;width:48%; height:48px; font-size: 18px;']) ?>
 
        
              </div>
-
-              <?php if($fooddata->foodPackage == 0):?>
-  			      <!--<tr><td colspan="2"><?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>-->
-             
-              <?php else :?>
            
-             
-                  <label class="control-label">Select Date to delivery</label>
-                  <?php
-                    echo DatePicker::widget([
-                      'name' => 'dateTime',
-                      'type' => DatePicker::TYPE_COMPONENT_APPEND,
-                      'pluginOptions' => [
-                          'format' => 'yyyy/mm/dd/',
-                          'multidate' => true,
-                          'multidateSeparator' => ',',
-                          'startDate' => date('Y/m/d',strtotime("+2 day")),
-                      ]
-                    ]);
-                  ?>
-
-              <?= $form->field($fooddata,'Food_ID')->hiddenInput() ?>
-            <?= Html::submitButton('Subscribe Food Package', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart', 'style'=>'margin-bottom:25px;']) ?>
-             
-        <?php endif ;?>
-  		        
-              <!--</table>-->
-              <?php ActiveForm::end(); ?>
+            <?php ActiveForm::end(); ?>
         </div>
   </div>
 </div>

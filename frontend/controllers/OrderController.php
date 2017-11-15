@@ -51,19 +51,21 @@ class OrderController extends CommonController
     public function actionMyOrders($status = "")
     {    
         $countOrder = $this->getTotalOrder();
-        $query = Orders::find()->where('User_Username = :uname ', [':uname'=>Yii::$app->user->identity->username]);
+        $query = Orders::find()->where('User_Username = :uname and Orders_Status != "Not Placed" ', [':uname'=>Yii::$app->user->identity->username]);
         if(!empty($status))
         {
-            if($status == "Completed")
-            {
-                $query->andWhere(['or',
-                   ['Orders_Status'=> 'Rating Done'],
-                   ['Orders_Status'=> $status],
-               ]);
-            }
-            else
-            {
-                $query->andWhere('Orders_Status = :status',[':status' => $status]);
+            switch ($status) {
+                case 'Completed':
+                    $query->andWhere(['or',['Orders_Status'=> 'Rating Done'],['Orders_Status'=> $status],]);
+                    break;
+
+                case 'Canceled':
+                    $query->andWhere(['or',['Orders_Status'=> 'Canceled and Refunded'],['Orders_Status'=> $status],]);
+                    break;
+                
+                default:
+                    $query->andWhere('Orders_Status = :status',[':status' => $status]);
+                    break;
             }
         }
 
@@ -83,23 +85,35 @@ class OrderController extends CommonController
     */
     public static function getTotalOrder()
     {
-        $countOrder['Pending']['total'] = 0;   
-        $countOrder['Canceled and Refunded']['total'] = 0;   
+        $countOrder['Pending']['total'] = 0;
         $countOrder['Canceled']['total'] = 0;   
         $countOrder['Preparing']['total'] = 0;   
         $countOrder['Pick Up in Process']['total'] = 0;   
         $countOrder['On The Way']['total'] = 0;   
         $countOrder['Completed']['total'] = 0;  
-        $query = Orders::find()->where('User_Username = :uname ', [':uname'=>Yii::$app->user->identity->username])->all();
+        $query = Orders::find()->where('User_Username = :uname and Orders_Status != "Not Placed"', [':uname'=>Yii::$app->user->identity->username])->all();
         foreach($query as $data)
         {
-            if($data['Orders_Status'] == 'Completed' || $data['Orders_Status'] == 'Rating Done')
-            {
-                 $countOrder['Completed']['total'] += 1;
-            }
-            else
-            {
-                $countOrder[$data['Orders_Status']]['total'] += 1;
+            switch ($data['Orders_Status']) {
+                case 'Completed':
+                    $countOrder['Completed']['total'] += 1;
+                    break;
+
+                case 'Rating Done':
+                    $countOrder['Completed']['total'] += 1;
+                    break;
+
+                case 'Canceled':
+                    $countOrder['Canceled']['total'] += 1;
+                    break;
+
+                case 'Canceled and Refunded':
+                    $countOrder['Canceled']['total'] += 1;
+                    break;
+                
+                default:
+                    $countOrder[$data['Orders_Status']]['total'] += 1;
+                    break;
             }
           
         }

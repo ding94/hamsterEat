@@ -21,14 +21,16 @@ function showHidden()
 
   function discount()
   { 
+
     $.ajax({
    url :"index.php?r=cart/getdiscount",
    type: "get",
    data :{
         dis: document.getElementById("input").value.replace(/\s+/g, ''),
-        did: $('input.did').val(),
+        did:  $('input.did').val(),
    },
    success: function (data) {
+    
       var obj = JSON.parse(data);
        if (obj != 0 ) 
       {

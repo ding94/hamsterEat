@@ -27,7 +27,8 @@ Modal::end();
 			{
 		?>
 <div class="container">
-  <input class="did" type="hidden" value=<?php echo $did['Delivery_ID']?>></input>
+  
+  <input class="did" type="hidden" value=<?php echo $did ?>></input>
   <div class="tab-content col-md-8 col-md-offset-2"  style="display: inline-block;" id="cart">
 
     <table class="table table-hover">

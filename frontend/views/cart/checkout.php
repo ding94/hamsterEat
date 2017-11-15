@@ -26,7 +26,6 @@ Modal::begin([
 Modal::end();
 
 ?>
-<body>
     <div class="tab-content" id="mydetails">
         <h1> Check Out </h1>
         <br>
@@ -97,12 +96,10 @@ Modal::end();
             <tr id='list'>
                 <td><?= $form->field($checkout, 'Orders_PaymentMethod')->radioList(['Account Balance'=>'Account Balance','Cash on Delivery'=>'Cash on Delivery'])->label(''); ?></td>
             </tr>
+            <tr>
+                <td><?= Html::submitButton('Place Order', ['class' => 'btn btn-primary btn-lg', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?></td>
+            </tr>
         </table>
-            <div class="form-group">
-                <!-- when use of onclick function, if return false cant pause posting items, add 'return' in front of function-->
-                <?= Html::submitButton('Place Order', ['class' => 'btn btn-primary', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?>
-            </div>
             <?php ActiveForm::end(); ?>
         </table>
     </div>
-</body>

@@ -12,10 +12,11 @@ use yii\bootstrap\Modal;
 
 $this->title = "Edit Restaurant's Details";
 EditRestaurantDetailsAsset::register($this); ?>
+
 <body>
 
 <?php Modal::begin([
-            'header' => '<h2 class="modal-title">Edit Location</h2>',
+            'header' => '<h2 class="modal-title">Edit '.$restaurantdetails['Restaurant_Name'].' Location</h2>',
             'id'     => 'location-modal',
             'size'   => 'modal-sm',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',

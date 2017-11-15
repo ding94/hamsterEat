@@ -34,13 +34,19 @@
   background-color:#fff;
 }
 
-.modal-dialog.modal-lg{
+/*.modal-dialog.modal-lg{
   overflow-y: initial !important;
-}
+}*/
 .modal-body{
-  height: 350px;
-  overflow-y: auto;
-  margin: 0px 0px 0px 20px;
+  height:350px;
+  
+  overflow-x:auto;
+  overflow-y:scroll;
+  bottom:0;
+  left:0;
+  right:0;
+  top:0;
+z-index:9999;
 }
 
 .value-button {

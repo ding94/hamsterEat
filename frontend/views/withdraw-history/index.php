@@ -24,7 +24,7 @@ TopupWithdrawMpHistoryAsset::register($this);
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
     </div>
     <div class="topup-detail">
-        <div class="col-sm-2 ">
+        <div class="col-sm-2" style="padding-bottom:20px;">
         	<div class="dropdown-url">
                 <?php 
                     echo Select2::widget([

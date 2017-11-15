@@ -369,7 +369,6 @@ class DefaultController extends CommonController
 
         if($postcode->load(Yii::$app->request->post()))
         {
-            //var_dump('a');exit;
             $area = Yii::$app->request->post('Area');
             $postcodechosen = $area['Area_Postcode'];
             $areachosen = $area['Area_Area'];

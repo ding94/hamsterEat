@@ -68,6 +68,13 @@
   
 }
 
+.restaurant-name{
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .outer-item :hover{
    background-color: #fffbe5;
 }

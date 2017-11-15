@@ -66,11 +66,13 @@ TopupWithdrawMpHistoryAsset::register($this);
 					'summary' => '',
 					'columns' => [
 						[	
-							'label' => 'Time',
+							'label' => 'Date',
 							'value' => 'created_at',
-							 'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'created_at', 'dateFormat' => 'yyyy-MM-dd',]),
+							'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'created_at', 'dateFormat' => 'yyyy-MM-dd','options'=>['class'=>'form-control','placeholder'=>'Search Date']]),
 							'format' => 'html',
-							'contentOptions' => ['data-th' => 'Time'],
+							'contentOptions' => [
+								'data-th' => 'Time',
+								],
 							
 						
 						],

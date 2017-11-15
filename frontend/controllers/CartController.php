@@ -396,7 +396,7 @@ class CartController extends CommonController
             }
             $orderlocation = Useraddress::find()->where('id = :id',[':id'=>$checkout['Orders_Location']])->one();
             if ($session['postcode']!= $orderlocation['postcode']) {
-                Yii::$app->session->setFlash('error', 'Please address postcode no same with delivery postcode!');
+                Yii::$app->session->setFlash('error', 'Your address postcode is not the same with delivery postcode!');
                 return $this->render('checkout', ['did'=>$did, 'checkout'=>$checkout, 'session'=>$session,'email'=>$email,'details'=>$details,'address'=>$address,'addressmap'=>$addressmap]);
             }
             $checkout['Orders_Location'] = $orderlocation->address;

@@ -42,7 +42,7 @@ MyOrdersAsset::register($this);
         </ul>
       </div>
     </div>
-    <div class="col-sm-10 tab-content">
+    <div class="col-sm-10 tab-content my-orders-content">
       <div id="pending" class="tab-pane fade my-orders-table in active">
         <?php if (empty($order)) : ?>
         <div class ="order-icon">

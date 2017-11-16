@@ -27,10 +27,7 @@ use kartik\widgets\Select2;
     margin-left:33px;
     padding-left:14px;
 }
- #feedback_category .form-control
-  {
-    width:350px
- }
+
  #feedback_email .form-control
   {
     width:350px
@@ -47,7 +44,7 @@ use kartik\widgets\Select2;
  }
 
  #form-feedback{
-    width: 50%;
+    width: 51%;
  }
  
 textarea
@@ -56,9 +53,8 @@ textarea
 }
   @media(max-width: 480px)
     {
-        #feedback_category .form-control
-        {
-            width:270px;
+        #form-feedback{
+         width: 96%;
         }
         #feedback_message .form-control
         {

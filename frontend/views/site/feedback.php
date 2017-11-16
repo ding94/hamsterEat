@@ -3,6 +3,7 @@ use common\models\Feedback;
 use common\models\Feedbackcategory;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use kartik\widgets\Select2;
 ?>
 <style>
 .container-feedback
@@ -79,7 +80,8 @@ textarea
 
     <?php $form = ActiveForm::begin(['id' => 'form-feedback']); ?>
     <div id="feedback_category"> 
-    <?= $form->field($feedback, 'Feedback_Category')->dropDownList($categoryarray)->label('Category'); ?>
+    <!--<?= $form->field($feedback, 'Feedback_Category')->dropDownList($categoryarray)->label('Category'); ?>-->
+     <?= $form->field($feedback, 'Feedback_Category')->widget(Select2::classname(), ['data' => $categoryarray])->label('Category');?>
 </div>
 <div id="feedback_email"> 
     <?php if (Yii::$app->user->isGuest)

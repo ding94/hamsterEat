@@ -45,6 +45,11 @@ use kartik\widgets\Select2;
     margin-left: 40%; 
     margin-top: 4%;
  }
+
+ #form-feedback{
+    width: 50%;
+ }
+ 
 textarea
 {
     resize: none;

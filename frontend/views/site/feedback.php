@@ -39,7 +39,7 @@ use kartik\widgets\Select2;
  }
    #feedback_button .btn.btn-primary
   {
-    margin-left: 40%; 
+    margin-left: 76%; 
     margin-top: 4%;
  }
 

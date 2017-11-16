@@ -18,7 +18,7 @@ RestaurantServiceAsset::register($this);
       <div class="item-no-border">
         <div class="img"><?php echo Html::img('@web/imageLocation/'.$res['Restaurant_RestaurantPicPath']) ?></div>
         <div class="inner-item">
-          <span><?php echo $res['Restaurant_Name']; ?></span>
+          <span class="restaurant-name"><?php echo $res['Restaurant_Name']; ?></span>
 
           <p><?php echo $res['Restaurant_UnitNo'].','.$res['Restaurant_Street'].','.$res['Restaurant_Area'].', '.$res['Restaurant_Postcode'] ?></p>
     	</div>

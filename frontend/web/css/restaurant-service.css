@@ -65,7 +65,13 @@
 	margin-top:15px;
     width:130px;
   height:130px;
-  
+}
+
+.restaurant-name{
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .outer-item :hover{

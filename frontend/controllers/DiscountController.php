@@ -36,7 +36,14 @@ class DiscountController extends Controller
 			$price = (($price*$voucher['discount']) / 100);
 		}
 		elseif ($voucher['discount_type'] >= 4 && $voucher['discount_type'] <= 6 || $voucher['discount_type'] == 101) {
-			$price = $voucher['discount'];
+			if ($voucher['discount'] >= $price) {
+				$price = $price;
+			}
+			else
+			{
+				$price = $voucher['discount'];
+			}
+			
 		}
 
 		return $price;

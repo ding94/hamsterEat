@@ -14,6 +14,11 @@ $this->title = "Order Placed";
             <tr>
                 <td><center><strong>Your Delivery ID is : <?php echo $did ?></strong></td>
             </tr>
+                <?php foreach ($orderitem as $key => $oid): ?>
+            <tr>
+                <td><center><strong><?= $key+1; ?>.Order ID: <?= $oid['Order_ID']; ?></strong></center></td>
+            </tr>
+                <?php endforeach; ?>
             <?php if ($timedate['Orders_PaymentMethod'] == "Cash on Delivery")
             {
                 echo "<tr>";

@@ -269,7 +269,7 @@ class OrderController extends CommonController
         Yii::$app->db->createCommand($sql2)->execute();
         NotificationController::createNotification($oid,2);
         NotificationController::createNotification($oid,3);
-        return $this->redirect(['restaurant-orders', 'rid'=>$rid]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
 //--This function updates the specific order item status to ready for pick up
@@ -283,7 +283,7 @@ class OrderController extends CommonController
 
         Yii::$app->db->createCommand($sql2)->execute();
 
-        return $this->redirect(['restaurant-orders', 'rid'=>$rid]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
 //This function updates the orders status to on the way and specific order item status to picked up

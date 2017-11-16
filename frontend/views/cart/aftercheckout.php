@@ -5,40 +5,81 @@ use yii\web\Session;
 use frontend\controllers\CartController;
 $this->title = "Order Placed";
 ?>
-<body  >
-    <div class="tab-content col-md-12" id="aftercheckout" style="margin-left:20%;">
-        <table class="table table-user-info" style="width:60%;">
-            <tr>
-                <th><center><h2>Thanks for placing your order with hamsterEat<br>Your Order has Been Made</h2></th>
-            </tr>
-            <tr>
-                <td><center><strong>Your Delivery ID is : <?php echo $did ?></strong></td>
-            </tr>
-                <?php foreach ($orderitem as $key => $oid): ?>
-            <tr>
-                <td><center><strong><?= $key+1; ?>.Order ID: <?= $oid['Order_ID']; ?></strong></center></td>
-            </tr>
-                <?php endforeach; ?>
-            <?php if ($timedate['Orders_PaymentMethod'] == "Cash on Delivery")
-            {
-                echo "<tr>";
-                    echo "<th><center> You have chosen Cash on Delivery payment method</th>";
-                echo "</tr>";
-                echo "<tr>";
-                    echo "<td><center> Please prepare a total of RM ".CartController::actionRoundoff1decimal($timedate['Orders_TotalPrice'])." for our rider.</td>";
-                echo "</tr>";
-            }
-            elseif ($timedate['Orders_PaymentMethod'] == "Account Balance")
-            {
-                echo "<tr>";
-                echo "<th><center> You have paid RM ".$timedate['Orders_TotalPrice']." with your Account Balance</th>";
-            echo "</tr>";
-            }
-            ?>
-            <tr>
-                <td><center><?php echo Html::a('More Detail', ['/order/my-orders'], ['class'=>'btn btn-primary'])?></center></td>
-            </tr>
-        </table>
+<style>
+    .title{
+        font-weight:bold;
+    }
 
+</style>
+<body>
+    <div class="col-md-12" id="aftercheckout">
+        <div class="row" style="margin-top: 5%;">
+            <div class="col-lg-5" style="margin: 0px 4% 0px 6%; background-color: white;">
+                <table class="table table-hover" style="font-size: 1.2em; font-family: 'Times New Roman', Times, serif;">
+                    <tr>
+                        <td style="width: 30%;">Delivery ID:</td>
+                        <td colspan="2"><?= $order['Delivery_ID']; ?></td>
+                    </tr>
+                    <tr>
+                        <?php foreach ($orderitem as $key => $oid): ?>
+                        <td><?= $key+1; ?>.Order ID:</td>
+                        <td><?= $oid['Order_ID']; ?></td>
+                        <?php endforeach; ?>
+                    </tr>
+                    <tr>
+                        <td>Delivery Location:</td>
+                        <td colspan="2"><?= $order['Orders_Location'].', '.$order['Orders_Postcode'].', '.$order['Orders_Area']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Recipient:</td>
+                        <td colspan="2"><?= $order['User_fullname']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Contact No:</td>
+                        <td colspan="2"><?= $order['User_contactno']; ?></td>
+                    </tr>
+                </table>
+                <br>
+                <table class="table table-hover" style="font-size: 1.2em; font-family: 'Times New Roman', Times, serif;">
+                        <tr>
+                            <td></td>
+                            <td style="text-align: right">Subtotal:</td>
+                            <td>RM <?= number_format($order['Orders_Subtotal'],2); ?></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="text-align: right">Delivery Charge:</td>
+                            <td>RM <?= number_format($order['Orders_DeliveryCharge'],2); ?></td>
+                        </tr>
+                        <tr style="background-color: #d9d9d9">
+                            <td></td>
+                            <td style="text-align: right;">Total:</td>
+                            <td>RM <?= number_format($order['Orders_TotalPrice'],2); ?></td>
+                        </tr>
+                </table>
+            </div>
+            <div class="col-lg-5" style="font-family: 'Times New Roman', Times, serif;" >
+                <?php if ($order['Orders_PaymentMethod'] == "Cash on Delivery"): ?>
+
+                    <center>
+                        <font style="font-size: 2.5em;">
+                            Thank you for placing order with us!<br>Your order has been made<br><br>Please Prepare RM <?= number_format($order['Orders_TotalPrice'],2); ?> to our rider.
+                        </font>
+                    </center>
+
+                <?php elseif($order['Orders_PaymentMethod'] == "Account Balance"): ?>
+
+                    <center>
+                        <font style="font-size: 2.5em;">
+                            Thank you for placing order with us!<br>Your order has been made<br><br>You have paid RM <?= number_format($order['Orders_TotalPrice'],2); ?> with your account balance.
+                        </font>
+                    </center>
+
+                <?php endif?>
+            </div>
+        </div>
+        <div style="margin-top: 3%;">
+            <center><?php echo Html::a('More Detail', ['/order/order-details','did'=>$order['Delivery_ID']], ['class'=>'btn btn-primary'])?></center>
+        </div>
     </div>
 </body>

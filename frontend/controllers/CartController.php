@@ -726,9 +726,9 @@ class CartController extends CommonController
     */
     public function actionAftercheckout($did)
     {
-        $timedate =Orders::findOne($did);
-        $orderitem = Orderitem::find()->joinWith('food')->where('Delivery_ID=:id',[':id'=>$did])->all();
-        return $this->render('aftercheckout', ['did'=>$did, 'timedate'=>$timedate,'orderitem'=>$orderitem ]);
+        $order = Orders::findOne($did);
+        $orderitem = Orderitem::find()->joinWith('food')->where('Delivery_ID=:id',[':id'=>$did])->orderBy('Delivery_ID ASC')->all();
+        return $this->render('aftercheckout', ['did'=>$did, 'order'=>$order,'orderitem'=>$orderitem ]);
     }
 
     public function actionGetdiscount($dis,$did)

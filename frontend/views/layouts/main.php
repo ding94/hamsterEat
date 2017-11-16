@@ -51,6 +51,31 @@ NotificationAsset::register($this);
         margin-top: 100px;
         height: 620px;
     }
+    @media(max-width: 480px)
+    {
+         #feedback-modal .modal-content
+         {
+             width:25.5em;
+             margin:auto;
+         }
+       
+         .modal-body .container-feedback
+         {
+             width:300px;
+             margin-left:15px;
+         }
+        #feedback-modal-1 .modal-content
+        {
+
+            width:25.5em;
+             margin:auto;
+        }
+         .modal-body .container-feedback-1
+         {
+             width:300px;
+             margin-left:15px;
+         }
+    }
     </style>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

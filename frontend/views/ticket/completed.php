@@ -16,7 +16,7 @@ $this->title = 'My Completed Questions';
 UserAsset::register($this);
 ?>
 <div class="ticket">
-<div class="container" id="userprofile">
+<div class="container" id="ticketh">
     <div class="userprofile-header">
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
     </div>
@@ -49,9 +49,10 @@ UserAsset::register($this);
                 </ul>
             </div>
         </div>
-<div class="col-sm-8 userprofile-edit-input">
-<p style="text-align:center;">
+<div class="col-sm-8 right-side">
+<p style="text-align:center;padding-top:20px;">
 We would like to thank you for writing to us, have a great day!</p><br>
+<div class="ticket-history">
         <table class="table table-inverse">
             <tr >
                 <th>Serial No.</th>
@@ -65,16 +66,16 @@ We would like to thank you for writing to us, have a great day!</p><br>
                     foreach ($model as $k => $model) { ?>
                 
                     <tr>
-                        <td>
+                        <td data-th="Serial No.">
                             <?php $k+=1; echo $k; ?>
                         </td>
-                        <td>
+                        <td data-th="Category">
                             <?php echo $model['Ticket_Category']; ?>
                         </td>
-                        <td>
+                        <td data-th="Subject">
                             <?php echo $model['Ticket_Subject']; ?>
                         </td>
-                        <td>
+                        <td data-th="Status">
                              <?php if ($model['Ticket_Status'] == 3) {
                                     echo "Completed";
                                 }
@@ -84,7 +85,7 @@ We would like to thank you for writing to us, have a great day!</p><br>
                             ?>
                         </td>
                         
-                        <td>
+                        <td data-th="Chat">
                             <a href=<?php echo  Url::to(['ticket/chatting','sid'=>$k,'tid'=>$model['Ticket_ID']]); ?> >
                                 <font color="blue">See Chat Record </font>
                             </a>
@@ -92,11 +93,12 @@ We would like to thank you for writing to us, have a great day!</p><br>
                     </tr>
             <?php   }   ?>
         </table>
-        <div class="form-group" style="padding-left: 30%"> 
+        <div class="form-group"> 
             <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'btn btn-primary']) ?>
             <?= Html::a('Processing Ticket', ['/ticket/index'], ['class'=>'btn btn-primary']) ?>
         </div>
     </div>
+</div>
 </div>
 </div>
 </div>

@@ -101,19 +101,6 @@
   float: right;
 }
 
-  #ticketh{
-  margin:auto;
-  padding-left: 20px;
-  padding-right: 20px;
-  background-color: white;
-}
-#ticketb{
-	padding-left:25%;
-}
-.right-side{
-  border-left: 1px solid #efefef;
-  
-}
 @media(max-width: 480px){
   #userprofile{
     padding: 0;
@@ -315,74 +302,4 @@ div.userprofile-input{margin: 0px 0px 55px 0px;}
   border-color: #4cae4c;
   border-radius: 4px;
 }
-@media(max-width: 460px){
-	
-	div.ticket-history tr{
-      border-top: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;
-  }
 
-  div.ticket-history th{
-      display: none;
-  }
-
-  div.ticket-history .filters{
-     display: none;
-  }
-
-  div.ticket-history td{
-      display: block;
-  }
-
-  div.ticket-history .table > tbody >tr >td{
-    border-top : 0px;
-    font-size : 0.8em;
-  }
-
-  div.ticket-history td:first-child { 
-      padding-top : .5em; 
-  }
-
-  div.ticket-history td:last-child { 
-      padding-bottom : .5em; 
-  }
-
-  div.ticket-history td:before { 
-      content : attr(data-th) ": ";
-      width: 6.5em;
-      display: inline-block;
-  }
-
-  /*
-  * remove all table border for mobile site
-  */
-  .border{
-  border: 0px;
-  }
-
-  .border td{
-    border: 0px;
-  }
-
-  .border th{
-    border: 0px;
-  }
-  
-  .history-font{
-    font-size:0.75em;
-  }
- .userprofile-header-title{
-	 text-align: center;
- }
- .right-side{
-	 border:0px;
- }
-}
-@media(max-width: 767px){
-	 .userprofile-header-title{
-	 text-align: center;
- }
- .right-side{
-	 border:0px;
- }
-}

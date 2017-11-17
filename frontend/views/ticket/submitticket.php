@@ -14,7 +14,7 @@ $this->title = 'Submit Ticket';
 UserAsset::register($this);
 ?>
 <div class="ticket">
-<div class="container" id="userprofile">
+<div class="container" id="ticketh">
 	 <div class="userprofile-header">
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
     </div>
@@ -49,9 +49,8 @@ UserAsset::register($this);
         </div>
  </div>
     <div class="container">
-     <div class="col-sm-8 userprofile-edit-input">
-	 <a class="back" href=<?php echo yii\helpers\Url::to(['/ticket/index'])?>><i class="fa fa-angle-left">&nbsp;Back</i></a><br>
-	  <p style="text-align:center; padding-top:20px;">
+     <div class="col-sm-8 right-side">
+	 <p style="text-align:center; padding-top:20px;">
         If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
     </p><br>
             <?php $form = ActiveForm::begin(); ?>

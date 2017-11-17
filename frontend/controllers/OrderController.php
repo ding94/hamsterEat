@@ -51,20 +51,20 @@ class OrderController extends CommonController
     public function actionMyOrders($status = "")
     {    
         $countOrder = $this->getTotalOrder();
-        $query = Orders::find()->where('User_Username = :uname and Orders_Status != "Not Placed" ', [':uname'=>Yii::$app->user->identity->username]);
+        $query = Orders::find()->where('User_Username = :uname and Orders_Status != "Not Placed" ', [':uname'=>Yii::$app->user->identity->username])->orderBy(['Delivery_ID'=>SORT_DESC]);
         if(!empty($status))
         {
             switch ($status) {
                 case 'Completed':
-                    $query->andWhere(['or',['Orders_Status'=> 'Rating Done'],['Orders_Status'=> $status],]);
+                    $query->andWhere(['or',['Orders_Status'=> 'Rating Done'],['Orders_Status'=> $status],])->orderBy(['Delivery_ID'=>SORT_DESC]);
                     break;
 
                 case 'Canceled':
-                    $query->andWhere(['or',['Orders_Status'=> 'Canceled and Refunded'],['Orders_Status'=> $status],]);
+                    $query->andWhere(['or',['Orders_Status'=> 'Canceled and Refunded'],['Orders_Status'=> $status],])->orderBy(['Delivery_ID'=>SORT_DESC]);
                     break;
                 
                 default:
-                    $query->andWhere('Orders_Status = :status',[':status' => $status]);
+                    $query->andWhere('Orders_Status = :status',[':status' => $status])->orderBy(['Delivery_ID'=>SORT_DESC]);
                     break;
             }
         }

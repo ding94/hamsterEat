@@ -51,20 +51,20 @@ class OrderController extends CommonController
     public function actionMyOrders($status = "")
     {    
         $countOrder = $this->getTotalOrder();
-        $query = Orders::find()->where('User_Username = :uname and Orders_Status != "Not Placed" ', [':uname'=>Yii::$app->user->identity->username]);
+        $query = Orders::find()->where('User_Username = :uname and Orders_Status != "Not Placed" ', [':uname'=>Yii::$app->user->identity->username])->orderBy(['Delivery_ID'=>SORT_DESC]);
         if(!empty($status))
         {
             switch ($status) {
                 case 'Completed':
-                    $query->andWhere(['or',['Orders_Status'=> 'Rating Done'],['Orders_Status'=> $status],]);
+                    $query->andWhere(['or',['Orders_Status'=> 'Rating Done'],['Orders_Status'=> $status],])->orderBy(['Delivery_ID'=>SORT_DESC]);
                     break;
 
                 case 'Canceled':
-                    $query->andWhere(['or',['Orders_Status'=> 'Canceled and Refunded'],['Orders_Status'=> $status],]);
+                    $query->andWhere(['or',['Orders_Status'=> 'Canceled and Refunded'],['Orders_Status'=> $status],])->orderBy(['Delivery_ID'=>SORT_DESC]);
                     break;
                 
                 default:
-                    $query->andWhere('Orders_Status = :status',[':status' => $status]);
+                    $query->andWhere('Orders_Status = :status',[':status' => $status])->orderBy(['Delivery_ID'=>SORT_DESC]);
                     break;
             }
         }
@@ -139,11 +139,11 @@ class OrderController extends CommonController
         {
             switch ($data['Orders_Status']) {
                 case 'Completed':
-                    $countOrder['Completed']['total'] += 1;
+                    $count += 1;
                     break;
 
                 case 'Rating Done':
-                    $countOrder['Completed']['total'] += 1;
+                    $count += 1;
                     break;
 
                 case 'Canceled':
@@ -415,12 +415,12 @@ class OrderController extends CommonController
 //--This loads the order history as an invoice in pdf form
     public function actionInvoicePdf($did)
     {
-        $ordersdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
-        $orderitemdetails = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
+        $order = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
+        $orderitem = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
         
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
-            'content' => $this->renderPartial('orderhistorydetails',['orderitemdetails' => $orderitemdetails ,'did'=>$did]),
+            'content' => $this->renderPartial('orderhistorydetails',['order'=>$order, 'orderitem' => $orderitem ,'did'=>$did]),
             'options' => [
                 'title' => 'Invoice',
                 'subject' => 'Sample Subject',

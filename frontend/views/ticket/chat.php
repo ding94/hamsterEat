@@ -11,17 +11,49 @@ use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use backend\models\Admin;
 use frontend\assets\UserAsset;
-  
+use kartik\widgets\Select2;
 $this->title = 'My Questions';
 UserAsset::register($this);
 ?>
 
-<div class="container" style="background-color:white;">
- <a class="back" href=<?php echo yii\helpers\Url::to(['/ticket/index'])?>><i class="fa fa-angle-left">&nbsp;Back</i></a><br>
-	<h1 class="col-md-6 col-md-offset-3" style="text-align:center;"><?= Html::encode($this->title) ?></h1><br>
-    <h4 class="col-md-6 col-md-offset-3" style="text-align:center;"><?php echo "Serial ID : " . $sid; ?></h4>
-    <br>
-    <div class="col-md-8 col-md-offset-2">
+<div class="container" id="ticketh">
+ 
+	<div class="userprofile-header">
+        <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
+    </div>
+	<div class="userprofile-detail">
+        <div class="col-sm-2">
+            <div class="dropdown-url">
+                <?php 
+                    echo Select2::widget([
+                        'name' => 'url-redirect',
+                        'hideSearch' => true,
+                        'data' => $link,
+                        'options' => [
+                            'placeholder' => 'Go To ...',
+                            'multiple' => false,
+
+                        ],
+                        'pluginEvents' => [
+                             "change" => 'function (e){
+                                location.href =this.value;
+                            }',
+                        ]
+                    ])
+                ;?>
+            </div>
+			  <div class="nav-url">
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation"><?php echo Html::a("All",['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation"><?php echo Html::a("Submit Ticket",['/ticket/submit-ticket'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Completed Ticket</a></li>
+                </ul>
+            </div>
+        </div>
+<div class="col-sm-8 right-side">
+<p style="text-align:center;padding-top:20px;"><?php echo "Serial ID : " . $sid; ?></p>
+  
+	<div class="ticket-history">
       <table class="table table-inverse">
           <tr>
               <th>
@@ -38,13 +70,15 @@ UserAsset::register($this);
 
         <?php foreach ($model as $k => $modell)  { ?> 
           <tr>
-              <td>
-                  <?php echo '<p>'.$modell->Replies_ReplyPerson.' </td><td>'.$modell->Replies_ReplyContent.'</p>'; ?>
+              <td data-th="Name">
+                  <?php echo $modell->Replies_ReplyPerson;?> </td>
               </td>
-              <td>
+			  <td data-th="Enquiry">
+			  <?php echo $modell->Replies_ReplyContent; ?>
+              <td data-th="Date">
                   <?php echo date('d/M/Y h:i:s',($modell->Replies_DateTime)); ?>
               </td>
-              <td>
+              <td data-th="Refrences">
               <?php if(!empty($modell->Replies_PicPath)){ echo Html::a('View Picture',Yii::$app->urlManager->baseUrl.'/'.$modell->Replies_PicPath,['target'=>'_blank']); }?>
               </td>
           </tr>
@@ -65,3 +99,6 @@ UserAsset::register($this);
       <?php endif ?>
 </div>
 </div>
+</div>
+</div>
+

@@ -89,6 +89,7 @@ class TicketController extends CommonController
     public function actionChatting($sid,$tid)
     {
         $ticket = Ticket::find()->where('Ticket_ID = :id ', [':id'=>$tid])->one();
+		 $link = CommonController::createUrlLink(4);
         $check = ValidController::checkUserValid($ticket['User_id']);
         if ($check == false) {
             return $this->redirect(['site/index']);
@@ -142,7 +143,7 @@ class TicketController extends CommonController
            }
         }
         $this->layout = 'user';
-        return $this->render('chat',['model'=>$model,'reply'=>$reply,'ticket'=>$ticket,'name'=>$name,'sid'=>$sid,'upload'=>$upload]);
+        return $this->render('chat',['model'=>$model,'reply'=>$reply,'ticket'=>$ticket,'name'=>$name,'sid'=>$sid,'upload'=>$upload,'link' => $link]);
     }
 
     public function actionCompleted()

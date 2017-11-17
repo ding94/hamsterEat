@@ -50,4 +50,7 @@
       width: 5.5em;
       display: inline-block;
   }
+  .voucher-header-title{
+	  text-align:center;
+  }
 }

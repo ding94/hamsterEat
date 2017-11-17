@@ -13,162 +13,111 @@ use frontend\controllers\CartController;
 
 ?>
 
-<div class = "container">
-    <div>
-        <?php echo "<h1><center> Invoice </h1>";
-        $did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();
-        $details = Userdetails:: find()->where('User_Username = :uname',[':uname'=>$did['User_Username']])->one();
-        echo "<br>";
-        echo "<br>";
-        echo "<table class= table table-user-info style= width:100%;>";
-            echo "<tr><td> SGShop Ecommerce Sdn Bhd </td></tr>";
-            echo "<tr><td> 1123326T </td></tr>";
-            echo "<tr><td> B-GF-05, Medini 6, Jalan Medini Sentral 5, Bandar Medini Iskandar Malaysia, 79250 Iskandar Puteri, Johor, Malaysia. </td></tr>";
-        echo "</table>";
-        echo "<br>";
+<body>
+    <div class="col-md-12">
+        <div class="row" style="padding-top: 5%;font-family: 'Times New Roman', Times, serif;">
+            <div name="titles"s style="padding-bottom: 5%">
+                <font style="font-size: 3em;">Invoice</font>
+                <p>SGShop Ecommerce Sdn Bhd</p>
+                <p>1123326T</p>
+                <p>B-GF-05, Medini 6, Jalan Medini Sentral 5, Bandar Medini Iskandar Malaysia,<br>79250 Iskandar Puteri, Johor, Malaysia. </p>
+            </div>
 
-        echo "<table class= table table-user-info style= width:100%;>";
-            echo "<tr>";
-                echo "<td><strong>Username: </strong>".$did['User_Username']."</td>";
-                echo "<td><strong>Delivery ID: </strong>".$did['Delivery_ID']."</td>";
-            echo "</tr>";
-            echo "<tr>";
-                echo "<td><strong> Mobile No: </strong>".$details['User_ContactNo']."</td>";
-                echo "<td><strong> Payment Mode: </strong>".$did['Orders_PaymentMethod']."</td>";
-            echo "</tr>";
-            echo "<tr>";
-                echo "<td><strong> Delivery Address: </strong>".$did['Orders_Location'].', '.$did['Orders_Area'].', '.$did['Orders_Postcode'].'.'."</td>";
-                $timepay = Ordersstatuschange::find()->where('Delivery_ID = :did', [':did'=>$did['Delivery_ID']])->one();
-                echo "<td><strong> Payment On: </strong>".date('d/m/Y H:i:s', $timepay['OChange_CompletedDateTime'])."</td>";
-            echo "</tr>";
-        echo "</table>";
-        echo "<br>";
-        echo "<br>";
+            <div class="col-lg-12">
+                <table class="table" style="font-size: 1em;">
+                    <tr>
+                        <td style="width: 15%;font-weight: bold;">Username:</td>
+                        <td style="width: 30%;"><?= $order['User_Username']; ?></td>
+                        <td style="width: 15%;font-weight: bold;">Delivery ID:</td>
+                        <td style="width: 30%;"><?= $order['Delivery_ID']; ?></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Contact No:</td>
+                        <td><?= $order['User_contactno']; ?></td>
+                        <td style="font-weight: bold;">Pay Method:</td>
+                        <td><?= $order['Orders_PaymentMethod']; ?></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;text-align: top;">Delivery Address:</td>
+                        <td><?= $order['Orders_Location'].', '.$order['Orders_Postcode'].', '.$order['Orders_Area']; ?></td>
+                        <td style="font-weight: bold;">Payment Made:</td>
+                        <td><?= date('d M Y H:i:s', $order['Orders_DateTimeMade']); ?></td>
+                    </tr>
+                </table>
+            </div>
+            <div name="titles"s style="padding-top: 5%">
+                <font style="font-size: 2.5em;">Items</font>
+            </div>
+            <div class="col-lg-12">
+                <table class="table" style="font-size: 1em;border-collapse: collapse;border: 1px solid black;">
+                        <tr>
+                            <td style="font-weight: bold;width: 15%;border: 1px solid black;">Order ID</td>
+                            <td colspan="3" style="width: 85%;border: 1px solid black;"></td>
+                        </tr>
+                    <?php foreach ($orderitem as $k => $value): ?>
+                        <?php $food = Food::find()->where('Food_ID=:id',[':id'=>$value['Food_ID']])->one(); ?>
+                        <?php 
+                            $select="";
+                            $selections = Orderitemselection::find()->where('Order_ID=:id',[':id'=>$value['Order_ID']])->all(); 
+                            foreach ($selections as $l => $sel) {
+                                $foodselect = Foodselection::find()->where('ID=:fid',[':fid'=>$sel['Selection_ID']])->one();
+                                if (!empty($foodselect)) {
+                                    $select = $select.$foodselect['Name'].', ';
+                                }
+                            }
+                        ?>
+                        <tr>
+                            <td rowspan="5" style="border: 1px solid black;text-align: center;"><?= $value['Order_ID']; ?></td>
+                            <td style="width:15%;font-weight: bold;border-bottom: 1px solid #ddd;">Food</td>
+                            <td style="width:50%;border-bottom: 1px solid #ddd;"><?= $food['Name']; ?></td>
+                            <td style="width:10%;border-bottom: 1px solid #ddd;padding-right: 5%;text-align: right;">RM <?=  number_format($food['Price'],2); ?></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;border-bottom: 1px solid #ddd;">Selections</td>
+                            <td style="border-bottom: 1px solid #ddd;"><?= $select; ?></td>
+                            <td style="border-bottom: 1px solid #ddd;padding-right: 5%;text-align: right;">RM <?=  number_format($value['OrderItem_SelectionTotal'],2); ?></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;border-bottom: 1px solid #ddd;">Quantity</td>
+                            <td style="border-bottom: 1px solid #ddd;"></td>
+                            <td style="border-bottom: 1px solid #ddd;padding-right: 5%;text-align: right;"><?= $value['OrderItem_Quantity']; ?></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;border-bottom: 1px solid #ddd;">Line Total</td>
+                            <td style="border-bottom: 1px solid #ddd;"></td>
+                            <td style="border-bottom: 1px solid #ddd;padding-right: 5%;text-align: right;">RM <?=  number_format($value['OrderItem_LineTotal'],2); ?></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;border-bottom: 1px solid black">Remarks</td>
+                            <td colspan="2" style="border-bottom: 1px solid black"><?= $value['OrderItem_Remark']; ?></td>
+                        </tr>
+                    <?php endforeach;?>
+                </table>
 
-        echo "<table class= table table-user-info style= width:100%;>";
-            echo "<tr>";
-            echo "<th><center>Order ID</th>";
-                echo "<th><center>Food Name</th>";
-                echo "<th><center>Unit Price (RM)</th>";
-                echo "<th><center>Quantity</th>";
-                echo "<th><center>Selections</th>";
-                echo "<th><center>Selections Price (RM)</th>";
-                echo "<th><center>LineTotal (RM)</th>";
-                echo "<th colspan = 2><center>Remarks</th>";
-            echo "</tr>";
-        foreach ($orderitemdetails as $orderitemdetails) :
-            $fooddetails = food::find()->where('Food_ID = :fid',[':fid'=>$orderitemdetails['Food_ID']])->one();
+                <table class="table" align="right" style="width:75%;font-size: 1em;margin-right: 5%;">
+                    <tr>
+                        <td style="text-align: right;">Subtotal:</td>
+                        <td style="width:20%;text-align: right;">RM <?=  number_format($order['Orders_Subtotal'],2); ?></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">Delivery Charge:</td>
+                        <td style="text-align: right;">RM <?=  number_format($order['Orders_DeliveryCharge'],2); ?></td>
+                    </tr>
+                    <?php if (!empty($order['Orders_DiscountTotalAmount'])): ?>
+                        <tr>
+                            <td style="text-align: right;">Discounted:</td>
+                            <td style="text-align: right;">RM <?= number_format($order['Orders_DiscountTotalAmount'],2); ?></td>
+                        </tr>
+                    <?php endif ?>
+                    <tr>
+                        <td style="text-align: right;font-weight: bold;padding-top: 5%;">Total:</td>
+                        <td style="text-align: right;font-weight: bold;padding-top: 5%;">RM <?=  number_format($order['Orders_TotalPrice'],2); ?></td>
+                    </tr>
+                    
+                </table>
 
-            echo "<tr>";
-            ?>
-            
-            <?php
-            echo "<td><center>".$orderitemdetails['Order_ID']."</td>";
-            echo "<td><center>".$fooddetails['Name']."</td>";
-            echo "<td align="."right>".$fooddetails['Price']."</td>";
-            echo "<td><center>".$orderitemdetails['OrderItem_Quantity']."</td>";
-            $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$orderitemdetails['Order_ID']])->all();
-            echo "<td><center>";
-            foreach ($selections as $selections) :
-              $selectionname = Foodselection::find()->where('ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
-              $selectiontype = Foodselectiontype::find()->where('ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
-              if (!is_null($selectionname))
-              {
-                echo $selectiontype['TypeName'].': &nbsp;'.$selectionname['Name'];
-                echo "<br>";
-              }
-
-            endforeach;
-            echo "</td>";
-            echo "<td align="."right>".CartController::actionRoundoff1decimal($orderitemdetails['OrderItem_SelectionTotal'])."</td>";
-            echo "<td align="."right>".CartController::actionRoundoff1decimal($orderitemdetails['OrderItem_LineTotal'])."</td>";
-            echo "<td colspan = 2><center>".$orderitemdetails['OrderItem_Remark']."</td>";
-            echo "</tr>";
-          endforeach;
-          
-          //var_dump($did);exit;
-          echo "<tr>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td><center><strong> Subtotal (RM): </strong></td>";
-            echo "<td align="."right>".CartController::actionRoundoff1decimal($did['Orders_Subtotal'])."</td>";
-          echo "</tr>";
-          echo "<tr>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td><center><strong> Delivery Charge (RM): </strong></td>";
-            echo "<td align="."right>".CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge'])."</td>";
-          echo "</tr>";
-
-          if ($did['Orders_DiscountEarlyAmount'] != 0)
-          {
-            echo "<tr>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td><center><strong> Discount Early (RM): </strong></td>";
-                echo "<td align="."right>".'- '.CartController::actionRoundoff1decimal($did['Orders_DiscountEarlyAmount'])."</td>";
-            echo "</tr>";
-          }
-
-          if ($did['Orders_DiscountVoucherAmount'] != 0)
-          {
-            echo "<tr>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td><center><strong> Voucher Discount (RM): </strong></td>";
-                echo "<td align="."right>".'- '.CartController::actionRoundoff1decimal($did['Orders_DiscountVoucherAmount'])."</td>";
-            echo "</tr>";
-          }
-
-          if ($did['Orders_DiscountCodeAmount'] != 0)
-          {
-            echo "<tr>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td> </td>";
-                echo "<td><center><strong> Code Discount (RM): </strong></td>";
-                echo "<td align="."right>".'- '.CartController::actionRoundoff1decimal($did['Orders_DiscountCodeAmount'])."</td>";
-            echo "</tr>";
-          }
-
-          echo "<tr>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td> </td>";
-            echo "<td><center><strong> Total (RM): </strong></td>";
-            echo "<td align="."right><strong>".CartController::actionRoundoff1decimal($did['Orders_TotalPrice'])."</strong></td>";
-          echo "</tr>";
-          echo "</table>";
-
-
-        ?>
+                
+            </div>
+        </div>
     </div>
-</div>
+</body>

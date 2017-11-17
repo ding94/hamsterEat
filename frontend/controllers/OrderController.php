@@ -415,12 +415,12 @@ class OrderController extends CommonController
 //--This loads the order history as an invoice in pdf form
     public function actionInvoicePdf($did)
     {
-        $ordersdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
-        $orderitemdetails = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
+        $order = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
+        $orderitem = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
         
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
-            'content' => $this->renderPartial('orderhistorydetails',['orderitemdetails' => $orderitemdetails ,'did'=>$did]),
+            'content' => $this->renderPartial('orderhistorydetails',['order'=>$order, 'orderitem' => $orderitem ,'did'=>$did]),
             'options' => [
                 'title' => 'Invoice',
                 'subject' => 'Sample Subject',

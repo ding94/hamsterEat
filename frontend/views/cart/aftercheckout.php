@@ -5,27 +5,23 @@ use yii\web\Session;
 use frontend\controllers\CartController;
 $this->title = "Order Placed";
 ?>
-<style>
-    .title{
-        font-weight:bold;
-    }
 
-</style>
 <body>
     <div class="col-md-12" id="aftercheckout">
         <div class="row" style="margin-top: 5%;">
             <div class="col-lg-5" style="margin: 0px 4% 0px 6%; background-color: white;">
                 <table class="table table-hover" style="font-size: 1.2em; font-family: 'Times New Roman', Times, serif;">
                     <tr>
-                        <td style="width: 30%;">Delivery ID:</td>
+                        <td style="width: 40%;">Delivery ID:</td>
                         <td colspan="2"><?= $order['Delivery_ID']; ?></td>
                     </tr>
-                    <tr>
+                    
                         <?php foreach ($orderitem as $key => $oid): ?>
-                        <td><?= $key+1; ?>.Order ID:</td>
-                        <td><?= $oid['Order_ID']; ?></td>
+                            <tr>
+                                <td><?= $key+1; ?>.Order ID:</td>
+                                <td><?= $oid['Order_ID']; ?></td>
+                            </tr>
                         <?php endforeach; ?>
-                    </tr>
                     <tr>
                         <td>Delivery Location:</td>
                         <td colspan="2"><?= $order['Orders_Location'].', '.$order['Orders_Postcode'].', '.$order['Orders_Area']; ?></td>
@@ -58,20 +54,25 @@ $this->title = "Order Placed";
                         </tr>
                 </table>
             </div>
-            <div class="col-lg-5" style="font-family: 'Times New Roman', Times, serif;" >
+            <div class="col-lg-5" style="font-family: 'Times New Roman', Times, serif;background-color: white; height: 54%;padding-top: 7%;" >
                 <?php if ($order['Orders_PaymentMethod'] == "Cash on Delivery"): ?>
 
                     <center>
-                        <font style="font-size: 2.5em;">
-                            Thank you for placing order with us!<br>Your order has been made<br><br>Please Prepare RM <?= number_format($order['Orders_TotalPrice'],2); ?> to our rider.
+                        <font style="font-size: 2em;">
+                            Thank you for placing order with us!<br>Your order has been made<br><br>
+                        </font>
+                        <font style="font-size: 2em;background-color: #ffffb3">
+                            Please Prepare RM <?= number_format($order['Orders_TotalPrice'],2); ?> to our rider.
                         </font>
                     </center>
 
                 <?php elseif($order['Orders_PaymentMethod'] == "Account Balance"): ?>
-
                     <center>
-                        <font style="font-size: 2.5em;">
-                            Thank you for placing order with us!<br>Your order has been made<br><br>You have paid RM <?= number_format($order['Orders_TotalPrice'],2); ?> with your account balance.
+                        <font style="font-size: 2em;">
+                            Thank you for placing order with us!<br>Your order has been made<br><br>
+                        </font>
+                        <font style="font-size: 2em;background-color: #ffffb3">
+                            You have paid RM <?= number_format($order['Orders_TotalPrice'],2); ?> with your account balance.
                         </font>
                     </center>
 

@@ -44,6 +44,9 @@
    padding-top:0px;
     margin-right: 0px;
   }
+  .my-orders-header-title{
+	   text-align: center;
+  }
 }
 
 @media(max-width: 480px){
@@ -108,5 +111,8 @@
       content : attr(data-th) ": ";
       width: 6.5em;
       display: inline-block;
+  }
+  .my-orders-header-title{
+    text-align: center;
   }
 }

@@ -139,11 +139,11 @@ class OrderController extends CommonController
         {
             switch ($data['Orders_Status']) {
                 case 'Completed':
-                    $countOrder['Completed']['total'] += 1;
+                    $count += 1;
                     break;
 
                 case 'Rating Done':
-                    $countOrder['Completed']['total'] += 1;
+                    $count += 1;
                     break;
 
                 case 'Canceled':

@@ -12,9 +12,9 @@ $this->title = "Expansion";
     border-radius: 5px;
     height: 400px;
     padding-top: 80px;
-    padding-left: 17%;
+    padding-left:5%;
     margin-top: 20px;
-    width: 1000px;
+    width: 500px;
 }
 
 .container-1
@@ -23,17 +23,63 @@ $this->title = "Expansion";
     border-radius: 5px;
     height: 450px;
     padding-top: 40px;
-    padding-left: 17%;
+    padding-left: 5%;
     margin-top: 20px;
-    width: 1000px;
-    margin-left: 450px;
+    width: 500px;
+    margin-left: 500px;
 }
 
 .text
 {
     margin-bottom:3%;
 }
-
+#expansion_button .btn.btn-primary
+{
+margin-left: 24%;
+ margin-top: 2%;
+}
+#expansion_email .form-control{
+     width:350px;
+}
+#expansion_postcode .form-control{
+    width:350px;
+}
+#expansion_postcode_1 .form-control{
+    width:350px;
+}
+#expansion_area .form-control{
+    width:350px;
+}
+@media(max-width: 498px){
+    .container{
+        margin:auto;
+        width:27em;
+    }
+    .container-1{
+        margin:auto;
+        width:27em;
+    }
+.text{
+    margin:auto;
+}
+#expansion_email .form-control{
+    width:340px;
+}
+#expansion_postcode .form-control{
+    width:340px;
+}
+#expansion_postcode_1 .form-control{
+    width:340px;
+}
+#expansion_area .form-control{
+    width:340px;
+}
+#expansion_button .btn.btn-primary
+{
+margin-left: 29%;
+ margin-top: 5%;
+}
+}
 </style>
 <div class = "text">
     <h2><center>Let us know your location and we might expand our services!</h2>
@@ -51,18 +97,22 @@ else
 
     <?php if (Yii::$app->user->isGuest)
     { ?>
-        <?= $form->field($expansion, 'User_Username')->textInput(['autofocus' => true, 'style'=>'width:350px', 'placeholder' => "Enter email..."])->label('Email Address'); ?>
-        <?= $form->field($expansion, 'Expansion_Postcode')->textInput(['style'=>'width:350px', 'placeholder' => "Enter postcode..."]) ?>
+    <div id="expansion_email">
+        <?= $form->field($expansion, 'User_Username')->textInput(['autofocus' => true,'placeholder' => "Enter email..."])->label('Email Address'); ?>
+        </div>
+        <div id="expansion_postcode">
+        <?= $form->field($expansion, 'Expansion_Postcode')->textInput(['placeholder' => "Enter postcode..."]) ?>
+        </div>
     <?php } else { ?>
-         
-    <?= $form->field($expansion, 'Expansion_Postcode')->textInput(['autofocus' => true, 'style'=>'width:350px', 'placeholder' => "Enter postcode..."]) ?>
-
+          <div id="expansion_postcode_1">
+    <?= $form->field($expansion, 'Expansion_Postcode')->textInput(['autofocus' => true,'placeholder' => "Enter postcode..."]) ?>
+</div>
     <?php } ?>
-
-    <?= $form->field($expansion, 'Expansion_Area')->textInput(['style'=>'width:350px', 'placeholder' => "Enter area..."]) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Submit Request', ['class' => 'btn btn-primary', 'name' => 'expansion-button', 'style'=>'margin-left: 15%; margin-top: 2%;']) ?>                
+<div id="expansion_area">
+    <?= $form->field($expansion, 'Expansion_Area')->textInput(['placeholder' => "Enter area..."]) ?>
+</div>
+    <div id="expansion_button" class="form-group">
+        <?= Html::submitButton('Submit Request', ['class' => 'btn btn-primary', 'name' => 'expansion-button']) ?>                
     </div>
     <?php ActiveForm::end(); ?>
 </div>

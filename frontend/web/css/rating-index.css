@@ -17,6 +17,7 @@ h4{
   align-items: center;
   justify-content:center;
 }
+
 .item1{
   font-size: 12px;
   color: black;
@@ -25,6 +26,7 @@ h4{
   justify-self: center;
   width: 500px;
 }
+
 .btn-primary1 {
   display: block;
   margin: 40px auto;
@@ -35,7 +37,7 @@ h4{
 .rating{
 	font-size: 30px;
 	text-align:center;
-	margin-left: 5px;
+  margin: 10px;
 	align:center;
 }
 
@@ -64,7 +66,6 @@ h4{
 .inner-item{
   margin:15px 0px 10px 50px;
   float:left;
-  
 }
 .img{
 
@@ -82,4 +83,20 @@ h4{
 	color: black;
   background-color: #fed136;
   border-color: #fed136;
+}
+
+@media(max-width: 500px){
+  .item1{
+    width: 300px;
+  }
+
+  .inner-item{
+    margin:15px 25px 10px 25px;
+  }
+}
+
+@media (max-width: 630px){
+  .item2{
+    min-width: 300px;
+  }
 }

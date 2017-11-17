@@ -15,7 +15,6 @@ RatingIndexAsset::register($this);
 	<h4>Complete all ratings to earn more points!</h4><br>
 
 	<?php $form = ActiveForm::begin(['action' => ['rating/rating-data','id'=>$id],'method' => 'post']);?>
-
 	 <div class="tab-content">
   <div id="home" class="tab-pane fade in active">
 		<div class="outer-container1">
@@ -25,7 +24,7 @@ RatingIndexAsset::register($this);
 				<?= $form->field($servicerating, 'DeliverySpeed')->inline()->radioList($ratingLevel,
 							[
                                 'item' => function($index, $label, $name, $checked, $value) {
-                                    $return = '<label class="radio-inline">';
+                                    $return = '<label>';
                                     $return .= '<input type="radio" name="' . $name . '" value="' . $value . '">';
                                     $return .= '<i></i>';
                                     $return .= '<span class="rating">' . $label . '</span>';
@@ -36,7 +35,7 @@ RatingIndexAsset::register($this);
                             ]) ?>
 				<?= $form->field($servicerating, 'UserExperience')->inline()->radioList($ratingLevel,[
                                 'item' => function($index, $label, $name, $checked, $value) {
-                                    $return = '<label class="radio-inline">';
+                                    $return = '<label>';
                                     $return .= '<input type="radio" name="' . $name . '" value="' . $value . '">';
                                     $return .= '<i></i>';
                                     $return .= '<span class="rating">' . $label . '</span>';
@@ -47,7 +46,7 @@ RatingIndexAsset::register($this);
                             ])?>
 				<?= $form->field($servicerating, 'Service')->inline()->radioList($ratingLevel,[
                                 'item' => function($index, $label, $name, $checked, $value) {
-                                    $return = '<label class="radio-inline">';
+                                    $return = '<label>';
                                     $return .= '<input type="radio" name="' . $name . '" value="' . $value . '">';
                                     $return .= '<i></i>';
                                     $return .= '<span class="rating">' . $label . '</span>';
@@ -75,7 +74,7 @@ RatingIndexAsset::register($this);
 					<div class="inner-item">
 					<?= $form->field($foodrating , '['.$k.']FoodRating_Rating')->inline()->radioList($ratingLevel,[
                                 'item' => function($index, $label, $name, $checked, $value) {
-                                    $return = '<label class="radio-inline">';
+                                    $return = '<label>';
                                     $return .= '<input type="radio" name="' . $name . '" value="' . $value . '">';
                                     $return .= '<i></i>';
                                     $return .= '<span class="rating">' . $label . '</span>';
@@ -99,6 +98,5 @@ RatingIndexAsset::register($this);
 		</div>
 		<button class="btn btn-primary2">Submit</button>
 	</div>
-	
 	<?php ActiveForm::end();?>
 </div>

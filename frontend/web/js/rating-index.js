@@ -30,3 +30,17 @@ function proceed(){
       $('#comments').addClass("in active");
     }
 }
+
+// $(function(){
+
+// $(window).bind("resize",function(){
+//     console.log($(this).width())
+//     console.log($('label.radio-inline'))
+//     if($(this).width() <500){
+//     $('label.radio-inline').removeClass('radio-inline')
+//     }
+//     else{
+//     $('div').removeClass('red').addClass('yellow')
+//     }
+// })
+// })

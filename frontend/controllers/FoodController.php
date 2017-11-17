@@ -567,8 +567,11 @@ class FoodController extends CommonController
     public function actionViewComments($id)
     {
         $comments = Foodrating::find()->where('Food_ID = :id', [':id'=>$id])->all();
+
+        $foodname= Food::find()->where('Food_ID=:id',[':id'=>$id])->one();
+        $foodname=$foodname['Name'];
         
-        return $this->render('comments', ['fid'=>$id, 'comments'=>$comments]);
+        return $this->render('comments', ['fid'=>$id, 'comments'=>$comments,'foodname'=>$foodname]);
     }
 }
 

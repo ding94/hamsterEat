@@ -11,7 +11,7 @@ use yii\helpers\Html;
 $rid = $restaurantdetails['Restaurant_ID'];
 ?>
 <style>
-
+/* Edit location css */
 #select-postcode
 {
     width:250px;

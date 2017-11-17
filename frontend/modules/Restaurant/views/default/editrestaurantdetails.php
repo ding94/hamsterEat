@@ -13,6 +13,7 @@ use yii\bootstrap\Modal;
 $this->title = "Edit ".$restaurantdetails['Restaurant_Name']."'s Details";
 EditRestaurantDetailsAsset::register($this); ?>
 <style>
+    /* Edit modal mobile size */
 @media(max-width: 480px){
 #location-modal .modal-content{
     margin:auto;

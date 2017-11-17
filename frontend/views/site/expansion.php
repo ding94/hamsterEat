@@ -6,6 +6,7 @@ use yii\bootstrap\ActiveForm;
 $this->title = "Expansion";
 ?>
 <style>
+    /* expansion css */
 .container
 {
     border: 1.5px solid black;
@@ -50,7 +51,8 @@ margin-left: 24%;
 #expansion_area .form-control{
     width:350px;
 }
-@media(max-width: 498px){
+/* Expansion mobile css */
+@media(max-width: 480px){
     .container{
         margin:auto;
         width:27em;

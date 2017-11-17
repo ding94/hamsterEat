@@ -6,6 +6,7 @@ use yii\bootstrap\ActiveForm;
 use kartik\widgets\Select2;
 ?>
 <style>
+    /* Feedback css */
 .container-feedback
 {
     border: 1.5px solid black;
@@ -51,6 +52,7 @@ textarea
 {
     resize: none;
 }
+/* Feedback mobile css */
   @media(max-width: 480px)
     {
         #form-feedback{

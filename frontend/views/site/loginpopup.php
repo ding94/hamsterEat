@@ -12,7 +12,7 @@ $this->title = 'Login';
 ?>
 <style>
 
-
+/* Login pop-up css */
    
     #form-group .btn.btn-primary
     {

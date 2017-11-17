@@ -141,18 +141,18 @@ NotificationAsset::register($this);
             'id' => 'uppernavbar'
         ],
     ]);
-    $menuItems = [
+   /* $menuItems = [
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Guide', 'url' => ['/site/faq']],
        
          //['label' => '<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
-    ];
+    ];*/
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => '<span id ="cart1" class="glyphicon glyphicon-shopping-cart"></span> ', 'url' => ['/cart/view-cart']];
+        $menuItems[] = ['label' => '<span id ="cart1" class="glyphicon glyphicon-shopping-cart"></span> Cart ', 'url' => ['/cart/view-cart']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span> Signup', 'url' => ['/site/ruser']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> Login', 'url' => ['/site/login-popup'],'linkOptions'=>['data-toggle'=>'modal','data-target'=>'#login-modal']]; 
     } else {
-        $menuItems[] = ['label' => '<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']];
+        $menuItems[] = ['label' => '<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span>', 'url' => ['/cart/view-cart']];
         $menuItems[] = ['label' => '<span class=""> <i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>'];
         $keys = array_keys($menuItems);
 

@@ -128,6 +128,10 @@ RestaurantOrdersAsset::register($this);
                             elseif ($result['OrderItem_Status'] == 'Ready For Pick Up')
                             { ?>
                                 <td data-th="Update Status"><span class='label label-warning'> Waiting for Pick Up </span></td>
+                            <?php } 
+                            elseif ($result['OrderItem_Status'] == 'Canceled')
+                            { ?>
+                                <td data-th="Update Status"><span class='label label-danger'> Canceled </span></td>
                             <?php } ?>
                         </tr>
                 </table>

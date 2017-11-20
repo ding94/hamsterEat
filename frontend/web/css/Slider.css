@@ -24,7 +24,13 @@
   right:0;
   margin-top:-30px;
 }
-
+#SSCrow2{
+  position:absolute;
+  left:0;
+  right:0;
+	margin-top:-460px;
+	
+}
 .form{
     background-color:rgba(255, 255, 255,0.8);
     padding:50px;
@@ -74,3 +80,47 @@ a:hover{
   background-color: #717171;
 }
 
+@media (max-width: 501px) {
+	
+	.form{
+    background-color:rgba(255, 255, 255,0.8);
+    padding-top:0px;
+    margin: auto;
+   margin-top:-10px;
+}
+#SSCrow2{
+  position:absolute;
+  left:0;
+  right:0;
+margin-top:-300px;
+	
+}
+#h3{
+	display:none;
+}
+#h5{
+	display:none;
+}
+}
+@media (max-width: 401px) {
+	.form{
+    background-color:rgba(255, 255, 255,0.8);
+    padding-top:0px;
+	padding-bottom:15px;	
+    margin: auto;
+}
+#SSCrow2{
+  position:absolute;
+  left:0;
+  right:0;
+margin-top:-240px;
+	
+}
+	
+	#h3{
+	display:none;
+}
+#h5{
+	display:none;
+}
+}

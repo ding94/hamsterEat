@@ -43,11 +43,11 @@ $this->title = 'hamsterEat';
     </div>
 </div>
 </header>
-	<div id="SSCrow2" class="row">
+	<div id="SSCrow2" class="container">
         <div class="form">
-		<h1>Light up your taste buds!</h1><br>
-        <h3><b>Select Your Location</b></h3>
-		<h5>To Better Serve You, let us know where you are by selecting your postal code & area!</h5><br>
+	<!--	<h1>Light up your taste buds!</h1><br>-->
+        <h3 id="h3"><b><center>Select Your Location</center></b></h3>
+		<h5 id="h5"><center>To Better Serve You, let us know where you are by selecting your postal code & area!</center></h5><br>
 
 
         <?php $form = ActiveForm::begin(); ?>

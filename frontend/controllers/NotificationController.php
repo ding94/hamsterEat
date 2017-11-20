@@ -28,9 +28,10 @@ class NotificationController extends CommonController
 		self::turnOffNotification();
 		$query = Notification::find()->where('uid = :uid',[':uid' =>Yii::$app->user->identity->id ]);
 	    $count = $query->count();
-      
+      	
         $pagination = new Pagination(['totalCount' => $count,'pageSize'=>10]);		    
         $notification = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at'=> SORT_DESC])->all();
+      
 		return $this->render('index',['notification'=>$notification,'pages' => $pagination]);
 	}
 

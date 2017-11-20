@@ -30,7 +30,7 @@ NotificationAsset::register($this);
 				<div class="col-md-12 notic">
 					<?php if($notic['type'] == 2 || $notic['type'] == 4):?>
 					<div>
-						<?php echo Html::a($notic['description'],['/order/order-details','did'=>$data['rid']],['class'=> 'a-notic'])?>
+						<?php echo Html::a($notic['description'],['/order/order-details','did'=>$notic['rid']],['class'=> 'a-notic'])?>
 					
 						<span class="pull-right">From <?php echo $ago?></span>	
 					</div>

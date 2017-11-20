@@ -33,7 +33,7 @@ class CommonController extends Controller
 			}
 			
 			$data = $result;
-
+           
 
 			//Total Cart item
 			$totalcart="";

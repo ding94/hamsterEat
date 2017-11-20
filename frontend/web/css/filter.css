@@ -133,7 +133,7 @@
 display:inline;
   position:fixed;
   right: 8%;
-  top: 25%;
+  top: 12%;
   float:right;  
   border-radius:20px;
   padding-top: 10px;
@@ -176,13 +176,15 @@ display:inline;
 .scrollToTop:hover{
 	text-decoration:none;
 }
-
 }
 
 @media(max-width: 451px)
 {
   .filter .container{
     margin-top: -160px;
+  }
+  .f{
+	  display:none;
   }
 }
 
@@ -200,4 +202,7 @@ display:inline;
 /*for filter icon*/
 #sidebartoggler:checked + .page-wrap .toggle {
  
+}
+.btn-default:hover{
+	background-color:#FFDA00;
 }

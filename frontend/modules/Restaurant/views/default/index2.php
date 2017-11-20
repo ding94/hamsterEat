@@ -21,10 +21,11 @@ RestaurantDefaultIndex2Asset::register($this);
     <h1>Order Food for Delivery</h1>
   
         <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']);?>
-        <input type="checkbox" id="sidebartoggler" name="" value="">
+		<?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>       
+	   <input type="checkbox" id="sidebartoggler" name="" value="">
         <div class="page-wrap">
 
-	   <label for="sidebartoggler" class="toggle">Filter</label>
+	   <label for="sidebartoggler" class="toggle"><i class="fa fa-sliders" aria-hidden="true">&nbsp;Filter</i></label>
 		<!--<a href="#top" title="Go to top of page"><span><i class="fa fa-chevron-up fa-2x" aria-hidden="true"></i></span>-->
 		<a href="#top" class="scrollToTop"></a>
             <div class="filter">

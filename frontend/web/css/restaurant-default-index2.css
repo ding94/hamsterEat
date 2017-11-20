@@ -150,25 +150,37 @@
   }
 
   .item img{
-    width: 250px;
+    width: 350px;
     height: 200px;
     display:block;
     margin-left: auto;
     margin-right: auto;
   }
 }
+@media(max-width: 560px){
 
+	.item img{
+    width: 450px;
+    height: 200px;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+ 
+  .item .small-text{
+  margin-right:-100px;
+}
+}
 @media(max-width: 480px){
   .item .inner-item{
     float:none;
   }
-
   .item .img{
     float:none;
   }
 
   .item img{
-    width: 250px;
+    width: 350px;
     height: 200px;
     display:block;
     margin-left: auto;

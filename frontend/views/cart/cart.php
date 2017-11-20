@@ -79,47 +79,50 @@ Modal::end();
           </table>
         </div>
         <div class="container">
-          <div class="tab-content col-md-5 col-md-offset-5" >
+          <div class="col-md-5" id='voucher'>
+            <?php if (!empty($voucher)): ?>
+              <?php $form = ActiveForm::begin(); ?>
+              <div><?= $form->field($ren,'type')->dropDownList($voucher,['onchange' => 'js:return discount();','prompt' => ' -- Select Coupons --'])->label('Coupons')?></div>
+              <?php ActiveForm::end(); ?>
+            <?php endif ?>
+          </div>
+          <div class="col-md-5" id='refresh' style="display: none;">
+            <a style="font-size: 1.5em;color:blue;padding-left:30%;" onclick="refresh()">Reset Coupon</a>
+          </div>
+          <div class="tab-content col-md-5" >
             <table class="table" style="float:right">
               <tr>
                 <?php $total = CartController::actionRoundoff1decimal($total) ?>
                 <td><b>Subtotal (RM):</td>
                 <td id="subtotal"><?php echo $total ; ?></td>
-                <td></td>
+                <td id="dissub" style="color: red;display: none;"></td>
               </tr>
               <tr>
                 <td><b>Delivery Charge (RM):</td>
                 <td id="delivery">5.00</td>
-                <td></td>
+                <td id="disdel" style="color: red;display: none;"></td>
               </tr>
               <?php if($time['early'] <= $time['now'] && $time['late'] >= $time['now']):?>
               <tr>
                 <?php $earlyDiscount = CartController::actionRoundoff1decimal($total *0.2)?>
                 <td><b>Early Discount (RM):</td>
-                <td>-<?php echo $earlyDiscount?></td>
-                <td></td
+                <td id='early'>-<?php echo $earlyDiscount?></td>
+                <td></td>
               </tr>
               <?php endif ;?>
               <tr>
                 <?php $finalPrice = $total - $earlyDiscount + 5 ;?>
                 <td><b>Total (RM): </td>
                 <td id="total"><?php echo CartController::actionRoundoff1decimal($finalPrice); ?></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td  id ="label" style="display: none"><strong> Discount Code: </strong></td>
-                <td><div> <input id ="input" style="display: none"></div></td>
-                <td id ="hide2"><a onclick="showHidden()"><font color="blue">Have a coupon ? Click Me</font></a></td>
-                <td style="display: none" id="apply"><div ><a onclick="discount()"><font color="blue">Apply</font></a></div></td>
-                <td id="reset" style="display : none"><a onclick="refresh()"><font color="blue">Reset Coupon</font></a></td>
+                <td id="distol" style="color: red;display: none;"></td>
               </tr>
             </table>
-              <?php echo Html::a('Back',Yii::$app->request->referrer,['class' => 'btn btn-primary']) ;?>
               <?php $form = ActiveForm::begin(['action' =>['checkout/index'],'method' => 'get']); ?>
                 <?php echo Html::hiddenInput('area', $index);?>
-              
+                <?php echo Html::hiddenInput('code', '');?>
                 <?php echo Html::submitButton('Checkout', ['class' => 'btn btn-primary']);?>
               <?php ActiveForm::end(); ?>
+              <?php echo Html::a('Back',Yii::$app->request->referrer,['class' => 'btn btn-primary']) ;?>
           </div>
         </div>
       </div>

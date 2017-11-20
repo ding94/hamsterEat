@@ -203,3 +203,6 @@ display:inline;
 #sidebartoggler:checked + .page-wrap .toggle {
  
 }
+.btn-default:hover{
+	background-color:#FFDA00;
+}

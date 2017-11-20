@@ -11,40 +11,39 @@ $(function(){
     });
 });
 
-function showHidden()
-  {
-      document.getElementById("label").style.display ='block';
-      document.getElementById("input").style.display ='block';
-      document.getElementById("apply").style.display ='block';
-      document.getElementById("hide2").style.display ='none';
-  }
-
   function discount()
-  { 
-
+  {   
     $.ajax({
-   url :"index.php?r=cart/getdiscount",
-   type: "get",
-   data :{
-        dis: document.getElementById("input").value.replace(/\s+/g, ''),
-        did:  $('input.did').val(),
-   },
-   success: function (data) {
-    
+    url :"index.php?r=cart/getdiscount",
+    type: "get",
+    data :{
+      dis: document.getElementById("voucherstype-type").value.replace(/\s+/g, ''),
+      sub: parseFloat(document.getElementById("subtotal").innerHTML).toFixed(2),
+      deli: parseFloat(document.getElementById("delivery").innerHTML).toFixed(2),
+      total: parseFloat(document.getElementById("total").innerHTML).toFixed(2),
+    },
+    success: function (data) {
       var obj = JSON.parse(data);
-       if (obj != 0 ) 
+      if (obj == 19) { return false;}
+      if (obj != 0 ) 
       {
-        document.getElementById("subtotal").innerHTML = (obj['Orders_Subtotal']).toFixed(2);
-        document.getElementById("delivery").innerHTML = (obj['Orders_DeliveryCharge']).toFixed(2);
-        document.getElementById("total").innerHTML = (obj['Orders_TotalPrice'] + parseFloat(document.getElementById("early").innerHTML)).toFixed(2);
+        
+        document.getElementById("dissub").innerHTML = (document.getElementById("subtotal").innerHTML - parseFloat(obj['sub'])).toFixed(2);
+        if (document.getElementById("dissub").innerHTML >= 0) {document.getElementById("dissub").style = 'display:block;color:red;';}
+        document.getElementById("disdel").innerHTML = (document.getElementById("delivery").innerHTML - parseFloat(obj['deli'])).toFixed(2);
+        if (document.getElementById("disdel").innerHTML >= 0) {document.getElementById("disdel").style = 'display:block;color:red;';}
+        document.getElementById("distol").innerHTML = (document.getElementById("total").innerHTML - parseFloat(obj['total'])).toFixed(2);
+        if (document.getElementById("distol").innerHTML >= 0) {document.getElementById("distol").style = 'display:block;color:red;';}
+        
+  
+        document.getElementById("subtotal").innerHTML = (parseFloat(obj['sub'])).toFixed(2);
+        document.getElementById("delivery").innerHTML = (parseFloat(obj['deli'])).toFixed(2);
+        document.getElementById("total").innerHTML = (obj['total'] + parseFloat(document.getElementById("early").innerHTML)).toFixed(2);
+        $("input[name='code']").val(document.getElementById("voucherstype-type").value.replace(/\s+/g,''));
 
-        document.getElementById("label").style.display ='none';
-        document.getElementById("input").style.display ='none';
-        document.getElementById("apply").style.display ='none';
-        document.getElementById("reset").style.display ='block';
-        document.getElementById("orders-orders_totalprice").value = document.getElementById("input").value;
+        document.getElementById("voucher").style ='display:none';
+        document.getElementById("refresh").style ='display:block';
       }
-
       else if (obj ==0) 
       {
         alert("No coupon found or coupon expired! Please check your account > Discount Codes");
@@ -57,7 +56,7 @@ function showHidden()
    });
   }
 
-  function refresh()
-  {
-    location.reload();
-  }
+function refresh()
+{
+  location.reload();
+}

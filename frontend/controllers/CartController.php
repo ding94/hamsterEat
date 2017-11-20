@@ -12,6 +12,7 @@ use common\models\food\Foodselection;
 use common\models\Area;
 use common\models\Vouchers;
 use common\models\UserVoucher;
+use common\models\VouchersType;
 use common\models\user\Userdetails;
 use common\models\user\Useraddress;
 use common\models\Ordersstatuschange;
@@ -151,6 +152,8 @@ class CartController extends CommonController
         
         $cart = Cart::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->joinWith(['food','selection'])->all();
 
+        $voucher = ArrayHelper::map(UserVoucher::find()->where('uid=:uid',[':uid'=>Yii::$app->user->identity->id])->andWhere(['>=','endDate',time(date("Y-m-d"))])->all(),'code','code');
+        $ren = new VouchersType;
 
         foreach($cart as $i=> $single)
         {
@@ -179,7 +182,7 @@ class CartController extends CommonController
             $groupCart[$single['area']][] = $single;
         }
 
-        return $this->render('cart',['groupCart' => $groupCart,'time' => $time]);
+        return $this->render('cart',['groupCart' => $groupCart,'time' => $time,'voucher'=>$voucher,'ren'=>$ren]);
         /*    $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
             $did = $cart['Delivery_ID'];
     		//$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();
@@ -741,8 +744,12 @@ class CartController extends CommonController
         return $this->render('aftercheckout', ['did'=>$did, 'order'=>$order,'orderitem'=>$orderitem ]);
     }
 
-    public function actionGetdiscount($dis,$did)
+    public function actionGetdiscount($dis,$sub,$deli,$total)
     { // ajax's function must do in one controller, can't pass to second
+        if (empty($dis)) {
+            $value=  Json::encode(19);
+            return $value;
+        }
         $valid = UserVoucher::find()->where('code = :c',[':c'=>$dis])->one();
         $voucher = Vouchers::find()->where('code = :c',[':c'=>$dis])->one();
        if ($voucher['discount_type'] == 100 || $voucher['discount_type'] == 101) {
@@ -755,7 +762,9 @@ class CartController extends CommonController
                 if ($valid['endDate'] > date('Y-m-d')) 
                 {
                     $vouchers = Vouchers::find()->where('code = :c',[':c'=>$dis])->all();
-                    $value = Orders::find()->where('Delivery_ID=:id',[':id'=>$did])->one();
+                    $value['sub'] = $sub;
+                    $value['deli'] = $deli;
+                    $value['total'] = $total;
                     foreach ($vouchers as $k => $vou) 
                     {
                         if ($vou['discount_type'] == 1 || $vou['discount_type'] == 2 || $vou['discount_type'] == 100)  
@@ -763,17 +772,17 @@ class CartController extends CommonController
                             switch ($vou['discount_item']) 
                             {
                                 case 7:
-                                    $value['Orders_Subtotal'] = $value['Orders_Subtotal']- ($value['Orders_Subtotal']* ($vou['discount'] / 100)) ;
-                                    $value['Orders_TotalPrice'] = $value['Orders_Subtotal'] + $value['Orders_DeliveryCharge'];
+                                    $value['sub'] = $value['sub']- ($value['sub']* ($vou['discount'] / 100)) ;
+                                    $value['total'] = $value['sub'] + $value['deli'];
                                     break;
 
                                 case 8:
-                                    $value['Orders_DeliveryCharge'] = $value['Orders_DeliveryCharge']-($value['Orders_DeliveryCharge']*($vou['discount'] / 100));
-                                    $value['Orders_TotalPrice'] = $value['Orders_Subtotal'] + $value['Orders_DeliveryCharge'];
+                                    $value['deli'] = $value['deli']-($value['deli']*($vou['discount'] / 100));
+                                    $value['total'] = $value['sub'] + $value['deli'];
                                     break;
 
                                 case 9:
-                                    $value['Orders_TotalPrice'] = $value['Orders_TotalPrice'] - ($value['Orders_TotalPrice']*($vou['discount'] / 100));
+                                    $value['total'] = $value['total'] - ($value['total']*($vou['discount'] / 100));
                                     break;
                                      
                                 default:
@@ -786,25 +795,25 @@ class CartController extends CommonController
                             switch ($vou['discount_item']) 
                             {
                                 case 7:
-                                    $value['Orders_Subtotal'] = $value['Orders_Subtotal'] - $vou['discount'];
-                                    if ($value['Orders_Subtotal'] <= 0) {
-                                        $value['Orders_Subtotal'] = 0;
+                                    $value['sub'] = $value['sub'] - $vou['discount'];
+                                    if ($value['sub'] <= 0) {
+                                        $value['sub'] = 0;
                                     }
-                                    $value['Orders_TotalPrice'] = $value['Orders_Subtotal'] + $value['Orders_DeliveryCharge'];
+                                    $value['total'] = $value['sub'] + $value['deli'];
                                     break;
 
                                 case 8:
-                                    $value['Orders_DeliveryCharge'] = $value['Orders_DeliveryCharge'] - $vou['discount'];
-                                    if ($value['Orders_DeliveryCharge'] <= 0) {
-                                        $value['Orders_DeliveryCharge'] = 0;
+                                    $value['deli'] = $value['deli'] - $vou['discount'];
+                                    if ($value['deli'] <= 0) {
+                                        $value['deli'] = 0;
                                     }
-                                    $value['Orders_TotalPrice'] = $value['Orders_Subtotal'] + $value['Orders_DeliveryCharge'];
+                                    $value['total'] = $value['sub'] + $value['deli'];
                                     break;
 
                                 case 9:
-                                    $value['Orders_TotalPrice'] = $value['Orders_TotalPrice'] - $vou['discount'];
-                                    if ($value['Orders_TotalPrice'] <= 0) {
-                                        $value['Orders_TotalPrice'] = 0;
+                                    $value['total'] = $value['total'] - $vou['discount'];
+                                    if ($value['total'] <= 0) {
+                                        $value['total'] = 0;
                                     }
                                     break;
                                      
@@ -835,7 +844,7 @@ class CartController extends CommonController
         $value = 0;
        }
        $value=  Json::encode($value);
-       
+
        return $value;
     }
 

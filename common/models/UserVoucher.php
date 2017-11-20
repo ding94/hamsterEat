@@ -51,4 +51,9 @@ class UserVoucher extends \yii\db\ActiveRecord
             'endDate' => 'End Date',
         ];
     }
+
+    public function getVoucher()
+    {
+        return $this->hasOne(Vouchers::className(),['id' => 'vid']); 
+    }
 }

@@ -45,10 +45,11 @@ class CheckoutController extends CommonController
 	    ];
 	}
 	/*
-	* kid => coupun id
+	* code => coupun id
 	*/
-	public function actionIndex($area,$kid = 0)
+	public function actionIndex($area,$code = 0)
 	{
+		var_dump($code);exit;
 		$cart = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$area])->all();
       	if(empty($cart))
       	{

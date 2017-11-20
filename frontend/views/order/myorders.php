@@ -8,7 +8,6 @@ use frontend\assets\MyOrdersAsset;
 $this->title = "My Orders : ". $status;
 
 
-
 MyOrdersAsset::register($this);
 ?>
 <div class="order">
@@ -43,7 +42,7 @@ MyOrdersAsset::register($this);
         </ul>
       </div>
     </div>
-    <div class="col-sm-10 tab-content">
+    <div class="col-sm-10 tab-content my-orders-content">
       <div id="pending" class="tab-pane fade my-orders-table in active">
         <?php if (empty($order)) : ?>
         <div class ="order-icon">
@@ -57,7 +56,6 @@ MyOrdersAsset::register($this);
               <th colspan="2"><center>More</th>
               <th><center>Delivery ID</th>
               <th><center>Date and Time Placed</th>
-              <th></th>
             </tr>
           </thead>
           <?php foreach ($order as $data) :?>
@@ -80,8 +78,9 @@ MyOrdersAsset::register($this);
             </td>
             <?php if($data['Orders_Status'] == "Completed"): ?>
               <td class="with" data-th="Rating">
-                <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$data['Delivery_ID']], ['class'=>'btn btn-primary']); ?>
-              </td>
+                <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$data['Delivery_ID']], ['class'=>'btn btn-primary']); 
+                elseif ($data['Orders_Status'] == "Rating Done") : ?>
+                <td><center> Rating Done </td>
             <?php endif;?>
           </tr>
           <?php endforeach;?>

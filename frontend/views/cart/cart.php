@@ -15,7 +15,7 @@ CartAsset::register($this);
 
 Modal::begin([
       'header' => '<h2 class="modal-title">Please choose delivery place</h2>',
-      'id'     => 'add-session-modal',
+      'id'     => 'add-modal',
       'size'   => 'modal-md',
       'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
 ]);
@@ -125,7 +125,6 @@ Modal::end();
       </div>
   <?php endforeach ;?>
 <?php endif ;?>
-
  <!-- js for quantity 
 <script>
 const arrows = document.querySelector('.quantity').querySelectorAll('.fa'); 

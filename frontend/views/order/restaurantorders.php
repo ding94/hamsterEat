@@ -12,9 +12,19 @@ use yii\helpers\Html;
 use frontend\assets\RestaurantOrdersAsset;
 use yii\widgets\LinkPager;
 
-$this->title = "Restaurant Orders";
+$this->title = $restaurantname['Restaurant_Name']."'s Orders";
 RestaurantOrdersAsset::register($this);
 ?>
+
+<style>
+
+    .switchbutton
+    {
+        float:right;
+    }
+
+</style>
+
 <div id="restaurant-orders-container" class = "container">
     <div class="restaurant-orders-header">
         <div class="restaurant-orders-header-title"><?= Html::encode($this->title) ?></div>
@@ -54,7 +64,17 @@ RestaurantOrdersAsset::register($this);
         <?php
             if (empty($result)) { ?>
                 <h2>There are no orders currently...</h2>
-            <?php }else {
+            <?php }else { ?>
+            <div class = "switchbutton"> <?php
+                if ($mode == 1)
+                {
+                    echo Html::a('View Nicknames', ['switch-mode', 'mode'=>$mode, 'rid'=>$rid, 'status'=>$status], ['class'=>'btn btn-default fa fa-exchange swap-button', 'style'=>'height:38px; margin-bottom:20px; padding-top:11px;']);
+                }
+                else
+                {
+                    echo Html::a('View Food Names', ['switch-mode', 'mode'=>$mode, 'rid'=>$rid, 'status'=>$status], ['class'=>'btn btn-default fa fa-exchange swap-button', 'style'=>'height:38px; margin-bottom:20px; padding-top:11px;']);
+                } ?>
+            </div> <?php
             foreach ($result as $result) : ?>
                 <table class="table table-hover" style="border:1px solid black;">  
                     <thead>
@@ -74,7 +94,13 @@ RestaurantOrdersAsset::register($this);
                     </thead>
                         <tr>
                             <td data-th="Order ID"><?php echo $result['Order_ID']; ?></td>
-                            <td data-th="Food Name"><?php echo $result['food']['Name']; ?></td>
+                            <?php 
+                            if ($mode == 1)
+                            { ?>
+                                <td data-th="Food Name"><?php echo $result['food']['Name']; ?></td>
+                            <?php } else { ?>
+                                <td data-th="Food Name"><?php echo $result['food']['Nickname']; ?></td>
+                            <?php } ?>
                             <?php 
                             $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$result['Order_ID']])->all(); ?>
                             <td data-th="Selections">
@@ -102,16 +128,20 @@ RestaurantOrdersAsset::register($this);
                             elseif ($result['OrderItem_Status'] == 'Ready For Pick Up')
                             { ?>
                                 <td data-th="Update Status"><span class='label label-warning'> Waiting for Pick Up </span></td>
+                            <?php } 
+                            elseif ($result['OrderItem_Status'] == 'Canceled')
+                            { ?>
+                                <td data-th="Update Status"><span class='label label-danger'> Canceled </span></td>
                             <?php } ?>
                         </tr>
                 </table>
-                <?php echo LinkPager::widget([
-                  'pagination' => $pagination,
-                  ]); ?>
                 <br>
                 <br>
             <?php endforeach; 
             } ?>
+            <?php echo LinkPager::widget([
+                  'pagination' => $pagination,
+                  ]); ?>
         </div>
     </div>
 </div>

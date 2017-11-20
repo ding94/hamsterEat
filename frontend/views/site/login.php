@@ -10,7 +10,7 @@ use yii\bootstrap\ActiveForm;
 $this->title = 'Login';
 ?>
 <style>
-
+/* Login page css */
 .container-login
 {
     padding-top:20px;

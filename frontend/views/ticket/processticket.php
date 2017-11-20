@@ -17,7 +17,7 @@ $this->title = 'My Questions';
 UserAsset::register($this);
 ?>
 <div class="ticket">
-<div class="container" id="userprofile">
+<div class="container" id="ticketh">
 
    <div class="userprofile-header">
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
@@ -52,9 +52,10 @@ UserAsset::register($this);
             </div>
         </div>
        
-    <div class="col-sm-8 userprofile-edit-input">
-	<p style="text-align:center;">We’re thrilled to hear from you, so talk to us any time you like.
+    <div class="col-sm-8 right-side">
+	<p style="text-align:center;padding-top:20px;">We’re thrilled to hear from you, so talk to us any time you like.
 	</p><br>
+	<div class="ticket-history">
         <table class="table table-inverse">
             <tr >
                 <th>Serial No.</th>
@@ -68,16 +69,16 @@ UserAsset::register($this);
                     foreach ($model as $k => $model) { ?>
                 
                     <tr>
-                        <td>
+                        <td data-th="Serial No.">
                             <?php $k+=1; echo $k; ?>
                         </td>
-                        <td>
+                        <td data-th="Category">
                             <?php echo $model['Ticket_Category']; ?>
                         </td>
-                        <td>
+                        <td data-th="Subject">
                             <?php echo $model['Ticket_Subject']; ?>
                         </td>
-                        <td>
+                        <td data-th="Status">
                              <?php if ($model['Ticket_Status'] == 1) {
                                     echo "Submitted";
                                 }
@@ -90,7 +91,7 @@ UserAsset::register($this);
                             ?>
                         </td>
                         
-                        <td>
+                        <td data-th="Chat">
                             <a href=<?php echo  Url::to(['ticket/chatting','sid'=>$k,'tid'=>$model['Ticket_ID']]); ?> >
                                 <font color="blue">Go Chat</font>
                             </a>
@@ -98,11 +99,12 @@ UserAsset::register($this);
                     </tr>
             <?php   }   ?>
         </table>
-        <div class="form-group" style="padding-left: 30%">
+        <div class="form-group" id="ticketb">
             <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'btn btn-primary']) ?>
             <?= Html::a('Completed Ticket', ['/ticket/completed'], ['class'=>'btn btn-primary']) ?>
             </div>
 
+    </div>
     </div>
     </div>
     </div>

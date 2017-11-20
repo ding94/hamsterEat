@@ -103,7 +103,11 @@ class Vouchers extends \yii\db\ActiveRecord
 
     public function search($params,$action)
     {
-        if ($action == 2) 
+        if ($action == 1) 
+        {
+            $query = self::find()->andWhere('discount_type != 100')->andWhere('discount_type != 101');
+        }
+        elseif ($action == 2) 
         {
             $query = self::find()->andWhere(['or',['discount_type' => 1],['discount_type' => 4]]);
         }

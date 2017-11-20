@@ -14,12 +14,16 @@ $this->title = "Comments";
 StarsAsset::register($this);
 CommentsAsset::register($this);
 ?>
-<?php
+<div class ="container">
+<?php 
+
+echo "<h2 id='title'>All comments for ".$foodname."</h2>";
 foreach ($comments as $comments) :
     if (!is_null($comments['Comment']))
     {?>
         <div class ="container">
             <?php 
+            
             $user = User::find()->where('id = :uid', [':uid'=>$comments['User_Id']])->one();
             $user = $user['username'];
             $dt = new DateTime('@'.$comments['created_at']);
@@ -45,3 +49,4 @@ foreach ($comments as $comments) :
         </div>
    <?php }
     endforeach; ?>
+    </div>

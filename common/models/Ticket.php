@@ -53,7 +53,7 @@ class Ticket extends \yii\db\ActiveRecord
             [['User_id','Ticket_Subject','Ticket_Content','Ticket_Category'], 'required'],
             [['User_id','Ticket_Status','Ticket_DateTime'], 'integer'],
             [['Ticket_Subject', 'Ticket_Content', 'Ticket_Category',  'Ticket_PicPath'], 'string', 'max' => 255],
-            [['ticket_status.description'], 'safe'],
+            [['ticket_status.description','Ticket_ID'], 'safe'],
         ];
     }
 
@@ -78,7 +78,7 @@ class Ticket extends \yii\db\ActiveRecord
     public function search($params,$action)
     {
 
-        $query = self::find();
+        $query = self::find()->orderBy('Ticket_ID DESC');
 
         if (!empty($action)) {
             if ($action == 2) {
@@ -91,16 +91,24 @@ class Ticket extends \yii\db\ActiveRecord
         
 
         $query->joinWith(['ticket_status']);
+        $query->joinWith(['user']);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
+        
         $this->load($params);
 
+        $query->andFilterWhere(['like','Ticket_ID' , $this->Ticket_ID]);
+        $query->andFilterWhere(['like','user.username' , $this->User_id]);
+        $query->andFilterWhere(['like','Ticket_Category' , $this->Ticket_Category]);
+        $query->andFilterWhere(['like','Ticket_Content' , $this->Ticket_Content]);
         $query->andFilterWhere(['like','description' , $this->getAttribute('ticket_status.description')]);
 
-
-
         return $dataProvider;
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(),['id' => 'User_id']); 
     }
 }

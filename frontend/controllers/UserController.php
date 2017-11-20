@@ -162,7 +162,7 @@ class UserController extends CommonController
         }
         else
         {
-            Yii::$app->session->setFlash('success', 'Address changed Fail');
+            Yii::$app->session->setFlash('error', 'Fail to change Primary Address');
         }
         return $this->redirect(Yii::$app->request->referrer);
     }

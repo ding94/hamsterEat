@@ -4,7 +4,7 @@ use common\models\user\Userdetails;
 use frontend\assets\ManageStaffAsset;
 use kartik\widgets\Select2;
 
-$this->title = "Manage Restaurant's Staff";
+$this->title = "Manage ".$id['Restaurant_Name']."'s Staff";
 ManageStaffAsset::register($this);
 ?>
 <div id="manage-staff-container" class = "container">

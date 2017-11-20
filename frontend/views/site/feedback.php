@@ -3,8 +3,10 @@ use common\models\Feedback;
 use common\models\Feedbackcategory;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use kartik\widgets\Select2;
 ?>
 <style>
+    /* Feedback css */
 .container-feedback
 {
     border: 1.5px solid black;
@@ -27,11 +29,50 @@ use yii\bootstrap\ActiveForm;
     padding-left:14px;
 }
 
+ #feedback_email .form-control
+  {
+    width:350px
+ }
+  #feedback_message .form-control
+  {
+    width:670px;
+    height:180px;
+ }
+   #feedback_button .btn.btn-primary
+  {
+    margin-left: 76%; 
+    margin-top: 4%;
+ }
+
+ #form-feedback{
+    width: 51%;
+ }
+ 
 textarea
 {
     resize: none;
 }
-
+/* Feedback mobile css */
+  @media(max-width: 480px)
+    {
+        #form-feedback{
+         width: 96%;
+        }
+        #feedback_message .form-control
+        {
+            width:270px;
+        }
+        #feedback_email .form-control
+        {
+            width:270px;
+        }
+        
+        #feedback_button .btn.btn-primary
+        {
+        margin-left: 23%; 
+        margin-top: 4%;
+        }
+    }
 </style>
 <?php if (Yii::$app->user->isGuest)
 { ?>
@@ -41,20 +82,23 @@ textarea
 <?php } ?>
 
     <?php $form = ActiveForm::begin(['id' => 'form-feedback']); ?>
-
-    <?= $form->field($feedback, 'Feedback_Category')->dropDownList($categoryarray, ['style'=>'width:350px'])->label('Category'); ?>
-
+    <div id="feedback_category"> 
+    <!--<?= $form->field($feedback, 'Feedback_Category')->dropDownList($categoryarray)->label('Category'); ?>-->
+     <?= $form->field($feedback, 'Feedback_Category')->widget(Select2::classname(), ['data' => $categoryarray])->label('Category');?>
+</div>
+<div id="feedback_email"> 
     <?php if (Yii::$app->user->isGuest)
     {
-        echo $form->field($feedback, 'User_Username')->textInput(['style'=>'width:350px;', 'placeholder' => "Enter your email address here..."])->label('Email');
+        echo $form->field($feedback, 'User_Username')->textInput(['placeholder' => "Enter your email address here..."])->label('Email');
     } ?>
-                    
-    <?= $form->field($feedback, 'Feedback_Message')->textArea(['style'=>'width:670px; height:180px;', 'placeholder' => "Enter your feedback here..."])->label('Message'); ?>
-
+    </div>
+     <div id="feedback_message">               
+    <?= $form->field($feedback, 'Feedback_Message')->textArea(['placeholder' => "Enter your feedback here..."])->label('Message'); ?>
+</div>
     <?= $form->field($feedback, 'Feedback_PicPath')->fileInput()->label('Provide a Screenshot') ?>
     
-    <div>
-        <?= Html::submitButton('Submit Feedback', ['class' => 'btn btn-primary', 'name' => 'feedback-button', 'style'=>'margin-left: 40%; margin-top: 4%;']); ?>
+    <div id="feedback_button">
+        <?= Html::submitButton('Submit Feedback', ['class' => 'btn btn-primary', 'name' => 'feedback-button']); ?>
         <?php ActiveForm::end(); ?>
     </div>
 </div>

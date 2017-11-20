@@ -8,18 +8,31 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 
 
-$this->title = 'Restaurant Location';
 $rid = $restaurantdetails['Restaurant_ID'];
 ?>
-<div class="container">
-    <div class="jumbotron">
-        <h2> Editing <?php echo $restaurantdetails['Restaurant_Name']; ?>'s Location</h2>
-        <?php $form = ActiveForm::begin(); ?>
+<style>
+/* Edit location css */
+#select-postcode
+{
+    width:250px;
+}
 
+#select-area
+{
+    width:250px;
+}
+
+</style>
+
+<div class="container">
+        <?php $form = ActiveForm::begin(); ?>
+        <div id="select-postcode">
         <?= $form->field($postcode, 'Area_Postcode')->widget(Select2::classname(), [
         'data' => $postcodeArray,
         'options' => ['placeholder' => 'Select a postcode ...','id'=>'postcode-select-edit']])->label('Postcode');
         ?>
+        </div>
+        <div id ="select-area">
         <?= $form->field($postcode,'Area_Area')->widget(DepDrop::classname(), [
             'type'=>DepDrop::TYPE_SELECT2,
             'options' => ['id'=>'area-select-edit','placeholder' => 'Select an area ...'],
@@ -28,8 +41,7 @@ $rid = $restaurantdetails['Restaurant_ID'];
                 'url'=>Url::to(['/Restaurant/default/get-area'])
             ],
             ]); ?>
-
-        <?= Html::submitButton('Save', ['class' => 'button-three']) ?>
+        </div>
+        <?= Html::submitButton('Save', ['class' => 'button-three', 'style'=>'margin-left:43px;']) ?>
         <?php ActiveForm::end(); ?>
-    </div>
 </div>

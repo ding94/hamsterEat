@@ -79,17 +79,17 @@ $this->title = 'hamsterEat';
 		
 			<div class="boxs">				
 				<div class="col-md-4">
-					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="0.8s">
+					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
 						<div class="align-center">
-							<h4>Convenient</h4>					
+							<h4>About Us</h4>					
 							<div class="icon">
 								<i class="fa fa-cutlery fa-3x"></i>
 							</div>
 							<p>
-							You can order food whenever and wherever you are!
+							Let's explore with HamsterEat! Wanna know more? Click below!
 							</p>
 							<div class="ficon">
-								<p><?= Html::a('View more', ['site/about'],['class' => "button-one"]) ?> </p>
+								<p><?= Html::a('View', ['site/about'],['class' => "button-one"]) ?> </p>
 							</div>
 						</div>
 					</div>
@@ -97,15 +97,15 @@ $this->title = 'hamsterEat';
 				<div class="col-md-4">
 					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
 						<div class="align-center">
-							<h4>Easy Payment</h4>				
+							<h4>Guide</h4>				
 							<div class="icon">
-								<i class="fa fa-credit-card fa-3x"></i>
+								<i class="fa fa-question fa-3x" aria-hidden="true" ></i>
 							</div>
 							<p>
-							 You can select your favourite payment method!
+							 Not sure what to do? No worry! Kindly view more for details!
 							</p>
 							<div class="ficon">
-								<p><?= Html::a('View more', ['site/about'],['class' => "button-one"]) ?> </p>
+								<p><?= Html::a('View', ['/site/faq'],['class' => "button-one"]) ?> </p>
 							</div>
 						</div>
 					</div>
@@ -113,15 +113,15 @@ $this->title = 'hamsterEat';
 				<div class="col-md-4">
 					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
 						<div class="align-center">
-							<h4>High Efficiency</h4>					
+							<h4>Help</h4>					
 							<div class="icon">
 								<i class="fa fa-thumbs-o-up fa-3x"></i>
 							</div>
 							<p>
-							 We provide you the best services!
+							 Need help? We provide you the best services!
 							</p>
 							<div class="ficon">
-								<p><?= Html::a('View more', ['site/about'],['class' => "button-one"]) ?> </p>
+								<p><?= Html::a('View', ['site/about'],['class' => "button-one"]) ?> </p>
 							</div>
 						</div>
 					</div>

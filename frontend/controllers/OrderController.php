@@ -32,7 +32,7 @@ class OrderController extends CommonController
 
                     ],
                     [
-                        'actions' => ['restaurant-orders','restaurant-order-history','update-preparing','update-readyforpickup'],
+                        'actions' => ['restaurant-orders','restaurant-order-history','update-preparing','update-readyforpickup','switch-mode'],
                         'allow' => true,
                         'roles' => ['restaurant manager'],
                     ],
@@ -51,19 +51,21 @@ class OrderController extends CommonController
     public function actionMyOrders($status = "")
     {    
         $countOrder = $this->getTotalOrder();
-        $query = Orders::find()->where('User_Username = :uname ', [':uname'=>Yii::$app->user->identity->username]);
+        $query = Orders::find()->where('User_Username = :uname and Orders_Status != "Not Placed" ', [':uname'=>Yii::$app->user->identity->username])->orderBy(['Delivery_ID'=>SORT_DESC]);
         if(!empty($status))
         {
-            if($status == "Completed")
-            {
-                $query->andWhere(['or',
-                   ['Orders_Status'=> 'Rating Done'],
-                   ['Orders_Status'=> $status],
-               ]);
-            }
-            else
-            {
-                $query->andWhere('Orders_Status = :status',[':status' => $status]);
+            switch ($status) {
+                case 'Completed':
+                    $query->andWhere(['or',['Orders_Status'=> 'Rating Done'],['Orders_Status'=> $status],])->orderBy(['Delivery_ID'=>SORT_DESC]);
+                    break;
+
+                case 'Canceled':
+                    $query->andWhere(['or',['Orders_Status'=> 'Canceled and Refunded'],['Orders_Status'=> $status],])->orderBy(['Delivery_ID'=>SORT_DESC]);
+                    break;
+                
+                default:
+                    $query->andWhere('Orders_Status = :status',[':status' => $status])->orderBy(['Delivery_ID'=>SORT_DESC]);
+                    break;
             }
         }
 
@@ -83,23 +85,35 @@ class OrderController extends CommonController
     */
     public static function getTotalOrder()
     {
-        $countOrder['Pending']['total'] = 0;   
-        $countOrder['Canceled and Refunded']['total'] = 0;   
+        $countOrder['Pending']['total'] = 0;
         $countOrder['Canceled']['total'] = 0;   
         $countOrder['Preparing']['total'] = 0;   
         $countOrder['Pick Up in Process']['total'] = 0;   
         $countOrder['On The Way']['total'] = 0;   
         $countOrder['Completed']['total'] = 0;  
-        $query = Orders::find()->where('User_Username = :uname ', [':uname'=>Yii::$app->user->identity->username])->all();
+        $query = Orders::find()->where('User_Username = :uname and Orders_Status != "Not Placed"', [':uname'=>Yii::$app->user->identity->username])->all();
         foreach($query as $data)
         {
-            if($data['Orders_Status'] == 'Completed' || $data['Orders_Status'] == 'Rating Done')
-            {
-                 $countOrder['Completed']['total'] += 1;
-            }
-            else
-            {
-                $countOrder[$data['Orders_Status']]['total'] += 1;
+            switch ($data['Orders_Status']) {
+                case 'Completed':
+                    $countOrder['Completed']['total'] += 1;
+                    break;
+
+                case 'Rating Done':
+                    $countOrder['Completed']['total'] += 1;
+                    break;
+
+                case 'Canceled':
+                    $countOrder['Canceled']['total'] += 1;
+                    break;
+
+                case 'Canceled and Refunded':
+                    $countOrder['Canceled']['total'] += 1;
+                    break;
+                
+                default:
+                    $countOrder[$data['Orders_Status']]['total'] += 1;
+                    break;
             }
           
         }
@@ -115,20 +129,34 @@ class OrderController extends CommonController
     public static function getTotalOrderRestaurant($rid)
     {
         $countOrder['Pending']['total'] = 0;   
+        $countOrder['Canceled']['total'] = 0;   
         $countOrder['Preparing']['total'] = 0;   
         $countOrder['Pick Up in Process']['total'] = 0;   
         $countOrder['On The Way']['total'] = 0;
         $count = 0;   
-        $query = Orders::find()->where('Restaurant_ID = :rid ', [':rid'=>$rid])->joinWith('order_item')->joinWith('order_item.food')->all();
+        $query = Orders::find()->where('Restaurant_ID = :rid and Orders_Status != "Not Placed"', [':rid'=>$rid])->joinWith('order_item')->joinWith('order_item.food')->all();
         foreach($query as $data)
         {
-            if($data['Orders_Status'] == 'Completed' || $data['Orders_Status'] == 'Rating Done')
-            {
-                $count+=1;
-            }
-            else
-            {
-                $countOrder[$data['Orders_Status']]['total'] += 1;
+            switch ($data['Orders_Status']) {
+                case 'Completed':
+                    $count += 1;
+                    break;
+
+                case 'Rating Done':
+                    $count += 1;
+                    break;
+
+                case 'Canceled':
+                    $countOrder['Canceled']['total'] += 1;
+                    break;
+
+                case 'Canceled and Refunded':
+                    $countOrder['Canceled']['total'] += 1;
+                    break;
+                
+                default:
+                    $countOrder[$data['Orders_Status']]['total'] += 1;
+                    break;
             }
           
         }
@@ -192,7 +220,7 @@ class OrderController extends CommonController
     {
         $countOrder = $this->getTotalOrderRestaurant($rid);
         $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
-
+        $mode = 1;
         $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
 
         $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->andWhere(['Orders_Status'=>$status])->joinWith('food')->joinWith('order');
@@ -203,7 +231,7 @@ class OrderController extends CommonController
 
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
         $link = CommonController::getRestaurantOrdersUrl($rid);
-        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination,'status'=>$status,'countOrder'=>$countOrder]);
+        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination,'status'=>$status,'countOrder'=>$countOrder, 'mode'=>$mode]);
     }
 
 //--This function loads all the specific delivery man's assigned orders (not completed)
@@ -241,7 +269,7 @@ class OrderController extends CommonController
         Yii::$app->db->createCommand($sql2)->execute();
         NotificationController::createNotification($oid,2);
         NotificationController::createNotification($oid,3);
-        return $this->redirect(['restaurant-orders', 'rid'=>$rid]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
 //--This function updates the specific order item status to ready for pick up
@@ -255,7 +283,7 @@ class OrderController extends CommonController
 
         Yii::$app->db->createCommand($sql2)->execute();
 
-        return $this->redirect(['restaurant-orders', 'rid'=>$rid]);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
 //This function updates the orders status to on the way and specific order item status to picked up
@@ -387,12 +415,12 @@ class OrderController extends CommonController
 //--This loads the order history as an invoice in pdf form
     public function actionInvoicePdf($did)
     {
-        $ordersdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
-        $orderitemdetails = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
+        $order = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
+        $orderitem = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
         
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
-            'content' => $this->renderPartial('orderhistorydetails',['orderitemdetails' => $orderitemdetails ,'did'=>$did]),
+            'content' => $this->renderPartial('orderhistorydetails',['order'=>$order, 'orderitem' => $orderitem ,'did'=>$did]),
             'options' => [
                 'title' => 'Invoice',
                 'subject' => 'Sample Subject',
@@ -450,5 +478,32 @@ class OrderController extends CommonController
        
 
 
+    }
+
+    public function actionSwitchMode($mode, $rid, $status)
+    {
+        $countOrder = $this->getTotalOrderRestaurant($rid);
+        $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
+        $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
+
+        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->andWhere(['Orders_Status'=>$status])->joinWith('food')->joinWith('order');
+        $pagination = new Pagination(['totalCount'=>$result->count(),'pageSize'=>10]);
+        $result = $result->offset($pagination->offset)
+        ->limit($pagination->limit)
+        ->all();
+
+        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
+        $link = CommonController::getRestaurantOrdersUrl($rid);
+
+        if ($mode ==1)
+        {
+            $mode = 2;
+        }
+        else
+        {
+            $mode = 1;
+        }
+
+        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination,'status'=>$status,'countOrder'=>$countOrder, 'mode'=>$mode]);
     }
 }

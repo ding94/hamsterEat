@@ -10,6 +10,7 @@ use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+use common\models\User;
 
     $this->title = 'Tickets/Questions Submitted by Users';
     $this->params['breadcrumbs'][] = $this->title;
@@ -23,7 +24,19 @@ use yii\helpers\ArrayHelper;
 
             //[ 'class' => 'yii\grid\SerialColumn',],
             'Ticket_ID',
-            'User_id',
+            [
+                'attribute' => 'User_id',
+                'value' => function($model){
+                    $user = User::find()->where('id=:id',[':id'=>$model->User_id])->one();
+                    if (!empty($user)) {
+                        return $user['username'];
+                    }
+                    else{
+                        return $model['User_id'];
+                    }
+                },
+                'label' => 'User',
+            ],
             'Ticket_Category',
             'Ticket_Content',
             'ticket_status.description',

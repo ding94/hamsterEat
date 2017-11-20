@@ -43,13 +43,13 @@ class FoodController extends CommonController
                 //'only' => ['foodDetails', 'insertFood','menu','delete','editFood','postedit','recycleBin','deletePermanent','viewComments'],
                 'rules' => [
                     [
-                        'actions' => [ 'insert-food','menu','delete','edit-food','postedit','recycle-bin','delete-permanent','view-comments'],
+                        'actions' => [ 'insert-food','menu','delete','edit-food','postedit','recycle-bin','delete-permanent'],
 
                         'allow' => true,
                         'roles' => ['restaurant manager'],
                     ],
                     [
-                        'actions' => ['food-details'],
+                        'actions' => ['food-details','view-comments'],
                         'allow' => true,
                         'roles' => ['?','@'],
                     ]
@@ -564,8 +564,11 @@ class FoodController extends CommonController
     public function actionViewComments($id)
     {
         $comments = Foodrating::find()->where('Food_ID = :id', [':id'=>$id])->all();
+
+        $foodname= Food::find()->where('Food_ID=:id',[':id'=>$id])->one();
+        $foodname=$foodname['Name'];
         
-        return $this->render('comments', ['fid'=>$id, 'comments'=>$comments]);
+        return $this->render('comments', ['fid'=>$id, 'comments'=>$comments,'foodname'=>$foodname]);
     }
 }
 

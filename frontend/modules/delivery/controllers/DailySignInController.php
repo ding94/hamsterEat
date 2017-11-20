@@ -68,13 +68,13 @@ class DailySignInController extends CommonController
     /*
     * get all sign in data
     */
-    public static function getAllDailyRecord()
+    public static function getAllDailyRecord($area)
     {
     	$today = date("Y-m");
     	$date = date("j");
 
     	$all ="";
-    	$signData = DeliveryAttendence::find()->where(' month = :month',[':month' => $today])->all();
+    	$signData = DeliveryAttendence::find()->where(' month = :month and DeliveryMan_AreaGroup = :area',[':month' => $today,':area'=>$area])->joinWith(['deliveryman'])->all();
 		
     	foreach($signData as $k=> $data)
     	{

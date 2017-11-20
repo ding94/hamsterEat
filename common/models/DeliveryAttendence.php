@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use common\models\User;
+use frontend\models\Deliveryman;
 use yii\helpers\Json;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -63,6 +64,11 @@ class DeliveryAttendence extends \yii\db\ActiveRecord
             'day' => 'Day',
             'month' => 'Month',
         ];
+    }
+
+    public function getDeliveryman()
+    {
+        return $this->hasOne(Deliveryman::className(),['User_id'=>'uid']);
     }
 
     public function getUser()

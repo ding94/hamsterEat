@@ -33,7 +33,7 @@ class Payment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['uid', 'paid_amount', 'paid_type', 'item', 'original_price'], 'required'],
+            [['uid', 'paid_amount', 'paid_type', 'original_price'], 'required'],
             [['uid', 'paid_type', 'bank_acc', 'voucher_id', 'discount'], 'integer'],
             [['paid_amount', 'original_price'], 'number'],
             [['item'], 'string', 'max' => 255],

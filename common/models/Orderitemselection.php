@@ -28,7 +28,7 @@ class Orderitemselection extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Order_ID', 'FoodType_ID', 'Selection_ID'], 'safe'],
+            [[ 'FoodType_ID', 'Selection_ID'], 'required'],
             [['Order_ID', 'FoodType_ID', 'Selection_ID'], 'integer'],
         ];
     }

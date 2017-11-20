@@ -39,7 +39,7 @@ class AccountbalanceHistory extends \yii\db\ActiveRecord
             [['abid', 'type', 'description', 'amount'], 'required'],
             [['abid', 'type'], 'integer'],
             [['description'], 'string'],
-			[['created_at'],'date'],
+			[['created_at','updated_at'],'date'],
             [['amount'], 'number'],
         ];
     }

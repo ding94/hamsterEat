@@ -6,6 +6,7 @@ use Yii;
 use common\models\food\Food;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
+use common\models\Orderitemstatuschange;
 
 /**
  * This is the model class for table "orderitem".
@@ -23,9 +24,26 @@ class Orderitem extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $item = [];
     public static function tableName()
     {
         return 'orderitem';
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        switch ($this->OrderItem_Status) {
+            case 'Pending':
+                $status = new Orderitemstatuschange;
+                $status->Order_ID = $this->Order_ID;
+                $status->Change_PendingDateTime = time();
+                $status->save();
+                break;
+            
+            default:
+                # code...
+                break;
+        }
     }
 
     /**
@@ -34,8 +52,9 @@ class Orderitem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['Food_ID','OrderItem_Quantity','OrderItem_SelectionTotal','OrderItem_LineTotal','OrderItem_Status'],'required'],
             [['Delivery_ID', 'Food_ID', 'OrderItem_Quantity'], 'integer'],
-            [['OrderItem_LineTotal'], 'number'],
+            [['OrderItem_LineTotal','OrderItem_SelectionTotal'], 'number'],
             [['OrderItem_Status', 'OrderItem_Remark'], 'string', 'max' => 255],
             [['Order_ID'],'safe'],
         ];
@@ -51,6 +70,7 @@ class Orderitem extends \yii\db\ActiveRecord
             'Food_ID' => 'Food ID',
             'Order_ID' => 'Order ID',
             'OrderItem_Quantity' => 'Order Item Quantity',
+            'OrderItem_SelectionTotal' => 'Order Item Selection Total',
             'OrderItem_LineTotal' => 'Order Item Line Total',
             'OrderItem_Status' => 'Order Item Status',
             'OrderItem_Remark' => 'Order Item Remark',

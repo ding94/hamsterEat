@@ -51,7 +51,7 @@ class PackageController extends CommonController
         $dateTime = $get['dateTime'];
 
         $fid = $get['Food']['Food_ID'];
-        $itemSelection = self::removeNestedArray($get['Orderitemselection']['FoodType_ID']);
+        $itemSelection = CommonController::removeNestedArray($get['Orderitemselection']['FoodType_ID']);
 
         $userPackage = new UserPackage;
         $selectionType = new UserPackageSelectionType;
@@ -136,25 +136,6 @@ class PackageController extends CommonController
             return false;
         }
         return true;
-    }
-
-    /*
-    * remove dimension array to single array
-    */
-    public static function removeNestedArray($nested,$final= array())
-    {
-        foreach($nested as $single)
-        {
-            if(is_array($single))
-            {
-                $final = self::removeNestedArray($single,$final);
-            }
-            else
-            {
-                $final[] = $single;
-            }
-        }
-        return array_filter($final);
     }
 }
 

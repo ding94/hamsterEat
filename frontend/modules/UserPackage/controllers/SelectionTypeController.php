@@ -13,10 +13,8 @@ class SelectionTypeController extends Controller
 	* use for detect selection min max
 	* remove empty array and set count become 0
 	*/
-	public static function detectMinMaxSelecttion($selection,$id)
+	public static function detectMinMaxSelecttion($selection,$foodselection)
 	{
-		$foodselection = Foodselectiontype::find()->where("Food_ID = :id",[':id' => $id])->all();
-		
 		$selection = array_filter($selection);
 		
 		foreach ($foodselection as $key => $value) {

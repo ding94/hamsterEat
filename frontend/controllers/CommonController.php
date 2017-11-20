@@ -9,8 +9,8 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use common\models\Notification;
 use common\models\NotificationSetting;
-use common\models\Orders;
-use common\models\Orderitem;
+use common\models\Cart\Cart;
+
 class CommonController extends Controller
 {
 	public function init()
@@ -37,21 +37,14 @@ class CommonController extends Controller
 
 			//Total Cart item
 			$totalcart="";
-			$cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
-	        $did = $cart['Delivery_ID'];
-			$cartitems = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$did])->all();
-			 foreach($cartitems as $totalitem)
-	        {
-	            $totalcart=($totalcart+$totalitem['OrderItem_Quantity']);
-	        }
-	        $number=$totalcart;
+            $cart = Cart::find()->where(['uid'=> Yii::$app->user->identity->id])->count();
+            $number = $cart == 0 ? "" : $cart;
 	       
 
 		}
 		$this->view->params['notication'] = $data;
 		$this->view->params['listOfNotic'] = $listOfNotic;
 		$this->view->params['countNotic'] = $count;
-
 		$this->view->params['number'] = $number;
 	}
 
@@ -154,5 +147,24 @@ class CommonController extends Controller
     				];
     	}
     	return $data;
+    }
+
+    /*
+    * remove dimension array to single array
+    */
+    public static function removeNestedArray($nested,$final= array())
+    {
+        foreach($nested as $single)
+        {
+            if(is_array($single))
+            {
+                $final = self::removeNestedArray($single,$final);
+            }
+            else
+            {
+                $final[] = $single;
+            }
+        }
+        return array_filter($final);
     }
 }

@@ -46,6 +46,22 @@ class Orders extends \yii\db\ActiveRecord
         return 'orders';
     }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+        switch ($this->Orders_Status) {
+            case 'Pending':
+                $status = new Ordersstatuschange;
+                $status->Delivery_ID =  $this->Delivery_ID;
+                $status->OChange_PendingDateTime = time();
+                $status->save();
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+    }
+
     /**
      * @inheritdoc
      */
@@ -53,7 +69,9 @@ class Orders extends \yii\db\ActiveRecord
     {
         return [
             [['Orders_Location','Orders_Postcode','Orders_Area'],'required','on'=>'edit'],
+            [['User_Username','User_fullname','User_contactno','Orders_Subtotal','Orders_DeliveryCharge','Orders_TotalPrice','Orders_Date','Orders_Time','Orders_Location','Orders_Postcode','Orders_Area','Orders_SessionGroup','Orders_PaymentMethod','Orders_Status','Orders_DateTimeMade','Orders_Deliveryman'],'required'],
             [['Orders_Subtotal', 'Orders_DeliveryCharge', 'Orders_TotalPrice', 'Orders_DiscountCodeAmount', 'Orders_DiscountVoucherAmount', 'Orders_DiscountEarlyAmount', 'Orders_DiscountTotalAmount'], 'number'],
+            [['Orders_DiscountVoucherAmount','Orders_DiscountEarlyAmount','Orders_DiscountTotalAmount','Orders_DiscountCodeAmount'],'default','value' => 0],
             [['Orders_Date', 'Orders_Time'], 'safe'],
             [['Orders_Postcode', 'Orders_SessionGroup', 'Orders_DateTimeMade','User_contactno'], 'integer'],
             [['User_Username', 'Orders_PaymentMethod', 'Orders_Deliveryman', 'Orders_InvoiceURL','User_fullname'], 'string', 'max' => 255],

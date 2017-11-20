@@ -23,6 +23,8 @@ use common\models\food\Foodtype;
 use common\models\food\Foodtypejunction;
 use common\models\food\Foodstatus;
 use common\models\Rating\Foodrating;
+use common\models\Cart\Cart;
+use common\models\Cart\CartSelection;
 use frontend\modules\Restaurant\controllers\FoodselectionController;
 use frontend\modules\Restaurant\controllers\FoodtypeAndStatusController;
 use frontend\modules\Restaurant\controllers\DefaultController;
@@ -83,22 +85,17 @@ class FoodController extends CommonController
         }
         
         $fooddata = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
-        
-        $foodPack = FoodtypeAndStatusController::getFoodPack($fooddata['foodType']);
-        if($foodPack)
-        {
-            $fooddata->foodPackage = 1;
-        }
 
         $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id' => $id])->orderBy(['ID' => SORT_ASC])->all();
         
-        $orderItemSelection =new Orderitemselection;
-        $orderitem = new Orderitem;
+        $cartSelection =new CartSelection;
+        $cart = new Cart;
 
         $comments = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$id])->orderBy(['created_at' => SORT_DESC])->all();
 
-        if ($orderItemSelection->load(Yii::$app->request->post()) || $orderitem->load(Yii::$app->request->post()))
+        /*if ($orderItemSelection->load(Yii::$app->request->post()) || $orderitem->load(Yii::$app->request->post()))
         {
+            var_dump(Yii::$app->request->post());exit;
             $orderitem->load(Yii::$app->request->post());
             if ($orderitem->OrderItem_Quantity < 1)
             {
@@ -154,8 +151,8 @@ class FoodController extends CommonController
 
             //var_dump($finalselected);exit;
             return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks, 'rid'=>$rid, 'sessiongroup'=>$sessiongroup]);
-        }
-        return $this->renderAjax('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'orderitem'=>$orderitem ,'orderItemSelection' => $orderItemSelection, 'comments'=>$comments]);
+        }*/
+        return $this->renderAjax('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'cart'=>$cart ,'cartSelection' => $cartSelection, 'comments'=>$comments]);
          
     }
 

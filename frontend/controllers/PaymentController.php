@@ -10,33 +10,35 @@ use frontend\controllers\CommonController;
 
 class PaymentController extends CommonController
 {
-	public static function Payment($did,$order)
+	public static function Payment($price)
 	{
-
+        $data = [];
 		$payment = new Payment();
-		$userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => $order->User_Username])->one();
+		$userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => Yii::$app->user->identity->username])->one();
 		$payment->uid = Yii::$app->user->identity->id;
 		$payment->paid_type = 1;
        
-		if ($userbalance->User_Balance >= $order->Orders_TotalPrice ) {
-                $payment->paid_amount = $order->Orders_TotalPrice; /* order price amount */
-                $payment->item = $did;
-                $payment->original_price = $order->Orders_TotalPrice;
-                $payment->save();
+		if ($userbalance->User_Balance >= $price ) {
+                $payment->paid_amount = $price; /* order price amount */
+                //$payment->item = $did;
+                $payment->original_price = $price;
 
-                $userbalance->User_Balance -= $order->Orders_TotalPrice; /* order price amount */
-                $userbalance->AB_minus += $order->Orders_TotalPrice;
+                $userbalance->User_Balance -= $price; /* order price amount */
+                $userbalance->AB_minus += $price;
                 $userbalance->type = 5;
                 $userbalance->deliveryid = $did;
-                $userbalance->defaultAmount = $order->Orders_TotalPrice;
-                $userbalance->save();
-
-                Yii::$app->session->setFlash('success', 'Payment Successful');
-            } else {
-                Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
-                return false;
-            }
-		return true;
+                $userbalance->defaultAmount = $price;
+                $data[0] = $payment;
+                $data[1] = $userbalance;
+                return $data;
+                /*if($userbalance->save() && $payment->save())
+                {
+                    Yii::$app->session->setFlash('success', 'Payment Successful');
+                    return true;
+                }*/
+        } 
+        Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
+		return -1;
 	}
 
     public static function subScribePayment($price,$pid)

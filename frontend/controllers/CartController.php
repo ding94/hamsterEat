@@ -18,12 +18,15 @@ use common\models\Ordersstatuschange;
 use common\models\Orderitemstatuschange;
 use common\models\Restaurant;
 use common\models\Account\Accountbalance;
+use common\models\Cart\Cart;
+use common\models\Cart\CartSelection;
 use frontend\models\Deliveryman;
 use frontend\controllers\PaymentController;
 use frontend\controllers\MemberpointController;
 use frontend\controllers\NotificationController;
 use yii\helpers\Json;
 use frontend\modules\delivery\controllers\DailySignInController;
+use frontend\modules\UserPackage\controllers\SelectionTypeController;
 use frontend\controllers\CommonController;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -54,138 +57,130 @@ class CartController extends CommonController
     }
 
 //--This function continues on from FoodController's actionFoodDetails and adds a food item to cart
-    public function actionAddtoCart($Food_ID,$quantity,$finalselected,$remarks,$rid,$sessiongroup)
+    public function actionAddtoCart($id)
     {
-    
+        $cart = new Cart;
+        $cartSelection = new CartSelection;
+        $post = Yii::$app->request->post();
+        $cart->load(Yii::$app->request->post());
+        //$cartSelection->load(Yii::$app->request->post());
+        if(empty($post))
+        {
+            Yii::$app->session->setFlash('error', "Something Went Wrong!");
+            return $this->redirect(['site/index']);
+        }
+
         $session = Yii::$app->session;
-            $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
+        $food = food::find()->where('food.Food_ID = :id',[':id'=> $id])->joinWith(['restaurant','foodSelection'])->one();
+        
+        if(empty($session['group']) || $session['group'] != $food['restaurant']['Restaurant_AreaGroup'])
+        {
+            Yii::$app->session->setFlash('error', "This item is in a different area from your area. Please re-enter your area.");
+            return $this->redirect(['site/index']);
+        }
 
-//----------Creates a new cart if there is no cart previously created or in 'not placed' state
-            if (empty($cart))
-            {
-                $newcart = new Orders;
+        $minMaxValidate = self::detectEmptySelection($post,$id);
 
-                $newcart->User_Username = Yii::$app->user->identity->username;
-                $newcart->Orders_Status = 'Not Placed';
-                $newcart->Orders_SessionGroup = $sessiongroup;
+        if($minMaxValidate == 3)
+        {
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+       
+        $price = self::cartPrice($post,$food);
 
-                $newcart->save();
-                $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
-            }
+        $cart->area = $session['group'];
+        $cart->fid = $id;
+        $cart->uid = Yii::$app->user->identity->id;
+        $cart->price = $price[0];
+        $cart->selectionprice = $price[1];
 
-            $orderitem = new Orderitem;
-            $findfood = Food::find()->where('Food_ID = :fid', [':fid'=>$Food_ID])->one();
-            $findfoodprice = $findfood['Price'];
-            $foodareagroup = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$findfood['Restaurant_ID']])->one();
-            $foodareagroup = $foodareagroup['Restaurant_AreaGroup'];
+        $valid = $cart->validate();
 
-//----------Checks if the area the food being added to cart is in the same area as the cart's area then adds the food to cart
-            if ($foodareagroup == $cart['Orders_SessionGroup'])
-            {
-                $orderitem->Delivery_ID = $cart['Delivery_ID'];
-                $orderitem->Food_ID = $Food_ID;
-                $orderitem->OrderItem_Quantity = $quantity;
-                $linetotal = $findfoodprice * $quantity;
-                //Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
-                //$orderitem->OrderItem_UP = $findfoodprice + $;
-            
-                $orderitem->OrderItem_LineTotal = $linetotal;
-                $orderitem->OrderItem_Status = 'Not Placed';
-                $orderitem->OrderItem_Remark = $remarks;
-            //  var_dump($orderitem);exit;
-                $orderitem->save();
-
-                $findorderid = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$cart['Delivery_ID']])->all();
-                $oid = 0;
-                foreach ($findorderid as $orderid) :
-                    if ($orderid['Order_ID'] > $oid)
-                    {
-                        $oid = $orderid['Order_ID'];
-                    }
-                endforeach;
-//--------------Checks if there is any food selections selected and records the selected selections data if there is
-                if ($finalselected != '')
+        if($valid)
+        {
+            $transaction = Yii::$app->db->beginTransaction();
+            try{
+                $cart->save();
+                if($minMaxValidate == 2)
                 {
-                    $selected = JSON::decode($finalselected);
-                    //var_dump($selected);exit;
-                    $selectionprice = 0;
-                    $selectiontotalprice = 0;
-                    foreach ($selected as $selected2) :
-                        if(is_array($selected2))
+                    $selection = CommonController::removeNestedArray($post['CartSelection']);
+                    foreach($selection as $selectionid)
+                    {
+                        $cartSelection = new cartSelection;
+                        $cartSelection->cid = $cart->id;
+                        $cartSelection->selectionid = $selectionid;
+                        if($cartSelection->save())
                         {
-                            foreach($selected2 as $select):
-                            $orderitemselection = new Orderitemselection;
-                            $orderitemselection->Order_ID = $oid;
-                            $orderitemselection->Selection_ID = (int)$select;
-                            //var_dump($orderitemselection->Selection_ID);exit;
-                            $foodtypeid = Foodselection::find()->where('ID = :sid',[':sid'=>$orderitemselection->Selection_ID])->one();
-                            $foodtypeid = $foodtypeid['Type_ID'];
-                            
-                            $orderitemselection->FoodType_ID = $foodtypeid;
-                            //var_dump($orderitemselection->Selection_ID);exit;
-                            $foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$orderitemselection->Selection_ID])->one();
-                            //$up = $foodselectionprice['Price'] + $findfoodprice;
-                            //var_dump($up);exit;
-                            $selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
-                            $orderitemselection->save();
-                            endforeach;
+                            $valid = true;
                         }
                         else
                         {
-                            $orderitemselection = new Orderitemselection;
-                            $orderitemselection->Order_ID = $oid;
-                            $orderitemselection->Selection_ID = (int)$selected2;
-                            $foodtypeid = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
-                            $foodtypeid = $foodtypeid['Type_ID'];
-                            $orderitemselection->FoodType_ID = $foodtypeid;
-                            $foodselectionprice = Foodselection::find()->where('ID = :sid',[':sid'=>$selected2])->one();
-                            $selectiontotalprice = $selectiontotalprice + $foodselectionprice['Price'];
-                            $orderitemselection->save();
+                            break;
                         }
-                    endforeach;
-                    //var_dump($foodselectionprice['Price']);exit;
-
-//------------------Calculates the line total and the selection total price for each order item
-                    $selectiontotalprice = $selectiontotalprice * $quantity;
-                    $linetotal = $linetotal + $selectiontotalprice;
-                    $linetotalupdate = "UPDATE orderitem SET OrderItem_LineTotal = ".$linetotal.", OrderItem_SelectionTotal = ".$selectiontotalprice." WHERE Order_ID = ".$oid."";
-                    Yii::$app->db->createCommand($linetotalupdate)->execute();
+                        
+                    }
                 }
 
-//--------------Calculates the subtotal for the order
-                $items = Orderitem::find()->where('Delivery_ID = :did',[':did'=>$cart['Delivery_ID']])->all();
-                $i = 0;
-                $subtotal = 0;
-                while ($i < count($items))
+                if($valid)
                 {
-                    $subtotal = $items[$i]['OrderItem_LineTotal'] + $subtotal;
-                    $i = $i + 1;
+                    $transaction->commit();
+                     Yii::$app->session->setFlash('success', 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.');
+                    return $this->redirect(Yii::$app->request->referrer);
                 }
-//--------------Updates the cart's current details
-                $noofrestaurants = "SELECT DISTINCT food.Restaurant_ID FROM food INNER JOIN orderitem ON orderitem.Food_ID = food.Food_ID WHERE orderitem.Delivery_ID = ".$cart['Delivery_ID']."";
-                $result = Yii::$app->db->createCommand($noofrestaurants)->execute();
-                $deliverycharge = $result * 5;
-
-                $totalcharge = $deliverycharge + $subtotal;
-
-                $sql = "UPDATE orders SET Orders_SubTotal = ".$subtotal.", Orders_DeliveryCharge = ".$deliverycharge.", Orders_TotalPrice = ".$totalcharge." WHERE Delivery_ID = ".$cart['Delivery_ID']."";
-                Yii::$app->db->createCommand($sql)->execute();
-
-                Yii::$app->session->setFlash('success', 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.');
-                return $this->redirect(['/Restaurant/default/restaurant-details', 'rid' => $rid]);
+                $transaction->rollBack();
             }
-            else
+            catch(Exception $e)
             {
-                Yii::$app->session->setFlash('error', 'Failed to add item to cart. This item is in a different area from the item(s) in your cart. Please empty your cart to start ordering from a new area.');
-                return $this->redirect(['/Restaurant/default/restaurant-details', 'rid' => $rid]);
-            } 
+                $transaction->rollBack();
+            }
 
+        }
+
+        Yii::$app->session->setFlash('warning', "Fail To Add To Cart Please try later");
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
 //--This function load's the user's current cart and its details
     public function actionViewCart()
     {
-            $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
+        $time['now'] = Yii::$app->formatter->asTime(time());
+        $time['early'] = date('08:00:00');
+        $time['late'] = date('23:00:59');
+
+        $groupCart = [];
+        
+        $cart = Cart::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->joinWith(['food','selection'])->all();
+
+
+        foreach($cart as $i=> $single)
+        {
+            if(!empty($single['selection']))
+            {
+                foreach($single['selection'] as $selection)
+                {
+                    $data = foodSelection::find()->where('foodselection.ID = :id',[':id' => $selection->selectionid])->joinWith('selectedtpye')->one();
+
+                        //$count = count($groupSelection);
+                        /*if($count > 0)
+                        {
+                             $groupSelection[$data['selectedtpye']['TypeName']] .= ',';
+                        }*/
+                    $groupSelection[$data['selectedtpye']['TypeName']][] = $data['Name'];
+                }
+                
+               $cart[$i]->groupselection = $groupSelection;  
+            }
+
+           $groupSelection = [];
+        }
+
+        foreach($cart as $single)
+        {
+            $groupCart[$single['area']][] = $single;
+        }
+
+        return $this->render('cart',['groupCart' => $groupCart,'time' => $time]);
+        /*    $cart = orders::find()->where('User_Username = :uname',[':uname'=>Yii::$app->user->identity->username])->andwhere('Orders_Status = :status',[':status'=>'Not Placed'])->one();
             $did = $cart['Delivery_ID'];
     		//$did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();
     		//$restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$findfood['Restaurant_ID']])->one();
@@ -216,7 +211,7 @@ class CartController extends CommonController
           //  var_dump($data);exit;
                 return $this->redirect(['checkout','did'=>$did, 'discountcode'=>$data['Orders']['Orders_TotalPrice']]);
             }
-            return $this->render('cart', ['did'=>$did,'cartitems'=>$cartitems,'voucher'=>$voucher]);
+            return $this->render('cart', ['did'=>$did,'cartitems'=>$cartitems,'voucher'=>$voucher]);*/
     }
 
     public function actionAddsession()
@@ -269,43 +264,58 @@ class CartController extends CommonController
     }
 
 //--This function is to assign a delivery man when an order has been placed
-    public function actionAssignDeliveryMan($did)
+    public static function assignDeliveryMan($area)
     {
        // $purchaser = orders::find()->where('User_Username = :id',[':id'=>Yii::$app->user->identity->username])->one();
       
      
       // $get = deliveryman::find()->all();
-      $area="SELECT Orders_SessionGroup from orders WHERE Delivery_ID=".$did."";
-      $grouparea = Yii::$app->db->createCommand($area)->execute();
-    
-     
-       $data = DailySignInController::getAllDailyRecord();
-       if (!empty($data)) {
-           $allData ="" ;
-           foreach ($data as $id)
-           {
-               if($area)
-                 {
-                     
-                    $sql= User::find()->select(['id','deliveryman.DeliveryMan_Assignment'])->JoinWith(['authAssignment','deliveryman'])->where('item_name = :item_name and id = :id and DeliveryMan_AreaGroup =:DeliveryMan_AreaGroup',[':item_name' => 'rider',':id'=>$id,':DeliveryMan_AreaGroup'=>$grouparea])->orderBy(['deliveryman.DeliveryMan_Assignment'=>SORT_ASC])->asArray()->one();
-               
-                $allData[] = $sql;
-                 }
-           }
-           //return true;
-       }
-       else
-       {
-        Yii::$app->session->setFlash('error', 'Sorry! We have insufficient of deliveryman, please try after 10 minutes or contact our customer service for more information.');
-        return false;
-       }
-       
-       
+      //$area="SELECT Orders_SessionGroup from orders WHERE Delivery_ID=".$did."";
+      //$grouparea = Yii::$app->db->createCommand($area)->execute();
         
+     
+       $data = DailySignInController::getAllDailyRecord($area);
+      
+        if(empty($data))
+        {
+              Yii::$app->session->setFlash('error', 'Sorry! We have insufficient of deliveryman, please try after 10 minutes or contact our customer service for more information.');
+            return -1;
+        }
+
+        $allData ="" ;
+        foreach ($data as $id)
+        {
+            $sql = Deliveryman::findOne($id);    
+            $allData[] = $sql;
+        }
+        
+        $lowest = 0;
+        $uid = 0;
+        foreach($allData as $i => $delivery)
+        {
+            if($lowest == 0 )
+            {
+                $lowest = $delivery->DeliveryMan_Assignment;
+                $uid = $delivery->User_id;
+            }
+            else
+            {
+                if($delivery->DeliveryMan_Assignment < $lowest)
+                {
+                    $lowest = $delivery->DeliveryMan_Assignment;
+                    $uid = $delivery->User_id;
+                }
+               
+            }
+        }
+
+        $user = User::findOne($uid);
+       
+        return $user->username;
      
       // $allData = ArrayHelper::getColumn($sql['deliveryman'],'DeliveryMan_Assignment'   );
  
-        $arr = "";
+       /* $arr = "";
         $arr2="";
         foreach ($allData as $i) {
             //var_dump($i);exit;
@@ -360,11 +370,11 @@ class CartController extends CommonController
             $sql6 = "UPDATE orders SET Orders_DeliveryMan = '".$dname."' WHERE Delivery_ID = ".$did."";
             Yii::$app->db->createCommand($sql6)->execute();
 
-            return true;
+            return true;*/
     }
 
 //--This function is to process the order officially as the places his order
-    public function actionCheckout($did,$discountcode)
+    public function actionCheckout()
     {
         $checkout = Orders::find()->where('Delivery_ID = :Delivery_ID',[':Delivery_ID' => $did])->one();
         $uid = User::find()->where('username = :u',[':u'=>$checkout['User_Username']])->one()->id;
@@ -826,10 +836,26 @@ class CartController extends CommonController
        return $value;
     }
 
-//--This function runs when an item in the cart is deleted
-    public function actionDelete($oid)
+    public static function mutipleDelete($cart)
     {
-        $menu = orderitem::find()->where('Order_ID = :id' ,[':id' => $oid])->one();
+        foreach($cart as $data)
+        {
+            $data->delete();
+        }
+    }
+
+//--This function runs when an item in the cart is deleted
+    public function actionDelete($id)
+    {
+        $cart = Cart::findOne($id);
+        if(!empty($cart))
+        {
+            $cart->delete();
+        }
+       
+        //Cart::deleteAll('id = :id',[':id' => $id]);
+
+       /* $menu = orderitem::find()->where('Order_ID = :id' ,[':id' => $oid])->one();
         $linetotal = $menu['OrderItem_LineTotal'];
         $orders = Orders::find()->where('Delivery_ID = :did', [':did'=>$menu['Delivery_ID']])->one();
         $prevtotal = $orders['Orders_TotalPrice'];
@@ -861,9 +887,53 @@ class CartController extends CommonController
          {
              $sql4 = "DELETE FROM orders WHERE Delivery_ID = ".$menu['Delivery_ID']."";
              Yii::$app->db->createCommand($sql4)->execute();
-         }
+         }*/
 
          return $this->redirect(['view-cart']);
+    }
+
+    protected static function detectEmptySelection($post,$id)
+    {
+        $foodselection = Foodselectiontype::find()->where("Food_ID = :id",[':id' => $id])->all();
+
+        if(empty($post['CartSelection']) && empty($foodselection))
+        {
+            return 1;
+        }
+        else
+        {
+            $isValid = SelectionTypeController::detectMinMaxSelecttion($post['CartSelection']['selectionid'],$foodselection);
+            if($isValid)
+            {
+                return 2;
+            }
+            else
+            {
+                return 3;
+            }
+        }
+    }
+
+    /*
+    * 0 => total Price
+    * 1 => food selection Price
+    */
+    protected static function cartPrice($post,$food)
+    {
+        $price[0] = 0;
+        $price[1] = 0;
+        if(!empty($post['CartSelection']))
+        {
+            $cartSelection = CommonController::removeNestedArray($post["CartSelection"]);
+            $foodSelection = ArrayHelper::map($food['foodSelection'],'ID','Price');
+            foreach($cartSelection as $selection)
+            {
+                $price[1] += $foodSelection[$selection];
+            }
+        }
+        $price[0] = $food->Price + $price[1];
+        
+        return $price;
     }
 
     public static function actionDisplay2decimal($price)

@@ -27,7 +27,7 @@ AddFoodAsset::register($this);
             </ul>
        </div>
        <div class="col-sm-10 food-content">
-            <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
+            <?php $form = ActiveForm::begin(['id' => 'dynamic-form','action' => ['/food/postedit','id'=>$food->Food_ID]]); ?>
           
                 <?= $form->field($food, 'PicPath')->fileInput()->label('Picture') ?>
 
@@ -41,7 +41,7 @@ AddFoodAsset::register($this);
                         'content' => '<i class="fa fa-times"></i> 1.3 <i>=</i>',
                     ],
                     //'groupOptions' => ['class'=>'input-group-lg'],
-                        'contentAfter' => '<input id="afterprice" class="form-control" name="Food[Price]" onchange="changePrice()" type="text">'
+                        'contentAfter' => '<input id="afterprice" class="form-control" name="Food[Price]" value = "'.$food->Price.'" "onchange="changePrice()" type="text">'
                     ]
                 ])->textInput(['readonly' => true,'id'=>'price'])->label("Money Received");?>
 

@@ -18,7 +18,7 @@ RestaurantDefaultIndexAsset::register($this);
     <?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']); ?>
     <input type="checkbox" id="sidebartoggler" name="" value="">
     <div class="page-wrap">
-       <label for="sidebartoggler" class="toggle">Filter</label>
+       <label for="sidebartoggler" class="toggle"><i class="fa fa-sliders" aria-hidden="true">&nbsp;Filter</i></label>
 	  <a href="#top" class="scrollToTop"></a>
       <div class="filter">
         <div class="filter container">

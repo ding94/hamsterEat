@@ -24,7 +24,7 @@ RestaurantDefaultIndex2Asset::register($this);
         <input type="checkbox" id="sidebartoggler" name="" value="">
         <div class="page-wrap">
 
-	   <label for="sidebartoggler" class="toggle">Filter</label>
+	   <label for="sidebartoggler" class="toggle"><i class="fa fa-sliders" aria-hidden="true">&nbsp;Filter</i></label>
 		<!--<a href="#top" title="Go to top of page"><span><i class="fa fa-chevron-up fa-2x" aria-hidden="true"></i></span>-->
 		<a href="#top" class="scrollToTop"></a>
             <div class="filter">

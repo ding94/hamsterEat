@@ -85,6 +85,7 @@ class OrderController extends CommonController
     */
     public static function getTotalOrder()
     {
+        $countOrder['Not Paid']['total'] = 0;
         $countOrder['Pending']['total'] = 0;
         $countOrder['Canceled']['total'] = 0;   
         $countOrder['Preparing']['total'] = 0;   

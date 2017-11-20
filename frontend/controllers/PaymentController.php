@@ -4,12 +4,26 @@ namespace frontend\controllers;
 
 use common\models\Payment;
 use common\models\Account\Accountbalance;
+use common\models\Orders;
 use frontend\controllers\MemberpointController;
-use Yii;
 use frontend\controllers\CommonController;
+use Yii;
+use yii\web\NotFoundHttpException;
+
 
 class PaymentController extends CommonController
 {
+
+    public function actionProcessPayment($did)
+    {
+        $order = $this->findOrder($did);
+        $balance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => Yii::$app->user->identity->username])->one();
+        if($order->User_Username != $balance->User_Username)
+        {
+            throw new NotFoundHttpException('Wrong Request.');
+        }
+        return $this->render('process',['order'=>$order,'balance'=>$balance]);
+    }
 	public static function Payment($price)
 	{
         $data = [];
@@ -67,5 +81,14 @@ class PaymentController extends CommonController
                 Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
         }
         return false;
+    }
+
+    protected function findOrder($id)
+    {
+        if (($model = Orders::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 }

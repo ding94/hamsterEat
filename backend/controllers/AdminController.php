@@ -8,6 +8,7 @@ use backend\models\AdminControl;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\web\NotFoundHttpException;
 use Yii;
 
 Class AdminController extends CommonController

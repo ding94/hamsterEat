@@ -26,74 +26,53 @@ Modal::begin([
 Modal::end();
 
 ?>
-<body>
+<div class="container">
     <div class="tab-content" id="mydetails">
-        <h1> Check Out </h1>
-        <br>
-        <table class="table table-user-info">
-            <tr>
-                <th colspan = "2"> <h3>Receiver </h3></th>
-            </tr>
-            <?php $form = ActiveForm::begin(['id' => 'checkout','action' => ['/checkout/order']]); ?>
-
-            <tr>
-                <th> Name: </th>
-                <td> <?= $form->field($order, 'User_fullname')->textInput()->label('')?> </td>
-            </tr>
-            <tr>
-                <th> Email: </th>
-                <td> <?php echo Yii::$app->user->identity->email; ?>  </td>
-            </tr>
-            <tr>
-                <th> Contact No: </th>
-                <td> <?= $form->field($order, 'User_contactno')->textInput()->label('')?>  </td>
-            </tr>
-        </table>
-        <table class="table table-user-address">
-            <tr>
-                <th colspan = "3"> <h3>Delivery Address </h3> <p style='color: grey;'>(Default as Primary)</p></th>
-            </tr>
-
-            <tr>
-                <td colspan = '2'>
-                    <?php 
-                        if (!empty($address)) 
-                        {
-                            foreach ($address as $k => $value) {
-                                if ($value['level'] == 1) {
-                                    $order->Orders_Location = $value['id'];
-                                }
-                            }
-                            echo $form->field($order, 'Orders_Location')->radioList($addressmap)->label(false);
-                        }
-                        elseif(empty($address))
-                        {
-                            echo Html::a("Add New Address",['/user/newaddress'],['class' => 'btn btn-success add-new-address-btn','data-toggle'=>'modal','data-target'=>'#address-modal']);
-                        }
+        <div class="cart-header">
+            <div class="header-title">Checkout</div>
+        </div>
+        <?php $form = ActiveForm::begin(['id' => 'checkout','action' => ['/checkout/order']]); ?>
+        <div class="cart-detail">
+            <div>
+            <h3>Delivery Address </h3> <p style='color: grey;'>(Default as Primary)</p>
+            <?php if(!empty($address)):?>
+                <?php foreach($address as $value):?>
+                    <?php if($value['level'] == 1):?>
+                        <?php $order->Orders_Location = $value['id'];?>
+                        <?php $order->User_fullname = $value['recipient']?>
+                        <?php $order->User_contactno = $value['contactno']?>
+                    <?php endif ;?>
+                <?php endforeach ;?>
+                <?php echo Html::a('Edit',['/cart/editaddress'],['class' => 'btn btn-primary','data-toggle'=>'modal','data-target'=>'#edit-address-modal','style'=>'float:right']); ?>
+                <?= $form->field($order, 'Orders_Location')->radioList($addressmap)->label(false); ?>
+            <?php else :?>
+                <?php echo Html::a("Add New Address",['/user/newaddress'],['class' => 'btn btn-success add-new-address-btn','data-toggle'=>'modal','data-target'=>'#address-modal']);
                     ?>
-                </td>
-                <td><?php if(!empty($address)){ echo Html::a('Edit',['/cart/editaddress'],['class' => 'btn btn-primary','data-toggle'=>'modal','data-target'=>'#edit-address-modal','style'=>'float:right']); } ?></td>
-            </tr>
-           
-        </table>
-        <br>
-        <br>
-
-        <table class="table table-user-paymethod">
-            <tr>
-                <th><h3> Payment Method </h3></th>
-            </tr>
-
-            <tr id='list'>
-                <td><?= $form->field($order, 'Orders_PaymentMethod')->radioList(['Account Balance'=>'Account Balance','Cash on Delivery'=>'Cash on Delivery'])->label(''); ?></td>
-            </tr>
-        </table>
-            <div class="form-group">
-                <!-- when use of onclick function, if return false cant pause posting items, add 'return' in front of function-->
-                   <?php echo Html::hiddenInput('area', $area);?>
-                <?= Html::submitButton('Place Order', ['class' => 'btn btn-primary', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?>
+            <?php endif ;?>
             </div>
-            <?php ActiveForm::end(); ?>
-        </table>
+            <div class="cart-content">
+                <h3>Receiver </h3>
+                <div class="row">
+                    <div class="col-xs-3 cart-label">Name:</div>
+                    <div class="col-xs-9">
+                        <?= $form->field($order, 'User_fullname')->textInput()->label('')?> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 cart-label">Contact No:</div>
+                    <div class="col-xs-9">
+                        <?= $form->field($order, 'User_contactno')->textInput()->label('')?>
+                    </div>
+                </div>
+            </div>
+            <div class="cart-content">
+                <h3>Payment Method</h3>
+                <?= $form->field($order, 'Orders_PaymentMethod')->radioList(['Account Balance'=>'Account Balance','Cash on Delivery'=>'Cash on Delivery'])->label(''); ?>
+            </div>
+            <?php echo Html::hiddenInput('area', $area);?>
+            <?= Html::submitButton('Place Order', ['class' => 'btn btn-primary', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?>
+          
+        </div>
+        <?php ActiveForm::end(); ?>
     </div>
-</body>
+</div>

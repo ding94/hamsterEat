@@ -117,7 +117,7 @@ Modal::end();
               <?php echo Html::a('Back',Yii::$app->request->referrer,['class' => 'btn btn-primary']) ;?>
               <?php $form = ActiveForm::begin(['action' =>['checkout/index'],'method' => 'get']); ?>
                 <?php echo Html::hiddenInput('area', $index);?>
-             
+              
                 <?php echo Html::submitButton('Checkout', ['class' => 'btn btn-primary']);?>
               <?php ActiveForm::end(); ?>
           </div>

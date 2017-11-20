@@ -36,13 +36,14 @@ NotificationAsset::register($this);
 					</div>
 					<?php elseif($notic['type'] == 1) :?>
 					<div>
-						<?php echo Html::a($notic['description'],["order/restaurant-orders",'rid' => $notic['rid']],['class'=> 'a-notic'])?>
+						<?php echo Html::a($notic['description'],["/order/restaurant-orders",'rid' => $notic['rid']],['class'=> 'a-notic'])?>
 						
 						<span class="pull-right">From <?php echo $ago?></span>	
 					</div>
 					<?php else :?>
 					<div>
-						<?php echo Html::a($notic['description'],[$list[$i]['url']],['class'=> 'a-notic'])?>
+
+						<?php echo Html::a($notic['description'],["/order/deliveryman-orders"],['class'=> 'a-notic'])?>
 						
 						<span class="pull-right">From <?php echo $ago?></span>	
 					</div>

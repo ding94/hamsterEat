@@ -49,7 +49,6 @@ class CheckoutController extends CommonController
 	*/
 	public function actionIndex($area,$code = 0)
 	{
-		var_dump($code);exit;
 		$cart = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$area])->all();
       	if(empty($cart))
       	{
@@ -67,7 +66,7 @@ class CheckoutController extends CommonController
         $order = new Orders;
 		$address = Useraddress::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->orderBy('level DESC')->all();
 		$addressmap = ArrayHelper::map($address,'id','address');
-		return $this->render('index',['address'=> $address,'order' =>  $order ,'addressmap' => $addressmap ,'area' => $area]);
+		return $this->render('index',['address'=> $address,'order' =>  $order ,'addressmap' => $addressmap ,'area' => $area,'code'=>$code]);
 	}
 
 	public function actionOrder()
@@ -212,7 +211,7 @@ class CheckoutController extends CommonController
 	protected static function createOrder($data,$deliveryman)
 	{
 		$subtotal = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$data['area']])->sum('price * quantity');
-	
+		var_dump($data);exit;
 		$order = new Orders;
 		$order->load($data);
 	

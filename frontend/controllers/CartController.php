@@ -675,6 +675,7 @@ class CartController extends CommonController
                     $value['sub'] = $sub;
                     $value['deli'] = $deli;
                     $value['total'] = $total;
+                    $value['discount'] = 0;
                     foreach ($vouchers as $k => $vou) 
                     {
                         if ($vou['discount_type'] == 1 || $vou['discount_type'] == 2 || $vou['discount_type'] == 100)  
@@ -682,16 +683,22 @@ class CartController extends CommonController
                             switch ($vou['discount_item']) 
                             {
                                 case 7:
-                                    $value['sub'] = $value['sub']- ($value['sub']* ($vou['discount'] / 100)) ;
-                                    $value['total'] = $value['sub'] + $value['deli'];
+                                    $value['discount'] += ($value['sub']* ($vou['discount'] / 100));
+                                    /* this 1 count with early discount for percentage
+                                    $value['total'] = $value['total'] - ($value['sub']* ($vou['discount'] / 100));
+                                    */
+                                    $value['sub'] = $value['sub']- ($value['sub']* ($vou['discount'] / 100));
+                                    $value['total'] =  $value['sub'] + $value['deli'];
                                     break;
 
                                 case 8:
+                                    $value['discount'] += ($value['deli']* ($vou['discount'] / 100));
                                     $value['deli'] = $value['deli']-($value['deli']*($vou['discount'] / 100));
-                                    $value['total'] = $value['sub'] + $value['deli'];
+                                    $value['total'] =  $value['sub'] + $value['deli'];
                                     break;
 
                                 case 9:
+                                    $value['discount'] += ($value['total']* ($vou['discount'] / 100));
                                     $value['total'] = $value['total'] - ($value['total']*($vou['discount'] / 100));
                                     break;
                                      
@@ -705,25 +712,42 @@ class CartController extends CommonController
                             switch ($vou['discount_item']) 
                             {
                                 case 7:
-                                    $value['sub'] = $value['sub'] - $vou['discount'];
-                                    if ($value['sub'] <= 0) {
+                                    if (($value['sub']-$vou['discount']) < 0) {
+                                        $value['discount'] += $value['sub'];
+                                        /*for amount
+                                        $value['total'] = $value['total'] - $value['sub']; <0
+                                        $value['total'] = $value['total'] - $vou['discount']; else
+                                        */
                                         $value['sub'] = 0;
                                     }
-                                    $value['total'] = $value['sub'] + $value['deli'];
+                                    else{
+                                        $value['discount'] += $vou['discount'];
+                                        $value['sub'] = $value['sub'] - $vou['discount'];
+                                    }
+
+                                    $value['total'] =  $value['sub'] + $value['deli'];
                                     break;
 
                                 case 8:
-                                    $value['deli'] = $value['deli'] - $vou['discount'];
-                                    if ($value['deli'] <= 0) {
+                                    if (($value['deli']-$vou['discount']) < 0) {
+                                        $value['discount'] += $value['deli'];
                                         $value['deli'] = 0;
                                     }
-                                    $value['total'] = $value['sub'] + $value['deli'];
+                                    else{
+                                        $value['discount'] += $vou['discount'];
+                                        $value['deli'] = $value['deli'] - $vou['discount'];
+                                    }
+                                    $value['total'] =  $value['sub'] + $value['deli'];
                                     break;
 
                                 case 9:
-                                    $value['total'] = $value['total'] - $vou['discount'];
-                                    if ($value['total'] <= 0) {
+                                    if (($value['total']-$vou['discount']) < 0) {
+                                        $value['discount'] += $value['total'];
                                         $value['total'] = 0;
+                                    }
+                                    else{
+                                        $value['discount'] += $vou['discount'];
+                                        $value['total'] = $value['total'] - $vou['discount'];
                                     }
                                     break;
                                      

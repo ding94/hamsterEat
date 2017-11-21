@@ -70,6 +70,7 @@ Modal::end();
                 <?= $form->field($order, 'Orders_PaymentMethod')->radioList(['Account Balance'=>'Account Balance','Cash on Delivery'=>'Cash on Delivery'])->label(''); ?>
             </div>
             <?php echo Html::hiddenInput('area', $area);?>
+            <?php echo Html::hiddenInput('code', $code);?>
             <?= Html::submitButton('Place Order', ['class' => 'btn btn-primary', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?>
           
         </div>

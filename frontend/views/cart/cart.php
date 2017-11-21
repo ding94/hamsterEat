@@ -34,52 +34,65 @@ Modal::end();
     </div>
   </div>
 <?php else :?>
+
   <?php foreach($groupCart as $index=>$cart): ?>
     <?php $total = 0 ; $earlyDiscount = 0;?>
-      <div class="container">
-        <h1>Cart</h1>
-        <div class="tab-content col-md-8 col-md-offset-2"  style="display: inline-block;" id="cart">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Food</th>
-                <th>Unit Price (RM)</th>
-                <th>Quantity</th>
-                <th>LineTotal (RM)</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
+	
+     <div class ="container"><h1>Cart</h1>
+  <div class="b"><?php echo Html::a('Continue Shopping',Yii::$app->request->referrer,['class' => 'btn btn-primary']) ;?></div>
+	 	</div>
+		<div class="container">
+
+		
+
               <?php foreach($cart as $single) :?> 
-              <tr>
-                <td>
-                  <?php echo Html::img('@web/imageLocation/foodImg/'.$single['food']['PicPath'], ['class' => 'img-responsive','style'=>'height:60px; width:90px; margin:auto;']);?>  
-                </td>
-                <td>
-                  <?php echo Html::a($single['food']['Name'],['Restaurant/default/restaurant-details','rid'=> $single['food']['Restaurant_ID']],['target'=>"_blank"])?>
-                  <br>
-                    <?php foreach($single['groupselection'] as $name=>$selection):?>
+			  <section id="cart"> 
+			<article class="product">
+				
+             
+			 <header>
+					<a class="remove">
+                  <?php echo Html::img('@web/imageLocation/foodImg/'.$single['food']['PicPath'], ['class' => 'img-responsive']);?>  
+<h3> <?php echo Html::a('', ['delete','id'=>$single['id']], ['class'=>'btn btn-danger fa fa-trash','data-confirm'=>'Are you sure you want to remove from cart?']);  ?> 
+				 </h3>
+				  </a>
+				</header> 
+	 
+ <div class="content">				
+			  <h1>    <?php echo Html::a($single['food']['Name'],['Restaurant/default/restaurant-details','rid'=> $single['food']['Restaurant_ID']],['target'=>"_blank"])?>
+                </h1>
+				<?php foreach($single['groupselection'] as $name=>$selection):?>
                       <?php $text = implode( ", ", $selection );?>
-                      <p><?php echo $name .': &nbsp;'. $text?></p>
+                      <?php echo $name .': &nbsp;'. $text?>
                     <?php endforeach;?>
-                  <br>
-                  <p><?php echo $single['remark'];?></p>
-                </td>
-                <td><?php echo $single['price'];?></td>
-                <td><?php echo $single['quantity'];?></td>
-                <td><?php echo $single['quantity'] * $single['price'];?></td>
-                <?php $total += $single['quantity'] * $single['price']?>
-                <td>
-                  <?php echo Html::a('', ['delete','id'=>$single['id']], ['class'=>'btn btn-danger fa fa-trash','data-confirm'=>'Are you sure you want to remove from cart?']);  ?> 
-                </td>
-              </tr>
+                   <?php echo $single['remark'];?>
+				   <?php echo Html::a('', ['delete','id'=>$single['id']], ['class'=>'btn btn-default fa fa-trash','id'=>'d','data-confirm'=>'Are you sure you want to remove from cart?']);  ?> 
+				 
+				     </div>
+					
+				<footer class="content">
+					<span class="qt-minus">-</span>
+					<span class="qt"> <?php echo $single['quantity'];?></span>
+					<span class="qt-plus">+</span>
+
+					<h2 class="full-price">
+					 <?php echo $single['price'];?>
+					</h2>
+
+					<h2 class="price">
+					 <?php echo $single['quantity'] * $single['price'];?>
+					 <?php $total += $single['quantity'] * $single['price']?>
+					</h2>
+				</footer>
+			</article>   
               <?php endforeach ;?>
-            </tbody>
-          </table>
-        </div>
-        <div class="container">
-          <div class="col-md-5" id='voucher'>
+          
+	
+
+</div>
+      
+        <div class="container" >
+          <div class="col-md-3 col-md-offset-2" id='voucher'>
             <?php if (!empty($voucher)): ?>
               <?php $form = ActiveForm::begin(); ?>
               <div><?= $form->field($ren,'type')->dropDownList($voucher,['onchange' => 'js:return discount();','prompt' => ' -- Select Coupons --'])->label('Coupons')?></div>
@@ -95,26 +108,26 @@ Modal::end();
                 <?php $total = CartController::actionRoundoff1decimal($total) ?>
                 <td><b>Subtotal (RM):</td>
                 <td id="subtotal"><?php echo $total ; ?></td>
-                <td id="dissub" style="color: red;display: none;"></td>
               </tr>
               <tr>
                 <td><b>Delivery Charge (RM):</td>
                 <td id="delivery">5.00</td>
-                <td id="disdel" style="color: red;display: none;"></td>
               </tr>
               <?php if($time['early'] <= $time['now'] && $time['late'] >= $time['now']):?>
               <tr>
                 <?php $earlyDiscount = CartController::actionRoundoff1decimal($total *0.2)?>
                 <td><b>Early Discount (RM):</td>
                 <td id='early'>-<?php echo $earlyDiscount?></td>
-                <td></td>
               </tr>
               <?php endif ;?>
+              <tr id="discount" style="display:none">
+                <td><b>Discount:</td>
+                <td id="disamount" value="" style="color: red;"></td>
+              </tr>
               <tr>
                 <?php $finalPrice = $total - $earlyDiscount + 5 ;?>
                 <td><b>Total (RM): </td>
                 <td id="total"><?php echo CartController::actionRoundoff1decimal($finalPrice); ?></td>
-                <td id="distol" style="color: red;display: none;"></td>
               </tr>
             </table>
               <?php $form = ActiveForm::begin(['action' =>['checkout/index'],'method' => 'get']); ?>
@@ -122,7 +135,7 @@ Modal::end();
                 <?php echo Html::hiddenInput('code', '');?>
                 <?php echo Html::submitButton('Checkout', ['class' => 'btn btn-primary']);?>
               <?php ActiveForm::end(); ?>
-              <?php echo Html::a('Back',Yii::$app->request->referrer,['class' => 'btn btn-primary']) ;?>
+            
           </div>
         </div>
       </div>

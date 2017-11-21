@@ -28,17 +28,14 @@ $(function(){
       if (obj != 0 ) 
       {
         
-        document.getElementById("dissub").innerHTML = (document.getElementById("subtotal").innerHTML - parseFloat(obj['sub'])).toFixed(2);
-        if (document.getElementById("dissub").innerHTML >= 0) {document.getElementById("dissub").style = 'display:block;color:red;';}
-        document.getElementById("disdel").innerHTML = (document.getElementById("delivery").innerHTML - parseFloat(obj['deli'])).toFixed(2);
-        if (document.getElementById("disdel").innerHTML >= 0) {document.getElementById("disdel").style = 'display:block;color:red;';}
-        document.getElementById("distol").innerHTML = (document.getElementById("total").innerHTML - parseFloat(obj['total'])).toFixed(2);
-        if (document.getElementById("distol").innerHTML >= 0) {document.getElementById("distol").style = 'display:block;color:red;';}
+        document.getElementById("disamount").innerHTML = "- "+(parseFloat(obj['discount'])).toFixed(2);
+        document.getElementById("discount").style = "display:block;";
         
   
+        document.getElementById("early").innerHTML = "- "+(0).toFixed(2);
         document.getElementById("subtotal").innerHTML = (parseFloat(obj['sub'])).toFixed(2);
         document.getElementById("delivery").innerHTML = (parseFloat(obj['deli'])).toFixed(2);
-        document.getElementById("total").innerHTML = (obj['total'] + parseFloat(document.getElementById("early").innerHTML)).toFixed(2);
+        document.getElementById("total").innerHTML = (obj['total']).toFixed(2);
         $("input[name='code']").val(document.getElementById("voucherstype-type").value.replace(/\s+/g,''));
 
         document.getElementById("voucher").style ='display:none';

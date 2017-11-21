@@ -117,7 +117,7 @@ Modal::end();
               <tr>
                 <?php $earlyDiscount = CartController::actionRoundoff1decimal($total *0.2)?>
                 <td><b>Early Discount (RM):</td>
-                <td id='early'>-<?php echo $earlyDiscount?></td>
+                <td id='early' style="color:red;">-<?php echo $earlyDiscount?></td>
               </tr>
               <?php endif ;?>
               <tr id="discount" style="display:none">

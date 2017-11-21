@@ -147,6 +147,11 @@ class Orders extends \yii\db\ActiveRecord
         return $this->hasOne(Orderitem::className(),['Delivery_ID' => 'Delivery_ID']); 
     }
 
+    public function getItem()
+    {
+         return $this->hasMany(Orderitem::className(),['Delivery_ID' => 'Delivery_ID']); 
+    }
+
     /*public function getFood_linking()
     {
         return $this->hasOne(Food::className(),['Food_ID' => $this->order_item->Food_ID]); 

@@ -95,26 +95,26 @@ Modal::end();
                 <?php $total = CartController::actionRoundoff1decimal($total) ?>
                 <td><b>Subtotal (RM):</td>
                 <td id="subtotal"><?php echo $total ; ?></td>
-                <td id="dissub" style="color: red;display: none;"></td>
               </tr>
               <tr>
                 <td><b>Delivery Charge (RM):</td>
                 <td id="delivery">5.00</td>
-                <td id="disdel" style="color: red;display: none;"></td>
               </tr>
               <?php if($time['early'] <= $time['now'] && $time['late'] >= $time['now']):?>
               <tr>
                 <?php $earlyDiscount = CartController::actionRoundoff1decimal($total *0.2)?>
                 <td><b>Early Discount (RM):</td>
                 <td id='early'>-<?php echo $earlyDiscount?></td>
-                <td></td>
               </tr>
               <?php endif ;?>
+              <tr id="discount" style="display:none">
+                <td><b>Discount:</td>
+                <td id="disamount" value=""></td>
+              </tr>
               <tr>
                 <?php $finalPrice = $total - $earlyDiscount + 5 ;?>
                 <td><b>Total (RM): </td>
                 <td id="total"><?php echo CartController::actionRoundoff1decimal($finalPrice); ?></td>
-                <td id="distol" style="color: red;display: none;"></td>
               </tr>
             </table>
               <?php $form = ActiveForm::begin(['action' =>['checkout/index'],'method' => 'get']); ?>

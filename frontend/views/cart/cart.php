@@ -122,7 +122,7 @@ Modal::end();
               <?php endif ;?>
               <tr id="discount" style="display:none">
                 <td><b>Discount:</td>
-                <td id="disamount" value=""></td>
+                <td id="disamount" value="" style="color: red;"></td>
               </tr>
               <tr>
                 <?php $finalPrice = $total - $earlyDiscount + 5 ;?>

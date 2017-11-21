@@ -641,8 +641,9 @@ class CartController extends CommonController
     */
     public function actionAftercheckout($did)
     {
-        $order = Orders::findOne($did);
-        if($order->Orders_Status = "Not Paid")
+        $order = PaymentController::findOrder($did);
+        
+        if($order->Orders_Status == "Not Paid")
         {
             return $this->redirect(['/payment/process-payment','did'=>$did]);
         }

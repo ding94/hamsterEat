@@ -91,7 +91,7 @@ class CheckoutController extends CommonController
 
 		$cart = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$post['area']])->joinWith('selection')->all();
 
-		$allorderitem =$this->createOrderitem($cart);
+		$allorderitem =$this->createOrderitem($cart,$post['Orders']['Orders_Status']);
 		
 		$isValid = $allorderitem == -1 ? false : true;
 
@@ -244,7 +244,7 @@ class CheckoutController extends CommonController
 	* id => order id
 	* query => Cart Query
 	*/
-	protected static function createOrderitem($cart)
+	protected static function createOrderitem($cart,$status)
 	{
 		$isValid = true;
 		foreach($cart as $i=>$detail)
@@ -255,7 +255,7 @@ class CheckoutController extends CommonController
 			$orderitem->OrderItem_Quantity  = $detail->quantity;
 			$orderitem->OrderItem_SelectionTotal = $detail->selectionprice;
 			$orderitem->OrderItem_LineTotal = $detail->price;
-			$orderitem->OrderItem_Status = "Pending";
+			$orderitem->OrderItem_Status = $status == "Cash on Delivery" ? "Pending" : "Not Paid";
 			$orderitem->OrderItem_Remark = $detail->remark;
 			$isValid = $orderitem->validate() && $isValid;
 			$allitem[$i] = $orderitem;

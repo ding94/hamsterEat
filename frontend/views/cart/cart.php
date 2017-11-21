@@ -53,7 +53,7 @@ Modal::end();
 			 <header>
 					<a class="remove">
                   <?php echo Html::img('@web/imageLocation/foodImg/'.$single['food']['PicPath'], ['class' => 'img-responsive']);?>  
-<h3> <?php echo Html::a('', ['delete','id'=>$single['id']], ['class'=>'btn btn-danger fa fa-trash','data-confirm'=>'Are you sure you want to remove from cart?']);  ?> 
+<h3> <?php echo Html::a('Remove', ['delete','id'=>$single['id']], ['class'=>'remove ','data-confirm'=>'Are you sure you want to remove from cart?']);  ?> 
 				 </h3>
 				  </a>
 				</header> 

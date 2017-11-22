@@ -27,7 +27,23 @@
     background-color:#1E90FF;
 }
 
+.switchbutton
+{
+  float:right;
+  margin-bottom: 10px;
+}
+
 @media (max-width: 549px){
+  .switchbutton
+  {
+    float:none;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .switchbutton a{
+    width: 100%;
+  }
 	#restaurant-orders-content > table, thead, tbody, th, td, tr { 
     display: block; 
   }

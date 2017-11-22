@@ -1,10 +1,12 @@
 <?php
 
 namespace frontend\controllers;
-use common\models\Orders;
+
 use Yii;
 use yii\web\Controller;
 use yii\data\Pagination;
+use yii\web\NotFoundHttpException;
+use common\models\Orders;
 use common\models\Orderitem;
 use common\models\food\Food;
 use common\models\Restaurant;
@@ -32,7 +34,7 @@ class OrderController extends CommonController
 
                     ],
                     [
-                        'actions' => ['restaurant-orders','restaurant-order-history','update-preparing','update-readyforpickup','switch-mode'],
+                        'actions' => ['restaurant-orders','restaurant-order-history','update-preparing','update-readyforpickup'],
                         'allow' => true,
                         'roles' => ['restaurant manager'],
                     ],
@@ -217,14 +219,20 @@ class OrderController extends CommonController
     }
 
 //--This function loads all the restaurant's running orders (not completed)
-    public function actionRestaurantOrders($rid,$status = "")
+    public function actionRestaurantOrders($rid,$status = "",$mode = 1)
     {
         $countOrder = $this->getTotalOrderRestaurant($rid);
         $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
-        $mode = 1;
         $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
 
-        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->andWhere(['Orders_Status'=>$status])->joinWith('food')->joinWith('order');
+        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->joinWith(['food','order']);
+
+        if(!empty($status))
+        {
+            $result->andWhere(['Orders_Status'=>$status]);
+        }
+        $result->andWhere("Orders_Status != 'Not Paid' and Orders_Status != 'Completed'");
+
         $pagination = new Pagination(['totalCount'=>$result->count(),'pageSize'=>10]);
         $result = $result->offset($pagination->offset)
         ->limit($pagination->limit)
@@ -249,25 +257,23 @@ class OrderController extends CommonController
 //--This function updares the order's status and the specific order item status to preparing
     public function actionUpdatePreparing($oid, $rid)
     {
-        $sql = "UPDATE orderitem SET OrderItem_Status = 'Preparing' WHERE Order_ID = ".$oid."";
-        Yii::$app->db->createCommand($sql)->execute();
-
-        $order = OrderItem::find()->where('Order_ID = :oid', [':oid'=>$oid])->one();
-        $did = $order['Delivery_ID'];
-
-        $status = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
-        if ($status['Orders_Status'] == 'Pending')
-        {
-            $sql1 = "UPDATE orders SET Orders_Status = 'Preparing' WHERE Delivery_ID = ".$did."";
-            Yii::$app->db->createCommand($sql1)->execute();
-            $time = time();
-            $sql3 = "UPDATE ordersstatuschange SET OChange_PreparingDateTime = ".$time." WHERE Delivery_ID = ".$did."";
-            Yii::$app->db->createCommand($sql3)->execute();
+        $updateOrder = false;
+        $orderitem = $this->findOrderitem($oid);
+        $orderitem->OrderItem_Status = "Preparing";
+       
+        $orderitem->save();
+        $allitem = OrderItem::find()->where('Delivery_ID =:did',[':did' => $orderitem->Delivery_ID])->all();
+        foreach ($allitem as $item) {
+            $updateOrder = $item->OrderItem_Status == 'Preparing' ? true : false && $updateOrder;
         }
-
-        $time = time();
-        $sql2 = "UPDATE orderitemstatuschange SET Change_PreparingDateTime = ".$time." WHERE Order_ID = ".$oid."";
-        Yii::$app->db->createCommand($sql2)->execute();
+      
+        if($updateOrder)
+        {
+            $order = $this->findOrder($orderitem->Delivery_ID);
+            $order->Orders_Status = 'Preparing';
+            $order->save();
+        }
+        
         NotificationController::createNotification($oid,2);
         NotificationController::createNotification($oid,3);
         return $this->redirect(Yii::$app->request->referrer);
@@ -276,67 +282,41 @@ class OrderController extends CommonController
 //--This function updates the specific order item status to ready for pick up
     public function actionUpdateReadyforpickup($oid, $rid)
     {
-        $sql = "UPDATE orderitem SET OrderItem_Status = 'Ready For Pick Up' WHERE Order_ID = ".$oid."";
-        Yii::$app->db->createCommand($sql)->execute();
-
-        $time = time();
-        $sql2 = "UPDATE orderitemstatuschange SET Change_ReadyForPickUpDateTime = ".$time." WHERE Order_ID = ".$oid."";
-
-        Yii::$app->db->createCommand($sql2)->execute();
-
+        $orderitem = $this->findOrderitem($oid);
+        $orderitem->OrderItem_Status = 'Ready For Pick Up';
+        $orderitem->save();
         return $this->redirect(Yii::$app->request->referrer);
     }
 
 //This function updates the orders status to on the way and specific order item status to picked up
     public function actionUpdatePickedup($oid, $did)
     {
-        $sql = "UPDATE orderitem SET OrderItem_Status = 'Picked Up' WHERE Order_ID = ".$oid."";
-        Yii::$app->db->createCommand($sql)->execute();
-
-        $status = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
-        if ($status['Orders_Status'] == 'Preparing')
-        {
-            $sql1 = "UPDATE orders SET Orders_Status = 'Pick Up in Process' WHERE Delivery_ID = ".$did."";
-            Yii::$app->db->createCommand($sql1)->execute();
-            $time = time();
-            $sql3 = "UPDATE ordersstatuschange SET OChange_PickUpInProcessDateTime = ".$time." WHERE Delivery_ID = ".$did."";
-            Yii::$app->db->createCommand($sql3)->execute();
-        }
-
-        $time = time();
-        $sql2 = "UPDATE orderitemstatuschange SET Change_PickedUpDateTime = ".$time." WHERE Order_ID = ".$oid."";
-        Yii::$app->db->createCommand($sql2)->execute();
-
-        $result = "SELECT * FROM orderitem WHERE Delivery_ID = ".$did."";
-        $results = Yii::$app->db->createCommand($result)->execute();
-
-        $result1 = "SELECT * FROM orderitem WHERE Delivery_ID = ".$did." AND OrderItem_Status = 'Picked Up'";
-        $results1 = Yii::$app->db->createCommand($result1)->execute();
-        //var_dump($results1);exit;
-//------If there are more order the amount of order item with status = picked up is the same with the total number of order item in the order then the order's status will be updated to on the way
-        if ($results == $results1)
-        {
-
-            $sql10 = "UPDATE orders SET Orders_Status = 'On The Way' WHERE Delivery_ID = ".$did."";
-
-            Yii::$app->db->createCommand($sql10)->execute();
-            NotificationController::createNotification($did,4);
-            $time1 = time();
-            $sql11 = "UPDATE ordersstatuschange SET OChange_OnTheWayDateTime = ".$time1." WHERE Delivery_ID = ".$did."";
-            Yii::$app->db->createCommand($sql11)->execute();
-
-            //Send Email for On The Way
-            $sql12="SELECT * FROM orders INNER JOIN user ON user.username = orders.User_Username WHERE orders.Orders_Status ='On The Way' AND orders.Delivery_ID=".$did."";
-             $sql12=Yii::$app->db->createCommand($sql12)->queryAll();
+        $updateOrder = false;
+        $orderitem = $this->findOrderitem($oid);
+        $orderitem->OrderItem_Status = "Picked Up";
        
-            $email = \Yii::$app->mailer->compose(['html' => 'orderLink-html'],
-            ['sql12'=>$sql12])//html file, word file in email
-                  
-                ->setTo($sql12[0]['email'])
-                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
-                ->setSubject('Order is on Its Way (No Reply)')
-                ->send();
+        $orderitem->save();
+        $order = $this->findOrder($orderitem->Delivery_ID);
+
+        if ($order['Orders_Status'] == 'Preparing')
+        {
+            $order->Orders_Status = 'Pick Up in Process';
+            $order->save();
         }
+
+        $allitem = OrderItem::find()->where('Delivery_ID =:did',[':did' => $orderitem->Delivery_ID])->all();
+        foreach ($allitem as $item) {
+            $updateOrder = $item->OrderItem_Status == 'Picked Up' ? true : false && $updateOrder;
+        }
+
+        if($updateOrder)
+        {
+            $order = $this->findOrder($orderitem->Delivery_ID);
+            $order->Orders_Status = 'On The Way';
+            $order->save();
+            NotificationController::createNotification($did,4);
+        }
+       
         return $this->redirect(['deliveryman-orders']);
     }
 
@@ -474,37 +454,21 @@ class OrderController extends CommonController
         return $this->render('myordershistory', ['orders'=>$orders]);
     }
 
-    public function actionSendOrder()
+    protected function findOrder($id)
     {
-       
-
-
+        if (($model = Orders::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
-    public function actionSwitchMode($mode, $rid, $status)
+    protected function findOrderitem($id)
     {
-        $countOrder = $this->getTotalOrderRestaurant($rid);
-        $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
-        $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
-
-        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->andWhere(['Orders_Status'=>$status])->joinWith('food')->joinWith('order');
-        $pagination = new Pagination(['totalCount'=>$result->count(),'pageSize'=>10]);
-        $result = $result->offset($pagination->offset)
-        ->limit($pagination->limit)
-        ->all();
-
-        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
-        $link = CommonController::getRestaurantOrdersUrl($rid);
-
-        if ($mode ==1)
-        {
-            $mode = 2;
+        if (($model = OrderItem::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
-        else
-        {
-            $mode = 1;
-        }
-
-        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination,'status'=>$status,'countOrder'=>$countOrder, 'mode'=>$mode]);
     }
 }

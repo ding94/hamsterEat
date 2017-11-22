@@ -55,7 +55,16 @@ class Orders extends \yii\db\ActiveRecord
                 $status->OChange_PendingDateTime = time();
                 $status->save();
                 break;
-            
+            case 'Preparing':
+                $status = Ordersstatuschange::findOne($this->Delivery_ID);
+                $status->OChange_PreparingDateTime = time();
+                $status->save();
+                break;
+            case 'Pick Up in Process':
+                $status = Ordersstatuschange::findOne($this->Delivery_ID);
+                $status->OChange_PickUpInProcessDateTime = time();
+                $status->save();
+                break;
             default:
                 # code...
                 break;
@@ -150,6 +159,11 @@ class Orders extends \yii\db\ActiveRecord
     public function getItem()
     {
          return $this->hasMany(Orderitem::className(),['Delivery_ID' => 'Delivery_ID']); 
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(),['username'=>'User_Username']);
     }
 
     /*public function getFood_linking()

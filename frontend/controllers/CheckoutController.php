@@ -89,8 +89,8 @@ class CheckoutController extends CommonController
 		$isValid;
 
 		$cart = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$post['area']])->joinWith('selection')->all();
-
-		$allorderitem =$this->createOrderitem($cart,$post['Orders']['Orders_Status']);
+		
+		$allorderitem =$this->createOrderitem($cart,$post['Orders']['Orders_PaymentMethod']);
 		
 		$isValid = $allorderitem == -1 ? false : true;
 
@@ -211,7 +211,7 @@ class CheckoutController extends CommonController
 	protected static function createOrder($data,$deliveryman)
 	{
 		$subtotal = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$data['area']])->sum('price * quantity');
-		var_dump($data);exit;
+	
 		$order = new Orders;
 		$order->load($data);
 	

@@ -13,7 +13,7 @@ use frontend\assets\OrderDetailsAsset;
 $this->title = "Order Details For Delivery ID: ".$did;
 OrderDetailsAsset::register($this);
 ?>
-
+<div class="order">
 <div id="order-details-container" class = "container">
     <div class="order-details-header">
         <div class="order-details-header-title"><?= Html::encode($this->title) ?></div>
@@ -140,4 +140,5 @@ OrderDetailsAsset::register($this);
             </table>
         </div>
     </div>
+</div>
 </div>

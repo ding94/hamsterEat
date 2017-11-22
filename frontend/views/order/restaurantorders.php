@@ -16,15 +16,6 @@ $this->title = $restaurantname['Restaurant_Name']."'s Orders";
 RestaurantOrdersAsset::register($this);
 ?>
 
-<style>
-
-    .switchbutton
-    {
-        float:right;
-    }
-
-</style>
-
 <div id="restaurant-orders-container" class = "container">
     <div class="restaurant-orders-header">
         <div class="restaurant-orders-header-title"><?= Html::encode($this->title) ?></div>
@@ -68,11 +59,11 @@ RestaurantOrdersAsset::register($this);
             <div class = "switchbutton"> <?php
                 if ($mode == 1)
                 {
-                    echo Html::a('View Nicknames', ['switch-mode', 'mode'=>$mode, 'rid'=>$rid, 'status'=>$status], ['class'=>'btn btn-default fa fa-exchange swap-button', 'style'=>'height:38px; margin-bottom:20px; padding-top:11px;']);
+                    echo Html::a('View Nicknames', ['restaurant-orders', 'rid'=>$rid, 'status'=>$status, 'mode'=>2], ['class'=>'btn btn-default fa fa-exchange swap-button']);
                 }
                 else
                 {
-                    echo Html::a('View Food Names', ['switch-mode', 'mode'=>$mode, 'rid'=>$rid, 'status'=>$status], ['class'=>'btn btn-default fa fa-exchange swap-button', 'style'=>'height:38px; margin-bottom:20px; padding-top:11px;']);
+                    echo Html::a('View Food Names', ['restaurant-orders', 'rid'=>$rid, 'status'=>$status, 'mode'=>1], ['class'=>'btn btn-default fa fa-exchange swap-button']);
                 } ?>
             </div> <?php
             foreach ($result as $result) : ?>
@@ -85,7 +76,7 @@ RestaurantOrdersAsset::register($this);
                     <thead class='none'>
                         <tr>
                             <th> Order ID </th>
-                            <th> Food Name </th>
+                            <th><?php echo $mode == 1 ? 'Food Name' : 'Nick Name' ?></th>
                             <th> Selections </th>
                             <th> Quantity </th>
                             <th> Remarks </th>
@@ -94,13 +85,8 @@ RestaurantOrdersAsset::register($this);
                     </thead>
                         <tr>
                             <td data-th="Order ID"><?php echo $result['Order_ID']; ?></td>
-                            <?php 
-                            if ($mode == 1)
-                            { ?>
-                                <td data-th="Food Name"><?php echo $result['food']['Name']; ?></td>
-                            <?php } else { ?>
-                                <td data-th="Food Name"><?php echo $result['food']['Nickname']; ?></td>
-                            <?php } ?>
+                            <td data-th="Food Name"><?php echo $mode == 1 ? $result['food']['Name'] : $result['food']['Nickname'] ?></td>
+
                             <?php 
                             $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$result['Order_ID']])->all(); ?>
                             <td data-th="Selections">

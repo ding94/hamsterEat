@@ -9,11 +9,11 @@ $this->title = "Order Placed";
 CheckoutAsset::register($this);
 ?>
 
-    <div class="col-md-12" id="aftercheckout">
-        <div class="row" style="margin-top: 5%;">
-            <div class="col-lg-5" style="margin: 0px 4% 0px 6%; background-color: white;">
+    <div class="container" id="aftercheckout">
+        <div class="row">
+            <div class="col-md-6 checkout-detail" >
                 <table class="table table-hover" style="font-size: 1.2em; font-family: 'Times New Roman', Times, serif;">
-                    <tr>
+                    <tr id="no-border">
                         <td style="width: 40%;">Delivery ID:</td>
                         <td colspan="2"><?= $order['Delivery_ID']; ?></td>
                     </tr>
@@ -56,7 +56,7 @@ CheckoutAsset::register($this);
                         </tr>
                 </table>
             </div>
-            <div class="col-lg-5" style="font-family: 'Times New Roman', Times, serif;background-color: white; height: 54%;padding-top: 7%;" >
+            <div class="col-md-5 checkout-cash" >
                 <?php if ($order['Orders_PaymentMethod'] == "Cash on Delivery"): ?>
 
                     <center>
@@ -81,7 +81,7 @@ CheckoutAsset::register($this);
                 <?php endif?>
             </div>
         </div>
-        <div style="margin-top: 3%;">
+        <div class="more-detail">
             <center><?php echo Html::a('More Detail', ['/order/order-details','did'=>$order['Delivery_ID']], ['class'=>'btn btn-primary'])?></center>
         </div>
     </div>

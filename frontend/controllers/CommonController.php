@@ -75,6 +75,7 @@ class CommonController extends Controller
     		case 3:
     			$data = [
                             Url::to(['/order/my-orders']) => 'All',
+                            Url::to(['/order/my-orders','status'=>'Not Paid']) => 'Not Paid',
                             Url::to(['/order/my-orders','status'=>'Pending']) => 'Pending',
                             Url::to(['/order/my-orders','status'=>'Canceled']) => 'Canceled',
                             Url::to(['/order/my-orders','status'=>'Preparing']) => 'Preparing',

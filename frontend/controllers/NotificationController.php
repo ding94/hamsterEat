@@ -141,12 +141,17 @@ class NotificationController extends CommonController
 	*/
 	public static function getUserorder($did)
 	{
-		$item = Orders::find()->where('Delivery_ID = :did',[':did' => $did])->one();
+		$item = Orders::find()->where('Delivery_ID = :did',[':did' => $did])->joinWith('user')->one();
 
 		$data[0]['uid'] = User::find()->where('username = :name',[':name' => $item['User_Username']])->one()->id;
 		$data[0]['currentStatus'] = $item['Orders_Status'];
 		//$data[0]['preStatus'] = self::getPreOrderStatus($item['Orders_Status']);
-		
+
+		$email = \Yii::$app->mailer->compose(['html' => 'orderLink-html'],['item'=>$item])//html file, word file in email     
+       	->setTo($item['user']['email'])
+        ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+        ->setSubject('Order is on Its Way (No Reply)')
+        ->send();
 		return $data;
 	}
 

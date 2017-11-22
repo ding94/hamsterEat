@@ -39,7 +39,15 @@ class Orderitem extends \yii\db\ActiveRecord
                 $status->Change_PendingDateTime = time();
                 $status->save();
                 break;
-            
+            case 'Preparing':
+                $status = Orderitemstatuschange::findOne($this->Order_ID);
+                $status->Change_PreparingDateTime = time();
+                $status->save();
+                break;
+            case 'Ready For Pick Up':
+                $status = Orderitemstatuschange::findOne($this->Order_ID);
+                $status->Change_ReadyForPickUpDateTime = time();
+                $status->save();
             default:
                 # code...
                 break;

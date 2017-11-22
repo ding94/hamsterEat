@@ -159,20 +159,22 @@ class SiteController extends CommonController
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if ($model->load(Yii::$app->request->post())) {
+            if( $model->login())
+            {
+                Yii::$app->session->setFlash('success', 'Login Success.');
+            }
+            else
+            {
+                Yii::$app->session->setFlash('danger', 'Either username or password is incorrect.');
+            }
+          
             return $this->goBack();
-        } 
-        elseif ($model->load(Yii::$app->request->post()))
-        {
-            Yii::$app->session->setFlash('danger', 'Either username or password is incorrect.');
-            return $this->goBack();
-        }
-        else
-        {
-            return $this->renderAjax('loginpopup', [
+        }  
+
+        return $this->renderAjax('loginpopup', [
                 'model' => $model,
             ]);
-        }
     }
 
     /**
@@ -183,7 +185,7 @@ class SiteController extends CommonController
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
+        Yii::$app->session->setFlash('success', 'Logout Success.');
         return $this->goHome();
     }
 

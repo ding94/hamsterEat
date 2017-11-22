@@ -1,5 +1,5 @@
 <?php
 return [
-    'adminEmail' => 'cheonghong@alishop.my',
+    'adminEmail' => 'support@hamstereat.my',
     'submitticket' =>  'imageLocation/submitticket',
 ];

@@ -34,4 +34,29 @@
 	border-top:1px solid rgba(0,0,0,0.2);
 }
 
+.checkout-detail{
+	background-color: white;
+	margin-right: 10px;
+}
+
+.checkout-cash{
+	font-family: 'Times New Roman', Times, serif;
+	background-color: white;
+	
+	padding-top: 7%;" 
+}
+
+.more-detail{
+	margin-top: 20px;
+}
+
+#no-border td{
+	border-top: 0px;
+}
+
+@media (max-width: 991px)
+{
+	
+}
+
 

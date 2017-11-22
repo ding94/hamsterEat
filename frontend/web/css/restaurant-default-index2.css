@@ -8,6 +8,7 @@
   text-decoration: none;
 }
 
+
 .detail-img{
  height:300px; 
  width:598px; 
@@ -18,7 +19,15 @@
   #group-area-index2 .menu-container{
     grid-template-columns: 1fr 1fr;
   }
-   
+
+  .item .foodName{
+    width: 185px;
+  }
+
+  .item .foodDesc{
+    width: 185px;
+  }
+>>>>>>> 1a9f2d269c77de3be65f029fec207157f91b2bc1
 }
 
 @media (min-width: 992px) and (max-width: 1199px){
@@ -139,6 +148,9 @@
   .item .inner-item{
     float:none;
   }
+
+
+ 
 
   .item .img{
     float:none;

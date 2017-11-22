@@ -63,7 +63,7 @@ Modal::end();
                 </h1>
 				<?php foreach($single['groupselection'] as $name=>$selection):?>
                       <?php $text = implode( ", ", $selection );?>
-                      <?php echo $name .': &nbsp;'. $text?>
+                      <?php echo $text?>
                     <?php endforeach;?>&nbsp;	
                    <?php echo $single['remark'];?>
 				   <?php echo Html::a('', ['delete','id'=>$single['id']], ['class'=>'fa fa-trash','id'=>'d','data-confirm'=>'Are you sure you want to remove from cart?']);  ?> 
@@ -75,14 +75,11 @@ Modal::end();
 					<span class="qt"> <?php echo $single['quantity'];?></span>
 					<span class="qt-plus">+</span>
 
-					<h2 class="full-price">
-					 <?php echo $single['price'];?>
+					<h2 class="full-price">RM
+					 <?php echo  $single['price'];?>
 					</h2>
 
-					<h2 class="price">
-					 <?php echo $single['quantity'] * $single['price'];?>
-					 <?php $total += $single['quantity'] * $single['price']?>
-					</h2>
+					
 				</footer>
 			</article>   
               <?php endforeach ;?>

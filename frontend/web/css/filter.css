@@ -133,7 +133,7 @@
 display:inline;
   position:fixed;
   right: 8%;
-  top: 12%;
+  top: 14%;
   float:right;  
   border-radius:20px;
   padding-top: 10px;
@@ -166,7 +166,7 @@ display:inline;
 	top:80%;
 	right:8%;
 	display:none;
-	background: url('/hamsterEat/frontend/web/SysImg/Icon2.png') no-repeat;
+	background: url('./../SysImg/Icon2.png') no-repeat;
 	background-size: 40px 40px;
 	background-color:#FFDA00;
 	background-position: center;

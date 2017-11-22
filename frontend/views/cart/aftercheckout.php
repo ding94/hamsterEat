@@ -3,10 +3,12 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\web\Session;
 use frontend\controllers\CartController;
+use frontend\assets\CheckoutAsset;
+
 $this->title = "Order Placed";
+CheckoutAsset::register($this);
 ?>
 
-<body>
     <div class="col-md-12" id="aftercheckout">
         <div class="row" style="margin-top: 5%;">
             <div class="col-lg-5" style="margin: 0px 4% 0px 6%; background-color: white;">
@@ -83,4 +85,3 @@ $this->title = "Order Placed";
             <center><?php echo Html::a('More Detail', ['/order/order-details','did'=>$order['Delivery_ID']], ['class'=>'btn btn-primary'])?></center>
         </div>
     </div>
-</body>

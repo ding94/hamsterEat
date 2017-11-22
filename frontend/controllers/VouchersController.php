@@ -5,6 +5,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use common\models\Vouchers;
 use common\models\UserVoucher;
+use common\models\VouchersUsed;
 use common\models\VouchersType;
 use yii\filters\AccessControl;
 use frontend\controllers\CommonController;
@@ -126,5 +127,28 @@ class VouchersController extends CommonController
 		$uservoucher->endDate = $endDate;
 
 		return $uservoucher;
+	}
+
+	public static function endvoucher($code)
+	{
+		$voucher = Vouchers::find()->where('code=:c',[':c'=>$code])->all();
+		if (!empty($voucher)) {
+			foreach ($voucher as $k => $vou) {
+				if ($vou['discount_type'] != 100) {
+					if ($vou['discount_type'] != 101) {
+						$vou['discount_type'] += 1;
+					}
+				}
+				$vou['usedTimes'] += 1;
+				if ($vou->validate()) {
+					$use = new VouchersUsed;
+					$use['vid'] = $vou['id'];
+					$use['uid'] = Yii::$app->user->identity->id;
+					$use['usedDate'] = time();
+					$vou->save();
+					$use->save();
+				}
+			}
+		}
 	}	
 }

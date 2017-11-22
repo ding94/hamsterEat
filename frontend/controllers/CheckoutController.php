@@ -90,11 +90,14 @@ class CheckoutController extends CommonController
 
 		$cart = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$post['area']])->joinWith('selection')->all();
 
-		$allorderitem =$this->createOrderitem($cart,$post['Orders']['Orders_Status']);
+		$allorderitem =$this->createOrderitem($cart,$post['Orders']['Orders_PaymentMethod']);
 		
 		$isValid = $allorderitem == -1 ? false : true;
 
 		$order = $this->createOrder($data,$deliveryman);
+		if ($order == false) {
+			return $this->redirect(Yii::$app->request->referrer);
+		}
 		
 		$delivery = $this->addDeliveryAssignment($deliveryman);
 
@@ -211,7 +214,7 @@ class CheckoutController extends CommonController
 	protected static function createOrder($data,$deliveryman)
 	{
 		$subtotal = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$data['area']])->sum('price * quantity');
-		var_dump($data);exit;
+
 		$order = new Orders;
 		$order->load($data);
 	
@@ -232,7 +235,11 @@ class CheckoutController extends CommonController
 			$order->Orders_DiscountTotalAmount += $order->Orders_DiscountEarlyAmount;
 			$order->Orders_TotalPrice -= $order->Orders_DiscountEarlyAmount;
 		}
-		
+
+		if (!empty($data['code'])) {
+			$order = DiscountController::orderdiscount($data['code'],$order);
+		}
+
 		//$order->Orders_TotalPrice=0;
 		return $order;
 	}

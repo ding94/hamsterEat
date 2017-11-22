@@ -95,12 +95,16 @@ Modal::end();
           <div class="col-md-3 col-md-offset-2" id='voucher'>
             <?php if (!empty($voucher)): ?>
               <?php $form = ActiveForm::begin(); ?>
-              <div><?= $form->field($ren,'type')->dropDownList($voucher,['onchange' => 'js:return discount();','prompt' => ' -- Select Coupons --'])->label('Coupons')?></div>
+              <div>
+                <?= $form->field($ren,'type')->dropDownList($voucher,['onchange' => 'js:return discount();','prompt' => ' -- Select Coupons --'])->label('Coupons')?>
+                <a id='show' style="padding-left:30%;" onclick="show()"><font style="font-size: 1em;color:blue;">Other promote code</font></a>
+                <div id="dis" style="display: none;"><input id="codes"><a class="btn btn-primary" onclick="return discount()">Submit</a></div>
+              </div>
               <?php ActiveForm::end(); ?>
             <?php endif ?>
           </div>
-          <div class="col-md-5" id='refresh' style="display: none;">
-            <a style="font-size: 1.5em;color:blue;padding-left:30%;" onclick="refresh()">Reset Coupon</a>
+          <div class="col-md-5">
+            <a id='refresh' style="display:none;padding-left:30%;" onclick="refresh()"><font style="font-size: 1em;color:blue;float:right;">Reset Coupon</font></a>
           </div>
           <div class="tab-content col-md-5" >
             <table class="table" style="float:right">

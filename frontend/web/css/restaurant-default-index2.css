@@ -12,14 +12,13 @@
  height:300px; 
  width:598px; 
  margin-top:auto;
-   
 }
 
 @media (min-width: 1200px){
   #group-area-index2 .menu-container{
     grid-template-columns: 1fr 1fr;
   }
-  
+   
 }
 
 @media (min-width: 992px) and (max-width: 1199px){
@@ -28,7 +27,7 @@
   }
 
   #group-area-index2 .item .inner-item{
-    width: 65%;
+    width: 50%;
   }
 
   .item .foodName{

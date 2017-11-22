@@ -18,6 +18,7 @@ $(function(){
     type: "get",
     data :{
       dis: document.getElementById("voucherstype-type").value.replace(/\s+/g, ''),
+      codes: document.getElementById("codes").value.replace(/\s+/g, ''),
       sub: parseFloat(document.getElementById("subtotal").innerHTML).toFixed(2),
       deli: parseFloat(document.getElementById("delivery").innerHTML).toFixed(2),
       total: parseFloat(document.getElementById("total").innerHTML).toFixed(2),
@@ -30,13 +31,12 @@ $(function(){
         
         document.getElementById("disamount").innerHTML = "- "+(parseFloat(obj['discount'])).toFixed(2);
         document.getElementById("discount").style = "display:block;";
-        
   
         document.getElementById("early").innerHTML = "- "+(0).toFixed(2);
         document.getElementById("subtotal").innerHTML = (parseFloat(obj['sub'])).toFixed(2);
         document.getElementById("delivery").innerHTML = (parseFloat(obj['deli'])).toFixed(2);
         document.getElementById("total").innerHTML = (obj['total']).toFixed(2);
-        $("input[name='code']").val(document.getElementById("voucherstype-type").value.replace(/\s+/g,''));
+        $("input[name='code']").val(obj['code'].replace(/\s+/g,''));
 
         document.getElementById("voucher").style ='display:none';
         document.getElementById("refresh").style ='display:block';
@@ -53,6 +53,12 @@ $(function(){
    });
   }
 
+  function show()
+  {
+    document.getElementById("voucherstype-type").style ='display:none';
+    document.getElementById("show").style = "display:none";
+    document.getElementById("dis").style = "display:block";
+  }
 
   function refresh()
   {

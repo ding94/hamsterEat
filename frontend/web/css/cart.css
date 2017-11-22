@@ -86,13 +86,13 @@ a:hover {
 	vertical-align: middle;
 }
 
-
 #cart {
 	width: 100%;
 }
 
 #cart h1 {
 	font-weight: 300;
+	
 }
 
 #cart a {
@@ -310,17 +310,8 @@ a:hover {
 }
 
 #d {
-	background: #fff;
-	border: 1px solid #efefef;
-	border-style: none none solid none;
-	cursor: pointer;
-	color: #fff;
-	font-size: 20px;
-	font-weight: 300;
-	padding: 16px 0;
-	width: 50px;
-	height:50px;
-	border-radius:50%;
+	font-size: 25px;
+	padding: 10px 0;
 	text-align: center;
 	float:right;
 	-webkit-transition: all .2s linear;
@@ -361,11 +352,14 @@ a:hover {
 .added {
 	margin: 0 -50px 0 0 !important;
 }
-.btn-primary{
+.btn-b{
 	background-color:#FFDA00;
 	border: 0px #fff;
 	color:#000;
 	float:right;
+}
+.btn-b:hover{
+	background-color:#fff3af;
 }
 
 @media (max-width: 544px) {

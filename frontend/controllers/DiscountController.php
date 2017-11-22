@@ -48,4 +48,113 @@ class DiscountController extends Controller
 
 		return $price;
 	}
+
+	public static function orderdiscount($code,$order)
+	{
+		$uservoucher = UserVoucher::find()->where('code=:c',[':c'=>$code])->one();
+		$voucher = Vouchers::find()->where('code=:c',[':c'=>$code])->all();
+
+		/* Validations (user and date) */
+		$valid = ValidController::DateValidCheck($code,1);
+		if ($voucher[0]['discount_type'] == 100 || $voucher[0]['discount_type']== 101) {
+			$valid == true;
+		}
+		if ($uservoucher['uid'] != Yii::$app->user->identity->id || $valid == false) {
+			Yii::$app->session->setFlash('error', 'Coupon cannot be used.');
+			return false;
+		}
+
+		/* discounttotal make back 0, do discounts */
+		$order['Orders_DiscountTotalAmount'] = 0 ;
+		//might faced coupon with multiple function, use loop
+		foreach ($voucher as $k => $vou) 
+		{
+			if ($order['Orders_TotalPrice'] > 0) 
+			{
+				if ($vou['discount_type'] == 2 || $vou['discount_type'] == 100)  
+                {
+                	switch ($vou['discount_item']) 
+                    {
+                        case 7:
+                            $order['Orders_DiscountTotalAmount'] += ($order['Orders_Subtotal']* ($vou['discount'] / 100));
+                            $order['Orders_Subtotal'] = $order['Orders_Subtotal']- ($order['Orders_Subtotal']* ($vou['discount'] / 100));
+                            $order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
+                            break;
+
+                        case 8:
+                            $order['Orders_DiscountTotalAmount'] += ($order['Orders_DeliveryCharge']* ($vou['discount'] / 100));
+                            $order['Orders_DeliveryCharge'] = $order['Orders_DeliveryCharge']-($order['Orders_DeliveryCharge']*($vou['discount'] / 100));
+                            $order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
+                            break;
+
+                        case 9:
+                        	$order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
+                            $order['Orders_DiscountTotalAmount'] += ($order['Orders_TotalPrice']* ($vou['discount'] / 100));
+                            $order['Orders_TotalPrice'] = $order['Orders_TotalPrice'] - ($order['Orders_TotalPrice']*($vou['discount'] / 100));
+                            break;
+                                     
+                        default:
+                        	Yii::$app->session->setFlash('error', 'error.');
+                            return false;
+                            break;
+                    }
+            	}
+            	elseif ($vou['discount_type'] == 5 || $vou['discount_type'] == 101) 
+                {
+                    switch ($vou['discount_item']) 
+                    {
+                        case 7:
+                            if (($order['Orders_Subtotal']-$vou['discount']) < 0) {
+                                $order['Orders_DiscountTotalAmount'] += $order['Orders_Subtotal'];
+                                $order['Orders_Subtotal'] = 0;
+                            }
+                            else{
+                                $order['Orders_DiscountTotalAmount'] += $vou['discount'];
+                                $order['Orders_Subtotal'] = $order['Orders_Subtotal'] - $vou['discount'];
+                            }
+
+                            $order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
+                            break;
+
+                        case 8:
+                            if (($order['Orders_DeliveryCharge']-$vou['discount']) < 0) {
+                                $order['Orders_DiscountTotalAmount'] += $order['Orders_DeliveryCharge'];
+                                $order['Orders_DeliveryCharge'] = 0;
+                            }
+                            else{
+                                $order['Orders_DiscountTotalAmount'] += $vou['discount'];
+                                $order['Orders_DeliveryCharge'] = $order['Orders_DeliveryCharge'] - $vou['discount'];
+                            }
+                            $order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
+                            break;
+
+                        case 9:
+                        	$order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
+                            if (($order['Orders_TotalPrice']-$vou['discount']) < 0) {
+                                $order['Orders_DiscountTotalAmount'] += $order['Orders_TotalPrice'];
+                                $order['Orders_TotalPrice'] = 0;
+                            }
+                            else{
+                                $order['Orders_DiscountTotalAmount'] += $vou['discount'];
+                                $order['Orders_TotalPrice'] = $order['Orders_TotalPrice'] - $vou['discount'];
+                            }
+                            break;
+                                     
+                        default:
+                            Yii::$app->session->setFlash('error', 'error.');
+                            return false;
+                            break;
+                    }
+                }
+            	else
+            	{
+            		Yii::$app->session->setFlash('error', 'Coupon was used.');
+					return false;
+            	}
+            	//save voucher status
+            	VouchersController::endvoucher($code);
+			}
+		}
+		return $order;
+	}
 }

@@ -39,7 +39,7 @@ Modal::end();
     <?php $total = 0 ; $earlyDiscount = 0;?>
 	
      <div class ="container"><h1>Cart</h1>
-  <div class="b"><?php echo Html::a('Continue Shopping',Yii::$app->request->referrer,['class' => 'btn btn-primary']) ;?></div>
+  <?php echo Html::a('Continue Shopping',Yii::$app->request->referrer,['class' => 'btn btn-b']) ;?>
 	 	</div>
 		<div class="container">
 
@@ -64,9 +64,9 @@ Modal::end();
 				<?php foreach($single['groupselection'] as $name=>$selection):?>
                       <?php $text = implode( ", ", $selection );?>
                       <?php echo $name .': &nbsp;'. $text?>
-                    <?php endforeach;?>
+                    <?php endforeach;?>&nbsp;	
                    <?php echo $single['remark'];?>
-				   <?php echo Html::a('', ['delete','id'=>$single['id']], ['class'=>'btn btn-default fa fa-trash','id'=>'d','data-confirm'=>'Are you sure you want to remove from cart?']);  ?> 
+				   <?php echo Html::a('', ['delete','id'=>$single['id']], ['class'=>'fa fa-trash','id'=>'d','data-confirm'=>'Are you sure you want to remove from cart?']);  ?> 
 				 
 				     </div>
 					
@@ -95,12 +95,16 @@ Modal::end();
           <div class="col-md-3 col-md-offset-2" id='voucher'>
             <?php if (!empty($voucher)): ?>
               <?php $form = ActiveForm::begin(); ?>
-              <div><?= $form->field($ren,'type')->dropDownList($voucher,['onchange' => 'js:return discount();','prompt' => ' -- Select Coupons --'])->label('Coupons')?></div>
+              <div>
+                <?= $form->field($ren,'type')->dropDownList($voucher,['onchange' => 'js:return discount();','prompt' => ' -- Select Coupons --'])->label('Coupons')?>
+                <a id='show' style="padding-left:30%;" onclick="show()"><font style="font-size: 1em;color:blue;">Other promote code</font></a>
+                <div id="dis" style="display: none;"><input id="codes"><a class="btn btn-primary" onclick="return discount()">Submit</a></div>
+              </div>
               <?php ActiveForm::end(); ?>
             <?php endif ?>
           </div>
-          <div class="col-md-5" id='refresh' style="display: none;">
-            <a style="font-size: 1.5em;color:blue;padding-left:30%;" onclick="refresh()">Reset Coupon</a>
+          <div class="col-md-5">
+            <a id='refresh' style="display:none;padding-left:30%;" onclick="refresh()"><font style="font-size: 1em;color:blue;float:right;">Reset Coupon</font></a>
           </div>
           <div class="tab-content col-md-5" >
             <table class="table" style="float:right">
@@ -133,7 +137,7 @@ Modal::end();
               <?php $form = ActiveForm::begin(['action' =>['checkout/index'],'method' => 'get']); ?>
                 <?php echo Html::hiddenInput('area', $index);?>
                 <?php echo Html::hiddenInput('code', '');?>
-                <?php echo Html::submitButton('Checkout', ['class' => 'btn btn-primary']);?>
+                <?php echo Html::submitButton('Checkout', ['class' => 'btn btn-b']);?>
               <?php ActiveForm::end(); ?>
             
           </div>

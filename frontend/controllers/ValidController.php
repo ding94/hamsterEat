@@ -71,7 +71,7 @@ class ValidController extends Controller
 				break;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	public static function UserCheck($post,$case)

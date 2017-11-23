@@ -192,6 +192,9 @@ class OrderController extends CommonController
         elseif($order['Orders_Status']== 'Completed'){
             $label='<span class="label label-success">'.$order['Orders_Status'].'</span>';
         }
+        elseif($order['Orders_Status']== 'Not Paid'){
+            $label='<span class="label label-warning">'.$order['Orders_Status'].'</span>';
+        }
         else{
             $label='<span class="label label-success">Rating Done</span>';
         }

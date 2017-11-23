@@ -78,8 +78,10 @@ MyOrdersAsset::register($this);
             </td>
             <?php if($data['Orders_Status'] == "Completed"): ?>
               <td class="with" data-th="Rating">
-                <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$data['Delivery_ID']], ['class'=>'btn btn-primary']); 
-                elseif ($data['Orders_Status'] == "Rating Done") : ?>
+                <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$data['Delivery_ID']], ['class'=>'btn btn-primary']); ?>
+                <?php elseif ($data['Orders_Status'] == "Not Paid") : 
+                echo '<td>'.Html::a('Go payment page', ['payment/process-payment','did'=>$data['Delivery_ID']], ['class'=>'btn btn-primary']).'</td>'; ?>
+                <?php elseif ($data['Orders_Status'] == "Rating Done") : ?>
                 <td><center> Rating Done </td>
             <?php endif;?>
           </tr>

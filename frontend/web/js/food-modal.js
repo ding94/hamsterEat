@@ -11,8 +11,10 @@ $(function(){
                 .done(function( data ) {
                     modal.find('.modal-body').html(data);
                     modal.find('.modal-header').html(img);
+                
                 });
             });
+
     // $('.modelButton').click(function(e){
     //     e.preventDefault();
     //     var foodid = $(this).attr('data-id');

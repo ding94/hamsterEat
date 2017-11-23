@@ -100,8 +100,9 @@ RestaurantDefaultIndex2Asset::register($this);
            
         <?php endforeach; ?>
         </div>
-    </div>
-    <?php echo LinkPager::widget([
+        <?php echo LinkPager::widget([
           'pagination' => $pagination,
           ]); ?>
+    </div>
+    
 </div>

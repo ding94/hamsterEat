@@ -9,6 +9,7 @@ $(function(){
                 modal.find('.modal-body').html(data);
         });
     });
+		
 });
 
   function discount()
@@ -28,10 +29,10 @@ $(function(){
       if (obj == 19) { return false;}
       if (obj != 0 ) 
       {
+        //document.getElementById("disamount").innerHTML = "- "+(parseFloat(obj['discount'])).toFixed(2);
         
-        document.getElementById("disamount").innerHTML = "- "+(parseFloat(obj['discount'])).toFixed(2);
-        document.getElementById("discount").style = "display:block;";
-  
+       // document.getElementById("discount").style = "display:block;";
+		discout = (parseFloat(obj['discount'])).toFixed(2);
         document.getElementById("early").innerHTML = "- "+(0).toFixed(2);
         document.getElementById("subtotal").innerHTML = (parseFloat(obj['sub'])).toFixed(2);
         document.getElementById("delivery").innerHTML = (parseFloat(obj['deli'])).toFixed(2);
@@ -40,6 +41,7 @@ $(function(){
 
         document.getElementById("voucher").style ='display:none';
         document.getElementById("refresh").style ='display:block';
+		$('.table-total tr:nth-child(2)').after("<tr><td><b>Discount</b></td><td class='text-xs-left'>-"+discout+"</td></tr>");
       }
       else if (obj ==0) 
       {

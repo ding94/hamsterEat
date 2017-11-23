@@ -96,7 +96,7 @@ a:hover {
 }
 
 #cart a {
-	color: #4f4b4b;
+	color: #606060;
 	text-decoration: none;
 
 	-webkit-transition: color .2s linear;
@@ -188,6 +188,7 @@ a:hover {
 	height: 140px;
 	padding: 0 20px;
 	width: 75%;
+	font-size:18px;
 }
 
 .product h1 {
@@ -217,9 +218,9 @@ a:hover {
 
 .product footer .full-price {
 	background: #fff3af;
-
+	color:#777251;
 	float: right;
-	font-size: 20px;
+	font-size: 18px;
 	font-weight: 300;
 	line-height: 49px;
 	margin: 0;
@@ -235,10 +236,11 @@ a:hover {
 .qt, .qt-plus, .qt-minus {
 	display: block;
 	float: left;
+	color:#777251;
 }
 
 .qt {
-	font-size: 19px;
+	font-size: 18px;
 	line-height: 50px;
 	width: 70px;
 	text-align: center;
@@ -247,7 +249,7 @@ a:hover {
 .qt-plus, .qt-minus {
 	background: #fcfcfc;
 	border: none;
-	font-size: 30px;
+	font-size: 25px;
 	font-weight: 300;
 	height: 100%;
 	padding: 0 20px;
@@ -259,8 +261,8 @@ a:hover {
 }
 
 .qt-plus:hover, .qt-minus:hover {
-	background: #FFDA00;
-	color: #fff;
+	background: #fff3af;
+	color: #777251;
 	cursor: pointer;
 }
 
@@ -465,4 +467,11 @@ a:hover {
 	width:100%;
 	
 }
+}
+.text-xs-right{
+	text-align: right !important;
+}
+.text-xs-left{
+	text-align: right !important;
+	color:red;
 }

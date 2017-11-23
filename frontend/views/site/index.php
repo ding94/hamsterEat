@@ -26,23 +26,24 @@ $this->title = 'hamsterEat';
 <!--<div class="site-index">--> 
 <header class="intro-header">
 
-<div id="myModal" class="modal fade">
+<?php if(!empty($banner)):?>
+<div id="myModal" class=" modal fade ">
+<?php else :?>
+	<div id="myModal" class="modal fade">
+<?php endif ;?>
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body food-type">
-                <label>
-                	<input type="radio" name="type" value="1" checked>
-                	<div class="halal box">
-	                	<span>Non-HALAL</span>
-	                </div>
-                </label>
-                <label>
-                	<input type="radio" name="type" value="2">
-                	<div class="non-halal box">
-	                	<span>HALAL</span>
-	                </div>
-                </label>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            	 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            	<p>Select Type</p>
+            	<div class="row">
+            		<div class="col-md-6 halal box">
+            			<?php echo Html::a('<span>Non-HALAL<i class="fa fa-check"></i></span>',['/site/foodselection','id'=>1])?>
+            		</div>
+            		<div class="col-md-6 non-halal box">
+            			<?php echo Html::a('<span>HALAL<i class="fa fa-check"></i></span>',['/site/foodselection','id'=>2])?>
+            		</div>
+            	</div>	     
             </div>
         </div>
     </div>

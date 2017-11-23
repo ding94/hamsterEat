@@ -15,10 +15,8 @@ $(document).ready(function() {
     }, 5000);
 }, 7000);
 
- 
-	 if (sessionStorage.getItem('group') == null){
-      $("#myModal").modal('show');
-   }  
+    $("#myModal").modal('show');
+  
 });
 
 //effect for text changing

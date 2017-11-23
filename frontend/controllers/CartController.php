@@ -324,7 +324,6 @@ class CartController extends CommonController
             $model->load(Yii::$app->request->post());
             $addr = Useraddress::find()->where('id=:id',['id'=>$model['address']])->one();
             $addr->load(Yii::$app->request->post());
-            var_dump($addr);exit;
             if ($addr->validate()) {
                 $addr->save();
                 Yii::$app->session->setFlash('success', 'Success!');

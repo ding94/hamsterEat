@@ -34,21 +34,25 @@ Modal::end();
         <?php $form = ActiveForm::begin(['id' => 'checkout','action' => ['/checkout/order']]); ?>
         <div class="cart-detail">
             <div>
-            <h3>Delivery Address </h3> <p style='color: grey;'>(Default as Primary)</p>
-            <?php if(!empty($address)):?>
-                <?php foreach($address as $value):?>
-                    <?php if($value['level'] == 1):?>
-                        <?php $order->Orders_Location = $value['id'];?>
-                        <?php $order->User_fullname = $value['recipient']?>
-                        <?php $order->User_contactno = $value['contactno']?>
-                    <?php endif ;?>
-                <?php endforeach ;?>
-                <?php echo Html::a('Edit',['/cart/editaddress'],['class' => 'btn btn-primary','data-toggle'=>'modal','data-target'=>'#edit-address-modal','style'=>'float:right']); ?>
-                <?= $form->field($order, 'Orders_Location')->radioList($addressmap)->label(false); ?>
-            <?php else :?>
-                <?php echo Html::a("Add New Address",['/user/newaddress'],['class' => 'btn btn-success add-new-address-btn','data-toggle'=>'modal','data-target'=>'#address-modal']);
-                    ?>
-            <?php endif ;?>
+                <h3>Delivery Address </h3> <p style='color: grey;'>(Default as Primary)</p>
+                <?php if(!empty($address)):?>
+                    <?php foreach($address as $value):?>
+                        <?php if($value['level'] == 1):?>
+                            <?php $order->Orders_Location = $value['id'];?>
+                            <?php $order->User_fullname = $value['recipient']?>
+                            <?php $order->User_contactno = $value['contactno']?>
+                        <?php endif ;?>
+                    <?php endforeach ;?>
+                    <div class="row">
+                        <div class="col-md-10"><?= $form->field($order, 'Orders_Location')->radioList($addressmap)->label(false); ?></div>
+                        <div class="col-md-2">
+                            <?php echo Html::a('Edit',['/cart/editaddress'],['class' => 'btn btn-primary','data-toggle'=>'modal','data-target'=>'#edit-address-modal']); ?>
+                        </div>
+                    </div>
+                <?php else :?>
+                    <?php echo Html::a("Add New Address",['/user/newaddress'],['class' => 'btn btn-success add-new-address-btn','data-toggle'=>'modal','data-target'=>'#address-modal']);
+                        ?>
+                <?php endif ;?>
             </div>
             <div class="cart-content">
                 <h3>Receiver </h3>

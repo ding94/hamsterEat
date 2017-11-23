@@ -28,116 +28,86 @@ OrderDetailsAsset::register($this);
         <table class="table table-user-info" style="border:1px solid black;">
             <tr>
                 <th><center> Address </th>
-                <td><center> <?php echo $address; ?> </td>
-                <th><center> Status </th>
-                <td><center> <?php echo $label; ?> </td>
+                <td colspan="3"><?php echo $order['Orders_Location'].' '.$order['Orders_Postcode'].' '.$order['Orders_Location']; ?> </td>
             </tr>
             <tr>
-                <th><center> Receiving Date </th>
-                <td><center> <?php echo $date; ?> </td>
-                <th><center> Receiving Time </th>
-                <td><center> <?php echo $time; ?> </td>
+                <th><center> Approximate Receiving Time </th>
+                <td><?php $date = strtotime($order['Orders_Date'].' '.$order['Orders_Time']); echo date('d M Y h:i:s A',$date);?> </td>
+                <th><center> Status </th>
+                <td><?php echo $label; ?> </td>
             </tr>
             <tr>
                 <th><center> Payment Method </th>
-                <td><center> <?php echo $paymethod; ?> </td>
+                <td><?php echo $order['Orders_PaymentMethod']; ?> </td>
                 <th><center> Time Placed </th>
-                <td><center> <?php echo $timeplaced; ?> </td>
+                <td><?php echo date('d M Y h:i:s A',$order['Orders_DateTimeMade']); ?> </td>
             </tr>
         </table>
-        <table class="table table-user-info" style="border:1px solid black;">
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th colspan ="2">Food Name</th>
-                    <th>Unit Price (RM)</th>
-                    <th>Quantity</th>
-                    <th>Selections</th>
-                    <th>Selections Price (RM)</th>
-                    <th>LineTotal (RM)</th>
-                    <th colspan ="2">Remarks</th>
-                </tr>
-            </thead>
-        <?php 
-        foreach ($orderitemdetails as $orderitemdetails) :
-            $fooddetails = food::find()->where('Food_ID = :fid',[':fid'=>$orderitemdetails['Food_ID']])->one();
-        ?>
-            <tr>
-            <td class="with" data-th="Order ID"><?php echo $orderitemdetails['Order_ID']; ?></td>
-            <td><?php echo Html::img('@web/imageLocation/foodImg/'.$fooddetails['PicPath'], ['class' => 'img-responsive','style'=>'height:60px; width:90px; margin:auto;']); ?></td>
-            <td class="with" data-th="Food Name"><?php echo $fooddetails['Name']; ?></td>
-            <td class="with" data-th="Unit Price (RM)"><?php echo CartController::actionRoundoff1decimal($fooddetails['Price']); ?></td>
-            <td class="with" data-th="Quantity"><?php echo $orderitemdetails['OrderItem_Quantity']; ?></td>
-            <?php 
-            $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$orderitemdetails['Order_ID']])->all();
-            ?>
-            <td class="with" data-th="Selections">
-            <?php 
-            foreach ($selections as $selections) :
-              $selectionname = Foodselection::find()->where('ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
-              $selectiontype = Foodselectiontype::find()->where('ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
-              if (!is_null($selectionname))
-              {
-                echo $selectiontype['TypeName'].': &nbsp;'.$selectionname['Name'];
-                echo "<br>";
-              }
+            <?php foreach ($orderitems as $k => $detail): 
+                $food = food::find()->where('Food_ID = :id',[':id'=>$detail['Food_ID']])->one();?>
 
-            endforeach;
-            ?>
-            </td>
-            <td class="with" data-th="Selections Price (RM)"><?php echo CartController::actionRoundoff1decimal($orderitemdetails['OrderItem_SelectionTotal']); ?></td>
-            <td class="with" data-th="LineTotal (RM)"><?php echo CartController::actionRoundoff1decimal($orderitemdetails['OrderItem_LineTotal']); ?></td>
-            <td  class="with" data-th="Remarks" colspan ="2"><?php echo $orderitemdetails['OrderItem_Remark']; ?></td>
-            </tr>
-        <?php
-          endforeach;
-          $did = Orders::find()->where('Delivery_ID = :did',[':did'=>$did])->one();
-          ?>
-            <tr>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td><strong><center> Subtotal (RM): </strong></td>
-                <td colspan ="2"><center><?php echo CartController::actionRoundoff1decimal($did['Orders_Subtotal']); ?></td>
-            </tr>
-            <tr>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td><strong><center> Delivery Charge (RM): </strong></td>
-                <td colspan = 2><center><?php echo CartController::actionRoundoff1decimal($did['Orders_DeliveryCharge']); ?></td>
-            </tr>
-            <tr>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td><strong><center> Early Discount (RM): </strong></td>
-                <td colspan ="2"><center> -<?php echo CartController::actionRoundoff1decimal($did['Orders_DiscountEarlyAmount']); ?></td>
-            </tr>
-            <tr>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td class="none"> </td>
-                <td><strong><center> Total (RM): </strong></td>
-                <td colspan ="2"><center><strong><?php echo CartController::actionRoundoff1decimal($did['Orders_TotalPrice']); ?></strong></td>
-            </tr>
+            <table class="table" id="table-border">
+                <tr>
+                   <th id="cell-border">Order ID</th> 
+                   <th colspan="3" id="cell-border"><?php echo $detail['Order_ID']; ?></th>
+                </tr>
+                <tr>
+                    <td rowspan="6" class="vertical-center"><?php echo Html::img('@web/imageLocation/foodImg/'.$food['PicPath'], ['style'=>'height:100px; width:100px;']); ?></td>
+                </tr>
+                <tr>
+                    <td>Food Name:</td>
+                    <td><?php echo $food['Name']; ?></td>
+                    <td>RM <?php echo $food['Price']; ?></td>
+                </tr>
+                <tr>
+                    <td>Selections:</td>
+                    <td colspan="2">sel</td>
+                </tr>
+                <tr>
+                    <td>Quantity:</td>
+                    <td colspan="2"><?php echo $detail['OrderItem_Quantity']; ?></td>
+                </tr>
+                <tr>
+                    <td>Line Total:</td>
+                    <td colspan="2"><?php echo $detail['OrderItem_LineTotal'] * $detail['OrderItem_Quantity']; ?></td>
+                </tr>
+                <tr>
+                    <td>Remarks:</td>
+                    <td colspan="2"><?php echo $detail['OrderItem_Remark']; ?></td>
+                </tr>
             </table>
+            <?php endforeach; ?>
+            <div class="row">
+                <div class="tab-content col-md-5"></div>
+                <div class="tab-content col-md-6">
+                    <table class="table">
+                        <tr>
+                            <th>Subtotal:</th>
+                            <td><?= $order['Orders_Subtotal']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Delivery Charge:</th>
+                            <td><?= $order['Orders_DeliveryCharge']; ?></td>
+                        </tr>
+                        <?php if ($order['Orders_DiscountTotalAmount'] >0): ?>
+                            <tr>
+                                <th>Early Discount:</th>
+                                <td style="color: red;">- <?= $order['Orders_DiscountEarlyAmount']; ?></td>
+                            </tr>
+                        <?php endif ?>
+                        <?php if ($order['Orders_DiscountTotalAmount'] >0): ?>
+                            <tr>
+                                <th>Discount:</th>
+                                <td style="color: red;">- <?= $order['Orders_DiscountTotalAmount']; ?></td>
+                            </tr>
+                        <?php endif ?>
+                        <tr>
+                            <th>Total:</th>
+                            <td><?= $order['Orders_TotalPrice']; ?></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

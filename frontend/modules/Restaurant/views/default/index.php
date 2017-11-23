@@ -70,15 +70,17 @@ RestaurantDefaultIndexAsset::register($this);
                 }
               ?>
               <th rowspan = "5">
-                <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive','style'=>'height:200px; width:298px; margin-bottom:20px;']) ?>
+                <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive img']) ?>
               </th>
-              <span class="name">
-                <?php echo $data['Restaurant_Name']; ?>
-              </span>
-              <div class="rating pull-right">
-              <span class="small-text stars">
-                <?php echo $data['Restaurant_Rating']; ?>
-              </span>
+              <div class="restaurant-name">
+                <span class="name">
+                  <?php echo $data['Restaurant_Name']; ?>
+                    <div class="rating">
+                      <span class="small-text stars">
+                        <?php echo $data['Restaurant_Rating']; ?>
+                      </span>
+                    </div>
+                </span>
               </div>
               <ul class="tag">
                 <?php if ($data['Restaurant_Pricing'] == 1){ ?>

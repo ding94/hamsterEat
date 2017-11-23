@@ -28,36 +28,38 @@ class Changepassword extends Model
         $this->addError($attribute, 'Old password is incorrect.');
       }
   }
-      public function validatePasswords($attribute, $params)
-     {
-      if (!$this->hasErrors()) {
-        $user = $this->getUser();
-        if (!$user || !$user->validatePassword($this->old_password)) {
-            $this->addError($attribute, 'Incorrect username or password.');
-         }
-        
-        }
-       }
-    public function check()
-    {
-    	if (!$this->validate()) {
-            return null;
-        }
-       
-    	$model = User::find()->where('id = :id' ,[':id' => Yii::$app->user->identity->id])->one();
-    	$model->setPassword($this->new_password);
-    	$model->generateAuthKey();
-       
-        $model->save();
-        return $model;
-    }
-    protected function getUser()
-      {
-        if ($this->_user === null) {
-          $this->_user = User::findByUsername(Yii::$app->user->identity->username);
-        }
-        return $this->_user;
-        }
 
+  public function validatePasswords($attribute, $params)
+  {
+    if (!$this->hasErrors()) {
+      $user = $this->getUser();
+        if(!$user || !$user->validatePassword($this->old_password)) {
+          $this->addError($attribute, 'Incorrect username or password.');
+      }
+        
+    }
+  }
+    
+  public function check()
+  {
+    if (!$this->validate()) {
+      return null;
+    }
+       
+    $model = User::find()->where('id = :id' ,[':id' => Yii::$app->user->identity->id])->one();
+    $model->setPassword($this->new_password);
+    $model->generateAuthKey();
+       
+    $model->save();
+    return $model;
+  }
+
+  protected function getUser()
+  {
+    if ($this->_user === null) {
+      $this->_user = User::findByUsername(Yii::$app->user->identity->username);
+    }
+      return $this->_user;
+  }
 
 }

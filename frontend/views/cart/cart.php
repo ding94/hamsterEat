@@ -77,10 +77,12 @@ Modal::end();
 					<span class="qt"> <?php echo $single['quantity'];?></span>
 					<span class="qt-plus">+</span>
 
+
 					<h2 class="full-price">RM
 					<?php echo  $single['price'] * $single['quantity'];?>
 					
 					  <?php $total += $single['quantity'] * $single['price']?>
+
 					</h2>
 	
 					

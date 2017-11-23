@@ -90,7 +90,7 @@ class FoodController extends CommonController
         
         $cartSelection =new CartSelection;
         $cart = new Cart;
-
+        
         $comments = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$id])->orderBy(['created_at' => SORT_DESC])->all();
 
         /*if ($orderItemSelection->load(Yii::$app->request->post()) || $orderitem->load(Yii::$app->request->post()))

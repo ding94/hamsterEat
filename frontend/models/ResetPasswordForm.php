@@ -11,7 +11,7 @@ use common\models\User;
 class ResetPasswordForm extends Model
 {
     public $password;
-
+    public $repeat_password;
     /**
      * @var \common\models\User
      */
@@ -43,10 +43,12 @@ class ResetPasswordForm extends Model
     public function rules()
     {
         return [
-            ['password', 'required'],
+            [['password','repeat_password'],'required'],
+            [['repeat_password'], 'compare', 'compareAttribute'=>'password'],
             ['password', 'string', 'min' => 6],
         ];
     }
+
 
     /**
      * Resets password.

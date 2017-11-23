@@ -38,7 +38,7 @@ Modal::end();
   <?php foreach($groupCart as $index=>$cart): ?>
     <?php $total = 0 ; $earlyDiscount = 0;?>
 	
-     <div class ="container"><h1>Cart</h1>
+     <div class ="container"><h1 style="text-shadow: 1.5px 1.5px #ffda00;"><center>Cart</center></h1>
   <?php echo Html::a('Continue Shopping',Yii::$app->request->referrer,['class' => 'btn btn-b']) ;?>
 	 	</div>
 		<div class="container">
@@ -63,9 +63,11 @@ Modal::end();
                 </h1>
 				<?php foreach($single['groupselection'] as $name=>$selection):?>
                       <?php $text = implode( ", ", $selection );?>
-                      <?php echo $name .': &nbsp;'. $text?>
+                     <span style="color:#a38b01;">   <?php echo $text?></span>
                     <?php endforeach;?>&nbsp;	
-                   <?php echo $single['remark'];?>
+					<?php if(!empty($single['remark'])): ?>
+						<span style="color:#fc7171;">  <?php echo '|'.' &nbsp;'.$single['remark'];?></span>
+					<?php endif; ?>
 				   <?php echo Html::a('', ['delete','id'=>$single['id']], ['class'=>'fa fa-trash','id'=>'d','data-confirm'=>'Are you sure you want to remove from cart?']);  ?> 
 				 
 				     </div>
@@ -75,16 +77,15 @@ Modal::end();
 					<span class="qt"> <?php echo $single['quantity'];?></span>
 					<span class="qt-plus">+</span>
 
-					<h2 class="full-price">
-             <?php echo $single['quantity'] * $single['price'];?>
-             <?php $total += $single['quantity'] * $single['price']?>
-					
-					</h2>
 
-					<h2 class="price">
-					 <?php echo $single['price'];?>
-					 
+					<h2 class="full-price">RM
+					<?php echo  $single['price'] * $single['quantity'];?>
+					
+					  <?php $total += $single['quantity'] * $single['price']?>
+
 					</h2>
+	
+					
 				</footer>
 			</article>   
               <?php endforeach ;?>
@@ -109,31 +110,32 @@ Modal::end();
             <a id='refresh' style="display:none;padding-left:30%;" onclick="refresh()"><font style="font-size: 1em;color:blue;float:right;">Reset Coupon</font></a>
           </div>
           <div class="tab-content col-md-5" >
-            <table class="table" style="float:right">
+            <table class="table table-total" style="clear: both;table-layout: fixed;">
               <tr>
                 <?php $total = CartController::actionRoundoff1decimal($total) ?>
                 <td><b>Subtotal (RM):</td>
-                <td id="subtotal"><?php echo $total ; ?></td>
+                <td class="text-xs-right" id="subtotal"><?php echo $total ; ?></td>
               </tr>
               <tr>
                 <td><b>Delivery Charge (RM):</td>
-                <td id="delivery">5.00</td>
+                <td class="text-xs-right" id="delivery">5.00</td>
               </tr>
               <?php if($time['early'] <= $time['now'] && $time['late'] >= $time['now']):?>
               <tr>
                 <?php $earlyDiscount = CartController::actionRoundoff1decimal($total *0.2)?>
                 <td><b>Early Discount (RM):</td>
-                <td id='early' style="color:red;">-<?php echo $earlyDiscount?></td>
+			
+                <td class="text-xs-right" id='early' style="color:red;">-<?php echo $earlyDiscount?></td>
               </tr>
               <?php endif ;?>
-              <tr id="discount" style="display:none">
-                <td><b>Discount:</td>
-                <td id="disamount" value="" style="color: red;"></td>
-              </tr>
+              <!--<tr id="discount" >
+                <td><span><b>Discount:</span></td>
+                <td class="text-xs-right" id="disamount" value="" style="color: red;"><span></span></td>
+              </tr>-->
               <tr>
                 <?php $finalPrice = $total - $earlyDiscount + 5 ;?>
                 <td><b>Total (RM): </td>
-                <td id="total"><?php echo CartController::actionRoundoff1decimal($finalPrice); ?></td>
+                <td class="text-xs-right" id="total"><?php echo CartController::actionRoundoff1decimal($finalPrice); ?></td>
               </tr>
             </table>
               <?php $form = ActiveForm::begin(['action' =>['checkout/index'],'method' => 'get']); ?>

@@ -30,13 +30,6 @@
 }
 
 @media (min-width: 992px) and (max-width: 1199px){
-  #group-area-index2 .menu-container{
-    grid-template-columns: 1fr;
-  }
-
-  #group-area-index2 .item .inner-item{
-    width: 50%;
-  }
 
   .item .foodName{
     width: 420px;
@@ -48,13 +41,6 @@
 }
 
 @media (max-width: 991px){
-  #group-area-index2 .menu-container{
-    grid-template-columns: 1fr;
-  }
-
-  #group-area-index2 .item .inner-item{
-    width: 46%;
-  }
 
   .item .foodName{
     width: 185px;
@@ -83,10 +69,9 @@
   min-height: 190px;
   border: 1px solid #e5e5e5;
   border-radius: 6px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  -moz-box-shadow: 0 0 10px rgba(0,0,0,0.3); 
-  -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.3); 
-  -o-box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 3px 3px 1px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 3px 3px 1px 0px rgba(0,0,0,0.5);
+  box-shadow: 3px 3px 1px 0px rgba(0,0,0,0.5);
 }
 
 .item p{
@@ -123,6 +108,8 @@
   width:188px;
   height:188px;
   border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+
 }
 
 .menu-container a:hover{
@@ -162,6 +149,12 @@
     width: 100%;
     height: 200px;
     display:block;
+  }
+
+  .item img{
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 0px;
 
   }
 }

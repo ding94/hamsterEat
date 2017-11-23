@@ -174,48 +174,31 @@ class OrderController extends CommonController
 //--This function loads the specific user's order details
     public function actionOrderDetails($did)
     {
-        $ordersdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
-        $orderitemdetails = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
+        $order = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
+        $orderitems = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
 
-        $subtotal = $ordersdetails['Orders_Subtotal'];
-        $deliverycharge = $ordersdetails['Orders_DeliveryCharge'];
-        $totalprice = $ordersdetails['Orders_TotalPrice'];
-        $date = $ordersdetails['Orders_Date'];
-        $time = $ordersdetails['Orders_Time'];
-        $address = $ordersdetails['Orders_Location'].', '.$ordersdetails['Orders_Area'].', '.$ordersdetails['Orders_Postcode'].'.';
-        $paymethod = $ordersdetails['Orders_PaymentMethod'];
-          if($ordersdetails['Orders_Status']== 'Pending')
-            
-                {
-                    $label='<span class="label label-warning">'.$ordersdetails['Orders_Status'].'</span>';
-                }
-                elseif($ordersdetails['Orders_Status']== 'Preparing')
-                {
-                    $label='<span class="label label-info">'.$ordersdetails['Orders_Status'].'</span>';
-                }
-                 elseif($ordersdetails['Orders_Status']== 'Pick Up in Process')
-                {
-                    $label='<span class="label label-info">'.$ordersdetails['Orders_Status'].'</span>';
-                }
-                 elseif($ordersdetails['Orders_Status']== 'On The Way')
-                {
-                    $label='<span class="label label-info">'.$ordersdetails['Orders_Status'].'</span>';
-                }
-                elseif($ordersdetails['Orders_Status']== 'Completed')
-                {
-                    $label='<span class="label label-success">'.$ordersdetails['Orders_Status'].'</span>';
-                }
-                else
-                {
-                    $label='<span class="label label-success">Rating Done</span>';
-                }
-        //$label = $ordersdetails['Orders_Status'];
-        $timeplaced = $ordersdetails['Orders_DateTimeMade'];
+        if($order['Orders_Status']== 'Pending'){
+            $label='<span class="label label-warning">'.$order['Orders_Status'].'</span>';
+        }
+        elseif($order['Orders_Status']== 'Preparing'){
+                $label='<span class="label label-info">'.$order['Orders_Status'].'</span>';
+        }
+        elseif($order['Orders_Status']== 'Pick Up in Process'){
+                $label='<span class="label label-info">'.$order['Orders_Status'].'</span>';
+        }
+        elseif($order['Orders_Status']== 'On The Way'){
+            $label='<span class="label label-info">'.$order['Orders_Status'].'</span>';
+        }
+        elseif($order['Orders_Status']== 'Completed'){
+            $label='<span class="label label-success">'.$order['Orders_Status'].'</span>';
+        }
+        else{
+            $label='<span class="label label-success">Rating Done</span>';
+        }
+        
         date_default_timezone_set("Asia/Kuala_Lumpur");
-        $timeplaced = date('d/m/Y H:i:s', $timeplaced);
         $this->layout = 'user';
-        return $this->render('orderdetails', ['ordersdetails'=>$ordersdetails, 'orderitemdetails'=>$orderitemdetails, 'did'=>$did, 'subtotal'=>$subtotal, 'deliverycharge'=>$deliverycharge, 
-                             'totalprice'=>$totalprice, 'date'=>$date, 'time'=>$time, 'address'=>$address, 'paymethod'=>$paymethod, 'label'=>$label, 'timeplaced'=>$timeplaced]);
+        return $this->render('orderdetails', ['order'=>$order, 'orderitems'=>$orderitems, 'did'=>$did, 'label'=>$label]);
     }
 
 //--This function loads all the restaurant's running orders (not completed)

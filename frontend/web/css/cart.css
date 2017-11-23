@@ -446,9 +446,6 @@ a:hover {
 	.product footer .full-price {
 	
 	font-size: 15px;
-
-
-	
 }
 .product footer .price {
 	width:15px;
@@ -474,4 +471,22 @@ a:hover {
 .text-xs-left{
 	text-align: right !important;
 	color:red;
+}
+.htitleline {
+    border: 0 solid #ffda00;
+    border-bottom-width: 1px;
+    margin-bottom: -39px;
+}
+.hometitlefp {
+    text-align: center;
+    width: 270px;
+    margin: 0 auto;
+    padding: 0 20px;
+    background-color: #ffffff;
+}
+.htitlemargintop {
+    margin-top: 50px;
+}
+.htitlemarginbottom {
+    margin-bottom: 10px;
 }

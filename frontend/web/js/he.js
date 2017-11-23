@@ -14,7 +14,11 @@ $(document).ready(function() {
         $('.element3').removeClass('bounce');
     }, 5000);
 }, 7000);
-	
+
+ 
+	 if (sessionStorage.getItem('group') == null){
+      $("#myModal").modal('show');
+   }  
 });
 
 //effect for text changing

@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use kartik\widgets\Select2;
 use kartik\widgets\DepDrop;
 use yii\helpers\Url;
+use yii\bootstrap\Modal;
 use frontend\assets\PhotoSliderAsset;
 
 PhotoSliderAsset::register($this);
@@ -24,6 +25,28 @@ $this->title = 'hamsterEat';
 <body>
 <!--<div class="site-index">--> 
 <header class="intro-header">
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body food-type">
+                <label>
+                	<input type="radio" name="type" value="1" checked>
+                	<div class="halal box">
+	                	<span>Non-HALAL</span>
+	                </div>
+                </label>
+                <label>
+                	<input type="radio" name="type" value="2">
+                	<div class="non-halal box">
+	                	<span>HALAL</span>
+	                </div>
+                </label>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="SlideShowContainer" class="container-fluid">
 		<div id="SSCrow1" class="row">
 			<?php

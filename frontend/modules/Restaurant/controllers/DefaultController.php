@@ -23,6 +23,7 @@ use frontend\modules\Restaurant\controllers\RestauranttypeController;
 use frontend\controllers\CommonController;
 use common\models\MonthlyUnix;
 use common\models\Object;
+use yii\web\Session;
 
 /**
  * Default controller for the `Restaurant` module
@@ -43,7 +44,7 @@ class DefaultController extends CommonController
                  'rules' => [
                      [
                          'actions' => ['new-restaurant-location','new-restaurant-details','new-restaurant','edit-restaurant-details','edit-restaurant-area','edited-location-details','edit-restaurant-details2','manage-restaurant-staff','delete-restaurant-staff','add-staff',
-                         'view-restaurant', 'all-rmanagers', 'show-monthly-earnings','get-area'],
+                         'view-restaurant', 'all-rmanagers', 'show-monthly-earnings','get-area','addsession'],
                          'allow' => true,
                          'roles' => ['restaurant manager'],
  
@@ -104,6 +105,31 @@ class DefaultController extends CommonController
         return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'allrestauranttype'=>$allrestauranttype ,'type' => $type,'filter'=>$filter,'pagination'=>$pagination]);
     }
 
+
+    public function actionAddsession($page)
+    {
+        $model = new Area;
+        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
+        if (Yii::$app->request->post()) 
+        {
+            $model->load(Yii::$app->request->post());
+            $groupArea = Area::find()->where('Area_Postcode = :p and Area_Area = :a',[':p'=> $model['Area_Postcode'] , ':a'=>$model['Area_Area']])->one()->Area_Group;
+            $session = new Session;
+            $session->open();
+            $session['postcode'] = $model['Area_Postcode'];
+            $session['area'] = $model['Area_Area'];
+            $session['group'] = $groupArea;
+
+            if ($page== 'index2') {
+                return $this->redirect(['/Restaurant/default/show-by-food','groupArea'=>$groupArea]);
+            }
+            else{
+                return $this->redirect(['/Restaurant/default/index','groupArea'=>$groupArea]);
+            }
+            
+        }
+        return $this->renderAjax('addsession',['model'=>$model,'postcodeArray'=>$postcodeArray]);
+    }
 
 //--This function loads the restaurant's details
     public function actionRestaurantDetails($rid)

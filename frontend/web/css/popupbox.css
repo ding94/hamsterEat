@@ -2,6 +2,7 @@
   width: 100%;
   text-align: center;
    overflow: hidden;
+   padding:15px 0px 0px 0px;
 }
 
 
@@ -30,7 +31,7 @@
   color: #007e90;
   width: 100%;
   height:100%;
-  	border:1px solid green;
+  
 }
 
 .food-type a span{
@@ -73,8 +74,9 @@
 	margin-top:25%;
 }
 
-
-
+.col-xs-6{
+	padding:0px 0px 0px 0px;
+}
 
 
 

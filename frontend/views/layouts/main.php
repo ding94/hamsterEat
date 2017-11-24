@@ -236,6 +236,7 @@ NotificationAsset::register($this);
         <?= Alert::widget() ?>
         <?php  $cookies = Yii::$app->request->cookies;?>
         <?php $emptyCookie = empty($cookies['halal']) ? 1: 0?>
+		
         <div id="type-modal" class="modal fade" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog">
                 <div class="modal-content">

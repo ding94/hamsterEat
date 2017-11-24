@@ -59,10 +59,10 @@
   min-width: 298px;
   min-height: 298px;
   font-weight: 700;
-  border: 1px solid grey;
-  -webkit-box-shadow: 3px 3px 1px 0px rgba(0,0,0,0.5);
-  -moz-box-shadow: 3px 3px 1px 0px rgba(0,0,0,0.5);
-  box-shadow: 3px 3px 1px 0px rgba(0,0,0,0.5);
+  border: 1px solid white;
+  -webkit-box-shadow: 3px 3px 1px 0px rgba(0,0,0,0.2);
+  -moz-box-shadow: 3px 3px 1px 0px rgba(0,0,0,0.2);
+  box-shadow: 3px 3px 1px 0px rgba(0,0,0,0.2);
   border-radius: 6px;
 }
 

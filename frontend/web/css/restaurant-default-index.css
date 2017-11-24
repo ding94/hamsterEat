@@ -21,6 +21,7 @@
 
 @media (min-width: 1200px){
   .menu-container{
+      width:775px;
       grid-template-columns: 1fr 1fr 1fr;
   }
 }
@@ -44,7 +45,6 @@
 
 .menu-container{
   display: grid;
-  width:775px;
   grid-column-gap: 15px;
   grid-row-gap: 15px;
   margin-bottom: 50px;

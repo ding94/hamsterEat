@@ -12,6 +12,30 @@ $(function(){
 		
 });
 
+function quantity(up,cid)
+{
+  $.ajax({
+    url: "index.php?r=cart/quantity",
+    type: "get",
+    data: {
+      update: up,
+      cid: cid,
+    },
+
+    success: function(data){
+      var obj = JSON.parse(data);
+      if (obj == 0) {
+        alert("Food can't order less than 1.");
+      }
+      else
+      {
+        location.reload();
+      }
+    }
+  })
+}
+
+
   function discount()
   {   
     $.ajax({

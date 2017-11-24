@@ -6,14 +6,27 @@ use common\models\Restauranttype;
 use kartik\widgets\ActiveForm;
 use frontend\assets\StarsAsset;
 use frontend\assets\RestaurantDefaultIndexAsset;
+use frontend\assets\CartAsset;
+use yii\bootstrap\Modal;
 
 $this->title = "Available Restaurants";
 StarsAsset::register($this);
 RestaurantDefaultIndexAsset::register($this);
+CartAsset::register($this);
+
+
+Modal::begin([
+      'header' => '<h2 class="modal-title">Please choose delivery place</h2>',
+      'id'     => 'add-modal',
+      'size'   => 'modal-md',
+      'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+]);
+Modal::end();
+
 ?>
  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <div class="container" id="group-area-index">
-    <h1>Order Food for Delivery</h1>
+    <h1>Order Food for Delivery <?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index'], ['class'=>'btn btn-default','data-toggle'=>'modal','data-target'=>'#add-modal']); ?></h1>
    
     <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index', 'groupArea'=>$groupArea], ['class'=>'btn btn-default','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>
 	   <?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']); ?>

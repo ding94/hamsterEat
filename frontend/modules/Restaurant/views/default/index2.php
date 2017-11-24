@@ -7,18 +7,28 @@ use common\models\food\Foodtype;
 use kartik\widgets\ActiveForm;
 use yii\widgets\LinkPager;
 use frontend\assets\StarsAsset;
+use frontend\assets\CartAsset;
 use frontend\assets\RestaurantDefaultIndex2Asset;
+
 $this->title = "Available Restaurants";
 
 StarsAsset::register($this);
 RestaurantDefaultIndex2Asset::register($this);
-?>
-<style>
+CartAsset::register($this);
 
-</style>
+
+Modal::begin([
+      'header' => '<h2 class="modal-title">Please choose delivery place</h2>',
+      'id'     => 'add-modal',
+      'size'   => 'modal-md',
+      'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+]);
+Modal::end();
+?>
+
  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <div class="container" id="group-area-index2">
-    <h1>Order Food for Delivery</h1>
+    <h1 style="padding-top:10px;">Order Food for Delivery <?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['class'=>'btn btn-default','data-toggle'=>'modal','data-target'=>'#add-modal']); ?></h1>
   
         <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']);?>
 		<?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>       
@@ -35,7 +45,7 @@ RestaurantDefaultIndex2Asset::register($this);
             </div>
 	  
 		<!--<a href="#top" title="Go to top of page"><span><i class="fa fa-chevron-up fa-2x" aria-hidden="true"></i></span>-->
-		<a href="#top" class="scrollToTop"></a>
+	<a href="#top" class="scrollToTop"></a>
             <div class="filter">
                 <div class="filter container">
                     <div class="input-group">
@@ -114,3 +124,4 @@ RestaurantDefaultIndex2Asset::register($this);
     </div>
     
 </div>
+

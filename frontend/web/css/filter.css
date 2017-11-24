@@ -131,7 +131,8 @@
 }
 .toggle{
 display:inline;
-  /*position:fixed;
+
+  position:fixed;
   right: 8%;
   top: 14%;
   float:right;  
@@ -141,8 +142,12 @@ display:inline;
   padding-left:20px;
   padding-bottom:10px;
   border:1px solid white;
-  background-color: #FFDA00;*/
+
+ 
+
+  background-color: #FFDA00;
 }
+
 #banner2{
 		 display: inline;
 		 position:fixed;

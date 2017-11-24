@@ -35,7 +35,7 @@ MyVouchersAsset::register($this);
                                 <th>Serial No.</th>
                                 <th>Code</th> 
                                 <th>Discount</th>
-                                <th>Item</th>
+                                <th></th>
                                 <th>Last Available Date</th>
                             </tr>
                         </thead>

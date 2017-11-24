@@ -70,13 +70,12 @@ Modal::end();
 						<span style="color:#fc7171;">  <?php echo '|'.' &nbsp;'.$single['remark'];?></span>
 					<?php endif; ?>
 				   <?php echo Html::a('', ['delete','id'=>$single['id']], ['class'=>'fa fa-trash','id'=>'d','data-confirm'=>'Are you sure you want to remove from cart?']);  ?> 
-				 
 				     </div>
 					
 				<footer class="content">
-					<span class="qt-minus">-</span>
-					<span class="qt"> <?php echo $single['quantity'];?></span>
-					<span class="qt-plus">+</span>
+					<span class="qt-minus" onclick="return quantity(up='minus',cid=<?= $single['id']; ?>)">-</span>
+					<span class="qt" id="qt"> <?php echo $single['quantity'];?></span>
+					<span class="qt-plus" onclick="return quantity(up='plus',cid=<?= $single['id']; ?>)">+</span>
 
 					<h2 class="full-price">RM
 					<?php echo  $single['price'] * $single['quantity'];?>
@@ -103,6 +102,10 @@ Modal::end();
                 <div id="dis" style="display: none;"><input id="codes"><a class="btn btn-primary" onclick="return discount()">Submit</a></div>
               </div>
               <?php ActiveForm::end(); ?>
+            <?php elseif (empty($voucher)) : ?>
+              <input id="voucherstype-type" type="hidden" value=" ">
+              <a id='show' style="padding-left:30%;" onclick="show2()"><font style="font-size: 1em;color:blue;">Other promote code</font></a>
+              <div id="dis" style="display: none;"><input id="codes"><a class="btn btn-primary" onclick="return discount()">Submit</a></div>
             <?php endif ?>
           </div>
           <div class="col-md-5">

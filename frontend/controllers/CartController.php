@@ -45,7 +45,7 @@ class CartController extends CommonController
                  //'only' => ['logout', 'signup','index'],
                  'rules' => [
                     [
-                        'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount','newaddress','editaddress','getaddress','assign-delivery-man','addsession','get-area'],
+                        'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount','newaddress','editaddress','getaddress','assign-delivery-man','addsession','get-area','quantity'],
 
                         'allow' => true,
                         'roles' => ['@'],
@@ -364,6 +364,29 @@ class CartController extends CommonController
        
     }
 
+    public function actionQuantity($update,$cid)
+    {
+        $cart = Cart::find()->where('id=:id',[':id'=>$cid])->one();
+        switch ($update) {
+            case 'minus':
+                $cart['quantity'] = $cart['quantity'] - 1;
+                break;
+
+            case 'plus':
+                $cart['quantity'] += 1;
+                break;
+            
+            default:
+                break;
+        }
+        if ($cart['quantity'] < 1) {
+            return Json::encode(0);
+        }
+        $cart->save();
+        $value=  Json::encode($cart);
+        return $value;
+    }
+
     public function actionGetdiscount($dis,$codes,$sub,$deli,$total)
     { // ajax's function must do in one controller, can't pass to second
         if (empty($dis)) {
@@ -514,42 +537,6 @@ class CartController extends CommonController
         {
             $cart->delete();
         }
-       
-        //Cart::deleteAll('id = :id',[':id' => $id]);
-
-       /* $menu = orderitem::find()->where('Order_ID = :id' ,[':id' => $oid])->one();
-        $linetotal = $menu['OrderItem_LineTotal'];
-        $orders = Orders::find()->where('Delivery_ID = :did', [':did'=>$menu['Delivery_ID']])->one();
-        $prevtotal = $orders['Orders_TotalPrice'];
-        $newtotal = $prevtotal - $linetotal;
-        $newsubtotal = $orders['Orders_Subtotal'] - $linetotal;
-
-        $sql1 = "UPDATE orders SET Orders_TotalPrice = ".$newtotal.", Orders_Subtotal = ".$newsubtotal." WHERE Delivery_ID = ".$menu['Delivery_ID']."";
-        Yii::$app->db->createCommand($sql1)->execute();
-
-         $sql = "DELETE FROM orderitem WHERE Order_ID = '$oid'";
-         Yii::$app->db->createCommand($sql)->execute();
-
-         $noofrestaurants = "SELECT DISTINCT food.Restaurant_ID FROM food INNER JOIN orderitem ON orderitem.Food_ID = food.Food_ID WHERE orderitem.Delivery_ID = ".$menu['Delivery_ID']."";
-         $result = Yii::$app->db->createCommand($noofrestaurants)->execute();
-         $deliverycharge = $result * 5;
-
-         $sql2 = "UPDATE orders SET Orders_DeliveryCharge = ".$deliverycharge." WHERE Delivery_ID = ".$menu['Delivery_ID']."";
-         Yii::$app->db->createCommand($sql2)->execute();
-
-         $neworders = Orders::find()->where('Delivery_ID = :did', [':did'=>$menu['Delivery_ID']])->one();
-         $newtotal = $neworders['Orders_Subtotal'] + $neworders['Orders_DeliveryCharge'];
-
-         $sql3 = "UPDATE orders SET Orders_TotalPrice = ".$newtotal." WHERE Delivery_ID = ".$menu['Delivery_ID']."";
-         Yii::$app->db->createCommand($sql3)->execute();
-
-         $orders = Orders::find()->where('Delivery_ID = :did', [':did'=>$menu['Delivery_ID']])->one();
-
-         if($orders['Orders_TotalPrice'] == 0 && $orders['Orders_Subtotal'] == 0 && $orders['Orders_DeliveryCharge'] == 0)
-         {
-             $sql4 = "DELETE FROM orders WHERE Delivery_ID = ".$menu['Delivery_ID']."";
-             Yii::$app->db->createCommand($sql4)->execute();
-         }*/
 
          return $this->redirect(['view-cart']);
     }

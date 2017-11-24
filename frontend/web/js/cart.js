@@ -12,6 +12,30 @@ $(function(){
 		
 });
 
+function quantity(up,cid)
+{
+  $.ajax({
+    url: "index.php?r=cart/quantity",
+    type: "get",
+    data: {
+      update: up,
+      cid: cid,
+    },
+
+    success: function(data){
+      var obj = JSON.parse(data);
+      if (obj == 0) {
+        alert("Food can't order less than 1.");
+      }
+      else
+      {
+        location.reload();
+      }
+    }
+  })
+}
+
+
   function discount()
   {   
     $.ajax({
@@ -58,6 +82,12 @@ $(function(){
   function show()
   {
     document.getElementById("voucherstype-type").style ='display:none';
+    document.getElementById("show").style = "display:none";
+    document.getElementById("dis").style = "display:block";
+  }
+
+  function show2()
+  {
     document.getElementById("show").style = "display:none";
     document.getElementById("dis").style = "display:block";
   }

@@ -16,6 +16,7 @@ $(document).ready(function() {
 }, 7000);
 
   value = $("input[name='cookie']").val();
+  
   if(value == 1)
   {
       $("#type-modal").modal('show');

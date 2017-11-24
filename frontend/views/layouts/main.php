@@ -241,13 +241,13 @@ NotificationAsset::register($this);
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body food-type">
-                        <p>Select Type</p>
+                        <p>Please Select Type</p>
                         <?php echo Html::hiddenInput('cookie',$emptyCookie) ?>
                         <div class="row">
-                            <div class="col-md-6 non-halal box">
+                            <div class="col-xs-6 non-halal box">
                                 <?php echo Html::a('<span>Non-HALAL<i class="fa fa-check"></i></span>','#')?>
                             </div>
-                            <div class="col-md-6 halal box">
+                            <div class="col-xs-6 halal box">
                                 <?php echo Html::a('<span>HALAL<i class="fa fa-check"></i></span>','#')?>
                             </div>
                         </div>       

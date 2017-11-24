@@ -102,6 +102,10 @@ Modal::end();
                 <div id="dis" style="display: none;"><input id="codes"><a class="btn btn-primary" onclick="return discount()">Submit</a></div>
               </div>
               <?php ActiveForm::end(); ?>
+            <?php elseif (empty($voucher)) : ?>
+              <input id="voucherstype-type" type="hidden" value=" ">
+              <a id='show' style="padding-left:30%;" onclick="show2()"><font style="font-size: 1em;color:blue;">Other promote code</font></a>
+              <div id="dis" style="display: none;"><input id="codes"><a class="btn btn-primary" onclick="return discount()">Submit</a></div>
             <?php endif ?>
           </div>
           <div class="col-md-5">

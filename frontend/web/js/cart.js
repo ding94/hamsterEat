@@ -86,6 +86,12 @@ function quantity(up,cid)
     document.getElementById("dis").style = "display:block";
   }
 
+  function show2()
+  {
+    document.getElementById("show").style = "display:none";
+    document.getElementById("dis").style = "display:block";
+  }
+
   function refresh()
   {
     location.reload();

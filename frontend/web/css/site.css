@@ -68,11 +68,19 @@ h2
   .container{
   width: 100%;
   }
+
+  #login-modal{
+    width: 50%;
+    margin: 0 auto;
+  }
 }
 
 @media(max-width: 480px){
   .container{
   width: 100%;
+  }
+  #login-modal{
+    width: 100%;
   }
 }
 
@@ -565,11 +573,12 @@ box-shadow: 1px 2px 2px 4px rgba(204,204,204,1);
   }
 }
 /* Login css */
-      #login-modal .modal-content{
-        margin:auto;
-        width:25.5em;
-       margin-top: 100px;
+#login-modal .modal-content{
+ 
+       
+  margin-top: 100px;
         
-    }
-    
+}
+
+
    

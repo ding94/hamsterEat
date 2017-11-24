@@ -17,7 +17,6 @@ class RestaurantDefaultIndexAsset extends AssetBundle
     ];
     public $js = [
         // 'js/PhotoSlider.js',
-        'js/restaurant-default-index.js',
 		'js/scrolltop.js',
     ];
     public $depends = [

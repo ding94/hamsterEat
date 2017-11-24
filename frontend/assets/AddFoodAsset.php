@@ -15,7 +15,7 @@ class AddFoodAsset extends AssetBundle
         'css/add-food.css',
     ];
     public $js = [
-        // 'js/cart.js',
+         'js/add-food.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

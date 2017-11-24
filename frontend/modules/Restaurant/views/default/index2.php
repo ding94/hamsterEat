@@ -24,8 +24,16 @@ RestaurantDefaultIndex2Asset::register($this);
 		<?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>       
 	   <input type="checkbox" id="sidebartoggler" name="" value="">
         <div class="page-wrap">
+            <a href="#menu" id="toggle-menu"><span></span></a>
 
-	   <label for="sidebartoggler" class="toggle"><i class="fa fa-sliders" aria-hidden="true">&nbsp;Filter</i></label>
+            <div id="menu">
+              <ul>
+                <li> <label for="sidebartoggler" class="toggle"><i class="fa fa-sliders" aria-hidden="true">&nbsp;Filter</i></label></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">cc</a></li>
+              </ul>
+            </div>
+	  
 		<!--<a href="#top" title="Go to top of page"><span><i class="fa fa-chevron-up fa-2x" aria-hidden="true"></i></span>-->
 		<a href="#top" class="scrollToTop"></a>
             <div class="filter">

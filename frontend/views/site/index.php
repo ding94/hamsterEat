@@ -37,10 +37,10 @@ $this->title = 'hamsterEat';
             	 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             	<p>Select Type</p>
             	<div class="row">
-            		<div class="col-md-6 halal box">
+            		<div class="col-xs-6 halal box" style="border:1px red;">
             			<?php echo Html::a('<span>Non-HALAL<i class="fa fa-check"></i></span>',['/site/foodselection','id'=>1])?>
             		</div>
-            		<div class="col-md-6 non-halal box">
+            		<div class="col-xs-6 non-halal box">
             			<?php echo Html::a('<span>HALAL<i class="fa fa-check"></i></span>',['/site/foodselection','id'=>2])?>
             		</div>
             	</div>	     

@@ -64,12 +64,18 @@ class DefaultController extends CommonController
 //--This function gets the restaurants in the area according to the users postcode and area
     public function actionIndex($groupArea,$type=0,$filter="")
     {
-        //$aa = Yii::$app->request->get();
+        $cookies = Yii::$app->request->cookies;
+        $halal = $cookies->getValue('halal', 'value');
+       
         $query = restaurant::find()->distinct()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->joinWith(['rJunction']);
 
+        if(empty($halal) || $halal['value'] == 0)
+        {
+            $query->andWhere('Type_ID =  24');
+        }
         if($type !=0)
         {
-            $query->andWhere('Type_ID = :tid',[':tid' => $type]);
+            $query->OrWhere('Type_ID = :tid',[':tid' => $type]);
         }
 
         if(!empty($filter))
@@ -77,12 +83,17 @@ class DefaultController extends CommonController
             $query->andWhere(['like','Restaurant_Name',$filter]);
         }
 
+        
+       
+
         $pagination = new Pagination(['totalCount'=>$query->count(),'pageSize'=>10]);
         $restaurant = $query->offset($pagination->offset)
         ->limit($pagination->limit)
         ->all();
-
-        $allrestauranttype = ArrayHelper::map(Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all(),'ID','Type_Name');
+        
+        $typequery= Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->where(['and',['!=','id',23],['!=','id',24]])->all();
+        $allrestauranttype = ArrayHelper::map($typequery,'ID','Type_Name');
+       
         // var_dump($restaurant[0]['restaurantType'][0]);exit;
         /*$types = Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all();
         $mode = 1;
@@ -483,7 +494,16 @@ class DefaultController extends CommonController
 //--This shows the food available in the area group according to user keyed in postcode and area
     public function actionShowByFood($groupArea,$type = 0,$filter="")
     {
+        $cookies = Yii::$app->request->cookies;
+        $halal = $cookies->getValue('halal');
+      
         $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $groupArea])->joinWith(['restaurant','junction','foodStatus']);
+
+        if(empty($halal) || $halal['value'] == 0)
+        {
+            $query->OrWhere('foodtypejunction.Type_ID =  4');
+        }
+
         if($type != 0)
         {
           $query->andWhere('foodtypejunction.Type_ID = :tid', [':tid' => $type]);
@@ -501,8 +521,12 @@ class DefaultController extends CommonController
         ->all();
         //$food = food::find()->where('restaurant.Restaurant_AreaGroup = :group',[':group' => $groupArea])->joinWith(['restaurant' ,'junction'])->all();
         
-       
-        $allfoodtype = ArrayHelper::map(Foodtype::find()->orderBy(['Type_Desc'=>SORT_ASC])->all(),'ID','Type_Desc');
+        $foodquery = Foodtype::find()->orderBy(['Type_Desc'=>SORT_ASC]);
+        if(empty($halal) || $halal['value'] == 0)
+        {
+            $foodquery->andWhere('ID != 3');
+        }
+        $allfoodtype = ArrayHelper::map($foodquery->all(),'ID','Type_Desc');
         
 /*        $mode = 1;
 

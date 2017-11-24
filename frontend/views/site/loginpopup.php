@@ -10,25 +10,10 @@ use yii\bootstrap\ActiveForm;
 $this->title = 'Login';
 
 ?>
-<style>
 
-/* Login pop-up css */
-   
-    #form-group .btn.btn-primary
-    {
-        margin-left:112px;
-        width:100px;
-    }
-      #forgotpassword
-    {
-    width:300px;
-    margin-left:178px;
-    }
-
-</style>
 <div class="container-login">
 
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+            <?php $form = ActiveForm::begin(); ?>
 
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true])->label('Username or Email') ?>
                 

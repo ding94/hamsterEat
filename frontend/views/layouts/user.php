@@ -84,8 +84,8 @@ UserAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Guide', 'url' => ['/site/faq']],
+    //    ['label' => 'About', 'url' => ['/site/about']],
+      //  ['label' => 'Guide', 'url' => ['/site/faq']],
         //   ['label' => '<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
     ];
     

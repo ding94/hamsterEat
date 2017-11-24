@@ -121,7 +121,7 @@ NotificationAsset::register($this);
 <?php Modal::begin([
             'header' => '<h2 class="modal-title">Login</h2>',
             'id'     => 'login-modal',
-            'size'   => 'modal-sm',
+            'size'   => 'modal-md',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
     

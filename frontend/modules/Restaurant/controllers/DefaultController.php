@@ -44,13 +44,13 @@ class DefaultController extends CommonController
                  'rules' => [
                      [
                          'actions' => ['new-restaurant-location','new-restaurant-details','new-restaurant','edit-restaurant-details','edit-restaurant-area','edited-location-details','edit-restaurant-details2','manage-restaurant-staff','delete-restaurant-staff','add-staff',
-                         'view-restaurant', 'all-rmanagers', 'show-monthly-earnings','get-area','addsession'],
+                         'view-restaurant', 'all-rmanagers', 'show-monthly-earnings','get-area'],
                          'allow' => true,
                          'roles' => ['restaurant manager'],
  
                      ],
                     [
-                        'actions' => ['index','show-by-food', 'food-filter', 'restaurant-filter','food-details','restaurant-details'],
+                        'actions' => ['index','show-by-food', 'food-filter', 'restaurant-filter','food-details','restaurant-details','addsession'],
                         'allow' => true,
                         'roles' => ['@','?'],
 

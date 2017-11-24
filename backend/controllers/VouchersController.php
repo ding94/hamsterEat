@@ -31,15 +31,20 @@ class VouchersController extends Controller
     			{
 	    	 		foreach($selection as $id)
 	    	 		{
-	                       if (UserVoucher::find()->where('vid = :id', [':id' => $id])->one()) 
-	                       {
-	                           $del = UserVoucher::find()->where('vid = :id', [':id' => $id])->one();
-	                           $del->delete();
-	                       }
-	                       
-	           				$delete=Vouchers::findOne((int)$id);//make a typecasting //找一个删一个
+	    	 			$voucher = Vouchers::find()->where('id=:id',[':id'=>$id])->one();
+    					$vouchers = Vouchers::find()->where('code=:c',[':c'=>$voucher['code']])->all();
+    					foreach ($vouchers as $k => $vou) {
+    						$uservou = UserVoucher::find()->where('vid = :id', [':id' => $vou['id']])->one();
+    						if ($uservou)
+	                       	{
+	                           	$del = $uservou;
+	                           	$del->delete();
+	                       	}
+
+	           				$delete=Vouchers::findOne((int)$vou['id']);//make a typecasting //找一个删一个
 		          		 	$delete->delete();
 		          		 	Yii::$app->session->setFlash('success', "Deleted!");
+    					}
         			}
 	    	 	}
 	    	 	elseif(empty($selection))

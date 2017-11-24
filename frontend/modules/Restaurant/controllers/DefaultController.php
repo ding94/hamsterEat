@@ -501,12 +501,12 @@ class DefaultController extends CommonController
 
         if(empty($halal) || $halal['value'] == 0)
         {
-            $query->OrWhere('foodtypejunction.Type_ID =  4');
+            $query->andWhere('foodtypejunction.Type_ID =  4');
         }
 
         if($type != 0)
         {
-          $query->andWhere('foodtypejunction.Type_ID = :tid', [':tid' => $type]);
+          $query->OrWhere('foodtypejunction.Type_ID = :tid', [':tid' => $type]);
         }
 
         if(!empty($filter))

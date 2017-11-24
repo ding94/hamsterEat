@@ -15,7 +15,11 @@ $(document).ready(function() {
     }, 5000);
 }, 7000);
 
-    $("#myModal").modal('show');
+  value = $("input[name='cookie']").val();
+  if(value == 1)
+  {
+      $("#type-modal").modal('show');
+  }
   
 });
 
@@ -27,23 +31,6 @@ var $fclick = false;
 $(".imawhat").each(function() {
   texts[cnt++]=$(this).text();
 });
-
-function changePrice(){
-    price =$('#afterprice').val();
-    $('#price').val((price/1.3).toFixed(2));
-}
-
-function beforeMarkUp()
-{
-    $('.selectionTable').children('tbody').each(function(){
-        trChild = $(this).children('tr');
-        trChild.each(function(){
-            value = $(this).children('.selectionPrice').children('.form-group').children('input').val();
-            $(this).children('.selectionBefore').children('.form-group').children('input').val((value/1.3).toFixed(2));
-        })
-    });
-}
-
 
 function fadeText() {
   if (cnt>=texts.length) { cnt=0; }
@@ -58,3 +45,28 @@ function fadeText() {
 
 
 fadeText();
+
+$(".halal").children('a').click(function(){
+   passType(1);
+})
+
+$(".non-halal").children('a').click(function(){
+  passType(0);
+})
+
+function passType(type){
+  $.ajax({
+      url :"index.php?r=site/selectiontype",
+      type: "post",
+      data :{
+        type :type,
+    },
+    success: function (data) {
+      $("#type-modal").modal('hide');
+    },
+    error: function (request, status, error) {
+      //alert(request.responseText);
+    }
+
+  });
+}

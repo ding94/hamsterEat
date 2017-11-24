@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\web\Cookie;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -710,5 +711,17 @@ class SiteController extends CommonController
         }
 
         return $this->renderAjax('feedback', ['feedback'=>$feedback, 'categoryarray'=>$categoryarray, 'list'=>$list]);
+    }
+
+    public function actionSelectiontype()
+    {
+        $post= Yii::$app->request->post();
+        $cookie =  new Cookie([
+            'name' => 'halal',
+            'value' => $post['type'],
+            'expire' => time() + 86400 * 365,
+        ]);
+        \Yii::$app->getResponse()->getCookies()->add($cookie);
+        return true;
     }
 }

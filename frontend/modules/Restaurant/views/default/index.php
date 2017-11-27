@@ -32,7 +32,18 @@ Modal::end();
 	   <?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']); ?>
     <input type="checkbox" id="sidebartoggler" name="" value="">
     <div class="page-wrap">
-       <label for="sidebartoggler" class="toggle"><i class="fa fa-sliders" aria-hidden="true">&nbsp;Filter</i></label>
+      <!-- <label for="sidebartoggler" class="toggle"><i class="fa fa-sliders" aria-hidden="true">&nbsp;Filter</i></label>-->
+	  <div class="tm">
+            <a href="#menu" id="toggle-menu"><span></span></a>
+
+            <div id="menu">
+              <ul>
+                <li> <a><label for="sidebartoggler" class="toggle">Filter</label></li></a>
+				<li><?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['data-toggle'=>'modal','data-target'=>'#add-modal']); ?></li>
+                <li><a href="#contact">Change: Non-halal</a></li>
+              </ul>
+            </div>
+	  </div>
 	  <a href="#top" class="scrollToTop"></a>
       <div class="filter">
         <div class="filter container">

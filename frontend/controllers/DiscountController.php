@@ -52,17 +52,24 @@ class DiscountController extends Controller
 	public static function orderdiscount($code,$order)
 	{
 		$uservoucher = UserVoucher::find()->where('code=:c',[':c'=>$code])->one();
-		$voucher = Vouchers::find()->where('code=:c',[':c'=>$code])->all();
-
-		/* Validations (user and date) */
-		$valid = ValidController::DateValidCheck($code,1);
-		if ($voucher[0]['discount_type'] == 100 || $voucher[0]['discount_type']== 101) {
-			$valid == true;
-		}
-		if ($uservoucher['uid'] != Yii::$app->user->identity->id || $valid == false) {
-			Yii::$app->session->setFlash('error', 'Coupon cannot be used.');
-			return false;
-		}
+        $voucher = Vouchers::find()->where('code=:c',[':c'=>$code])->all();
+        
+        /* Validations (user and date) */
+        $valid = ValidController::DateValidCheck($code,1);
+        if ($voucher[0]['discount_type'] == 100 || $voucher[0]['discount_type']== 101) {
+            $valid = true;
+        }
+        
+        if($valid == false){
+            if ($uservoucher['uid'] != Yii::$app->user->identity->id) {
+                Yii::$app->session->setFlash('error', 'Coupon cannot be used.');
+                return false;
+            }
+            elseif ($uservoucher['uid'] == Yii::$app->user->identity->id){
+                Yii::$app->session->setFlash('error', 'Coupon cannot be used again.');
+                return false;
+            }
+        }
 
 		/* discounttotal make back 0, do discounts */
 		$order['Orders_DiscountTotalAmount'] = 0 ;
@@ -155,6 +162,12 @@ class DiscountController extends Controller
             	VouchersController::endvoucher($code);
 			}
 		}
+
+        $order['Orders_Subtotal'] = number_format($order['Orders_Subtotal'],2);
+        $order['Orders_DeliveryCharge']= number_format($order['Orders_DeliveryCharge'],2);
+        $order['Orders_DiscountTotalAmount']= number_format($order['Orders_DiscountTotalAmount'],2);
+        $order['Orders_TotalPrice']= number_format($order['Orders_TotalPrice'],2);
+        
 		return $order;
 	}
 }

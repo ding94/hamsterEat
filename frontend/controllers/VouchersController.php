@@ -57,6 +57,13 @@ class VouchersController extends CommonController
 					{
 						$uservoucher[$key]['discount'] = $vou['discount'].' %';
 					}
+					if (strtotime($uservoucher[$key]['endDate']) < time()) {
+						$uservoucher[$key]['endDate'] = "Expired";
+					}
+					if ($vou['discount_type'] == 3 || $vou['discount_type'] == 6) {
+						$uservoucher[$key]['endDate'] = "Used";
+					}
+
 					$key=$key+1;
 				}
 			}

@@ -118,6 +118,7 @@ class RestaurantController extends CommonController
     protected function CancelOrder($id)
     {
         $orderitem = Orderitem::find()->where('Food_ID=:id AND OrderItem_Status=:s',[':id'=>$id, ':s'=>'Pending'])->all();
+
         if (!empty($orderitem)) 
         {
             foreach ($orderitem as $k => $value) 
@@ -132,8 +133,10 @@ class RestaurantController extends CommonController
                     $reason['Delivery_ID'] = $value['Delivery_ID'];
                     $reason['status'] = 1;
                     $reason['datetime'] = time();
-                    $order['Orders_Status'] = 'Canceled';
                     $value['OrderItem_Status'] = 'Canceled';
+
+
+                    $order['Orders_Status'] = 'Canceled';
 
                     //check did user use balance to pay
                     if ($order['Orders_PaymentMethod'] == 'Account Balance') {

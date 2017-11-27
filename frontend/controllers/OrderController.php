@@ -196,6 +196,12 @@ class OrderController extends CommonController
         elseif($order['Orders_Status']== 'Not Paid'){
             $label='<span class="label label-warning">'.$order['Orders_Status'].'</span>';
         }
+        elseif($order['Orders_Status']== 'Canceled'){
+            $label='<span class="label label-danger">'.$order['Orders_Status'].'</span>';
+        }
+        elseif($order['Orders_Status']== 'Canceled abd Refunded'){
+            $label='<span class="label label-danger">'.$order['Orders_Status'].'</span>';
+        }
         else{
             $label='<span class="label label-success">Rating Done</span>';
         }

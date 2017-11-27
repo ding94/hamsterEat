@@ -76,11 +76,18 @@ MyOrdersAsset::register($this);
             <td class="with" data-th="Date and Time Placed">
                 <?php echo date('Y-m-d h:i:s',$data['Orders_DateTimeMade']); ?>
             </td>
+
             <?php if($data['Orders_Status'] == "Completed"): ?>
               <td class="with" data-th="Rating">
                 <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$data['Delivery_ID']], ['class'=>'btn btn-primary']); ?>
+
                 <?php elseif ($data['Orders_Status'] == "Not Paid") : 
                 echo '<td>'.Html::a('Go payment page', ['payment/process-payment','did'=>$data['Delivery_ID']], ['class'=>'btn btn-primary']).'</td>'; ?>
+
+              <?php elseif ($data['Orders_Status'] == "Canceled" || $data['Orders_Status'] == "Canceled and Refunded") : ?>
+                <td>
+                  <label class="label label-danger"><?= $data['Orders_Status']; ?></label>
+                </td>
                 <?php elseif ($data['Orders_Status'] == "Rating Done") : ?>
                 <td><center> Rating Done </td>
             <?php endif;?>

@@ -84,13 +84,13 @@ class DiscountController extends Controller
                     {
                         case 7:
                             $order['Orders_DiscountTotalAmount'] += ($order['Orders_Subtotal']* ($vou['discount'] / 100));
-                            $order['Orders_Subtotal'] = $order['Orders_Subtotal']- ($order['Orders_Subtotal']* ($vou['discount'] / 100));
+                            //$order['Orders_Subtotal'] = $order['Orders_Subtotal']- ($order['Orders_Subtotal']* ($vou['discount'] / 100));
                             $order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
                             break;
 
                         case 8:
                             $order['Orders_DiscountTotalAmount'] += ($order['Orders_DeliveryCharge']* ($vou['discount'] / 100));
-                            $order['Orders_DeliveryCharge'] = $order['Orders_DeliveryCharge']-($order['Orders_DeliveryCharge']*($vou['discount'] / 100));
+                            //$order['Orders_DeliveryCharge'] = $order['Orders_DeliveryCharge']-($order['Orders_DeliveryCharge']*($vou['discount'] / 100));
                             $order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
                             break;
 
@@ -113,11 +113,11 @@ class DiscountController extends Controller
                         case 7:
                             if (($order['Orders_Subtotal']-$vou['discount']) < 0) {
                                 $order['Orders_DiscountTotalAmount'] += $order['Orders_Subtotal'];
-                                $order['Orders_Subtotal'] = 0;
+                                //$order['Orders_Subtotal'] = 0;
                             }
                             else{
                                 $order['Orders_DiscountTotalAmount'] += $vou['discount'];
-                                $order['Orders_Subtotal'] = $order['Orders_Subtotal'] - $vou['discount'];
+                                //$order['Orders_Subtotal'] = $order['Orders_Subtotal'] - $vou['discount'];
                             }
 
                             $order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
@@ -126,11 +126,11 @@ class DiscountController extends Controller
                         case 8:
                             if (($order['Orders_DeliveryCharge']-$vou['discount']) < 0) {
                                 $order['Orders_DiscountTotalAmount'] += $order['Orders_DeliveryCharge'];
-                                $order['Orders_DeliveryCharge'] = 0;
+                                //$order['Orders_DeliveryCharge'] = 0;
                             }
                             else{
                                 $order['Orders_DiscountTotalAmount'] += $vou['discount'];
-                                $order['Orders_DeliveryCharge'] = $order['Orders_DeliveryCharge'] - $vou['discount'];
+                                //$order['Orders_DeliveryCharge'] = $order['Orders_DeliveryCharge'] - $vou['discount'];
                             }
                             $order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
                             break;
@@ -139,11 +139,11 @@ class DiscountController extends Controller
                         	$order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
                             if (($order['Orders_TotalPrice']-$vou['discount']) < 0) {
                                 $order['Orders_DiscountTotalAmount'] += $order['Orders_TotalPrice'];
-                                $order['Orders_TotalPrice'] = 0;
+                                //$order['Orders_TotalPrice'] = 0;
                             }
                             else{
                                 $order['Orders_DiscountTotalAmount'] += $vou['discount'];
-                                $order['Orders_TotalPrice'] = $order['Orders_TotalPrice'] - $vou['discount'];
+                                //$order['Orders_TotalPrice'] = $order['Orders_TotalPrice'] - $vou['discount'];
                             }
                             break;
                                      
@@ -160,9 +160,13 @@ class DiscountController extends Controller
             	}
             	//save voucher status
             	VouchersController::endvoucher($code);
+                $order['Orders_DiscountEarlyAmount'] = 0 ;
 			}
 		}
-
+        $order['Orders_TotalPrice'] = $order['Orders_TotalPrice'] - $order['Orders_DiscountTotalAmount'];
+        if ($order['Orders_TotalPrice'] < 0) {
+            $order['Orders_TotalPrice'] = 0;
+        }
         $order['Orders_Subtotal'] = number_format($order['Orders_Subtotal'],2);
         $order['Orders_DeliveryCharge']= number_format($order['Orders_DeliveryCharge'],2);
         $order['Orders_DiscountTotalAmount']= number_format($order['Orders_DiscountTotalAmount'],2);

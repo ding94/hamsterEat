@@ -5,9 +5,6 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = "Expansion";
 ?>
-<style>
-
-</style>
 <div class = "text">
     <h2><center>Let us know your location and we might expand our services!</h2>
 </div>
@@ -41,4 +38,5 @@ else
         <?= Html::submitButton('Submit Request', ['class' => 'btn btn-primary', 'name' => 'expansion-button']) ?>                
     </div>
     <?php ActiveForm::end(); ?>
+</div>
 </div>

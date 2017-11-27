@@ -40,7 +40,7 @@ class TopupController extends CommonController
 	  // $bank = ArrayHelper::map(Bank::find()->all(),'Bank_ID','Bank_Name','Bank_AccNo','Bank_PicPath','redirectUrl');
         $bank = Bank::find()->where('status = :status',[':status' => 10])->all();
         $banklist = ArrayHelper::map($bank,'Bank_ID','Bank_Name');
-
+       
 		//var_dump($bank);exit;
         $upload->scenario = 'ticket';
     	
@@ -57,11 +57,10 @@ class TopupController extends CommonController
     		$upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
     		$upload->imageFile->name = time().'.'.$upload->imageFile->extension;
 		
-    		$model['Account_ReceiptPicPath'] = $path.'/'.$upload->imageFile->name;
+    		$model['Account_ReceiptPicPath'] = $upload->imageFile->name;
 			//$model['Account_ChosenBank'] = $post['Bank_ID'];
-    		$upload->upload('imageLocation/');
+    		$upload->upload('imageLocation/topup/');
 			//var_dump($upload->imageFile);exit;
-    	
 			// var_dump($model->validate());exit;
 			 if ($model->validate()){
         		$model->save();

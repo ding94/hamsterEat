@@ -16,6 +16,7 @@ class AccountHistoryController extends Controller
 		$history->type = $type;
 		$history->description = $reason;
 		$history->abid = $abid;
+		$history->system_type = "System processing";
 		$history->save();
 	}
 }

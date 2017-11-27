@@ -22,61 +22,6 @@ use frontend\assets\NotificationAsset;
 AppAsset::register($this);
 NotificationAsset::register($this);
 ?>
-<style>
-    span.badge{
-        background-color:#404040;
-        margin-left: 2px;
-        margin-bottom:5px;
-    }
-    #cart{
-        line-height:33px;
-    }
-    #cart1{
-        line-height:33px;
-    }
-
-    #feedback-modal .modal-content{
-
-        width:800px;
-        margin-left: -230px;
-        margin-top: 100px;
-        height: 740px;
-        
-    }
-
-    #feedback-modal-1 .modal-content{
-
-        width:800px;
-        margin-left: -230px;
-        margin-top: 100px;
-        height: 620px;
-    }
-    @media(max-width: 480px)
-    {
-         #feedback-modal .modal-content
-         {
-             width:25.5em;
-             margin:auto;
-         }
-       
-         .modal-body .container-feedback
-         {
-             width:300px;
-             margin-left:15px;
-         }
-        #feedback-modal-1 .modal-content
-        {
-
-            width:25.5em;
-             margin:auto;
-        }
-         .modal-body .container-feedback-1
-         {
-             width:300px;
-             margin-left:15px;
-         }
-    }
-    </style>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">

@@ -1,6 +1,6 @@
 html,
 body {
-    height: 100%;
+  height: 100%;
 }
 
 body{
@@ -15,37 +15,33 @@ body{
 }
 
 h1
- {
+{
   font-family: cursive;
   font-weight: 500;
 }
 
-
 h2
 {
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  
   font-weight: 500;
 }
 
 .wrap {
-    height: auto;
-    padding: 0 0 60px;
+  height: auto;
+  padding: 0 0 60px;
 }
 
 .wrap > .topnav.navbar-fixed-top {
-    background-color:#FFDA00;
-    height: 64px;
+  background-color:#FFDA00;
+  height: 64px;
 }
 
 .navbar-brand > img {
-    margin-top:-15px;
-    padding-right: 40px;
-    width : 400px;
-    height: 3.6em;
+  margin-top:-15px;
+  padding-right: 40px;
+  width : 400px;
+  height: 3.6em;
 }
-
-
 
 /*
 * for icon in small screen
@@ -65,8 +61,9 @@ h2
     padding-right: 40px;
     width : 200px;
   }
+
   .container{
-  width: 100%;
+    width: 100%;
   }
 
   #login-modal{
@@ -77,8 +74,9 @@ h2
 
 @media(max-width: 480px){
   .container{
-  width: 100%;
+    width: 100%;
   }
+
   #login-modal{
     width: 100%;
   }
@@ -587,10 +585,6 @@ span.badge{
   background-color:#404040;
   margin-left: 2px;
   margin-bottom:5px;
-}
-
-#cart1{
-  line-height:33px;
 }
 
 #feedback-modal .modal-content{

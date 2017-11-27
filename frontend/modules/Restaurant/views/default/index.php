@@ -26,11 +26,12 @@ Modal::end();
 ?>
  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <div class="container" id="group-area-index">
-    <h1>Order Food for Delivery <?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index'], ['class'=>'btn btn-default','data-toggle'=>'modal','data-target'=>'#add-modal']); ?></h1>
-   
+    <h1>Order Food for Delivery </h1>
     <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index', 'groupArea'=>$groupArea], ['class'=>'btn btn-default','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>
-	   <?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']); ?>
-    <input type="checkbox" id="sidebartoggler" name="" value="">
+	   <?php echo Html::a('<i class="fa fa-thumbs-up"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']); ?>
+    <?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['id'=>'cp','data-toggle'=>'modal','data-target'=>'#add-modal','style'=>'color:red;font-size:12px;float:right;']); ?>  
+	
+	<input type="checkbox" id="sidebartoggler" name="" value="">
     <div class="page-wrap">
       <!-- <label for="sidebartoggler" class="toggle"><i class="fa fa-sliders" aria-hidden="true">&nbsp;Filter</i></label>-->
 	  <div class="tm">

@@ -69,7 +69,7 @@ RestaurantDetailsAsset::register($this);
          </div>
     </div>
     <br>
-    <hr>
+    <hr class="restaurantdetails-hr">
     <h2><center>Menu</h2>
     <div class = "foodItems">
     </div>

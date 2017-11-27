@@ -88,21 +88,22 @@ h2
 * navbar drop down desgin
 */
 #uppernavbar .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
-    color: #141100;
-    text-decoration: none;
-    background-color: #fff6c4;
-    outline: 0;
+  color: #141100;
+  text-decoration: none;
+  background-color: #fff6c4;
+  outline: 0;
 }
+
 #uppernavbar .navbar-nav .navbar-right >nav{
-    color:white;
+  color:white;
 }
 
 #uppernavbar .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-    background-color: #ebc900;
+  background-color: #ebc900;
 }
 
 #uppernavbar .nav > li > a:hover, .nav > li > a:focus {
-    background-color: #ebc900;
+  background-color: #ebc900;
 }
 
 #uppernavbar .dropdown{
@@ -110,12 +111,13 @@ h2
 }
 
 #uppernavbar .dropdown-menu .divider{
-   background-color:#ffef00;
+  background-color:#ffef00;
 }
+
 #uppernavbar .navbar-nav > li > a {
-    color:#404040;
-    line-height: 33px;
-    background-color:#FFDA00;
+  color:#404040;
+  line-height: 33px;
+  background-color:#FFDA00;
 }
 
 /*
@@ -123,55 +125,54 @@ h2
 */
 
 .jumbotron {
-    text-align: center;
-    background-color: transparent;
-    
+  text-align: center;
+  background-color: transparent;  
 }
 
 .jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
+  font-size: 21px;
+  padding: 14px 24px;
 }
 
 .not-set {
-    color: #c55;
-    font-style: italic;
+  color: #c55;
+  font-style: italic;
 }
 
 /* add sorting icons to gridview sort links */
 a.asc:after, a.desc:after {
-    position: relative;
-    top: 1px;
-    display: inline-block;
-    font-family: 'Glyphicons Halflings';
-    font-style: normal;
-    font-weight: normal;
-    line-height: 1;
-    padding-left: 5px;
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  padding-left: 5px;
 }
 
 a.asc:after {
-    content: "\e151";
+  content: "\e151";
 }
 
 a.desc:after {
-    content: "\e152";
+  content: "\e152";
 }
 
 .sort-numerical a.asc:after {
-    content: "\e153";
+  content: "\e153";
 }
 
 .sort-numerical a.desc:after {
-    content: "\e154";
+  content: "\e154";
 }
 
 .sort-ordinal a.asc:after {
-    content: "\e155";
+  content: "\e155";
 }
 
 .sort-ordinal a.desc:after {
-    content: "\e156";
+  content: "\e156";
 }
 
 /*.grid-view td {
@@ -180,72 +181,75 @@ a.desc:after {
 
 .grid-view .filters input,
 .grid-view .filters select {
-    min-width: 50px;
+  min-width: 50px;
 }
 
 .hint-block {
-    display: block;
-    margin-top: 5px;
-    color: #999;
+  display: block;
+  margin-top: 5px;
+  color: #999;
 }
 
 .error-summary {
-    color: #a94442;
-    background: #fdf7f7;
-    border-left: 3px solid #eed3d7;
-    padding: 10px 20px;
-    margin: 0 0 15px 0;
+  color: #a94442;
+  background: #fdf7f7;
+  border-left: 3px solid #eed3d7;
+  padding: 10px 20px;
+  margin: 0 0 15px 0;
 }
 
 /* align the logout "link" (button in form) of the navbar */
 .nav li > form > button.logout {
-    padding: 15px;
-    border: none;
-    color:white;
+  padding: 15px;
+  border: none;
+  color:white;
 }
 
 @media(max-width:767px) {
-    .nav li > form > button.logout {
-        display:block;
-        text-align: left;
-        width: 100%;
-        padding: 10px 15px;
-    }
+  .nav li > form > button.logout {
+    display:block;
+    text-align: left;
+    width: 100%;
+    padding: 10px 15px;
+  }
 }
 
 .nav > li > form > button.logout:focus,
 .nav > li > form > button.logout:hover {
-    text-decoration: none;
+  text-decoration: none;
     
 }
 
 .nav > li > form > button.logout:focus {
-    outline: none;
+  outline: none;
 }
 
 .row1{
-	 margin-top:30px;
-    padding-left: 5px;
-	 padding:50px;
-	 
+	margin-top:30px;
+  padding-left: 5px;
+	padding:50px;
 }
+
 .site-signup{
-	 margin-top:50px;
+	margin-top:50px;
 }
+
 .site-login{
-	 margin-top:50px;
+	margin-top:50px;
 }
+
 .site-request-password-reset{
-	 margin-top:50px;
+	margin-top:50px;
 }
 
 #grad {
-    background: orange; /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* Standard syntax (must be last) */
+  background: orange; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* Standard syntax (must be last) */
 }
+
 @keyframes bounce {
     0%, 20%, 60%, 100% {
         -webkit-transform: translateY(0);
@@ -264,23 +268,23 @@ a.desc:after {
 }
 
 .bounce{
-    animation: bounce 1s;
+  animation: bounce 1s;
 }
 
 .img-circular{
-margin-top:30px;
- width: 120px;
- height: 120px;
- background-image: url('../SysImg/rimg1-1200x400.jpg');
- background-size: cover;
- display: block;
- border-radius: 100px;
- -webkit-border-radius: 100px;
- -moz-border-radius: 100px; 
+  margin-top:30px;
+  width: 120px;
+  height: 120px;
+  background-image: url('../SysImg/rimg1-1200x400.jpg');
+  background-size: cover;
+  display: block;
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px; 
 }
 
 .rowa{
-	 padding-bottom:30px;
+	padding-bottom:30px;
 }
 
 .content-box{
@@ -316,8 +320,8 @@ margin-top:30px;
     background: -moz-linear-gradient(bottom right, rgb(253, 255, 219),rgb(255, 255, 255)); /* For Firefox 3.6 to 15 */
     background: linear-gradient(to bottom right,   rgb(253, 255, 219),rgb(255, 255, 255)); /* Standard syntax (must be last) */
 }
-@import 'compass';
 
+@import 'compass';
 
 div.dotted {
   width:300px;
@@ -337,9 +341,8 @@ div.dotted {
   stroke-linecap:round;                                    
 	fill: none;
 }
+
 @import "compass/css3";
-
-
 
 * {
   -webkit-box-sizing: border-box;
@@ -347,14 +350,13 @@ div.dotted {
   box-sizing: border-box;
 }
 
-
-
 .ima {
   font-family: 'Asap', sans-serif;
   font-size: 40px;
   text-transform: uppercase;
   color: #42eef4;
-  }
+}
+
 .thoughts {
   background-size: 1070px;
   position: absolute;
@@ -411,17 +413,19 @@ div.dotted {
   margin-top:30px;
   margin-bottom:30px; 
 }
+
 .align-center  p {
   margin-top:10px;
   margin-bottom:30px;
 }
+
 .align-center:hover {
   border-bottom: 10px solid transparent;
   border-color:#FFDA00;
   margin-top:-5px;
   -webkit-box-shadow: 1px 2px 2px 4px rgba(204,204,204,1);
--moz-box-shadow: 1px 2px 2px 4px rgba(204,204,204,1);
-box-shadow: 1px 2px 2px 4px rgba(204,204,204,1);
+  -moz-box-shadow: 1px 2px 2px 4px rgba(204,204,204,1);
+  box-shadow: 1px 2px 2px 4px rgba(204,204,204,1);
 }
 
 .boxs {
@@ -437,10 +441,12 @@ box-shadow: 1px 2px 2px 4px rgba(204,204,204,1);
 .ficon i {
   color:#FFDA00;
 }
+
 .ficon p{
 	font-size:20px;
 	font-family:  cursive;
 }
+
 .menu-title {
   color:#ff7788;
   font-size:1.5rem;
@@ -461,63 +467,63 @@ box-shadow: 1px 2px 2px 4px rgba(204,204,204,1);
 }
 
 .button-three {
-    position: relative;
-    background-color: #FFDA00;
-    border: none;
-    padding: 10px;
-    width: 150px;
-    text-align: center;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-    text-decoration: none;
-    overflow: hidden;
+  position: relative;
+  background-color: #FFDA00;
+  border: none;
+  padding: 10px;
+  width: 150px;
+  text-align: center;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
 	border-radius: 20px;
 }
 
 .button-three:hover{
-   background:#fff6c6;
-   box-shadow:0px 1px 10px 0px #ffcc00;
-   color:#000;
+  background:#fff6c6;
+  box-shadow:0px 1px 10px 0px #ffcc00;
+  color:#000;
 }
 
 .button-three:after {
-    content: "";
-    background: #f1c40f;
-    display: block;
-    position: absolute;
-    padding-top: 300%;
-    padding-left: 350%;
-    margin-left: -20px !important;
-    margin-top: -120%;
-    opacity: 0;
-    transition: all 0.8s
+  content: "";
+  background: #f1c40f;
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px !important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s
 }
 
 .button-three:active:after {
-    padding: 0;
-    margin: 0;
-    opacity: 1;
-    transition: 0s
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s
 }
 
 .button-one{
-    display: block;
-    height: 30px;
-    padding: 0;
-    width: 100px;
-    background: none;
-    margin: auto;
-    border: 2px solid #FFDA00;
-    color: grey;
-    cursor: pointer;
-    outline: none;
+  display: block;
+  height: 30px;
+  padding: 0;
+  width: 100px;
+  background: none;
+  margin: auto;
+  border: 2px solid #FFDA00;
+  color: grey;
+  cursor: pointer;
+  outline: none;
 	border-radius: 25px;
-	 text-align: center;
-  }
+	text-align: center;
+}
 
 .button-one:hover{
-      background: #FFDA00;
-      color: white;
+  background: #FFDA00;
+  color: white;
 }
 
 .MainNav button{
@@ -569,7 +575,7 @@ box-shadow: 1px 2px 2px 4px rgba(204,204,204,1);
     height: 300px;
   }
   .button-three{
-	 margin: 0 20%; 
+	 margin: 0 auto; 
   }
 }
 /* Login css */

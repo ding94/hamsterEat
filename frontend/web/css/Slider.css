@@ -11,6 +11,7 @@
 .MainNav button span{
   background-color: white;
 }
+
 .intro-header {
   /*padding-top: 500px;
   padding-bottom: 150px;*/
@@ -19,6 +20,7 @@
   /*background: url(../SysImg/rimg1-1200x400.jpg) no-repeat center center;
   background-size: cover;*/
 }
+
 #SSCrow1{
   left:0;
   right:0;
@@ -29,37 +31,36 @@
   left:0;
   right:0;
 	margin-top:-460px;
-	
 }
+
 .form{
-    background-color:rgba(255, 255, 255,0.8);
-    padding:50px;
-    margin: auto;
-    margin-top: 20px;
-	  /* position: absolute; */
-    /* top: 46%; */
-    /* left: 50%; */
-    /* transform: translate(-50%,-50%); */
-   
-    width:55%;
-	
+  background-color:rgba(255, 255, 255,0.8);
+  padding:50px;
+  margin: auto;
+  margin-top: 20px;
+	/* position: absolute; */
+  /* top: 46%; */
+  /* left: 50%; */
+  /* transform: translate(-50%,-50%); */
+  width:55%;
 }
+
 #DescContainer{
-    margin-top:30px;
-    padding-left: 5px;
-	 padding:50px;
+  margin-top:30px;
+  padding-left: 5px;
+	padding:50px;
 }
 
 a:hover{
-    color:dimgrey;
+  color:dimgrey;
 }
 
 /* The dots/bullets/indicators */
 .w3-display-bottommiddle {
   position: absolute;
-    left: 50%;
-    bottom: 1%;
-    transform: translate(-50%,0%);
+  left: 50%;
+  bottom: 1%;
+  transform: translate(-50%,0%);
 }
 
 .dot {
@@ -71,56 +72,51 @@ a:hover{
   border-radius: 50%;
   display: inline-block;
   transition: 0.6s ease;
-
 }
-
-
 
 .active, .dot:hover {
   background-color: #717171;
 }
 
 @media (max-width: 501px) {
-	
 	.form{
     background-color:rgba(255, 255, 255,0.8);
     padding-top:0px;
     margin: auto;
-   margin-top:-10px;
+    margin-top:-10px;
+  }
+  #SSCrow2{
+    position:absolute;
+    left:0;
+    right:0;
+    margin-top:-300px;
+  }
+  #h3{
+	 display:none;
+  }
+  #h5{
+	 display:none;
+  }
 }
-#SSCrow2{
-  position:absolute;
-  left:0;
-  right:0;
-margin-top:-300px;
-	
-}
-#h3{
-	display:none;
-}
-#h5{
-	display:none;
-}
-}
+
 @media (max-width: 401px) {
 	.form{
     background-color:rgba(255, 255, 255,0.8);
     margin: auto;
-	padding:5px;
-}
-#SSCrow2{
-  position:absolute;
-  left:0;
-  right:0;
-margin-top:-260px;
-	
-}
+  }
+
+  #SSCrow2{
+    position:absolute;
+    left:0;
+    right:0;
+    margin-top:-260px;
+  }
 	
 	#h3{
-	display:none;
-}
-#h5{
-	display:none;
-}
+	 display:none;
+  }
 
+  #h5{
+	 display:none;
+  }
 }

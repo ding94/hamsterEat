@@ -65,11 +65,17 @@ class DefaultController extends CommonController
     public function actionIndex($groupArea,$type=0,$filter="")
     {
         $cookies = Yii::$app->request->cookies;
-        $halal = $cookies->getValue('halal', 'value');
+        /*$halal = $cookies->getValue('halal', 'value');
+        $query = restaurant::find()->distinct()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->joinWith(['rJunction']);
+        if(empty($halal) || $halal['value'] == 0)
+        {
+            $query->andWhere('Type_ID =  24');
+        }*/
+        $halal = $cookies->getValue('halal');
        
         $query = restaurant::find()->distinct()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->joinWith(['rJunction']);
-
-        if(empty($halal) || $halal['value'] == 0)
+        
+        if(empty($halal) || $halal == 0)
         {
             $query->andWhere('Type_ID =  24');
         }

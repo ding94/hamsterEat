@@ -76,7 +76,8 @@ class AccountbalanceHistory extends \yii\db\ActiveRecord
         $query->andFilterWhere(['like','created_at' ,  $this->created_at])
                 ->andFilterWhere(['like','description' ,  $this->description])
                 ->andFilterWhere(['like','type' ,  $this->type])
-                ->andFilterWhere(['like','amount' ,  $this->amount]);
+                ->andFilterWhere(['like','amount' ,  $this->amount])
+                ->andFilterWhere(['like','system_type' ,  $this->system_type]);
 			    
         return $dataProvider;
     }

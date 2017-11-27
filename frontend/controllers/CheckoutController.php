@@ -107,31 +107,32 @@ class CheckoutController extends CommonController
 		{
 			$transaction = Yii::$app->db->beginTransaction();
 			try{
-				//$payment = -1;
+				$payment = -1;
 				$order->save();
 				$did = $order->Delivery_ID;
 
-				//if($order->Orders_PaymentMethod == 'Account Balance')
-				//{
-					//$payment = PaymentController::Payment($did,$order->Orders_TotalPrice) &&  $isValid;	
-				//}
+				
 				foreach($allorderitem as $orderitem)
 				{
+
 					$orderitem->Delivery_ID = $did;
 					if(!($isValid == $orderitem->save()))
 					{
 						break;
 					}
-					if(!empty($orderitem['item']))
+					if(!is_null($orderitem['item']))
 					{
+	
 						foreach($orderitem['item'] as $item)
 						{
+
 							$item->Order_ID = $orderitem->Order_ID;
 							if(!($isValid = $item->save()))
-	                        {
-	                            break;
-	                        }
+		                    {
+		                           break;
+		                    }
 						}
+						
 					}
 				}
 				

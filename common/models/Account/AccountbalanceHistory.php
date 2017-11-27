@@ -36,10 +36,10 @@ class AccountbalanceHistory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['abid', 'type', 'description', 'amount'], 'required'],
+            [['abid', 'type', 'description', 'amount','system_type'], 'required'],
             [['abid', 'type'], 'integer'],
-            [['description'], 'string'],
-			[['created_at','updated_at'],'date'],
+            [['description','system_type'], 'string'],
+			[['created_at','updated_at'],'safe'],
             [['amount'], 'number'],
         ];
     }
@@ -53,6 +53,7 @@ class AccountbalanceHistory extends \yii\db\ActiveRecord
             'id' => 'ID',
             'abid' => 'Abid',
             'type' => 'Type',
+            'system_type' => 'Type',
             'description' => 'Description',
             'amount' => 'Amount',
             'created_at' => 'Created At',

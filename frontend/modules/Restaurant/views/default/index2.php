@@ -28,11 +28,13 @@ Modal::end();
 
  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <div class="container" id="group-area-index2">
-    <h1 style="padding-top:10px;">Order Food for Delivery <?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['class'=>'btn btn-default','data-toggle'=>'modal','data-target'=>'#add-modal']); ?>     </h1>
+    <h1 style="padding-top:10px;">Order Food for Delivery </h1>
+
   
         <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']);?>
-		<?php echo Html::a('<i class="fa fa-cutlery"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>       
-	   <input type="checkbox" id="sidebartoggler" name="" value="">
+		<?php echo Html::a('<i class="fa fa-thumbs-up"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>       
+		<?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['id'=>'cp','data-toggle'=>'modal','data-target'=>'#add-modal','style'=>'color:red;font-size:12px;float:right;']); ?>  
+	 <input type="checkbox" id="sidebartoggler" name="" value="">
   
 	   <div class="page-wrap">
 	   <div class="tm">
@@ -42,7 +44,14 @@ Modal::end();
               <ul>
                 <li> <a><label for="sidebartoggler" class="toggle">Filter</label></li></a>
 				<li><?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['data-toggle'=>'modal','data-target'=>'#add-modal']); ?></li>
-                <li><a href="#contact">Change: Non-halal</a></li>
+                <?php  $cookies = Yii::$app->request->cookies;
+                        $halal = $cookies->getValue('halal'); 
+                      
+                ?>
+                <li>
+                    <a href="" id="cookie-type">Change: <?php echo $halal == 0 ?"Halal": "No-Halal" ?></a>
+                    <?php echo Html::hiddenInput('cookie',$halal) ?>
+                </li>
               </ul>
             </div>
 	  </div>

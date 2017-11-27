@@ -186,6 +186,8 @@ class SiteController extends CommonController
     public function actionLogout()
     {
         Yii::$app->user->logout();
+        $cookies = Yii::$app->response->cookies;
+        $cookies->remove('halal');
         Yii::$app->session->setFlash('success', 'Logout Success.');
         return $this->goHome();
     }
@@ -716,6 +718,12 @@ class SiteController extends CommonController
     public function actionSelectiontype()
     {
         $post= Yii::$app->request->post();
+        $cookies = Yii::$app->response->cookies;
+        if(!is_null($cookies['halal']))
+        {
+            $cookies->remove('halal');
+        }
+        
         $cookie =  new Cookie([
             'name' => 'halal',
             'value' => $post['type'],

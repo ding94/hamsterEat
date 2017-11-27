@@ -197,9 +197,7 @@
 }
 
 @media(max-width: 489px){
-  #userprofile{
-    padding-left:30px;
-  }
+
   .userprofile-avatar{
     margin:auto;
   }

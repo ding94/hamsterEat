@@ -163,12 +163,14 @@ a.remove-all  {
   }
 
   div.account-history td{
-      display: block;
+      display: block !important;
+     
   }
 
   div.account-history .table > tbody >tr >td{
     border-top : 0px;
     font-size : 0.8em;
+    
   }
 
   div.account-history td:first-child { 

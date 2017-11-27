@@ -10,6 +10,7 @@ use kartik\widgets\DatePicker;
 use common\models\User;
 use frontend\assets\StarsAsset;
 use frontend\assets\FoodDetailsAsset;
+use iutbay\yii2fontawesome\FontAwesome as FA;
 $this->title = "Food Details";
 
 StarsAsset::register($this);
@@ -55,6 +56,7 @@ FoodDetailsAsset::register($this);
                 foreach($foodtype as $k=> $foodtype) : 
                   $selection = Foodselection::find()->where('Type_ID = :ftid',[':ftid' => $foodtype['ID']])->orderBy(['Price' => SORT_ASC])->all();
                   $data = ArrayHelper::map($selection,'ID','typeprice');
+                  $checkboxdata = ArrayHelper::map($selection,'ID','checkboxtypeprice');
                   if ($foodtype['Min'] == 1 && $foodtype ['Max'] < 2 ) {
                     ?>
                    
@@ -68,8 +70,8 @@ FoodDetailsAsset::register($this);
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="radio">';
-                                      $return .= '<label class="food-detail-label">';
-                                      $return .= '<input type="radio" name="' . $name . '" value="' . $value . '" >';
+                                      $return .= '<input id="'. $value .'" class="radio-custom" type="radio" name="' . $name . '" value="' . $value . '" >';
+                                      $return .= '<label for="'. $value .'" class="food-detail-label">';
                                       $return .= $label;
                                       $return .= '</label>';
                                       $return .= '</div>';
@@ -89,12 +91,12 @@ FoodDetailsAsset::register($this);
                         </span>
                       
                      
-                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']')->checkboxlist($data,[
+                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']')->checkboxlist($checkboxdata,[
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="checkbox">';
-                                      $return .= '<label class="food-detail-label">';
-                                      $return .= '<input type="checkbox" name="' . $name . '" value="' . $value . '" >';
+                                      $return .= '<input id="'. $value .'" class="checkbox-custom" type="checkbox" name="' . $name . '" value="' . $value . '" >';
+                                      $return .= '<label for="'. $value .'" class="food-detail-label">';
                                       $return .= $label;
                                       $return .= '</label>';
                                       $return .= '</div>';
@@ -114,12 +116,12 @@ FoodDetailsAsset::register($this);
                         </span>
                      
                     
-                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']')->checkboxlist($data,[
+                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']')->checkboxlist($checkboxdata,[
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="checkbox">';
-                                      $return .= '<label class="food-detail-label">';
-                                      $return .= '<input type="checkbox" name="' . $name . '" value="' . $value . '" >';
+                                      $return .= '<input id="'. $value .'" class="checkbox-custom" type="checkbox" name="' . $name . '" value="' . $value . '" >';
+                                      $return .= '<label for="'. $value .'" class="food-detail-label">';
                                       $return .= $label;
                                       $return .= '</label>';
                                       $return .= '</div>';

@@ -1,7 +1,7 @@
 .modal-header{
   padding:0px;
-  
 }
+
 .modal-header .close {
   margin: 0;
   position: absolute;
@@ -12,17 +12,17 @@
   border-radius: 23px;
   background-color: grey;
   color: white;
- 
   opacity: 1;
   z-index: 10;
 }
+
 #a2cart {
   background-color:#fff;
 }
 
 @media (min-width:992px) {
   .modal-content{
-  width:598px;
+    width:598px;
   }
 
   .modal-lg{
@@ -34,19 +34,15 @@
   background-color:#fff;
 }
 
-/*.modal-dialog.modal-lg{
-  overflow-y: initial !important;
-}*/
 .modal-body{
   height:350px;
-  
   overflow-x:auto;
   overflow-y:scroll;
   bottom:0;
   left:0;
   right:0;
   top:0;
-z-index:9999;
+  z-index:9999;
 }
 
 .value-button {
@@ -83,8 +79,8 @@ z-index:9999;
 
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 #fooddetails td{
@@ -94,71 +90,135 @@ input[type=number]::-webkit-outer-spin-button {
 .bordertop{
   border-top: 1px solid #D3D3D3;
 }
+
 #fooddetails .foodname{
-line-height: initial;
+  line-height: initial;
   font-size: 2.0em;
   font-weight:700;
 }
+
 #fooddetails .foodprice{
-line-height: initial;
+  line-height: initial;
   font-size: 1.6em;
 }
+
 #fooddetails .cart{
   display: inline-block;
-  
 }
 
 #fooddetails .description{
-      color: rgb(117, 117, 117);
-      font-size: 14px;
-      line-height: 22px;
+  color: rgb(117, 117, 117);
+  font-size: 14px;
+  line-height: 22px;
 }
-#fooddetails .selection{
-font-size: 16px;
 
+#fooddetails .selection{
+  font-size: 16px;
 }
+
 .food-detail-label{
   width: 100%;
-
 }
 
 #rating {
-    float:left;
+  float:left;
 }
 
 #ratedatetime {
-    float:right;
+  float:right;
 }
 
 button.btn.btn-primary.bootstrap-touchspin-down{
-width:40px;
-height:40px;
+  width:40px;
+  height:40px;
 }
+
 button.btn.btn-primary.bootstrap-touchspin-up{
-width:40px;
-height:40px;
+  width:40px;
+  height:40px;
 }
+
 #nav a:hover{
   cursor: pointer;
-  
-    border-bottom: 1px solid;
+  border-bottom: 1px solid;
 }
+
 #nav a:focus{
-  
-  
-    border-bottom: 1px solid;
+  border-bottom: 1px solid;
+}
+
+.radio label,
+.checkbox label{
+  padding: 0px;
+}
+
+label span.radio-custom-label,
+label span.checkbox-custom-label{
+  float: right;
+}
+
+.checkbox-custom, .radio-custom {
+    opacity: 0;
+    position: absolute;   
+}
+
+.checkbox-custom, .checkbox-custom-label, .radio-custom, .radio-custom-label {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.checkbox-custom-label, .radio-custom-label {
+    position: relative;
+}
+
+.checkbox-custom + label span.checkbox-custom-label:after, .radio-custom + label span.radio-custom-label:after {
+    content: '';
+    background: #fff;
+    border: 2px solid #ddd;
+    display: inline-block;
+    vertical-align: middle;
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.checkbox-custom:checked + label span.checkbox-custom-label:after {
+    content: "\f00c";
+    font-family: 'FontAwesome';
+    background: #FFDA00;
+    color: #fff;
+}
+
+.radio-custom + label span.radio-custom-label:after {
+    border-radius: 50%;
+}
+
+.radio-custom:checked + label span.radio-custom-label:after {
+    content: "\f00c";
+    font-family: 'FontAwesome';
+    background: #FFDA00;
+    color: #fff;
+}
+
+.checkbox-custom:focus + label span.checkbox-custom-label, .radio-custom:focus + label span.radio-custom-label {
+  outline: 1px solid #ddd; /* focus style */
 }
 
 /*-----Comment------*/
 .panel-default{
-        width:500px;
- }
+  width:500px;
+}
+
 #comments.tab-pane.fade{
-   background-color:#fff;
- }
+  background-color:#fff;
+}
+
 #comment-container.container{
-width: 500px;
-margin: 20px 0px 0px 0px;
+  width: 500px;
+  margin: 20px 0px 0px 0px;
 }
 
 .food-details-tab{

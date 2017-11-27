@@ -61,7 +61,21 @@ OrderDetailsAsset::register($this);
                 </tr>
                 <tr>
                     <td>Selections:</td>
-                    <td colspan="2">sel</td>
+                    <td colspan="2">
+                        <?php
+                            $selects = Orderitemselection::find()->where('Order_ID=:id',[':id'=>$detail['Order_ID']])->all();
+                            $show = "";
+                            foreach ($selects as $ke => $select) {
+                                $sel = Foodselection::find()->where('ID=:sid',[':sid'=>$select['Selection_ID']])->one();
+                                if ($ke != 0) {
+                                    $show .=", ";
+                                }
+                                $show .= $sel['Name'];
+                            }
+                            echo $show;
+
+                        ?>
+                    </td>
                 </tr>
                 <tr>
                     <td>Quantity:</td>
@@ -69,7 +83,7 @@ OrderDetailsAsset::register($this);
                 </tr>
                 <tr>
                     <td>Line Total:</td>
-                    <td colspan="2"><?php echo $detail['OrderItem_LineTotal'] * $detail['OrderItem_Quantity']; ?></td>
+                    <td colspan="2">RM <?php echo number_format($detail['OrderItem_LineTotal'] * $detail['OrderItem_Quantity']); ?></td>
                 </tr>
                 <tr>
                     <td>Remarks:</td>

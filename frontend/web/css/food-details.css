@@ -207,6 +207,31 @@ label span.checkbox-custom-label{
   outline: 1px solid #ddd; /* focus style */
 }
 
+.quantity{
+  width: 25%;
+}
+
+.addtocart-btn{
+  margin-top:-50px;
+  width:48%; 
+  height:40px;
+  font-size: 18px;
+  float: right;
+}
+
+@media(max-width: 550px){
+  .quantity{
+    width: 100%;
+  }
+
+  .addtocart-btn{
+    width:100%; 
+    height:40px;
+    font-size: 18px;
+    margin-top: 1px;
+  }
+}
+
 /*-----Comment------*/
 .panel-default{
   width:500px;

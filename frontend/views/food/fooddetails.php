@@ -136,12 +136,10 @@ FoodDetailsAsset::register($this);
              
                  <?= $form->field($cart, 'remark')->label('Remarks'); ?>
           
-             
-        			<div>
+
                
-                <?= $form->field($cart, 'quantity',['options'=>['style'=>'width:25%;']])->widget(TouchSpin::classname(), [
+                <?= $form->field($cart, 'quantity',['options'=>['class'=>'quantity']])->widget(TouchSpin::classname(), [
                     'options' => [
-                        
                         'style'=>'height:40px;'
                     ],
                     'pluginOptions' => [
@@ -153,8 +151,9 @@ FoodDetailsAsset::register($this);
                         'buttonup_txt' => '<i class="fa fa-plus"></i>', 
                         'buttondown_txt' => '<i class="fa fa-minus"></i>'
                     ],
-                ])->label(false); ?>   
-                <?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary pull-right', 'name' => 'addtocart','style'=>'margin-top:-51px;width:48%; height:48px; font-size: 18px;']) ?>
+                ])->label(false); ?> 
+              <div>
+                <?= Html::submitButton('Add to cart', ['class' => 'btn btn-primary addtocart-btn', 'name' => 'addtocart']) ?>
 
        
              </div>

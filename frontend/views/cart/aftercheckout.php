@@ -49,6 +49,20 @@ CheckoutAsset::register($this);
                             <td style="text-align: right">Delivery Charge:</td>
                             <td>RM <?= number_format($order['Orders_DeliveryCharge'],2); ?></td>
                         </tr>
+                        <?php if($order['Orders_DiscountEarlyAmount'] > 0 ) : ?>
+                            <tr>
+                                <td></td>
+                                <td style="text-align: right;">Early Discounted:</td>
+                                <td style="color: red;">RM - <?= number_format($order['Orders_DiscountEarlyAmount'],2); ?></td>
+                            </tr>
+                        <?php endif; ?>
+                        <?php if($order['Orders_DiscountTotalAmount'] > 0 ) : ?>
+                            <tr>
+                                <td></td>
+                                <td style="text-align: right;">Discounted:</td>
+                                <td style="color: red;">RM - <?= number_format($order['Orders_DiscountTotalAmount'],2); ?></td>
+                            </tr>
+                        <?php endif; ?>
                         <tr style="background-color: #d9d9d9">
                             <td></td>
                             <td style="text-align: right;">Total:</td>
@@ -73,15 +87,13 @@ CheckoutAsset::register($this);
                         <font style="font-size: 2em;">
                             Thank you for placing order with us!<br>Your order has been made<br><br>
                         </font>
-                        <font style="font-size: 2em;background-color: #ffffb3">
-                            You have paid RM <?= number_format($order['Orders_TotalPrice'],2); ?> with your account balance.
-                        </font>
                     </center>
 
                 <?php endif?>
             </div>
         </div>
         <div class="more-detail">
-            <center><?php echo Html::a('More Detail', ['/order/order-details','did'=>$order['Delivery_ID']], ['class'=>'btn btn-primary'])?></center>
+            <center><?php echo Html::a('More Detail', ['/order/order-details','did'=>$order['Delivery_ID']], ['class'=>'btn btn-primary'])?>
+            <?php echo Html::a('Home', ['/site/index'], ['class'=>'btn btn-primary'])?></center>
         </div>
     </div>

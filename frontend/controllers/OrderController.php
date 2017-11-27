@@ -201,6 +201,13 @@ class OrderController extends CommonController
         }
         
         date_default_timezone_set("Asia/Kuala_Lumpur");
+        
+        $order['Orders_Subtotal'] = number_format($order['Orders_Subtotal'],2);
+        $order['Orders_DeliveryCharge'] = number_format($order['Orders_DeliveryCharge'],2);
+        $order['Orders_TotalPrice'] = number_format($order['Orders_TotalPrice'],2);
+        $order['Orders_DiscountTotalAmount'] = number_format($order['Orders_DiscountTotalAmount'],2);
+        $order['Orders_DiscountEarlyAmount'] = number_format($order['Orders_DiscountEarlyAmount'],2);
+
         $this->layout = 'user';
         return $this->render('orderdetails', ['order'=>$order, 'orderitems'=>$orderitems, 'did'=>$did, 'label'=>$label]);
     }

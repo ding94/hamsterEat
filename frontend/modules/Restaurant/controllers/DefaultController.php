@@ -505,7 +505,6 @@ class DefaultController extends CommonController
         $halal = $cookies->getValue('halal');
       
         $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $groupArea])->joinWith(['restaurant','junction','foodStatus']);
-        
         if(empty($halal) || $halal == 0)
         {
             $query->andWhere('foodtypejunction.Type_ID =  4');

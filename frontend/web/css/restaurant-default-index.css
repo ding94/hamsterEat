@@ -1,8 +1,7 @@
-  .outer-container{
+.outer-container{
   display:flex;
   align-items: center;
   justify-content:center;
-
 }
 
 .restaurant-name{
@@ -34,17 +33,15 @@
 
 @media (min-width: 1200px){
   .menu-container{
-      width:775px;
-      grid-template-columns: 1fr 1fr 1fr;
-        margin-left: 50px;
+    width:775px;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-left: 50px;
   }
 }
 
-
-
 @media (min-width: 992px) and (max-width: 1199px){
   .menu-container{
-      grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   #group-area-index .list{
@@ -87,25 +84,26 @@
 }
 
 .tag{
-    margin-left:-20px;
+  margin-left:-20px;
 }
 
 .tag li{
-    float:left;
-    margin-right: 20px;
-    font-size: 13px;
-    color: grey;
+  float:left;
+  margin-right: 20px;
+  font-size: 13px;
+  color: grey;
 }
 .tag li.none{
-   list-style-type: none;
-   margin-left:-20px;
+  list-style-type: none;
+  margin-left:20px;
 }
 
 .list a:hover{
-    text-decoration:none;
+  text-decoration:none;
 }
+
 .menu-container a:hover{
-    box-shadow: 0px 0px 20px -2px grey;
+  box-shadow: 0px 0px 20px -2px grey;
 }
 
 #group-area-index .rating{

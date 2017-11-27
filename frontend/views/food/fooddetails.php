@@ -146,8 +146,8 @@ FoodDetailsAsset::register($this);
                         'min' => 1,
                         'max'=>100,
                         'initval' => 1,
-                        'buttonup_class' => 'btn btn-primary', 
-                        'buttondown_class' => 'btn btn-primary', 
+                        'buttonup_class' => 'btn btn-primary plus-btn', 
+                        'buttondown_class' => 'btn btn-primary minus-btn', 
                         'buttonup_txt' => '<i class="fa fa-plus"></i>', 
                         'buttondown_txt' => '<i class="fa fa-minus"></i>'
                     ],

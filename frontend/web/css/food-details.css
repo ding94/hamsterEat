@@ -217,6 +217,27 @@ label span.checkbox-custom-label{
   height:40px;
   font-size: 18px;
   float: right;
+  background-color: #FFDA00;
+  border: 1px solid #ddd;
+}
+
+.plus-btn,
+.minus-btn{
+  background-color: #FFDA00;
+  border: 1px solid #ddd;
+}
+
+.plus-btn:hover,
+.minus-btn:hover{
+  background-color: #FFF;
+  border: 1px solid #ddd;
+  color: #FFDA00;
+}
+
+.addtocart-btn:hover{
+  background-color: #FFF;
+  border: 1px solid #ddd;
+  color: #FFDA00;
 }
 
 @media(max-width: 550px){

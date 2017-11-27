@@ -49,8 +49,18 @@
 .tm{
 	display:none;
 }
+
 @media(max-width: 560px)
 {
+	.s{
+	display:none
+}
+	.hl{
+		display:none;
+	}
+	.area{
+		display:none;
+	}
 	#cp{
 		display:none;
 	}
@@ -317,7 +327,7 @@ display:inline;
   position: fixed;
   z-index:99;
   color: #999;
-  width: 150px;
+  width: 170px;
   padding: 10px;
   margin: auto;
   font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;

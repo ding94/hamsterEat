@@ -98,6 +98,7 @@ class OrderController extends CommonController
         foreach($query as $data)
         {
             switch ($data['Orders_Status']) {
+
                 case 'Completed':
                     $countOrder['Completed']['total'] += 1;
                     break;
@@ -137,7 +138,7 @@ class OrderController extends CommonController
         $countOrder['Pick Up in Process']['total'] = 0;   
         $countOrder['On The Way']['total'] = 0;
         $count = 0;   
-        $query = Orders::find()->where('Restaurant_ID = :rid and Orders_Status != "Not Placed"', [':rid'=>$rid])->joinWith('order_item')->joinWith('order_item.food')->all();
+        $query = Orders::find()->where('Restaurant_ID = :rid and Orders_Status != "Not Paid"', [':rid'=>$rid])->joinWith('order_item')->joinWith('order_item.food')->all();
         foreach($query as $data)
         {
             switch ($data['Orders_Status']) {

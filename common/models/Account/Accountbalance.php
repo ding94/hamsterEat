@@ -42,28 +42,35 @@ class Accountbalance extends \yii\db\ActiveRecord
         $history= new AccountbalanceHistory;
         $history->abid = $this->AB_ID;
         $history->amount = $this->defaultAmount;
+        $history->created_at =  new \yii\db\Expression('NOW()');
+
         switch ($this->type) {
             case 1:
                 $history->description = "Top Up RM ".$this->defaultAmount;
                 $history->type = 1;
+                $history->system_type = "Top Up";
                 break;
             case 2:
                 $history->description = "Top Up Undo RM ".$this->defaultAmount;  
                 $history->type = 0;
+                $history->system_type = "Top Up Undo";
             case 3:
                 $history->description = "Withdraw RM" . $this->defaultAmount . " With RM 2 Transation Fee";  
                 $history->type = 0;
+                $history->system_type = "Withdraw";
             case 4:
                 $history->description = "Withdraw Fail Retrieve Back RM" . $this->defaultAmount;
                 $history->type = 1;
+                $history->system_type = "Withdraw Fail";
             case 5;
                 $history->description = "Placed An Order, id ".$this->deliveryid. " with total " .$this->defaultAmount;
                 $history->type = 0;
+                $history->system_type = "Order";
             default:
                 # code...
                 break;
         }
-      
+        
         $history->save();
     }
 

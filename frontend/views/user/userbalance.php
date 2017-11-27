@@ -73,8 +73,6 @@ TopupWithdrawMpHistoryAsset::register($this);
 							'contentOptions' => [
 								'data-th' => 'Time',
 								],
-							
-						
 						],
 						[
 		                    'attribute' => 'description',
@@ -85,28 +83,21 @@ TopupWithdrawMpHistoryAsset::register($this);
 		                    'contentOptions' => ['data-th' => 'Description'],
 								
 		                ],
-						
-						[
-			                'attribute' => 'type',
-							'value' => function($model){
-								if($model->type==0){
-									return $model->type="Negative";
-								}
-								else{
-									return $model->type="Positive";
-								}
-		                           
-								   },
-		                    'filter' => array( "0"=>"Negative","1"=>"Positive"),
-			                /*'filterInputOptions' => [
-			                    'class'       => 'form-control',
-			                    'placeholder' => 'Search Type',
-			                ],*/
-			                'contentOptions' => ['data-th' => 'Type'],
-		            	],
+		                [
+		                	'attribute' => 'system_type',
+		                	'filterInputOptions' => [
+		                			'class'       => 'form-control',
+		                            'placeholder' => 'Search Type',
+		                	],
+		                	'contentOptions' => ['data-th' => 'Type'],
+		                ],
 						[
 						'label' => 'Amount(RM)',
-		                'attribute' => 'amount',
+		                
+		                 'value' => function($model){
+		                 	
+		                	return $model->type== 0 ? "-".$model->amount : $model->amount;
+		                },
 		                'filterInputOptions' => [
 		                    'class'       => 'form-control',
 		                    'placeholder' => 'Search Amount',

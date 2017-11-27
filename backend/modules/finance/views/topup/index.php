@@ -92,7 +92,7 @@ use common\models\Bank;
 				'img' => function($url,$model)
                 {
 
-                    return Html::a('Picture',Yii::$app->urlManagerFrontEnd->baseUrl.'/'.$model->Account_ReceiptPicPath,['target'=>'_blank']); //open page in new tab
+                    return Html::a('Picture',Yii::$app->urlManagerFrontEnd->baseUrl.'/topup/'.$model->Account_ReceiptPicPath,['target'=>'_blank']); //open page in new tab
                 
                 },
 				

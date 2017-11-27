@@ -43,11 +43,17 @@
 #banner2{
 	  display: none;
 }
-.toggle{
+/*.toggle{
+	display:none;
+}*/
+.tm{
 	display:none;
 }
 @media(max-width: 560px)
 {
+	.tm{
+		 display: block;
+		}
 	.button {
     position:fixed;
     bottom:0;
@@ -129,7 +135,7 @@
         top: 80%;
 	   z-index:99;
 }
-.toggle{
+/*.toggle{
 display:inline;
   position:fixed;
   right: 8%;
@@ -142,7 +148,7 @@ display:inline;
   padding-bottom:10px;
   border:1px solid white;
   background-color: #FFDA00;
-}
+}*/
 #banner2{
 		 display: inline;
 		 position:fixed;
@@ -208,10 +214,14 @@ display:inline;
 }
 
 #toggle-menu {
+	position:fixed;
   display: block;
   width: 28px;
   height: 30px;
-  margin: 30px auto 10px;
+  float:right;
+   right: 8%;
+  top: 18%;
+
 }
 
 #toggle-menu span:after,
@@ -257,9 +267,10 @@ display:inline;
 
 /* menu appearance*/
 #menu {
-  position: relative;
+  position: fixed;
+  z-index:99;
   color: #999;
-  width: 200px;
+  width: 150px;
   padding: 10px;
   margin: auto;
   font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
@@ -271,11 +282,15 @@ display:inline;
   opacity: 0;
   visibility: hidden;
   transition: opacity .4s;
+   right: 6%;
+  top: 22%;
+  float:right;  
 }
 #menu:after {
-  position: absolute;
-  top: -15px;
-  left: 95px;
+  position: fixed;
+   right: 8%;
+  top: 20%;
+  float:right;
   content: "";
   display: block;
   border-left: 15px solid transparent;
@@ -296,6 +311,6 @@ li a {
 }
 li a:hover,
 li a:focus {
-  background: #1ABC9C;
+  background: #ffda00;
   color: #fff;
 }

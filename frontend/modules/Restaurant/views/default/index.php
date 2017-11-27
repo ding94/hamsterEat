@@ -29,8 +29,17 @@ Modal::end();
     <h1>Order Food for Delivery </h1>
     <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index', 'groupArea'=>$groupArea], ['class'=>'btn btn-default','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>
 	   <?php echo Html::a('<i class="fa fa-thumbs-up"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']); ?>
-    <?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['id'=>'cp','data-toggle'=>'modal','data-target'=>'#add-modal','style'=>'color:red;font-size:12px;float:right;']); ?>  
-	
+   
+	 <?php  $cookies = Yii::$app->request->cookies;
+            $halal = $cookies->getValue('halal');
+			$session = Yii::$app->session;
+     ?>          
+	  
+     <?php echo Html::a("Change to: ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0],['class'=>'hl','style'=>'float:right;color:red;font-style: italic;'])?>
+        <span class="s" style="float:right;padding-left:10px;padding-right:10px;">|</span>
+		<?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['id'=>'cp','data-toggle'=>'modal','data-target'=>'#add-modal','style'=>'color:red;font-size:14px;float:right;font-style: italic;']); ?>  
+			 <span class="area" style="float:right;padding-right:8px;"> <?php echo $session['area'] ?></span>
+      
 	<input type="checkbox" id="sidebartoggler" name="" value="">
     <div class="page-wrap">
       <!-- <label for="sidebartoggler" class="toggle"><i class="fa fa-sliders" aria-hidden="true">&nbsp;Filter</i></label>-->
@@ -45,7 +54,7 @@ Modal::end();
                   <?php  $cookies = Yii::$app->request->cookies;
                         $halal = $cookies->getValue('halal');
                   ?>           
-                  <?php echo Html::a("Change :". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0])?>
+                  <?php echo Html::a("Change to: ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0])?>
                 </li>
               </ul>
             </div>

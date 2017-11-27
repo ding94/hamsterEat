@@ -166,25 +166,69 @@ display:inline;
 	
 	}
 
-.scrollToTop{
-	padding:25px; 
-	z-index:99; 
-	background-color:#FFDA00;
-	text-decoration: none;
-	position:fixed;
-	top:80%;
-	right:8%;
-	display:none;
-	background: url('./../SysImg/Icon2.png') no-repeat;
-	background-size: 40px 40px;
-	background-color:#FFDA00;
-	background-position: center;
-	border-radius: 50%;
-	margin-top:20px;
+  .scrollToTop{
+  	padding:25px; 
+  	z-index:99; 
+  	background-color:#FFDA00;
+  	text-decoration: none;
+  	position:fixed;
+  	top:80%;
+  	right:8%;
+  	display:none;
+  	background: url('./../SysImg/Icon2.png') no-repeat;
+  	background-size: 40px 40px;
+  	background-color:#FFDA00;
+  	background-position: center;
+  	border-radius: 50%;
+  	margin-top:20px;
+  }
+  .scrollToTop:hover{
+  	text-decoration:none;
+  }
+
+  #tm-p{
+    position: fixed;
+    right: 8%;
+    top:16%;
+    
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    -webkit-animation-duration: 3s;
+            animation-duration: 3s;
+    -webkit-animation-name: jump;
+            animation-name: jump;
+    -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+   
+    color: #FA434B;
+    -webkit-transition: all 1s ease;
+    transition: all 1s ease;
+    pointer-events: none;
+  }
+
+  #tm-p:after {
+  content: '';
+  position: absolute;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  display: block;
+  height: 10px;
+  width: 10px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  background-color: inherit;
 }
-.scrollToTop:hover{
-	text-decoration:none;
-}
+  #tm-p:before{
+
+  content: '';
+  color: white;
+
+  }
+
 }
 
 @media(max-width: 451px)
@@ -316,4 +360,34 @@ li a:hover,
 li a:focus {
   background: #ffda00;
   color: #fff;
+}
+
+@-webkit-keyframes jump {
+  0% {
+    -webkit-transform: translateY(3px);
+            transform: translateY(3px);
+  }
+  50% {
+    -webkit-transform: translateY(-15px);
+            transform: translateY(-15px);
+  }
+  100% {
+    -webkit-transform: translateY(3px);
+            transform: translateY(3px);
+  }
+}
+
+@keyframes jump {
+  0% {
+    -webkit-transform: translateY(3px);
+            transform: translateY(3px);
+  }
+  50% {
+    -webkit-transform: translateY(-15px);
+            transform: translateY(-15px);
+  }
+  100% {
+    -webkit-transform: translateY(3px);
+            transform: translateY(3px);
+  }
 }

@@ -36,7 +36,7 @@ Modal::end();
       <!-- <label for="sidebartoggler" class="toggle"><i class="fa fa-sliders" aria-hidden="true">&nbsp;Filter</i></label>-->
 	  <div class="tm">
             <a href="#menu" id="toggle-menu"><span></span></a>
-
+            <h2 id="tm-p">Look!</h2>
             <div id="menu">
               <ul>
                 <li> <a><label for="sidebartoggler" class="toggle">Filter</label></li></a>

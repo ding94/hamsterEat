@@ -505,7 +505,7 @@ class DefaultController extends CommonController
       
         $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $groupArea])->joinWith(['restaurant','junction','foodStatus']);
 
-        if(empty($halal) || $halal['value'] == 0)
+        if(empty($halal) || $halal == 0)
         {
             $query->andWhere('foodtypejunction.Type_ID =  4');
         }
@@ -528,7 +528,7 @@ class DefaultController extends CommonController
         //$food = food::find()->where('restaurant.Restaurant_AreaGroup = :group',[':group' => $groupArea])->joinWith(['restaurant' ,'junction'])->all();
         
         $foodquery = Foodtype::find()->orderBy(['Type_Desc'=>SORT_ASC]);
-        if(empty($halal) || $halal['value'] == 0)
+        if(empty($halal) || $halal == 0)
         {
             $foodquery->andWhere('ID != 3');
         }

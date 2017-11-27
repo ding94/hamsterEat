@@ -41,7 +41,12 @@ Modal::end();
               <ul>
                 <li> <a><label for="sidebartoggler" class="toggle">Filter</label></li></a>
 				<li><?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['data-toggle'=>'modal','data-target'=>'#add-modal']); ?></li>
-                <li><a href="#contact">Change: Non-halal</a></li>
+                <li>
+                  <?php  $cookies = Yii::$app->request->cookies;
+                        $halal = $cookies->getValue('halal');
+                  ?>           
+                  <?php echo Html::a("Change :". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0])?>
+                </li>
               </ul>
             </div>
 	  </div>

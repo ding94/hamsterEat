@@ -718,11 +718,6 @@ class SiteController extends CommonController
     public function actionSelectiontype()
     {
         $post= Yii::$app->request->post();
-        $cookies = Yii::$app->response->cookies;
-        if(!is_null($cookies['halal']))
-        {
-            $cookies->remove('halal');
-        }
         
         $cookie =  new Cookie([
             'name' => 'halal',

@@ -39,9 +39,3 @@ theToggle.onclick = function() {
    return false;
 }
 
-$("#cookie-type").click(function(){
-    val = $("input[name='cookie']").val();
-    type = val == 1 ? 0 : 1;
-    
-    console.log(type);
-})

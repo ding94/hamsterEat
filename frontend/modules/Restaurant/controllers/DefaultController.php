@@ -2,6 +2,7 @@
 namespace frontend\modules\Restaurant\controllers;
 
 use yii;
+use yii\web\Cookie;
 use yii\web\Controller;
 use common\models\Restaurant;
 use common\models\food\Food;
@@ -50,7 +51,7 @@ class DefaultController extends CommonController
  
                      ],
                     [
-                        'actions' => ['index','show-by-food', 'food-filter', 'restaurant-filter','food-details','restaurant-details','addsession'],
+                        'actions' => ['index','show-by-food', 'food-filter', 'restaurant-filter','food-details','restaurant-details','addsession','changecookie'],
                         'allow' => true,
                         'roles' => ['@','?'],
 
@@ -671,5 +672,23 @@ class DefaultController extends CommonController
 
         
         return $this->render('restaurantearnings', ['rid'=>$rid , 'restaurant'=>$restaurant, 'restaurantname'=>$restaurantname, 'months'=>$months, 'selected'=>$selected, 'year'=>$year, 'currentmonth'=>$currentmonth, 'currentyear'=>$currentyear, 'currentmonthnum'=>$currentmonthnum, 'totalearnings'=>$thefinaltotalearnings, 'mode'=>$mode, 'staff'=>$staff,'link'=>$link]);
+    }
+
+    public function actionChangecookie($type)
+    {
+        $cookies = Yii::$app->response->cookies;
+        if(!is_null($cookies['halal']))
+        {
+            $cookies->remove('halal');
+        }
+        
+        $cookie =  new Cookie([
+            'name' => 'halal',
+            'value' => $type,
+            'expire' => time() + 86400 * 365,
+        ]);
+          
+        \Yii::$app->getResponse()->getCookies()->add($cookie);
+        return $this->redirect(Yii::$app->request->referrer); 
     }
 }

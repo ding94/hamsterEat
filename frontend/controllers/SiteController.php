@@ -106,24 +106,27 @@ class SiteController extends CommonController
     public function actionIndex()
     {
         $postcode = new Area();
-        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
+       
+        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_ID','Area_Area');
+
         $list =array();
         $banner = Banner::find()->where(['<=','startTime',date("Y-m-d H:i:s")])->andWhere(['>=','endTime',date("Y-m-d H:i:s")])->all();
-        if($postcode->load(Yii::$app->request->post()))
+        if(Yii::$app->request->isPost)
         {
-            $pcode = $postcode->Area_Postcode;
-            $area = $postcode->Area_Area;
-            if ($area == null) {
+          
+            $post = Yii::$app->request->post();
+           
+            if (is_null($post['area'])) {
                 Yii::$app->session->setFlash('error', 'Please select area to continue.');
                 return $this->refresh();
             }
-            $groupArea = Area::find()->where('Area_Postcode = :area_postcode and Area_Area = :area_area',[':area_postcode'=> $pcode , ':area_area'=>$area])->one()->Area_Group;
+            $group = Area::findOne($post['area']);
+          
             $session = new Session;
             $session->open();
-            $session['postcode'] = $pcode;
-            $session['area'] = $area;
-            $session['group'] = $groupArea;
-            return $this->redirect(['Restaurant/default/index','groupArea'=>$groupArea]);          
+            $session['area'] = $group->Area_Area;
+            $session['group'] = $group->Area_Group;
+            return $this->redirect(['Restaurant/default/index','groupArea'=>$group->Area_Group]);          
         }   
         
         return $this->render('index',['postcode'=>$postcode ,'list'=>$list,'postcodeArray'=>$postcodeArray,'banner'=>$banner]);

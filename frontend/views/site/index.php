@@ -53,21 +53,22 @@ $this->title = 'hamsterEat';
 
 
         <?php $form = ActiveForm::begin(); ?>
-
-        <?= $form->field($postcode, 'Area_Postcode')->widget(Select2::classname(), [
+        <?php echo  Select2::widget([
+		    
+		    'name' => 'area',
+		    'data' => $postcodeArray,
+		    'options' => ['placeholder' => 'Select an Area ...'],
+		    'pluginOptions' => [
+		        'allowClear' => true
+		    ],
+		]); ?>
+       <!--  <?= $form->field($postcode, 'Area_Postcode')->widget(Select2::classname(), [
 	    'data' => $postcodeArray,
-	    'options' => ['placeholder' => 'Select a postcode ...','id'=>'postcode-select']])->label('Postcode');
-	    ?>
-		<?= $form->field($postcode,'Area_Area')->widget(DepDrop::classname(), [
-			'type'=>DepDrop::TYPE_SELECT2,
-			'options' => ['id'=>'area-select','placeholder' => 'Select an area ...'],
-			'pluginOptions'=>[
-				'depends'=>['postcode-select'],
-				'url'=>Url::to(['/site/get-area'])
-			],
-			]); ?>
+	    'options' => ['placeholder' => 'Select an Area ...','id'=>'postcode-select']])->label('');
+	    ?> -->
+		
 
-        <?= Html::submitButton('Find Restaurants', ['class' => 'button-three', 'name' => 'proceed-button']) ?>
+        <?= Html::submitButton('Find Restaurants', ['class' => 'button-three']) ?>
 		<div class ="expansion">
 			<?= Html::a('<u>I don&#39;t see my area..</u>', ['request-area', ['style'=>'margin-left:2000px;']]) ?>
 		</div>

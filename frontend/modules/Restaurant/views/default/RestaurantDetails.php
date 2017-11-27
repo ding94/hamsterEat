@@ -28,6 +28,7 @@ RestaurantDetailsAsset::register($this);
     
     Modal::end() ?>
 <div class = "container">
+<a href="#top" class="scrollToTop"></a>
   <div class="restaurant-info-container">
     <?php $picpath = $id['Restaurant_RestaurantPicPath'];
 
@@ -71,8 +72,10 @@ RestaurantDetailsAsset::register($this);
     <br>
     <hr class="restaurantdetails-hr">
     <h2><center>Menu</h2>
+	
     <div class = "foodItems">
     </div>
+	
     <?php
       $rid = $id['Restaurant_ID'];
       $id = isset($_GET['foodid']) ? $_GET['foodid'] : ''; 

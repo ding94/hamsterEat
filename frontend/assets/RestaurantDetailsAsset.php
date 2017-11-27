@@ -17,7 +17,8 @@ class RestaurantDetailsAsset extends AssetBundle
     ];
     public $js = [
         'js/food-modal.js',
-        'js/report-modal.js'
+        'js/report-modal.js',
+		'js/scrolltop.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

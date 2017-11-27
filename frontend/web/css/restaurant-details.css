@@ -54,6 +54,7 @@
     margin-top: 80px;
     margin-bottom: 15px;
   }
+  
 }
 
 @media(min-width: 320px){
@@ -126,6 +127,7 @@
   .item .img{
     float:left;
   }
+
 }
 
 @media(max-width:991px) and (min-width: 731px){
@@ -276,4 +278,25 @@
 
 .menu-container a:hover{
   box-shadow: 0px 0px 20px -2px grey;
+}
+@media(max-width:730px){
+	.scrollToTop{
+	padding:25px; 
+	z-index:99; 
+	background-color:#FFDA00;
+	text-decoration: none;
+	position:fixed;
+	top:80%;
+	right:8%;
+	display:none;
+	background: url('./../SysImg/Icon2.png') no-repeat;
+	background-size: 40px 40px;
+	background-color:#FFDA00;
+	background-position: center;
+	border-radius: 50%;
+	margin-top:20px;
+}
+.scrollToTop:hover{
+	text-decoration:none;
+}
 }

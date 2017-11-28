@@ -30,7 +30,7 @@
   position:absolute;
   left:0;
   right:0;
-	margin-top:-460px;
+  margin-top:-450px;
 }
 
 .form{
@@ -79,6 +79,12 @@ a:hover{
 }
 
 @media (max-width: 501px) {
+	#h3{
+		padding-top:10px;
+	}
+	.button-three {
+		margin-top:10px;
+	}
 	.form{
     background-color:rgba(255, 255, 255,0.8);
     padding-top:0px;
@@ -89,14 +95,9 @@ a:hover{
     position:absolute;
     left:0;
     right:0;
-    margin-top:-300px;
+    margin-top:-320px;
   }
-  #h3{
-	 display:none;
-  }
-  #h5{
-	 display:none;
-  }
+  
 }
 
 @media (max-width: 401px) {
@@ -109,13 +110,8 @@ a:hover{
     position:absolute;
     left:0;
     right:0;
-    margin-top:-260px;
+    margin-top:-270px;
   }
-	
-	#h3{
-	 display:none;
-  }
-
   #h5{
 	 display:none;
   }

@@ -38,6 +38,25 @@ Modal::end();
   <?php foreach($groupCart as $index=>$cart): ?>
     <?php $total = 0 ; $earlyDiscount = 0;?>
 	
+  <div class="container">
+   <div class="checkout-progress-bar">
+     <div class="circle active">
+       <span class="label"><i class="fa fa-shopping-cart"></i></span>
+       <span class="title">Cart</span>
+     </div>
+     <span class="bar"></span>
+     <div class="circle deactive">
+       <span class="label"><i class="fa fa-cart-arrow-down"></i></span>
+       <span class="title">Checkout</span>
+     </div>
+     <span class="bar"></span>
+     <div class="circle deactive">
+       <span class="label"><i class="fa fa-credit-card"></i></span>
+       <span class="title">Payment</span>
+     </div>
+   </div> 
+  </div>
+
      <div class ="container">
 	<div class="htitlemargintop"></div><div class="htitleline"></div><div class="hometitlefp"><h1 style="text-shadow: 1.5px 1.5px #ffda00;"><center>Cart</center></h1></div><div class="htitlemarginbottom"></div>
   <?php echo Html::a('Continue Shopping',Yii::$app->request->referrer,['class' => 'btn btn-b']) ;?>

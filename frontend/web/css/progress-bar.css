@@ -1,0 +1,71 @@
+.checkout-progress-bar {
+  width: 1000px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.checkout-progress-bar .circle,
+.checkout-progress-bar .bar {
+  display: inline-block;
+  background: #fff;
+  width: 45px; height: 45px;
+  border-radius: 40px;
+  border: 1px solid #d5d5da;
+}
+
+.checkout-progress-bar .bar {
+  position: relative;
+  width: 150px;
+  height: 6px;
+  top: -33px;
+  margin-left: -5px;
+  margin-right: -5px;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+}
+
+.checkout-progress-bar .circle .label {
+  display: inline-block;
+  width: 37px;
+  height: 37px;
+  line-height: 37px;
+  border-radius: 37px;
+  margin-top: 3px;
+  color: #000000;
+  font-size: 17px;
+}
+.checkout-progress-bar .circle .title {
+  color: #000000;
+  font-size: 13px;
+  line-height: 30px;
+  margin-left: -5px;
+}
+
+.checkout-progress-bar .circle.active .label {
+  color: #FFF;
+  background: #0c95be;
+  box-shadow: inset 0 0 2px rgba(0,0,0,.2);
+}
+.checkout-progress-bar .circle.deactive .label {
+  color: #FFF;
+  background: #b5b5ba;
+  box-shadow: inset 0 0 2px rgba(0,0,0,.2);
+}
+.checkout-progress-bar .circle.active .title {
+  color: #0c95be;
+}
+
+.checkout-progress-bar .circle.done .label {
+  color: #FFF;
+  background: #8bc435;
+  box-shadow: inset 0 0 2px rgba(0,0,0,.2);
+}
+.checkout-progress-bar .circle.done .title {
+  color: #444;
+}
+
+.checkout-progress-bar .bar.done,
+.checkout-progress-bar .circle.done{
+  background: #eee;
+}

@@ -26,6 +26,24 @@ Modal::begin([
 Modal::end();
 
 ?>
+        <div class="container">
+       <div class="checkout-progress-bar">
+         <div class="circle done">
+           <span class="label"><i class="fa fa-check"></i></span>
+           <span class="title">Cart</span>
+         </div>
+         <span class="bar done"></span>
+         <div class="circle active">
+           <span class="label"><i class="fa fa-cart-arrow-down"></i></span>
+           <span class="title">Checkout</span>
+         </div>
+         <span class="bar"></span>
+         <div class="circle deactive">
+           <span class="label"><i class="fa fa-credit-card"></i></span>
+           <span class="title">Payment</span>
+         </div>
+       </div> 
+      </div>
 <div class="container">
     <div class="tab-content" id="mydetails">
         <div class="cart-header">

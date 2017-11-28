@@ -105,12 +105,11 @@ class SiteController extends CommonController
 //--This function captures the user's area group from the entered postcodes and area
     public function actionIndex()
     {
-        $postcode = new Area();
-       
         $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_ID','Area_Area');
 
         $list =array();
         $banner = Banner::find()->where(['<=','startTime',date("Y-m-d H:i:s")])->andWhere(['>=','endTime',date("Y-m-d H:i:s")])->all();
+
         if(Yii::$app->request->isPost)
         {
           
@@ -126,10 +125,11 @@ class SiteController extends CommonController
             $session->open();
             $session['area'] = $group->Area_Area;
             $session['group'] = $group->Area_Group;
-            return $this->redirect(['Restaurant/default/index','groupArea'=>$group->Area_Group]);          
+            $session->close();
+            return $this->redirect(['Restaurant/default/index']);          
         }   
         
-        return $this->render('index',['postcode'=>$postcode ,'list'=>$list,'postcodeArray'=>$postcodeArray,'banner'=>$banner]);
+        return $this->render('index',['list'=>$list,'postcodeArray'=>$postcodeArray,'banner'=>$banner]);
 
     }
 

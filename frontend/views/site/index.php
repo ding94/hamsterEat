@@ -62,11 +62,6 @@ $this->title = 'hamsterEat';
 		        'allowClear' => true
 		    ],
 		]); ?>
-       <!--  <?= $form->field($postcode, 'Area_Postcode')->widget(Select2::classname(), [
-	    'data' => $postcodeArray,
-	    'options' => ['placeholder' => 'Select an Area ...','id'=>'postcode-select']])->label('');
-	    ?> -->
-		
 
         <?= Html::submitButton('Find Restaurants', ['class' => 'button-three']) ?>
 		<div class ="expansion">

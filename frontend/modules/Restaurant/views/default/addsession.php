@@ -15,5 +15,6 @@ use kartik\widgets\Select2;
 		        'allowClear' => true,
 		    ],
 		]); ?>
+		<br>
     <?= Html::submitButton('Continue', ['class' => 'btn btn-primary', 'name' => 'insert-button']) ?>
 <?php ActiveForm::end(); ?>

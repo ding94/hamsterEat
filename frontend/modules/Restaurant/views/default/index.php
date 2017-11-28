@@ -18,10 +18,10 @@ CartAsset::register($this);
 
 Modal::begin([
       'options' => [
-        'tableindex' => false,
+        'id' => 'add-modal',
+        'tabindex' => false // important for Select2 to work properly
       ],
       'header' => '<h2 class="modal-title">Please choose delivery place</h2>',
-      'id'     => 'add-modal',
       'size'   => 'modal-md',
 ]);
 

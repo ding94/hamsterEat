@@ -19,9 +19,13 @@ CartAsset::register($this);
 
 
 Modal::begin([
-      'header' => '<h2 class="modal-title">Please choose delivery place</h2>',
-      'id'     => 'add-modal',
-      'size'   => 'modal-md',
+    'options' => [
+        'id' => 'add-modal',
+        'tabindex' => false // important for Select2 to work properly
+    ],
+    'header' => '<h2 class="modal-title">Please choose delivery place</h2>',
+    'id'     => 'add-modal',
+    'size'   => 'modal-md',
 ]);
 echo Select2::widget([
     'name' => 'state_40',

@@ -8,6 +8,7 @@ use kartik\widgets\ActiveForm;
 use yii\widgets\LinkPager;
 use frontend\assets\StarsAsset;
 use frontend\assets\CartAsset;
+use kartik\widgets\Select2;
 use frontend\assets\RestaurantDefaultIndex2Asset;
 
 $this->title = "Available Restaurants";
@@ -21,7 +22,14 @@ Modal::begin([
       'header' => '<h2 class="modal-title">Please choose delivery place</h2>',
       'id'     => 'add-modal',
       'size'   => 'modal-md',
-      'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+]);
+echo Select2::widget([
+    'name' => 'state_40',
+    'data' => [1=>1],
+    'options' => ['placeholder' => 'Select a state ...'],
+    'pluginOptions' => [
+        'allowClear' => true
+    ],
 ]);
 Modal::end();
 ?>
@@ -31,8 +39,8 @@ Modal::end();
     <h1 style="padding-top:10px;">Order Food for Delivery </h1>
 
   
-        <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index', 'groupArea'=>$groupArea], ['class'=>'btn btn-default']);?>
-		<?php echo Html::a('<i class="fa fa-thumbs-up"> Food</i>', ['show-by-food', 'groupArea'=>$groupArea], ['class'=>'btn btn-default','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>       
+        <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index'], ['class'=>'btn btn-default']);?>
+		<?php echo Html::a('<i class="fa fa-thumbs-up"> Food</i>', ['show-by-food'], ['class'=>'btn btn-default','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>       
 		<?php  $cookies = Yii::$app->request->cookies;
                $halal = $cookies->getValue('halal');
 			   $session = Yii::$app->session;	
@@ -79,12 +87,12 @@ Modal::end();
                         <p><i class="fa fa-sliders"> Filter By</i></p>
                     </div>
                     <ul class ="filter-list">
-                    <?php echo Html::a('<li>All</li>', ['show-by-food', 'groupArea'=>$groupArea])."&nbsp;&nbsp;"; ?>  
+                    <?php echo Html::a('<li>All</li>', ['show-by-food'])."&nbsp;&nbsp;"; ?>  
                         <?php foreach ($allfoodtype as $i=> $data) : ?>
                             <?php if(empty($filter)) :?>
-                                <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/show-by-food', 'groupArea'=>$groupArea ,'type'=>$i])."&nbsp;&nbsp;"; ?>
+                                <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/show-by-food','type'=>$i])."&nbsp;&nbsp;"; ?>
                             <?php else :?>
-                                <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/show-by-food', 'groupArea'=>$groupArea ,'type'=>$i ,'filter'=>$filter])."&nbsp;&nbsp;"; ?>
+                                <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/show-by-food','type'=>$i ,'filter'=>$filter])."&nbsp;&nbsp;"; ?>
                             <?php endif ;?>
                         <?php endforeach; ?>
                     </ul> 

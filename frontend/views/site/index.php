@@ -49,7 +49,7 @@ $this->title = 'hamsterEat';
         <div class="form">
 	<!--	<h1>Light up your taste buds!</h1><br>-->
         <h3 id="h3"><b><center>Select Your Location</center></b></h3>
-		<h5 id="h5"><center>To Better Serve You, let us know where you are by selecting your postal code & area!</center></h5><br>
+		<h5 id="h5"><center>To Better Serve You, let us know where you are by selecting your area!</center></h5><br>
 
 
         <?php $form = ActiveForm::begin(); ?>
@@ -62,11 +62,6 @@ $this->title = 'hamsterEat';
 		        'allowClear' => true
 		    ],
 		]); ?>
-       <!--  <?= $form->field($postcode, 'Area_Postcode')->widget(Select2::classname(), [
-	    'data' => $postcodeArray,
-	    'options' => ['placeholder' => 'Select an Area ...','id'=>'postcode-select']])->label('');
-	    ?> -->
-		
 
         <?= Html::submitButton('Find Restaurants', ['class' => 'button-three']) ?>
 		<div class ="expansion">

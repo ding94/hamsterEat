@@ -476,6 +476,7 @@ div.dotted {
   text-decoration: none;
   overflow: hidden;
 	border-radius: 20px;
+	margin-top:10px;
 }
 
 .button-three:hover{
@@ -564,7 +565,7 @@ div.dotted {
     height: 360px;
   }
   .button-three{
-	 margin: 0 15%; 
+	 margin-top:10px; 
   }
 }
 
@@ -573,7 +574,7 @@ div.dotted {
     height: 300px;
   }
   .button-three{
-	 margin: 0 auto; 
+	 margin-top:10px; 
   }
 }
 /* Login css */

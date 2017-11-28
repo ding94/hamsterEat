@@ -63,9 +63,10 @@ class DefaultController extends CommonController
     }
 
 //--This function gets the restaurants in the area according to the users postcode and area
-    public function actionIndex($groupArea,$type=0,$filter="")
+    public function actionIndex($type=0,$filter="")
     {
         $cookies = Yii::$app->request->cookies;
+        $session = Yii::$app->session;
         /*$halal = $cookies->getValue('halal', 'value');
         $query = restaurant::find()->distinct()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->joinWith(['rJunction']);
         if(empty($halal) || $halal['value'] == 0)
@@ -74,7 +75,7 @@ class DefaultController extends CommonController
         }*/
         $halal = $cookies->getValue('halal');
        
-        $query = restaurant::find()->distinct()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->joinWith(['rJunction']);
+        $query = restaurant::find()->distinct()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $session['group'], ':status'=>'Operating'])->joinWith(['rJunction']);
         
         if(empty($halal) || $halal == 0)
         {
@@ -91,8 +92,6 @@ class DefaultController extends CommonController
         }
 
         
-       
-
         $pagination = new Pagination(['totalCount'=>$query->count(),'pageSize'=>10]);
         $restaurant = $query->offset($pagination->offset)
         ->limit($pagination->limit)
@@ -120,33 +119,47 @@ class DefaultController extends CommonController
             return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword,'pagination'=>$pagination]);
         }*/
 
-        return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'allrestauranttype'=>$allrestauranttype ,'type' => $type,'filter'=>$filter,'pagination'=>$pagination]);
+        return $this->render('index',['restaurant'=>$restaurant, 'allrestauranttype'=>$allrestauranttype ,'type' => $type,'filter'=>$filter,'pagination'=>$pagination]);
     }
 
 
     public function actionAddsession($page)
     {
-        $model = new Area;
-        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
+
+        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_ID','Area_Area');
         if (Yii::$app->request->post()) 
         {
-            $model->load(Yii::$app->request->post());
-            $groupArea = Area::find()->where('Area_Postcode = :p and Area_Area = :a',[':p'=> $model['Area_Postcode'] , ':a'=>$model['Area_Area']])->one()->Area_Group;
-            $session = new Session;
-            $session->open();
-            $session['postcode'] = $model['Area_Postcode'];
-            $session['area'] = $model['Area_Area'];
-            $session['group'] = $groupArea;
-
-            if ($page== 'index2') {
-                return $this->redirect(['/Restaurant/default/show-by-food','groupArea'=>$groupArea]);
+            $post = Yii::$app->request->post();
+          
+            if (is_null($post['area'])) {
+                Yii::$app->session->setFlash('error', 'Please select area to continue.');
+                return $this->refresh();
             }
-            else{
-                return $this->redirect(['/Restaurant/default/index','groupArea'=>$groupArea]);
+
+            $session = Yii::$app->session;
+
+            if(!is_null($session['area']))
+            {
+                $session->remove('area');
+            }
+
+            if(!is_null($session['group']))
+            {
+                $session->remove('group');
             }
             
+            $group = Area::findOne($post['area']);
+            $session = new Session;
+            $session->open();
+           
+           
+            $session['area'] = $group->Area_Area;
+            $session['group'] = $group->Area_Group;
+            $session->close();
+            return $this->redirect(Yii::$app->request->referrer);
+            
         }
-        return $this->renderAjax('addsession',['model'=>$model,'postcodeArray'=>$postcodeArray]);
+        return $this->renderAjax('addsession',['postcodeArray'=>$postcodeArray]);
     }
 
 //--This function loads the restaurant's details
@@ -499,12 +512,13 @@ class DefaultController extends CommonController
     }
 
 //--This shows the food available in the area group according to user keyed in postcode and area
-    public function actionShowByFood($groupArea,$type = 0,$filter="")
+    public function actionShowByFood($type = 0,$filter="")
     {
         $cookies = Yii::$app->request->cookies;
+        $session = Yii::$app->session;
         $halal = $cookies->getValue('halal');
       
-        $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $groupArea])->joinWith(['restaurant','junction','foodStatus']);
+        $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus']);
         if(empty($halal) || $halal == 0)
         {
             $query->andWhere('foodtypejunction.Type_ID =  4');
@@ -546,7 +560,7 @@ class DefaultController extends CommonController
         }*/
 
         //var_dump($types);exit;
-        return $this->render('index2',['food'=>$food, 'pagination' => $pages, 'groupArea'=>$groupArea, 'allfoodtype'=>$allfoodtype, 'filter'=>$filter,'type' => $type]);
+        return $this->render('index2',['food'=>$food, 'pagination' => $pages, 'allfoodtype'=>$allfoodtype, 'filter'=>$filter,'type' => $type]);
     }
 
 

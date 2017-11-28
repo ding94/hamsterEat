@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "feedback".
@@ -53,5 +55,19 @@ class Feedback extends \yii\db\ActiveRecord
             'Feedback_DateTime' => 'Feedback  Date Time',
             'Feedback_Link' => 'Feedback  Link',
         ];
+    }
+
+    public function search($params,$action)
+    {
+        if ($action == 0){
+            $query = self::find();
+        }
+        
+        $dataProvider = new ActiveDataProvider(['query' => $query,
+        ]);
+
+        $this->load($params);
+
+        return $dataProvider;
     }
 }

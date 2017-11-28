@@ -1,0 +1,52 @@
+.container-feedback
+{
+    width: 90%;
+    margin-left:5%;
+}
+
+#feedback_button .btn.btn-primary
+{
+  margin-left: 35%;
+}
+
+textarea
+{
+    resize: none;
+}
+
+/* Feedback mobile css */
+  @media(max-width: 480px)
+    {
+        #feedback_button .btn.btn-primary
+        {
+          margin-left: 15%; 
+          margin-top: 4%;
+        }
+    }
+
+@media (max-width: 400px){
+
+  .container-feedback
+{
+    padding-left:7%;
+}
+
+  #feedback_category
+  {
+    width: 70%;
+  }
+  #feedback_message .form-control
+  {
+    width: 70%;
+    height: 10%;
+  }
+  #feedback_email .form-control
+  {
+    width: 70%;
+  }
+        
+  #feedback_button .btn.btn-primary
+  {
+    margin-left: 15%; 
+  }
+}

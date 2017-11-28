@@ -686,16 +686,15 @@ class SiteController extends CommonController
     {
         $feedback = new Feedback();
         $categoryarray = ArrayHelper::map(Feedbackcategory::find()->all(),'ID','Category');
-        $list =array();
         $upload = new Upload();
         if ($feedback->load(Yii::$app->request->post()))
         {
             $upload->imageFile = UploadedFile::getInstance($feedback, 'Feedback_PicPath');
             $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-
-            $upload->upload('imageLocation/');
+            $path = 'imageLocation/feedback/';
+            $upload->upload($path);
         
-            $feedback->Feedback_PicPath = $upload->imageFile->name;
+            $feedback->Feedback_PicPath = $path.$upload->imageFile->name;
             $postcode = new Area();
             $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
             $list =array();
@@ -715,7 +714,7 @@ class SiteController extends CommonController
             return $this->redirect(['index', 'postcode'=>$postcode ,'list'=>$list,'postcodeArray'=>$postcodeArray,'banner'=>$banner]);
         }
 
-        return $this->renderAjax('feedback', ['feedback'=>$feedback, 'categoryarray'=>$categoryarray, 'list'=>$list]);
+        return $this->renderAjax('feedback', ['feedback'=>$feedback, 'categoryarray'=>$categoryarray]);
     }
 
     public function actionSelectiontype()

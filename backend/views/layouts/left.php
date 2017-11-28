@@ -84,6 +84,7 @@
                         'items' =>  [
                                         ['label' => 'Ticket List' ,'icon' => 'circle-o' , 'url' => ['/ticket/index']],
                                         ['label' => 'Completed Ticket List' ,'icon' => 'circle-o' , 'url' => ['/ticket/complete']],
+                                        ['label' => 'Feedback List' ,'icon' => 'circle-o' , 'url' => ['/feedback/index']],
                                     ],
                         'options' => ['class' => 'active'],
                     ],

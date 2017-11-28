@@ -20,9 +20,9 @@ CheckoutAsset::register($this);
            <span class="title">Checkout</span>
          </div>
          <span class="bar done"></span>
-         <div class="circle active">
-           <span class="label"><i class="fa fa-credit-card"></i></span>
-           <span class="title">Payment</span>
+         <div class="circle done">
+           <span class="label"><i class="fa fa-check"></i></span>
+           <span class="title">Completed</span>
          </div>
        </div> 
     </div>

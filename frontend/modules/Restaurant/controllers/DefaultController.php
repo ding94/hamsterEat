@@ -288,7 +288,7 @@ class DefaultController extends CommonController
     }
 
 //--This saves the edited restaurant details
-    public function actionEditRestaurantDetails($rid, $postcodechosen, $areachosen, $restArea)
+    public function actionEditRestaurantDetails($rid, $areachosen, $restArea)
     {
         $upload = new Upload();
 
@@ -297,7 +297,6 @@ class DefaultController extends CommonController
         $restaurantdetails = restaurant::find()->where('Restaurant_ID = :rid'  , [':rid' => $rid])->one();
         $rpicpath = $restaurantdetails['Restaurant_RestaurantPicPath'];
         $restArea = $restArea;
-        $postcodechosen = $postcodechosen;
         $areachosen = $areachosen;
         $restaurant = Restaurant::find()->where(Restaurant::tableName().'.Restaurant_ID = :id' ,[':id' => $rid])->innerJoinWith('restaurantType',true)->one();
         $link = CommonController::getRestaurantUrl($rid,$restaurant['Restaurant_AreaGroup'],$restaurant['Restaurant_Area'],$restaurant['Restaurant_Postcode'],$staff['RmanagerLevel_Level'],$staff['RmanagerLevel_Level']);
@@ -331,7 +330,6 @@ class DefaultController extends CommonController
                     $restaurantdetails->Restaurant_RestaurantPicPath = $rpicpath;
                 }
 
-                $restaurantdetails->Restaurant_Postcode = $postcodechosen;
                 $restaurantdetails->Restaurant_Area = $areachosen;
                 $restaurantdetails->Restaurant_AreaGroup = $restArea;
 
@@ -385,7 +383,7 @@ class DefaultController extends CommonController
     //$this->view->title = 'Update Profile';
     //$this->layout = 'user';
     
-    return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen, 'restArea'=>$restArea, 'chosen'=>$chosen, 'type'=>$type, 'staff'=>$staff,'link'=>$link]);
+    return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails, 'areachosen'=>$areachosen, 'restArea'=>$restArea, 'chosen'=>$chosen, 'type'=>$type, 'staff'=>$staff,'link'=>$link]);
     }
 
     /* Function for dependent dropdown in frontend index page. */
@@ -422,18 +420,17 @@ class DefaultController extends CommonController
         $restaurantdetails = restaurant::find()->where('Restaurant_ID = :rid'  , [':rid' => $rid])->one();
         $rid = $restaurantdetails['Restaurant_ID'];
         $postcode = new Area();
-        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
+        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Area','Area_Area');
 
         if($postcode->load(Yii::$app->request->post()))
         {
             $area = Yii::$app->request->post('Area');
-            $postcodechosen = $area['Area_Postcode'];
             $areachosen = $area['Area_Area'];
-            $restArea = Area::find()->where('Area_Postcode = :area_postcode and Area_Area = :area_area',[':area_postcode'=> $area['Area_Postcode'] , ':area_area'=>$area['Area_Area']])->one();        
+            $restArea = Area::find()->where('Area_Area = :area_area',[':area_area'=>$area['Area_Area']])->one();
             $restArea = $restArea['Area_Group'];
 
             // return $this->actionEditRestaurantDetails2($restArea, $postcodechosen, $areachosen, $rid);
-            return $this->redirect(['edit-restaurant-details', 'restArea'=>$restArea, 'postcodechosen'=>$postcodechosen, 'rid'=>$rid, 'areachosen'=>$areachosen]);
+            return $this->redirect(['edit-restaurant-details', 'restArea'=>$restArea, 'rid'=>$rid, 'areachosen'=>$areachosen]);
         }
 
         return $this->renderAjax('editrestaurantlocation',['restaurantdetails'=>$restaurantdetails, 'postcode'=>$postcode , 'rid'=>$rid, 'postcodeArray'=>$postcodeArray]);

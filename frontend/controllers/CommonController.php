@@ -124,7 +124,7 @@ class CommonController extends Controller
     	{
     		$data = [
 	    				Url::to(['/Restaurant/default/show-monthly-earnings','rid'=>$rid]) => 'Views Earnings',
-	    				Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid,'restArea' => $restArea,'areachosen' => $areachosen,'postcodechosen' => $postcodechosen]) => 'Edit Details',
+	    				Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid,'restArea' => $restArea,'areachosen' => $areachosen]) => 'Edit Details',
 	    				Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid]) => 'Manage Staffs',
 	    				Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
 	    				Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',
@@ -134,7 +134,7 @@ class CommonController extends Controller
     	elseif($staff ="Manager")
     	{
     		$data = [
-	    				Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid,'restArea' => $restArea,'areachosen' => $areachosen,'postcodechosen' => $postcodechosen]) => 'Edit Details',
+	    				Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid,'restArea' => $restArea,'areachosen' => $areachosen]) => 'Edit Details',
 	    				Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid]) => 'Manage Staffs',
 	    				Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
 	    				Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',

@@ -39,11 +39,6 @@ if (!is_null($restArea))
     $restaurantdetails['Restaurant_AreaGroup']=$restArea;
 }
 
-if (!is_null($postcodechosen))
-{
-    $restaurantdetails['Restaurant_Postcode']=$postcodechosen;
-}
-
 if (!is_null($areachosen))
 {
     $restaurantdetails['Restaurant_Area']=$areachosen;
@@ -100,8 +95,6 @@ if (!is_null($areachosen))
                 <?= $form->field($restaurantdetails, 'Restaurant_LicenseNo')->textInput()->label('Restaurant License No') ?>
                 
                 <strong>Restaurant Area</strong><br><?php echo $restaurantdetails['Restaurant_Area']; ?><br><br>
-
-                <strong>Restaurant Postcode</strong><br><?php echo $restaurantdetails['Restaurant_Postcode']; ?><br><br>
 
                 <strong>Restaurant Group Area</strong><br><?php echo $restaurantdetails['Restaurant_AreaGroup']; ?><br><br>
 

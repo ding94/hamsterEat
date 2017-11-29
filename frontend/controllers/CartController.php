@@ -68,7 +68,9 @@ class CartController extends CommonController
         if(empty($post))
         {
             //Yii::$app->session->setFlash('error', "");
-            return "Something Went Wrong!";
+            $data['message'] = "Something Went Wrong!";
+            $data['value'] = 0;
+            return Json::encode($data);
         }
 
         $session = Yii::$app->session;
@@ -83,7 +85,9 @@ class CartController extends CommonController
 
         if($minMaxValidate['value'] == 3)
         {
-            return $minMaxValidate['message'];
+            $data['message'] = $minMaxValidate['message'];
+            $data['value'] = 0;
+            return Json::encode($data);
         }
        
         $price = self::cartPrice($post,$food);
@@ -124,8 +128,10 @@ class CartController extends CommonController
                 if($valid)
                 {
                     $transaction->commit();
-                     Yii::$app->session->setFlash('success', 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.');
-                    return 1;
+                    $data['message'] = 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.';
+                    $data['value'] = 1;
+                    //Yii::$app->session->setFlash('success', 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.');
+                    return JSON::encode($data);
                 }
                 $transaction->rollBack();
             }
@@ -135,9 +141,10 @@ class CartController extends CommonController
             }
 
         }
-
-        Yii::$app->session->setFlash('warning', "Fail To Add To Cart Please try later");
-        return false;
+        $data['message'] = 'Fail To Add To Cart Please try later';
+        $data['value'] = 0;
+        
+        return JSON::encode($data);
     }
 
 //--This function load's the user's current cart and its details

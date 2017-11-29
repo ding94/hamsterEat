@@ -15,9 +15,7 @@ $(function(){
                    
                 });
             });
-    $('#foodDetail').on('hidden.bs.modal',function(e){
 
-    })
     /* $('#foodDetail').click(function(e){
          e.preventDefault();
          var foodid = $(this).attr('data-id'); 

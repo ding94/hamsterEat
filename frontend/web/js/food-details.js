@@ -11,17 +11,24 @@ $('body').on('submit','#a2cart',function(e){
             data   : form.serialize(),
             success: function (data) 
             {  
-            	if(data == 1)
+            	obj = JSON.parse(data);
+            	
+            	if(obj.value == 1)
            		{
+           			$('#system-messages').append("<div id='aa' class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.message+"</div>").fadeIn();
+	           		$('#system-messages').children().delay(3000).fadeTo(500,0).slideUp(500).queue(function() { $('#aa').remove(); });
            			//$("#w1-success-0").html(data).fadeIn().delay(3000).fadeOut();
-           			location.reload();
+           			$("#foodDetail").modal('hide');
+           			var count = parseInt($("#cart").children(".badge").html()) +1;
+           			$("#cart").children(".badge").html(count);
+           			//location.reload();
            		}
            		else
 	           	{
-	           		$('#system-messages').append("<div id='aa' class='alert alert-danger'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+data+"</div>").fadeIn();
+	           		$('#system-messages').append("<div id='aa' class='alert alert-danger'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.message+"</div>").fadeIn();
 	           		$('#system-messages').children().delay(3000).fadeTo(500,0).slideUp(500).queue(function() { $('#aa').remove(); });
            			//$('#system-messages').html(data).fadeIn();
-           		}      
+           		}    
             },
             error  : function (e) 
             {

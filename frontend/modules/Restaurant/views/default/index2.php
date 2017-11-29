@@ -118,7 +118,7 @@ Modal::end();
    
     <div class="outer-container">
         <div class="menu-container">
-        <?php foreach($food as $fooddata) : 
+        <?php foreach($food as $k=>$fooddata) : 
 
             Modal::begin([
                 'id'     => 'foodDetail',
@@ -129,7 +129,7 @@ Modal::end();
             Modal::end(); ?>
 
           
-                <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-toggle="modal" data-target="#foodDetail"  data-img="<?php echo $fooddata['PicPath'];?>">
+                <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-backdrop-limit="1" data-toggle="modal" data-target="#foodDetail"  data-img="<?php echo $fooddata['PicPath'];?>">
                     <div class="item">
                         <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata['PicPath']) ?></div>
                         <div class="inner-item">

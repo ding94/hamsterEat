@@ -102,7 +102,7 @@ class Orderitem extends \yii\db\ActiveRecord
 
     public function getOrder_selection()
     {
-        return $this->hasOne(Orderitemselection::className(),['Order_ID' => 'Order_ID']); 
+        return $this->hasMany(Orderitemselection::className(),['Order_ID' => 'Order_ID']); 
     }
 
     public function getOrder()

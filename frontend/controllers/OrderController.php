@@ -16,6 +16,7 @@ use frontend\controllers\CommonController;
 use yii\filters\AccessControl;
 use common\models\Orderitemselection;
 use common\models\food\Foodselection;
+use common\models\food\Foodselectiontype;
 use common\models\Rmanagerlevel;
 use frontend\modules\delivery\controllers\DailySignInController;
 
@@ -34,7 +35,7 @@ class OrderController extends CommonController
 
                     ],
                     [
-                        'actions' => ['restaurant-orders','restaurant-order-history','update-preparing','update-readyforpickup'],
+                        'actions' => ['restaurant-orders','restaurant-order-history','update-preparing','update-readyforpickup','orderlist'],
                         'allow' => true,
                         'roles' => ['restaurant manager'],
                     ],
@@ -232,7 +233,7 @@ class OrderController extends CommonController
             $result->andWhere(['Orders_Status'=>$status]);
         }
         $result->andWhere("Orders_Status != 'Not Paid' and Orders_Status != 'Completed'");
-
+        
         $pagination = new Pagination(['totalCount'=>$result->count(),'pageSize'=>10]);
         $result = $result->offset($pagination->offset)
         ->limit($pagination->limit)
@@ -240,6 +241,7 @@ class OrderController extends CommonController
 
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
         $link = CommonController::getRestaurantOrdersUrl($rid);
+
         return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination,'status'=>$status,'countOrder'=>$countOrder, 'mode'=>$mode]);
     }
 
@@ -412,6 +414,22 @@ class OrderController extends CommonController
             ]
             ]);
         return $pdf->render();
+    }
+
+    public function actionOrderlist($rid,$status = "",$mode = 1)
+    {
+        $restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
+        // food data with condition of today's orders and other table
+        $allData = [];
+        $data= Orderitem::find()->where('Restaurant_ID = :id',['id'=>$rid])->joinWith(['item_status'=>function($query){
+            $query->where(['>=','Change_PendingDateTime',strtotime(date('Y-m-d'))]);
+        },'food','order_selection'=>function($query){ $query->orderby('FoodType_ID ASC');} ])->all();
+        foreach($data as $item)
+        {
+            $allData[$item['food']['Food_ID']][] = $item;
+        }
+
+        return $this->render('orderlistpdf', ['rid'=>$rid,'allData'=>$allData,'restaurant'=>$restaurant]);
     }
 
 //--This function loads the restaurant's orders which have been completed

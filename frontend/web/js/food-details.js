@@ -17,7 +17,7 @@ $("#a2cart").submit( function(e){
            		}
            		else
 	           	{
-	           		$('#system-messages').append("<div class='alert alert-danger'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+data+"</div>").fadeIn();
+	           		$('#system-messages').append("<div id='aa' class='alert alert-danger'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+data+"</div>").fadeIn();
            			//$('#system-messages').html(data).fadeIn();
            		}      
             },

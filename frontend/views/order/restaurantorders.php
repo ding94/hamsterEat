@@ -66,11 +66,32 @@ RestaurantOrdersAsset::register($this);
                     echo Html::a('View Food Names', ['restaurant-orders', 'rid'=>$rid, 'status'=>$status, 'mode'=>1], ['class'=>'btn btn-default fa fa-exchange swap-button']);
                 } ?>
             </div> <?php
-            foreach ($result as $result) : ?>
-                <table class="table table-hover" style="border:1px solid black;">  
+            foreach ($result as $k => $results) : ?>
+            
+            <?php if($k != 0): ?> <!--- if not first array -->
+                <?php if($results['Delivery_ID'] != $result[$k - 1 ]['Delivery_ID']) : ?> <!---while delivery id not same, give header -->
+                    <table class="table table-hover" style="border:1px solid black;"> 
+                        <thead>
+                            <tr>
+                                <th colspan = '6' data-th="Delivery_ID" ><center>Delivery ID: <?php echo $results['Delivery_ID']; ?></th>
+                            </tr>
+                        </thead>
+                        <thead class='none'>
+                            <tr>
+                                <th> Order ID </th>
+                                <th><?php echo $mode == 1 ? 'Food Name' : 'Nick Name' ?></th>
+                                <th> Selections </th>
+                                <th> Quantity </th>
+                                <th> Remarks </th>
+                                <th> Update Status </th>
+                            </tr>
+                        </thead>
+                    <?php endif; ?>
+            <?php else: ?> <!--- first array, give header -->
+                    <table class="table table-hover" style="border:1px solid black;"> 
                     <thead>
                         <tr>
-                            <th colspan = '6' data-th="Delivery_ID" ><center>Delivery ID: <?php echo $result['Delivery_ID']; ?></th>
+                            <th colspan = '6' data-th="Delivery_ID" ><center>Delivery ID: <?php echo $results['Delivery_ID']; ?></th>
                         </tr>
                     </thead>
                     <thead class='none'>
@@ -83,12 +104,14 @@ RestaurantOrdersAsset::register($this);
                             <th> Update Status </th>
                         </tr>
                     </thead>
+            <?php endif; ?>
+
                         <tr>
-                            <td data-th="Order ID"><?php echo $result['Order_ID']; ?></td>
-                            <td data-th="Food Name"><?php echo $mode == 1 ? $result['food']['Name'] : $result['food']['Nickname'] ?></td>
+                            <td data-th="Order ID"><?php echo $results['Order_ID']; ?></td>
+                            <td data-th="Food Name"><?php echo $mode == 1 ? $results['food']['Name'] : $results['food']['Nickname'] ?></td>
 
                             <?php 
-                            $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$result['Order_ID']])->all(); ?>
+                            $selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$results['Order_ID']])->all(); ?>
                             <td data-th="Selections">
                             <?php foreach ($selections as $selections) :
                                 $selectionname = Foodselection::find()->where('ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
@@ -100,31 +123,47 @@ RestaurantOrdersAsset::register($this);
                                 }
                             endforeach; ?>
                             </td>
-                            <td data-th="Quantity"><?php echo $result['OrderItem_Quantity']; ?></td>
-                            <td data-th="Remarks"><?php echo $result['OrderItem_Remark']; ?></td>
+                            <td data-th="Quantity"><?php echo $results['OrderItem_Quantity']; ?></td>
+                            <td data-th="Remarks"><?php echo $results['OrderItem_Remark']; ?></td>
                             <?php 
-                            if ($result['OrderItem_Status'] == 'Pending')
+                            if ($results['OrderItem_Status'] == 'Pending')
                             { ?>
-                                <td data-th="Update Status"><?php echo Html::a('Preparing', ['update-preparing', 'oid'=>$result['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary']); ?></td>
+                                <td data-th="Update Status"><?php echo Html::a('Preparing', ['update-preparing', 'oid'=>$results['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary']); ?></td>
                             <?php }
-                            elseif ($result['OrderItem_Status'] == 'Preparing')
+                            elseif ($results['OrderItem_Status'] == 'Preparing')
                             { ?>
-                                <td data-th="Update Status"><?php echo Html::a('Ready for Pick Up', ['update-readyforpickup', 'oid'=>$result['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary']); ?></td>
+                                <td data-th="Update Status"><?php echo Html::a('Ready for Pick Up', ['update-readyforpickup', 'oid'=>$results['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary']); ?></td>
                             <?php }
-                            elseif ($result['OrderItem_Status'] == 'Ready For Pick Up')
+                            elseif ($results['OrderItem_Status'] == 'Ready For Pick Up')
                             { ?>
                                 <td data-th="Update Status"><span class='label label-warning'> Waiting for Pick Up </span></td>
                             <?php } 
-                            elseif ($result['OrderItem_Status'] == 'Canceled')
+                            elseif ($results['OrderItem_Status'] == 'Canceled')
                             { ?>
                                 <td data-th="Update Status"><span class='label label-danger'> Canceled </span></td>
                             <?php } ?>
                         </tr>
-                </table>
-                <br>
-                <br>
-            <?php endforeach; 
-            } ?>
+
+                    <?php if ($k !=0) : ?> <!--- aware from error of -1 array -->
+
+                        <?php if($k < count($result)-1):  ?> <!--- continue this if, while haven't reached max array count -->
+
+                            <?php if ($results['Delivery_ID'] == $result[$k + 1 ]['Delivery_ID']) : ?> <!-- if id was same as next, no close table-->
+
+                            <?php elseif ($results['Delivery_ID'] != $result[$k - 1 ]['Delivery_ID']) : ?> <!--- not same with previous, close table -->
+                                </table>
+                            <?php endif; ?> <!--- 3rd if end-->
+
+                        <?php else : ?> <!--- 2nd if, stop if while reached max array count-->
+                            </table>
+                        <?php endif; ?> <!--- 2nd if end-->
+
+                    <?php endif; ?> <!--- 1st if end-->
+
+            <?php endforeach; } ?>
+
+            </table>
+
             <?php echo LinkPager::widget([
                   'pagination' => $pagination,
                   ]); ?>

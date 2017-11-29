@@ -142,6 +142,12 @@
   }
 }
 
+@media(max-width: 530px){
+  .img img{
+      width: 100%;  
+  }
+}
+
 @media(min-width: 320px){
   .menu-container{
     display: grid;
@@ -309,6 +315,7 @@
  display:none;
 	
 }
+
 }
 
 @media(max-width:730px){
@@ -341,6 +348,11 @@
 }
 
 /*
+=======
+
+@media(max-width:730px){
+	.scrollToTop{
+>>>>>>> 60cc4d98373632844fdea289f69def41f9c0f414
   	padding:25px; 
   	z-index:99; 
   	background-color:#FFDA00;
@@ -359,5 +371,7 @@
   .scrollToTop:hover{
   	text-decoration:none;
   }
+<<<<<<< HEAD
 }
 >>>>>>> 60cc4d98373632844fdea289f69def41f9c0f414*/
+

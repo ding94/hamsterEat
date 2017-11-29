@@ -15,7 +15,6 @@ $(function(){
                 
                 });
             });
-
     /* $('#foodDetail').click(function(e){
          e.preventDefault();
          var foodid = $(this).attr('data-id'); 
@@ -28,4 +27,3 @@ $(function(){
      });
 */
 });
-

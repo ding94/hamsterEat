@@ -386,51 +386,28 @@ class DefaultController extends CommonController
     return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails, 'areachosen'=>$areachosen, 'restArea'=>$restArea, 'chosen'=>$chosen, 'type'=>$type, 'staff'=>$staff,'link'=>$link]);
     }
 
-    /* Function for dependent dropdown in frontend index page. */
-    public function actionGetArea()
-    {
-    if (isset($_POST['depdrop_parents'])) {
-        $parents = $_POST['depdrop_parents'];
-        if ($parents != null) {
-            $cat_id = $parents[0];
-            $out = self::getAreaList($cat_id); 
-            echo json_encode(['output'=>$out, 'selected'=>'']);
-            return;
-        }
-    }
-    echo json_encode(['output'=>'', 'selected'=>'']);
-    }
-
-    public static function getAreaList($postcode)
-    {
-        $area = Area::find()->where(['like','Area_Postcode' , $postcode])->select(['Area_ID', 'Area_Area'])->all();
-        $areaArray = [];
-        foreach ($area as $area) {
-            $object = new Object();
-            $object->id = $area['Area_Area'];
-            $object->name = $area['Area_Area'];
-
-            $areaArray[] = $object;
-        }
-        return $areaArray;
-    }
-
     public function actionEditRestaurantArea($rid)
     {
         $restaurantdetails = restaurant::find()->where('Restaurant_ID = :rid'  , [':rid' => $rid])->one();
         $rid = $restaurantdetails['Restaurant_ID'];
         $postcode = new Area();
         $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Area','Area_Area');
-
         if($postcode->load(Yii::$app->request->post()))
         {
             $area = Yii::$app->request->post('Area');
             $areachosen = $area['Area_Area'];
+            if ($areachosen == ''){
+                $areachosen = $restaurantdetails['Restaurant_Area'];
+                $restArea = $restaurantdetails['Restaurant_AreaGroup'];
+                Yii::$app->session->setFlash('danger', "Area not chosen.");
+                return $this->redirect(['edit-restaurant-details', 'restArea'=>$restArea, 'rid'=>$rid, 'areachosen'=>$areachosen]);
+            } else {
             $restArea = Area::find()->where('Area_Area = :area_area',[':area_area'=>$area['Area_Area']])->one();
             $restArea = $restArea['Area_Group'];
-
+            
             // return $this->actionEditRestaurantDetails2($restArea, $postcodechosen, $areachosen, $rid);
             return $this->redirect(['edit-restaurant-details', 'restArea'=>$restArea, 'rid'=>$rid, 'areachosen'=>$areachosen]);
+            }
         }
 
         return $this->renderAjax('editrestaurantlocation',['restaurantdetails'=>$restaurantdetails, 'postcode'=>$postcode , 'rid'=>$rid, 'postcodeArray'=>$postcodeArray]);

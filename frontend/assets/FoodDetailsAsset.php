@@ -16,6 +16,7 @@ class FoodDetailsAsset extends AssetBundle
     ];
     public $js = [
         // 'js/checkout.js',
+        'js/food-details.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -28,6 +28,8 @@ RestaurantDetailsAsset::register($this);
     
     Modal::end() ?>
 <div class = "container">
+ <!--<a class="back" href="../web/index.php?r=ticket%2Findex"><i class="fa fa-angle-left">&nbsp;Back</i></a><br>-->
+  
 <a href="#top" class="scrollToTop"></a>
   <div class="restaurant-info-container">
     <?php $picpath = $id['Restaurant_RestaurantPicPath'];
@@ -35,7 +37,9 @@ RestaurantDetailsAsset::register($this);
         if (is_null($id['Restaurant_RestaurantPicPath'])){
             $picpath = "DefaultRestaurant.jpg";
         }
-         echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive pull-left restaurant-img']) ?> <?php echo "</th>"; ?>
+         echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive pull-left restaurant-img']) ?> 
+		  <?php echo Html::a("Back" ,Yii::$app->request->referrer,['class'=>'btn btn-primary','id'=>'back'])?>
+		 <?php echo "</th>"; ?>
          <div class="restaurant-info-inner">
              <h1><?php echo $id['Restaurant_Name']; ?><span class="pull-right"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'btn btn-primary','data-toggle'=>'modal','data-target'=>'#report-modal']) ?></span></h1>
       <ul class="info">

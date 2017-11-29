@@ -233,7 +233,7 @@ class CheckoutController extends CommonController
 		if(self::earlyOrder())
 		{
 			$order->Orders_DiscountEarlyAmount = CartController::actionRoundoff1decimal($subtotal * 0.2);
-			$order->Orders_DiscountTotalAmount += $order->Orders_DiscountEarlyAmount;
+			//$order->Orders_DiscountTotalAmount += $order->Orders_DiscountEarlyAmount;
 			$order->Orders_TotalPrice -= $order->Orders_DiscountEarlyAmount;
 		}
 

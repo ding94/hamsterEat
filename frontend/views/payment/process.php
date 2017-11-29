@@ -7,7 +7,24 @@ use frontend\assets\PaymentAsset;
 $this->title = 'Process Payment';
 PaymentAsset::register($this);
 ?>
-
+<div class="container">
+       <div class="checkout-progress-bar">
+         <div class="circle done">
+           <span class="label"><i class="fa fa-check"></i></span>
+           <span class="title">Cart</span>
+         </div>
+         <span class="bar done"></span>
+         <div class="circle done">
+           <span class="label"><i class="fa fa-check"></i></span>
+           <span class="title">Checkout</span>
+         </div>
+         <span class="bar done"></span>
+         <div class="circle active">
+           <span class="label"><i class="fa fa-credit-card"></i></span>
+           <span class="title">Payment</span>
+         </div>
+       </div> 
+    </div>
 <div class="container payment">
 	<div class="payment-header">
 		<div class="payment-title">

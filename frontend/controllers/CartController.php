@@ -67,8 +67,8 @@ class CartController extends CommonController
         //$cartSelection->load(Yii::$app->request->post());
         if(empty($post))
         {
-            Yii::$app->session->setFlash('error', "Something Went Wrong!");
-            return $this->redirect(['site/index']);
+            //Yii::$app->session->setFlash('error', "");
+            return "Something Went Wrong!";
         }
 
         $session = Yii::$app->session;
@@ -76,15 +76,14 @@ class CartController extends CommonController
         
         if(empty($session['group']) || $session['group'] != $food['restaurant']['Restaurant_AreaGroup'])
         {
-            Yii::$app->session->setFlash('error', "This item is in a different area from your area. Please re-enter your area.");
-            return $this->redirect(['site/index']);
+            return "This item is in a different area from your area. Please re-enter your area.";
         }
 
         $minMaxValidate = self::detectEmptySelection($post,$id);
 
-        if($minMaxValidate == 3)
+        if($minMaxValidate['value'] == 3)
         {
-            return $this->redirect(Yii::$app->request->referrer);
+            return $minMaxValidate['message'];
         }
        
         $price = self::cartPrice($post,$food);
@@ -102,7 +101,7 @@ class CartController extends CommonController
             $transaction = Yii::$app->db->beginTransaction();
             try{
                 $cart->save();
-                if($minMaxValidate == 2)
+                if($minMaxValidate['value'] == 2)
                 {
                     $selection = CommonController::removeNestedArray($post['CartSelection']);
                     foreach($selection as $selectionid)
@@ -126,7 +125,7 @@ class CartController extends CommonController
                 {
                     $transaction->commit();
                      Yii::$app->session->setFlash('success', 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.');
-                    return $this->redirect(Yii::$app->request->referrer);
+                    return 1;
                 }
                 $transaction->rollBack();
             }
@@ -138,7 +137,7 @@ class CartController extends CommonController
         }
 
         Yii::$app->session->setFlash('warning', "Fail To Add To Cart Please try later");
-        return $this->redirect(Yii::$app->request->referrer);
+        return false;
     }
 
 //--This function load's the user's current cart and its details
@@ -545,24 +544,34 @@ class CartController extends CommonController
          return $this->redirect(['view-cart']);
     }
 
+    /*
+    * detect the food wether the selection is empty or not
+    * if not process to another step
+    */
     protected static function detectEmptySelection($post,$id)
     {
+        $data = [];
+        $data['value'] = 1;
+        $data['message'] ="";
         $foodselection = Foodselectiontype::find()->where("Food_ID = :id",[':id' => $id])->all();
 
         if(empty($post['CartSelection']) && empty($foodselection))
         {
-            return 1;
+            return $data;
         }
         else
         {
             $isValid = SelectionTypeController::detectMinMaxSelecttion($post['CartSelection']['selectionid'],$foodselection);
-            if($isValid)
+            if($isValid['value'] == 1)
             {
-                return 2;
+                $data['value']= 2;
+                return $data;
             }
             else
             {
-                return 3;
+                $data['value'] = 3;
+                $data['message'] = $isValid['message'];
+                return $data;
             }
         }
     }

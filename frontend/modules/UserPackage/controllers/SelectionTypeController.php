@@ -12,9 +12,15 @@ class SelectionTypeController extends Controller
 	/*
 	* use for detect selection min max
 	* remove empty array and set count become 0
+	* data[value] 
+	* 1=>true
+	* 2=>false
 	*/
 	public static function detectMinMaxSelecttion($selection,$foodselection)
 	{
+		$data = [];
+		$data['value'] = 1;
+		$data['message'] = "";
 		$selection = array_filter($selection);
 		
 		foreach ($foodselection as $key => $value) {
@@ -30,12 +36,15 @@ class SelectionTypeController extends Controller
 			
 			if($count< $value->Min || $count > $value->Max)
 			{
-				Yii::$app->session->setFlash('danger', 'Please select at least '.$value->Min.' items and most '.$value->Max.' items in '.$value->TypeName);
-				return false;
+				//Yii::$app->session->setFlash('danger', 'Please select at least '.$value->Min.' items and most '.$value->Max.' items in '.$value->TypeName);
+				
+				$data['message'] = "Please select at least $value->Min items and most $value->Max items in $value->TypeName";
+				$data['value'] =2;
+				return $data;
 			}
 			
 		}
-		return true;
+		return $data;
 	}
 
 	/*

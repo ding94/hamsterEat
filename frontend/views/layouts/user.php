@@ -22,25 +22,7 @@ AppAsset::register($this);
 NotificationAsset::register($this);
 UserAsset::register($this);
 ?>
-<style>
-    span.badge{
-        background-color:#404040;
-        margin-left: 2px;
-        margin-bottom:5px;
-    }
-    #cart{
-        line-height:33px;
-    }
-    #cart1{
-        line-height:33px;
-    }
-    #feedback-modal .modal-content{
-        width:800px;
-        margin-left: -230px;
-        margin-top: 100px;
-        height: 620px;
-    }
-    </style>
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">

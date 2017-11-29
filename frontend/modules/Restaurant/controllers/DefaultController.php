@@ -127,6 +127,7 @@ class DefaultController extends CommonController
     {
 
         $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_ID','Area_Area');
+            
         if (Yii::$app->request->post()) 
         {
             $post = Yii::$app->request->post();

@@ -39,7 +39,7 @@ echo Select2::widget([
 Modal::end();
 
 ?>
- <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
 <div class="container" id="group-area-index">
     <h1>Order Food for Delivery </h1>
     <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index'], ['class'=>'btn btn-default','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>

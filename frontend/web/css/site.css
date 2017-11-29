@@ -43,6 +43,15 @@ h2
   height: 3.6em;
 }
 
+
+#system-messages {
+  position:fixed;
+  top:80px;
+  right:25%;
+  width:50%;
+  z-index:5000;
+}
+
 /*
 * for icon in small screen
 */

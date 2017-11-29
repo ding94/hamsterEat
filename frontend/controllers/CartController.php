@@ -45,7 +45,7 @@ class CartController extends CommonController
                  //'only' => ['logout', 'signup','index'],
                  'rules' => [
                     [
-                        'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount','newaddress','editaddress','getaddress','assign-delivery-man','addsession','get-area','quantity'],
+                        'actions' => ['addto-cart','checkout','delete','view-cart','aftercheckout','getdiscount','newaddress','editaddress','getaddress','assign-delivery-man','addsession','get-area','quantity','totalcart'],
 
                         'allow' => true,
                         'roles' => ['@'],
@@ -150,18 +150,9 @@ class CartController extends CommonController
 //--This function load's the user's current cart and its details
     public function actionViewCart()
     {
-        $time['now'] = Yii::$app->formatter->asTime(time());
-        $time['early'] = date('08:00:00');
-        $time['late'] = date('23:00:59');
-
         $groupCart = [];
         
         $cart = Cart::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->joinWith(['food','selection'])->all();
-
-        $voucher = ArrayHelper::map(UserVoucher::find()->where('uid=:uid',[':uid'=>Yii::$app->user->identity->id])->andWhere(['>=','user_voucher.endDate',time(date("Y-m-d"))])->joinWith(['voucher'=>function($query){
-                $query->andWhere(['=','discount_type',5])->orWhere(['=','discount_type',2]);
-            }])->all(),'code','code');
-        $ren = new VouchersType;
 
         foreach($cart as $i=> $single)
         {
@@ -191,7 +182,23 @@ class CartController extends CommonController
         }
 
 
-        return $this->render('cart',['groupCart' => $groupCart,'time' => $time,'voucher'=>$voucher,'ren'=>$ren]);
+        return $this->render('cart',['groupCart' => $groupCart]);
+    }
+
+    public function actionTotalcart($area)
+    {
+        $time['now'] = Yii::$app->formatter->asTime(time());
+        $total =  Cart::find()->where('uid = :uid and area = :area',[':uid' => Yii::$app->user->identity->id ,':area'=>$area])->sum('price*quantity');
+        $time['early'] = date('08:00:00');
+        $time['late'] = date('23:00:59');
+
+        $this->layout ="content";
+
+        $voucher = ArrayHelper::map(UserVoucher::find()->where('uid=:uid',[':uid'=>Yii::$app->user->identity->id])->andWhere(['>=','user_voucher.endDate',time(date("Y-m-d"))])->joinWith(['voucher'=>function($query){
+                $query->andWhere(['=','discount_type',5])->orWhere(['=','discount_type',2]);
+            }])->all(),'code','code');
+        $ren = new VouchersType;
+        return $this->render('totalcart',['total'=>$total ,'time' => $time,'voucher'=>$voucher,'ren'=>$ren,'area'=>$area]);
     }
 
     public function actionAddsession()
@@ -374,27 +381,53 @@ class CartController extends CommonController
        
     }
 
+    /*
+    *find cart base on cid and uid
+    * data['value'] 
+    * 0 => error result
+    * 1 => correct result
+    * data['message'] => error message or success message
+    */
     public function actionQuantity($update,$cid)
     {
-        $cart = Cart::find()->where('id=:id',[':id'=>$cid])->one();
+        $data = [];
+        $data['value'] = 0;
+        $data['message'] = "";
+        $cart = Cart::find()->where('id=:id and uid = :uid',[':id'=>$cid,':uid' => Yii::$app->user->identity->id])->one();
+        if(empty($cart))
+        {
+            $data['message'] = "SomeThing Went Wrong!!";
+            return Json::encode($data);
+        }
+       
         switch ($update) {
             case 'minus':
-                $cart['quantity'] = $cart['quantity'] - 1;
+                $cart->quantity = $cart->quantity - 1;
                 break;
 
             case 'plus':
-                $cart['quantity'] += 1;
+                $cart->quantity += 1;
                 break;
             
             default:
                 break;
         }
-        if ($cart['quantity'] < 1) {
-            return Json::encode(0);
+        if ($cart->quantity < 1) {
+            $data['message'] = "Food can't order less than 1.";
+            return Json::encode($data);
         }
-        $cart->save();
-        $value=  Json::encode($cart);
-        return $value;
+
+        if($cart->save())
+        {
+            $data['value'] = 1;
+            $data['message'] = $cart;
+            return Json::encode($data);
+             
+        }
+
+        $data['message'] = "SomeThing Went Wrong!!";
+       
+        return Json::encode($data);
     }
 
     public function actionGetdiscount($dis,$codes,$sub,$deli,$total)

@@ -12,27 +12,70 @@ $(function(){
 		
 });
 
+$('footer.content').on('click', '.qt-plus', function(event) {
+  event.preventDefault();
+  $(this).attr("disabled", true);
+  parent = $(this).parent();
+  cid = parent.children("input[name=id]").val();
+  
+  quantity("plus",cid)
+  .done(function(data){
+    //var obj = JSON.parse(data);
+      if (data.value == 0) {
+          alert(data.message);
+      }
+      else
+      {
+          parent.children('#qt').text(data.message.quantity);
+          total = data.message.quantity*data.message.price;
+          parent.children('.full-price').text("RM "+total.toFixed(2));
+          document.getElementById('iframe').contentWindow.location.reload();
+          $(this).attr("disabled", false);
+      }  
+    }) 
+  .fail(function(e){
+    console.log(e);
+    $(this).attr("disabled", false);
+  })
+});
+
+$('footer.content').on('click', '.qt-minus', function(event) {
+  event.preventDefault();
+  $(this).attr("disabled", true);
+  parent = $(this).parent();
+  cid = parent.children("input[name=id]").val();
+  quantity("minus",cid)
+  .done(function(data){
+    //var obj = JSON.parse(data);
+      if (data.value == 0) {
+          alert(data.message);
+      }
+      else
+      {
+          parent.children('#qt').text(data.message.quantity);
+          total = data.message.quantity*data.message.price;
+          parent.children('.full-price').text("RM "+total.toFixed(2));
+          document.getElementById('iframe').contentWindow.location.reload();
+      }
+      $(this).attr("disabled", false);
+    }) 
+  .fail(function(e){
+    console.log(e);
+     $(this).attr("disabled", false);
+  })
+});
+
 function quantity(up,cid)
 {
-  $.ajax({
+  return $.ajax({
     url: "index.php?r=cart/quantity",
     type: "get",
     data: {
       update: up,
       cid: cid,
     },
-
-    success: function(data){
-      var obj = JSON.parse(data);
-      if (obj == 0) {
-        alert("Food can't order less than 1.");
-      }
-      else
-      {
-        location.reload();
-      }
-    }
-  })
+    dataType: 'json',
+  });
 }
 
 

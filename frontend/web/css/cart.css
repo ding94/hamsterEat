@@ -44,6 +44,11 @@ body {
 	margin: 0;
 }
 
+#iframe{
+	width: 100%;
+	border:0;
+	height: 400px;
+}
 a {
 	color: #000;
 	text-decoration: none;

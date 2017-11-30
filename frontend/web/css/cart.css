@@ -44,15 +44,32 @@ body {
 	margin: 0;
 }
 
+@media(min-width: 992px){
+	#iframe{
+		height: 260px;
+	}
+}
+
+@media(max-width: 991px){
+	#iframe{
+		height: 300px;
+	}
+}
+
+@media(max-width: 450px){
+	#iframe{
+		height: 350px;
+	}
+}
+
 #iframe{
 	width: 100%;
 	border:0;
-	height: 400px;
 }
+
 a {
 	color: #000;
 	text-decoration: none;
-
 	-webkit-transition: color .2s linear;
 	-moz-transition: color .2s linear;
 	-ms-transition: color .2s linear;

@@ -54,18 +54,22 @@ class Accountbalance extends \yii\db\ActiveRecord
                 $history->description = "Top Up Undo RM ".$this->defaultAmount;  
                 $history->type = 0;
                 $history->system_type = "Top Up Undo";
+                break;
             case 3:
                 $history->description = "Withdraw RM" . $this->defaultAmount . " With RM 2 Transation Fee";  
                 $history->type = 0;
                 $history->system_type = "Withdraw";
+                break;
             case 4:
                 $history->description = "Withdraw Fail Retrieve Back RM" . $this->defaultAmount;
                 $history->type = 1;
                 $history->system_type = "Withdraw Fail";
+                break;
             case 5;
                 $history->description = "Placed An Order, id ".$this->deliveryid. " with total " .$this->defaultAmount;
                 $history->type = 0;
                 $history->system_type = "Order";
+                break;
             default:
                 # code...
                 break;

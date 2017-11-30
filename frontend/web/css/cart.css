@@ -108,16 +108,16 @@ a:hover {
 	vertical-align: middle;
 }
 
-#cart {
+.cart {
 	width: 100%;
 }
 
-#cart h1 {
+.cart h1 {
 	font-weight: 300;
 	
 }
 
-#cart a {
+.cart a {
 	color: #606060;
 	text-decoration: none;
 
@@ -128,7 +128,7 @@ a:hover {
 	transition: color .2s linear;
 }
 
-#cart a:hover {
+.cart a:hover {
 	color: #ffda00;
 }
 

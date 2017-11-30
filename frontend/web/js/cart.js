@@ -12,13 +12,67 @@ $(function(){
 		
 });
 
-$('footer.content').on('click', '.qt-plus', function(event) {
+function detectEmptyCart()
+{
+  $("input[name=totalCart]").val($("input[name=totalCart]").val()-1);
+  if($("input[name=totalCart]").val() >= 1)
+  {
+    document.getElementById('iframe').contentWindow.location.reload();
+  }
+  else
+  {
+    $('#outer-cart').empty();
+    $('#outer-cart').append("<div class='container' style='margin-top:2%;'><div class='row'><img class='img-responsive col-xs-12' src='/imageLocation/Img/empty_cart.png' alt='><div class='col-xs-12'><div></div></div></div></div>");
+    var count = parseInt($("#cart").children(".badge").html()) -1;
+    if(count >= 1)
+    {
+      $("#cart").children(".badge").html(count);
+    }
+    else
+    {
+      $("#cart").children(".badge").remove();
+    }
+  }
+}
+
+$('.delete').on('click',function(event){
+    if(confirm('Are you sure you want to remove from cart?')){
+        cart = $(this).parentsUntil('.cart');
+        cid = cart.children("input[name=id]").val();
+        $('.delete').attr("disabled",true);
+        $.ajax({
+          url: 'index.php?r=cart/delete',
+          type: 'GET',
+          dataType: 'json',
+          data: {id: cid},
+        })
+        .done(function(data) {
+            if(data === 1){
+              cart.remove();
+              detectEmptyCart();
+              $('.delete').attr("disabled",false);
+            }
+            else{
+              alert("Delete Fail!");
+              $('.delete').attr("disabled",false);
+            }
+        })
+        .fail(function(e) {
+          console.log(e);
+          $('.delete').attr("disabled",false);
+        })
+    }
+});
+
+$('footer.content').on('click', '.plusMinus', function(event) {
   event.preventDefault();
   $(this).attr("disabled", true);
+  cart = $(this).parentsUntil('.cart');
   parent = $(this).parent();
-  cid = parent.children("input[name=id]").val();
-  
-  quantity("plus",cid)
+  cid = cart.children("input[name=id]").val();
+  plusMinus = $(this).text();
+  value = plusMinus == '+' ? 'plus' : 'minus';
+  quantity(value,cid)
   .done(function(data){
     //var obj = JSON.parse(data);
       if (data.value == 0) {
@@ -36,32 +90,6 @@ $('footer.content').on('click', '.qt-plus', function(event) {
   .fail(function(e){
     console.log(e);
     $(this).attr("disabled", false);
-  })
-});
-
-$('footer.content').on('click', '.qt-minus', function(event) {
-  event.preventDefault();
-  $(this).attr("disabled", true);
-  parent = $(this).parent();
-  cid = parent.children("input[name=id]").val();
-  quantity("minus",cid)
-  .done(function(data){
-    //var obj = JSON.parse(data);
-      if (data.value == 0) {
-          alert(data.message);
-      }
-      else
-      {
-          parent.children('#qt').text(data.message.quantity);
-          total = data.message.quantity*data.message.price;
-          parent.children('.full-price').text("RM "+total.toFixed(2));
-          document.getElementById('iframe').contentWindow.location.reload();
-      }
-      $(this).attr("disabled", false);
-    }) 
-  .fail(function(e){
-    console.log(e);
-     $(this).attr("disabled", false);
   })
 });
 

@@ -578,10 +578,12 @@ class CartController extends CommonController
         $cart = Cart::findOne($id);
         if(!empty($cart))
         {
-            $cart->delete();
+            if($cart->delete())
+            {
+                return 1;
+            }
         }
-
-         return $this->redirect(['view-cart']);
+        return 0;  
     }
 
     /*

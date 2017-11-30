@@ -103,11 +103,13 @@ Modal::end();
     <?php endforeach ;?>
   </div> 
   <iframe id="iframe" src=<?php echo Url::toRoute(['cart/totalcart','area'=>$index])?>></iframe>
+  <div class="container">
    <?php $form = ActiveForm::begin(['action' =>['checkout/index'],'method' => 'get']); ?>
         <?php echo Html::hiddenInput('area', $index);?>
         <?php echo Html::hiddenInput('code', '');?>
         <?php echo Html::submitButton('Checkout', ['class' => 'btn btn-b']);?>
       <?php ActiveForm::end(); ?>
+  </div>
   <?php endforeach ;?>
 
 <?php endif ;?>

@@ -270,6 +270,7 @@ label span.checkbox-custom-label{
 .food-details-tab{
   display: flex;
   justify-content: center;
+  margin-bottom: 10px;
 }
 
 #home .row{

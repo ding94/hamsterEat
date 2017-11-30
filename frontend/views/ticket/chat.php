@@ -65,6 +65,7 @@ UserAsset::register($this);
               <th>
                   <?php echo date('d/M/Y h:i:s',($ticket->Ticket_DateTime)); ?>
               </th>
+              <!-- picture error was normal to localhostm, path set for server -->
               <th><?php if(!empty($ticket->Ticket_PicPath)){ echo Html::a('View Picture',[Yii::$app->params['baseUrl'].$ticket->Ticket_PicPath],['target'=>'_blank']); }?></th>
           </tr>
 

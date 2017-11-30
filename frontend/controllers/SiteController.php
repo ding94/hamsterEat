@@ -691,10 +691,11 @@ class SiteController extends CommonController
         {
             $upload->imageFile = UploadedFile::getInstance($feedback, 'Feedback_PicPath');
             $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-            $path = 'imageLocation/feedback/';
-            $upload->upload($path);
+            $path1 = './imageLocation';
+            $path2 = '/feedback/';
+            $upload->upload($path1.$path2);
         
-            $feedback->Feedback_PicPath = $path.$upload->imageFile->name;
+            $feedback->Feedback_PicPath = $path2.$upload->imageFile->name;
             $postcode = new Area();
             $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
             $list =array();

@@ -53,10 +53,5 @@ CartAsset::register($this);
           <td class="text-xs-right" id="total"><?php echo CartController::actionRoundoff1decimal($finalPrice); ?></td>
         </tr>
       </table>
-      <?php $form = ActiveForm::begin(['action' =>['checkout/index'],'method' => 'get']); ?>
-        <?php echo Html::hiddenInput('area', $area);?>
-        <?php echo Html::hiddenInput('code', '');?>
-        <?php echo Html::submitButton('Checkout', ['class' => 'btn btn-b']);?>
-      <?php ActiveForm::end(); ?>
   </div>  
 </div>

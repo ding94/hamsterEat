@@ -14,6 +14,7 @@ use yii\helpers\Html;
     <div class="col-md-12">
         <div class="row" style="padding-top: 5%;font-family: 'Times New Roman', Times, serif;">
             <font style="font-size: 3em;"><?= $this->title; ?></font>
+            <?php if(!empty($allData)): ?>
             <div class="col-lg-12">
                 <?php $j=0; ?>
                 <?php foreach ($allData as $fid => $data): ?>
@@ -58,6 +59,7 @@ use yii\helpers\Html;
                             <th style="width:10%">Recipient</th>
                             <th style="width:10%">Delivery ID</th>
                         </tr>
+
                     <?php foreach($oids as $o => $oid): ?>
                         <?php 
                             $did = Orderitem::find()->where('Order_ID=:oid',[':oid'=>$oid])->one()->Delivery_ID; 
@@ -71,6 +73,9 @@ use yii\helpers\Html;
                     <?php endforeach; ?>
                 </table>
             </div>
+        <?php else: ?>
+            <h1>No orders today</h1>
+        <?php endif; ?>
         </div>
     </div>
 </body>

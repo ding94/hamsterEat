@@ -14,31 +14,25 @@ use yii\helpers\Url;
 $this->title = "My Cart";
 CartAsset::register($this);
 
-Modal::begin([
-      'header' => '<h2 class="modal-title">Please choose delivery place</h2>',
-      'id'     => 'add-modal',
-      'size'   => 'modal-md',
-      'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
-]);
-Modal::end();
-
 ?>
 
 <?php if(empty($groupCart)): ?>
   <div class="container" style="margin-top:2%;">
     <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <div> <?php echo Html::img('@web/imageLocation/Img/empty_cart.png', ['class' => 'img-responsivecol-lg-12 col-md-12 col-sm-12 col-xs-12']); ?>
+        <div class="col-xs-12">
+          <div> <?php echo Html::img('@web/imageLocation/Img/empty_cart.png', ['class' => 'img-responsive col-xs-12']); ?>
               </div>
         
         </div>
     </div>
   </div>
 <?php else :?>
-
+<div id="outer-cart">
+  <?php $count = 0;?>
   <?php foreach($groupCart as $index=>$cart): ?>
-    <?php $total = 0 ; $earlyDiscount = 0;?>
-	
+  <?php $earlyDiscount = 0;
+        $count += count($cart);
+  ?>
   <div class="container">
    <div class="checkout-progress-bar">
      <div class="circle active">
@@ -65,13 +59,14 @@ Modal::end();
 	</div>
 	<div class="container">
     <?php foreach($cart as $single) :?> 
-			<section id="cart"> 
+			<section class="cart">
 			  <article class="product">
+          <?php echo Html::hiddenInput('id',$single['id'])?> 
 				  <header>
 					  <a class="remove">
               <?php echo Html::img('@web/imageLocation/foodImg/'.$single['food']['PicPath'], ['class' => 'img-responsive']);?>  
               <h3> 
-                <?php echo Html::a('Remove', ['delete','id'=>$single['id']], ['class'=>'remove ','data-confirm'=>'Are you sure you want to remove from cart?']);?> 
+                <a class="remove delete" href="#">Remove</a>
   				    </h3>
 				    </a>
 				</header> 
@@ -87,19 +82,18 @@ Modal::end();
       			<?php if(!empty($single['remark'])): ?>
       				<span style="color:#fc7171;">  <?php echo '|'.' &nbsp;'.$single['remark'];?></span>
       			<?php endif; ?>
-      			<?php echo Html::a('', ['delete','id'=>$single['id']], ['class'=>'fa fa-trash','id'=>'d','data-confirm'=>'Are you sure you want to remove from cart?']);  ?> 
+            <a id="d" class="fa fa-trash delete" href="#"></a>
       	</div>	
       	<footer class="content">
-          <?php echo Html::hiddenInput('id',$single['id'])?>
-      		<span class="qt-minus">-</span>
+      		<span class="qt-minus plusMinus">-</span>
       		<span class="qt" id="qt"> <?php echo $single['quantity'];?></span>
-      		<span class="qt-plus">+</span>
+      		<span class="qt-plus plusMinus">+</span>
           <h2 class="full-price">RM
-      			<?php echo  $single['price'] * $single['quantity'];?>
-      			<?php $total += $single['quantity'] * $single['price']?>
+      			<?php echo  CartController::actionRoundoff1decimal($single['price'] * $single['quantity']);?>
       		</h2>
       	</footer>
-			</article>   
+			</article>  
+    </section> 
     <?php endforeach ;?>
   </div> 
   <iframe id="iframe" src=<?php echo Url::toRoute(['cart/totalcart','area'=>$index])?>></iframe>
@@ -111,9 +105,9 @@ Modal::end();
       <?php ActiveForm::end(); ?>
   </div>
   <?php endforeach ;?>
-
+  <?php echo Html::hiddenInput('totalCart' , $count);?>
 <?php endif ;?>
-
+</div>
  <!-- js for quantity 
 <script>
 const arrows = document.querySelector('.quantity').querySelectorAll('.fa'); 

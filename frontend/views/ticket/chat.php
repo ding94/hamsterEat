@@ -18,10 +18,10 @@ UserAsset::register($this);
 
 <div class="container" id="ticketh">
  
-	<div class="userprofile-header">
+  <div class="userprofile-header">
         <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
     </div>
-	<div class="userprofile-detail">
+  <div class="userprofile-detail">
         <div class="col-sm-2">
             <div class="dropdown-url">
                 <?php 
@@ -42,7 +42,7 @@ UserAsset::register($this);
                     ])
                 ;?>
             </div>
-			  <div class="nav-url">
+        <div class="nav-url">
                 <ul class="nav nav-pills nav-stacked">
                     <li role="presentation"><?php echo Html::a("All",['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                     <li role="presentation"><?php echo Html::a("Submit Ticket",['/ticket/submit-ticket'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
@@ -53,7 +53,7 @@ UserAsset::register($this);
 <div class="col-sm-8 right-side">
 <p style="text-align:center;padding-top:20px;"><?php echo "Serial ID : " . $sid; ?></p>
   
-	<div class="ticket-history">
+  <div class="ticket-history">
       <table class="table table-inverse">
           <tr>
               <th>
@@ -65,7 +65,7 @@ UserAsset::register($this);
               <th>
                   <?php echo date('d/M/Y h:i:s',($ticket->Ticket_DateTime)); ?>
               </th>
-              <th><?php if(!empty($ticket->Ticket_PicPath)){ echo Html::a('View Picture',Yii::$app->urlManager->baseUrl.'/'.$ticket->Ticket_PicPath,['target'=>'_blank']); }?></th>
+              <th><?php if(!empty($ticket->Ticket_PicPath)){ echo Html::a('View Picture',[Yii::$app->params['baseUrl'].$ticket->Ticket_PicPath],['target'=>'_blank']); }?></th>
           </tr>
 
         <?php foreach ($model as $k => $modell)  { ?> 
@@ -73,13 +73,14 @@ UserAsset::register($this);
               <td data-th="Name">
                   <?php echo $modell->Replies_ReplyPerson;?> </td>
               </td>
-			  <td data-th="Enquiry">
-			  <?php echo $modell->Replies_ReplyContent; ?>
+        <td data-th="Enquiry">
+        <?php echo $modell->Replies_ReplyContent; ?>
               <td data-th="Date">
                   <?php echo date('d/M/Y h:i:s',($modell->Replies_DateTime)); ?>
               </td>
               <td data-th="Refrences">
-              <?php if(!empty($modell->Replies_PicPath)){ echo Html::a('View Picture',Yii::$app->urlManager->baseUrl.'/'.$modell->Replies_PicPath,['target'=>'_blank']); }?>
+                
+              <?php if(!empty($modell->Replies_PicPath)){ echo Html::a('View Picture',[Yii::$app->params['baseUrl'].$modell->Replies_PicPath],['target'=>'_blank']); }?>
               </td>
           </tr>
         <?php } ?>

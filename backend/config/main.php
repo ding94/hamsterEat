@@ -76,21 +76,21 @@ return [
 
         'urlManagerFrontEnd'=>[
             'class' => 'yii\web\urlManager',
-            'baseUrl' => '/hamsterEat/frontend/web',
+            'baseUrl' => '/imageLocation',
         ],
 
         'urlManagerBackEnd'=>[
             'class' => 'yii\web\urlManager',
-            'baseUrl' => './../../frontend/web',
-        ]
-        /*
-        'urlManager' => [
+            'baseUrl' => './../../frontend/web/imageLocation/',
+        ],
+        
+         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+       
     ],
 
     /*

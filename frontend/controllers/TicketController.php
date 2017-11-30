@@ -89,7 +89,7 @@ class TicketController extends CommonController
     public function actionChatting($sid,$tid)
     {
         $ticket = Ticket::find()->where('Ticket_ID = :id ', [':id'=>$tid])->one();
-		 $link = CommonController::createUrlLink(4);
+         $link = CommonController::createUrlLink(4);
         $check = ValidController::checkUserValid($ticket['User_id']);
         if ($check == false) {
             return $this->redirect(['site/index']);
@@ -120,15 +120,15 @@ class TicketController extends CommonController
             $reply->Replies_ReplyBy = 1;
             $reply->Replies_ReplyPerson = Yii::$app->user->identity->id;
             $ticket->Ticket_Status = 1;
-            $path = Yii::$app->params['submitticket'];
+            $path = Yii::$app->params['baseUrl'].Yii::$app->params['submitticket'];
             $upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
 
             if (!empty($upload->imageFile)) {
 
                 $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-				
+                
                 $upload->upload($path.'/');
-                $reply->Replies_PicPath = $path.'/'.$upload->imageFile->name;
+                $reply->Replies_PicPath = Yii::$app->params['submitticket'].'/'.$upload->imageFile->name;
             }
 
            if ($reply->validate() && $ticket->validate()) {

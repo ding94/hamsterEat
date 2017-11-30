@@ -125,23 +125,26 @@ RestaurantOrdersAsset::register($this);
                             </td>
                             <td data-th="Quantity"><?php echo $results['OrderItem_Quantity']; ?></td>
                             <td data-th="Remarks"><?php echo $results['OrderItem_Remark']; ?></td>
-                            <?php 
-                            if ($results['OrderItem_Status'] == 'Pending')
-                            { ?>
+
+                            <?php if ($results['OrderItem_Status'] == 'Pending'): ?>
                                 <td data-th="Update Status"><?php echo Html::a('Preparing', ['update-preparing', 'oid'=>$results['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary']); ?></td>
-                            <?php }
-                            elseif ($results['OrderItem_Status'] == 'Preparing')
-                            { ?>
+
+                            <?php elseif ($results['OrderItem_Status'] == 'Preparing'): ?>
                                 <td data-th="Update Status"><?php echo Html::a('Ready for Pick Up', ['update-readyforpickup', 'oid'=>$results['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary']); ?></td>
-                            <?php }
-                            elseif ($results['OrderItem_Status'] == 'Ready For Pick Up')
-                            { ?>
+
+                            <?php elseif ($results['OrderItem_Status'] == 'Ready For Pick Up'): ?>
                                 <td data-th="Update Status"><span class='label label-warning'> Waiting for Pick Up </span></td>
-                            <?php } 
-                            elseif ($results['OrderItem_Status'] == 'Canceled')
-                            { ?>
+
+                            <?php elseif ($results['OrderItem_Status'] == 'Picked Up'): ?>
+                                <td data-th="Update Status"><span class='label label-warning'> Picked Up </span></td>
+
+                            <?php elseif ($results['OrderItem_Status'] == 'Canceled'): ?>
                                 <td data-th="Update Status"><span class='label label-danger'> Canceled </span></td>
-                            <?php } ?>
+
+                            <?php elseif ($results['OrderItem_Status'] == 'Canceled and Refunded'): ?>
+                                <td data-th="Update Status"><span class='label label-danger'> Canceled & Refunded </span></td>
+
+                            <?php endif; ?>
                         </tr>
 
                     <?php if ($k !=0) : ?> <!--- aware from error of -1 array -->

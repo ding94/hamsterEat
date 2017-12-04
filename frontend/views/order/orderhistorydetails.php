@@ -2,9 +2,9 @@
 /* @var $this yii\web\View */
 $this->title = "Invoice";
 use common\models\food\Food;
-use common\models\Orderitemselection;
+use common\models\Order\Orderitemselection;
 use common\models\food\Foodselection;
-use common\models\Orders;
+use common\models\Order\Orders;
 use yii\helpers\Html;
 
 ?>

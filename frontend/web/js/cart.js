@@ -126,17 +126,18 @@ function quantity(up,cid)
       if (obj != 0 ) 
       {
         //document.getElementById("disamount").innerHTML = "- "+(parseFloat(obj['discount'])).toFixed(2);
-        
+        console.log(obj.code);
        // document.getElementById("discount").style = "display:block;";
 		discout = (parseFloat(obj['discount'])).toFixed(2);
         document.getElementById("early").innerHTML = ""+(0).toFixed(2);
         document.getElementById("subtotal").innerHTML = (parseFloat(obj['sub'])).toFixed(2);
         document.getElementById("delivery").innerHTML = (parseFloat(obj['deli'])).toFixed(2);
         document.getElementById("total").innerHTML = (obj['total']).toFixed(2);
-        $("input[name='code']").val(obj['code'].replace(/\s+/g,''));
-
+        $("input[name='code']").val(obj.code);
         document.getElementById("voucher").style ='display:none';
         document.getElementById("refresh").style ='display:block';
+        document.getElementById("discount-tr").style = "display:none";
+
 		$('.table-total tr:nth-child(2)').after("<tr><td><b>Discount</b></td><td class='text-xs-left'>-RM "+discout+"</td></tr>");
       }
       else if (obj ==0) 
@@ -153,16 +154,11 @@ function quantity(up,cid)
 
   function show()
   {
-    document.getElementById("voucherstype-type").style ='display:none';
-    document.getElementById("show").style = "display:none";
+
     document.getElementById("dis").style = "display:block";
+
   }
 
-  function show2()
-  {
-    document.getElementById("show").style = "display:none";
-    document.getElementById("dis").style = "display:block";
-  }
 
   function refresh()
   {

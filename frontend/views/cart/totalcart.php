@@ -43,9 +43,9 @@ CartAsset::register($this);
                 <td><span><b>Discount:</span></td>
                 <td class="text-xs-right" id="disamount" value="" style="color: red;"><span></span></td>
               </tr>-->
-        <tr>
-              <td><div id="dis" style=""><input id="codes"></td>
-                <td><a class="btn btn-primary" onclick="return discount()">Submit</a></div></td>
+        <tr id="discount-tr">
+              <td><div id="dis" style=""><input id="codes" placeholder="Enter Other Voucher Code"></td>
+              <td><a class="btn btn-primary" onclick="return discount()">Submit</a></div></td>
         </tr>
         <tr style="font-size:20px;">
           <?php $finalPrice = $total - $earlyDiscount + 5 ;?>

@@ -5,8 +5,8 @@ use common\models\food\Food;
 use common\models\Orderitemselection;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
-use common\models\Orders;
-use common\models\Orderitem;
+use common\models\Order\Orders;
+use common\models\Order\Orderitem;
 use common\models\Restaurant;
 use yii\helpers\Html;
 use frontend\assets\DeliverymanOrdersHistoryAsset;
@@ -50,7 +50,7 @@ DeliverymanOrdersHistoryAsset::register($this);
         </div>
         <div id="deliveryman-orders-history-content" class="col-sm-10">
             <?php
-                foreach ($dman as $dman) :
+                foreach ($dman as $orderdetails) :
             ?>
             <table class="table table-user-info deliveryman-orders-history-table">
                 <thead>
@@ -64,9 +64,7 @@ DeliverymanOrdersHistoryAsset::register($this);
                         <th>Collect (RM)</th>
                     </tr>
                 </thead>
-                    <?php
-                        $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$dman['Delivery_ID']])->one();
-                    ?>
+                    
                     <tr>
                         <td data-th="Delivery ID"><?php echo $orderdetails['Delivery_ID']; ?></td>
                         <td data-th="Username"><?php echo $orderdetails['User_Username']; ?></td>

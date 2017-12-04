@@ -56,13 +56,13 @@ Modal::end();
                 <?php if(!empty($address)):?>
                     <?php foreach($address as $value):?>
                         <?php if($value['level'] == 1):?>
-                            <?php $order->Orders_Location = $value['id'];?>
-                            <?php $order->User_fullname = $value['recipient']?>
-                            <?php $order->User_contactno = $value['contactno']?>
+                            <?php $deliveryaddress->location = $value['id'];?>
+                            <?php $deliveryaddress->name = $value['recipient']?>
+                            <?php $deliveryaddress->contactno = $value['contactno']?>
                         <?php endif ;?>
                     <?php endforeach ;?>
                     <div class="row">
-                        <div class="col-md-10"><?= $form->field($order, 'Orders_Location')->radioList($addressmap)->label(false); ?></div>
+                        <div class="col-md-10"><?= $form->field($deliveryaddress, 'location')->radioList($addressmap)->label(false); ?></div>
                         <div class="col-md-2">
                             <?php echo Html::a('Edit',['/cart/editaddress'],['class' => 'btn btn-primary','data-toggle'=>'modal','data-target'=>'#edit-address-modal']); ?>
                         </div>
@@ -77,13 +77,13 @@ Modal::end();
                 <div class="row">
                     <div class="col-xs-3 cart-label">Name:</div>
                     <div class="col-xs-9">
-                        <?= $form->field($order, 'User_fullname')->textInput()->label('')?> 
+                        <?= $form->field($deliveryaddress, 'name')->textInput()->label('')?> 
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-3 cart-label">Contact No:</div>
                     <div class="col-xs-9">
-                        <?= $form->field($order, 'User_contactno')->textInput()->label('')?>
+                        <?= $form->field($deliveryaddress, 'contactno')->textInput()->label('')?>
                     </div>
                 </div>
             </div>

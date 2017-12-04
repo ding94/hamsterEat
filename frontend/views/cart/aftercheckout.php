@@ -43,15 +43,15 @@ CheckoutAsset::register($this);
                         <?php endforeach; ?>
                     <tr>
                         <td>Delivery Location:</td>
-                        <td colspan="2"><?= $order['Orders_Location'].', '.$order['Orders_Postcode'].', '.$order['Orders_Area']; ?></td>
+                        <td colspan="2"><?= $order['address']['fulladdress']; ?></td>
                     </tr>
                     <tr>
                         <td>Recipient:</td>
-                        <td colspan="2"><?= $order['User_fullname']; ?></td>
+                        <td colspan="2"><?= $order['address']['name']; ?></td>
                     </tr>
                     <tr>
                         <td>Contact No:</td>
-                        <td colspan="2"><?= $order['User_contactno']; ?></td>
+                        <td colspan="2"><?= $order['address']['contactno']; ?></td>
                     </tr>
                 </table>
                 <br>

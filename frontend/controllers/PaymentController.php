@@ -4,7 +4,7 @@ namespace frontend\controllers;
 
 use common\models\Payment;
 use common\models\Account\Accountbalance;
-use common\models\Orders;
+use common\models\Order\Orders;
 use frontend\controllers\MemberpointController;
 use frontend\controllers\CommonController;
 use Yii;
@@ -93,7 +93,6 @@ class PaymentController extends CommonController
               
                 if($userbalance->save() && $payment->save())
                 {
-                    Yii::$app->session->setFlash('success', 'Payment Successful');
                     return true;
                 }
         } 

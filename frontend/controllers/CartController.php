@@ -2,11 +2,13 @@
 namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
-use common\models\Orderitem;
 use common\models\User;
 use common\models\food\Food;
-use common\models\Orders;
-use common\models\Orderitemselection;
+use common\models\Order\Orders;
+use common\models\Order\Ordersstatuschange;
+use common\models\Order\Orderitemstatuschange;
+use common\models\Order\Orderitemselection;
+use common\models\Order\Orderitem;
 use common\models\food\Foodselectiontype;
 use common\models\food\Foodselection;
 use common\models\Area;
@@ -15,8 +17,6 @@ use common\models\UserVoucher;
 use common\models\VouchersType;
 use common\models\user\Userdetails;
 use common\models\user\Useraddress;
-use common\models\Ordersstatuschange;
-use common\models\Orderitemstatuschange;
 use common\models\Restaurant;
 use common\models\Account\Accountbalance;
 use common\models\Cart\Cart;
@@ -287,10 +287,10 @@ class CartController extends CommonController
                
             }
         }
-
-        $user = User::findOne($uid);
+        return $uid;
+        //$user = User::findOne($uid);
        
-        return $user->username;
+        //return $user->username;
     }
 
     public function actionNewaddress()
@@ -367,7 +367,7 @@ class CartController extends CommonController
     */
     public function actionAftercheckout($did)
     {
-        $order = PaymentController::findOrder($did);
+        $order = Orders::find()->where("orders.Delivery_ID = :id",[':id'=>$did])->joinWith(['address'])->one();
         
         if($order->Orders_Status == "Not Paid")
         {
@@ -375,6 +375,7 @@ class CartController extends CommonController
         }
         else
         {
+            Yii::$app->session->setFlash('success', 'Order Success');
             $orderitem = Orderitem::find()->joinWith('food')->where('Delivery_ID=:id',[':id'=>$did])->orderBy('Delivery_ID ASC')->all();
             return $this->render('aftercheckout', ['did'=>$did, 'order'=>$order,'orderitem'=>$orderitem ]);
         }

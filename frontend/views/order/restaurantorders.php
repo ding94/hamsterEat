@@ -2,7 +2,7 @@
 /* @var $this yii\web\View */
 
 use common\models\food\Food;
-use common\models\Orderitemselection;
+use common\models\Order\Orderitemselection;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
 use common\models\Orders;

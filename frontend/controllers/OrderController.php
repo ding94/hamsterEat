@@ -6,15 +6,15 @@ use Yii;
 use yii\web\Controller;
 use yii\data\Pagination;
 use yii\web\NotFoundHttpException;
-use common\models\Orders;
-use common\models\Orderitem;
+use common\models\Order\Orders;
+use common\models\Order\Orderitem;
+use common\models\Order\Orderitemselection;
 use common\models\food\Food;
 use common\models\Restaurant;
 use frontend\controllers\NotificationController;
 use kartik\mpdf\Pdf;
 use frontend\controllers\CommonController;
 use yii\filters\AccessControl;
-use common\models\Orderitemselection;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
 use common\models\Rmanagerlevel;
@@ -176,7 +176,7 @@ class OrderController extends CommonController
 //--This function loads the specific user's order details
     public function actionOrderDetails($did)
     {
-        $order = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
+        $order = Orders::find()->where("orders.Delivery_ID = :id",[':id'=>$did])->joinWith(['address'])->one();
         $orderitems = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
 
         if($order['Orders_Status']== 'Pending'){
@@ -248,7 +248,7 @@ class OrderController extends CommonController
 //--This function loads all the specific delivery man's assigned orders (not completed)
     public function actionDeliverymanOrders()
     {
-        $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status != :status and Orders_Status != :status1', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status1'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
+        $dman = Orders::find()->where('deliveryman = :dman and Orders_Status != :status and Orders_Status != :status1', [':dman'=>Yii::$app->user->identity->id, ':status'=>'Completed', ':status1'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->joinWith(['address'])->all();
 
         $record = DailySignInController::getDailyData(1);
         $link = CommonController::createUrlLink(5);
@@ -458,7 +458,9 @@ class OrderController extends CommonController
 //--This function loads the delivery man's assigned orders which have been completed
     public function actionDeliverymanOrderHistory()
     {
-        $dman = Orders::find()->where('Orders_DeliveryMan = :dman and Orders_Status = :status or Orders_status = :status2', [':dman'=>Yii::$app->user->identity->username, ':status'=>'Completed', ':status2'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->all();
+        $dman = Orders::find()->where('deliveryman = :dman and Orders_Status = :status or Orders_status = :status2', [':dman'=>Yii::$app->user->identity->id, ':status'=>'Completed', ':status2'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->joinWith(['address'])->all();
+
+      
         $link = CommonController::createUrlLink(5);
 
         return $this->render('deliverymanorderhistory', ['dman'=>$dman,'link'=>$link]);

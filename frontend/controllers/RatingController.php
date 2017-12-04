@@ -4,8 +4,8 @@ namespace frontend\controllers;
 
 use yii\web\Controller;
 use Yii;
-use common\models\Orders;
-use common\models\Orderitem;
+use common\models\Order\Orders;
+use common\models\Order\Orderitem;
 use common\models\Rating\Foodrating;
 use common\models\Rating\Servicerating;
 use common\models\Rating\RatingStatus;

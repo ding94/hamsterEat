@@ -51,6 +51,8 @@ class DiscountController extends Controller
 
 	public static function orderdiscount($code,$order)
 	{
+        $data['value'] = -1;
+        $data['data'] = "";
 		$uservoucher = UserVoucher::find()->where('code=:c',[':c'=>$code])->one();
         $voucher = Vouchers::find()->where('code=:c',[':c'=>$code])->all();
         
@@ -63,11 +65,11 @@ class DiscountController extends Controller
         if($valid == false){
             if ($uservoucher['uid'] != Yii::$app->user->identity->id) {
                 Yii::$app->session->setFlash('error', 'Coupon cannot be used.');
-                return false;
+                return $data;
             }
             elseif ($uservoucher['uid'] == Yii::$app->user->identity->id){
                 Yii::$app->session->setFlash('error', 'Coupon cannot be used again.');
-                return false;
+                return $data;
             }
         }
 
@@ -102,7 +104,7 @@ class DiscountController extends Controller
                                      
                         default:
                         	Yii::$app->session->setFlash('error', 'error.');
-                            return false;
+                            return $data;
                             break;
                     }
             	}
@@ -149,14 +151,14 @@ class DiscountController extends Controller
                                      
                         default:
                             Yii::$app->session->setFlash('error', 'error.');
-                            return false;
+                            return $data;
                             break;
                     }
                 }
             	else
             	{
             		Yii::$app->session->setFlash('error', 'Coupon was used.');
-					return false;
+					return $data;
             	}
             	//save voucher status
             	VouchersController::endvoucher($code);
@@ -171,7 +173,8 @@ class DiscountController extends Controller
         $order['Orders_DeliveryCharge']= number_format($order['Orders_DeliveryCharge'],2);
         $order['Orders_DiscountTotalAmount']= number_format($order['Orders_DiscountTotalAmount'],2);
         $order['Orders_TotalPrice']= number_format($order['Orders_TotalPrice'],2);
-        
-		return $order;
+        $data['data'] = $order;
+        $data['value'] = 1;
+		return $data;
 	}
 }

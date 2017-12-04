@@ -136,6 +136,9 @@ function quantity(up,cid)
         $("input[name='code']").val(obj['code'].replace(/\s+/g,''));
 
         document.getElementById("voucher").style ='display:none';
+        document.getElementById("earlytd").style ='display:none';
+        document.getElementById("cs").style ='display:none';
+        document.getElementById("pcs").style ='display:none';
         document.getElementById("refresh").style ='display:block';
 		$('.table-total tr:nth-child(2)').after("<tr><td><b>Discount</b></td><td class='text-xs-left'>-RM "+discout+"</td></tr>");
       }
@@ -168,3 +171,9 @@ function quantity(up,cid)
   {
     location.reload();
   }
+
+  function showDiv() {
+   document.getElementById('cs').style.display = "block";
+   document.getElementById('refresh').style.display = "block";
+   document.getElementById('voucher').style.display = "none";
+}

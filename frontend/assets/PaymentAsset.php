@@ -13,7 +13,8 @@ class PaymentAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/payment.css',
-        'css/progress-bar.css'
+        'css/progress-bar.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/cart.js',

@@ -10,7 +10,6 @@ use kartik\widgets\Select2;
 use frontend\assets\NewRestaurantAsset;
 
 $this->title = 'New Restaurant';
-$this->params['breadcrumbs'][] = $this->title;
 NewRestaurantAsset::register($this);
 ?>
 <div class="site-signup">
@@ -31,7 +30,7 @@ NewRestaurantAsset::register($this);
 
             <?php echo "<strong>"."Restaurant Area"; ?> </strong> <br> <?php echo $areachosen; ?> <br> <br>
 
-            <?php echo "<strong>"."Restaurant Postcode"; ?> </strong> <br> <?php echo $postcodechosen; ?> <br> <br>
+            <?= $form->field($restaurant, 'Restaurant_Postcode') ?><br> <br>
 
             <?php echo "<strong>"."Restaurant Group Area"; ?> </strong> <br> <?php echo $restArea; ?> <br> <br>
 
@@ -62,11 +61,10 @@ NewRestaurantAsset::register($this);
             <?= $form->field($restaurant, 'Restaurant_RestaurantPicPath')->fileInput()->label('Restaurant Picture') ?>
 
             <?= Html::hiddenInput("restArea", $restArea); ?>
-            <?= Html::hiddenInput("postcodechosen", $postcodechosen); ?>
             <?= Html::hiddenInput("areachosen", $areachosen); ?>
             
             <div class="form-group">
-                <?= Html::submitButton('Create Restaurant', ['class' => 'btn btn-primary', 'name' => 'newrestaurant-button']) ?>                
+                <?= Html::submitButton('Create Restaurant', ['class' => 'raised-btn main-btn', 'name' => 'newrestaurant-button']) ?>                
             </div>
             <?php ActiveForm::end(); ?>
         </div>

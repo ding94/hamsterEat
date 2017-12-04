@@ -11,24 +11,23 @@
 }
 
 #w0{
-    display:inline-flex;
-    padding-top:3%;
-    height:100px;
+  display:inline-flex;
+  padding-top:3%;
+  height:100px;
 }
 
 #month{
   padding-right: 5px;
 }
+
 #year{
   padding-left: 0px;
   padding-right: 0px;
 }
 
 #filter-button{
-   margin-top: 5px
+  margin-top: 18px
 }
-
-
 
 .earning-left{
   margin-top:2em;
@@ -50,7 +49,6 @@
 }
 
 @media (max-width: 768px){
- 
   #restaurant-earnings-content{
     border-left: 0px;
   }
@@ -59,9 +57,18 @@
 @media(max-width: 480px){
   #year{
     width: 50%;
-     padding-right: 15px;
+    padding-right: 15px;
   }
+
   #month{
     width: 50%;
+  }
+
+  #filter-button{
+    width: 100%;
+  }
+
+  .raised-btn{
+    width: 100%;
   }
 }

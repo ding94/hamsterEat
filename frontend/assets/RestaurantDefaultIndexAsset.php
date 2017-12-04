@@ -14,6 +14,7 @@ class RestaurantDefaultIndexAsset extends AssetBundle
     public $css = [
         'css/restaurant-default-index.css',
         'css/filter.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/PhotoSlider.js',

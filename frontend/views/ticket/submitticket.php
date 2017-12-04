@@ -61,8 +61,8 @@ UserAsset::register($this);
 
                  <?= $form->field($upload, 'imageFile')->fileInput() ?>
 
-                <div class="form-group" style="padding-left: 40%">
-                    <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+                <div class="form-group" id="submit-ticket">
+                    <?= Html::submitButton('Submit', ['class' => 'raised-btn main-btn submit-resize-btn', 'name' => 'contact-button']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

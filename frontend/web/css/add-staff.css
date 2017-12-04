@@ -27,6 +27,10 @@
   padding-top: 15px;
 }
 
+.search-bar{
+  width: 200px;
+}
+
 @media (max-width: 767px){
   #add-staff-nav > li > a {
     font-size: large;
@@ -66,5 +70,18 @@
 
   #add-staff-content td > a{
   	display: block;
+  }
+
+  .search-bar{
+    width: 100%;
+  }
+
+  .btn-search{
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .table-restaurant-details{
+    margin-top: 10px;
   }
 }

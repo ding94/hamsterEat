@@ -50,10 +50,10 @@ DeliverymanOrdersAsset::register($this);
         <div id="deliveryman-orders-content" class="col-sm-10">
             <?php if($record->result == 1):?>
                 <h3>You can receive delivery orders for today!</h3>
-              <?=Html::a('Already Sign In',['Delivery/daily-sign-in/signin'],['class' => 'btn btn-primary btn-lg btn-signin', 'disabled' =>"true"]);?>
+              <?=Html::a('Already Sign In',['Delivery/daily-sign-in/signin'],['class' => 'raised-btn alternative-btn btn-lg btn-signin', 'disabled' =>"true"]);?>
             <?php else :?>
                 <h3>Sign in to receive delivery orders!</h3>
-              <?=Html::a('Sign In',['Delivery/daily-sign-in/signin'],['class' => 'btn btn-primary btn-lg btn-signin']);?>
+              <?=Html::a('Sign In',['Delivery/daily-sign-in/signin'],['class' => 'raised-btn main-btn btn-lg btn-signin']);?>
             <?php endif ;?>
             <?php 
                 if (empty($dman)){
@@ -93,7 +93,7 @@ DeliverymanOrdersAsset::register($this);
                     { ?>
                         <td data-th="Collect (RM)"><?php echo $orderdetails['Orders_TotalPrice']; ?></td>
                     <?php } ?>
-                    <td data-th="View Map"><a class='btn btn-info' target='_blank' href='http://maps.google.com/maps?daddr=<?php echo $location; ?>,+<?php echo $postcode; ?>,+<?php echo $district; ?>,+Malaysia&amp;ll='>Show Location</a></td>
+                    <td data-th="View Map"><a class='raised-btn secondary-btn' target='_blank' href='http://maps.google.com/maps?daddr=<?php echo $location; ?>,+<?php echo $postcode; ?>,+<?php echo $district; ?>,+Malaysia&amp;ll='>Show Location</a></td>
                 </tr>
                 <thead>
                     <tr>
@@ -156,7 +156,9 @@ DeliverymanOrdersAsset::register($this);
                         elseif ($orderitemdetails['OrderItem_Status'] == 'Ready For Pick Up')
                         {
                     ?>
+
                     <td data-th="Update Status"><?php echo Html::a('Picked Up', ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$orderdetails['Delivery_ID']], ['class'=>'btn btn-primary']); ?></td>
+
                     <?php
                         }
                         if ($orderdetails['Orders_Status'] != 'On The Way')
@@ -169,6 +171,7 @@ DeliverymanOrdersAsset::register($this);
                         {
                     ?>
                     <td data-th="Update Status"><?php echo Html::a('Completed', ['update-completed', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$orderdetails['Delivery_ID']], ['class'=>'btn btn-primary']); ?></td>
+
                 </tr>
                     <?php
                         }

@@ -66,22 +66,20 @@
   
 }
 
-.outer-item :hover{
-   background-color: #fffbe5;
-}
-
 #res{
   margin: 10px 10px 10px 10px;
   float: right;
 }
-#res:hover{
-	 background-color: #e67300; 
+
+#res:focus{
+  text-decoration: none;
 }
 
 #food{
   margin: 10px 10px 10px 10px;
   float: right;
 }
+
 #food:hover{
 	 background-color: #e67300; 
 }

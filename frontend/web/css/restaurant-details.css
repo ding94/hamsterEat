@@ -100,6 +100,10 @@
   #button-container a{
     display: block;
   }
+
+  .resize-btn{
+    width: 100%;
+  }
 }
 
 @media(max-width: 449px){
@@ -134,17 +138,20 @@
     margin-top: 80px;
     margin-bottom: 15px;
   }
-}
 
-@media(max-width: 530px){
-  .img img{
-      width: 100%;  
+  .resize-btn{
+    width: 49%;
   }
 }
 
 @media(max-width: 530px){
   .img img{
       width: 100%;  
+  }
+
+  .resize-btn{
+    width: 100%;
+    margin-top: 10px;
   }
 }
 
@@ -218,7 +225,6 @@
   .item .img{
     float:left;
   }
-
 }
 
 @media(max-width:991px) and (min-width: 731px){
@@ -240,11 +246,10 @@
     float:right;
     width: 66%;
   }
+
   #back{
-	
- display:none;
-	
-}
+    display:none;
+  }
 }
 
 @media(min-width:992px){
@@ -258,11 +263,10 @@
     align-items: center;
     justify-content:center;
   }
+
   #back{
-	
- display:none;
-	
-}
+    display:none;
+	}
 }
 
 @media(max-width: 1199px) and (min-width:992px){
@@ -284,11 +288,10 @@
     float:right;
     width: 54%;
   }
+
   #back{
-	
- display:none;
-	
-}
+    display:none;
+  }
 }
 
 @media(min-width: 1200px){
@@ -310,49 +313,14 @@
     float:right;
     width: 59%;
   }
+
   #back{
-	
- display:none;
-	
-}
-
+    display:none;
+  }
 }
 
 @media(max-width:730px){
 	.scrollToTop{
-	padding:25px; 
-	z-index:99; 
-	background-color:#FFDA00;
-	text-decoration: none;
-	position:fixed;
-	top:80%;
-	right:8%;
-	display:none;
-	background: url('./../SysImg/Icon2.png') no-repeat;
-	background-size: 40px 40px;
-	background-color:#FFDA00;
-	background-position: center;
-	border-radius: 50%;
-	margin-top:20px;
-}
-.scrollToTop:hover{
-	text-decoration:none;
-}
-}
-
-	#back{
-	
- position:absolute;
- left:13px;
-	
-}
-
-/*
-=======
-
-@media(max-width:730px){
-	.scrollToTop{
->>>>>>> 60cc4d98373632844fdea289f69def41f9c0f414
   	padding:25px; 
   	z-index:99; 
   	background-color:#FFDA00;
@@ -368,10 +336,13 @@
   	border-radius: 50%;
   	margin-top:20px;
   }
+
   .scrollToTop:hover{
   	text-decoration:none;
   }
-<<<<<<< HEAD
-}
->>>>>>> 60cc4d98373632844fdea289f69def41f9c0f414*/
 
+	#back{
+    position:absolute;
+    left:13px;
+  }
+}

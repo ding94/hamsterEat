@@ -14,6 +14,7 @@ class ManageStaffAsset extends AssetBundle
     public $css = [
         'css/manage-staff.css',
         'css/drop-down-mobile.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/cart.js',

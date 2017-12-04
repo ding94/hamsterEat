@@ -114,21 +114,3 @@ TopupWithdrawMpHistoryAsset::register($this);
         </div>
     </div>
 </div>
-
-<?php 
-/*Modal::begin([
-'id' => 'reason-modal',
-'header' => '<h4 class="modal-title">Reject Reason</h4>',
-'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
-]); 
-$requestUrl = Url::toRoute('user/rejectreason');
-$js = <<<JS
-$.get('{$requestUrl}', {},
-function (data) {
-$('.modal-body').html(data);
-} 
-);
-JS;
-$this->registerJs($js);
-Modal::end(); */
-?>

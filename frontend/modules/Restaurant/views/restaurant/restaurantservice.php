@@ -9,7 +9,7 @@ $this->title = "Owned/Manage Restaurants";
 StarsAsset::register($this);
 RestaurantServiceAsset::register($this);
 ?>
-<div class ="container" ><h1>Manage Owned Restaurants <?= Html::a('Add Restaurant', ['/Restaurant/default/new-restaurant-location'], ['class'=>'btn btn-success']) ?></h1> 
+<div class ="container" ><h1>Manage Owned Restaurants <?= Html::a('Add Restaurant', ['/Restaurant/default/new-restaurant-location'], ['class'=>'raised-btn main-btn']) ?></h1> 
  <div class="outer-container" id="outer" >
     <div class="menu-container" id="menucon">
       <?php foreach($restaurant as $k => $res ){?>

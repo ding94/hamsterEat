@@ -15,18 +15,10 @@ $this->title = 'New Restaurant Location';
         <h2> Enter Your Restaurant's Location</h2>
         <?php $form = ActiveForm::begin(); ?>
 
-        <?= $form->field($postcode, 'Area_Postcode')->widget(Select2::classname(), [
+        <?= $form->field($postcode, 'Area_Area')->widget(Select2::classname(), [
         'data' => $postcodeArray,
-        'options' => ['placeholder' => 'Select a postcode ...','id'=>'postcode-select-edit']])->label('Postcode');
+        'options' => ['placeholder' => 'Select an area ...']])->label('Area');
         ?>
-        <?= $form->field($postcode,'Area_Area')->widget(DepDrop::classname(), [
-            'type'=>DepDrop::TYPE_SELECT2,
-            'options' => ['id'=>'area-select-edit','placeholder' => 'Select an area ...'],
-            'pluginOptions'=>[
-                'depends'=>['postcode-select-edit'],
-                'url'=>Url::to(['/Restaurant/default/get-area'])
-            ],
-            ]); ?>
 
         <?= Html::submitButton('Proceed', ['class' => 'button-three']) ?>
         <?php ActiveForm::end(); ?>

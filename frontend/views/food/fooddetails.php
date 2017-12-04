@@ -154,7 +154,7 @@ FoodDetailsAsset::register($this);
                     ],
                 ])->label(false); ?> 
               <div>
-                <?= Html::submitButton('Add to cart', ['class' => 'btn addtocart-btn', 'name' => 'addtocart']) ?>
+                <?= Html::submitButton('Add to cart', ['class' => 'raised-btn addtocart-btn', 'name' => 'addtocart']) ?>
 
        
              </div>

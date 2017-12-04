@@ -53,6 +53,12 @@ a:hover {
  
 }
 
+@media(max-width: 767px){
+  .raised-btn{
+    width: 100%;
+  }
+}
+
 @media(max-width: 780px){
 
   .menu-container{

@@ -70,7 +70,7 @@ RestaurantEarningsAsset::register($this);
                  <?= $form->field($selected, 'Year')->dropDownList($year, ['value'=>$currentyear])->label(''); ?>
             </div>
             <div id="filter-button" class="col-xs-2">
-                  <?= Html::submitButton('Filter', ['class' => 'btn btn-primary', 'name' => 'filter-button']); ?>   
+                  <?= Html::submitButton('Filter', ['class' => 'raised-btn main-btn', 'name' => 'filter-button']); ?>   
             </div>
        <?php else :?>
             <div id="month" class="col-xs-2">
@@ -80,7 +80,7 @@ RestaurantEarningsAsset::register($this);
                   <?= $form->field($selected, 'Year')->dropDownList($year, ['value'=>$selectedyear])->label(''); ?>
             </div>
             <div id="filter-button" class="col-xs-2">
-                   <?= Html::submitButton('Filter', ['class' => 'btn btn-primary', 'name' => 'filter-button']); ?>
+                   <?= Html::submitButton('Filter', ['class' => 'raised-btn main-btn', 'name' => 'filter-button']); ?>
             </div>
         <?php endif?>
         </div> 

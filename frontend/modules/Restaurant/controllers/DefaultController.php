@@ -216,23 +216,22 @@ class DefaultController extends CommonController
     public function actionNewRestaurantLocation()
     {
         $postcode = new Area();
-        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
+        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Area','Area_Area');
         if(Yii::$app->request->isPost)
         {
             $area = Yii::$app->request->post('Area');
-            $postcodechosen = $area['Area_Postcode'];
             $areachosen = $area['Area_Area'];
-            $restArea = Area::find()->where('Area_Postcode = :area_postcode and Area_Area = :area_area',[':area_postcode'=> $area['Area_Postcode'] , ':area_area'=>$area['Area_Area']])->one();        
+            $restArea = Area::find()->where('Area_Area = :area_area',[':area_area'=>$area['Area_Area']])->one();        
             $restArea = $restArea['Area_Group'];
             // return $this->actionEditRestaurantDetails2($restArea, $postcodechosen, $areachosen, $rid);
-            return $this->redirect(['new-restaurant', 'restArea'=>$restArea, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen]);
+            return $this->redirect(['new-restaurant', 'restArea'=>$restArea, 'areachosen'=>$areachosen]);
         }
 
         return $this->render('newrestaurantlocation',['postcode'=>$postcode, 'postcodeArray'=>$postcodeArray]);
     }
     
 //--This creates a new restaurant
-    public function actionNewRestaurant($restArea, $postcodechosen, $areachosen)
+    public function actionNewRestaurant($restArea, $areachosen)
     {
         $restaurant = new Restaurant();
 
@@ -256,7 +255,6 @@ class DefaultController extends CommonController
                 $restaurant->Restaurant_Manager=Yii::$app->user->identity->username;
 
                 $restaurant->Restaurant_AreaGroup = Yii::$app->request->post('restArea');
-                $restaurant->Restaurant_Postcode = Yii::$app->request->post('postcodechosen');
                 $restaurant->Restaurant_Area = Yii::$app->request->post('areachosen');
                 $time = time(); $restaurant->Restaurant_DateTimeCreated = $time;
                 $restaurant->Restaurant_Status = 'Under Renovation';
@@ -280,11 +278,11 @@ class DefaultController extends CommonController
                 
                 Yii::$app->session->setFlash('success', 'Congratulations! Your restaurant has been set up and is currently waiting for a menu to be set up.');
                 
-                return $this->redirect(['restaurant-details', 'restaurant'=> $restaurant, 'restArea'=>Yii::$app->request->post('restArea'), 'postcodechosen'=>Yii::$app->request->post('postcodechosen'), 'areachosen'=>Yii::$app->request->post('areachosen'), 'rid'=>$rid]);           
+                return $this->redirect(['restaurant-details', 'restaurant'=> $restaurant, 'restArea'=>Yii::$app->request->post('restArea'), 'areachosen'=>Yii::$app->request->post('areachosen'), 'rid'=>$rid]);           
             }
         else 
             {
-                return $this->render('newrestaurant', ['restaurant' => $restaurant, 'restArea'=>$restArea, 'postcodechosen'=>$postcodechosen, 'areachosen'=>$areachosen, 'type'=>$type]);
+                return $this->render('newrestaurant', ['restaurant' => $restaurant, 'restArea'=>$restArea, 'areachosen'=>$areachosen, 'type'=>$type]);
             }
     }
 

@@ -15,8 +15,6 @@ $this->title = "Available Restaurants";
 
 StarsAsset::register($this);
 RestaurantDefaultIndex2Asset::register($this);
-CartAsset::register($this);
-
 
 Modal::begin([
     'options' => [
@@ -43,8 +41,8 @@ Modal::end();
     <h1 style="padding-top:10px;">Order Food for Delivery </h1>
 
   
-        <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index'], ['class'=>'btn btn-default']);?>
-		<?php echo Html::a('<i class="fa fa-thumbs-up"> Food</i>', ['show-by-food'], ['class'=>'btn btn-default','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>       
+        <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index'], ['class'=>'raised-btn']);?>
+		<?php echo Html::a('<i class="fa fa-thumbs-up"> Food</i>', ['show-by-food'], ['class'=>'raised-btn','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>       
 		<?php  $cookies = Yii::$app->request->cookies;
                $halal = $cookies->getValue('halal');
 			   $session = Yii::$app->session;	

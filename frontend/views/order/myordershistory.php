@@ -31,7 +31,7 @@ MyOrdersHistoryAsset::register($this);
                         <td><center><?php echo Html::a($label ,['invoice-pdf','did'=>$orders['Delivery_ID']], ['target'=>'_blank']); ?></td>
                         <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
                         <td><center> <?php echo Html::a(date('d/m/Y H:i:s', $orders['Orders_DateTimeMade']) ,['invoice-pdf','did'=>$orders['Delivery_ID']], ['target'=>'_blank']); ?></td>
-                        <td><center><?php echo Html::a("Invoice Detail" ,['invoice-pdf','did'=>$orders['Delivery_ID']], ['target'=>'_blank' ,'class'=>'btn btn-primary']); ?></center></td>
+                        <td><center><?php echo Html::a("Invoice Detail" ,['invoice-pdf','did'=>$orders['Delivery_ID']], ['target'=>'_blank' ,'class'=>'raised-btn main-btn']); ?></center></td>
                      </tr>
                  </tbody>
                

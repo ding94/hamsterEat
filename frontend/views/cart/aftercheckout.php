@@ -110,7 +110,7 @@ CheckoutAsset::register($this);
             </div>
         </div>
         <div class="more-detail">
-            <center><?php echo Html::a('More Detail', ['/order/order-details','did'=>$order['Delivery_ID']], ['class'=>'btn btn-primary'])?>
-            <?php echo Html::a('Home', ['/site/index'], ['class'=>'btn btn-primary'])?></center>
+            <center><?php echo Html::a('More Detail', ['/order/order-details','did'=>$order['Delivery_ID']], ['class'=>'raised-btn main-btn'])?>
+            <?php echo Html::a('Home', ['/site/index'], ['class'=>'raised-btn secondary-btn'])?></center>
         </div>
     </div>

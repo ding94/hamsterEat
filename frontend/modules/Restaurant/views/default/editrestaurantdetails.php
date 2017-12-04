@@ -17,8 +17,8 @@ EditRestaurantDetailsAsset::register($this); ?>
 @media(max-width: 480px){
 #location-modal .modal-content{
     margin:auto;
-width:298px;
-}
+    width:298px;
+    }
 }
 </style>
 <body>
@@ -98,7 +98,7 @@ if (!is_null($areachosen))
 
                 <strong>Restaurant Group Area</strong><br><?php echo $restaurantdetails['Restaurant_AreaGroup']; ?><br><br>
 
-                <?php echo Html::a('Edit Area', ['edit-restaurant-area', 'rid'=>$restaurantdetails['Restaurant_ID']], ['class'=>'btn btn-default','data-toggle'=>'modal','data-target'=>'#location-modal']); ?><br><br>
+                <?php echo Html::a('Edit Area', ['edit-restaurant-area', 'rid'=>$restaurantdetails['Restaurant_ID']], ['class'=>'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#location-modal']); ?><br><br>
 
                 <?php echo '<label class="control-label">Type</label>';
                         echo Select2::widget([
@@ -122,7 +122,7 @@ if (!is_null($areachosen))
                 <?= $form->field($restaurantdetails, 'Restaurant_RestaurantPicPath')->fileInput()->label('Picture') ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Save', ['class' => 'btn btn-primary', 'name' => 'save-button']) ?>
+                    <?= Html::submitButton('Save', ['class' => 'raised-btn main-btn', 'name' => 'save-button']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

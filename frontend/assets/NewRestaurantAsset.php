@@ -13,6 +13,7 @@ class NewRestaurantAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/new-restaurant.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/rating-index.js',

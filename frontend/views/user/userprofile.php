@@ -14,7 +14,7 @@ UserAsset::register($this);
       'header' => '<h2 class="modal-title">Report</h2>',
       'id'     => 'modal',
       'size'   => 'modal-sm',
-      'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
   ]);
   Modal::end();
     //new address modal
@@ -22,7 +22,7 @@ UserAsset::register($this);
       'header' => '<h2 class="modal-title">New Address</h2>',
       'id'     => 'address-modal',
       'size'   => 'modal-md',
-      'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
   ]);
   Modal::end();
   // edit address modal
@@ -30,7 +30,7 @@ UserAsset::register($this);
         'header' => '<h2 class="modal-title">Edit Address</h2>',
         'id'     => 'edit-address-modal',
         'size'   => 'modal-md',
-        'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+        'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
   ]);
   Modal::end() 
 ?>
@@ -45,23 +45,25 @@ UserAsset::register($this);
           <div class="userprofile-avatar">
               <?php $picpath = is_null($user->userdetails->User_PicPath) ? Url::to('@web/imageLocation/Default.png'): $user->userdetails->User_PicPath ?>
               <?php echo Html::img($picpath,['class'=>"userprofile-image"])?>
-              <?= Html::a('Edit', ['/user/userdetails'], ['class'=>'btn btn-default userprofile-editbutton']) ?>
+              <?= Html::a('Edit', ['/user/userdetails'], ['class'=>'raised-btn btn-default userprofile-editbutton']) ?>
           </div>
         </div>
         <div class="col-sm-9 userprofile-right">
-          <h4>Detail</h4>
+          <h4><b>Details</b></h4>
           <div class="userprofile-input">
               <div class="row outer-row">
                 <div class="inner-row">
                   <div class="userprofile-label">User Name:</div>
                   <div class="userprofile-text"><?php echo $user->username?></div>
                 </div>
-                <div class="inner-row">
+               </div>
+              <div class="row outer-row">
+			   <div class="inner-row">
                   <div class="userprofile-label">Full Name:</div>
                   <div class="userprofile-text"><?php echo $user->userdetails->fullname ?></div>
                 </div>
-              </div>
-              <div class="row outer-row">
+                </div>
+				 <div class="row outer-row">
                 <div class="userprofile-label">Contact:</div>
                 <div class="userprofile-text"><?php echo empty($user->userdetails->User_ContactNo) ? "not set" :$user->userdetails->User_ContactNo ?></div>
               </div>
@@ -73,7 +75,7 @@ UserAsset::register($this);
 
           <div class="userprofile-address">
             <?php $count = count($user->address)?>
-            <?php echo $count < 3 ? Html::a("Add New Address",['/user/newaddress'],['class' => 'btn btn-success add-new-address-btn','data-toggle'=>'modal','data-target'=>'#address-modal']) : ""?>
+            <?php echo $count < 3 ? Html::a("Add New Address",['/user/newaddress'],['class' => 'raised-btn main-btn add-new-address-btn','data-toggle'=>'modal','data-target'=>'#address-modal']) : ""?>
         
               <?php if(empty($user->address)) :?>
                   <h4>Empty Address</h4>

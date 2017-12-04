@@ -15,13 +15,12 @@ $this->title = $rname."'s"." Menu";
 FoodMenuAsset::register($this);
 StarsAsset::register($this);
 FoodServiceAsset::register($this);
-CartAsset::register($this);
 
 Modal::begin([
       'header' => '<h2 class="modal-title">Please Provide Reason</h2>',
       'id'     => 'add-modal',
       'size'   => 'modal-md',
-      'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
 ]);
 Modal::end();
 ?>
@@ -72,7 +71,7 @@ Modal::end();
         </div>
 		<a href="#top" class="scrollToTop"></a>
         <div id="food-menu-content" class="col-sm-10">
-          <?php echo Html::a('Insert Food', ['/food/insert-food','rid'=>$rid], ['class'=>'btn btn-primary']); ?>
+          <?php echo Html::a('Insert Food', ['/food/insert-food','rid'=>$rid], ['class'=>'raised-btn main-btn']); ?>
           
           <div class="outer-container" id="outer">
             <div class="menu-container" id="menucon">
@@ -92,12 +91,12 @@ Modal::end();
                   </div>
                 </div>
                 <?php
-                  echo Html::a('', ['/food/edit-food','id'=>$menu['Food_ID']], ['class'=>'btn-lg btn-primary fa fa-pencil edit-button']); 
+                  echo Html::a('', ['/food/edit-food','id'=>$menu['Food_ID']], ['class'=>'raised-btn btn-lg main-btn fa fa-pencil edit-button']); 
                   if (!empty($status)) :
                       if ($status['Status'] == 0) :
-                        echo Html::a('Resume Food Service', Url::to(['/Restaurant/restaurant/active', 'id'=>$menu['Food_ID'],'item'=>2]), ['id'=>'res','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-success']);
+                        echo Html::a('Resume Food Service', Url::to(['/Restaurant/restaurant/active', 'id'=>$menu['Food_ID'],'item'=>2]), ['id'=>'res','data-confirm'=>"Do you want to Resume Operate?",'class'=>'raised-btn btn-success']);
                       elseif ($status['Status'] == 1) :
-                        echo Html::a('Pause Food Service', Url::to(['/Restaurant/restaurant/providereason', 'id'=>$menu['Food_ID'],'rid'=>$rid,'item'=>2]), ['id'=>'res','class'=>'btn btn-danger','data-toggle'=>'modal','data-target'=>'#add-modal']);
+                        echo Html::a('Pause Food Service', Url::to(['/Restaurant/restaurant/providereason', 'id'=>$menu['Food_ID'],'rid'=>$rid,'item'=>2]), ['id'=>'res','class'=>'raised-btn btn-danger','data-toggle'=>'modal','data-target'=>'#add-modal']);
                       endif;
                   endif;
                 ?>

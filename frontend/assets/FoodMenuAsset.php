@@ -15,6 +15,7 @@ class FoodMenuAsset extends AssetBundle
         'css/food-menu.css',
         'css/drop-down-mobile.css',
 		'css/filter.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/cart.js',

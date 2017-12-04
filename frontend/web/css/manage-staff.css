@@ -52,4 +52,8 @@
   div#manage-staff-content td > a {
     display: block;
   }
+
+  .raised-btn{
+    width: 100%;
+  }
 }

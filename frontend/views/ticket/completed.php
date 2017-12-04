@@ -93,9 +93,9 @@ We would like to thank you for writing to us, have a great day!</p><br>
                     </tr>
             <?php   }   ?>
         </table>
-        <div class="form-group"> 
-            <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'btn btn-primary']) ?>
-            <?= Html::a('Processing Ticket', ['/ticket/index'], ['class'=>'btn btn-primary']) ?>
+        <div class="form-group" id="complete-ticket"> 
+            <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'raised-btn main-btn resize-btn']) ?>
+            <?= Html::a('Processing Ticket', ['/ticket/index'], ['class'=>'raised-btn main-btn resize-btn']) ?>
         </div>
     </div>
 </div>

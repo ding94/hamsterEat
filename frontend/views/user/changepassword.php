@@ -53,8 +53,8 @@ UserAsset::register($this);
         <?= $form->field($model, 'new_password')->passwordInput() ?>
         <?= $form->field($model, 'repeat_password')->passwordInput()->label("Confirm New Password") ?>
         <div class="form-group">
-            <?= Html::submitButton('Update', ['class' => 'btn btn-success']) ?>
-            <?php echo Html::a("Back" ,['/user/user-profile'],['class'=>'btn btn-primary'])?>
+            <?= Html::submitButton('Update', ['class' => 'raised-btn main-btn change-password-resize-btn']) ?>
+            <?php echo Html::a("Back" ,['/user/user-profile'],['class'=>'raised-btn secondary-btn change-password-resize-btn'])?>
        </div>
     <?php ActiveForm::end();?>
 

@@ -14,6 +14,7 @@ class EditRestaurantDetailsAsset extends AssetBundle
     public $css = [
         'css/edit-restaurant-details.css',
         'css/drop-down-mobile.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/cart.js',

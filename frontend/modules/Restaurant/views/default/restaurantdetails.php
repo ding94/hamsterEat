@@ -23,7 +23,7 @@ RestaurantDetailsAsset::register($this);
             'header' => '<h2 class="modal-title">Report</h2>',
             'id'     => 'report-modal',
             'size'   => 'modal-sm',
-            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+            'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
     ]);
     
     Modal::end() ?>
@@ -38,10 +38,10 @@ RestaurantDetailsAsset::register($this);
             $picpath = "DefaultRestaurant.jpg";
         }
          echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive pull-left restaurant-img']) ?> 
-		  <?php echo Html::a("Back" ,Yii::$app->request->referrer,['class'=>'btn btn-primary','id'=>'back'])?>
+		  <?php echo Html::a("Back" ,Yii::$app->request->referrer,['class'=>'raised-btn secondary-btn','id'=>'back'])?>
 		 <?php echo "</th>"; ?>
          <div class="restaurant-info-inner">
-             <h1><?php echo $id['Restaurant_Name']; ?><span class="pull-right"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'btn btn-primary','data-toggle'=>'modal','data-target'=>'#report-modal']) ?></span></h1>
+             <h1><?php echo $id['Restaurant_Name']; ?><span class="pull-right"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#report-modal']) ?></span></h1>
       <ul class="info">
         <?php if ($id['Restaurant_Pricing'] == 1){ ?>
         <li class="none">$</li>
@@ -63,11 +63,11 @@ RestaurantDetailsAsset::register($this);
     </div>
     <?php if(!empty($staff)) : ?>
             <div id="button-container">
-                <span><?php echo Html::a('Manage Restaurant', Url::to(['/Restaurant/default/manage-restaurant-staff' ,'rid'=>$id['Restaurant_ID']]), ['class'=>'btn btn-primary']) ?></span>
+                <span><?php echo Html::a('Manage Restaurant', Url::to(['/Restaurant/default/manage-restaurant-staff' ,'rid'=>$id['Restaurant_ID']]), ['class'=>'resize-btn raised-btn main-btn']) ?></span>
                 <span> <?php if ($id['Restaurant_Status'] == "Closed"): ?>
-                    <?=Html::a('Resume Resturant Operate', Url::to(['restaurant/active', 'id'=>$id['Restaurant_ID'],'item'=>1]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-success'])?>
+                    <?=Html::a('Resume Resturant Operate', Url::to(['restaurant/active', 'id'=>$id['Restaurant_ID'],'item'=>1]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'resize-btn raised-btn btn-success'])?>
                     <?php elseif($id['Restaurant_Status'] == "Operating"): ?>
-                    <?=Html::a('Pause Resturant Operate', Url::to(['restaurant/pauserestaurant', 'id'=>$id['Restaurant_ID'],'item'=>1]), ['id'=>'pause','data-confirm'=>"Do you want to Pause Operate?",'class'=>'btn btn-danger'])?>  
+                    <?=Html::a('Pause Resturant Operate', Url::to(['restaurant/pauserestaurant', 'id'=>$id['Restaurant_ID'],'item'=>1]), ['id'=>'pause','data-confirm'=>"Do you want to Pause Operate?",'class'=>'resize-btn raised-btn btn-danger'])?>  
                 <?php endif ?></span>
             </div>
         <?php endif ?>
@@ -85,11 +85,11 @@ RestaurantDetailsAsset::register($this);
       $id = isset($_GET['foodid']) ? $_GET['foodid'] : ''; 
     ?>
     <div class="outer-container">
-    <div class="menu-container">
+    <div class="menu-container" id="menu-container">
             <?php
               foreach($rowfood as $data): 
             ?>
-        <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>"  data-toggle="modal" data-target="#foodDetail" data-img="<?php echo $data['PicPath'];?>">
+        <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>"  class ="food-link" data-toggle="modal" data-target="#foodDetail" data-img="<?php echo $data['PicPath'];?> ">
         <div class="item">
             <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$data['PicPath']) ?></div>
             <div class="inner-item">

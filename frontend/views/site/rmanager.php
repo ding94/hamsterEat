@@ -27,7 +27,7 @@ $this->title = 'Restaurant Manager Signup';
 
                 <?= $form->field($model, 'email') ?>
                 <div class="form-group">
-                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                    <?= Html::submitButton('Signup', ['class' => 'raised-btn main-btn', 'name' => 'signup-button']) ?>
                 </div>
                 
             <?php ActiveForm::end(); ?>

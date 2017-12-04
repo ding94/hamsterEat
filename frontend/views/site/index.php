@@ -72,7 +72,7 @@ $this->title = 'hamsterEat';
 	   	</div>
 	</div>
 <!--<div id="DescContainer" class="container">-->
-<div id="SSCrow3" class="row">
+<div id="SSCrow3">
    <div class="container">
 		
 			<div class="boxs">				

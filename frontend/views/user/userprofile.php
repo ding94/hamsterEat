@@ -49,19 +49,21 @@ UserAsset::register($this);
           </div>
         </div>
         <div class="col-sm-9 userprofile-right">
-          <h4>Detail</h4>
+          <h4><b>Details</b></h4>
           <div class="userprofile-input">
               <div class="row outer-row">
                 <div class="inner-row">
                   <div class="userprofile-label">User Name:</div>
                   <div class="userprofile-text"><?php echo $user->username?></div>
                 </div>
-                <div class="inner-row">
+               </div>
+              <div class="row outer-row">
+			   <div class="inner-row">
                   <div class="userprofile-label">Full Name:</div>
                   <div class="userprofile-text"><?php echo $user->userdetails->fullname ?></div>
                 </div>
-              </div>
-              <div class="row outer-row">
+                </div>
+				 <div class="row outer-row">
                 <div class="userprofile-label">Contact:</div>
                 <div class="userprofile-text"><?php echo empty($user->userdetails->User_ContactNo) ? "not set" :$user->userdetails->User_ContactNo ?></div>
               </div>

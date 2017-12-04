@@ -45,7 +45,7 @@ CartAsset::register($this);
               </tr>-->
         <tr>
               <td><div id="dis" style=""><input id="codes"></td>
-                <td><a class="btn btn-primary" onclick="return discount()">Submit</a></div></td>
+                <td><a class="raised-btn main-btn" onclick="return discount()">Submit</a></div></td>
         </tr>
         <tr style="font-size:20px;">
           <?php $finalPrice = $total - $earlyDiscount + 5 ;?>

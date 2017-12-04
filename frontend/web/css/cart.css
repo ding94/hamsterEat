@@ -492,10 +492,10 @@ a:hover {
 }
 }
 .text-xs-right{
-	text-align: left !important;
+	text-align: right !important;
 }
 .text-xs-left{
-	text-align: left !important;
+	text-align: right !important;
 	color:red;
 }
 .htitleline {

@@ -6,7 +6,7 @@
 
 .inner-row{
   display: flex;
-  min-width: 300px;
+ /* min-width: 300px;*/
 }
 
 #userprofile{
@@ -71,6 +71,7 @@
 .userprofile-text{
   margin-bottom: 0.5em;
   margin-left: 15px;
+  
 }
 
 .userprofile-editbutton{

@@ -13,6 +13,7 @@ class AddStaffAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/add-staff.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/cart.js',

@@ -1,16 +1,17 @@
 <?php
 
-namespace common\models;
+namespace common\models\Order;
 
 use Yii;
 use common\models\Rating\Servicerating;
 use common\models\Rating\Foodrating;
 use common\models\food\Food;
 use common\models\Rating\RatingStatus;
-use common\models\Orderitemstatuschange;
-use common\models\Ordersstatuschange;
-use common\models\Orderitemselection;
-use common\models\Orderitem;
+use common\models\Order\Orderitemstatuschange;
+use common\models\Order\Ordersstatuschange;
+use common\models\Order\Orderitemselection;
+use common\models\Order\Orderitem;
+use common\models\User;
 /**
  * This is the model class for table "orders".
  *
@@ -24,13 +25,10 @@ use common\models\Orderitem;
  * @property string $Orders_Location
  * @property integer $Orders_Postcode
  * @property string $Orders_Area
- * @property integer $Orders_SessionGroup
  * @property string $Orders_PaymentMethod
  * @property string $Orders_Deliveryman
  * @property string $Orders_Status
  * @property integer $Orders_DateTimeMade
- * @property double $Orders_DiscountCodeAmount
- * @property double $Orders_DiscountVoucherAmount
  * @property double $Orders_DiscountEarlyAmount
  * @property double $Orders_DiscountTotalAmount
  * @property string $Orders_InvoiceURL
@@ -65,24 +63,28 @@ class Orders extends \yii\db\ActiveRecord
                 $status->OChange_PickUpInProcessDateTime = time();
                 $status->save();
                 break;
+            case 'On The Way':
+                $status = Ordersstatuschange::findOne($this->Delivery_ID);
+                $status->OChange_OnTheWayDateTime = time();
+                $status->save();
+                break;
             default:
                 # code...
                 break;
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
-            [['User_Username','Orders_Subtotal','Orders_DeliveryCharge','Orders_TotalPrice','Orders_SessionGroup','Orders_PaymentMethod','Orders_Status','Orders_DateTimeMade'],'required'],
+            [['User_Username','Orders_Subtotal','Orders_DeliveryCharge','Orders_TotalPrice','Orders_PaymentMethod','Orders_Status','Orders_DateTimeMade','Orders_Time','Orders_Date'],'required'],
             [['Orders_Subtotal', 'Orders_DeliveryCharge', 'Orders_TotalPrice','Orders_DiscountEarlyAmount', 'Orders_DiscountTotalAmount'], 'number'],
             [['Orders_DiscountEarlyAmount','Orders_DiscountTotalAmount'],'default','value' => 0],
-            [['Orders_SessionGroup', 'Orders_DateTimeMade'], 'integer'],
+            [[ 'Orders_DateTimeMade'], 'integer'],
             [['User_Username', 'Orders_PaymentMethod'], 'string', 'max' => 255],
             [['Orders_Status'], 'string', 'max' => 50],
+            [['Orders_Time' ],'time'],
+            [['Orders_Date'],'date', 'format' => 'php:Y-m-d'],
             [['Delivery_ID'],'safe'],
         ];
     }
@@ -107,6 +109,7 @@ class Orders extends \yii\db\ActiveRecord
             'User_contactno' => "User's Contact Number",
         ];
     }
+
 
     public function getServicerating()
     {
@@ -151,6 +154,11 @@ class Orders extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(),['username'=>'User_Username']);
+    }
+
+    public function getAddress()
+    {
+        return $this->hasOne(DeliveryAddress::className(),['delivery_id'=>'Delivery_ID']);
     }
 
     /*public function getFood_linking()

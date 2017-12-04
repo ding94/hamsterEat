@@ -2,7 +2,7 @@
 /* @var $this yii\web\View */
 
 use common\models\food\Food;
-use common\models\Orderitemselection;
+use common\models\Order\Orderitemselection;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
 use common\models\Orders;
@@ -59,11 +59,11 @@ RestaurantOrdersAsset::register($this);
             <div class = "switchbutton"> <?php
                 if ($mode == 1)
                 {
-                    echo Html::a('View Nicknames', ['restaurant-orders', 'rid'=>$rid, 'status'=>$status, 'mode'=>2], ['class'=>'btn btn-default fa fa-exchange swap-button']);
+                    echo Html::a('View Nicknames', ['restaurant-orders', 'rid'=>$rid, 'status'=>$status, 'mode'=>2], ['class'=>'raised-btn btn-default fa fa-exchange swap-button']);
                 }
                 else
                 {
-                    echo Html::a('View Food Names', ['restaurant-orders', 'rid'=>$rid, 'status'=>$status, 'mode'=>1], ['class'=>'btn btn-default fa fa-exchange swap-button']);
+                    echo Html::a('View Food Names', ['restaurant-orders', 'rid'=>$rid, 'status'=>$status, 'mode'=>1], ['class'=>'raised-btn btn-default fa fa-exchange swap-button']);
                 } ?>
             </div> <?php
             foreach ($result as $k => $results) : ?>
@@ -127,10 +127,10 @@ RestaurantOrdersAsset::register($this);
                             <td data-th="Remarks"><?php echo $results['OrderItem_Remark']; ?></td>
 
                             <?php if ($results['OrderItem_Status'] == 'Pending'): ?>
-                                <td data-th="Update Status"><?php echo Html::a('Preparing', ['update-preparing', 'oid'=>$results['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary']); ?></td>
+                                <td data-th="Update Status"><?php echo Html::a('Preparing', ['update-preparing', 'oid'=>$results['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn']); ?></td>
 
                             <?php elseif ($results['OrderItem_Status'] == 'Preparing'): ?>
-                                <td data-th="Update Status"><?php echo Html::a('Ready for Pick Up', ['update-readyforpickup', 'oid'=>$results['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary']); ?></td>
+                                <td data-th="Update Status"><?php echo Html::a('Ready for Pick Up', ['update-readyforpickup', 'oid'=>$results['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn']); ?></td>
 
                             <?php elseif ($results['OrderItem_Status'] == 'Ready For Pick Up'): ?>
                                 <td data-th="Update Status"><span class='label label-warning'> Waiting for Pick Up </span></td>

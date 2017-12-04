@@ -21,8 +21,8 @@ AddStaffAsset::register($this);
         <div id="add-staff-content" class="col-sm-10">
             <?php 
                 $form = ActiveForm::begin(['id' => 'dynamic-form','type' => ActiveForm::TYPE_INLINE]);
-                echo $form->field($food,'Nickname')->textInput(['style'=>'width:200px', 'placeholder'=>'Search Restaurant Managers'])->label(false);
-                echo Html::submitButton('Search',['class' => 'btn btn-primary btn-search', 'name' => 'search-button']);
+                echo $form->field($food,'Nickname')->textInput(['class'=>'search-bar','placeholder'=>'Search Restaurant Managers'])->label(false);
+                echo Html::submitButton('Search',['class' => 'btn-search raised-btn main-btn', 'name' => 'search-button']);
                 if ($keyword != '') {
             ?>
                 <div>
@@ -62,9 +62,9 @@ AddStaffAsset::register($this);
                             <td><?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:50px; margin:auto;']); ?></td>
                             <td class="with" data-th="Username"><?php echo $data['username']; ?></td>
                             <td class="with" data-th="Full Name"><?php echo $name['User_FirstName'].' '.$name['User_LastName']; ?></td>
-                            <td><?php echo Html::a('Add as Owner', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>1], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to add?']); ?></td>
-                            <td><?php echo Html::a('Add as Manager', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>2], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to add?']); ?></td>
-                            <td><?php echo Html::a('Add as Operator', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>3], ['class'=>'btn btn-primary','data-confirm'=>'Are you sure you want to add?']); ?></td>
+                            <td><?php echo Html::a('Add as Owner', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>1], ['class'=>'raised-btn main-btn','data-confirm'=>'Are you sure you want to add?']); ?></td>
+                            <td><?php echo Html::a('Add as Manager', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>2], ['class'=>'raised-btn main-btn','data-confirm'=>'Are you sure you want to add?']); ?></td>
+                            <td><?php echo Html::a('Add as Operator', ['add-staff', 'rid'=>$rid, 'uname'=>$data['username'], 'num'=>3], ['class'=>'raised-btn main-btn','data-confirm'=>'Are you sure you want to add?']); ?></td>
                     <?php
                         }
                     endforeach;

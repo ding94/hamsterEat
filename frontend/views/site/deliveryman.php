@@ -31,7 +31,7 @@ $this->title = 'Delivery Man Signup';
 
                 <?= $form->field($model1, 'DeliveryMan_VehicleType')->dropdownList([ 'Motorcycle'=>'Motorcycle', 'Car'=>'Car', 'Van'=>'Van'],['prompt' => 'Select Vehicle Type'])->label('Vehicle Type')?>
       <div class="form-group">
-                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                    <?= Html::submitButton('Signup', ['class' => 'raised-btn main-btn', 'name' => 'signup-button']) ?>
                 </div>
                 
 

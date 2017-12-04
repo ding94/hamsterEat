@@ -62,9 +62,9 @@ MyOrdersAsset::register($this);
           <tr class="orderRow">
             <td colspan="2" class="block">
               <?php if($data['Orders_Status'] == "Completed" || $data['Orders_Status'] == "Rating Done"): ?>
-                 <?php echo Html::a("Invoice Detail" ,['invoice-pdf','did'=>$data['Delivery_ID']], ['target'=>'_blank' ,'class'=>'btn btn-primary btn-block']); ?>
+                 <?php echo Html::a("Invoice Detail" ,['invoice-pdf','did'=>$data['Delivery_ID']], ['target'=>'_blank' ,'class'=>'raised-btn main-btn btn-block']); ?>
               <?php else :?>
-                <a class="btn btn-primary btn-block" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$data['Delivery_ID']]); ?>">
+                <a class="raised-btn main-btn btn-block" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$data['Delivery_ID']]); ?>">
                   <i class="fa fa-info-circle"></i>
                 </a>
               <?php endif ;?>
@@ -79,10 +79,10 @@ MyOrdersAsset::register($this);
 
             <?php if($data['Orders_Status'] == "Completed"): ?>
               <td class="with" data-th="Rating">
-                <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$data['Delivery_ID']], ['class'=>'btn btn-primary']); ?>
+                <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?>
 
             <?php elseif ($data['Orders_Status'] == "Not Paid") : 
-              echo '<td>'.Html::a('Go payment page', ['payment/process-payment','did'=>$data['Delivery_ID']], ['class'=>'btn btn-primary']).'</td>'; ?>
+              echo '<td>'.Html::a('Go payment page', ['payment/process-payment','did'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']).'</td>'; ?>
 
             <?php elseif ($data['Orders_Status'] == "Canceled" || $data['Orders_Status'] == "Canceled and Refunded") : ?>
               <td>

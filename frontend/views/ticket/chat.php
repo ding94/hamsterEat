@@ -95,8 +95,8 @@ UserAsset::register($this);
         <?= $form->field($reply, 'Replies_ReplyContent')->textarea(['rows' => 6]) ?>
         <?= $form->field($upload, 'imageFile')->fileInput() ?>
 
-        <div style="padding-left: 40%" class="form-group">
-             <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+        <div class="form-group" id="chat-ticket">
+             <?= Html::submitButton('Submit', ['class' => 'raised-btn main-btn resize-btn', 'name' => 'contact-button']) ?>
             
         </div>
         <?php ActiveForm::end(); ?>

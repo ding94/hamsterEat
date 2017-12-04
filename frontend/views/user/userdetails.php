@@ -63,8 +63,8 @@ UserAsset::register($this);
                 <?= $form->field($detail, 'User_ContactNo')->textInput()->label('Contact Number') ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Update Profile', ['class' => 'btn btn-success', 'name' => 'signup-button']) ?>
-                    <?php echo Html::a("Back" ,['/user/user-profile'],['class'=>'btn btn-primary'])?>
+                    <?= Html::submitButton('Update Profile', ['class' => 'raised-btn main-btn change-password-resize-btn', 'name' => 'signup-button']) ?>
+                    <?php echo Html::a("Back" ,['/user/user-profile'],['class'=>'raised-btn secondary-btn change-password-resize-btn'])?>
                 </div>
 
             <?php ActiveForm::end(); ?>

@@ -13,7 +13,8 @@ class CheckoutAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/checkout.css',
-        'css/progress-bar.css'
+        'css/progress-bar.css',
+        'css/button.css',
     ];
     public $js = [
         'js/checkout.js',

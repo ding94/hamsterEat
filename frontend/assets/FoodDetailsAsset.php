@@ -13,6 +13,7 @@ class FoodDetailsAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/food-details.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/checkout.js',

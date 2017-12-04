@@ -13,6 +13,7 @@ class FoodServiceAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/food-service.css',
+        'css/button.css',
     ];
     public $js = [
     ];

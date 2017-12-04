@@ -24,7 +24,6 @@ use yii\behaviors\TimestampBehavior;
 class Company extends \yii\db\ActiveRecord
 {
     public $username;
-
     /**
      * @inheritdoc
      */
@@ -58,6 +57,7 @@ class Company extends \yii\db\ActiveRecord
             [['name', 'license_no', 'address', 'area'], 'string', 'max' => 255],
             ['username', 'string'],
             ['username', 'required','on'=>'register'],
+
         ];
     }
 

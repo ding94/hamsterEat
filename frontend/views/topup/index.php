@@ -69,7 +69,7 @@ TopupIndexAsset::register($this);
 										
 		        <?= $form->field($upload, 'imageFile')->fileInput() ?>
 		        <div class="form-group">
-		            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+		            <?= Html::submitButton('Submit', ['class' => 'raised-btn main-btn']) ?>
 		        </div>
 
 		        <?php ActiveForm::end(); ?>

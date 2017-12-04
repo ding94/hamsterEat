@@ -2,8 +2,8 @@
 /* @var $this yii\web\View */
 $this->title = "Orders List for ". $restaurant['Restaurant_Name'];
 use common\models\food\Food;
-use common\models\Orderitemselection;
-use common\models\Orderitem;
+use common\models\Order\Orderitemselection;
+use common\models\Order\Orderitem;
 use common\models\food\Foodselection;
 use common\models\Orders;
 use yii\helpers\Html;

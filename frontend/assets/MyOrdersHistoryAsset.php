@@ -13,6 +13,7 @@ class MyOrdersHistoryAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/my-orders-history.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/rating-index.js',

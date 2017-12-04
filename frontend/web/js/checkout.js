@@ -46,7 +46,7 @@ $(function(){
     });
 });
 
-$("input[name='Orders[Orders_Location]']").on('change',function(){
+$("input[name='DeliveryAddress[location]']").on('change',function(){
     id = $(this).val();
     $.ajax({
             url :"index.php?r=cart/getaddress",
@@ -56,8 +56,8 @@ $("input[name='Orders[Orders_Location]']").on('change',function(){
         },
         success: function (data){
             var obj = JSON.parse(data);
-            $("input[name='Orders[User_fullname]']").val(obj.recipient);
-            $("input[name='Orders[User_contactno]']").val(obj.contactno);
+            $("input[name='DeliveryAddress[name]']").val(obj.recipient);
+            $("input[name='DeliveryAddress[contactno]']").val(obj.contactno);
 
         },
         error: function (request, status, error) {

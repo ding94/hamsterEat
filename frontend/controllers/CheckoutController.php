@@ -9,10 +9,11 @@ use frontend\controllers\CommonController;
 use frontend\controllers\CartController;
 use frontend\controllers\PaymentController;
 use common\models\Cart\Cart;
-use common\models\Orders;
-use common\models\Orderitem;
-use common\models\Orderstatuschange;
-use common\models\Orderitemselection;
+use common\models\Order\Orders;
+use common\models\Order\Orderitem;
+use common\models\Order\Orderstatuschange;
+use common\models\Order\Orderitemselection;
+use common\models\Order\DeliveryAddress;
 use common\models\food\Foodselection;
 use common\models\user\Useraddress;
 use common\models\Area;
@@ -64,27 +65,31 @@ class CheckoutController extends CommonController
 		}
         
         $order = new Orders;
+        $deliveryAddress = new DeliveryAddress;
 		$address = Useraddress::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->orderBy('level DESC')->all();
 		$addressmap = ArrayHelper::map($address,'id','address');
-		return $this->render('index',['address'=> $address,'order' =>  $order ,'addressmap' => $addressmap ,'area' => $area,'code'=>$code]);
+		return $this->render('index',['address'=> $address,'order' =>  $order ,'deliveryaddress'=>$deliveryAddress,'addressmap' => $addressmap ,'area' => $area,'code'=>$code]);
 	}
 
 	public function actionOrder()
 	{
 		$post = Yii::$app->request->post();
 		
-		$data = $this->areaDetect($post['area'],$post);
-
-		if($data == -1)
+		$deliveyaddress = $this->areaDetect($post['area'],$post);
+		
+		if($deliveyaddress['value'] == -1)
 		{
 			return $this->redirect(Yii::$app->request->referrer);
 		}
-		$deliveryman = CartController::assignDeliveryMan($data['area']);
+		$address = $deliveyaddress['data'];
+		$deliveryman = CartController::assignDeliveryMan($post['area']);
 		
 		if($deliveryman == -1   )
 		{
 			return $this->redirect(Yii::$app->request->referrer);
 		}
+		
+		$address->deliveryman = $deliveryman;
 		
 		$isValid;
 
@@ -94,14 +99,12 @@ class CheckoutController extends CommonController
 		
 		$isValid = $allorderitem == -1 ? false : true;
 
-		$order = $this->createOrder($data,$deliveryman);
-		if ($order == false) {
-			return $this->redirect(Yii::$app->request->referrer);
-		}
+		$order = $this->createOrder($post,$deliveryman,$address['area']);
+		
 		
 		$delivery = $this->addDeliveryAssignment($deliveryman);
 
-		$isValid = $order->validate() && $isValid && $delivery->validate();
+		$isValid = $order->validate() && $isValid && $delivery->validate() && $address->validate();
 		
 		if($isValid)
 		{
@@ -110,8 +113,7 @@ class CheckoutController extends CommonController
 				$payment = -1;
 				$order->save();
 				$did = $order->Delivery_ID;
-
-				
+				$address->delivery_id = $did;
 				foreach($allorderitem as $orderitem)
 				{
 
@@ -137,14 +139,13 @@ class CheckoutController extends CommonController
 				}
 				
 				//$isValid = $this->createOrderitem($query,$did) && $isValid;
-				$isValid = $delivery->save() && $isValid;
+				$isValid = $delivery->save() && $address->save() && $isValid;
 				
 				if($isValid == true)
                 {
                     $transaction->commit();
                     NotificationController::createNotification($did,3);
                     CartController::mutipleDelete($cart);
-                    Yii::$app->session->setFlash('success', 'Order Success');
                    	return $this->redirect(['/cart/aftercheckout','did'=>$did]);
                 }
                 else
@@ -190,22 +191,29 @@ class CheckoutController extends CommonController
 	*/
 	protected static function areaDetect($area,$post)
 	{
-		$isValid;
+		$data['value'] = -1;
+		$data['data'] = "";
+
 		$groupArea = ArrayHelper::map(Area::find()->where('Area_Group = :group',[':group' => $area])->all() ,'Area_Postcode','Area_Postcode');
-		$address = Useraddress::findOne($post['Orders']['Orders_Location']);
+		$address = Useraddress::findOne($post['DeliveryAddress']['location']);
 
 		if(!empty($groupArea[$address['postcode']]))
 		{
-			$post['Orders']['Orders_Location'] = $address->address;
-			$post['Orders']['Orders_Postcode'] = $address->postcode;
-			$post['Orders']['Orders_Area'] = $address->city;
-			$post['Orders']['Orders_SessionGroup'] = $area;
-			return $post;
+			$deliveryaddress = new DeliveryAddress;
+			$deliveryaddress->load($post);
+			$deliveryaddress->type = 2;
+			$deliveryaddress->location = $address->address;
+			$deliveryaddress->postcode = $address->postcode;
+			
+			$deliveryaddress->area = $address->city;
+			$data['value'] = 1;
+			$data['data'] = $deliveryaddress;
+			return $data;
 		}
 		else
 		{
 			Yii::$app->session->setFlash('error', 'The address does not match your cart area.');
-			return -1;
+			return $data;
 		}
 	}
 
@@ -218,9 +226,7 @@ class CheckoutController extends CommonController
 
 		$order = new Orders;
 		$order->load($data);
-	
 		$order->User_Username = Yii::$app->user->identity->username;
-		$order->Orders_Deliveryman = $deliveryman;
 		$order->Orders_Date = date("Y-m-d");
 		$order->Orders_Time = date("13:00:00");
 		$order->Orders_Status = $order->Orders_PaymentMethod == "Cash on Delivery" ? "Pending" : "Not Paid";
@@ -285,9 +291,9 @@ class CheckoutController extends CommonController
 		return $isValid == true ? $allitem : -1;	
 	}
 
-	protected static function addDeliveryAssignment($name)
+	protected static function addDeliveryAssignment($id)
 	{
-		$user = User::find()->where("username = :name",[":name"=> $name])->limit(1)->one();
+		$user = User::findOne($id);
 		$delivery = Deliveryman::find()->where("User_id = :uid",[':uid' => $user->id])->one();
 		$delivery->DeliveryMan_Assignment += 1;
 		return $delivery;

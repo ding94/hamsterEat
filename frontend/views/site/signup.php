@@ -26,7 +26,7 @@ $this->title = 'User Signup';
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?> <br><br>
+                    <?= Html::submitButton('Signup', ['class' => 'raised-btn main-btn', 'name' => 'signup-button']) ?> <br><br>
 
                    
                 </div>

@@ -154,11 +154,11 @@ RestaurantOrdersHistoryAsset::register($this);
                             <?php 
                             if ($result['OrderItem_Status'] == 'Pending')
                             {
-                                echo "<td colspan = 2 data-th='Current Status'>".Html::a('Preparing', ['update-preparing', 'oid'=>$result['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary'])."</td>";
+                                echo "<td colspan = 2 data-th='Current Status'>".Html::a('Preparing', ['update-preparing', 'oid'=>$result['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn'])."</td>";
                             }
                             elseif ($result['OrderItem_Status'] == 'Preparing')
                             {
-                                echo "<td colspan = 2 data-th='Current Status'>".Html::a('Ready for Pick Up', ['update-readyforpickup', 'oid'=>$result['Order_ID'], 'rid'=>$rid], ['class'=>'btn btn-primary'])."</td>";
+                                echo "<td colspan = 2 data-th='Current Status'>".Html::a('Ready for Pick Up', ['update-readyforpickup', 'oid'=>$result['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn'])."</td>";
                             }
                             elseif ($result['OrderItem_Status'] == 'Ready For Pick Up')
                             {

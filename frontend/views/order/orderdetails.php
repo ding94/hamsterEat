@@ -2,10 +2,10 @@
 /* @var $this yii\web\View */
 
 use common\models\food\Food;
-use common\models\Orderitemselection;
+use common\models\Order\Orderitemselection;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
-use common\models\Orders;
+use common\models\Order\Orders;
 use yii\helpers\Html;
 use frontend\controllers\CartController;
 use frontend\assets\OrderDetailsAsset;
@@ -28,7 +28,7 @@ OrderDetailsAsset::register($this);
         <table class="table table-user-info" style="border:1px solid black;">
             <tr>
                 <th><center> Address </th>
-                <td colspan="3"><?php echo $order['Orders_Location'].' '.$order['Orders_Postcode'].' '.$order['Orders_Location']; ?> </td>
+                <td colspan="3"><?php echo $order['address']['fulladdress']; ?> </td>
             </tr>
             <tr>
                 <th><center> Approximate Receiving Time </th>

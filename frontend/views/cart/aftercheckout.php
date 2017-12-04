@@ -43,15 +43,15 @@ CheckoutAsset::register($this);
                         <?php endforeach; ?>
                     <tr>
                         <td>Delivery Location:</td>
-                        <td colspan="2"><?= $order['Orders_Location'].', '.$order['Orders_Postcode'].', '.$order['Orders_Area']; ?></td>
+                        <td colspan="2"><?= $order['address']['fulladdress']; ?></td>
                     </tr>
                     <tr>
                         <td>Recipient:</td>
-                        <td colspan="2"><?= $order['User_fullname']; ?></td>
+                        <td colspan="2"><?= $order['address']['name']; ?></td>
                     </tr>
                     <tr>
                         <td>Contact No:</td>
-                        <td colspan="2"><?= $order['User_contactno']; ?></td>
+                        <td colspan="2"><?= $order['address']['contactno']; ?></td>
                     </tr>
                 </table>
                 <br>
@@ -110,7 +110,7 @@ CheckoutAsset::register($this);
             </div>
         </div>
         <div class="more-detail">
-            <center><?php echo Html::a('More Detail', ['/order/order-details','did'=>$order['Delivery_ID']], ['class'=>'btn btn-primary'])?>
-            <?php echo Html::a('Home', ['/site/index'], ['class'=>'btn btn-primary'])?></center>
+            <center><?php echo Html::a('More Detail', ['/order/order-details','did'=>$order['Delivery_ID']], ['class'=>'raised-btn main-btn'])?>
+            <?php echo Html::a('Home', ['/site/index'], ['class'=>'raised-btn secondary-btn'])?></center>
         </div>
     </div>

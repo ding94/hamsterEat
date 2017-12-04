@@ -13,8 +13,6 @@ use kartik\widgets\Select2;
 $this->title = "Available Restaurants";
 StarsAsset::register($this);
 RestaurantDefaultIndexAsset::register($this);
-CartAsset::register($this);
-
 
 Modal::begin([
       'options' => [
@@ -42,8 +40,8 @@ Modal::end();
 
 <div class="container" id="group-area-index">
     <h1>Order Food for Delivery </h1>
-    <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index'], ['class'=>'btn btn-default','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>
-	   <?php echo Html::a('<i class="fa fa-thumbs-up"> Food</i>', ['show-by-food'], ['class'=>'btn btn-default']); ?>
+    <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index'], ['class'=>'raised-btn','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>
+	   <?php echo Html::a('<i class="fa fa-thumbs-up"> Food</i>', ['show-by-food'], ['class'=>'raised-btn']); ?>
    
 	 <?php  $cookies = Yii::$app->request->cookies;
             $halal = $cookies->getValue('halal');

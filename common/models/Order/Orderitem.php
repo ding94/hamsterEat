@@ -1,12 +1,12 @@
 <?php
 
-namespace common\models;
+namespace common\models\Order;
 
 use Yii;
 use common\models\food\Food;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
-use common\models\Orderitemstatuschange;
+use common\models\Order\Orderitemstatuschange;
 
 /**
  * This is the model class for table "orderitem".
@@ -48,6 +48,12 @@ class Orderitem extends \yii\db\ActiveRecord
                 $status = Orderitemstatuschange::findOne($this->Order_ID);
                 $status->Change_ReadyForPickUpDateTime = time();
                 $status->save();
+                break;
+            case 'Picked Up':
+                $status = Orderitemstatuschange::findOne($this->Order_ID);
+                $status->   Change_PickedUpDateTime = time();
+                $status->save();
+                break;
             default:
                 # code...
                 break;

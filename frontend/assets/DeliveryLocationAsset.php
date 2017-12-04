@@ -14,6 +14,7 @@ class DeliveryLocationAsset extends AssetBundle
     public $css = [
         'css/delivery-location.css',
         'css/drop-down-mobile.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/cart.js',

@@ -87,7 +87,7 @@ DeliveryLocationAsset::register($this);
               'data' => $postcodeArray,
               'options' => ['placeholder' => 'Select area group ...','id'=>'postcode-select']])->label('Select Your Delivery Location'); 
             ?>
-            <?= Html::submitButton('Confirm', ['class' => 'btn btn-primary', 'name' => 'insert-button']) ?>
+            <?= Html::submitButton('Confirm', ['class' => 'raised-btn main-btn', 'name' => 'insert-button']) ?>
             <?php ActiveForm::end(); ?>
         </div>
     </div>

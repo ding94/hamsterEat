@@ -13,6 +13,7 @@ class FeedbackAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/feedback.css',
+        'css/button.css',
     ];
     public $js = [
     ];

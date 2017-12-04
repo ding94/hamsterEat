@@ -15,6 +15,7 @@ class TopupWithdrawMpHistoryAsset extends AssetBundle
         'css/topup-withdraw-mp-history.css',
         'css/user.css',
         'css/drop-down-mobile.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/rating-index.js',

@@ -84,13 +84,13 @@ return [
             'baseUrl' => './../../frontend/web/imageLocation/',
         ],
         
-         'urlManager' => [
+         /*'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-       
+		*/
     ],
 
     /*

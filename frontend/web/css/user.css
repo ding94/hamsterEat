@@ -101,6 +101,9 @@
   float: right;
 }
 
+.address-button{
+  text-align: center;
+}
   #ticketh{
   margin:auto;
   padding-left: 20px;

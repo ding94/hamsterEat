@@ -141,7 +141,7 @@ FoodDetailsAsset::register($this);
                
                 <?= $form->field($cart, 'quantity',['options'=>['class'=>'quantity']])->widget(TouchSpin::classname(), [
                     'options' => [
-                        'style'=>'height:40px;'
+                        'style'=>'height:40px;text-align:center'
                     ],
                     'pluginOptions' => [
                         'min' => 1,

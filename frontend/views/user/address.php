@@ -14,6 +14,6 @@ UserAsset::register($this);
       <?= $form->field($model, 'city')->textInput() ?>
       <?= $form->field($model, 'postcode')->textInput() ?>
       <?= $form->field($model, 'level')->checkbox(['label' => 'Set as Primary Address','checked'=>1])->label(false); ?>
-      <?= Html::submitButton($this->title, ['class' => 'btn btn-primary', 'name' => 'insert-button']) ?>
+      <?= Html::submitButton("Save Address", ['class' => 'btn btn-primary', 'name' => 'insert-button']) ?>
     <?php ActiveForm::end(); ?>
 

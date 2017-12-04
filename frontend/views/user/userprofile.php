@@ -99,7 +99,7 @@ UserAsset::register($this);
                         <br>
                         <strong>Contact No: </strong><?= $address['contactno']; ?></td>
                       <td>
-                        <div class="row">
+                        <div class="row address-button">
                           <div class="col-xs-6">
                             <?php echo Html::a("<span class='glyphicon glyphicon-pencil userprofile-pencil' title='edit'></span>",['/user/edit-address','id'=> $address->id],['data-toggle'=>'modal','data-target'=>'#edit-address-modal'])?>
                           </div>

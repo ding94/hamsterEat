@@ -237,7 +237,6 @@ label span.checkbox-custom-label{
 .addtocart-btn:hover{
   background-color: #FFF;
   border: 1px solid #ddd;
-  color: #FFDA00;
 }
 
 @media(max-width: 550px){

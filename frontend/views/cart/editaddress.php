@@ -13,7 +13,7 @@ UserAsset::register($this);
     <?= $form->field($model, 'contactno')->textInput(['value'=>$first['contactno']]); ?>
     <?= $form->field($model, 'postcode')->textInput(['value'=>$first['postcode']]);  ?>
     <?= $form->field($model, 'city')->textInput(['value'=>$first['city']]); ?>
-    <?= Html::submitButton('Edit', ['class' => 'btn btn-primary', 'name' => 'insert-button']) ?>
+    <?= Html::submitButton('Save Address', ['class' => 'btn btn-primary', 'name' => 'insert-button']) ?>
 <?php ActiveForm::end(); ?>
 
 

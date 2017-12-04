@@ -61,7 +61,7 @@ DeliverymanOrdersAsset::register($this);
                 <h3>You have no orders to deliver at the moment.</h3>
             <?php
                 } else {
-                foreach ($dman as $dman) : 
+                foreach ($dman as $orderdetails) : 
             ?>
             <table class="table table-user-info deliveryman-orders-table">
                 <thead>
@@ -75,16 +75,16 @@ DeliverymanOrdersAsset::register($this);
                     </tr>
                 </thead>
                 <?php 
-                    $orderdetails = Orders::find()->where('Delivery_ID = :did', [':did'=>$dman['Delivery_ID']])->one();
-                    $location=$dman['Orders_Location'];
-                    $postcode=$dman['Orders_Postcode'];
-                    $district=$dman['Orders_Area']; 
+                   
+                    $location=$orderdetails['address']['location'];
+                    $postcode=$orderdetails['address']['postcode'];
+                    $district=$orderdetails['address']['area']; 
                 ?>
                 <tr>
                     <td data-th="Delivery ID"><?php echo $orderdetails['Delivery_ID']; ?></td>
                     <td data-th="Time to be Received"><?php echo $orderdetails['Orders_Time']; ?></td>
-                    <td data-th="Order Address"><?php echo $orderdetails['Orders_Location']; ?></td>
-                    <td data-th="Order Postcode"><?php echo $orderdetails['Orders_Postcode']; ?></td>
+                    <td data-th="Order Address"><?php echo $location; ?></td>
+                    <td data-th="Order Postcode"><?php echo $postcode; ?></td>
                     <?php if ($orderdetails['Orders_PaymentMethod'] != 'Cash on Delivery')
                     { ?>
                         <td data-th="Collect (RM)"><?php echo "0.00"; ?></td>
@@ -156,7 +156,9 @@ DeliverymanOrdersAsset::register($this);
                         elseif ($orderitemdetails['OrderItem_Status'] == 'Ready For Pick Up')
                         {
                     ?>
-                    <td data-th="Update Status"><?php echo Html::a('Picked Up', ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$dman['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td>
+
+                    <td data-th="Update Status"><?php echo Html::a('Picked Up', ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$orderdetails['Delivery_ID']], ['class'=>'btn btn-primary']); ?></td>
+
                     <?php
                         }
                         if ($orderdetails['Orders_Status'] != 'On The Way')
@@ -168,7 +170,8 @@ DeliverymanOrdersAsset::register($this);
                         else
                         {
                     ?>
-                    <td data-th="Update Status"><?php echo Html::a('Completed', ['update-completed', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$dman['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td>
+                    <td data-th="Update Status"><?php echo Html::a('Completed', ['update-completed', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$orderdetails['Delivery_ID']], ['class'=>'btn btn-primary']); ?></td>
+
                 </tr>
                     <?php
                         }

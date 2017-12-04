@@ -90,8 +90,6 @@ class CheckoutController extends CommonController
 		}
 		
 		$address->deliveryman = $deliveryman;
-		
-		$isValid;
 
 		$cart = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$post['area']])->joinWith('selection')->all();
 
@@ -99,12 +97,16 @@ class CheckoutController extends CommonController
 		
 		$isValid = $allorderitem == -1 ? false : true;
 
-		$order = $this->createOrder($post,$deliveryman,$address['area']);
+		$dataorder = $this->createOrder($post,$deliveryman,$address['area']);
 		
-		
+		if($dataorder['value'] == -1)
+		{
+			return $this->redirect(Yii::$app->request->referrer);
+		}
+		$order = $dataorder['data'];
 		$delivery = $this->addDeliveryAssignment($deliveryman);
 
-		$isValid = $order->validate() && $isValid && $delivery->validate() && $address->validate();
+		$isValid = $order->validate()  && $delivery->validate() && $address->validate();
 		
 		if($isValid)
 		{
@@ -222,7 +224,9 @@ class CheckoutController extends CommonController
 	*/
 	protected static function createOrder($data,$deliveryman)
 	{
-		$subtotal = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$data['area']])->sum('price * quantity');
+		$data['value'] = -1;
+		$data['data'] = "";
+ 		$subtotal = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$data['area']])->sum('price * quantity');
 
 		$order = new Orders;
 		$order->load($data);
@@ -244,11 +248,17 @@ class CheckoutController extends CommonController
 		}
 
 		if (!empty($data['code'])) {
-			$order = DiscountController::orderdiscount($data['code'],$order);
+			$data = DiscountController::orderdiscount($data['code'],$order);
+			if($data['value'] == -1)
+			{
+				return $data;
+			}
+			$order  = $data['data'];
 		}
-
+		$data['value'] = 1;
+		$data['data'] = $order;
 		//$order->Orders_TotalPrice=0;
-		return $order;
+		return $data;
 	}
 
 	/*

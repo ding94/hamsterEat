@@ -11,15 +11,11 @@ CartAsset::register($this);
       <?php if (!empty($voucher)): ?>
         <?php $form = ActiveForm::begin(); ?>
         <div>
-            <?= $form->field($ren,'type')->dropDownList($voucher,['onchange' => 'js:return discount();','prompt' => ' -- Select Coupons --'])->label('Coupons')?>
-            <a id='show' style="padding-left:30%;" onclick="show()"><font style="font-size: 1em;color:blue;">Other promote code</font></a>
-            <div id="dis" style="display: none;"><input id="codes"><a class="btn btn-primary" onclick="return discount()">Submit</a></div>
+            <?= $form->field($ren,'type')->dropDownList($voucher,['onchange' => 'js:return discount();','prompt' => ' -- Select Voucher --'])->label('Voucher')?>
         </div>
         <?php ActiveForm::end(); ?>
       <?php elseif (empty($voucher)) : ?>
           <input id="voucherstype-type" type="hidden" value=" ">
-          <a id='show' style="padding-left:30%;" onclick="show2()"><font style="font-size: 1em;color:blue;">Other promote code</font></a>
-          <div id="dis" style="display: none;"><input id="codes"><a class="btn btn-primary" style="margin: 5px;" onclick="return discount()">Submit</a></div>
       <?php endif ?>
     </div>
     <div class="col-md-5">
@@ -47,6 +43,10 @@ CartAsset::register($this);
                 <td><span><b>Discount:</span></td>
                 <td class="text-xs-right" id="disamount" value="" style="color: red;"><span></span></td>
               </tr>-->
+        <tr>
+              <td><div id="dis" style=""><input id="codes"></td>
+                <td><a class="btn btn-primary" onclick="return discount()">Submit</a></div></td>
+        </tr>
         <tr style="font-size:20px;">
           <?php $finalPrice = $total - $earlyDiscount + 5 ;?>
           <td><b>TOTAL </td>

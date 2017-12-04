@@ -13,12 +13,14 @@ class RestaurantDetailsAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/restaurant-details.css',
+        'css/button.css',
         
     ];
     public $js = [
         'js/food-modal.js',
         'js/report-modal.js',
-		'js/scrolltop.js'
+		'js/scrolltop.js',
+        'js/mouseclick.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

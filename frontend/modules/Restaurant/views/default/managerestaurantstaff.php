@@ -52,7 +52,7 @@ ManageStaffAsset::register($this);
         </div>
         <div class="col-sm-10" id="manage-staff-content">
 <div>
-    <?php echo Html::a('Add Staffs', ['all-rmanagers', 'rid'=>$id['Restaurant_ID']], ['class'=>'btn btn-primary']) ?>
+    <?php echo Html::a('Add Staffs', ['all-rmanagers', 'rid'=>$id['Restaurant_ID']], ['class'=>'raised-btn main-btn']) ?>
 </div>
 <br>
     <table class = "table table-restaurant-staff">
@@ -98,7 +98,7 @@ ManageStaffAsset::register($this);
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
                         echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td>".Html::a('Leave', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-danger'])."</td>";
+                        echo "<td>".Html::a('Leave', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn'])."</td>";
                     echo "</tr>";
                 }
                 else
@@ -110,7 +110,7 @@ ManageStaffAsset::register($this);
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
                         echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-danger','data-confirm'=>'Are you sure you want to remove?'])."</td>";
+                        echo "<td>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn','data-confirm'=>'Are you sure you want to remove?'])."</td>";
                     echo "</tr>";
                 }
             }
@@ -138,7 +138,7 @@ ManageStaffAsset::register($this);
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
                         echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td>".Html::a('Leave', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-danger'])."</td>";
+                        echo "<td>".Html::a('Leave', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn'])."</td>";
                     echo "</tr>";
                 }
                 elseif ($data['User_Username'] == $id['Restaurant_Manager'] || $data['RmanagerLevel_Level'] == 'Owner')
@@ -161,7 +161,7 @@ ManageStaffAsset::register($this);
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
                         echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-danger','data-confirm'=>'Are you sure you want to remove?'])."</td>";
+                        echo "<td>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn','data-confirm'=>'Are you sure you want to remove?'])."</td>";
                     echo "</tr>";
                 }
             }
@@ -190,7 +190,7 @@ ManageStaffAsset::register($this);
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
                         echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td>".Html::a('Leave', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-danger'])."</td>";
+                        echo "<td>".Html::a('Leave', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn'])."</td>";
                     echo "</tr>";
                 }
                 elseif ($data['RmanagerLevel_Level'] == 'Owner' || $data['RmanagerLevel_Level'] == 'Manager')
@@ -213,7 +213,7 @@ ManageStaffAsset::register($this);
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
                         echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'btn btn-danger','data-confirm'=>'Are you sure you want to remove?'])."</td>";
+                        echo "<td>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn','data-confirm'=>'Are you sure you want to remove?'])."</td>";
                     echo "</tr>";
                 }
             }

@@ -44,7 +44,7 @@ use kartik\widgets\DatePicker;
                     ]
                   ]);
                 ?>
-				<?= Html::submitButton('Confirm Subscribe', ['class' => 'btn btn-primary']) ?>
+				<?= Html::submitButton('Confirm Subscribe', ['class' => 'raised-btn main-btn']) ?>
 			<?php ActiveForm::end();?>
 		</div>
 	</div>

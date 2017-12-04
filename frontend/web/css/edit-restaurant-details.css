@@ -21,3 +21,9 @@
   border-left: 1px solid #efefef;
   margin-top: 15px;
 }
+
+@media(max-width: 767px){
+	.raised-btn{
+		width: 100%;
+	}
+}

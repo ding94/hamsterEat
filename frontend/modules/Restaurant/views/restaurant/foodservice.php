@@ -14,13 +14,13 @@ Modal::begin([
       'header' => '<h2 class="modal-title">Please choose delivery place</h2>',
       'id'     => 'add-session-modal',
       'size'   => 'modal-md',
-      'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
 ]);
 Modal::end();
 ?>
 <body>
 <div class ="container" ><h1>Manage Foods</h1>
-  <div style="padding:10px 0px 20px 0px;"><?=Html::a('Back to Restaurants', Url::to(['/Restaurant/default/restaurant-details','rid'=>$rid]), ['class'=>'btn btn-primary'])?></div>
+  <div style="padding:10px 0px 20px 0px;"><?=Html::a('Back to Restaurants', Url::to(['/Restaurant/default/restaurant-details','rid'=>$rid]), ['class'=>'raised-btn secondary-btn'])?></div>
  <div class="outer-container" id="outer" >
     <div class="menu-container" id="menucon">
       <?php foreach($foods as $k => $food ){?>
@@ -39,9 +39,9 @@ Modal::end();
       </div>
       <?php if (!empty($status)): ?>
         <?php if ($status['Status'] == 0): ?>
-              <?=Html::a('Resume Food Service', Url::to(['restaurant/active', 'id'=>$food['Food_ID']]), ['id'=>'res','data-confirm'=>"Do you want to Resume Operate?",'class'=>'btn btn-warning'])?>
+              <?=Html::a('Resume Food Service', Url::to(['restaurant/active', 'id'=>$food['Food_ID']]), ['id'=>'res','data-confirm'=>"Do you want to Resume Operate?",'class'=>'raised-btn btn-warning'])?>
         <?php elseif ($status['Status'] == 1): ?>
-              <?=Html::a('Pause Food Service', Url::to(['restaurant/providereason', 'id'=>$food['Food_ID']]), ['id'=>'res','data-confirm'=>"Do you want to Pause Operate?",'class'=>'btn btn-warning','data-toggle'=>'modal','data-target'=>'#add-session-modal'])?>  
+              <?=Html::a('Pause Food Service', Url::to(['restaurant/providereason', 'id'=>$food['Food_ID']]), ['id'=>'res','data-confirm'=>"Do you want to Pause Operate?",'class'=>'raised-btn btn-warning','data-toggle'=>'modal','data-target'=>'#add-session-modal'])?>  
         <?php endif ?>
       <?php endif ?>
       </div>

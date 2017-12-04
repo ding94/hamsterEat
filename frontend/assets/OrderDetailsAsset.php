@@ -13,6 +13,7 @@ class OrderDetailsAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/order-details.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/cart.js',

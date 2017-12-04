@@ -35,7 +35,7 @@ else
     <?= $form->field($expansion, 'Expansion_Area')->textInput(['placeholder' => "Enter area..."]) ?>
 
     <div id="expansion_button" class="form-group">
-        <?= Html::submitButton('Submit Request', ['class' => 'btn btn-primary', 'name' => 'expansion-button']) ?>                
+        <?= Html::submitButton('Submit Request', ['class' => 'raised-btn main-btn', 'name' => 'expansion-button']) ?>                
     </div>
     <?php ActiveForm::end(); ?>
 </div>

@@ -13,7 +13,7 @@ Modal::begin([
       'header' => '<h2 class="modal-title">New Address</h2>',
       'id'     => 'address-modal',
       'size'   => 'modal-md',
-      'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
 ]);
 Modal::end();
 //edit address modal
@@ -21,7 +21,7 @@ Modal::begin([
       'header' => '<h2 class="modal-title">Edit address</h2>',
       'id'     => 'edit-address-modal',
       'size'   => 'modal-md',
-      'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
 ]);
 Modal::end();
 
@@ -67,11 +67,11 @@ Modal::end();
                         }
                         elseif(empty($address))
                         {
-                            echo Html::a("Add New Address",['/user/newaddress'],['class' => 'btn btn-success add-new-address-btn','data-toggle'=>'modal','data-target'=>'#address-modal']);
+                            echo Html::a("Add New Address",['/user/newaddress'],['class' => 'raised-btn main-btn add-new-address-btn','data-toggle'=>'modal','data-target'=>'#address-modal']);
                         }
                     ?>
                 </td>
-                <td><?php if(!empty($address)){ echo Html::a('Edit',['/cart/editaddress'],['class' => 'btn btn-primary','data-toggle'=>'modal','data-target'=>'#edit-address-modal','style'=>'float:right']); } ?></td>
+                <td><?php if(!empty($address)){ echo Html::a('Edit',['/cart/editaddress'],['class' => 'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#edit-address-modal','style'=>'float:right']); } ?></td>
             </tr>
             <tr>
                 <th> Area: </th>
@@ -97,7 +97,7 @@ Modal::end();
                 <td><?= $form->field($checkout, 'Orders_PaymentMethod')->radioList(['Account Balance'=>'Account Balance','Cash on Delivery'=>'Cash on Delivery'])->label(''); ?></td>
             </tr>
             <tr>
-                <td><?= Html::submitButton('Place Order', ['class' => 'btn btn-primary btn-lg', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?></td>
+                <td><?= Html::submitButton('Place Order', ['class' => 'raised-btn main-btn btn-lg', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?></td>
             </tr>
         </table>
             <?php ActiveForm::end(); ?>

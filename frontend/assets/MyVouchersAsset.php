@@ -13,6 +13,7 @@ class MyVouchersAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/my-vouchers.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/cart.js',

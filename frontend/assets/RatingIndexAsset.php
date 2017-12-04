@@ -13,6 +13,7 @@ class RatingIndexAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/rating-index.css',
+        'css/button.css',
     ];
     public $js = [
         'js/rating-index.js',

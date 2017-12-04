@@ -44,7 +44,7 @@ PaymentAsset::register($this);
 		</ul>
 		<?php echo Html::hiddenInput('did', $order->Delivery_ID);?>
 		<div class="button-div">
-			<?php echo Html::submitButton('Make A Payment', ['class' => 'btn btn-primary payment-button']);?>
+			<?php echo Html::submitButton('Make A Payment', ['class' => 'raised-btn main-btn payment-button']);?>
 		</div>
 		<?php ActiveForm::end(); ?>
 	</div>

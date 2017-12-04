@@ -13,6 +13,7 @@ class CommentsAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/comments.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/checkout.js',

@@ -14,7 +14,8 @@ class RestaurantOrdersAsset extends AssetBundle
     public $css = [
         'css/restaurant-orders.css',
         'css/drop-down-mobile.css',
-		 'css/filter.css',
+		'css/filter.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/cart.js',

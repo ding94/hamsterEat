@@ -100,9 +100,9 @@ UserAsset::register($this);
             <?php   }   ?>
         </table>
         <div class="form-group" id="ticketb">
-            <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'btn btn-primary']) ?>
-            <?= Html::a('Completed Ticket', ['/ticket/completed'], ['class'=>'btn btn-primary']) ?>
-            </div>
+            <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'raised-btn main-btn resize-btn']) ?>
+            <?= Html::a('Completed Ticket', ['/ticket/completed'], ['class'=>'raised-btn main-btn resize-btn']) ?>
+        </div>
 
     </div>
     </div>

@@ -13,6 +13,7 @@ class NewsAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/news.css',
+        'css/button.css',
     ];
     public $js = [
         // 'js/checkout.js',

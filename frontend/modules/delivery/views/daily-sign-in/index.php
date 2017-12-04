@@ -17,8 +17,8 @@ $this->title = 'Delivery Sign In';
 </div>
 <div class="col-md-9" >
     <?php if($record->result == 1):?>
-      <?=Html::a('Alreay Sign In',['daily-sign-in/signin'],['class' => 'btn btn-primary btn-lg col-md-offset-9', 'disabled' =>"true"]);?>
+      <?=Html::a('Alreay Sign In',['daily-sign-in/signin'],['class' => 'raised-btn main-btn btn-lg col-md-offset-9', 'disabled' =>"true"]);?>
     <?php else :?>
-      <?=Html::a('Sign In',['daily-sign-in/signin'],['class' => 'btn btn-primary btn-lg col-md-offset-9']);?>
+      <?=Html::a('Sign In',['daily-sign-in/signin'],['class' => 'raised-btn main-btn btn-lg col-md-offset-9']);?>
     <?php endif ;?>
 </div>

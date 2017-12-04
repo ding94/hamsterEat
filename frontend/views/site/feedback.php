@@ -29,7 +29,7 @@ FeedbackAsset::register($this);
     <?= $form->field($feedback, 'Feedback_PicPath')->fileInput()->label('Provide a Screenshot') ?>
         
     <div id="feedback_button">
-        <?= Html::submitButton('Submit Feedback', ['class' => 'btn btn-primary', 'name' => 'feedback-button']); ?>
+        <?= Html::submitButton('Submit Feedback', ['class' => 'raised-btn main-btn', 'name' => 'feedback-button']); ?>
     </div>
 
     <?php ActiveForm::end(); ?>

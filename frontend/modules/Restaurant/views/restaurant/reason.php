@@ -8,7 +8,6 @@ use yii\bootstrap\ActiveForm;
 	<?php $form = ActiveForm::begin(); ?>
 	<?= $form->field($reason, 'reason')->dropDownList($list) ?>
 	<?= $form->field($reason, 'description')->textArea() ?>
-	<?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
-
+	<?= Html::submitButton('Submit', ['class' => 'raised-btn main-btn', 'name' => 'contact-button']) ?>
 	<?php ActiveForm::end(); ?>
 </div>

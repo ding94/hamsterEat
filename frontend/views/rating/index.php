@@ -60,7 +60,7 @@ RatingIndexAsset::register($this);
 			</div>
 			</div>
 			</div>
-      <button class="btn btn-primary1" onclick="proceed()">Proceed</button> 
+      <button class="raised-btn btn-primary1" onclick="proceed()">Proceed</button> 
 			
 			
 			</div>
@@ -96,7 +96,7 @@ RatingIndexAsset::register($this);
 
 		</div>
 		</div>
-		<button class="btn btn-primary2">Submit</button>
+		<button class="raised-btn btn-primary2">Submit</button>
 	</div>
 	<?php ActiveForm::end();?>
 </div>

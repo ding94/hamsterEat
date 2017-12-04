@@ -16,7 +16,7 @@ use kartik\widgets\Select2;
 	    ],
 	]); ?>
 		<?= $form->field($report, 'Report_Reason')->textArea(['rows'=>5,'cols'=>5]); ?>
-		<?= Html::submitButton('Report', ['class' => 'btn btn-primary pull-right']) ?>
+		<?= Html::submitButton('Report', ['class' => 'raised-btn main-btn pull-right']) ?>
 		<?php ActiveForm::end(); ?>
 	</div>
 </div>

@@ -23,7 +23,7 @@ $this->title = 'Signup';
                          <i class="fa fa-user-o fa-stack-1x fa-inverse"></i>
                     </span>
                     <h4 class="service-heading">Customer</h4>  
-                <p><?= Html::a('Sign Up &raquo;', ['site/signup'],['class' => "btn btn-default"]) ?></p>
+                <p><?= Html::a('Sign Up &raquo;', ['site/signup'],['class' => "raised-btn btn-default"]) ?></p>
             </div>
             <div class="col-lg-4" style="text-align:center">
 			<span class="fa-stack fa-4x">
@@ -31,7 +31,7 @@ $this->title = 'Signup';
                          <i class="fa fa-black-tie fa-stack-1x fa-inverse"></i>
                     </span>
                     <h4 class="service-heading">Restaurant Manager</h4> 
-                <p><?= Html::a('Sign Up &raquo;', ['site/rmanager'],['class' => "btn btn-default"]) ?> </p>
+                <p><?= Html::a('Sign Up &raquo;', ['site/rmanager'],['class' => "raised-btn btn-default"]) ?> </p>
              </div>
             <div class="col-lg-4" style="text-align:center">
 			<span class="fa-stack fa-4x">
@@ -39,7 +39,7 @@ $this->title = 'Signup';
                          <i class="fa fa-motorcycle fa-stack-1x fa-inverse"></i>
                     </span>
                     <h4 class="service-heading">Delivery man</h4> 
-               <p><?= Html::a('Sign Up &raquo;', ['site/deliveryman'],['class' => "btn btn-default"]) ?> </p>
+               <p><?= Html::a('Sign Up &raquo;', ['site/deliveryman'],['class' => "raised-btn btn-default"]) ?> </p>
             </div>
         </div>
 

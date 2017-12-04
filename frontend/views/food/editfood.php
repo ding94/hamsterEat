@@ -122,7 +122,7 @@ AddFoodAsset::register($this);
                 <?php DynamicFormWidget::end(); ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Save', ['class' => 'btn btn-primary', 'name' => 'insert-button']) ?>
+                    <?= Html::submitButton('Save', ['class' => 'raised-btn main-btn', 'name' => 'insert-button']) ?>
                 </div>
             
             <?php ActiveForm::end(); ?> 

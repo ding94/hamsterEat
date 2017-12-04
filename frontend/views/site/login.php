@@ -27,7 +27,7 @@ $this->title = 'Login';
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                    <?= Html::submitButton('Login', ['class' => 'raised-btn main-btn', 'name' => 'login-button']) ?>
                 </div>
 
                 <div class="forgotpassword pull-right" style="color:#999;">

@@ -55,7 +55,7 @@ CartAsset::register($this);
   <div class ="container">
 	  <div class="htitlemargintop"></div><div class="htitleline"></div><div class="hometitlefp"><h1 style="text-shadow: 1.5px 1.5px #ffda00;"><center>Cart</center></h1></div><div class="htitlemarginbottom"> 
     </div>
-      <?php echo Html::a('Continue Shopping',Yii::$app->request->referrer,['class' => 'btn btn-b']) ;?>
+      <?php echo Html::a('Continue Shopping',Yii::$app->request->referrer,['class' => 'raised-btn btn-b']) ;?>
 	</div>
 	<div class="container">
     <?php foreach($cart as $single) :?> 
@@ -101,7 +101,7 @@ CartAsset::register($this);
    <?php $form = ActiveForm::begin(['action' =>['checkout/index'],'method' => 'get']); ?>
         <?php echo Html::hiddenInput('area', $index);?>
         <?php echo Html::hiddenInput('code', '');?>
-        <?php echo Html::submitButton('Checkout', ['class' => 'btn btn-b']);?>
+        <?php echo Html::submitButton('Checkout', ['class' => 'raised-btn main-btn']);?>
       <?php ActiveForm::end(); ?>
   </div>
   <?php endforeach ;?>

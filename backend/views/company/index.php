@@ -47,11 +47,21 @@ Modal::end() ?>
             ],
 
             ['class' => 'yii\grid\ActionColumn' , 
+                'template'=>' {operate}',
+                'buttons' => [
+                    'operate' => function($url,$model)
+                    {
+                        return  $model->status == 1  ? Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'Deactivate']) : Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'Activate']);
+                    },
+                ],
+            ],
+
+            ['class' => 'yii\grid\ActionColumn' , 
                 'template'=>' {edit}',
                 'buttons' => [
                     'edit' => function($url,$model)
                     {
-                        return  Html::a(FA::icon('pencil-square-o 2x') , Url::to(['/company/edit', 'link'=>Yii::$app->request->url,'id'=>$model['id']]) , ['title' => 'Edit Details','data-toggle'=>'modal','data-target'=>'#add-modal']);
+                        return  Html::a(FA::icon('pencil-square-o 2x') , Url::to(['/company/edit', 'id'=>$model['id']]) , ['title' => 'Edit Details','data-toggle'=>'modal','data-target'=>'#add-modal']);
                     },
                 ],
             ],

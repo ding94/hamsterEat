@@ -17,7 +17,9 @@ CartAsset::register($this);
         </div>
         <?php ActiveForm::end(); ?>
       <?php elseif (empty($voucher)) : ?>
+        <div class="col-md-3 col-md-offset-2" ><br>
           <input id="voucherstype-type" type="hidden" value=" ">
+        </div>
       <?php endif ?>
     </div>
     <div class="col-md-5">

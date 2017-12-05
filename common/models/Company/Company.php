@@ -84,7 +84,7 @@ class Company extends \yii\db\ActiveRecord
     public function search($params,$action)
     {
 
-        $query = self::find()->where('status=:s',[':s'=>1]);
+        $query = self::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

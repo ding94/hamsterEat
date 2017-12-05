@@ -25,7 +25,7 @@ class CompanyController extends CommonController
 
 			if (empty($emplo['uid'])) {
 				Yii::$app->session->setFlash('error','Input was empty!');
-				return $this->render('index',['emplo'=>$emplo]);
+				return $this->render('index',['emplo'=>$emplo,'company'=>$company]);
 			}
 
 			$emplo['cid'] = $company['id'];

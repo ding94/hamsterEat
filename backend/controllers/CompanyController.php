@@ -73,4 +73,21 @@ class CompanyController extends Controller
 
         return $this->renderAjax('register',['company'=>$company, 'company'=>$company]);
     }
+
+    public function actionOperate($id)
+    {
+        $company = Company::find()->where('id=:id',[':id'=>$id])->one();
+        if ($company['status']==1) {
+           $company['status'] = 0;
+        }
+        else{
+           $company['status'] = 1;
+        }
+        
+        if ($company->validate()) {
+            $company->save();
+            Yii::$app->session->setFlash('success','Success!');
+            return $this->redirect(['/company/index']);
+        }
+    }
 }

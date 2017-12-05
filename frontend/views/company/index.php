@@ -45,6 +45,11 @@ use common\models\User;
 <div class="col-lg-5 col-lg-offset-3" style="background-color: white;">
 <h3>User Assigned in <?= $company['name']; ?> </h3>
 	<table class="table table-hover">
+		<tr>
+			<th>Serial ID</th>
+			<th>Username</th>
+			<th></th>
+		</tr>
 		<?php foreach($users as $k => $value) : ?>
 			<tr>
 				<td><?= $k+1; ?></td>

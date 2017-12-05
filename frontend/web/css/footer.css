@@ -4,6 +4,12 @@
   margin-top:10%;
 }
 
+@media(max-width: 767px){
+  #Footer .container-fluid{
+    margin-bottom: 70px;
+  }
+}
+
 .footer{
   padding-left:10%;
   padding-right:10%;

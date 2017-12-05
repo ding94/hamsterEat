@@ -128,7 +128,7 @@ class SiteController extends CommonController
             $session->close();
             return $this->redirect(['Restaurant/default/index']);          
         }   
-        
+
         return $this->render('index',['list'=>$list,'postcodeArray'=>$postcodeArray,'banner'=>$banner]);
 
     }

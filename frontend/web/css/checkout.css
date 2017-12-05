@@ -49,6 +49,10 @@
 	margin-top: 20px;
 }
 
+.none{
+	display: none;
+}
+
 #no-border td{
 	border-top: 0px;
 }

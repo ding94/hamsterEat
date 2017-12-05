@@ -93,4 +93,9 @@ class Company extends \yii\db\ActiveRecord
 
         return $dataProvider;
     }
+
+    public function getEmployee()
+    {
+        return $this->hasOne(CompanyEmployees::className(),['cid' => 'id']);
+    }
 }

@@ -4,6 +4,10 @@ use yii\bootstrap\Modal;
 use yii\bootstrap\ActiveForm;
 use yii\web\Session;
 use frontend\assets\CheckoutAsset;
+use kartik\widgets\Select2; 
+use yii\web\JsExpression;
+use \yii\helpers\Url;
+use common\models\Company\Company;
 
 $this->title = "Check Out";
 CheckoutAsset::register($this);
@@ -51,6 +55,7 @@ Modal::end();
         </div>
         <?php $form = ActiveForm::begin(['id' => 'checkout','action' => ['/checkout/order']]); ?>
         <div class="cart-detail">
+           
             <div>
                 <h3>Delivery Address </h3> <p style='color: grey;'>(Default as Primary)</p>
                 <?php if(!empty($address)):?>

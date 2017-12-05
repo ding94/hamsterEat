@@ -59,7 +59,7 @@ UserAsset::register($this);
     NavBar::begin([
         'brandLabel' => Html::img('@web/SysImg/Logo.png'),
         'brandUrl' => Yii::$app->homeUrl,
-        'innerContainerOptions' => ['class' => 'container-fluid'],
+        'innerContainerOptions' => ['class' => 'container'],
         'options' => [
             'class' => 'topnav navbar-fixed-top MainNav',
             'id' => 'uppernavbar'

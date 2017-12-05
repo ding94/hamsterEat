@@ -31,15 +31,13 @@ class CheckoutController extends CommonController
 	            'actions' => [
 	                'index'  => ['GET'],
 	                'order'   => ['POST'],
-	                'company-address' => ['GET'],
-	               
 	            ],
 	        ],
 	        'access' => [
 	        	'class' => AccessControl::className(),
 	            'rules' => [
 	            	'actions' => [
-	            	'actions' => ['index','order','company-address'],
+	            	'actions' => ['index','order'],
                     'allow' => true,
                     'roles' => ['@'],
 	            	],
@@ -66,11 +64,13 @@ class CheckoutController extends CommonController
 			  return $this->redirect(Yii::$app->request->referrer);
 		}
         
+        $company = Company::find()->where('uid = :uid and area_group = :group',[':uid' => Yii::$app->user->identity->id,':group'=>$area])->joinWith(['employee'])->one();
+       	
         $order = new Orders;
         $deliveryAddress = new DeliveryAddress;
 		$address = Useraddress::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->orderBy('level DESC')->all();
 		$addressmap = ArrayHelper::map($address,'id','address');
-		return $this->render('index',['address'=> $address,'order' =>  $order ,'deliveryaddress'=>$deliveryAddress,'addressmap' => $addressmap ,'area' => $area,'code'=>$code]);
+		return $this->render('index',['address'=> $address,'order' =>  $order ,'deliveryaddress'=>$deliveryAddress,'addressmap' => $addressmap ,'area' => $area,'code'=>$code,'company'=>$company]);
 	}
 
 	public function actionOrder()
@@ -188,16 +188,30 @@ class CheckoutController extends CommonController
 	}
 
 	/*
+	* use for detect wehter is using company address or user adderss
+	*/
+	protected static function areaDetect($area,$post)
+	{
+		if($post['DeliveryAddress']['cid'] >= 0)
+		{
+			return self::createCompanyAddress($area,$post);
+		}
+		else
+		{
+			return self::createUserAddress($area,$post);
+		}
+	}
+
+	/*
 	* use for detect user address postcode is same as the area 
 	* area => areagroup that use submit
 	* id => user address id
 	* -1 => false address
 	*/
-	protected static function areaDetect($area,$post)
+	protected static function createUserAddress($area,$post)
 	{
 		$data['value'] = -1;
 		$data['data'] = "";
-
 		$groupArea = ArrayHelper::map(Area::find()->where('Area_Group = :group',[':group' => $area])->all() ,'Area_Postcode','Area_Postcode');
 		$address = Useraddress::findOne($post['DeliveryAddress']['location']);
 
@@ -219,6 +233,28 @@ class CheckoutController extends CommonController
 			Yii::$app->session->setFlash('error', 'The address does not match your cart area.');
 			return $data;
 		}
+	}
+
+	protected static function createCompanyAddress($area,$post)
+	{
+		$data['value'] = -1;
+		$data['data'] = "";
+		$address = Company::findOne($post['DeliveryAddress']['cid']);
+		if(empty($address) || $address->area_group != $area)
+		{
+			Yii::$app->session->setFlash('error', 'The company address does not match your cart area.');
+			return $data;
+		}
+
+		$deliveryaddress = new DeliveryAddress;
+		$deliveryaddress->load($post);
+		$deliveryaddress->type = 1;
+		$deliveryaddress->location = $address->address;
+		$deliveryaddress->postcode = $address->postcode;
+		$deliveryaddress->area = $address->area;
+		$data['value'] = 1;
+		$data['data'] = $deliveryaddress;
+		return $data;
 	}
 
 	/*

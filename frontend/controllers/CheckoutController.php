@@ -16,6 +16,7 @@ use common\models\Order\Orderitemselection;
 use common\models\Order\DeliveryAddress;
 use common\models\food\Foodselection;
 use common\models\user\Useraddress;
+use common\models\Company\Company;
 use common\models\Area;
 use common\models\User;
 use frontend\models\Deliveryman;
@@ -30,6 +31,7 @@ class CheckoutController extends CommonController
 	            'actions' => [
 	                'index'  => ['GET'],
 	                'order'   => ['POST'],
+	                'company-address' => ['GET'],
 	               
 	            ],
 	        ],
@@ -37,7 +39,7 @@ class CheckoutController extends CommonController
 	        	'class' => AccessControl::className(),
 	            'rules' => [
 	            	'actions' => [
-	            	'actions' => ['index','order'],
+	            	'actions' => ['index','order','company-address'],
                     'allow' => true,
                     'roles' => ['@'],
 	            	],

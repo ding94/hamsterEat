@@ -37,6 +37,7 @@ NotificationAsset::register($this);
     NavBar::begin([
         'brandLabel' => 'hamsterEat',
         'brandUrl' => Yii::$app->homeUrl,
+        'innerContainerOptions' => ['class' => 'container'],
         'options' => [
             'class' => 'topnav navbar-fixed-top MainNav',
             'id' => 'uppernavbar'

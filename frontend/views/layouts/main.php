@@ -74,7 +74,7 @@ NotificationAsset::register($this);
         'brandLabel' => Html::img('@web/SysImg/Logo.png' ,['id'=>'logo']),
 
         'brandUrl' => Yii::$app->homeUrl,
-        'innerContainerOptions' => ['class' => 'container-fluid'],
+        'innerContainerOptions' => ['class' => 'container'],
         'options' => [
             'class' => 'topnav navbar-fixed-top MainNav',
             'id' => 'uppernavbar'

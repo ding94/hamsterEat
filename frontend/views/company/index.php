@@ -7,7 +7,6 @@ use kartik\widgets\Select2; // or kartik\select2\Select2
 use yii\web\JsExpression;
 use common\models\Company\CompanyEmployees;
 use common\models\User;
-
 ?>
 <?php $url = \yii\helpers\Url::to(['/company/userlist']);?>
 
@@ -41,8 +40,8 @@ use common\models\User;
 </div>
 <?php ActiveForm::end(); ?>
 
-<?php $users = CompanyEmployees::find()->where('cid=:id',[':id'=>$company['id']])->all(); ?>
-<div class="col-lg-5 col-lg-offset-3" style="background-color: white;">
+
+<div class="col-lg-5 col-lg-offset-3">
 <h3>User Assigned in <?= $company['name']; ?> </h3>
 	<table class="table table-hover">
 		<tr>
@@ -58,5 +57,9 @@ use common\models\User;
 			</tr>
 		<?php endforeach; ?>
 	</table>
+</div><div class="col-lg-5 col-lg-offset-3">
+<?php echo \yii\widgets\LinkPager::widget([
+      'pagination' => $pagination,
+    ]); ?>
 </div>
 </div>

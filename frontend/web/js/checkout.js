@@ -11,7 +11,6 @@ function checkempty()
         else
         {
             alert('Please select a payment method!');
-            document.getElementById("list").style.color ="red";
             return false;
         }
 
@@ -31,6 +30,7 @@ $(function(){
                 modal.find('.modal-body').html(data);
         });
     });
+
 });
 
 $(function(){
@@ -44,6 +44,18 @@ $(function(){
                 modal.find('.modal-body').html(data);
         });
     });
+});
+
+$('#deliveryaddress-cid input').on('change', function(event) {
+    event.preventDefault();
+    if($(this).val() == 0)
+    {
+       $('.address.none').removeClass('none');
+    }
+    else
+    {
+        $(".address:not([class*='none'])").addClass('none');      
+    }
 });
 
 $("input[name='DeliveryAddress[location]']").on('change',function(){

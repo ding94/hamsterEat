@@ -55,8 +55,15 @@ Modal::end();
         </div>
         <?php $form = ActiveForm::begin(['id' => 'checkout','action' => ['/checkout/order']]); ?>
         <div class="cart-detail">
-           
-            <div>
+            <?php if(!empty($company)):?>
+            <div class="company">
+              <h3>Use Company Address Or Account Address</h3>
+              <?= $form->field($deliveryaddress,'cid')->radioList([0=>'Account Address',1=>'Company Address '.$company->name])->label(false);?>
+            </div>
+            <?php else :?>
+              <?php echo Html::hiddenInput('cid', 0);?>
+            <?php endif;?>
+            <div <?php echo !empty($company) ? "class='address none'" : "class='address'"?>>
                 <h3>Delivery Address </h3> <p style='color: grey;'>(Default as Primary)</p>
                 <?php if(!empty($address)):?>
                     <?php foreach($address as $value):?>

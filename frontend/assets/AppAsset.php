@@ -17,6 +17,7 @@ class AppAsset extends AssetBundle
         'css/footer.css',
         'css/popupbox.css',
         'css/button.css',
+        'css/bottom-navbar.css'
     ];
     public $js = [
 	    'js/he.js',

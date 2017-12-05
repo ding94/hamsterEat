@@ -38,10 +38,21 @@ class DeliveryAddress extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [[ 'name', 'contactno', 'location', 'postcode', 'area', 'deliveryman', 'type'], 'required'],
-            [['delivery_id', 'cid', 'deliveryman', 'type', 'postcode'], 'integer'],
+            [[ 'name', 'contactno', 'deliveryman', 'type', 'cid'], 'required'],
+            [['delivery_id', 'deliveryman', 'type', 'postcode'], 'integer'],
             [['name', 'contactno', 'location', 'area'], 'string', 'max' => 255],
-            ['cid','default','value'=>0],
+            [['location', 'postcode', 'area' ],'required','when'=>function($model){
+                return  $model->cid == 0;
+            },'whenClient' => "function(attribute,value){
+                if($('input[name=cid]').length <= 0)
+                {
+                    return $('#deliveryaddress-cid input:checked').val() == 0 
+                }
+                else
+                {
+                    return $('#deliveryaddress-cid input:checked').val() == 0 || $('input[name=cid]').val() == 0; 
+                }
+            }"],
         ];
     }
 
@@ -52,7 +63,7 @@ class DeliveryAddress extends \yii\db\ActiveRecord
     {
         return [
             'delivery_id' => 'Delivery ID',
-            'cid' => 'Cid',
+            'cid' => 'Selection',
             'name' => 'Name',
             'contactno' => 'Contactno',
             'location' => 'Location',

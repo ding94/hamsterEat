@@ -9,6 +9,8 @@ use common\models\User;
 use yii\web\Response;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
+use yii\data\Pagination;
+
 class CompanyController extends CommonController
 {
 	public function actionIndex()
@@ -16,6 +18,15 @@ class CompanyController extends CommonController
 		$emplo = new CompanyEmployees;
 		$this->layout = 'user';
 		$company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one();
+		
+		$users = CompanyEmployees::find()->where('cid=:id',[':id'=>$company['id']]);
+		$countQuery = clone $users;
+        $pagination = new Pagination(['totalCount'=>$countQuery->count(),'pageSize'=>10]);
+        $users = $users->offset($pagination->offset)
+        ->limit($pagination->limit)
+      
+        ->all();
+		
 		if (empty($company)) {
 			Yii::$app->session->setFlash('error','Error!');
 			return $this->redirect('/site/index');
@@ -25,7 +36,7 @@ class CompanyController extends CommonController
 
 			if (empty($emplo['uid'])) {
 				Yii::$app->session->setFlash('error','Input was empty!');
-				return $this->render('index',['emplo'=>$emplo]);
+				return $this->render('index',['emplo'=>$emplo,'pagination'=>$pagination,'users'=>$users]);
 			}
 
 			$emplo['cid'] = $company['id'];
@@ -37,7 +48,7 @@ class CompanyController extends CommonController
 				return $this->redirect(['/company/index']);
 			}
 		}
-		return $this->render('index',['emplo'=>$emplo,'company'=>$company]);
+		return $this->render('index',['emplo'=>$emplo,'company'=>$company,'pagination'=>$pagination,'users'=>$users]);
 	}
 
 	public function actionUserlist($q = null, $id = null) 

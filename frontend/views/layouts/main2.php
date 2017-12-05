@@ -101,7 +101,6 @@ NotificationAsset::register($this);
             . Html::endForm()
             . '</li>';
             ['label' => 'My Profile', 'url' => ['/user/user-profile']];
-            
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

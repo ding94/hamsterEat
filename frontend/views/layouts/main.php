@@ -18,6 +18,7 @@ use frontend\models\Deliveryman;
 use common\models\Restaurant;
 use yii\bootstrap\Modal;
 use frontend\assets\NotificationAsset;
+use common\models\Company\Company;
 
 AppAsset::register($this);
 NotificationAsset::register($this);
@@ -141,6 +142,10 @@ NotificationAsset::register($this);
         if (Deliveryman::find()->where('User_id=:id',[':id'=>Yii::$app->user->identity->id])->one()){
                 $menuItems[end($keys)]['items'][] =['label' => 'Delivery Orders', 'url' => ['/order/deliveryman-orders'],'linkOptions' => ['data-method' => 'post']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+        }
+        if ($company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
+            $menuItems[end($keys)]['items'][] =['label' => 'Company', 'url' => ['/company/index']];
+            $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
         $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']];
                     //var_dump($menuItems);exit;

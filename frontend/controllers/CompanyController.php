@@ -36,7 +36,12 @@ class CompanyController extends CommonController
 
 			if (empty($emplo['uid'])) {
 				Yii::$app->session->setFlash('error','Input was empty!');
-				return $this->render('index',['emplo'=>$emplo,'pagination'=>$pagination,'users'=>$users]);
+				
+				return $this->redirect(['/company/index']);
+			}
+			if (CompanyEmployees::find()->where('uid=:uid',[':uid'=>$emplo['uid']])->one()) {
+				Yii::$app->session->setFlash('warning','Repeated employee!');
+				return $this->redirect(['/company/index']);
 			}
 
 			$emplo['cid'] = $company['id'];
@@ -64,6 +69,13 @@ class CompanyController extends CommonController
 	        $out['results'] = ['id' => $id, 'text' => User::find($id)->username];
 	    }
 	    return $out;
+	}
+
+	public function actionRemoveemployee($id)
+	{
+		CompanyEmployees::find()->where('id=:id',[':id'=>$id])->one()->delete();
+		Yii::$app->session->setFlash('warning','Deleted!');
+		return $this->redirect(['/company/index']);
 	}
 
 }

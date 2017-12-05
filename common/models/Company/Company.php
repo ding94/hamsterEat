@@ -55,6 +55,7 @@ class Company extends \yii\db\ActiveRecord
             [['name', 'owner_id', 'license_no', 'address', 'postcode', 'area'], 'required'],
             [['owner_id', 'status', 'area_group','created_at','updated_at','postcode'], 'integer'],
             [['name', 'license_no', 'address', 'area'], 'string', 'max' => 255],
+            [['name'],'safe'],
             ['username', 'string'],
             ['username', 'required','on'=>'register'],
 
@@ -90,6 +91,8 @@ class Company extends \yii\db\ActiveRecord
         ]);
         
         $this->load($params);
+
+        $query->andFilterWhere(['like','name' , $this->name]);
 
         return $dataProvider;
     }

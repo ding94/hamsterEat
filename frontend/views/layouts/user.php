@@ -10,6 +10,7 @@ use yii\bootstrap\Modal;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use common\models\Company\Company;
 use kartik\widgets\SideNav;
 use yii\helpers\Url;
 use common\models\Rmanager;
@@ -137,6 +138,10 @@ UserAsset::register($this);
         if (Deliveryman::find()->where('User_id=:id',[':id'=>Yii::$app->user->identity->id])->one()){
                 $menuItems[end($keys)]['items'][] =['label' => 'Delivery Orders', 'url' => ['/order/deliveryman-orders'],'linkOptions' => ['data-method' => 'post']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+        }
+        if ($company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
+            $menuItems[end($keys)]['items'][] =['label' => 'Company', 'url' => ['/company/index'],'linkOptions' => ['data-method' => 'post']];
+            $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
         $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']];
 

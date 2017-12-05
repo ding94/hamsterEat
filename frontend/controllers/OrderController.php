@@ -423,7 +423,7 @@ class OrderController extends CommonController
         $allData = [];
         $data= Orderitem::find()->where('Restaurant_ID = :id',['id'=>$rid])->joinWith(['item_status'=>function($query){
             $query->where(['>=','Change_PendingDateTime',strtotime(date('Y-m-d'))]);},
-            'food','order_selection'=>function($query){ $query->orderby('FoodType_ID ASC');} ])->all();
+            'food','order_selection'=>function($query){ $query->orderby('Selection_ID ASC');} ])->all();
 
         foreach($data as $item)
         {

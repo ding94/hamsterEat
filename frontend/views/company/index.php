@@ -12,8 +12,10 @@ use common\models\User;
 <?php $url = \yii\helpers\Url::to(['/company/userlist']);?>
 
 <?php $form = ActiveForm::begin(); ?>
-<div class="row">
-	<div class="col-md-4">
+<div class="container" style="background-color:#fff;">
+<h1 style="font-size:30px;"><center>Employee Management</center></h1>
+<div class="row" style="margin-top: 3%;">
+	<div class="col-lg-5 col-lg-offset-3" >
 		<?= $form->field($emplo, 'uid')->widget(Select2::classname(), [
 		    'options' => ['placeholder' => 'Search for an user ...'],
 		    'pluginOptions' => [
@@ -40,7 +42,7 @@ use common\models\User;
 <?php ActiveForm::end(); ?>
 
 <?php $users = CompanyEmployees::find()->where('cid=:id',[':id'=>$company['id']])->all(); ?>
-<div class="col-md-6" style="background-color: white;">
+<div class="col-lg-5 col-lg-offset-3" style="background-color: white;">
 <h3>User Assigned in <?= $company['name']; ?> </h3>
 	<table class="table table-hover">
 		<?php foreach($users as $k => $value) : ?>
@@ -50,4 +52,5 @@ use common\models\User;
 			</tr>
 		<?php endforeach; ?>
 	</table>
+</div>
 </div>

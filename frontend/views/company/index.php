@@ -47,8 +47,9 @@ use common\models\User;
 	<table class="table table-hover">
 		<?php foreach($users as $k => $value) : ?>
 			<tr>
-				<td><?= User::find()->where('id=:uid',[':uid'=>$value['uid']])->one()->username; ?></td>
-				<td>Delete</td>
+				<td><?= $k+1; ?></td>
+				<td><font> <?= User::find()->where('id=:uid',[':uid'=>$value['uid']])->one()->username; ?> </font></td>
+				<td><?= Html::a('Remove', ['/company/removeemployee', 'id'=>$value['id']], ['class'=>'btn btn-danger']);?></td>
 			</tr>
 		<?php endforeach; ?>
 	</table>

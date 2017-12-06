@@ -57,7 +57,6 @@ Modal::end();
     <div class="page-wrap">
       <!-- <label for="sidebartoggler" class="toggle"><i class="fa fa-sliders" aria-hidden="true">&nbsp;Filter</i></label>-->
 	  <div class="tm">
-            <a href="#menu" id="toggle-menu"><span></span></a>
             <div id="menu">
               <ul>
                 <li> <a><label for="sidebartoggler" class="toggle">Filter</label></li></a>
@@ -68,6 +67,7 @@ Modal::end();
                   ?>           
                   <?php echo Html::a("Change to: ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0])?>
                 </li>
+                <li><?php echo Html::a('<span class="glyphicon glyphicon-log-out"> Logout',['/site/logout'],['data-method'=>'post']);?></li>
               </ul>
             </div>
 	  </div>

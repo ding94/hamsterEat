@@ -1,41 +1,46 @@
-var theToggle = document.getElementById('toggle-menu');
+// var theToggle = document.getElementById('toggle-menu');
+var theToggleTest = document.getElementById('toggle-menu-test');
 
 
 // hasClass
-function hasClass(elem, className) {
-	return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
-}
-// addClass
-function addClass(elem, className) {
-    if (!hasClass(elem, className)) {
-    	elem.className += ' ' + className;
-    }
-}
-// removeClass
-function removeClass(elem, className) {
-	var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, ' ') + ' ';
-	if (hasClass(elem, className)) {
-        while (newClass.indexOf(' ' + className + ' ') >= 0 ) {
-            newClass = newClass.replace(' ' + className + ' ', ' ');
-        }
-        elem.className = newClass.replace(/^\s+|\s+$/g, '');
-    }
-}
-// toggleClass
-function toggleClass(elem, className) {
-	var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, " " ) + ' ';
-    if (hasClass(elem, className)) {
-        while (newClass.indexOf(" " + className + " ") >= 0 ) {
-            newClass = newClass.replace( " " + className + " " , " " );
-        }
-        elem.className = newClass.replace(/^\s+|\s+$/g, '');
-    } else {
-        elem.className += ' ' + className;
-    }
-}
+// function hasClass(elem, className) {
+// 	return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
+// }
+// // addClass
+// function addClass(elem, className) {
+//     if (!hasClass(elem, className)) {
+//     	elem.className += ' ' + className;
+//     }
+// }
+// // removeClass
+// function removeClass(elem, className) {
+// 	var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, ' ') + ' ';
+// 	if (hasClass(elem, className)) {
+//         while (newClass.indexOf(' ' + className + ' ') >= 0 ) {
+//             newClass = newClass.replace(' ' + className + ' ', ' ');
+//         }
+//         elem.className = newClass.replace(/^\s+|\s+$/g, '');
+//     }
+// }
+// // toggleClass
+// function toggleClass(elem, className) {
+// 	var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, " " ) + ' ';
+//     if (hasClass(elem, className)) {
+//         while (newClass.indexOf(" " + className + " ") >= 0 ) {
+//             newClass = newClass.replace( " " + className + " " , " " );
+//         }
+//         elem.className = newClass.replace(/^\s+|\s+$/g, '');
+//     } else {
+//         elem.className += ' ' + className;
+//     }
+// }
 
-theToggle.onclick = function() {
-   toggleClass(this, 'on');
-   return false;
-}
+// theToggle.onclick = function() {
+//    toggleClass(this, 'on');
+//    return false;
+// }
 
+$(theToggleTest).on('click', function(e) {
+      $('#menu').toggleClass("on"); //you can list several class names 
+      e.preventDefault();
+    });

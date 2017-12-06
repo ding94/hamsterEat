@@ -60,8 +60,9 @@ RatingIndexAsset::register($this);
 			</div>
 			</div>
 			</div>
-      <button class="raised-btn btn-primary1" onclick="proceed()">Proceed</button> 
-			
+	<div class="button-div">
+    <button class="raised-btn main-btn proceed-btn" onclick="proceed()">Proceed</button> 
+	</div>	
 			
 			</div>
 			<div id="comments" class="tab-pane fade">
@@ -96,7 +97,9 @@ RatingIndexAsset::register($this);
 
 		</div>
 		</div>
-		<button class="raised-btn btn-primary2">Submit</button>
+		<div class="button-div">
+		<button class="raised-btn main-btn submit-btn">Submit</button>
+		</div>
 	</div>
 	<?php ActiveForm::end();?>
 </div>

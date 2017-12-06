@@ -18,6 +18,7 @@ use frontend\models\Deliveryman;
 use common\models\Restaurant;
 use yii\bootstrap\Modal;
 use frontend\assets\NotificationAsset;
+use common\models\Company\Company;
 
 AppAsset::register($this);
 NotificationAsset::register($this);
@@ -142,6 +143,10 @@ NotificationAsset::register($this);
                 $menuItems[end($keys)]['items'][] =['label' => 'Delivery Orders', 'url' => ['/order/deliveryman-orders'],'linkOptions' => ['data-method' => 'post']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
+        if ($company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
+            $menuItems[end($keys)]['items'][] =['label' => 'Company', 'url' => ['/company/index']];
+            $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+        }
         $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']];
                     //var_dump($menuItems);exit;
         
@@ -166,6 +171,35 @@ NotificationAsset::register($this);
     NavBar::end();
     ?>
 	 </div>
+
+     <nav id="bottom-navbar">
+            <div>
+                <ul>
+                    <?php if(Yii::$app->user->isGuest){ ?>
+                    <li><?php echo Html::a('<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span>',['/cart/view-cart']);?></li>
+                    <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>',['/notification/index']);?></li>
+                    <li><?php echo Html::a('<span class="glyphicon glyphicon-log-in"></span>',['/site/login-popup'],['data-toggle'=>'modal','data-target'=>'#login-modal']);?></li>
+                    <?php } elseif(Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) { ?>
+                    <li><?php echo Html::a('<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span>',['/cart/view-cart']);?></li>
+                    <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>',['/notification/index']);?></li>
+                    <li><?php echo Html::a('<i class="fa fa-cutlery"></i>',['/Restaurant/restaurant/restaurant-service']);?></li>
+                    <li><?php echo Html::a('<span class="glyphicon glyphicon-user">',['/user/user-profile']);?></li>
+                    <li><?php echo Html::a('<span class="glyphicon glyphicon-log-out">',['/site/logout'],['data-method'=>'post']);?></li>
+                    <?php } elseif(Deliveryman::find()->where('User_id=:id',[':id'=>Yii::$app->user->identity->id])->one()){ ?>
+                    <li><?php echo Html::a('<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span>',['/cart/view-cart']);?></li>
+                    <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>',['/notification/index']);?></li>
+                    <li><?php echo Html::a('<i class="fa fa-truck"></i>',['/order/deliveryman-orders']);?></li>
+                    <li><?php echo Html::a('<span class="glyphicon glyphicon-user">',['/user/user-profile']);?></li>
+                    <li><?php echo Html::a('<span class="glyphicon glyphicon-log-out">',['/site/logout'],['data-method'=>'post']);?></li>
+                    <?php } else{ ?>
+                    <li><?php echo Html::a('<span id="cart" class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span>',['/cart/view-cart']);?></li>
+                    <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>',['/notification/index']);?></li>
+                    <li><?php echo Html::a('<span class="glyphicon glyphicon-user">',['/user/user-profile']);?></li>
+                    <li><?php echo Html::a('<span class="glyphicon glyphicon-log-out">',['/site/logout'],['data-method'=>'post']);?></li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </nav>
 
 <!--<div class="container-fluid" ">-->
 

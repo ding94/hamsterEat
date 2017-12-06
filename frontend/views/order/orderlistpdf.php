@@ -5,7 +5,8 @@ use common\models\food\Food;
 use common\models\Order\Orderitemselection;
 use common\models\Order\Orderitem;
 use common\models\food\Foodselection;
-use common\models\Orders;
+use common\models\Order\Orders;
+use common\models\Order\DeliveryAddress;
 use yii\helpers\Html;
 
 ?>
@@ -63,11 +64,11 @@ use yii\helpers\Html;
                     <?php foreach($oids as $o => $oid): ?>
                         <?php 
                             $did = Orderitem::find()->where('Order_ID=:oid',[':oid'=>$oid])->one()->Delivery_ID; 
-                            $delivery = Orders::find()->where('Delivery_ID=:did',[':did'=>$did])->one();?>
+                            $delivery = DeliveryAddress::find()->where('Delivery_ID=:did',[':did'=>$did])->one();?>
                         
                         <tr>
                             <td><?= $oid; ?></td>
-                            <td><?= $delivery['User_fullname']; ?></td>
+                            <td><?= $delivery['name']; ?></td>
                             <td><?= $did; ?></td>
                         </tr>
                     <?php endforeach; ?>

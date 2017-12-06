@@ -7,13 +7,14 @@ use kartik\widgets\Select2; // or kartik\select2\Select2
 use yii\web\JsExpression;
 use common\models\Company\CompanyEmployees;
 use common\models\User;
-
 ?>
 <?php $url = \yii\helpers\Url::to(['/company/userlist']);?>
 
 <?php $form = ActiveForm::begin(); ?>
-<div class="row">
-	<div class="col-md-4">
+<div class="container" style="background-color:#fff;">
+<h1 style="font-size:30px;"><center>Employee Management</center></h1>
+<div class="row" style="margin-top: 3%;">
+	<div class="col-lg-5 col-lg-offset-3" >
 		<?= $form->field($emplo, 'uid')->widget(Select2::classname(), [
 		    'options' => ['placeholder' => 'Search for an user ...'],
 		    'pluginOptions' => [
@@ -39,15 +40,26 @@ use common\models\User;
 </div>
 <?php ActiveForm::end(); ?>
 
-<?php $users = CompanyEmployees::find()->where('cid=:id',[':id'=>$company['id']])->all(); ?>
-<div class="col-md-6" style="background-color: white;">
+
+<div class="col-lg-5 col-lg-offset-3">
 <h3>User Assigned in <?= $company['name']; ?> </h3>
 	<table class="table table-hover">
+		<tr>
+			<th>Serial ID</th>
+			<th>Username</th>
+			<th></th>
+		</tr>
 		<?php foreach($users as $k => $value) : ?>
 			<tr>
-				<td><?= User::find()->where('id=:uid',[':uid'=>$value['uid']])->one()->username; ?></td>
-				<td>Delete</td>
+				<td><?= $k+1; ?></td>
+				<td><font> <?= User::find()->where('id=:uid',[':uid'=>$value['uid']])->one()->username; ?> </font></td>
+				<td><?= Html::a('Remove', ['/company/removeemployee', 'id'=>$value['id']], ['class'=>'btn btn-danger']);?></td>
 			</tr>
 		<?php endforeach; ?>
 	</table>
+</div><div class="col-lg-5 col-lg-offset-3">
+<?php echo \yii\widgets\LinkPager::widget([
+      'pagination' => $pagination,
+    ]); ?>
+</div>
 </div>

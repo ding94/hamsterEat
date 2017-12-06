@@ -259,12 +259,12 @@
 }
 
 
-.fa-user,.fa-money,.fa-cutlery,.fa-comment,.fa-ticket{
+#profile .fa-user,#balance .fa-money,#order .fa-cutlery,#ticket .fa-comment,#voucher .fa-ticket{
     color:#FFDA00;
 }
 
 @media(max-width: 480px){
-	.fa-user,.fa-money,.fa-cutlery,.fa-comment{
+	#profile .fa-user,#balance .fa-money,#order .fa-cutlery,#ticket .fa-comment{
   color:#FFDA00;
 	position:relative;
   }

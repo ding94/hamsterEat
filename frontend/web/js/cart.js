@@ -175,6 +175,7 @@ function quantity(up,cid)
 
   function showDiv() {
    document.getElementById('cs').style.display = "block";
+   document.getElementById('pc').innerHTML = "Enter Promo Code:";
    document.getElementById('refresh').style.display = "block";
    document.getElementById('voucher').style.display = "none";
 }

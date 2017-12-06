@@ -76,7 +76,7 @@ class CheckoutController extends CommonController
 	public function actionOrder()
 	{
 		$post = Yii::$app->request->post();
-		
+		var_dump($post);exit;
 		$deliveyaddress = $this->areaDetect($post['area'],$post);
 		
 		if($deliveyaddress['value'] == -1)

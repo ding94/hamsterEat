@@ -10,9 +10,30 @@ use yii\web\Response;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\data\Pagination;
+use yii\filters\AccessControl;
 
 class CompanyController extends CommonController
 {
+	public function behaviors()
+    {
+         return [
+             'access' => [
+                 'class' => AccessControl::className(),
+                 //'only' => ['logout', 'signup','index'],
+                 'rules' => [
+                    [
+                        'actions' => ['index','removeemployee'],
+                        'allow' => true,
+                        'roles' => ['@'],
+
+                    ],
+                    //['actions' => [],'allow' => true,'roles' => ['?'],],
+                    
+                 ]
+             ]
+        ];
+    }
+
 	public function actionIndex()
 	{
 		$emplo = new CompanyEmployees;

@@ -61,7 +61,7 @@ Modal::end();
               <?= $form->field($deliveryaddress,'cid')->radioList([0=>'Account Address',1=>'Company Address '.$company->name])->label(false);?>
             </div>
             <?php else :?>
-              <?php echo Html::hiddenInput('cid', 0);?>
+              <?= $form->field($deliveryaddress,'cid')->value(0)->hiddenInput();?>
             <?php endif;?>
             <div <?php echo !empty($company) ? "class='address none'" : "class='address'"?>>
                 <h3>Delivery Address </h3> <p style='color: grey;'>(Default as Primary)</p>

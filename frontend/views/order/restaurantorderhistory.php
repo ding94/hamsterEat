@@ -2,11 +2,11 @@
 /* @var $this yii\web\View */
 
 use common\models\food\Food;
-use common\models\Orderitemselection;
+use common\models\Order\Orderitemselection;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
-use common\models\Orders;
-use common\models\Orderitem;
+use common\models\Order\Orders;
+use common\models\Order\Orderitem;
 use yii\helpers\Html;
 use kartik\widgets\Select2;
 use frontend\controllers\CartController;

@@ -222,6 +222,12 @@ class OrderController extends CommonController
 //--This function loads all the restaurant's running orders (not completed)
     public function actionRestaurantOrders($rid,$status = "",$mode = 1)
     {
+        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
+        if(empty($staff))
+        {
+             throw new NotFoundHttpException('Wrong Request!.');
+        }
+       
         $countOrder = $this->getTotalOrderRestaurant($rid);
         $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
         $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
@@ -232,6 +238,7 @@ class OrderController extends CommonController
         {
             $result->andWhere(['Orders_Status'=>$status]);
         }
+
         $result->andWhere("Orders_Status != 'Not Paid' and Orders_Status != 'Completed'");
         
         $pagination = new Pagination(['totalCount'=>$result->count(),'pageSize'=>10]);
@@ -239,10 +246,9 @@ class OrderController extends CommonController
         ->limit($pagination->limit)
         ->all();
 
-        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
         $link = CommonController::getRestaurantOrdersUrl($rid);
 
-        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination,'status'=>$status,'countOrder'=>$countOrder, 'mode'=>$mode]);
+        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result,'link'=>$link,'pagination'=>$pagination,'status'=>$status,'countOrder'=>$countOrder, 'mode'=>$mode]);
     }
 
 //--This function loads all the specific delivery man's assigned orders (not completed)

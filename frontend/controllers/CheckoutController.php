@@ -192,7 +192,8 @@ class CheckoutController extends CommonController
 	*/
 	protected static function areaDetect($area,$post)
 	{
-		if($post['DeliveryAddress']['cid'] >= 0)
+	
+		if($post['DeliveryAddress']['cid'] != 0)
 		{
 			return self::createCompanyAddress($area,$post);
 		}
@@ -235,6 +236,9 @@ class CheckoutController extends CommonController
 		}
 	}
 
+	/*
+	* create company address
+	*/
 	protected static function createCompanyAddress($area,$post)
 	{
 		$data['value'] = -1;

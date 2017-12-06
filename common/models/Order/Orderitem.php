@@ -3,6 +3,7 @@
 namespace common\models\Order;
 
 use Yii;
+use yii\helpers\Json;
 use common\models\food\Food;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
@@ -129,5 +130,31 @@ class Orderitem extends \yii\db\ActiveRecord
     public function getProblem_Order()
     {
         return $this->hasOne(ProblemOrder::className(),['Order_ID' => 'Order_ID']);
+    }
+
+    public function getAddress()
+    {
+        return $this->hasOne(DeliveryAddress::className(),['delivery_id'=>'Delivery_ID']);
+    }
+
+    public function getTrim_selection()
+    {
+        $array = [];
+        
+        $data = Orderitemselection::find()->where('Order_ID = :id',[':id'=>$this->Order_ID])->orderBy(['Selection_ID'=>    SORT_ASC])->all();
+        //var_dump($data);exit;
+        foreach($data as $single)
+        {
+            if(empty($array[$single->FoodType_ID]))
+            {
+                $array[$single->FoodType_ID] = Foodselection::findOne($single->Selection_ID)->Name;
+            }
+            else
+            {
+                $array[$single->FoodType_ID] .= Foodselection::findOne($single->Selection_ID)->Name;
+            }
+            
+        }
+        return Json::encode($array);
     }
 }

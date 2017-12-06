@@ -4,10 +4,11 @@ namespace backend\modules\Order\controllers;
 
 use Yii;
 use yii\web\Controller;
-use common\models\Orders;
+use common\models\Order\Orders;
 use backend\models\OrderSearch;
-use common\models\Orderitem;
+use common\models\Order\Orderitem;
 use common\models\food\Food;
+use common\models\Order\DeliveryAddress;
 /**
  * Default controller for the `Order` module
  */
@@ -36,6 +37,7 @@ class DefaultController extends Controller
     public function actionEditorder($id)
     {
         $order = Orders::find()->where('Delivery_ID = :id',[':id'=>$id])->one();
+        $delivery = DeliveryAddress::find()->where('delivery_id = :did',[':did'=>$id])->one();
         $order->scenario = 'edit';
 
         if (Yii::$app->request->post()) {
@@ -51,7 +53,7 @@ class DefaultController extends Controller
             }
         }
         //var_dump($order);exit;
-        return $this->render('editorder',['order'=>$order]);
+        return $this->render('editorder',['order'=>$order,'delivery'=>$delivery]);
     }
 
     public function actionShowdetails($id)

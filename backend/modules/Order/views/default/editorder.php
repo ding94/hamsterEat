@@ -19,9 +19,9 @@ use kartik\widgets\ActiveForm;
 
 	<?= $form->field($order, 'Delivery_ID')->textInput(['readonly'=>true]) ?>
 	<?= $form->field($order, 'Orders_TotalPrice')->textInput(['readonly'=>true]) ?>
-	<?= $form->field($order, 'Orders_Location')->textInput() ?>
-	<?= $form->field($order, 'Orders_Postcode')->textInput() ?>
-	<?= $form->field($order, 'Orders_Area')->textInput() ?>
+	<?= $form->field($delivery, 'location')->textInput() ?>
+	<?= $form->field($delivery, 'postcode')->textInput() ?>
+	<?= $form->field($delivery, 'area')->textInput() ?>
 
 	<?= Html::submitButton('Edit',  [
         'class' => 'btn btn-warning', 

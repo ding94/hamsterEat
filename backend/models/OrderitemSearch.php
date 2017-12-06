@@ -1,12 +1,12 @@
 <?php
 namespace backend\models;
 
-use common\models\Orders;
-use common\models\Orderitem;
+use common\models\Order\Orders;
+use common\models\Order\Orderitem;
 use yii\data\ActiveDataProvider;
-use common\models\Orderitemstatuschange;
-use common\models\Ordersstatuschange;
-use common\models\Orderitemselection;
+use common\models\Order\Orderitemstatuschange;
+use common\models\Order\Ordersstatuschange;
+use common\models\Order\Orderitemselection;
 use common\models\problem\ProblemOrder;
 
 Class OrderitemSearch extends Orders

@@ -65,6 +65,12 @@
                                     ],
                         'options' => ['class' => 'active'],
                     ],
+                    [   'label' => 'Order Controller', 'icon' => 'user', 'url' => "#",
+                        'items' =>  [
+                                        [ 'label' => 'Order List', 'icon' => 'circle-o', 'url' => ['/order/default/index']],
+                                    ],
+                        'options' => ['class' => 'active'],
+                    ],
 					[   'label' => 'Finance Controller', 'icon' => 'money', 'url' => '#',
                         'items' =>  [
                                         ['label' => 'Offline Topup', 'icon' => 'circle-o', 'url' => ['/finance/topup/index']],

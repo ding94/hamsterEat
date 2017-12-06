@@ -1,12 +1,12 @@
 <?php
 namespace backend\models;
 
-use common\models\Orders;
-use common\models\Orderitem;
+use common\models\Order\Orders;
+use common\models\Order\Orderitem;
 use yii\data\ActiveDataProvider;
-use common\models\Orderitemstatuschange;
-use common\models\Ordersstatuschange;
-use common\models\Orderitemselection;
+use common\models\Order\Orderitemstatuschange;
+use common\models\Order\Ordersstatuschange;
+use common\models\Order\Orderitemselection;
 
 Class OrderSearch extends Orders
 {
@@ -22,12 +22,13 @@ Class OrderSearch extends Orders
 			case 2:
 				$query = Orders::find()->where('Orders_Status=:s',[':s'=>'Pending'])->andWhere('Orders_DateTimeMade > '.strtotime(date('Y-m-d')))->orderBy('Orders_DateTimeMade DESC');
 				$query->joinWith(['order_item']);
+				$query->joinWith(['address']);
 				break;
 			default:
 				# code...
 				break;
 		}
-		
+
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

@@ -66,7 +66,8 @@ CartAsset::register($this);
 	  	
 		
  <div style="margin-right: 5%;" id="pcs">
-	                Have a  <font style="font-weight:bold;">promo code</font>? Enter it <a href="javascript:showDiv()" id="showDiv" style="color:#3C3CFF;text-decoration:underline;">here</a>
+	                <div id="pc"> Have a  <font style="font-weight:bold;">promo code</font>? 
+					 Enter it <a href="javascript:showDiv()" id="showDiv" style="color:#3C3CFF;text-decoration:underline;">here</a></div>
 	           <div id="cs" style="display:none;">
               <div id="dis" style=""><input id="codes">
                 <a class="raised-btn main-btn" onclick="return discount()">Submit</a></div>

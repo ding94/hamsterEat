@@ -7,8 +7,8 @@ use yii\web\Controller;
 use backend\models\RestaurantSearch;
 use common\models\Restaurant;
 use common\models\Rmanager;
-use common\models\Orders;
-use common\models\Orderitem;
+use common\models\Order\Orders;
+use common\models\Order\Orderitem;
 use common\models\Account\Accountbalance;
 use common\models\problem\ProblemOrder;
 use common\models\problem\ProblemStatus;
@@ -28,9 +28,9 @@ class RestaurantController extends CommonController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['restaurant-service','food-service','providereason','active','deactive','pauserestaurant'],
+                        'actions' => ['restaurant-service','food-service','providereason','active','deactive','pauserestaurant','cooking-detail'],
                         'allow' => true,
-                        'roles' => ['?','@'],
+                        'roles' => ['restaurant manager'],
                     ]
                 ],
             ],
@@ -246,6 +246,26 @@ class RestaurantController extends CommonController
         }
         
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionCookingDetail($rid)
+    { 
+        $alldata = [];
+        $item = Orderitem::find()->distinct()->where("Restaurant_ID = :rid and Orders_Status = 'Pending'",[':rid'=>$rid])->joinWith(['food','address','order']);
+        //$item->andWhere("Orders_Status != 'Not Paid' and Orders_Status != 'Completed'");
+        $allitem = $item->all();
+        foreach ($allitem as $k => $single) {
+            if($single->address->type == 1 && $single->address->cid > 0)
+            {
+                $alldata[$single->address->cid][$single->Food_ID][$single->trim_selection][] = $single;
+            }
+            else
+            {
+                $alldata[$single->Delivery_ID] = $single;
+            }
+        
+        }
+        var_dump($alldata[1]);exit;
     }
 
     protected function findModel($id)

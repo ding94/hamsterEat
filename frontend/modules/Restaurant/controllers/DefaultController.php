@@ -118,7 +118,7 @@ class DefaultController extends CommonController
 
             return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword,'pagination'=>$pagination]);
         }*/
-
+        $this->layout = 'main3';
         return $this->render('index',['restaurant'=>$restaurant, 'allrestauranttype'=>$allrestauranttype ,'type' => $type,'filter'=>$filter,'pagination'=>$pagination]);
     }
 
@@ -533,6 +533,7 @@ class DefaultController extends CommonController
         }*/
 
         //var_dump($types);exit;
+        $this->layout = 'main3';
         return $this->render('index2',['food'=>$food, 'pagination' => $pages, 'allfoodtype'=>$allfoodtype, 'filter'=>$filter,'type' => $type]);
     }
 

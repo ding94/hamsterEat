@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use common\models\food\Foodselection;
 use yii\helpers\ArrayHelper;
-use common\models\Orderitemselection;
+use common\models\Order\Orderitemselection;
 use frontend\controllers\CartController;
 use kartik\widgets\TouchSpin;
 use common\models\User;

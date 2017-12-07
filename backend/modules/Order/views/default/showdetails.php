@@ -41,13 +41,13 @@ use yii\widgets\DetailView;
 		    	],
 		    	'OrderItem_Status',
 		    	[
-		    		'attribute' => 'order.Orders_Location',
+		    		'attribute' => 'address.location',
 		    	],
 		    	[
-		    		'attribute' => 'order.Orders_Postcode',
+		    		'attribute' => 'address.postcode',
 		    	],
 		    	[
-		    		'attribute' => 'order.Orders_Area',
+		    		'attribute' => 'address.area',
 		    	],
 
 			],

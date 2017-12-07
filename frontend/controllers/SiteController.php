@@ -115,7 +115,7 @@ class SiteController extends CommonController
           
             $post = Yii::$app->request->post();
            
-            if (is_null($post['area'])) {
+            if (is_null($post['area']) || empty($post['area'])) {
                 Yii::$app->session->setFlash('error', 'Please select area to continue.');
                 return $this->refresh();
             }

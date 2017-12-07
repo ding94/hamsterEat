@@ -7,8 +7,8 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use common\models\User;
-use common\models\Orders;
-use common\models\Orderitem;
+use common\models\Order\Orders;
+use common\models\Order\Orderitem;
 use common\models\problem\ProblemOrder;
 use backend\models\OrderitemSearch;
 

@@ -57,18 +57,17 @@ Modal::end();
   
 	   <div class="page-wrap">
 	   <div class="tm">
-            <a href="#menu" id="toggle-menu"><span></span></a>
-
             <div id="menu">
               <ul>
                 <li> <a><label for="sidebartoggler" class="toggle">Filter</label></li></a>
-				<li><?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['data-toggle'=>'modal','data-target'=>'#add-modal']); ?></li>
+                <li><?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['data-toggle'=>'modal','data-target'=>'#add-modal']); ?></li>
                 <li>
-                    <?php  $cookies = Yii::$app->request->cookies;
-                            $halal = $cookies->getValue('halal');
-                    ?>           
-                    <?php echo Html::a("Change to: ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0])?>
+                  <?php  $cookies = Yii::$app->request->cookies;
+                        $halal = $cookies->getValue('halal');
+                  ?>           
+                  <?php echo Html::a("Change to: ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0])?>
                 </li>
+                <li><?php echo Html::a('<span class="glyphicon glyphicon-log-out"> Logout',['/site/logout'],['data-method'=>'post']);?></li>
               </ul>
             </div>
 	  </div>

@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use common\models\food\Foodselection;
 use yii\helpers\ArrayHelper;
-use common\models\Orderitemselection;
+use common\models\Order\Orderitemselection;
 use frontend\controllers\CartController;
 use kartik\widgets\TouchSpin;
 use kartik\widgets\DatePicker;
@@ -60,14 +60,9 @@ FoodDetailsAsset::register($this);
                   $checkboxdata = ArrayHelper::map($selection,'ID','checkboxtypeprice');
                   if ($foodtype['Min'] == 1 && $foodtype ['Max'] < 2 ) {
                     ?>
-                   
-                      
-                        <?php echo $foodtype['TypeName']; ?>
-
-                        <span>*Please Select only 1 item.</span>
-                      
-                      
-                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']')->radioList($data,[
+                      <span class="selection-name"><?php echo $foodtype['TypeName']; ?></span>
+                      <span class="selection-warning">*Please Select only 1 item.</span>
+                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']', ['enableClientValidation' => false])->radioList($data,[
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="radio">';
@@ -85,14 +80,14 @@ FoodDetailsAsset::register($this);
                 <?php } else if ($foodtype['Min'] == 0){ ?>
                     
                       
-                        <?php echo $foodtype['TypeName']; ?>
+                        <span class="selection-name"><?php echo $foodtype['TypeName']; ?></span>
                        
-                        <span>
+                        <span class="selection-warning">
                           *Select at most <?php echo $foodtype ['Max']; ?> items.
                         </span>
                       
                      
-                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']')->checkboxlist($checkboxdata,[
+                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']', ['enableClientValidation' => false])->checkboxlist($checkboxdata,[
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="checkbox">';
@@ -110,14 +105,14 @@ FoodDetailsAsset::register($this);
                 <?php } else { ?>
                    
                      
-                        <?php echo $foodtype['TypeName']; ?>
+                        <span class="selection-name"><?php echo $foodtype['TypeName']; ?></span>
                    
-                        <span>
+                        <span class="selection-warning">
                           *Select at least <?php echo $foodtype['Min']; ?> item and at most <?php echo $foodtype ['Max']; ?> items.
                         </span>
                      
                     
-                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']')->checkboxlist($checkboxdata,[
+                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']', ['enableClientValidation' => false])->checkboxlist($checkboxdata,[
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="checkbox">';
@@ -135,11 +130,11 @@ FoodDetailsAsset::register($this);
                 <?php } endforeach; ?>
                  </div>
              
-                 <?= $form->field($cart, 'remark')->label('Remarks'); ?>
+                 <?= $form->field($cart, 'remark',['enableClientValidation' => false])->label('Remarks'); ?>
           
 
                
-                <?= $form->field($cart, 'quantity',['options'=>['class'=>'quantity']])->widget(TouchSpin::classname(), [
+                <?= $form->field($cart, 'quantity',['options'=>['class'=>'quantity']],['enableClientValidation' => false])->widget(TouchSpin::classname(), [
                     'options' => [
                         'style'=>'height:40px;text-align:center'
                     ],

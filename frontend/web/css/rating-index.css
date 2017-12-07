@@ -27,13 +27,11 @@ h4{
   width: 500px;
 }
 
-.btn-primary1 {
-  display: block;
+.proceed-btn {
   margin: 40px auto;
 	color: black;
-  background-color: #fed136;
-  border-color: #fed136;
 }
+
 .rating{
 	font-size: 30px;
 	text-align:center;
@@ -78,12 +76,22 @@ h4{
   width:150px;
   height:150px;
 }
-.btn-primary2 {
-  display: block;
+
+.submit-btn {
   margin: 40px auto;
 	color: black;
-  background-color: #fed136;
-  border-color: #fed136;
+}
+
+.button-div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media(max-width: 767px){
+  .raised-btn{
+    width: 100%;
+  }
 }
 
 @media(max-width: 500px){

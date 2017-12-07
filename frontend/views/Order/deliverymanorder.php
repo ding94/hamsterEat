@@ -1,7 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 use common\models\food\Food;
-use common\models\Orderitemselection;
+use common\models\Order\Orderitemselection;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
 use common\models\Order\Orders;
@@ -157,7 +157,7 @@ DeliverymanOrdersAsset::register($this);
                         {
                     ?>
 
-                    <td data-th="Update Status"><?php echo Html::a('Picked Up', ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$orderdetails['Delivery_ID']], ['class'=>'btn btn-primary']); ?></td>
+                    <td data-th="Update Status"><?php echo Html::a('Picked Up', ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$orderdetails['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td>
 
                     <?php
                         }
@@ -170,7 +170,7 @@ DeliverymanOrdersAsset::register($this);
                         else
                         {
                     ?>
-                    <td data-th="Update Status"><?php echo Html::a('Completed', ['update-completed', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$orderdetails['Delivery_ID']], ['class'=>'btn btn-primary']); ?></td>
+                    <td data-th="Update Status"><?php echo Html::a('Completed', ['update-completed', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$orderdetails['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td>
 
                 </tr>
                     <?php

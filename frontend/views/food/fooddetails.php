@@ -130,11 +130,11 @@ FoodDetailsAsset::register($this);
                 <?php } endforeach; ?>
                  </div>
              
-                 <?= $form->field($cart, 'remark')->label('Remarks'); ?>
+                 <?= $form->field($cart, 'remark',['enableClientValidation' => false])->label('Remarks'); ?>
           
 
                
-                <?= $form->field($cart, 'quantity',['options'=>['class'=>'quantity']])->widget(TouchSpin::classname(), [
+                <?= $form->field($cart, 'quantity',['options'=>['class'=>'quantity']],['enableClientValidation' => false])->widget(TouchSpin::classname(), [
                     'options' => [
                         'style'=>'height:40px;text-align:center'
                     ],

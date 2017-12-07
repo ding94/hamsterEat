@@ -285,3 +285,14 @@ label span.checkbox-custom-label{
 .radio-custom:checked + .food-detail-label, .checkbox-custom:checked + .food-detail-label {
   color: green;
 }
+
+.selection-name{
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.selection-warning{
+  font-size: 14px;
+  color: indianred;
+  float: right;
+}

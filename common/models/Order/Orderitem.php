@@ -147,11 +147,11 @@ class Orderitem extends \yii\db\ActiveRecord
         {
             if(empty($array[$single->FoodType_ID]))
             {
-                $array[$single->FoodType_ID] = Foodselection::findOne($single->Selection_ID)->Name;
+                $array[$single->FoodType_ID] = Foodselection::findOne($single->Selection_ID)->Name ;
             }
             else
             {
-                $array[$single->FoodType_ID] .= Foodselection::findOne($single->Selection_ID)->Name;
+                $array[$single->FoodType_ID] .=  ",".Foodselection::findOne($single->Selection_ID)->Name ;
             }
             
         }

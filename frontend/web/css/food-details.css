@@ -281,3 +281,7 @@ label span.checkbox-custom-label{
   overflow-wrap: break-word; 
   word-wrap: break-word;
 }
+
+.radio-custom:checked + .food-detail-label, .checkbox-custom:checked + .food-detail-label {
+  color: green;
+}

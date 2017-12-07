@@ -44,4 +44,3 @@ $('body').on('submit','#a2cart',function(e){
             }
        });
 })
-

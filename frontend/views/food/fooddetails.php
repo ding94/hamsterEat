@@ -67,7 +67,7 @@ FoodDetailsAsset::register($this);
                         <span>*Please Select only 1 item.</span>
                       
                       
-                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']')->radioList($data,[
+                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']', ['enableClientValidation' => false])->radioList($data,[
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="radio">';
@@ -92,7 +92,7 @@ FoodDetailsAsset::register($this);
                         </span>
                       
                      
-                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']')->checkboxlist($checkboxdata,[
+                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']', ['enableClientValidation' => false])->checkboxlist($checkboxdata,[
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="checkbox">';
@@ -117,7 +117,7 @@ FoodDetailsAsset::register($this);
                         </span>
                      
                     
-                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']')->checkboxlist($checkboxdata,[
+                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']', ['enableClientValidation' => false])->checkboxlist($checkboxdata,[
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="checkbox">';

@@ -118,7 +118,8 @@ RestaurantOrdersAsset::register($this);
                                 $selectiontype = Foodselectiontype::find()->where('ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
                                 if (!is_null($selectionname['ID']))
                                 { 
-                                    echo $selectiontype['TypeName'].': &nbsp;'.$selectionname['Name'];
+                                    $name = $mode == 1 ? $selectionname['Name'] : $selectionname['Nickname'];
+                                    echo $selectiontype['TypeName'].': &nbsp;'.$name;
                                     echo "<br>";
                                 }
                             endforeach; ?>

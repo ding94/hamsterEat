@@ -271,32 +271,33 @@ class RestaurantController extends CommonController
         
         foreach ($allitem as $k => $single) 
         {
-            //var_dump($single);exit;
             if($single->address->type == 1 && $single->address->cid > 0)
             {
                 $companyName = Company::findOne($single->address->cid)->name;
+                $foodName = $single->food->Name;
                 $empty = json_encode(['empty'=>'']);
 
                 $selectionName = empty(Json::decode($single->trim_selection)) ? $empty : $single->trim_selection;
                
                 //$companyData[$companyName][$selectionName][] = $single;
                 //if(empty($companyData[$companyname][$single->trim_selection]['quantity']))
-                $companyData[$companyName][$selectionName]['foodname'] = $single->food->Name;
-                $companyData[$companyName][$selectionName]['selection'] = $selectionName;
+                $companyData[$companyName][$foodName]['rowspan'] = 0;
+                $companyData[$companyName][$foodName][$selectionName]['orderid'][$single->Order_ID]['remark'] = "";
+                //$companyData[$companyName][$selectionName]['selection'] = $selectionName;
                 //$companyData[$companyName][$selectionName]['count'] = $count;
                 
-                if(!array_key_exists('quantity',$companyData[$companyName][$selectionName]))
+                if(!array_key_exists('quantity',$companyData[$companyName][$single->food->Name][$selectionName]))
                 {
-                    $companyData[$companyName][$selectionName]['quantity'] = 0;
+                    $companyData[$companyName][$foodName][$selectionName]['quantity'] = 0;
                 }
                
-                $companyData[$companyName][$selectionName]['quantity'] += $single->OrderItem_Quantity;
-                $companyData[$companyName][$selectionName]['orderid'][$single->Order_ID]['remark'] = "";
-                $companyData[$companyName][$selectionName]['orderid'][$single->Order_ID]['single_quantity'] = $single->OrderItem_Quantity;
+                $companyData[$companyName][$foodName][$selectionName]['quantity'] += $single->OrderItem_Quantity;
+                
+                $companyData[$companyName][$foodName][$selectionName]['orderid'][$single->Order_ID]['single_quantity'] = $single->OrderItem_Quantity;
 
                 if(!empty($single->OrderItem_Remark))
                 {
-                    $companyData[$companyName][$selectionName]['orderid'][$single->Order_ID]['remark'] = $single->OrderItem_Remark;
+                    $companyData[$companyName][$foodName][$selectionName]['orderid'][$single->Order_ID]['remark'] = $single->OrderItem_Remark;
                 }
             }
             else
@@ -312,18 +313,28 @@ class RestaurantController extends CommonController
                 }
             }
         }
-
-        foreach ($companyData as $k => $company) {
-            $arrayKey = array_keys($company);
-            foreach($arrayKey as $i => $key)
+        //var_dump($companyData['SGshop Malaysia']);exit;
+        foreach ($companyData as $k => $company) 
+        {
+            foreach($company as $i => $food)
             {
-                $companyData[$k][$i] = $companyData[$k][$key];
-                $companyData[$k][$i]['selection'] = Json::decode($companyData[$k][$key]['selection']);
-                unset($companyData[$k][$key]);
+                $arrayKey = array_keys($food);
+                foreach($arrayKey as $a=> $key)
+                {
+                    $companyData[$k][$i][$a] = $companyData[$k][$i][$key];
+                    if($companyData[$k][$i][$a] != 0)
+                    {
+                        $companyData[$k][$i][0] += count($companyData[$k][$i][$key]['orderid']);
+                        $companyData[$k][$i][$a]['selection'] = Json::decode($key);
+                    }
+                   
+                    //$companyData[$k][$i]['rowspan'] += count($companyData[$k][$i][$key]['orderid']);
+                  
+                    unset($companyData[$k][$i][$key]);
+                }
             }
-          
         }
-       
+     
         return $this->render('cooking',['singleData'=>$singleData,'companyData'=>$companyData]);
     }
 

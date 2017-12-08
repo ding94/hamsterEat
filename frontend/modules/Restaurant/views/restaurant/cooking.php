@@ -26,7 +26,7 @@ CookingAsset::register($this);
 			<div class="tab-content">
 				<?php foreach($companyData as $name=> $company):?>
 				<div class="tab-pane" id = <?php echo $name?>>
-					<table class="table">
+					<table class="table table-bordered">
 						<thead>
 							<tr>
 								<th>Food Name</th>
@@ -34,31 +34,36 @@ CookingAsset::register($this);
 								<th>Quantity</th>
 								<th>Order Id</th>
 								<th>Order Quantity</th>
-								<th>Remark</th>
+								<th>Remark</th> 
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach($company as $i=> $single):?>
-							<?php  $arrayKey = array_keys($single['orderid']);
-									$rowspan = count($arrayKey);
-							?>
-								<?php foreach($arrayKey as $index => $orderid):?>
-								<tr>
-									<?php if($arrayKey[0] == $orderid):?>
-										<td rowspan=<?php echo $rowspan?>><?php echo $single['foodname']; ?></td>
-										<td rowspan=<?php echo $rowspan?>>
-											<?php foreach($single['selection'] as $id => $selection) :?>
-												<?php echo $selection?>
-											<?php endforeach ;?>
-										</td>
-										<td rowspan=<?php echo $rowspan?>><?php echo $single['quantity']?></td>
-									<?php endif?>
-									<td><?php echo $orderid ?></td>
-									<td><?php echo $single['orderid'][$orderid]['single_quantity'] ?></td>
-									<td><?php echo $single['orderid'][$orderid]['remark'] ?></td>
-								</tr>
-								<?php endforeach ;?>
-							
+							<?php foreach($company as $name=> $food):?>
+								<?php $rowspan = array_shift($food);?>
+								<?php foreach($food as $i=>$single):?>
+								<?php  
+									$arrayKey = array_keys($single['orderid']);
+						            $orderrow = count($arrayKey);
+						        ?>
+							        <?php foreach($arrayKey as $index => $orderid):?>
+									<tr>
+										<?php if( $arrayKey[0] == $orderid):?>
+											<?php if($i == 0 ) :?>
+												<td rowspan=<?php echo $rowspan?>><?php echo $name?></td>
+											<?php endif ;?>
+							                	<td rowspan=<?php echo $orderrow?>>
+							                      <?php foreach($single['selection'] as $id => $selection) :?>
+							                        <?php echo $selection?>
+							                      <?php endforeach ;?>
+							                    </td>
+							                    <td rowspan=<?php echo $orderrow?>><?php echo $single['quantity']?></td>
+						                <?php endif ;?>
+						                <td><?php echo $orderid ?></td>
+										<td><?php echo $single['orderid'][$orderid]['single_quantity'] ?></td>
+										<td><?php echo $single['orderid'][$orderid]['remark'] ?></td>
+									</tr>
+									<?php endforeach ;?>
+								<?php endforeach;?>
 							<?php endforeach ;?>
 						</tbody>
 					</table>				

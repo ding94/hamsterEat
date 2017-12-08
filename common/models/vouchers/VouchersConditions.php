@@ -1,24 +1,23 @@
 <?php
 
-namespace common\models;
+namespace common\models\vouchers;
 
 use Yii;
 
 /**
- * This is the model class for table "vouchers_type".
+ * This is the model class for table "vouchers_conditions".
  *
  * @property integer $id
  * @property string $description
- * @property string $type
  */
-class VouchersType extends \yii\db\ActiveRecord
+class VouchersConditions extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'vouchers_type';
+        return 'vouchers_conditions';
     }
 
     /**
@@ -28,7 +27,7 @@ class VouchersType extends \yii\db\ActiveRecord
     {
         return [
             [['description'], 'required'],
-            [['description', 'type'], 'string'],
+            [['description'], 'string'],
         ];
     }
 
@@ -40,7 +39,6 @@ class VouchersType extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'description' => 'Description',
-            'type' => 'Type',
         ];
     }
 }

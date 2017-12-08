@@ -7,10 +7,10 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use common\models\User;
-use common\models\Vouchers;
-use common\models\VouchersType;
+use common\models\vouchers\Vouchers;
+use common\models\vouchers\VouchersType;
 use backend\models\Admin;
-use common\models\UserVoucher;
+use common\models\vouchers\UserVoucher;
 
 class VouchersController extends Controller
 {

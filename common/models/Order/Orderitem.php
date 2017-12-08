@@ -8,6 +8,7 @@ use common\models\food\Food;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
 use common\models\Order\Orderitemstatuschange;
+use common\models\Order\Orderitemselection;
 
 /**
  * This is the model class for table "orderitem".
@@ -112,6 +113,19 @@ class Orderitem extends \yii\db\ActiveRecord
         return $this->hasMany(Orderitemselection::className(),['Order_ID' => 'Order_ID']); 
     }
 
+    public function getFood_selection_name($model)
+    {
+        $data = "";
+        $itemselection = Orderitemselection::find()->where('Order_ID=:oid',[':oid'=>$model['Order_ID']])->all();
+        foreach ($itemselection as $k => $value) {
+            $selection = Foodselection::find()->where('ID=:id',[':id'=>$value['Selection_ID']])->one();
+            if (!empty($selection)) {
+                $data .= $selection['Name'].', ';
+            }
+        }
+        return $data;
+    }
+
     public function getOrder()
     {
         return $this->hasOne(Orders::className(),['Delivery_ID' => 'Delivery_ID']); 
@@ -142,7 +156,7 @@ class Orderitem extends \yii\db\ActiveRecord
         $array = [];
         
         $data = Orderitemselection::find()->where('Order_ID = :id',[':id'=>$this->Order_ID])->orderBy(['Selection_ID'=>    SORT_ASC])->all();
-        //var_dump($data);exit;
+
         foreach($data as $single)
         {
             if(empty($array[$single->FoodType_ID]))

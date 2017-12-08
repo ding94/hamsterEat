@@ -22,7 +22,7 @@ class CompanyController extends CommonController
                  //'only' => ['logout', 'signup','index'],
                  'rules' => [
                     [
-                        'actions' => ['index','removeemployee'],
+                        'actions' => ['index','removeemployee','userlist'],
                         'allow' => true,
                         'roles' => ['@'],
 

@@ -271,6 +271,7 @@ class RestaurantController extends CommonController
         
         foreach ($allitem as $k => $single) 
         {
+            //var_dump($single);exit;
             if($single->address->type == 1 && $single->address->cid > 0)
             {
                 $companyName = Company::findOne($single->address->cid)->name;

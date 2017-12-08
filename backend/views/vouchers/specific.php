@@ -10,7 +10,7 @@ use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use common\models\Vouchers;
+use common\models\vouchers\Vouchers;
 
     $this->title = 'Vouchers List';
     $this->params['breadcrumbs'][] = $this->title;

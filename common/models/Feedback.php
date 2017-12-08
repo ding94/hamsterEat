@@ -70,4 +70,9 @@ class Feedback extends \yii\db\ActiveRecord
 
         return $dataProvider;
     }
+
+    public function getFeedback_category()
+    {
+        return $this->hasOne(Feedbackcategory::className(),['ID' => 'Feedback_Category']);
+    }
 }

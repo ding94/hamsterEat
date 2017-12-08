@@ -12,7 +12,7 @@ use yii\helpers\Url;
             	'attribute' => 'User_Username',
             ],
             [
-                'attribute' => 'Feedback_Category',
+                'attribute' => 'feedback_category.Category',
             ],
 
             [

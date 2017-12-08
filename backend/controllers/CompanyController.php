@@ -33,7 +33,7 @@ class CompanyController extends Controller
         if (Yii::$app->request->post()) {
             $company->load(Yii::$app->request->post());
             $company['status'] = 1;
-            
+            $company['area_group'] = Area::find()->where('Area_Postcode=:p',[':p'=>$company['postcode']])->one()->Area_Group;
             $owner = User::find()->where('username=:u',[':u'=>$company['username']])->one();//get owner data by username
 
             if (!empty($owner)) {
@@ -50,7 +50,7 @@ class CompanyController extends Controller
                 Yii::$app->session->setFlash('error','Fail to found user!');
                 return $this->render('register',['company'=>$company,'postcode'=>$postcode]);
             }
-
+            
             if ($company->validate()) {
                 Yii::$app->session->setFlash('success','Success!');
                 $company->save();

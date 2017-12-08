@@ -26,7 +26,7 @@ CookingAsset::register($this);
 			<div class="tab-content">
 				<?php foreach($companyData as $name=> $company):?>
 				<div class="tab-pane" id = <?php echo $name?>>
-					<table class="table table-hover table-bordered ">
+					<table class="table">
 						<thead>
 							<tr>
 								<th>Food Name</th>
@@ -86,8 +86,8 @@ CookingAsset::register($this);
 									<?php endforeach ;?>
 								</td>
 								<td><?php echo $single['quantity'] ?></td>
-								<td><?php echo  $single['orderid']?></td>
-								<td><?php echo $single['remark']?></td>
+								<td><?php echo $single['orderid']?></td>
+								<td><?php echo $remark = empty($single['remark']) ? "" :$single['remark'] ?></td>
 							</tr>
 							
 						</tbody>

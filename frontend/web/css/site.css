@@ -471,12 +471,23 @@ div.dotted {
   font-size : 1.2rem;
 }
 
+@media(max-width: 767px){
+  .button-three{
+    width: 100%;
+  }
+}
+
+@media(min-width:768px){
+  .button-three{
+    width: 150px;
+  }
+}
+
 .button-three {
   position: relative;
   background-color: #FFDA00;
   border: none;
   padding: 10px;
-  width: 150px;
   text-align: center;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;

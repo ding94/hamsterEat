@@ -19,9 +19,16 @@
   text-decoration: none;
 }
 
-.main-btn,.main-btn:hover{
+.main-btn{
   background:#FFDA00;
   color:#000;
+  transition-duration: 0.4s;
+}
+
+.main-btn:hover{
+  background:#fff6c6;
+  border-color: #fff6c6;
+  color: #000;
 }
 
 .secondary-btn,.secondary-btn:hover,.secondary-btn:focus{

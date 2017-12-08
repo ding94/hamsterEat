@@ -250,14 +250,24 @@ class RestaurantController extends CommonController
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /*
+    * group all order in status in pending
+    * base on company id
+    */
     public function actionCookingDetail($rid)
     { 
         $companyData = [];
         $singleData=[];
 
-        $item = Orderitem::find()->distinct()->where("Restaurant_ID = :rid and Orders_Status = 'Pending'",[':rid'=>$rid])->joinWith(['food','address','order']);
+        $item = Orderitem::find()->distinct()->where("Restaurant_ID = :rid and OrderItem_Status = 'Pending'",[':rid'=>$rid])->joinWith(['food','address']);
         //$item->andWhere("Orders_Status != 'Not Paid' and Orders_Status != 'Completed'");
         $allitem = $item->all();
+
+        if(empty($allitem))
+        {
+            Yii::$app->session->setFlash('warning', "Empty Order");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
         
         foreach ($allitem as $k => $single) 
         {
@@ -313,7 +323,7 @@ class RestaurantController extends CommonController
             }
           
         }
-        
+       
         return $this->render('cooking',['singleData'=>$singleData,'companyData'=>$companyData]);
     }
 

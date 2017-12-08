@@ -21,8 +21,9 @@ use yii\widgets\DetailView;
 		    		'contentOptions' => ['style' => 'width:75%;'],
 		    	],
 		    	[
-		    		'attribute' =>'order_selection.food_selection.Name',
+		    		'attribute' =>'food_selection_Name',
 		    		'label' => 'Food Selection',
+		    		'value' => function ($model){ return $model->getFood_selection_name($model); }
 		    	],
 		    	/*[
 		    		'attribute' =>'food.Nickname',
@@ -37,7 +38,7 @@ use yii\widgets\DetailView;
 		    	'OrderItem_Quantity',
 		    	[
 		    		'attribute' => 'order.Orders_TotalPrice',
-		    		'label' => 'Order Price (RM)',
+		    		'label' => 'Total Order Price (RM)',
 		    	],
 		    	'OrderItem_Status',
 		    	[

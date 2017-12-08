@@ -12,9 +12,11 @@ use common\models\Order\Orderitem;
 use common\models\Account\Accountbalance;
 use common\models\problem\ProblemOrder;
 use common\models\problem\ProblemStatus;
+use common\models\Company\Company;
 use common\models\food\Food;
 use common\models\food\Foodstatus;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use frontend\controllers\CommonController;
@@ -250,22 +252,68 @@ class RestaurantController extends CommonController
 
     public function actionCookingDetail($rid)
     { 
-        $alldata = [];
+        $companyData = [];
+        $singleData=[];
+
         $item = Orderitem::find()->distinct()->where("Restaurant_ID = :rid and Orders_Status = 'Pending'",[':rid'=>$rid])->joinWith(['food','address','order']);
         //$item->andWhere("Orders_Status != 'Not Paid' and Orders_Status != 'Completed'");
         $allitem = $item->all();
-        foreach ($allitem as $k => $single) {
+        
+        foreach ($allitem as $k => $single) 
+        {
             if($single->address->type == 1 && $single->address->cid > 0)
             {
-                $alldata[$single->address->cid][$single->Food_ID][$single->trim_selection][] = $single;
+                $companyName = Company::findOne($single->address->cid)->name;
+                $empty = json_encode(['empty'=>'']);
+
+                $selectionName = empty(Json::decode($single->trim_selection)) ? $empty : $single->trim_selection;
+               
+                //$companyData[$companyName][$selectionName][] = $single;
+                //if(empty($companyData[$companyname][$single->trim_selection]['quantity']))
+                $companyData[$companyName][$selectionName]['foodname'] = $single->food->Name;
+                $companyData[$companyName][$selectionName]['selection'] = $selectionName;
+                //$companyData[$companyName][$selectionName]['count'] = $count;
+                
+                if(!array_key_exists('quantity',$companyData[$companyName][$selectionName]))
+                {
+                    $companyData[$companyName][$selectionName]['quantity'] = 0;
+                }
+               
+                $companyData[$companyName][$selectionName]['quantity'] += $single->OrderItem_Quantity;
+                $companyData[$companyName][$selectionName]['orderid'][$single->Order_ID]['remark'] = "";
+                $companyData[$companyName][$selectionName]['orderid'][$single->Order_ID]['single_quantity'] = $single->OrderItem_Quantity;
+
+                if(!empty($single->OrderItem_Remark))
+                {
+                    $companyData[$companyName][$selectionName]['orderid'][$single->Order_ID]['remark'] = $single->OrderItem_Remark;
+                }
             }
             else
             {
-                $alldata[$single->Delivery_ID] = $single;
+                $did = $single->Delivery_ID;
+                $singleData[$did]['foodname'] = $single->food->Name;
+                $singleData[$did]['quantity'] = $single->OrderItem_Quantity;
+                $singleData[$did]['selection'] = Json::decode($single->trim_selection);
+                $singleData[$did]['orderid'] = $single->Order_ID;
+                if(!empty($single->OrderItem_Remark))
+                {
+                     $singleData[$did]['remark'] = $single->OrderItem_Remark;
+                }
             }
-        
         }
-        var_dump($alldata[1]);exit;
+
+        foreach ($companyData as $k => $company) {
+            $arrayKey = array_keys($company);
+            foreach($arrayKey as $i => $key)
+            {
+                $companyData[$k][$i] = $companyData[$k][$key];
+                $companyData[$k][$i]['selection'] = Json::decode($companyData[$k][$key]['selection']);
+                unset($companyData[$k][$key]);
+            }
+          
+        }
+        
+        return $this->render('cooking',['singleData'=>$singleData,'companyData'=>$companyData]);
     }
 
     protected function findModel($id)

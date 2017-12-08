@@ -5,6 +5,8 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
+use common\models\Area;
 use common\models\User;
 use common\models\Company\Company;
 use common\models\Company\CompanyEmployees;
@@ -25,6 +27,7 @@ class CompanyController extends Controller
     {
     	$company = new Company();
     	$company->scenario = 'register';
+        $postcode = ArrayHelper::map(Area::find()->all(),'Area_ID','Area_Postcode');
 
         if (Yii::$app->request->post()) {
             $company->load(Yii::$app->request->post());
@@ -37,14 +40,21 @@ class CompanyController extends Controller
                 Yii::$app->session->setFlash('error','Fail to found user!');
                 return $this->render('register',['company'=>$company]);
             }
+
             if ($company->validate()) {
                 Yii::$app->session->setFlash('success','Success!');
                 $company->save();
+
+                $employee = new CompanyEmployees;
+                $employee['cid'] = $company['id'];
+                $employee['uid'] = $company['owner_id'];
+                $employee['status'] =1;
+                $employee->save();
             }
             return $this->redirect(['/company/index']);
         }
     	 
-    	return $this->render('register',['company'=>$company]);
+    	return $this->render('register',['company'=>$company,'postcode'=>$postcode]);
     }
 
     public function actionEdit($id)

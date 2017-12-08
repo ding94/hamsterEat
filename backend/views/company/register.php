@@ -13,7 +13,7 @@ use kartik\widgets\ActiveForm;
     <?= $form->field($company ,'username')->textInput()->label('Owner username')?>
     <?= $form->field($company ,'license_no')->textInput()?>
     <?= $form->field($company ,'address')->textInput()->label('Company address')?>
-    <?= $form->field($company ,'postcode')->textInput()?>
+    <?= $form->field($company ,'postcode')->dropDownList($postcode)?>
     <?= $form->field($company ,'area')->textInput()?>
 
     	<div class="form-group">

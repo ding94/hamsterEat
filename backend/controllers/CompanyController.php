@@ -39,7 +39,7 @@ class CompanyController extends Controller
             if (!empty($owner)) {
                 //if the username was an owner of another company, set flase
                 if (CompanyEmployees::find()->where('uid=:uid',[':uid'=>$owner['id']])->one()) {
-                    Yii::$app->session->setFlash('error','User was other company owner!');
+                    Yii::$app->session->setFlash('error','User was other company owner or employee!');
                     return $this->render('register',['company'=>$company,'postcode'=>$postcode]);
                 }
                 //else setup owner id
@@ -50,7 +50,7 @@ class CompanyController extends Controller
                 Yii::$app->session->setFlash('error','Fail to found user!');
                 return $this->render('register',['company'=>$company,'postcode'=>$postcode]);
             }
-            
+
             if ($company->validate()) {
                 Yii::$app->session->setFlash('success','Success!');
                 $company->save();

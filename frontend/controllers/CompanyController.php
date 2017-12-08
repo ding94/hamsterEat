@@ -40,19 +40,17 @@ class CompanyController extends CommonController
 		$this->layout = 'user';
 		$company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one();
 		
-		$users = CompanyEmployees::find()->where('cid=:id',[':id'=>$company['id']]);
+		$users = CompanyEmployees::find()->where('cid=:id',[':id'=>$company['id']])->andWhere(['!=','uid',Yii::$app->user->identity->id]);
 		$countQuery = clone $users;
         $pagination = new Pagination(['totalCount'=>$countQuery->count(),'pageSize'=>10]);
-        $users = $users->offset($pagination->offset)
-        ->limit($pagination->limit)
-      
-        ->all();
+        $users = $users->offset($pagination->offset)->limit($pagination->limit)->all();
 		
 		if (empty($company)) {
 			Yii::$app->session->setFlash('error','Error!');
 			return $this->redirect('/site/index');
 		}
 		if (Yii::$app->request->post()) {
+			var_dump(Yii::$app->request->post());exit;
 			$emplo->load(Yii::$app->request->post());
 
 			if (empty($emplo['uid'])) {
@@ -94,9 +92,20 @@ class CompanyController extends CommonController
 
 	public function actionRemoveemployee($id)
 	{
-		CompanyEmployees::find()->where('id=:id',[':id'=>$id])->one()->delete();
-		Yii::$app->session->setFlash('warning','Deleted!');
-		return $this->redirect(['/company/index']);
+		$employee = CompanyEmployees::find()->where('id=:id',[':id'=>$id])->one();
+		$employer = CompanyEmployees::find()->where('uid=:uid',[':uid'=>Yii::$app->user->identity->id])->one();
+		$owner = Company::find()->where('owner_id=:oid',[':oid'=>Yii::$app->user->identity->id])->one();
+
+		if (empty($owner) || $employee['uid'] == $employer['uid'] || $employee['cid'] != $employer['cid']) {
+			Yii::$app->session->setFlash('danger','You are not allow to perfrom this action!');
+			return $this->redirect(['/company/index']);
+		}
+		else{
+			$employee->delete();
+			Yii::$app->session->setFlash('warning','Deleted!');
+			return $this->redirect(['/company/index']);
+		}
+		
 	}
 
 }

@@ -58,7 +58,7 @@ Modal::end();
             <?php if(!empty($company)):?>
             <div class="company">
               <h3>Use Company Address Or Account Address</h3>
-              <?= $form->field($deliveryaddress,'cid')->radioList([0=>'Account Address',1=>'Company Address '.$company->name])->label(false);?>
+              <?= $form->field($deliveryaddress,'cid')->radioList([0=>'Account Address',$company->id=>'Company Address '.$company->name])->label(false);?>
             </div>
             <?php else :?>
               <?= $form->field($deliveryaddress,'cid')->hiddenInput(['value'=>0]);?>

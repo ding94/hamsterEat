@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                  <?= $form->field($upload, 'imageFile')->fileInput() ?>
                 <div class="form-group">
                     <?= Html::submitButton('Reply', ['class' => 'btn btn-primary', 'name' => 'Reply-button']) ?>
-                    <?= Html::a('Back', Yii::$app->request->Referrer, ['class'=>'btn btn-primary']) ?>
+                    <?= Html::a('Back',['/ticket/index'], ['class'=>'btn btn-primary']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

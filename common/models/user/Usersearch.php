@@ -5,7 +5,7 @@ namespace common\models\user;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
-use common\models\VouchersType;
+use common\models\vouchers\VouchersType;
 use common\models\User;
 
 class Usersearch extends \yii\db\ActiveRecord

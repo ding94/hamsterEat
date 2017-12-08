@@ -1,12 +1,12 @@
 <?php
 
-namespace common\models;
+namespace common\models\vouchers;
 
 use Yii;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
-use common\models\VouchersType;
-use common\models\UserVoucher;
+use common\models\vouchers\VouchersType;
+use common\models\vouchers\UserVoucher;
 /**
  * This is the model class for table "vouchers".
  *

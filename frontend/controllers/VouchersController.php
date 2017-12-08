@@ -3,10 +3,10 @@
 namespace frontend\controllers;
 use Yii;
 use yii\helpers\ArrayHelper;
-use common\models\Vouchers;
-use common\models\UserVoucher;
-use common\models\VouchersUsed;
-use common\models\VouchersType;
+use common\models\vouchers\Vouchers;
+use common\models\vouchers\UserVoucher;
+use common\models\vouchers\VouchersUsed;
+use common\models\vouchers\VouchersType;
 use yii\filters\AccessControl;
 use frontend\controllers\CommonController;
 

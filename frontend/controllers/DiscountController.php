@@ -6,8 +6,8 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
-use common\models\Vouchers;
-use common\models\UserVoucher;
+use common\models\vouchers\Vouchers;
+use common\models\vouchers\UserVoucher;
 
 
 class DiscountController extends Controller

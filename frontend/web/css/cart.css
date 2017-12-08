@@ -391,6 +391,12 @@ a:hover {
 	float: right;
 }
 
+.checkout-btn{
+	width: 100%;
+	padding: 20px !important;
+	font-size: 24px !important;
+}
+
 .btn-b:hover{
 	background-color:#fff3af;
 }

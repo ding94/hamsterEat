@@ -19,6 +19,7 @@ use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
 use common\models\Rmanagerlevel;
 use frontend\modules\delivery\controllers\DailySignInController;
+use common\models\Order\DeliveryAddress;
 
 class OrderController extends CommonController
 {
@@ -406,10 +407,11 @@ class OrderController extends CommonController
     {
         $order = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
         $orderitem = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
+        $address = DeliveryAddress::find()->where('delivery_id=:did',[':did'=>$did])->one();
         
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
-            'content' => $this->renderPartial('orderhistorydetails',['order'=>$order, 'orderitem' => $orderitem ,'did'=>$did]),
+            'content' => $this->renderPartial('orderhistorydetails',['order'=>$order, 'orderitem' => $orderitem ,'address'=>$address,'did'=>$did]),
             'options' => [
                 'title' => 'Invoice',
                 'subject' => 'Sample Subject',

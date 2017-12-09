@@ -53,7 +53,7 @@ use common\models\User;
 			<tr>
 				<td><?= $k+1; ?></td>
 				<td><font> <?= User::find()->where('id=:uid',[':uid'=>$value['uid']])->one()->username; ?> </font></td>
-				<td><?= Html::a('Remove', ['/company/removeemployee', 'id'=>$value['id']], ['class'=>'btn btn-danger']);?></td>
+				<td><?= Html::a('Remove', ['/company/removeemployee', 'id'=>$value['id']], ['class'=>'raised-btn btn-danger']);?></td>
 			</tr>
 		<?php endforeach; ?>
 	</table>

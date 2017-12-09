@@ -99,7 +99,7 @@ CartAsset::register($this);
    <?php $form = ActiveForm::begin(['action' =>['checkout/index'],'method' => 'get']); ?>
         <?php echo Html::hiddenInput('area', $index);?>
         <?php echo Html::hiddenInput('code', '');?>
-        <?php echo Html::submitButton('Checkout', ['class' => 'raised-btn main-btn']);?>
+        <?php echo Html::submitButton('Checkout', ['class' => 'raised-btn main-btn checkout-btn']);?>
       <?php ActiveForm::end(); ?>
   </div>
   <?php endforeach ;?>

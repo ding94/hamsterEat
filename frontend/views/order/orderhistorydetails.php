@@ -29,13 +29,13 @@ use yii\helpers\Html;
                     </tr>
                     <tr>
                         <td style="font-weight: bold;">Contact No:</td>
-                        <td><?= $order['User_contactno']; ?></td>
+                        <td><?= $address['contactno']; ?></td>
                         <td style="font-weight: bold;">Pay Method:</td>
                         <td><?= $order['Orders_PaymentMethod']; ?></td>
                     </tr>
                     <tr>
                         <td style="font-weight: bold;text-align: top;">Delivery Address:</td>
-                        <td><?= $order['Orders_Location'].', '.$order['Orders_Postcode'].', '.$order['Orders_Area']; ?></td>
+                        <td><?= $address['location'].', '.$address['postcode'].', '.$address['area']; ?></td>
                         <td style="font-weight: bold;">Payment Made:</td>
                         <td><?= date('d M Y H:i:s', $order['Orders_DateTimeMade']); ?></td>
                     </tr>

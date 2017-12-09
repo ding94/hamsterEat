@@ -36,27 +36,26 @@ echo Select2::widget([
 Modal::end();
 ?>
 
- <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <div class="container" id="group-area-index2">
     <h1 style="padding-top:10px;">Order Food for Delivery </h1>
 
   
         <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index'], ['class'=>'raised-btn']);?>
-		<?php echo Html::a('<i class="fa fa-thumbs-up"> Food</i>', ['show-by-food'], ['class'=>'raised-btn','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>       
-		<?php  $cookies = Yii::$app->request->cookies;
+        <?php echo Html::a('<i class="fa fa-thumbs-up"> Food</i>', ['show-by-food'], ['class'=>'raised-btn','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>       
+        <?php  $cookies = Yii::$app->request->cookies;
                $halal = $cookies->getValue('halal');
-			   $session = Yii::$app->session;	
-						   
+               $session = Yii::$app->session;   
+                           
        ?>    
  
      <?php echo Html::a("Change to: ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0],['class'=>'hl','style'=>'float:right;color:red;font-style: italic;'])?>
         <span class="s" style="float:right;padding-left:10px;padding-right:10px;">|</span>
-		<?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['id'=>'cp','data-toggle'=>'modal','data-target'=>'#add-modal','style'=>'color:red;font-size:14px;float:right;font-style: italic;']); ?>  
-			 <span class="area" style="float:right;padding-right:8px;"> <?php echo $session['area'] ?></span>       
+        <?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['id'=>'cp','data-toggle'=>'modal','data-target'=>'#add-modal','style'=>'color:red;font-size:14px;float:right;font-style: italic;']); ?>  
+             <span class="area" style="float:right;padding-right:8px;"> <?php echo $session['area'] ?></span>       
      <input type="checkbox" id="sidebartoggler" name="" value="">
   
-	   <div class="page-wrap">
-	   <div class="tm">
+       <div class="page-wrap">
+       <div class="tm">
             <div id="menu">
               <ul>
                 <li> <a><label for="sidebartoggler" class="toggle">Filter</label></li></a>
@@ -70,9 +69,9 @@ Modal::end();
                 <li><?php echo Html::a('<span class="glyphicon glyphicon-log-out"> Logout',['/site/logout'],['data-method'=>'post']);?></li>
               </ul>
             </div>
-	  </div>
-		<!--<a href="#top" title="Go to top of page"><span><i class="fa fa-chevron-up fa-2x" aria-hidden="true"></i></span>-->
-	<a href="#top" class="scrollToTop"></a>
+      </div>
+        <!--<a href="#top" title="Go to top of page"><span><i class="fa fa-chevron-up fa-2x" aria-hidden="true"></i></span>-->
+    <a href="#top" class="scrollToTop"></a>
             <div class="filter">
                 <div class="filter container">
                     <div class="input-group">
@@ -144,11 +143,14 @@ Modal::end();
                 </a>
            
         <?php endforeach; ?>
-        </div>
-        <?php echo LinkPager::widget([
-          'pagination' => $pagination,
-          ]); ?>
-    </div>
+    <?php echo LinkPager::widget([
+        'pagination' => $pagination,
+    
+    ]); ?>
+      </div>  
     
 </div>
 
+
+
+    

@@ -143,14 +143,14 @@ Modal::end();
                 </a>
            
         <?php endforeach; ?>
-    <?php echo LinkPager::widget([
+    
+      </div>
+</div>
+<div class="container">
+        <?php echo LinkPager::widget([
         'pagination' => $pagination,
     
     ]); ?>
-      </div>  
-    
-</div>
-
-
+    </div>
 
     

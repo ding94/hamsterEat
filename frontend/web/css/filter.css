@@ -182,7 +182,7 @@ display:inline;
     background-color:#FFDA00;
     text-decoration: none;
     position:fixed;
-    top:80%;
+    top:10%;
     right:8%;
     display:none;
     background: url('./../SysImg/Icon2.png') no-repeat;
@@ -293,13 +293,13 @@ display:inline;
   visibility: hidden;
   transition: opacity .4s;
   right: 3%;
-  top: 74%;
+ /* top: 74%;*/
   float:right;  
 }
 #menu:after {
   position: fixed;
-  right: 8%;
-  top: 90%;
+  right: 5%;
+ /* top: 90%;*/
   float:right;
   content: "";
   display: block;
@@ -353,4 +353,37 @@ display:inline;
     -webkit-transform: translateY(3px);
             transform: translateY(3px);
   }
+}
+
+@media(min-height: 480px){
+	#menu {
+		bottom:15%;
+	}
+	#menu:after{
+		bottom:13%;
+	}
+}
+@media(min-height: 560px){
+	#menu {
+		bottom:13%;
+	}
+	#menu:after{
+		bottom:11%;
+	}
+}
+@media(min-height: 630px){
+	#menu {
+		bottom:12%;
+	}
+	#menu:after{
+		bottom:10%;
+	}
+}
+@media(min-height: 730px){
+	#menu {
+		bottom:11%;
+	}
+	#menu:after{
+		bottom:9%;
+	}
 }

@@ -112,19 +112,18 @@ class SiteController extends CommonController
 
         if(Yii::$app->request->isPost)
         {
-          
             $post = Yii::$app->request->post();
-           
-            if (is_null($post['area']) || empty($post['area'])) {
-                Yii::$app->session->setFlash('error', 'Please select area to continue.');
-                return $this->refresh();
-            }
-            $group = Area::findOne($post['area']);
+
+            // if (is_null($post['area']) || empty($post['area'])) {
+            //     Yii::$app->session->setFlash('error', 'Please select area to continue.');
+            //     return $this->refresh();
+            // }
+            $group = 1;
           
             $session = new Session;
             $session->open();
-            $session['area'] = $group->Area_Area;
-            $session['group'] = $group->Area_Group;
+            $session['area'] = 'Medini';
+            $session['group'] = $group;
             $session->close();
             return $this->redirect(['Restaurant/default/index']);          
         }   

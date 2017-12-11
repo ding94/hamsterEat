@@ -479,7 +479,7 @@ div.dotted {
 
 @media(min-width:768px){
   .button-three{
-    width: 150px;
+    width: 100%;
   }
 }
 

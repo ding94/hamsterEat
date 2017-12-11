@@ -15,5 +15,17 @@ $(document).ready(function(){
 		$('html, body').animate({scrollTop : 0},500);
 		return false;
 	});
-	
+
+	 $('.toggle').click(function(event){
+        event.stopPropagation();
+         $(".filter").slideToggle("slow");
+    });
+    $(".toggle").on("click", function (event) {
+        event.stopPropagation();
+    });
+});
+
+
+$(document).on("click", function () {
+    $(".filter").hide();
 });

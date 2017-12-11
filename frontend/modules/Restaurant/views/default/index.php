@@ -59,7 +59,7 @@ Modal::end();
 	  <div class="tm">
             <div id="menu">
               <ul>
-                <li> <a><label for="sidebartoggler" class="toggle">Filter</label></li></a>
+                <li> <a class="toggle">Filter</a></li>
 				<li><?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['data-toggle'=>'modal','data-target'=>'#add-modal']); ?></li>
                 <li>
                   <?php  $cookies = Yii::$app->request->cookies;

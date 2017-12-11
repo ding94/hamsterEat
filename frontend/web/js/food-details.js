@@ -19,14 +19,14 @@ $('body').on('submit','#a2cart',function(e){
 	           		$('#system-messages').children().delay(3000).fadeTo(500,0).slideUp(500).queue(function() { $('#aa').remove(); });
            			//$("#w1-success-0").html(data).fadeIn().delay(3000).fadeOut();
            			$("#foodDetail").modal('hide');
-           			if(!($("#cart").children(".badge").html()))
+           			if(!($(".cart").children(".badge").html()))
            			{
-           				$("#cart").children('.badge').html(1);
+           				$(".cart").children('.badge').html(1);
            			}
            			else
            			{
-           				var count = parseInt($("#cart").children(".badge").html()) +1;
-           				$("#cart").children(".badge").html(count);
+           				var count = parseInt($(".cart").children(".badge").html()) +1;
+           				$(".cart").children(".badge").html(count);
            			}
            			//location.reload();
            		}

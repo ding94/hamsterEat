@@ -115,14 +115,15 @@ Modal::end();
         <?php foreach($restaurant as $data) :?>
           <a href="<?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$data['Restaurant_ID']]); ?>">
             <div class="list">
-              <?php $picpath = $data['Restaurant_RestaurantPicPath']; 
-                if (is_null($data['Restaurant_RestaurantPicPath'])){
-                  $picpath = "DefaultRestaurant.jpg";
-                }
-              ?>
-              <th rowspan = "5">
-                <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive img']) ?>
-              </th>
+              <div class="page-img">
+                  <?php $picpath = $data['Restaurant_RestaurantPicPath']; 
+                    if (is_null($data['Restaurant_RestaurantPicPath'])){
+                      $picpath = "DefaultRestaurant.jpg";
+                    }
+                  ?>
+                <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img']) ?>
+              </div>
+              
               <div class="restaurant-name">
                 <span class="name">
                   <?php echo $data['Restaurant_Name']; ?>
@@ -151,7 +152,9 @@ Modal::end();
         <?php endforeach; ?>
       </div>
     </div>
-    <?php echo LinkPager::widget([
+    <div class="container">
+      <?php echo LinkPager::widget([
           'pagination' => $pagination,
     ]); ?>
+    </div>
 </div>

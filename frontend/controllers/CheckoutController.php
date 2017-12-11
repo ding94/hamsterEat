@@ -64,13 +64,14 @@ class CheckoutController extends CommonController
 			  return $this->redirect(Yii::$app->request->referrer);
 		}
         
-        $company = Company::find()->where('uid = :uid and area_group = :group',[':uid' => Yii::$app->user->identity->id,':group'=>$area])->joinWith(['employee'])->one();
+        $company = Company::find()->where('area_group = :group',[':group'=>$area])->all();
+        $companymap = ArrayHelper::map($company,'id','name');
        	
         $order = new Orders;
         $deliveryAddress = new DeliveryAddress;
-		$address = Useraddress::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->orderBy('level DESC')->all();
-		$addressmap = ArrayHelper::map($address,'id','address');
-		return $this->render('index',['address'=> $address,'order' =>  $order ,'deliveryaddress'=>$deliveryAddress,'addressmap' => $addressmap ,'area' => $area,'code'=>$code,'company'=>$company]);
+		//$address = Useraddress::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->orderBy('level DESC')->all();
+		//$addressmap = ArrayHelper::map($address,'id','address');
+		return $this->render('index',['deliveryaddress'=> $deliveryAddress,'order' =>  $order ,'area' => $area,'code'=>$code,'companymap'=>$companymap]);
 	}
 
 	public function actionOrder()

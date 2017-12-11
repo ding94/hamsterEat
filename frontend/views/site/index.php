@@ -50,24 +50,25 @@ $this->title = 'hamsterEat';
 	<!--	<h1>Light up your taste buds!</h1><br>-->
         <h3 id="h3"><b><center>Select Your Location</center></b></h3>
 		<h5 id="h5"><center>To Better Serve You, let us know where you are by selecting your area!</center></h5><br>
-
-
-        <?php $form = ActiveForm::begin(); ?>
-        <?php echo  Select2::widget([
+        <?php //$form = ActiveForm::begin(); ?>
+        <?php //echo  Select2::widget([
 		    
-		    'name' => 'area',
-		    'data' => $postcodeArray,
-		    'options' => ['placeholder' => 'Select an Area ...'],
-		    'pluginOptions' => [
-		        'allowClear' => true
-		    ],
-		]); ?>
+		    // 'name' => 'area',
+		    // 'data' => $postcodeArray,
+		    // 'options' => ['placeholder' => 'Select an Area ...'],
+		    // 'pluginOptions' => [
+		        // 'allowClear' => true
+		    // ],
+		// ]); ?>
 
-        <?= Html::submitButton('Find Restaurants', ['class' => 'button-three']) ?>
-		<div class ="expansion">
-			<?= Html::a('<u>I don&#39;t see my area..</u>', ['request-area', ['style'=>'margin-left:2000px;']]) ?>
-		</div>
+        <?php //Html::submitButton('Find Restaurants', ['class' => 'button-three']) ?>
+		<!-- <div class ="expansion"> -->
+			<?php //Html::a('<u>I don&#39;t see my area..</u>', ['request-area', ['style'=>'margin-left:2000px;']]) ?>
+		<!-- </div> -->
 		
+		<?php //ActiveForm::end(); ?>
+		<?php $form = ActiveForm::begin(); ?>
+			<?= Html::submitButton('List of Restaurants', ['class' => 'button-three']); ?>
 		<?php ActiveForm::end(); ?>
 	   	</div>
 	</div>

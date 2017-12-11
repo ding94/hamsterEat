@@ -55,35 +55,12 @@ Modal::end();
         </div>
         <?php $form = ActiveForm::begin(['id' => 'checkout','action' => ['/checkout/order']]); ?>
         <div class="cart-detail">
-            <?php if(!empty($company)):?>
+         
             <div class="company">
-              <h3>Use Company Address Or Account Address</h3>
-              <?= $form->field($deliveryaddress,'cid')->radioList([0=>'Account Address',$company->id=>'Company Address '.$company->name])->label(false);?>
+              <h3>Company Address </h3>
+              <?= $form->field($deliveryaddress,'cid')->dropDownList($companymap,[ 'prompt' => ' -- Select Company --'])->label(false);?>
             </div>
-            <?php else :?>
-              <?= $form->field($deliveryaddress,'cid')->hiddenInput(['value'=>0]);?>
-            <?php endif;?>
-            <div <?php echo !empty($company) ? "class='address none'" : "class='address'"?>>
-                <h3>Delivery Address </h3> <p style='color: grey;'>(Default as Primary)</p>
-                <?php if(!empty($address)):?>
-                    <?php foreach($address as $value):?>
-                        <?php if($value['level'] == 1):?>
-                            <?php $deliveryaddress->location = $value['id'];?>
-                            <?php $deliveryaddress->name = $value['recipient']?>
-                            <?php $deliveryaddress->contactno = $value['contactno']?>
-                        <?php endif ;?>
-                    <?php endforeach ;?>
-                    <div class="row">
-                        <div class="col-md-10"><?= $form->field($deliveryaddress, 'location')->radioList($addressmap)->label(false); ?></div>
-                        <div class="col-md-2">
-                            <?php echo Html::a('Edit',['/cart/editaddress'],['class' => 'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#edit-address-modal']); ?>
-                        </div>
-                    </div>
-                <?php else :?>
-                    <?php echo Html::a("Add New Address",['/user/newaddress'],['class' => 'raised-btn main-btn add-new-address-btn','data-toggle'=>'modal','data-target'=>'#address-modal']);
-                        ?>
-                <?php endif ;?>
-            </div>
+        
             <div class="cart-content">
                 <h3>Receiver </h3>
                 <div class="row">

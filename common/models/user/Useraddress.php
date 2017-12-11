@@ -58,6 +58,7 @@ class Useraddress extends \yii\db\ActiveRecord
             [['uid', 'address', 'postcode', 'city','recipient','contactno'], 'required'],
             [['uid', 'postcode', 'level', 'created_at', 'updated_at'], 'integer'],
             [['address'], 'string'],
+            [['contactno'], 'match', 'pattern' => '/^[0-9]{10,11}$/','message'=>'Please Enter Correct Phone Format (e.g: 0123456789) '],
             [['city', 'state', 'country'], 'string', 'max' => 50],
             ['country', 'default', 'value' => 'Malaysia'],
             ['state','default','value' => 'Johor'],

@@ -17,6 +17,7 @@ use common\models\Withdraw;
 use common\models\Account\Memberpoint;
 use frontend\controllers\CommonController;
 use yii\filters\AccessControl;
+use yii\helpers\Url;
 
 class UserController extends CommonController
 {
@@ -52,57 +53,43 @@ class UserController extends CommonController
 
     public function actionUserdetails()
     {
-     
         $upload = new Upload();
         $upload->scenario = 'ticket';
-        $path = Yii::$app->request->baseUrl.'/imageLocation';
+        $path = 'imageLocation/userprofilepic/';
         
-       // return $this->render('upload', ['detail' => $detail]);
+        // return $this->render('upload', ['detail' => $detail]);
         $link = CommonController:: createUrlLink(1);
         $detail = Userdetails::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one();
         
-             $picpath = $detail['User_PicPath']; 
-            if($detail->load(Yii::$app->request->post()))
-            {
-                    $post = Yii::$app->request->post();
-                    $model = UserDetails::find()->where('User_Username = :uname',[':uname' => Yii::$app->user->identity->username])->one(); 
-                    
-			        //$model->action = 1;
-			        //$model->action_before=1;
-    		        $upload->imageFile =  UploadedFile::getInstance($detail, 'User_PicPath');
-                          if (!is_null($upload->imageFile))
-                {
-    		        $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-    		       // $post['User_PicPath'] = 
-                    $location = 'imageLocation/';
-    		        $upload->upload($location);
-			        
-                    $model->User_PicPath =$path.'/'.$upload->imageFile->name;
-                   
-    		        //$model->save();
-			      
-                }
-                else{
-                    $detail->User_PicPath = $picpath;
-                   
-                     
-                }
-               
-				     $isValid = $detail->validate()  && $model->validate();
-                    if($isValid){
-                        $detail->save();
-                      
-                        $model->save();
-        
-                    Yii::$app->session->setFlash('success', "Update completed");
-                    return $this->redirect(['user/user-profile']);
-                
-                    }
-                    else{
-                        Yii::$app->session->setFlash('warning', "Fail Update");
-                    }
+        $picpath = $detail['User_PicPath']; 
+        if($detail->load(Yii::$app->request->post()))
+        {
+            $post = Yii::$app->request->post();
+            $model = UserDetails::find()->where('User_Username = :uname',[':uname' => Yii::$app->user->identity->username])->one(); 
 
-			}
+    		$upload->imageFile =  UploadedFile::getInstance($detail, 'User_PicPath');
+            if (!empty($upload->imageFile))
+            {
+                $upload->imageFile->name = Yii::$app->user->identity->username.'.'.$upload->imageFile->extension;
+                $upload->upload($path);
+                $detail->User_PicPath ='/'.$path.$upload->imageFile->name;
+            }
+            else
+            {
+                $detail->User_PicPath = $picpath;
+            }
+               
+			$isValid = $detail->validate();
+            if($isValid){
+                $detail->save();
+                Yii::$app->session->setFlash('success', "Update completed");
+                return $this->redirect(['user/user-profile']);
+                
+            }
+            else{
+                Yii::$app->session->setFlash('warning', "Fail Update");
+            }
+		}
 	
 		//$this->view->title = 'Update Profile';
 		$this->layout = 'user';

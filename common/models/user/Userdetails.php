@@ -39,6 +39,7 @@ class Userdetails extends \yii\db\ActiveRecord
             [['User_id'], 'required'],
             [['User_ContactNo','User_id'], 'integer'],
             [[ 'User_FirstName', 'User_LastName', 'User_PicPath' ], 'string', 'max' => 255],
+            [['User_ContactNo'], 'match', 'pattern' => '/^[0-9]{10,11}$/','message'=>'Please Enter Correct Phone Format (e.g: 0123456789) '],
             [['User_FirstName', 'User_LastName','User_ContactNo',],'required','on'=>['out']],
             
         ];

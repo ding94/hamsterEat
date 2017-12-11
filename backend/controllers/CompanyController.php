@@ -100,6 +100,7 @@ class CompanyController extends Controller
         $company = Company::find()->where('id=:id',[':id'=>$id])->one();
         $company['username'] = User::find()->where('id=:id',[':id'=>$company['owner_id']])->one()->username;
         $company->scenario = 'register';
+        $postcode = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
 
         if (Yii::$app->request->post()) {
             $company->load(Yii::$app->request->post());
@@ -119,7 +120,7 @@ class CompanyController extends Controller
             return $this->redirect(['/company/index']);
         }
 
-        return $this->renderAjax('register',['company'=>$company, 'company'=>$company]);
+        return $this->renderAjax('register',['company'=>$company, 'postcode'=>$postcode]);
     }
 
     public function actionOperate($id)

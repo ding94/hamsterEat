@@ -127,7 +127,10 @@ Modal::end();
           
                 <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-backdrop-limit="1" data-toggle="modal" data-target="#foodDetail"  data-img="<?php echo $fooddata['PicPath'];?>">
                     <div class="item">
-                        <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata['PicPath']) ?></div>
+                        <div class="page-img">
+                            <?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata['PicPath'],['class'=>'img']) ?>
+                           
+                        </div>
                         <div class="inner-item">
                             <span class="foodName"><?php echo $fooddata['Name']; ?></span>
                             <span class="small-text pull-right stars" alt="<?php echo $fooddata['Rating']; ?>"><?php echo $fooddata['Rating']; ?></span>

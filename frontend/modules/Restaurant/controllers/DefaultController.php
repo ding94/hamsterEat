@@ -81,6 +81,10 @@ class DefaultController extends CommonController
         {
             $query->andWhere('Type_ID =  24');
         }
+        else
+        {
+           $query->andWhere('Type_ID =  23'); 
+        }
         if($type !=0)
         {
             $query->OrWhere('Type_ID = :tid',[':tid' => $type]);
@@ -496,6 +500,10 @@ class DefaultController extends CommonController
         {
             $query->andWhere('foodtypejunction.Type_ID =  4');
         }
+        else
+        {
+           $query->andWhere('foodtypejunction.Type_ID =  3'); 
+        }
 
         if($type != 0)
         {
@@ -514,11 +522,8 @@ class DefaultController extends CommonController
         ->all();
         //$food = food::find()->where('restaurant.Restaurant_AreaGroup = :group',[':group' => $groupArea])->joinWith(['restaurant' ,'junction'])->all();
         
-        $foodquery = Foodtype::find()->orderBy(['Type_Desc'=>SORT_ASC]);
-        if(empty($halal) || $halal == 0)
-        {
-            $foodquery->andWhere('ID != 3');
-        }
+        $foodquery = Foodtype::find()->andWhere('ID != 3 and ID != 4')->orderBy(['Type_Desc'=>SORT_ASC]);
+        
         $allfoodtype = ArrayHelper::map($foodquery->all(),'ID','Type_Desc');
         
 /*        $mode = 1;

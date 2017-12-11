@@ -66,6 +66,9 @@ class FoodController extends CommonController
 //--This function loads the food item's details
     public function actionFoodDetails($id,$rid)
     {
+        if(!Yii::$app->request->isAjax){
+            return $this->redirect(Yii::$app->request->referrer);
+        }
         if (!(Yii::$app->user->isGuest)) {
             $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
         }
@@ -74,14 +77,14 @@ class FoodController extends CommonController
         if ($valid == true) {
             if (empty($rmanager)) {
                 Yii::$app->session->setFlash('error', 'This restaurant was not valid now.');
-                return $this->redirect(['/Restaurant/default/restaurant-details', 'id'=>$id,'rid'=>$rid]);
+                return $this->redirect(Yii::$app->request->referrer);
             }
         }
         
         $valid = ValidController::FoodValid($id);
         if ($valid == false) {
             Yii::$app->session->setFlash('error', 'This food was not valid now.');
-            return $this->redirect(['/Restaurant/default/restaurant-details', 'id'=>$id,'rid'=>$rid]);
+            return $this->redirect(Yii::$app->request->referrer);
         }
         
         $fooddata = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
@@ -93,65 +96,6 @@ class FoodController extends CommonController
         
         $comments = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$id])->orderBy(['created_at' => SORT_DESC])->all();
 
-        /*if ($orderItemSelection->load(Yii::$app->request->post()) || $orderitem->load(Yii::$app->request->post()))
-        {
-            var_dump(Yii::$app->request->post());exit;
-            $orderitem->load(Yii::$app->request->post());
-            if ($orderitem->OrderItem_Quantity < 1)
-            {
-                Yii::$app->session->setFlash('error', 'You cannot place order less than 1 food.');
-
-                return $this->redirect(['/Restaurant/default/restaurant-details', 'rid'=>$rid]);
-            }
-            
-            foreach ($foodtype as $k => $foodtype) {
-                if ($foodtype->Min > 0){
-                    if ($orderItemSelection['FoodType_ID'][$foodtype->ID] == ''){
-                        Yii::$app->session->setFlash('danger', 'Please select at least '.$foodtype->Min.' items and most '.$foodtype->Max.' items.');
-                        return $this->redirect(Yii::$app->request->referrer);
-                    } else if (count($orderItemSelection->FoodType_ID[$foodtype->ID]) < $foodtype->Min || count($orderItemSelection->FoodType_ID[$foodtype->ID]) > $foodtype->Max){
-                        Yii::$app->session->setFlash('danger', 'Please select at least '.$foodtype->Min.' items and most '.$foodtype->Max.' items.');
-                        return $this->redirect(Yii::$app->request->referrer);
-                    }
-                } else {
-                    if (count($orderItemSelection->FoodType_ID[$foodtype->ID]) < $foodtype->Min || count($orderItemSelection->FoodType_ID[$foodtype->ID]) > $foodtype->Max){
-                        Yii::$app->session->setFlash('danger', 'Please select at least '.$foodtype->Min.' items and most '.$foodtype->Max.' items.');
-                        return $this->redirect(Yii::$app->request->referrer);
-                    }
-                }
-            }
-            $quantity = $orderitem->OrderItem_Quantity;
-            $remarks = $orderitem->OrderItem_Remark;
-            $selected = $orderItemSelection->FoodType_ID;
-            $restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
-            $session = Yii::$app->session;
-            if (!is_null($session['group']) && $session['group'] == $restaurant['Restaurant_AreaGroup'])
-            {
-                $sessiongroup = $restaurant['Restaurant_AreaGroup'];
-            }
-            elseif (!is_null($session['group']) && $session['group'] != $restaurant['Restaurant_AreaGroup'])
-            {
-                Yii::$app->session->setFlash('error', "This item is in a different area from your area. Please re-enter your area.");
-                return $this->redirect(['site/index']);
-            }
-            else
-            {
-                Yii::$app->session->setFlash('error', "Please enter your postcode and area first before ordering.");
-                return $this->redirect(['site/index']);
-            }
-            $glue = "','";
-            if ($selected == !null)
-            {
-                $finalselected = JSON_encode($selected);
-            }
-            else 
-            {
-                $finalselected = '';
-            }
-
-            //var_dump($finalselected);exit;
-            return $this->redirect(['cart/addto-cart', 'quantity' => $quantity, 'Food_ID' => $id, 'finalselected' => $finalselected, 'remarks'=>$remarks, 'rid'=>$rid, 'sessiongroup'=>$sessiongroup]);
-        }*/
         return $this->renderAjax('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'cart'=>$cart ,'cartSelection' => $cartSelection, 'comments'=>$comments]);
          
     }

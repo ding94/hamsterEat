@@ -115,11 +115,12 @@ Modal::end();
         <?php foreach($restaurant as $data) :?>
           <a href="<?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$data['Restaurant_ID']]); ?>">
             <div class="list">
-              <?php $picpath = $data['Restaurant_RestaurantPicPath']; 
-                if (is_null($data['Restaurant_RestaurantPicPath'])){
-                  $picpath = "DefaultRestaurant.jpg";
-                }
-              ?>
+                <?php $picpath = $data['Restaurant_RestaurantPicPath']; 
+                  if (is_null($data['Restaurant_RestaurantPicPath'])){
+                    $picpath = "DefaultRestaurant.jpg";
+                  }
+                ?>
+            
               <th rowspan = "5">
                 <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive img']) ?>
               </th>

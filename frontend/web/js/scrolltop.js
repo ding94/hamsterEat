@@ -16,18 +16,6 @@ $(document).ready(function(){
 		return false;
 	});
 
-	 $('.toggle').click(function(event){
-        event.stopPropagation();
-         $(".filter").slideToggle("slow");
-         $("#menu").hide();
-    });
-    $(".toggle").on("click", function (event) {
-        event.stopPropagation();
-    });
-});
-
-
-$(document).on("click", function () {
-    $(".filter").hide();
 
 });
+

@@ -39,8 +39,26 @@ var theToggleTest = document.getElementById('toggle-menu-test');
 //    toggleClass(this, 'on');
 //    return false;
 // }
+$(document).ready(function(){
 
-$(theToggleTest).on('click', function(e) {
-      $('#menu').toggleClass("on"); //you can list several class names 
-      e.preventDefault();
+	 $('.toggle').click(function(event){
+        event.stopPropagation();
+         $(".filter").slideToggle("slow");
+          $('#menu').toggleClass("on");
     });
+    $(".toggle").on("click", function (event) {
+        event.stopPropagation();
+    });
+});
+
+
+
+$(document).on("click", function () {
+    $(".filter").hide();
+});
+
+
+$('#toggle-menu-test').on('click', function(e) {
+    $('#menu').toggleClass("on"); //you can list several class names 
+    e.preventDefault();
+});

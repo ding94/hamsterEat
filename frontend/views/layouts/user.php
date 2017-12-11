@@ -251,7 +251,7 @@ UserAsset::register($this);
                 <p>Tel. 1700-818-315</p>
 
                 <p>Email. support@hamsterEat.my</p>
-                <a href="mailto:support@hamsterEat.my" target="_blank" class="btn btn-primary">Email Us</a>
+                <a href="mailto:support@hamsterEat.my" target="_blank" class="raised-btn main-btn">Email Us</a>
 
             </div>
             

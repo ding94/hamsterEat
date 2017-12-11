@@ -106,7 +106,9 @@ RestaurantDetailsAsset::register($this);
         <?php endforeach; ?>
     </div>
     </div>
+    <div class="container">
     <?php echo \yii\widgets\LinkPager::widget([
       'pagination' => $pagination,
     ]); ?>
+    </div>
 </div>

@@ -98,7 +98,8 @@ class WithdrawController extends \yii\web\Controller
 		
 		$balance =Accountbalance::find()->where('User_Username = :User_Username',[':User_Username'=>$username])->one();
 		// $balance ->AB_minus -= $model->withdraw_amount;
-		$balance ->User_Balance += $model->withdraw_amount;
+		$balance ->User_Balance += $model->withdraw_amount+2;
+		//var_dump($balance ->User_Balance);exit;
 		$balance->type = 4;
 		$balance->defaultAmount = $model->withdraw_amount;
 		return $balance;

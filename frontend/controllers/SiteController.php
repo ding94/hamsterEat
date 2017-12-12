@@ -48,7 +48,7 @@ class SiteController extends CommonController
                 'only' => ['logout', 'signup','index','resendconfirmlink','referral','resendconfirmlink-referral','request-password-reset','reset-password',],
                 'rules' => [
                     [
-                        'actions' => ['signup','index'],
+                        'actions' => ['signup','index','resendconfirmlink','confirm'],
                         'allow' => true,
 
                         'roles' => ['@','?'],
@@ -60,7 +60,7 @@ class SiteController extends CommonController
                         'roles' => ['?','@'],
                     ],
                     [
-                        'actions' => ['signup','resendconfirmlink','referral','resendconfirmlink-referral',],
+                        'actions' => ['signup','referral','resendconfirmlink-referral',],
                         'allow' => true,
                         'roles' => ['?'],
                     ],

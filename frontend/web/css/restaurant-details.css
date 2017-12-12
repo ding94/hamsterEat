@@ -14,8 +14,8 @@
 
 .restaurant-img{
   height:300px; 
-  width:auto; 
-  margin:auto;
+  width:450px;
+  object-fit: cover;
 }
 
 .detail-img{
@@ -200,6 +200,25 @@
 
   .resize-btn{
     width: 49%;
+  }
+}
+
+@media(min-width: 768px){
+  .restaurant-img{
+    height: 200px;
+    width: 300px;
+    object-fit: cover;
+  }
+
+  .menu-container{
+    display: grid;
+    width:1200px;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 15px;
+    grid-row-gap: 15px;
+    margin-bottom: 50px;
+    align-items: center;
+    justify-content:center;
   }
 }
 

@@ -292,12 +292,12 @@ class SiteController extends CommonController
         
         if(!empty($user)){
             $user->status=10;
-    
+            
             $userdetails = new Userdetails();
-            $userdetails->User_id= Yii::$app->user->identity->id;
-            $userdetails->User_Username= Yii::$app->user->identity->username;
+            $userdetails->User_id= $id;
+            $userdetails->User_Username= $user['username'];
             $userbalance = new Accountbalance;
-            $userbalance->User_Username = Yii::$app->user->identity->username;
+            $userbalance->User_Username = $user['username'];
             $userbalance->User_Balance = 0; 
 
             $point = self::generateMemberPoint($id);

@@ -234,6 +234,12 @@
     justify-content:center;
   }
 
+  .restaurant-img{
+    height: 300px;
+    width: 450px;
+    object-fit: cover;
+  }
+
   #back{
     display:none;
   }

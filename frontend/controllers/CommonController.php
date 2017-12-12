@@ -20,60 +20,74 @@ class CommonController extends Controller
 
              return false;
         }
-        if(Yii::$app->user->identity->status == 1)
+        if(!Yii::$app->user->isGuest)
         {
-            if($action->controller->module->requestedRoute == 'site/validation')
+            if(Yii::$app->user->identity->status == 1 || Yii::$app->user->identity->status == 2)
             {
-                return true;
-            }
-            
-            $this->view->params['notication'] = "";
-            $this->view->params['listOfNotic'] = "";
-            $this->view->params['countNotic'] = "";
-            $this->view->params['number'] = "";
+                //var_dump($action->controller->action->id);exit;
+                $controller = Yii::$app->controller->id;
+                $action = Yii::$app->controller->action->id;
+                $permissionName = $controller.'/'.$action; 
+                //var_dump($permissionName);exit;
+                if($permissionName   == 'site/validation')
+                {
+                    return true;
+                }
+
+                if($permissionName == 'site/logout')
+                {
+                    return true;
+                }
                 
-            $this->redirect(['/site/validation']);
-            return false;
-                //Yii::$app->end();
+                $this->view->params['notication'] = "";
+                $this->view->params['listOfNotic'] = "";
+                $this->view->params['countNotic'] = "";
+                $this->view->params['number'] = "";
+                    
+                $this->redirect(['/site/validation']);
+                return false;
+                    //Yii::$app->end();
+            }
         }
+       
         return true;
     }
-	public function init()
-	{
-		$data = "";
-		$listOfNotic = "";
-		$count = "";
-		$number ="";
-		if(!Yii::$app->user->isGuest)
-		{
+    public function init()
+    {
+        $data = "";
+        $listOfNotic = "";
+        $count = "";
+        $number ="";
+        if(!Yii::$app->user->isGuest)
+        {
             
-			$result = [];
-			$listOfNotic = ArrayHelper::index(NotificationSetting::find()->asArray()->all(), 'id');
-			$notication = Notification::find()->where('uid = :uid and view = :v',[':uid' => Yii::$app->user->identity->id,':v'=>0])->limit(10)->asArray()->orderBy(['created_at'=>SORT_DESC])->all();
-			$count = count($notication);
-			$count = $count ==0 ? "" : " (".$count.")";
-			foreach($notication as $single)
-			{
-				$result[$single['type']][] = $single;
-				//$result[$single['type']]['url'] = $this->urlLink($single['type'],$single['rid']);
-			}
-			
-			$data = $result;
+            $result = [];
+            $listOfNotic = ArrayHelper::index(NotificationSetting::find()->asArray()->all(), 'id');
+            $notication = Notification::find()->where('uid = :uid and view = :v',[':uid' => Yii::$app->user->identity->id,':v'=>0])->limit(10)->asArray()->orderBy(['created_at'=>SORT_DESC])->all();
+            $count = count($notication);
+            $count = $count ==0 ? "" : " (".$count.")";
+            foreach($notication as $single)
+            {
+                $result[$single['type']][] = $single;
+                //$result[$single['type']]['url'] = $this->urlLink($single['type'],$single['rid']);
+            }
+            
+            $data = $result;
            
 
-			//Total Cart item
-			$totalcart="";
+            //Total Cart item
+            $totalcart="";
             $cart = Cart::find()->where(['uid'=> Yii::$app->user->identity->id])->count();
             $number = $cart == 0 ? "" : $cart;
 
-		}
-		$this->view->params['notication'] = $data;
-		$this->view->params['listOfNotic'] = $listOfNotic;
-		$this->view->params['countNotic'] = $count;
-		$this->view->params['number'] = $number;
-	}
+        }
+        $this->view->params['notication'] = $data;
+        $this->view->params['listOfNotic'] = $listOfNotic;
+        $this->view->params['countNotic'] = $count;
+        $this->view->params['number'] = $number;
+    }
 
-	/*
+    /*
     * url link for dropdown in mobile site
     * 1=>user profile link
     * 2=>user balance link
@@ -83,22 +97,22 @@ class CommonController extends Controller
     */
     public static function createUrlLink($type)
     {
-    	switch ($type) {
-    		case 1:
-    			$data = [	
-    						Url::to(['/user/userdetails']) => 'Edit User Details',
-    						Url::to(['/user/changepassword']) => 'Change Password'
-    					];
-    			break;
-    		case 2:
-    			$data = [	
-    						Url::to(['/user/userbalance']) => 'Balance History',
-    						Url::to(['/topup/index']) => 'Top Up',
-    						Url::to(['/withdraw/index']) => 'Withdraw',
-    					];
-    			break;
-    		case 3:
-    			$data = [
+        switch ($type) {
+            case 1:
+                $data = [   
+                            Url::to(['/user/userdetails']) => 'Edit User Details',
+                            Url::to(['/user/changepassword']) => 'Change Password'
+                        ];
+                break;
+            case 2:
+                $data = [   
+                            Url::to(['/user/userbalance']) => 'Balance History',
+                            Url::to(['/topup/index']) => 'Top Up',
+                            Url::to(['/withdraw/index']) => 'Withdraw',
+                        ];
+                break;
+            case 3:
+                $data = [
                             Url::to(['/order/my-orders']) => 'All',
                             Url::to(['/order/my-orders','status'=>'Not Paid']) => 'Not Paid',
                             Url::to(['/order/my-orders','status'=>'Pending']) => 'Pending',
@@ -107,15 +121,15 @@ class CommonController extends Controller
                             Url::to(['/order/my-orders','status'=>'Pick Up In']) => 'Pick Up In',
                             Url::to(['/order/my-orders','status'=>'On The Way']) => 'On The Way',
                             Url::to(['/order/my-orders','status'=>'Completed']) => 'Completed',
-    					];
-    			break;
-    		case 4:
-    			$data = [
-    						Url::to(['/ticket/index']) => 'All',
-    						Url::to(['/ticket/submit-ticket']) => 'Submit Ticket',
-    						Url::to(['/ticket/completed']) => 'Completed Ticket',
-    				   ];
-    			break;
+                        ];
+                break;
+            case 4:
+                $data = [
+                            Url::to(['/ticket/index']) => 'All',
+                            Url::to(['/ticket/submit-ticket']) => 'Submit Ticket',
+                            Url::to(['/ticket/completed']) => 'Completed Ticket',
+                       ];
+                break;
             case 5:
                 $data = [
                             Url::to(['/order/deliveryman-orders']) => 'Deliveryman Orders',
@@ -123,11 +137,11 @@ class CommonController extends Controller
                             Url::to(['/Delivery/daily-sign-in/delivery-location']) => 'Delivery Location',
                         ];
                 break;
-    		default:
-    			$data =[];
-    			break;	
-    	}
-       	
+            default:
+                $data =[];
+                break;  
+        }
+        
         return $data;
     }
 
@@ -145,35 +159,35 @@ class CommonController extends Controller
 
     public static function getRestaurantUrl($rid,$restArea,$areachosen,$postcodechosen,$staff)
     {
-		if($staff = "Owner")
-    	{
-    		$data = [
-	    				Url::to(['/Restaurant/default/show-monthly-earnings','rid'=>$rid]) => 'Views Earnings',
-	    				Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid,'restArea' => $restArea,'areachosen' => $areachosen]) => 'Edit Details',
-	    				Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid]) => 'Manage Staffs',
-	    				Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
-	    				Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',
-	    				Url::to(['/food/menu','rid'=>$rid,'page'=>'menu']) => 'Manage Menu',
-    				];
-    	}
-    	elseif($staff ="Manager")
-    	{
-    		$data = [
-	    				Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid,'restArea' => $restArea,'areachosen' => $areachosen]) => 'Edit Details',
-	    				Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid]) => 'Manage Staffs',
-	    				Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
-	    				Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',
-	    				Url::to(['/food/menu','rid'=>$rid,'page'=>'menu']) => 'Manage Menu',
-    				];
-    	}
-    	else
-    	{
-    		$data = [
-	        			Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
-	    				Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',
-    				];
-    	}
-    	return $data;
+        if($staff = "Owner")
+        {
+            $data = [
+                        Url::to(['/Restaurant/default/show-monthly-earnings','rid'=>$rid]) => 'Views Earnings',
+                        Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid,'restArea' => $restArea,'areachosen' => $areachosen]) => 'Edit Details',
+                        Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid]) => 'Manage Staffs',
+                        Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
+                        Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',
+                        Url::to(['/food/menu','rid'=>$rid,'page'=>'menu']) => 'Manage Menu',
+                    ];
+        }
+        elseif($staff ="Manager")
+        {
+            $data = [
+                        Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid,'restArea' => $restArea,'areachosen' => $areachosen]) => 'Edit Details',
+                        Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid]) => 'Manage Staffs',
+                        Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
+                        Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',
+                        Url::to(['/food/menu','rid'=>$rid,'page'=>'menu']) => 'Manage Menu',
+                    ];
+        }
+        else
+        {
+            $data = [
+                        Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
+                        Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',
+                    ];
+        }
+        return $data;
     }
 
     /*

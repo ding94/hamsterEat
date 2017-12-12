@@ -17,6 +17,7 @@ use common\models\food\Food;
 use common\models\food\Foodstatus;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use frontend\controllers\CommonController;

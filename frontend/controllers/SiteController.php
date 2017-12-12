@@ -48,7 +48,8 @@ class SiteController extends CommonController
                 'only' => ['logout', 'signup','index','resendconfirmlink','referral','resendconfirmlink-referral','request-password-reset','reset-password','validation'],
                 'rules' => [
                     [
-                        'actions' => ['signup','index','validation'],
+                        'actions' => ['signup','index','resendconfirmlink','confirm','validation'],
+
                         'allow' => true,
 
                         'roles' => ['@','?'],
@@ -60,7 +61,7 @@ class SiteController extends CommonController
                         'roles' => ['?','@'],
                     ],
                     [
-                        'actions' => ['signup','resendconfirmlink','referral','resendconfirmlink-referral',],
+                        'actions' => ['signup','referral','resendconfirmlink-referral',],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -248,7 +249,7 @@ class SiteController extends CommonController
                     if (Yii::$app->getUser()->login($user)) {
 
                         Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
-                        return $this->render('validation');
+                        return $this->redirect('validation');
                     }
                 }
                 else{
@@ -272,11 +273,11 @@ class SiteController extends CommonController
                 ->send();
                 if($email){
                     Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
-                    return $this->render('validation');
+                   
                 } else{
                     Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
                 }
-                return $this->render('validation');
+                return $this->redirect('validation');
     }
 
     public function actionConfirm()
@@ -292,12 +293,12 @@ class SiteController extends CommonController
         
         if(!empty($user)){
             $user->status=10;
-    
+            
             $userdetails = new Userdetails();
-            $userdetails->User_id= Yii::$app->user->identity->id;
-            $userdetails->User_Username= Yii::$app->user->identity->username;
+            $userdetails->User_id= $id;
+            $userdetails->User_Username= $user['username'];
             $userbalance = new Accountbalance;
-            $userbalance->User_Username = Yii::$app->user->identity->username;
+            $userbalance->User_Username = $user['username'];
             $userbalance->User_Balance = 0; 
 
             $point = self::generateMemberPoint($id);
@@ -398,7 +399,7 @@ class SiteController extends CommonController
                         $model1->User_Username=$user->username;
                         $model1->save();
                         Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
-                        return $this->render('validation');
+                        return $this->redirect('validation');
                     }
                 }
                 else{
@@ -431,7 +432,7 @@ class SiteController extends CommonController
                         $model1->User_id=$user->id;
                         $model1->save();
                         Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
-                        return $this->render('validation');
+                        return $this->redirect('validation');
                     }
                 }
                 else{
@@ -538,7 +539,7 @@ class SiteController extends CommonController
                     if (Yii::$app->getUser()->login($user)) {
 
                         Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
-                        return $this->render('validation');
+                        return $this->redirect('validation');
                     }
                 }
                 else{
@@ -563,11 +564,11 @@ class SiteController extends CommonController
                 ->send();
                 if($email){
                     Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
-                    return $this->render('validation');
+                   
                 } else{
                     Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
                 }
-                return $this->render('validation');
+                return $this->redirect('validation');
     }
 
     public function actionConfirmReferral()

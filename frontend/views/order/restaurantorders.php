@@ -52,6 +52,7 @@ RestaurantOrdersAsset::register($this);
             </div>
         </div>
         <div id="restaurant-orders-content" class="col-sm-10">
+        <div><?php echo Html::a('Cooking Detail',['/Restaurant/restaurant/cooking-detail','rid'=>$rid],['class'=>'btn btn-default']) ?></div>
         <?php
             if (empty($result)) { ?>
                 <h2>There are no orders currently...</h2>
@@ -65,8 +66,8 @@ RestaurantOrdersAsset::register($this);
                 {
                     echo Html::a('View Food Names', ['restaurant-orders', 'rid'=>$rid, 'status'=>$status, 'mode'=>1], ['class'=>'raised-btn btn-default fa fa-exchange swap-button']);
                 } ?>
-            </div> <?php
-            foreach ($result as $k => $results) : ?>
+            </div> 
+            <?php foreach ($result as $k => $results) : ?>
             
             <?php if($k != 0): ?> <!--- if not first array -->
                 <?php if($results['Delivery_ID'] != $result[$k - 1 ]['Delivery_ID']) : ?> <!---while delivery id not same, give header -->

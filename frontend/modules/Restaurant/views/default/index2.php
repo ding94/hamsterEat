@@ -146,14 +146,14 @@ Modal::end();
                 </a>
            
         <?php endforeach; ?>
-    
-      </div>
-</div>
-<div class="container">
+         <div class="grid-footer">
         <?php echo LinkPager::widget([
         'pagination' => $pagination,
     
     ]); ?>
+      </div>
     </div>
+</div>
+
 
     

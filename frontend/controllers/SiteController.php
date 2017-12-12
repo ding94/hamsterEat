@@ -45,10 +45,10 @@ class SiteController extends CommonController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup','index','resendconfirmlink','referral','resendconfirmlink-referral','request-password-reset','reset-password',],
+                'only' => ['logout', 'signup','index','resendconfirmlink','referral','resendconfirmlink-referral','request-password-reset','reset-password','validation'],
                 'rules' => [
                     [
-                        'actions' => ['signup','index'],
+                        'actions' => ['signup','index','validation'],
                         'allow' => true,
 
                         'roles' => ['@','?'],
@@ -715,6 +715,11 @@ class SiteController extends CommonController
         }
 
         return $this->renderAjax('feedback', ['feedback'=>$feedback, 'categoryarray'=>$categoryarray]);
+    }
+
+    public function actionValidation()
+    {
+        return $this->render('validation');
     }
 
     public function actionSelectiontype()

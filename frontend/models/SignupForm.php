@@ -88,18 +88,10 @@ class SignupForm extends Model
             $auth->assign($authorRole, $user->getId());
         }
         else if($this->type == 1)
-        {
-         
+        {     
             $auth = \Yii::$app->authManager;
             $authorRole = $auth->getRole('restaurant manager');
             $auth->assign($authorRole, $user->getId());
-            $authorRole = $auth->getRole('Manager');
-            $auth->assign($authorRole, $user->getId());
-            $authorRole = $auth->getRole('Operator');
-            $auth->assign($authorRole, $user->getId());
-            $authorRole = $auth->getRole('Owner');
-            $auth->assign($authorRole, $user->getId());
-            
         }
         
         return $user->save() ? $user : null;

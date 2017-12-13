@@ -170,14 +170,8 @@ class CommonController extends Controller
         $action = Yii::$app->controller->action->id;
         $permissionName = $controller.'/'.$action;
         $auth = \Yii::$app->authManager;
-        $role = $auth->getAssignment($staff->RmanagerLevel_Level,Yii::$app->user->identity->id);
-        //var_dump($staff->RmanagerLevel_Level,Yii::$app->user->identity->id);exit;
-        if(empty($role))
-        {
-            throw new HttpException('403','Permission Denied!');
-        }
         
-        $verify = $auth->getChildren($role->roleName);
+        $verify = $auth->getChildren($staff->RmanagerLevel_Level);
        
         if(empty($verify[$permissionName]))
         {

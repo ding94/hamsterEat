@@ -48,7 +48,7 @@ class SiteController extends CommonController
                 'only' => ['logout', 'signup','index','resendconfirmlink','referral','resendconfirmlink-referral','request-password-reset','reset-password','validation'],
                 'rules' => [
                     [
-                        'actions' => ['signup','index','resendconfirmlink','confirm','validation'],
+                        'actions' => ['signup','index','resendconfirmlink','confirm','logout','request-password-reset','reset-password'],
 
                         'allow' => true,
 
@@ -66,9 +66,9 @@ class SiteController extends CommonController
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout','request-password-reset','reset-password',],
+                        'actions' => ['validation'],
                         'allow' => true,
-                        'roles' => ['@','?'],
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -379,7 +379,7 @@ class SiteController extends CommonController
     public function actionRmanager()
     {
         $model = new SignupForm();
-         $model1 = new Rmanager();
+        $model1 = new Rmanager();
         
         
          if ($model->load(Yii::$app->request->post()) &&  $model1->load(Yii::$app->request->post())) {
@@ -397,6 +397,9 @@ class SiteController extends CommonController
                     if (Yii::$app->getUser()->login($user)) {
                         $model1->uid=$user->id;
                         $model1->User_Username=$user->username;
+                        $model1->Rmanager_Approval = 1;
+                        $model1->Rmanager_DateTimeApplied = time();
+                        $model1->Rmanager_DateTimeApproved = time();
                         $model1->save();
                         Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
                         return $this->redirect('validation');

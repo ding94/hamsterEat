@@ -247,6 +247,7 @@ class OrderController extends CommonController
         ->limit($pagination->limit)
         ->all();
 
+        $linkData = CommonController::restaurantPermission($rid);
         $link = CommonController::getRestaurantOrdersUrl($rid);
 
         return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result,'link'=>$link,'pagination'=>$pagination,'status'=>$status,'countOrder'=>$countOrder, 'mode'=>$mode]);
@@ -459,7 +460,8 @@ class OrderController extends CommonController
 
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
 
-        $link = CommonController::getRestaurantUrl($rid,$restaurantname['Restaurant_AreaGroup'],$restaurantname['Restaurant_Area'],$restaurantname['Restaurant_Postcode'],$staff['RmanagerLevel_Level']);
+        $linkData = CommonController::restaurantPermission($rid);
+        $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
         return $this->render('restaurantorderhistory', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination]);
     }
 

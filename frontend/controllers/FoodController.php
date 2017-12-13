@@ -180,7 +180,9 @@ class FoodController extends CommonController
         $restaurant = Restaurant::find()->where('Restaurant_ID = :id', [':id'=>$rid])->one();
         $rname = $restaurant['Restaurant_Name'];
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
-        $link = CommonController::getRestaurantUrl($rid,$restaurant['Restaurant_AreaGroup'],$restaurant['Restaurant_Area'],$restaurant['Restaurant_Postcode'],$staff['RmanagerLevel_Level']);
+        
+        $linkData = CommonController::restaurantPermission($rid);
+        $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
         return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'rname'=>$rname, 'restaurant'=>$restaurant,'staff'=>$staff, 'pagination'=>$pagination,'link'=>$link]);
      }
 

@@ -67,7 +67,7 @@ RestaurantDetailsAsset::register($this);
         </div>
     <?php if(!empty($staff)) : ?>
             <div id="button-container">
-                <span><?php echo Html::a('Manage Restaurant', Url::to(['/Restaurant/default/manage-restaurant-staff' ,'rid'=>$id['Restaurant_ID']]), ['class'=>'resize-btn raised-btn main-btn']) ?></span>
+                <span><?php echo Html::a('Manage Restaurant', Url::to(['/order/restaurant-order-history' ,'rid'=>$id['Restaurant_ID']]), ['class'=>'resize-btn raised-btn main-btn']) ?></span>
                 <span> <?php if ($id['Restaurant_Status'] == "Closed"): ?>
                     <?=Html::a('Resume Resturant Operate', Url::to(['restaurant/active', 'id'=>$id['Restaurant_ID'],'item'=>1]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'resize-btn raised-btn btn-success'])?>
                     <?php elseif($id['Restaurant_Status'] == "Operating"): ?>

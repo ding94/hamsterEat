@@ -10,12 +10,13 @@ use yii\helpers\Json;
 use common\models\Notification;
 use common\models\NotificationSetting;
 use common\models\Cart\Cart;
+use common\models\Rmanagerlevel;
+use yii\web\HttpException;
 
 class CommonController extends Controller
 {
     public function beforeAction($action)
     {
-       // var_dump(!parent::beforeAction($action));exit;
         if (!parent::beforeAction($action)) {
 
              return false;
@@ -24,17 +25,16 @@ class CommonController extends Controller
         {
             if(Yii::$app->user->identity->status == 1 || Yii::$app->user->identity->status == 2)
             {
-                //var_dump($action->controller->action->id);exit;
                 $controller = Yii::$app->controller->id;
                 $action = Yii::$app->controller->action->id;
                 $permissionName = $controller.'/'.$action; 
-                //var_dump($permissionName);exit;
+               
                 if($permissionName   == 'site/validation')
                 {
                     return true;
                 }
 
-                if($permissionName == 'site/logout')
+                if($permissionName == 'site/logout' || $permissionName == 'site/resendconfirmlink' || $permissionName == 'site/confirm' || $permissionName == 'site/rmanager'|| $permissionName == 'site/signup' || $permissionName == 'site/deliveryman' || $permissionName == 'site/referral' || $permissionName == 'site/resendconfirmlink-referral')
                 {
                     return true;
                 }
@@ -147,7 +147,7 @@ class CommonController extends Controller
 
     public static function getRestaurantOrdersUrl($rid){
         $data = [
-                    Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid]) => 'Back',
+                    Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Back',
                     Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Pending']) => 'Pending',
                     Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Preparing']) => 'Preparing',
                     Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Pick Up In']) => 'Pick Up In',
@@ -157,36 +157,65 @@ class CommonController extends Controller
         return $data;
     }
 
-    public static function getRestaurantUrl($rid,$restArea,$areachosen,$postcodechosen,$staff)
+    public static function restaurantPermission($rid)
     {
-        if($staff = "Owner")
+        $staff = Rmanagerlevel::find()->where('rmanagerlevel.Restaurant_ID = :rid and rmanagerlevel.User_Username = :u and  Rmanager_Approval = 1',[':rid'=>$rid,':u' => Yii::$app->user->identity->username])->joinWith(['manager','restaurant'])->one();
+
+        if(empty($staff))
         {
-            $data = [
-                        Url::to(['/Restaurant/default/show-monthly-earnings','rid'=>$rid]) => 'Views Earnings',
-                        Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid,'restArea' => $restArea,'areachosen' => $areachosen]) => 'Edit Details',
-                        Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid]) => 'Manage Staffs',
-                        Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
-                        Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',
-                        Url::to(['/food/menu','rid'=>$rid,'page'=>'menu']) => 'Manage Menu',
-                    ];
+            throw new HttpException('403','Permission Denied!');
         }
-        elseif($staff ="Manager")
+
+        $controller = Yii::$app->controller->id;
+        $action = Yii::$app->controller->action->id;
+        $permissionName = $controller.'/'.$action;
+        $auth = \Yii::$app->authManager;
+        $role = $auth->getAssignment($staff->RmanagerLevel_Level,Yii::$app->user->identity->id);
+        //var_dump($staff->RmanagerLevel_Level,Yii::$app->user->identity->id);exit;
+        if(empty($role))
         {
-            $data = [
-                        Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid,'restArea' => $restArea,'areachosen' => $areachosen]) => 'Edit Details',
-                        Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid]) => 'Manage Staffs',
-                        Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
-                        Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',
-                        Url::to(['/food/menu','rid'=>$rid,'page'=>'menu']) => 'Manage Menu',
-                    ];
+            throw new HttpException('403','Permission Denied!');
         }
-        else
+        
+        $verify = $auth->getChildren($role->roleName);
+       
+        if(empty($verify[$permissionName]))
         {
-            $data = [
-                        Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
-                        Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',
-                    ];
+           throw new HttpException('403','Permission Denied!');
         }
+
+        $data[0] = $staff->restaurant->Restaurant_AreaGroup;
+        $data[1] = $staff->restaurant->Restaurant_Area;
+        $data[2] = $staff->RmanagerLevel_Level;
+        return $data;
+    }
+
+    public static function getRestaurantUrl($restArea,$areachosen,$staff,$rid)
+    {
+        //$restArea = $staff->restaurant->Restaurant_AreaGroup;
+        //$areachosen = $staff->restaurant->Restaurant_Area;
+        $data = [];
+        $data = [
+                    Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
+                    Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',
+                ];
+        switch ($staff) {
+            case 'Owner':
+                $data[ Url::to(['/Restaurant/default/show-monthly-earnings','rid'=>$rid])] = 'Views Earnings';
+                $data[Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid,'restArea' => $restArea,'areachosen' => $areachosen])] = 'Edit Details';
+                $data[Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid])] = 'Manage Staffs';
+                $data[Url::to(['/food/menu','rid'=>$rid,'page'=>'menu'])] = 'Manage Menu';
+                break;
+            case 'Manager':
+                $data[Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid,'restArea' => $restArea,'areachosen' => $areachosen])] = 'Edit Details';
+                $data[Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid])] = 'Manage Staffs';
+                 $data[Url::to(['/food/menu','rid'=>$rid,'page'=>'menu'])] = 'Manage Menu';
+                break;
+            default:
+                # code...
+                break;
+        }
+    
         return $data;
     }
 

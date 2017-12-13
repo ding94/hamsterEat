@@ -257,6 +257,7 @@ class RestaurantController extends CommonController
     */
     public function actionCookingDetail($rid)
     { 
+        $linkData = CommonController::restaurantPermission($rid);
         $companyData = [];
         $singleData=[];
 

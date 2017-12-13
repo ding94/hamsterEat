@@ -302,7 +302,9 @@ class DefaultController extends CommonController
         $restArea = $restArea;
         $areachosen = $areachosen;
         $restaurant = Restaurant::find()->where(Restaurant::tableName().'.Restaurant_ID = :id' ,[':id' => $rid])->innerJoinWith('restaurantType',true)->one();
-        $link = CommonController::getRestaurantUrl($rid,$restaurant['Restaurant_AreaGroup'],$restaurant['Restaurant_Area'],$restaurant['Restaurant_Postcode'],$staff['RmanagerLevel_Level'],$staff['RmanagerLevel_Level']);
+
+        $linkData = CommonController::restaurantPermission($rid);
+        $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
 
         $chosen = ArrayHelper::map($restaurant['restaurantType'],'ID','ID');
         $type = ArrayHelper::map(RestaurantType::find()->orderBy(['(Type_Name)' => SORT_ASC])->all(),'ID','Type_Name');
@@ -426,7 +428,9 @@ class DefaultController extends CommonController
 
         $me = Rmanagerlevel::find()->where('Restaurant_ID = :rid and User_Username = :uname', [':rid'=>$rid, ':uname'=>Yii::$app->user->identity->username])->one();
         // var_dump($me);exit;
-        $link = CommonController::getRestaurantUrl($rid,$id['Restaurant_AreaGroup'],$id['Restaurant_Area'],$id['Restaurant_Postcode'],$me['RmanagerLevel_Level']);
+        
+        $linkData = CommonController::restaurantPermission($rid);
+        $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
 
         return $this->render('managerestaurantstaff',['rid'=>$rid, 'rstaff'=>$rstaff, 'id'=>$id, 'me'=>$me ,'link'=>$link]);
     }
@@ -575,7 +579,8 @@ class DefaultController extends CommonController
         $restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid' => $rid])->one();
         $restaurantname = $restaurant['Restaurant_Name'];
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
-        $link = CommonController::getRestaurantUrl($rid,$restaurant['Restaurant_AreaGroup'],$restaurant['Restaurant_Area'],$restaurant['Restaurant_Postcode'],$staff['RmanagerLevel_Level']);
+        $linkData = CommonController::restaurantPermission($rid);
+        $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
         $currentmonth = date('F');
         $currentmonthnum = date('n');
         $currentyear = date('Y');

@@ -37,30 +37,34 @@ RestaurantDetailsAsset::register($this);
         if (is_null($id['Restaurant_RestaurantPicPath'])){
             $picpath = "DefaultRestaurant.jpg";
         }
-         echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img-responsive pull-left restaurant-img']) ?> 
-		  <?php echo Html::a("Back" ,Yii::$app->request->referrer,['class'=>'raised-btn secondary-btn','id'=>'back'])?>
-		 <?php echo "</th>"; ?>
-         <div class="restaurant-info-inner">
-             <h1><?php echo $id['Restaurant_Name']; ?><span class="pull-right"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#report-modal']) ?></span></h1>
-      <ul class="info">
-        <?php if ($id['Restaurant_Pricing'] == 1){ ?>
-        <li class="none">$</li>
-        <?php } else if ($id['Restaurant_Pricing'] == 2){ ?>
-        <li class= "none"> $ $ </li>
-        <?php } else { ?>
-        <li class= "none"> $ $ $ </li>
-        <?php } 
-          foreach ($id['restaurantType'] as $type):
         ?>
-        <li>
-          <?php echo $type['Type_Name'] ?>
-        </li>
-        <?php endforeach; ?>
-        <li><?php echo $id['Restaurant_UnitNo'].", ".$id['Restaurant_Street'].", ".$id['Restaurant_Area'].", ".$id['Restaurant_Postcode']; ?></li>
-      </ul>
-      <div class="rating">
-        <span class="small-text stars"><?php echo $id['Restaurant_Rating']; ?></span>
-    </div>
+        <div class="restaurant-img-div">
+        <?php echo Html::a("Back" ,Yii::$app->request->referrer,['class'=>'raised-btn secondary-btn','id'=>'back'])?>
+        <?php 
+         echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'restaurant-img']) 
+         ?>
+        </div> 
+        <div class="restaurant-info-inner">
+        <div class="restaurant-name-div"><h1 class="restaurant-name"><?php echo $id['Restaurant_Name']; ?></h1><span class="report-button"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#report-modal']) ?></span></div>
+        <div class="rating"><span class="small-text stars"><?php echo $id['Restaurant_Rating']; ?></span></div>
+        <div class="info-div">
+          <ul class="info">
+            <?php if ($id['Restaurant_Pricing'] == 1){ ?>
+            <li>$</li>
+            <?php } else if ($id['Restaurant_Pricing'] == 2){ ?>
+            <li> $ $ </li>
+            <?php } else { ?>
+            <li> $ $ $ </li>
+            <?php } 
+              foreach ($id['restaurantType'] as $type):
+            ?>
+            <li>
+              <?php echo $type['Type_Name'] ?>
+            </li>
+            <?php endforeach; ?>
+            <li class="none"><?php echo $id['Restaurant_UnitNo'].", ".$id['Restaurant_Street'].", ".$id['Restaurant_Area'].", ".$id['Restaurant_Postcode']; ?></li>
+          </ul>
+        </div>
     <?php if(!empty($staff)) : ?>
             <div id="button-container">
                 <span><?php echo Html::a('Manage Restaurant', Url::to(['/order/restaurant-order-history' ,'rid'=>$id['Restaurant_ID']]), ['class'=>'resize-btn raised-btn main-btn']) ?></span>
@@ -76,10 +80,10 @@ RestaurantDetailsAsset::register($this);
     <br>
     <hr class="restaurantdetails-hr">
     <h2><center>Menu</h2>
-	
+    
     <div class = "foodItems">
     </div>
-	
+    
     <?php
       $rid = $id['Restaurant_ID'];
       $id = isset($_GET['foodid']) ? $_GET['foodid'] : ''; 
@@ -93,13 +97,15 @@ RestaurantDetailsAsset::register($this);
         <div class="item">
             <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$data['PicPath']) ?></div>
             <div class="inner-item">
-            <span class="foodName"><?php echo $data['Name']; ?></span>
-            <span class="small-text pull-right stars" alt="<?php echo $data['Rating']; ?>"><?php echo $data['Rating']; ?></span>
-            <span><p class="price"><?php echo 'RM'.$data['Price']; ?></p></span>
-            <p class="foodDesc"><?php echo $data['Description']; ?></p>
+            <div class="foodName-div"><span class="foodName"><?php echo $data['Name']; ?></span><span class="small-text stars" alt="<?php echo $data['Rating']; ?>"><?php echo $data['Rating']; ?></span></div>
+            <!-- <div class="stars-div"></div> -->
+            <div class="price-div"><span class="price"><?php echo 'RM'.$data['Price']; ?></span></div>
+            <div class="foodDesc-div"><span class="foodDesc"><?php echo $data['Description']; ?></span></div>
+            <div class="tag-div">
             <?php foreach($data['foodType']as $type): ?>
             <span class="tag"><?php echo $type['Type_Desc'].'&nbsp;&nbsp;&nbsp;'; ?></span>
             <?php endforeach; ?>
+            </div>
             </div>
         </div>
         </a>

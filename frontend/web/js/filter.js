@@ -51,12 +51,11 @@ $(document).ready(function(){
     });
 });
 
-
-
-$(document).on("click", function () {
-    $(".filter").hide();
-});
-
+if (parseInt(window.innerWidth)<768) {
+    $(document).on("click", function () {
+        $(".filter").hide();
+    });
+}
 
 $('#toggle-menu-test').on('click', function(e) {
     $('#menu').toggleClass("on"); //you can list several class names 

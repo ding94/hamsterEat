@@ -34,12 +34,12 @@ CheckoutAsset::register($this);
                         <td style="width: 40%;">Delivery ID:</td>
                         <td colspan="2"><?= $order['Delivery_ID']; ?></td>
                     </tr>
-                    
+                        <td>Order ID:</td>
                         <?php foreach ($orderitem as $key => $oid): ?>
-                            <tr>
-                                <td><?= $key+1; ?>.Order ID:</td>
+                                <?php if($key > 0 ): ?>
+                                    <td></td>
+                                <?php endif; ?>
                                 <td><?= $oid['Order_ID']; ?></td>
-                            </tr>
                         <?php endforeach; ?>
                     <tr>
                         <td>Delivery Location:</td>
@@ -70,14 +70,14 @@ CheckoutAsset::register($this);
                             <tr>
                                 <td></td>
                                 <td style="text-align: right;">Early Discounted:</td>
-                                <td style="color: red;">RM - <?= number_format($order['Orders_DiscountEarlyAmount'],2); ?></td>
+                                <td style="color: red;">- RM <?= number_format($order['Orders_DiscountEarlyAmount'],2); ?></td>
                             </tr>
                         <?php endif; ?>
                         <?php if($order['Orders_DiscountTotalAmount'] > 0 ) : ?>
                             <tr>
                                 <td></td>
                                 <td style="text-align: right;">Discounted:</td>
-                                <td style="color: red;">RM - <?= number_format($order['Orders_DiscountTotalAmount'],2); ?></td>
+                                <td style="color: red;">- RM <?= number_format($order['Orders_DiscountTotalAmount'],2); ?></td>
                             </tr>
                         <?php endif; ?>
                         <tr style="background-color: #d9d9d9">

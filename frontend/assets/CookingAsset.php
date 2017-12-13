@@ -12,7 +12,7 @@ class CookingAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        
+        'css/cooking.css',
     ];
     public $js = [
          'js/cooking.js',

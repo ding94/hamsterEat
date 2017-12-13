@@ -123,30 +123,31 @@ Modal::end();
                   ?>
                 <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img']) ?>
               </div>
-              
-              <div class="restaurant-name">
-                <span class="name">
-                  <?php echo $data['Restaurant_Name']; ?>
-                    <div class="rating">
-                      <span class="small-text stars">
-                        <?php echo $data['Restaurant_Rating']; ?>
-                      </span>
-                    </div>
-                </span>
-              </div>
-              <ul class="tag">
-                <?php if ($data['Restaurant_Pricing'] == 1){ ?>
-                <li class="none">$</li>
-                <?php } else if ($data['Restaurant_Pricing'] == 2){ ?>
-                <li class= "none"> $ $ </li>
-                <?php } else { ?>
-                <li class= "none"> $ $ $ </li>
-                <?php } 
-                  foreach ($data['restaurantType'] as $type) :
-                ?>
-                <li><?php echo $type['Type_Name']; ?></li>
-                <?php endforeach; ?>
-              </ul>            
+              <div class="inner-item">
+                <div class="restaurant-name">
+                  <span class="name">
+                    <?php echo $data['Restaurant_Name']; ?>
+                  </span>
+                  <span class="small-text stars">
+                    <?php echo $data['Restaurant_Rating']; ?>
+                  </span>
+                </div>
+                <div class="tag-div">
+                  <ul class="tag">
+                    <?php if ($data['Restaurant_Pricing'] == 1){ ?>
+                    <li class="none">$</li>
+                    <?php } else if ($data['Restaurant_Pricing'] == 2){ ?>
+                    <li class= "none"> $ $ </li>
+                    <?php } else { ?>
+                    <li class= "none"> $ $ $ </li>
+                    <?php } 
+                      foreach ($data['restaurantType'] as $type) :
+                    ?>
+                    <li><?php echo $type['Type_Name']; ?></li>
+                    <?php endforeach; ?>
+                  </ul>
+                </div>
+              </div>        
             </div>
           </a>
         <?php endforeach; ?>

@@ -129,7 +129,3 @@ $this->title = 'hamsterEat';
 			</div>
 		</div>
 	</div>
-
-
-   <!-- </div> -->
-   

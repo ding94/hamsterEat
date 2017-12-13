@@ -132,16 +132,16 @@ Modal::end();
                            
                         </div>
                         <div class="inner-item">
-                            <span class="foodName"><?php echo $fooddata['Name']; ?></span>
-                            <span class="small-text pull-right stars" alt="<?php echo $fooddata['Rating']; ?>"><?php echo $fooddata['Rating']; ?></span>
-                            <span><p class="price"><?php echo 'RM '.$fooddata['Price']; ?></p></span>
-                            <span><p class="rname"><?php echo $fooddata['restaurant']['Restaurant_Name']; ?></p></span>
-                            <p class="foodDesc"><?php echo $fooddata['Description']; ?></p>
+                            <div class="foodName-div"><span class="foodName"><?php echo $fooddata['Name']; ?></span><span class="small-text stars" alt="<?php echo $fooddata['Rating']; ?>"><?php echo $fooddata['Rating']; ?></span></div>
+                            <div class="price-div"><span class="price"><?php echo 'RM '.$fooddata['Price']; ?></span></div>
+                            <div class="rname-div"><span class="rname"><?php echo $fooddata['restaurant']['Restaurant_Name']; ?></span></div>
+                            <div class="foodDesc"><span class="foodDesc"><?php echo $fooddata['Description']; ?></span></div>
+                            <div class="tag-div">
                             <?php foreach($fooddata['foodType']as $type): ?>
                             <span class="tag"><?php echo $type['Type_Desc'].'&nbsp;&nbsp;&nbsp;'; ?></span>
                             <?php endforeach; ?>
+                            </div>
                         </div>
-                       
                     </div>
                 </a>
            

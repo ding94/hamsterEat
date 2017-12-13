@@ -15,6 +15,18 @@
   margin-top:auto;
 }
 
+.inner-item{
+  display: flex;
+  flex-direction: column;
+}
+
+.inner-item .foodName-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 @media (min-width: 1200px){
   #group-area-index2 .menu-container{
     grid-template-columns: 1fr 1fr;
@@ -32,8 +44,12 @@
 }
 
 @media (min-width: 992px) and (max-width: 1199px){
+  #group-area-index2 .menu-container{
+    grid-template-columns: 1fr 1fr;
+  }
+
   .item .inner-item{
-    width: 57vw;
+    width: 27vw;
   }
 
   .item img{
@@ -78,7 +94,7 @@
   box-shadow: 3px 3px 1px 0px rgba(0,0,0,0.5); */
 }
 
-.item p{
+.rname,.foodDesc{
   font-size:15px;
   color:grey;
 }
@@ -86,7 +102,6 @@
 .item .small-text{
   font-size:15px;
   color:grey; 
-  margin-top: 10px;
 }
 
 .item .price{
@@ -96,7 +111,6 @@
 
 .item .inner-item{
   margin:10px;
-  /* margin-left:215px;  */
 }
 
 .item .tag{
@@ -124,6 +138,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  width: 200px;
+  flex: 1 1 auto;
 }
 
 .item .foodDesc{
@@ -131,6 +147,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  flex: 1 1 auto;
 }
 
 @media (max-width: 767px){

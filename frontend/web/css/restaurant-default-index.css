@@ -21,8 +21,6 @@
   object-fit: cover;
 }
 
-
-
 .menu-container{
   display: grid;
   grid-column-gap: 15px;
@@ -114,7 +112,17 @@
   top:0;
 }
 
+.list .img:hover{
+  transform: scale(1.06);
+}
 
+.img{
+  transition: linear 0.2s;
+}
+
+.list{
+  overflow: hidden;
+}
 
 
 

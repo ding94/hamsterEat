@@ -18,6 +18,7 @@ use yii\filters\AccessControl;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
 use common\models\Rmanagerlevel;
+use common\models\Company\Company;
 use frontend\modules\delivery\controllers\DailySignInController;
 use common\models\Order\DeliveryAddress;
 
@@ -178,6 +179,7 @@ class OrderController extends CommonController
     public function actionOrderDetails($did)
     {
         $order = Orders::find()->where("orders.Delivery_ID = :id",[':id'=>$did])->joinWith(['address'])->one();
+		//var_dump($order);exit;
         $orderitems = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
 
         if($order['Orders_Status']== 'Pending'){
@@ -230,11 +232,19 @@ class OrderController extends CommonController
         }
        
         $countOrder = $this->getTotalOrderRestaurant($rid);
+		
         $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
         $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
-
-        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->joinWith(['food','order']);
-
+			
+		
+		//$delid = DeliveryAddress::find()->where('delivery_id=:did',[':did'=>$did])->one();
+		//$delid = DeliveryAddress::find()->one()->cid;
+		//$companyname=Company::find()->where('id=:cid',[':cid'=>$delid])->one()->name;
+		//var_dump($companyname);exit;
+		
+        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->joinWith(['food','order','address']);;
+		
+		
         if(!empty($status))
         {
             $result->andWhere(['Orders_Status'=>$status]);
@@ -246,7 +256,25 @@ class OrderController extends CommonController
         $result = $result->offset($pagination->offset)
         ->limit($pagination->limit)
         ->all();
-
+		
+	/*	$companyData = [];
+		foreach($result as $single)
+		{
+			$companyName = Company::findOne($single->address->cid)->name;
+			$companyData[$companyName][$single->Delivery_ID][] = $single;
+			
+		}
+		
+		foreach($companyData as $name => $delivery)
+		{
+			foreach($delivery as $deliveyid => $order)
+			{
+				//var_dump($order);exit;
+				
+			}
+			//var_dump($order,$companyData,$name);exit;
+		}
+		//var_dump($companyData);exit;*/
         $link = CommonController::getRestaurantOrdersUrl($rid);
 
         return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result,'link'=>$link,'pagination'=>$pagination,'status'=>$status,'countOrder'=>$countOrder, 'mode'=>$mode]);

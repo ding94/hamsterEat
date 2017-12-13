@@ -48,8 +48,8 @@ $this->title = 'hamsterEat';
 	<div id="SSCrow2" class="container">
         <div class="form">
 	<!--	<h1>Light up your taste buds!</h1><br>-->
-        <h3 id="h3"><b><center>Select Your Location</center></b></h3>
-		<h5 id="h5"><center>To Better Serve You, let us know where you are by selecting your area!</center></h5><br>
+        <h3 id="h3"><b><center>Order Lunch Delivery</center></b></h3>
+		<h5 id="h5"><center>Exclusively catered for office users in Medini 6/7!</center></h5><br>
         <?php //$form = ActiveForm::begin(); ?>
         <?php //echo  Select2::widget([
 		    
@@ -68,7 +68,7 @@ $this->title = 'hamsterEat';
 		
 		<?php //ActiveForm::end(); ?>
 		<?php $form = ActiveForm::begin(); ?>
-			<?= Html::submitButton('List of Restaurants', ['class' => 'button-three']); ?>
+			<?= Html::submitButton('Show Restaurants', ['class' => 'button-three']); ?>
 		<?php ActiveForm::end(); ?>
 	   	</div>
 	</div>
@@ -129,7 +129,3 @@ $this->title = 'hamsterEat';
 			</div>
 		</div>
 	</div>
-
-
-   <!-- </div> -->
-   

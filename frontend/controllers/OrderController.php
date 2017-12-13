@@ -18,6 +18,7 @@ use yii\filters\AccessControl;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
 use common\models\Rmanagerlevel;
+use common\models\Company\Company;
 use frontend\modules\delivery\controllers\DailySignInController;
 use common\models\Order\DeliveryAddress;
 
@@ -178,6 +179,7 @@ class OrderController extends CommonController
     public function actionOrderDetails($did)
     {
         $order = Orders::find()->where("orders.Delivery_ID = :id",[':id'=>$did])->joinWith(['address'])->one();
+		//var_dump($order);exit;
         $orderitems = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
 
         if($order['Orders_Status']== 'Pending'){
@@ -230,11 +232,19 @@ class OrderController extends CommonController
         }
        
         $countOrder = $this->getTotalOrderRestaurant($rid);
+		
         $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
         $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
-
-        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->joinWith(['food','order']);
-
+			
+		
+		//$delid = DeliveryAddress::find()->where('delivery_id=:did',[':did'=>$did])->one();
+		//$delid = DeliveryAddress::find()->one()->cid;
+		//$companyname=Company::find()->where('id=:cid',[':cid'=>$delid])->one()->name;
+		//var_dump($companyname);exit;
+		
+        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->joinWith(['food','order','address']);;
+		
+		
         if(!empty($status))
         {
             $result->andWhere(['Orders_Status'=>$status]);
@@ -246,6 +256,9 @@ class OrderController extends CommonController
         $result = $result->offset($pagination->offset)
         ->limit($pagination->limit)
         ->all();
+
+
+        $linkData = CommonController::restaurantPermission($rid);
 
         $link = CommonController::getRestaurantOrdersUrl($rid);
 
@@ -459,7 +472,8 @@ class OrderController extends CommonController
 
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
 
-        $link = CommonController::getRestaurantUrl($rid,$restaurantname['Restaurant_AreaGroup'],$restaurantname['Restaurant_Area'],$restaurantname['Restaurant_Postcode'],$staff['RmanagerLevel_Level']);
+        $linkData = CommonController::restaurantPermission($rid);
+        $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
         return $this->render('restaurantorderhistory', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination]);
     }
 

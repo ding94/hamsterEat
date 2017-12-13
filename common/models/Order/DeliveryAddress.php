@@ -73,4 +73,9 @@ class DeliveryAddress extends \yii\db\ActiveRecord
             'type' => 'Type',
         ];
     }
+	
+	public function getCompany()
+    {
+        return $this->hasOne(Company::className(),['id' => 'cid']);
+    }
 }

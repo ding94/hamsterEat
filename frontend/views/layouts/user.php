@@ -14,11 +14,12 @@ use common\models\Company\Company;
 use kartik\widgets\SideNav;
 use yii\helpers\Url;
 use common\models\Rmanager;
+use common\models\Rmanagerlevel;
 use frontend\models\Deliveryman;
 use common\models\Restaurant;
 use frontend\assets\NotificationAsset;
 use frontend\assets\UserAsset;
-
+use common\models\Order\Orders;
 AppAsset::register($this);
 NotificationAsset::register($this);
 UserAsset::register($this);
@@ -131,14 +132,23 @@ UserAsset::register($this);
                         '<li class="divider"></li>',
                     ]];
          $keys = array_keys($menuItems);
-        if (Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
-                $menuItems[end($keys)]['items'][] =['label' => 'Restaurants ', 'url' => ['/Restaurant/restaurant/restaurant-service'],'linkOptions' => ['data-method' => 'post']];
+        if ($rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
+            $menuItems[end($keys)]['items'][] =['label' => 'Restaurants ', 'url' => ['/Restaurant/restaurant/restaurant-service'],'linkOptions' => ['data-method' => 'post']];
+            $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+            $lvl = Rmanagerlevel::find()->where('User_Username=:u',[':u'=>$rmanager['User_Username']])->all();
+
+
+            $order = Orders::find()->where(['>=','Orders_DateTimeMade','date("Y-m-d H:i:s")'])->one();
+            if (!empty($order)) {
+                $menuItems[end($keys)]['items'][] =['label' => 'Ordered Foods', 'url' => ['/site/index']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+            }
         }
         if (Deliveryman::find()->where('User_id=:id',[':id'=>Yii::$app->user->identity->id])->one()){
                 $menuItems[end($keys)]['items'][] =['label' => 'Delivery Orders', 'url' => ['/order/deliveryman-orders'],'linkOptions' => ['data-method' => 'post']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
+        
         /*if ($company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
             $menuItems[end($keys)]['items'][] =['label' => 'Company', 'url' => ['/company/index']];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';

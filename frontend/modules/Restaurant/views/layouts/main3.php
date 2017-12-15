@@ -14,11 +14,13 @@ use yii\helpers\Url;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use yii\helpers\Json;
 use common\models\Rmanager;
+use common\models\Rmanagerlevel;
 use frontend\models\Deliveryman;
 use common\models\Restaurant;
 use yii\bootstrap\Modal;
 use frontend\assets\NotificationAsset;
 use common\models\Company\Company;
+use common\models\Order\Orderitem;
 
 AppAsset::register($this);
 NotificationAsset::register($this);
@@ -130,6 +132,25 @@ NotificationAsset::register($this);
        
         $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">View All</h4>','url' => ['/notification/index']];
+
+        $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
+        $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+        $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">View All</h4>','url' => ['/notification/index']];
+        if (!empty($rmanager)) {
+            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-list-alt">'];
+            $key = array_keys($menuItems);
+            $lvl = Rmanagerlevel::find()->where('User_Username=:u',[':u'=>$rmanager['User_Username']])->all();
+
+            foreach ($lvl as $k => $level) {
+                $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$level['Restaurant_ID']])->one();
+                $orderitem = Orderitem::find()->where('Restaurant_ID=:id',[':id'=>$level['Restaurant_ID']])->joinwith(['food'])->count();
+                if ($orderitem > 0) {
+                    $menuItems[end($key)]['items'][] = ['label'=>$restaurant['Restaurant_Name'].'('.$orderitem.')','url'=>['/Restaurant/restaurant/cooking-detail','rid'=>$level['Restaurant_ID']]];
+                    $menuItems[end($key)]['items'][] = '<li class="divider"></li>'; 
+                }
+            }
+        }
+        
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span> ' . Yii::$app->user->identity->username . '', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile']],
                         '<li class="divider"></li>',

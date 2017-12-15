@@ -35,12 +35,17 @@ CheckoutAsset::register($this);
                         <td colspan="2"><?= $order['Delivery_ID']; ?></td>
                     </tr>
                         <td>Order ID:</td>
+                        
+                        <?php $orders=""; ?>
                         <?php foreach ($orderitem as $key => $oid): ?>
-                                <?php if($key > 0 ): ?>
-                                    <td></td>
+                                <?php if($key == 0 ): ?>
+                                    <?php $orders .= $oid['Order_ID']; ?>
+                                <?php else : ?>
+                                    <?php $orders.=', '.$oid['Order_ID']; ?>
                                 <?php endif; ?>
-                                <td><?= $oid['Order_ID']; ?></td>
                         <?php endforeach; ?>
+
+                        <td> <?= $orders; ?>
                     <tr>
                         <td>Delivery Location:</td>
                         <td colspan="2"><?= $order['address']['fulladdress']; ?></td>

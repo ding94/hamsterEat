@@ -66,13 +66,13 @@ Modal::end();
                 <div class="row">
                     <div class="col-xs-3 cart-label">Name:</div>
                     <div class="col-xs-9">
-                        <?= $form->field($deliveryaddress, 'name')->textInput()->label('')?> 
+                        <?= $form->field($deliveryaddress, 'name')->textInput(['value'=>$username])->label('')?> 
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-3 cart-label">Contact No:</div>
                     <div class="col-xs-9">
-                        <?= $form->field($deliveryaddress, 'contactno')->textInput()->label('')?>
+                        <?= $form->field($deliveryaddress, 'contactno')->textInput(['value'=>$contact])->label('')?>
                     </div>
                 </div>
             </div>

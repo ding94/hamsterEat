@@ -20,6 +20,7 @@ use common\models\Restaurant;
 use frontend\assets\NotificationAsset;
 use frontend\assets\UserAsset;
 use common\models\Order\Orders;
+use common\models\Order\Orderitem;
 AppAsset::register($this);
 NotificationAsset::register($this);
 UserAsset::register($this);
@@ -127,6 +128,25 @@ UserAsset::register($this);
         }
         $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">View All</h4>','url' => ['/notification/index']];
+
+        $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
+        $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+        $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">View All</h4>','url' => ['/notification/index']];
+        if (!empty($rmanager)) {
+            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-list-alt">'];
+            $key = array_keys($menuItems);
+            $lvl = Rmanagerlevel::find()->where('User_Username=:u',[':u'=>$rmanager['User_Username']])->all();
+
+            foreach ($lvl as $k => $level) {
+                $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$level['Restaurant_ID']])->one();
+                $orderitem = Orderitem::find()->where('Restaurant_ID=:id',[':id'=>$level['Restaurant_ID']])->joinwith(['food'])->count();
+                if ($orderitem > 0) {
+                    $menuItems[end($key)]['items'][] = ['label'=>$restaurant['Restaurant_Name'].'('.$orderitem.')','url'=>['/Restaurant/restaurant/cooking-detail','rid'=>$level['Restaurant_ID']]];
+                    $menuItems[end($key)]['items'][] = '<li class="divider"></li>'; 
+                }
+            }
+        }
+
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span> ' . Yii::$app->user->identity->username . '', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile'] ,'options'=> ['class'=>'list-user'],],
                         '<li class="divider"></li>',
@@ -135,14 +155,6 @@ UserAsset::register($this);
         if ($rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
             $menuItems[end($keys)]['items'][] =['label' => 'Restaurants ', 'url' => ['/Restaurant/restaurant/restaurant-service'],'linkOptions' => ['data-method' => 'post']];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
-            $lvl = Rmanagerlevel::find()->where('User_Username=:u',[':u'=>$rmanager['User_Username']])->all();
-
-
-            $order = Orders::find()->where(['>=','Orders_DateTimeMade','date("Y-m-d H:i:s")'])->one();
-            if (!empty($order)) {
-                $menuItems[end($keys)]['items'][] =['label' => 'Ordered Foods', 'url' => ['/site/index']];
-                $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
-            }
         }
         if (Deliveryman::find()->where('User_id=:id',[':id'=>Yii::$app->user->identity->id])->one()){
                 $menuItems[end($keys)]['items'][] =['label' => 'Delivery Orders', 'url' => ['/order/deliveryman-orders'],'linkOptions' => ['data-method' => 'post']];

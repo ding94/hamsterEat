@@ -19,6 +19,7 @@ use common\models\user\Useraddress;
 use common\models\Company\Company;
 use common\models\Area;
 use common\models\User;
+use common\models\user\Userdetails;
 use frontend\models\Deliveryman;
 
 class CheckoutController extends CommonController
@@ -66,12 +67,20 @@ class CheckoutController extends CommonController
         
         $company = Company::find()->where('area_group = :group',[':group'=>$area])->all();
         $companymap = ArrayHelper::map($company,'id','name');
-       	
+       	$user = Userdetails::find()->where('User_id=:uid',[':uid'=>Yii::$app->user->identity->id])->one();
+       	$username = "";
+       	$contact = "";
+       	if (!empty($user['User_FirstName']) || !empty($user['User_LastName'])) {
+       		$username = $user['User_FirstName'].' '.$user['User_LastName'];
+       	}
+       	if (!empty($user['User_ContactNo'])) {
+       		$contact = $user['User_ContactNo'];
+       	}
         $order = new Orders;
         $deliveryAddress = new DeliveryAddress;
 		//$address = Useraddress::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->orderBy('level DESC')->all();
 		//$addressmap = ArrayHelper::map($address,'id','address');
-		return $this->render('index',['deliveryaddress'=> $deliveryAddress,'order' =>  $order ,'area' => $area,'code'=>$code,'companymap'=>$companymap]);
+		return $this->render('index',['deliveryaddress'=>$deliveryAddress, 'order'=>$order, 'area'=>$area, 'code'=>$code, 'username'=>$username, 'contact'=>$contact, 'companymap'=>$companymap]);
 	}
 
 	public function actionOrder()

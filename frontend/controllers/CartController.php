@@ -376,7 +376,7 @@ class CartController extends CommonController
         else
         {
             Yii::$app->session->setFlash('success', 'Order Success');
-            $orderitem = Orderitem::find()->joinWith('food')->where('Delivery_ID=:id',[':id'=>$did])->orderBy('Delivery_ID ASC')->all();
+            $orderitem = Orderitem::find()->joinWith('food')->where('Delivery_ID=:id',[':id'=>$did])->orderBy('Order_ID ASC')->all();
             return $this->render('aftercheckout', ['did'=>$did, 'order'=>$order,'orderitem'=>$orderitem ]);
         }
        

@@ -159,7 +159,7 @@ class CheckoutController extends CommonController
 				if($isValid == true)
                 {
                     $transaction->commit();
-                    NotificationController::createNotification($did,3);
+                    NotificationController::createNotification($did,1);
                     CartController::mutipleDelete($cart);
                    	return $this->redirect(['/cart/aftercheckout','did'=>$did]);
                 }

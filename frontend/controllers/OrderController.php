@@ -19,7 +19,9 @@ use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
 use common\models\Rmanagerlevel;
 use common\models\Company\Company;
+use common\models\Profit\RestaurantProfit;
 use frontend\modules\delivery\controllers\DailySignInController;
+use frontend\modules\Restaurant\controllers\ProfitController;
 use common\models\Order\DeliveryAddress;
 
 class OrderController extends CommonController
@@ -345,16 +347,41 @@ class OrderController extends CommonController
 //--This function updates the order's status to completed
     public function actionUpdateCompleted($oid, $did)
     {
-        $sql = "UPDATE orders SET Orders_Status = 'Completed' WHERE Delivery_ID = ".$did."";
+        $order = $this->findOrder($did);
+        
+        
+        $order->Orders_Status = "Completed";
+        $profit = ProfitController::getProfit($order,$did);
+
+        $itemProfit = ProfitController::getItemProfit($did);
+
+        $isValid = $itemProfit == -1 ? false: true;
+
+        $isValid = $profit->validate() && $isValid && $order->validate();
+        
+        if($isValid)
+        {
+            $order->save();
+            $profit->save();
+            foreach($itemProfit as $item)
+            {
+                $item->save();
+            }
+        }
+        
+        NotificationController::createNotification($did,4);
+        return $this->redirect(Yii::$app->request->referrer);
+        //$order->save();
+       /* $sql = "UPDATE orders SET Orders_Status = 'Completed' WHERE Delivery_ID = ".$did."";
         Yii::$app->db->createCommand($sql)->execute();
 
         $time = time();
         $sql3 = "UPDATE ordersstatuschange SET OChange_CompletedDateTime = ".$time." WHERE Delivery_ID = ".$did."";
-        Yii::$app->db->createCommand($sql3)->execute();
-        NotificationController::createNotification($did,4);
+        Yii::$app->db->createCommand($sql3)->execute();*/
+      
 
 //------This calculates the restaurant's earning in the whole order
-        $orderids = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
+       /* $orderids = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
         $thefinalselectionprice = 0;
         $thefinalmoneycollected = 0;
         $thefinalfoodprice = 0;
@@ -385,7 +412,6 @@ class OrderController extends CommonController
         $order->Orders_RestaurantEarnings = $thefinalmoneycollected;
         $order->save();
 
-// This calculates the restaurant's earning per order item
         $orderitems = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
         foreach ($orderitems as $orderitem) :
             $foodselectiontotalprice = 0;
@@ -410,9 +436,9 @@ class OrderController extends CommonController
             $updateorderitem->Restaurant_Share = $orderearnings;
             $updateorderitem->save();
         endforeach;
+*/
 
-
-        return $this->redirect(['deliveryman-orders']);
+      
     }
 
 //--This loads the order history as an invoice in pdf form

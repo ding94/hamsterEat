@@ -53,19 +53,11 @@ Modal::end();
             </div>
             <div class="nav-url">
               <ul id="food-menu-nav" class="nav nav-pills nav-stacked">
-                <?php if ($staff['RmanagerLevel_Level'] == 'Owner'){ ?>
-                    <li role="presentation"><?php echo Html::a("View Earnings",['Restaurant/default/show-monthly-earnings', 'rid'=>$rid],['class'=>'btn-block'])?></li>
-                <?php }
-                    if ($staff['RmanagerLevel_Level'] == 'Owner' || $staff['RmanagerLevel_Level'] == 'Manager') { ?>
-                    <li role="presentation"><?php echo Html::a("Edit Details",['Restaurant/default/edit-restaurant-details', 'rid'=>$rid, 'restArea'=>$restaurant['Restaurant_AreaGroup'], 'areachosen'=>$restaurant['Restaurant_Area'], 'postcodechosen'=>$restaurant['Restaurant_Postcode']],['class'=>'btn-block'])?></li>
-                    <li role="presentation"><?php echo Html::a("Manage Staffs",['Restaurant/default/manage-restaurant-staff', 'rid'=>$rid],['class'=>'btn-block'])?></li>
-                    <li role="presentation"><?php echo Html::a("Restaurants Orders",['/order/restaurant-orders', 'rid'=>$rid],['class'=>'btn-block'])?></li>
-                    <li role="presentation"><?php echo Html::a("Restaurants Orders History",['/order/restaurant-order-history', 'rid'=>$rid],['class'=>'btn-block'])?></li>
-                    <li role="presentation" class="active"><?php echo Html::a("Manage Menu",['/food/menu', 'rid'=>$rid,'page'=>'menu'],['class'=>'btn-block'])?></li>
-                <?php } elseif ($staff['RmanagerLevel_Level'] == 'Operator'){ ?>
-                    <li role="presentation"><?php echo Html::a("Restaurants Orders",['/order/restaurant-orders', 'rid'=>$rid],['class'=>'btn-block'])?></li>
-                    <li role="presentation"><?php echo Html::a("Restaurants Orders History",['/order/restaurant-order-history', 'rid'=>$rid],['class'=>'btn-block'])?></li>
-                <?php } ?>
+                <?php foreach($link as $url=>$name):?>
+                    <li role="presentation" class=<?php echo $name=="Manage Menu" ? "active" :"" ?>>
+                        <a class="btn-block" href=<?php echo $url?>><?php echo $name?></a>
+                    </li>   
+                  <?php endforeach ;?>
               </ul>
             </div>
         </div>

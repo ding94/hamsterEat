@@ -15,6 +15,9 @@ class ProfitController extends CommonController
 {
 	public function actionIndex($rid,$first =0 ,$last =0)
 	{
+		$linkData = CommonController::restaurantPermission($rid);
+        $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
+        
 		if($first == 0 || $last == 0)
 		{
 			$first = date("Y-m-d", strtotime("first day of this month"));
@@ -29,7 +32,7 @@ class ProfitController extends CommonController
 			$data[$item->did][] = $item;
 		}
 		
-		return $this->render('index',['data'=>$data,'first'=>$first,'last'=>$last]);
+		return $this->render('index',['data'=>$data,'first'=>$first,'last'=>$last ,'link'=>$link]);
 		
 	}
 

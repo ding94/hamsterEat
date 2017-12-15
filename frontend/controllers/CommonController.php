@@ -195,7 +195,7 @@ class CommonController extends Controller
                 ];
         switch ($staff) {
             case 'Owner':
-                $data[ Url::to(['/Restaurant/default/show-monthly-earnings','rid'=>$rid])] = 'Views Earnings';
+                $data[ Url::to(['/Restaurant/profit/index','rid'=>$rid])] = 'Views Earnings';
                 $data[Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid,'restArea' => $restArea,'areachosen' => $areachosen])] = 'Edit Details';
                 $data[Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid])] = 'Manage Staffs';
                 $data[Url::to(['/food/menu','rid'=>$rid,'page'=>'menu'])] = 'Manage Menu';

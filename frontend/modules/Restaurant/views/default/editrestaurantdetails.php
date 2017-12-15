@@ -71,19 +71,11 @@ if (!is_null($areachosen))
             </div>
             <div class="nav-url">
                 <ul id="edit-restaurant-details-nav" class="nav nav-pills nav-stacked">
-                <?php if ($staff['RmanagerLevel_Level'] == 'Owner'){ ?>
-                    <li role="presentation"><?php echo Html::a("View Earnings",['show-monthly-earnings', 'rid'=>$restaurantdetails['Restaurant_ID']],['class'=>'btn-block'])?></li>
-                <?php }
-                    if ($staff['RmanagerLevel_Level'] == 'Owner' || $staff['RmanagerLevel_Level'] == 'Manager') { ?>
-                        <li role="presentation" class="active"><?php echo Html::a("Edit Details",['edit-restaurant-details', 'rid'=>$restaurantdetails['Restaurant_ID'], 'restArea'=>$restaurantdetails['Restaurant_AreaGroup'], 'areachosen'=>$restaurantdetails['Restaurant_Area'], 'postcodechosen'=>$restaurantdetails['Restaurant_Postcode']],['class'=>'btn-block'])?></li>
-                        <li role="presentation"><?php echo Html::a("Manage Staffs",['manage-restaurant-staff', 'rid'=>$restaurantdetails['Restaurant_ID']],['class'=>'btn-block'])?></li>
-                        <li role="presentation"><?php echo Html::a("Restaurants Orders",['/order/restaurant-orders', 'rid'=>$restaurantdetails['Restaurant_ID']],['class'=>'btn-block'])?></li>
-                        <li role="presentation"><?php echo Html::a("Restaurants Orders History",['/order/restaurant-order-history', 'rid'=>$restaurantdetails['Restaurant_ID']],['class'=>'btn-block'])?></li>
-                        <li role="presentation"><?php echo Html::a("Manage Menu",['/food/menu', 'rid'=>$restaurantdetails['Restaurant_ID'],'page'=>'menu'],['class'=>'btn-block'])?></li>
-                    <?php } elseif ($staff['RmanagerLevel_Level'] == 'Operator'){ ?>
-                        <li role="presentation"><?php echo Html::a("Restaurants Orders",['/order/restaurant-orders', 'rid'=>$restaurantdetails['Restaurant_ID']],['class'=>'btn-block'])?></li>
-                        <li role="presentation"><?php echo Html::a("Restaurants Orders History",['/order/restaurant-order-history', 'rid'=>$restaurantdetails['Restaurant_ID']],['class'=>'btn-block'])?></li>
-                    <?php } ?>
+                    <?php foreach($link as $url=>$name):?>
+                        <li role="presentation" class=<?php echo $name=="Edit Details" ? "active" :"" ?>>
+                            <a class="btn-block" href=<?php echo $url?>><?php echo $name?></a>
+                        </li>   
+                    <?php endforeach ;?>
                 </ul>
             </div>
         </div>

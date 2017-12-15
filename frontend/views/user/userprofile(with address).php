@@ -72,6 +72,50 @@ UserAsset::register($this);
                 <div class="userprofile-text"><?php echo $user->balance->User_Balance?></div>
               </div>
           </div>
+
+          <div class="userprofile-address">
+            <?php $count = count($user->address)?>
+            <?php echo $count < 3 ? Html::a("Add New Address",['/user/newaddress'],['class' => 'raised-btn main-btn add-new-address-btn','data-toggle'=>'modal','data-target'=>'#address-modal']) : ""?>
+        
+              <?php if(empty($user->address)) :?>
+                  <h4>Empty Address</h4>
+              <?php else : ?>
+              <table class="table table-hover my-address">
+                <thead>
+                  <tr>
+                    <th style="width: 5%">#</th>
+                    <th style="width: 20%">Primary</th>
+                    <th style="width: 65%">Address</th>
+                    <th style="width: 10%">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach($user->address as $i=>$address):?>
+                    <tr>
+                      <td><?php echo $i+1?></td>
+                      <td><?php echo $address->level == 1 ? '<span class="primary">Primary</span>': Html::a('<i class="fa fa-check"></i> Mark as Primary',['/user/primary-address','id' => $address->id],['class'=>'btn btn-block primary-btn'])?></td>
+                      <td>
+                        <?php echo $address->FullAddress?>
+                        <br><br>
+                        <strong>Name: </strong><?= $address['recipient']; ?>
+                        <br>
+                        <strong>Contact No: </strong><?= $address['contactno']; ?></td>
+                      <td>
+                        <div class="row address-button">
+                          <div class="col-xs-6">
+                            <?php echo Html::a("<span class='glyphicon glyphicon-pencil userprofile-pencil' title='edit'></span>",['/user/edit-address','id'=> $address->id],['data-toggle'=>'modal','data-target'=>'#edit-address-modal'])?>
+                          </div>
+                          <div class="col-xs-6">
+                            <?php echo Html::a("<span class='glyphicon glyphicon-trash userprofile-trash' title='delete'></span>",['/user/delete-address','id'=> $address->id] ,['data' => ['confirm' => 'Are You Sure Want to Delete Address','method' => 'post']] )?>    
+                          </div>
+                        </div>        
+                      </td>
+                    </tr>
+                  <?php endforeach;?>
+                </tbody>
+              </table>
+              <?php endif;?>
+          </div>
         </div>
       </div>
     </div>

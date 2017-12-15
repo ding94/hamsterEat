@@ -45,7 +45,7 @@ class DefaultController extends CommonController
                  'rules' => [
                      [
                          'actions' => ['new-restaurant-location','new-restaurant-details','new-restaurant','edit-restaurant-details','edit-restaurant-area','edited-location-details','edit-restaurant-details2','manage-restaurant-staff','delete-restaurant-staff','add-staff',
-                         'view-restaurant', 'all-rmanagers', 'show-monthly-earnings','get-area'],
+                         'view-restaurant', 'all-rmanagers','get-area'],
                          'allow' => true,
                          'roles' => ['restaurant manager'],
  
@@ -571,104 +571,6 @@ class DefaultController extends CommonController
             return false;
         }
         return true;
-    }
-
-//--This shows the restaurant's monthly earnings
-    public function actionShowMonthlyEarnings($rid)
-    {
-        $restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid' => $rid])->one();
-        $restaurantname = $restaurant['Restaurant_Name'];
-        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
-        $linkData = CommonController::restaurantPermission($rid);
-        $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
-        $currentmonth = date('F');
-        $currentmonthnum = date('n');
-        $currentyear = date('Y');
-        $selected = new MonthlyUnix();
-        // var_dump($currentmonth);exit;
-        $months = ArrayHelper::map(MonthlyUnix::find()->select('*')->distinct()->all(),'Month', 'Month');
-        $year = ArrayHelper::map(MonthlyUnix::find()->select('*')->distinct()->all(),'Year', 'Year');
-
-//------This filters the restaurant's earnings based on chosen month
-        if($selected->load(Yii::$app->request->post()))
-        {
-            $selectedmonth = $selected->Month;
-            $selectedyear = $selected->Year;
-
-            $filter = MonthlyUnix::find()->where('Month = :m and Year = :y', [':m'=>$selectedmonth, ':y'=>$selectedyear])->one();
-            $startunix = $filter['FirstDay'];
-            $endunix = $filter['LastDay'];
-
-            $search = "SELECT Delivery_ID from ordersstatuschange WHERE OChange_CompletedDateTime BETWEEN ".$startunix." AND ".$endunix."";
-            $search = Yii::$app->db->createCommand($search)->queryAll();
-
-            $totalearnings = 0;
-            $thefinaltotalearnings = 0;
-            foreach ($search as $search) :
-                $deliveryid = $search['Delivery_ID'];
-                $earnhere = 0;
-                $moneh = "SELECT orderitem.Restaurant_Share,orderitem.Order_ID FROM orderitem INNER JOIN orders on orders.Delivery_ID = orderitem.Delivery_ID INNER JOIN food on food.Food_ID = orderitem.Food_ID INNER JOIN restaurant on restaurant.Restaurant_ID = food.Restaurant_ID WHERE restaurant.Restaurant_ID = ".$rid." AND  orders.Delivery_ID = ".$deliveryid."";
-                $moneh = Yii::$app->db->createCommand($moneh)->queryAll();
-
-                if (empty($moneh))
-                {
-                    $earnings = 0;
-                }
-                else
-                {
-                    foreach ($moneh as $money) :
-                        $earnings = $money['Restaurant_Share'];
-                        $earnhere = $earnings + $earnhere;
-                    endforeach;
-                }
-
-                $totalearnings = $totalearnings + $earnhere;
-
-            endforeach;
-
-            $thefinaltotalearnings = $totalearnings + $thefinaltotalearnings;
-            $mode = 2;
-
-            return $this->render('restaurantearnings', ['rid'=>$rid , 'restaurant'=>$restaurant, 'restaurantname'=>$restaurantname, 'months'=>$months, 'selected'=>$selected, 'year'=>$year, 'currentmonth'=>$currentmonth, 'currentyear'=>$currentyear, 'currentmonthnum'=>$currentmonthnum, 'totalearnings'=>$thefinaltotalearnings, 'mode'=>$mode, 'selectedmonth'=>$selectedmonth, 'selectedyear'=>$selectedyear, 'staff'=>$staff,'link'=>$link]);
-        }
-        
-        $mode = 1;
-
-        $thismonth = MonthlyUnix::find()->where('Month = :m and Year = :y', [':m'=>$currentmonth, ':y'=>$currentyear])->one();
-
-        $getorders = "SELECT Delivery_ID FROM ordersstatuschange WHERE OChange_CompletedDateTime BETWEEN ".$thismonth['FirstDay']." AND ".$thismonth['LastDay']."";
-        $search = Yii::$app->db->createCommand($getorders)->queryAll();
-
-        $totalearnings = 0;
-        $thefinaltotalearnings = 0;
-
-        foreach ($search as $search) :
-            $deliveryid = $search['Delivery_ID'];
-
-            $moneh = "SELECT orderitem.Restaurant_Share,orderitem.Order_ID FROM orderitem INNER JOIN orders on orders.Delivery_ID = orderitem.Delivery_ID INNER JOIN food on food.Food_ID = orderitem.Food_ID INNER JOIN restaurant on restaurant.Restaurant_ID = food.Restaurant_ID WHERE restaurant.Restaurant_ID = ".$rid." AND  orders.Delivery_ID = ".$deliveryid."";
-            $moneh = Yii::$app->db->createCommand($moneh)->queryAll();
-            $earnhere = 0;
-            if (empty($moneh))
-            {
-                $earnings = 0;
-            }
-            else
-            {
-                foreach ($moneh as $money) :
-                    $earnings = $money['Restaurant_Share'];
-                    $earnhere = $earnings + $earnhere;
-                endforeach;
-            }
-
-            $totalearnings = $totalearnings + $earnhere;
-
-        endforeach;
-
-        $thefinaltotalearnings = $totalearnings + $thefinaltotalearnings;
-      
-
-        
-        return $this->render('restaurantearnings', ['rid'=>$rid , 'restaurant'=>$restaurant, 'restaurantname'=>$restaurantname, 'months'=>$months, 'selected'=>$selected, 'year'=>$year, 'currentmonth'=>$currentmonth, 'currentyear'=>$currentyear, 'currentmonthnum'=>$currentmonthnum, 'totalearnings'=>$thefinaltotalearnings, 'mode'=>$mode, 'staff'=>$staff,'link'=>$link]);
     }
 
     public function actionChangecookie($type)

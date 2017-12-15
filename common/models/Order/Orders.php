@@ -68,6 +68,11 @@ class Orders extends \yii\db\ActiveRecord
                 $status->OChange_OnTheWayDateTime = time();
                 $status->save();
                 break;
+            case 'Completed':
+                $status = Ordersstatuschange::findOne($this->Delivery_ID);
+                $status->OChange_CompletedDateTime = time();
+                $status->save();
+                break;
             default:
                 # code...
                 break;

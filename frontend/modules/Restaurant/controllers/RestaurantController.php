@@ -277,7 +277,7 @@ class RestaurantController extends CommonController
             {
                 $companyName = Company::findOne($single->address->cid)->name;
                 $foodName = $single->food->Name;
-                $empty = json_encode(['empty'=>'']);
+                $empty = json_encode(['empty'=>'N/A']);
 
                 $selectionName = empty(Json::decode($single->trim_selection)) ? $empty : $single->trim_selection;
                

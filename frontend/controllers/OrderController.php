@@ -19,7 +19,9 @@ use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
 use common\models\Rmanagerlevel;
 use common\models\Company\Company;
+use common\models\Profit\RestaurantProfit;
 use frontend\modules\delivery\controllers\DailySignInController;
+use frontend\modules\Restaurant\controllers\ProfitController;
 use common\models\Order\DeliveryAddress;
 
 class OrderController extends CommonController
@@ -345,74 +347,30 @@ class OrderController extends CommonController
 //--This function updates the order's status to completed
     public function actionUpdateCompleted($oid, $did)
     {
-        $sql = "UPDATE orders SET Orders_Status = 'Completed' WHERE Delivery_ID = ".$did."";
-        Yii::$app->db->createCommand($sql)->execute();
+        $order = $this->findOrder($did);
+        
+        
+        $order->Orders_Status = "Completed";
+        $profit = ProfitController::getProfit($order,$did);
 
-        $time = time();
-        $sql3 = "UPDATE ordersstatuschange SET OChange_CompletedDateTime = ".$time." WHERE Delivery_ID = ".$did."";
-        Yii::$app->db->createCommand($sql3)->execute();
+        $itemProfit = ProfitController::getItemProfit($did);
+
+        $isValid = $itemProfit == -1 ? false: true;
+
+        $isValid = $profit->validate() && $isValid && $order->validate();
+        
+        if($isValid)
+        {
+            $order->save();
+            $profit->save();
+            foreach($itemProfit as $item)
+            {
+                $item->save();
+            }
+        }
+        
         NotificationController::createNotification($did,4);
-
-//------This calculates the restaurant's earning in the whole order
-        $orderids = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
-        $thefinalselectionprice = 0;
-        $thefinalmoneycollected = 0;
-        $thefinalfoodprice = 0;
-        foreach ($orderids as $orderids) :
-            $thequantity = $orderids['OrderItem_Quantity'];
-            $theorderid = $orderids['Order_ID'];
-            $thefoodid = $orderids['Food_ID'];
-
-            $thefoodprice = Food::find()->where('Food_ID = :fid', [':fid' => $thefoodid])->one();
-            $thefoodprice = $thefoodprice['BeforeMarkedUp'];
-
-            $selectionids = Orderitemselection::find()->where('Order_ID = :oid', [':oid' => $theorderid])->all();
-            foreach ($selectionids as $selectionids) :
-                $theselectionid = $selectionids['Selection_ID'];
-
-                $theselectionprice = Foodselection::find()->where('ID = :sid', [':sid' => $theselectionid])->one();
-                $theselectionprice = $theselectionprice['BeforeMarkedUp'];
-                
-                $thefinalselectionprice = $thefinalselectionprice + $theselectionprice;
-            endforeach;
-            
-            $thefinalfoodprice = $thefinalfoodprice + $thefoodprice;
-            $themoneycollected = ($thefinalfoodprice + $thefinalselectionprice) * $thequantity;
-        endforeach;
-        $thefinalmoneycollected = $thefinalmoneycollected + $themoneycollected;
-
-        $order = Orders::find()->where('Delivery_ID = :did', [':did' => $did])->one();
-        $order->Orders_RestaurantEarnings = $thefinalmoneycollected;
-        $order->save();
-
-// This calculates the restaurant's earning per order item
-        $orderitems = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
-        foreach ($orderitems as $orderitem) :
-            $foodselectiontotalprice = 0;
-            $foodbeforemarkedup = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitem['Food_ID']])->one();
-            $foodbeforemarkedup = $foodbeforemarkedup['BeforeMarkedUp'];
-
-            $selectionz = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$orderitem['Order_ID']])->all();
-            foreach ($selectionz as $selectionz) :
-                $selectionnamez = Foodselection::find()->where('ID =:sid',[':sid'=>$selectionz['Selection_ID']])->one();
-                if (!is_null($selectionnamez['ID']))
-                {
-                    $foodselectionprice = $selectionnamez['BeforeMarkedUp'];
-                    $foodselectiontotalprice = $foodselectiontotalprice + $foodselectionprice;
-                }
-            endforeach;
-            $foodprice = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitem['Food_ID']])->one();
-            $foodprice = $foodprice['BeforeMarkedUp'];
-            $orderquantity = $orderitem['OrderItem_Quantity'];
-            $orderearnings = ($foodprice + $foodselectiontotalprice) * $orderquantity;
-
-            $updateorderitem = Orderitem::find()->where('Order_ID = :oid', [':oid'=>$orderitem['Order_ID']])->one();
-            $updateorderitem->Restaurant_Share = $orderearnings;
-            $updateorderitem->save();
-        endforeach;
-
-
-        return $this->redirect(['deliveryman-orders']);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
 //--This loads the order history as an invoice in pdf form

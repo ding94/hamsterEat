@@ -94,8 +94,9 @@ class CheckoutController extends CommonController
 			return $this->redirect(Yii::$app->request->referrer);
 		}
 		$address = $deliveyaddress['data'];
-		$deliveryman = CartController::assignDeliveryMan($post['area']);
-		
+
+		$deliveryman = CartController::assignDeliveryMan($post['area'],$post['DeliveryAddress']['cid']);
+
 		if($deliveryman == -1   )
 		{
 			return $this->redirect(Yii::$app->request->referrer);
@@ -158,7 +159,7 @@ class CheckoutController extends CommonController
 				if($isValid == true)
                 {
                     $transaction->commit();
-                    NotificationController::createNotification($did,3);
+                    NotificationController::createNotification($did,1);
                     CartController::mutipleDelete($cart);
                    	return $this->redirect(['/cart/aftercheckout','did'=>$did]);
                 }

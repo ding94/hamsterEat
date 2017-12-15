@@ -37,9 +37,11 @@ CheckoutAsset::register($this);
                         <td>Order ID:</td>
                         <?php foreach ($orderitem as $key => $oid): ?>
                                 <?php if($key > 0 ): ?>
-                                    <td></td>
+                                    <tr><td><?= $oid['Order_ID']; ?></td></tr>
+                                <?php else : ?>
+                                    <td><?= $oid['Order_ID']; ?></td>
                                 <?php endif; ?>
-                                <td><?= $oid['Order_ID']; ?></td>
+                                
                         <?php endforeach; ?>
                     <tr>
                         <td>Delivery Location:</td>

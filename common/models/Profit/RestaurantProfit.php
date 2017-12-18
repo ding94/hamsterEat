@@ -69,4 +69,9 @@ class RestaurantProfit extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
+    public function getItemProfit()
+    {
+        return $this->hasMany(RestaurantItemProfit::className(),['did'=>'did']);
+    }
 }

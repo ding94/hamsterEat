@@ -18,7 +18,8 @@ class FoodMenuAsset extends AssetBundle
         'css/button.css',
     ];
     public $js = [
-        // 'js/cart.js',
+        'js/add-modal.js',
+        'js/cart.js',
 		'js/scrolltop.js',
     ];
     public $depends = [

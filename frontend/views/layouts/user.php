@@ -42,7 +42,6 @@ UserAsset::register($this);
                     z-index:5000;',
    ],]);?>
     <?= Html::csrfMetaTags() ?>
-    <!--<link rel="stylesheet" href="\frontend\web\css\font-awesome.min.css">-->
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
@@ -68,11 +67,6 @@ UserAsset::register($this);
             'id' => 'uppernavbar'
         ],
     ]);
-    $menuItems = [
-    //    ['label' => 'About', 'url' => ['/site/about']],
-      //  ['label' => 'Guide', 'url' => ['/site/faq']],
-        //   ['label' => '<span class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
-    ];
     
     if (Yii::$app->user->isGuest) {
           $menuItems[] = ['label' => '<span id ="cart1" class="glyphicon glyphicon-shopping-cart"></span> ', 'url' => ['/cart/view-cart']];
@@ -83,16 +77,6 @@ UserAsset::register($this);
 
      else {
           $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']];
-        /*if (Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
-            $restaurant = Restaurant::find()->where('Restaurant_Manager=:rm',[':rm'=>Yii::$app->user->identity->username])->all();
-            $menuItems[] = ['label' => '<span class="glyphicon glyphicon-home"></span> Restaurants',
-
-            ];
-            foreach ($restaurant as $k => $each) {
-            $menuItems[2]['items'][$k] = ['label' => $each['Restaurant_Name'],'url' => ['/Restaurant/default/restaurant-details','rid'=>$each['Restaurant_ID']]];
-            $menuItems[2]['items'][$k+count($restaurant)] = '<li class="divider"></li>';
-            }
-        }*/
        
         $menuItems[] = ['label' => '<span class=""> <i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>'];
         $keys = array_keys($menuItems);
@@ -139,11 +123,17 @@ UserAsset::register($this);
 
             foreach ($lvl as $k => $level) {
                 $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$level['Restaurant_ID']])->one();
-                $orderitem = Orderitem::find()->where('Restaurant_ID=:id',[':id'=>$level['Restaurant_ID']])->joinwith(['food'])->count();
+                $orderitem = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$level['Restaurant_ID'],':s'=>'Pending'])->joinwith(['food'])->count();
+                $count = 0;
                 if ($orderitem > 0) {
                     $menuItems[end($key)]['items'][] = ['label'=>$restaurant['Restaurant_Name'].'('.$orderitem.')','url'=>['/Restaurant/restaurant/cooking-detail','rid'=>$level['Restaurant_ID']]];
-                    $menuItems[end($key)]['items'][] = '<li class="divider"></li>'; 
+                    $menuItems[end($key)]['items'][] = '<li class="divider"></li>';
                 }
+                $count += $orderitem;
+            }
+            if ($count <= 0){
+                $menuItems[end($key)]['items'][] = ['label'=>'Empty Orders'];
+                $menuItems[end($key)]['items'][] = '<li class="divider"></li>';
             }
         }
 
@@ -166,18 +156,6 @@ UserAsset::register($this);
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }*/
         $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']];
-
-       // $menuItems[] = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];
-     
-        // $menuItems[] = '<li>'
-        //     . Html::beginForm(['/site/logout'], 'post')
-        //     . Html::submitButton(
-        //         'Logout (' . Yii::$app->user->identity->username . ')',
-        //         ['class' => 'btn btn-link logout']
-        //     )
-        //     . Html::endForm()
-        //     . '</li>';
-        //     ['label' => 'My Profile', 'url' => ['/user/user-profile']];
             
     }
      

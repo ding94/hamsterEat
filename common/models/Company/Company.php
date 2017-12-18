@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
 use yii\behaviors\TimestampBehavior;
+use common\models\DeliverymanCompany;
 
 /**
  * This is the model class for table "company".
@@ -85,6 +86,7 @@ class Company extends \yii\db\ActiveRecord
     {
 
         $query = self::find();
+        $query = $query->joinWith('deliverymancompany');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -100,5 +102,10 @@ class Company extends \yii\db\ActiveRecord
     public function getEmployee()
     {
         return $this->hasOne(CompanyEmployees::className(),['cid' => 'id']);
+    }
+
+    public function getDeliverymancompany()
+    {
+        return $this->hasOne(DeliverymanCompany::className(),['cid'=>'id']);
     }
 }

@@ -103,6 +103,7 @@ class FoodController extends CommonController
 //--This function runs when user creates a new food
     public function actionInsertFood($rid)
     {
+        CommonController::restaurantPermission($rid);
         $food = new Food();
         $food->scenario = "new"; 
         $foodtype = [new Foodselectiontype()];
@@ -168,6 +169,8 @@ class FoodController extends CommonController
 //---This function is for loading the restaurant's menu
      public function actionMenu($rid,$page)
      {
+        $linkData = CommonController::restaurantPermission($rid);
+        $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
         $menu = Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid]);
         $count = count(Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->all());
         // var_dump($count);exit;
@@ -181,8 +184,6 @@ class FoodController extends CommonController
         $rname = $restaurant['Restaurant_Name'];
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
         
-        $linkData = CommonController::restaurantPermission($rid);
-        $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
         return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'rname'=>$rname, 'restaurant'=>$restaurant,'staff'=>$staff, 'pagination'=>$pagination,'link'=>$link]);
      }
 
@@ -223,9 +224,10 @@ class FoodController extends CommonController
 //--This function runs when a food's details are edited
     public function actionEditFood($id)
     {
-
+       
         $food = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
         $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$food['Restaurant_ID']])->one();
+
         if (!empty($restaurant)) {
             if ($user = User::find()->where('username=:u',[':u'=>$restaurant['Restaurant_Manager']])->one()) {
                 $user = $user['id'];
@@ -235,7 +237,7 @@ class FoodController extends CommonController
                 }
             }
         }
-
+        CommonController::restaurantPermission($restaurant->Restaurant_ID);
         $chosen = ArrayHelper::map($food['foodType'],'ID','ID');
         $type = ArrayHelper::map(FoodType::find()->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
       

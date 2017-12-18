@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use common\models\User;
 
 /**
  * This is the model class for table "deliveryman".
@@ -57,5 +58,10 @@ class Deliveryman extends \yii\db\ActiveRecord
             'DeliveryMan_DateTimeApplied' => 'Delivery Man  Date Time Applied',
             'DeliveryMan_DateTimeApproved' => 'Delivery Man  Date Time Approved',
         ];
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(),['id' => 'User_id']);
     }
 }

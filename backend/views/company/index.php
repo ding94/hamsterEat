@@ -21,6 +21,15 @@ $this->params['breadcrumbs'][] = $this->title;
     
 Modal::end() ?>
 
+<?php Modal::begin([
+            'header' => '<h2 class="modal-title">Assign Deliveryman</h2>',
+            'id'     => 'add-rider',
+            'size'   => 'modal-md',
+            //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    
+Modal::end() ?>
+
 <?= Html::a('Register new Company', ['/company/register'], ['class'=>'btn btn-success']);?>
 
 
@@ -44,6 +53,23 @@ Modal::end() ?>
             [
                 'attribute' => 'location',
                 'value' => function ($model){ return $model['address'].', '.$model['postcode'].', '.$model['area'];},
+            ],
+
+            [
+                'attribute' => 'deliverymancompany.uid',
+                'label' => 'Deliveryman',
+                'value' => function($model){return User::find()->where('id=:id',[':id'=>$model['deliverymancompany']['uid']])->one()->username;},
+            ],
+
+            ['class' => 'yii\grid\ActionColumn' ,
+                'header'=>'Assign Deliveryman' ,
+                'template'=>' {addrider}',
+                'buttons' => [
+                    'addrider' => function($url,$model)
+                    {
+                        return  Html::a(FA::icon('plus 2x') , Url::to(['/company/add-rider', 'id'=>$model['id']]) , ['title' => 'Assign Deliveryman','data-toggle'=>'modal','data-target'=>'#add-rider']);
+                    },
+                ],
             ],
 
             ['class' => 'yii\grid\ActionColumn' , 

@@ -10,6 +10,8 @@ use common\models\Area;
 use common\models\User;
 use common\models\Company\Company;
 use common\models\Company\CompanyEmployees;
+use frontend\models\Deliveryman;
+use common\models\DeliverymanCompany;
 use yii\web\UploadedFile;
 use common\models\Object;
 
@@ -121,6 +123,28 @@ class CompanyController extends Controller
         }
 
         return $this->renderAjax('register',['company'=>$company, 'postcode'=>$postcode]);
+    }
+
+    public function actionAddRider($id)
+    {
+        $deliveryman = ArrayHelper::map(Deliveryman::find()->joinWith('user')->all(),'User_id','user.username');
+        $company = DeliverymanCompany::find()->where('cid=:cid',[':cid'=>$id])->one();
+        if (empty($company)) {
+            $company = new DeliverymanCompany();
+        }
+        if(Yii::$app->request->post()){
+            $company->load(Yii::$app->request->post());
+            $company->cid = $id;
+            if ($company->validate()) {
+                Yii::$app->session->setFlash('success','Success!');
+                $company->save();
+            } else{
+                Yii::$app->session->setFlash('error','Assign Fail!');
+                return $this->redirect(['/company/index']);
+            }
+            return $this->redirect(['/company/index']);
+        }
+        return $this->renderAjax('add-rider',['company'=>$company,'deliveryman'=>$deliveryman]);
     }
 
     public function actionOperate($id)

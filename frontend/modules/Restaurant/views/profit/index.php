@@ -4,6 +4,7 @@ use frontend\controllers\CartController;
 use yii\helpers\Html;
 use kartik\date\DatePicker;
 use kartik\widgets\ActiveForm;
+use yii\widgets\LinkPager;
 use kartik\widgets\Select2;
 use frontend\assets\CookingAsset;
 use frontend\assets\RestaurantEarningsAsset;
@@ -75,7 +76,7 @@ RestaurantEarningsAsset::register($this);
 			</div>
 			<?php ActiveForm::end(); ?> 
 			<br>
-			<?php foreach($data as $did => $delivery):?>
+			<?php foreach($data as $delivery):?>
 				
 				<table class="table table-bordered">
 					<thead>
@@ -91,11 +92,11 @@ RestaurantEarningsAsset::register($this);
 					</thead>
 					<tbody>
 						<?php 
-							$rowspan = count($delivery);
+							$rowspan = count($delivery->itemProfit);
 							$sumprice = 0;
 							$sumfinal = 0;
 						?>
-						<?php foreach($delivery as $i=>$order):?>
+						<?php foreach($delivery->itemProfit as $i=>$order):?>
 						<tr>
 							<?php
 								$original = $order->original;
@@ -107,7 +108,7 @@ RestaurantEarningsAsset::register($this);
 								$sumfinal += $sellprice;
 							?>
 							<?php if($i == 0): ?>
-								<td rowspan=<?php echo $rowspan?>><?php echo $did?></td>
+								<td rowspan=<?php echo $rowspan?>><?php echo $delivery->did?></td>
 							<?php endif ;?>
 							<td><?php echo $order->oid?></td>
 							<td><?php echo $original?></td>
@@ -127,5 +128,8 @@ RestaurantEarningsAsset::register($this);
 				</table>
 			<?php endforeach ;?>
 		</div>
+		<?php echo LinkPager::widget([
+		    'pagination' => $pages,
+		]);?>
 	</div>			
 </div>

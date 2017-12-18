@@ -4,6 +4,7 @@ namespace frontend\modules\Restaurant\controllers;
 use yii;
 use yii\web\Controller;
 use yii\helpers\Json;
+use yii\data\Pagination;
 use frontend\controllers\CommonController;
 use common\models\Profit\RestaurantItemProfit;
 use common\models\Profit\RestaurantProfit;
@@ -25,14 +26,17 @@ class ProfitController extends CommonController
 			$last = date("Y-m-d", strtotime("last day of this month"));
 		}
 		
-	
-		$itemProfit = RestaurantItemProfit::find()->where('rid = :rid',[':rid'=>$rid])->andWhere(['between','created_at',strtotime($first),strtotime($last)])->all();
-		$data = [];
-		foreach ($itemProfit as $key => $item) {
-			$data[$item->did][] = $item;
-		}
-		
-		return $this->render('index',['data'=>$data,'first'=>$first,'last'=>$last ,'link'=>$link]);
+		$itemProfit = RestaurantProfit::find()->distinct()->where(['between','restaurant_profit.created_at',strtotime($first),strtotime($last)])->joinWith(['itemProfit'=>function($query) use ($rid){
+			return $query->where('rid = :rid',[':rid'=>$rid]);
+		}]);
+
+		$countQuery = clone $itemProfit;
+    	$pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize' => 5]);
+    	$data = $itemProfit->offset($pages->offset)
+        ->limit($pages->limit)
+        ->all();
+
+		return $this->render('index',['data'=>$data,'pages' => $pages,'first'=>$first,'last'=>$last ,'link'=>$link]);
 		
 	}
 

@@ -138,10 +138,10 @@ NotificationAsset::register($this);
             $key = array_keys($menuItems);
             $lvl = Rmanagerlevel::find()->where('User_Username=:u',[':u'=>$rmanager['User_Username']])->all();
 
+            $count = 0;
             foreach ($lvl as $k => $level) {
                 $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$level['Restaurant_ID']])->one();
                 $orderitem = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$level['Restaurant_ID'],':s'=>'Pending'])->joinwith(['food'])->count();
-                $count = 0;
                 if ($orderitem > 0) {
                     $menuItems[end($key)]['items'][] = ['label'=>$restaurant['Restaurant_Name'].'('.$orderitem.')','url'=>['/Restaurant/restaurant/cooking-detail','rid'=>$level['Restaurant_ID']]];
                     $menuItems[end($key)]['items'][] = '<li class="divider"></li>';

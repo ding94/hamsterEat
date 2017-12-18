@@ -12,21 +12,27 @@ RestaurantServiceAsset::register($this);
 <div class ="container" ><h1>Manage Owned Restaurants <?= Html::a('Add Restaurant', ['/Restaurant/default/new-restaurant-location'], ['class'=>'raised-btn main-btn']) ?></h1> 
  <div class="outer-container" id="outer" >
     <div class="menu-container" id="menucon">
-      <?php foreach($restaurant as $k => $res ){?>
+      <?php if(!empty($restaurats)): ?>
+      <?php foreach($restaurants as $k => $restaurant ){?>
       <div class="outer-item">
-      <a href=" <?php echo yii\helpers\Url::to(['/Restaurant/default/restaurant-details','rid'=>$res['Restaurant_ID']]); ?> ">
-      <div class="item-no-border">
-        <div class="img"><?php echo Html::img('@web/imageLocation/'.$res['Restaurant_RestaurantPicPath']) ?></div>
-        <div class="inner-item">
-          <span class="restaurant-name"><?php echo $res['Restaurant_Name']; ?></span>
+        <a href=" <?php echo yii\helpers\Url::to(['/Restaurant/default/restaurant-details','rid'=>$restaurant['Restaurant_ID']]); ?> ">
+          <div class="item-no-border">
+            <div class="img"><?php echo Html::img('@web/imageLocation/'.$restaurant['Restaurant_RestaurantPicPath']) ?></div>
+            <div class="inner-item">
+              <span class="restaurant-name"><?php echo $restaurant['Restaurant_Name']; ?></span>
 
-          <p><?php echo $res['Restaurant_UnitNo'].','.$res['Restaurant_Street'].','.$res['Restaurant_Area'].', '.$res['Restaurant_Postcode'] ?></p>
-    	</div>
-		    <span class="small-text pull-right stars" alt="<?php echo $res['Restaurant_Rating']; ?>"><?php echo $res['Restaurant_Rating']; ?></span>  	
-      </div>
-  		</a>
+              <p><?php echo $restaurant['Restaurant_UnitNo'].','.$restaurant['Restaurant_Street'].','.$restaurant['Restaurant_Area'].', '.$restaurant['Restaurant_Postcode'] ?></p>
+            </div>
+    		    <span class="small-text pull-right stars" alt="<?php echo $restaurant['Restaurant_Rating']; ?>"><?php echo $restaurant['Restaurant_Rating']; ?></span>  	
+          </div>
+    		</a>
       </div>
       <?php } ?>
+    <?php else : ?>
+      <div class="outer-item">
+       <p>There is no restaurant assgined for you</p>
+      </div>
+    <?php endif; ?>
     </div>
 	</div>
 </div>

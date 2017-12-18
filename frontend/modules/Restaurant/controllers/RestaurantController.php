@@ -7,6 +7,7 @@ use yii\web\Controller;
 use backend\models\RestaurantSearch;
 use common\models\Restaurant;
 use common\models\Rmanager;
+use common\models\Rmanagerlevel;
 use common\models\Order\Orders;
 use common\models\Order\Orderitem;
 use common\models\Account\Accountbalance;
@@ -50,13 +51,18 @@ class RestaurantController extends CommonController
 
     public function actionRestaurantService()
     {
-        $rightperson = Rmanager::find()->where('uid=:id',[':id' => Yii::$app->user->identity->id])->one();
-        if ($rightperson) {
-            $restaurant = Restaurant::find()->where('Restaurant_Manager=:r',[':r' => Yii::$app->user->identity->username])->all();
-           
-            return $this->render('restaurantservice',['restaurant'=>$restaurant]);
+        //$rightperson = Rmanager::find()->where('uid=:id',[':id' => Yii::$app->user->identity->id])->one();
+        $staffs = Rmanagerlevel::find()->where('User_Username=:u',[':u' => Yii::$app->user->identity->username])->all();
+        if ($staffs) {
+            foreach ($staffs as $k => $staff) {
+                $restaurants[$k] = Restaurant::find()->where('Restaurant_ID=:r',[':r' => $staff['Restaurant_ID']])->one();
+            }
+            return $this->render('restaurantservice',['restaurants'=>$restaurants]);
         }
-
+        elseif($rmanager = Rmanager::find()->where('uid=:u',[':u'=>Yii::$app->user->identity->id])->one())
+            {
+                return $this->render('restaurantservice',['restaurants'=>""]);
+            }
         Yii::$app->session->setFlash('warning', "You Are Not The Right Person In This Page!");
         return $this->redirect(Yii::$app->request->referrer); 
     }

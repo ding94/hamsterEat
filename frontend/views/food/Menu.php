@@ -24,7 +24,6 @@ Modal::begin([
 ]);
 Modal::end();
 ?>
- <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <div id="food-menu-container" class="container">
     <div class="food-menu-header">
         <div class="food-menu-header-title"><?= Html::encode($this->title) ?></div>

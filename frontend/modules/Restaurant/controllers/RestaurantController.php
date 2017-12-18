@@ -59,10 +59,12 @@ class RestaurantController extends CommonController
             }
             return $this->render('restaurantservice',['restaurants'=>$restaurants]);
         }
-        elseif($rmanager = Rmanager::find()->where('uid=:u',[':u'=>Yii::$app->user->identity->id])->one())
-            {
+        elseif(empty($staffs))
+        {
+            if ($rmanager = Rmanager::find()->where('uid=:u',[':u'=>Yii::$app->user->identity->id])->one()) {
                 return $this->render('restaurantservice',['restaurants'=>""]);
             }
+        }
         Yii::$app->session->setFlash('warning', "You Are Not The Right Person In This Page!");
         return $this->redirect(Yii::$app->request->referrer); 
     }

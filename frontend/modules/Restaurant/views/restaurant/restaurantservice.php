@@ -12,10 +12,10 @@ RestaurantServiceAsset::register($this);
 <div class ="container" ><h1>Manage Owned Restaurants <?= Html::a('Add Restaurant', ['/Restaurant/default/new-restaurant-location'], ['class'=>'raised-btn main-btn']) ?></h1> 
  <div class="outer-container" id="outer" >
     <div class="menu-container" id="menucon">
-      <?php if(!empty($restaurats)): ?>
+      <?php if(!empty($restaurants)): ?>
       <?php foreach($restaurants as $k => $restaurant ){?>
       <div class="outer-item">
-        <a href=" <?php echo yii\helpers\Url::to(['/Restaurant/default/restaurant-details','rid'=>$restaurant['Restaurant_ID']]); ?> ">
+        <a href=" <?php echo yii\helpers\Url::to(['/order/restaurant-order-history','rid'=>$restaurant['Restaurant_ID']]); ?> ">
           <div class="item-no-border">
             <div class="img"><?php echo Html::img('@web/imageLocation/'.$restaurant['Restaurant_RestaurantPicPath']) ?></div>
             <div class="inner-item">

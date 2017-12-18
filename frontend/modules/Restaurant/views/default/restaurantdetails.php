@@ -65,16 +65,6 @@ RestaurantDetailsAsset::register($this);
             <li class="none"><?php echo $id['Restaurant_UnitNo'].", ".$id['Restaurant_Street'].", ".$id['Restaurant_Area'].", ".$id['Restaurant_Postcode']; ?></li>
           </ul>
         </div>
-    <?php if(!empty($staff)) : ?>
-            <div id="button-container">
-                <span><?php echo Html::a('Manage Restaurant', Url::to(['/order/restaurant-order-history' ,'rid'=>$id['Restaurant_ID']]), ['class'=>'resize-btn raised-btn main-btn']) ?></span>
-                <span> <?php if ($id['Restaurant_Status'] == "Closed"): ?>
-                    <?=Html::a('Resume Resturant Operate', Url::to(['restaurant/active', 'id'=>$id['Restaurant_ID'],'item'=>1]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'resize-btn raised-btn btn-success'])?>
-                    <?php elseif($id['Restaurant_Status'] == "Operating"): ?>
-                    <?=Html::a('Pause Resturant Operate', Url::to(['restaurant/pauserestaurant', 'id'=>$id['Restaurant_ID'],'item'=>1]), ['id'=>'pause','data-confirm'=>"Do you want to Pause Operate?",'class'=>'resize-btn raised-btn btn-danger'])?>  
-                <?php endif ?></span>
-            </div>
-        <?php endif ?>
          </div>
     </div>
     <br>

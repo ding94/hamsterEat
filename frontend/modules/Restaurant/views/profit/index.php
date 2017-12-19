@@ -55,7 +55,7 @@ RestaurantEarningsAsset::register($this);
 			<?php $form = ActiveForm::begin(['method' => 'get']); ?>
 			<label class="control-label">Select Date</label>
 			<div class="row">
-				<div class="col-md-9">
+				<div class="col-md-9 date-picker">
 					<?php
 				    	echo DatePicker::widget([
 					        'name' => 'first',

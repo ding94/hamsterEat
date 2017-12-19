@@ -14,7 +14,7 @@ CookingAsset::register($this);
 RestaurantEarningsAsset::register($this);
 ?>
 
-<div class="container">
+<div id="profit-container" class="container">
 	<div class="restaurant-earnings-header">
         <div class="restaurant-earnings-header-title"><?= Html::encode($this->title) ?></div>
     </div>
@@ -108,21 +108,21 @@ RestaurantEarningsAsset::register($this);
 								$sumfinal += $sellprice;
 							?>
 							<?php if($i == 0): ?>
-								<td rowspan=<?php echo $rowspan?>><?php echo $delivery->did?></td>
+								<td class="thead" data-th="Delivery ID" rowspan=<?php echo $rowspan?>><?php echo $delivery->did?></td>
 							<?php endif ;?>
-							<td><?php echo $order->oid?></td>
-							<td><?php echo $original?></td>
-							<td><?php echo $order->quantity?></td>
-							<td><?php echo $cost ?></td>
-							<td><?php echo  CartController::actionDisplay2decimal($sellprice - $cost) ?></td>
-							<td><?php echo $sellprice?></td>
+							<td data-th="Order ID"><?php echo $order->oid?></td>
+							<td data-th="Single Price"><?php echo $original?></td>
+							<td data-th="Quantity"><?php echo $order->quantity?></td>
+							<td data-th="Cost"><?php echo $cost ?></td>
+							<td data-th="Mark Up 30%"><?php echo  CartController::actionDisplay2decimal($sellprice - $cost) ?></td>
+							<td data-th="Selling Price"><?php echo $sellprice?></td>
 						</tr>
 						
 						<?php endforeach ;?>
-						<tr><td colspan ="4"></td>
-							<td>RM <?php echo CartController::actionDisplay2decimal($sumprice)?></td>
-							<td>RM <?php echo CartController::actionDisplay2decimal($sumfinal - $sumprice)?></td>
-							<td>RM <?php echo CartController::actionDisplay2decimal($sumfinal)?></td>
+						<tr><td class="none" colspan ="4"></td>
+							<td data-th="Total Cost">RM <?php echo CartController::actionDisplay2decimal($sumprice)?></td>
+							<td data-th="Total Mark Up">RM <?php echo CartController::actionDisplay2decimal($sumfinal - $sumprice)?></td>
+							<td data-th="Total Selling Price">RM <?php echo CartController::actionDisplay2decimal($sumfinal)?></td>
 						</tr>
 					</tbody>
 				</table>

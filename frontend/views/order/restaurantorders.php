@@ -45,7 +45,7 @@ RestaurantOrdersAsset::register($this);
             </div>
             <div class="nav-url">
                 <ul id="restaurant-orders-nav" class="nav nav-pills nav-stacked">
-                    <li><?php echo Html::a("<i class='fa fa-chevron-left'></i> Back",['Restaurant/default/manage-restaurant-staff', 'rid'=>$rid])?></li>
+                    <li><?php echo Html::a("<i class='fa fa-chevron-left'></i> Back",['order/restaurant-order-history', 'rid'=>$rid])?></li>
                     <?php foreach($countOrder as $i=> $count):?>
                       <li><?php echo Html::a($i.'<span class="badge">'.$count['total'].'</span>',['/order/restaurant-orders','status'=>$i,'rid'=>$rid])?></li>
                     <?php endforeach ;?>

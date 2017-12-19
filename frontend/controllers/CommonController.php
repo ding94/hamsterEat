@@ -149,6 +149,7 @@ class CommonController extends Controller
         $data = [
                     Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Back',
                     Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Pending']) => 'Pending',
+                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Canceled']) => 'Canceled',
                     Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Preparing']) => 'Preparing',
                     Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Pick Up In']) => 'Pick Up In',
                     Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'On The Way']) => 'On The Way',

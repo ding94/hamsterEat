@@ -157,6 +157,11 @@
   align-self: flex-end;
 }
 
+.menu-container a:focus{
+  text-decoration: none;
+  outline: none;
+}
+
 @media(max-width: 500px){
   #button-container a{
     display: block;

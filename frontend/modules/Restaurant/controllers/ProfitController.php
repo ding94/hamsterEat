@@ -5,6 +5,7 @@ use yii;
 use yii\web\Controller;
 use yii\helpers\Json;
 use yii\data\Pagination;
+use frontend\controllers\CartController;
 use frontend\controllers\CommonController;
 use common\models\Profit\RestaurantItemProfit;
 use common\models\Profit\RestaurantProfit;
@@ -56,7 +57,7 @@ class ProfitController extends CommonController
 			$profit->rid = $value->food->Restaurant_ID;
 			$profit->quantity = $value->OrderItem_Quantity;
 			$profit->finalPrice = $value->OrderItem_LineTotal;
-			$profit->originalPrice = $profit->finalPrice/100 * 70;
+			$profit->originalPrice =  CartController::actionDisplay2decimal($profit->finalPrice*0.76924);
 			$profit->fid = Json::encode(['id'=>$value->Food_ID,'name'=>$value->food->Name]);
 			
 			$profit->sid = $selectionName;

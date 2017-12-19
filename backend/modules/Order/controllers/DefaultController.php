@@ -14,6 +14,7 @@ use common\models\Order\DeliveryAddress;
  */
 class DefaultController extends Controller
 {
+
     /**
      * Renders the index view for the module
      * @return string
@@ -21,9 +22,10 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $searchModel = new OrderSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,2);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,1);
+        $days = $this->getMonth(12,2017);
         
-        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
+        return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel,'days'=>$days]);
     }
 
     public function actionDelivery()
@@ -64,5 +66,21 @@ class DefaultController extends Controller
             
         }
         return $this->render('showdetails',['orderitem'=>$orderitem]);
+    }
+
+    protected static function getMonth($month,$year)
+    {
+        $start_date = "01-".$month."-".$year;
+        $start_time = strtotime($start_date);
+
+        $end_time = strtotime("+1 month", $start_time);
+
+        for($i=$start_time; $i<$end_time; $i+=86400)
+        {
+           $list['title'][] = date('Y-m-d', $i);
+           $list['data'][] = 0;
+           
+        }
+        return $list;
     }
 }

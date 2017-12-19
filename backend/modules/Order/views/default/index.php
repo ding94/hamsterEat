@@ -8,12 +8,10 @@ use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
-
   $this->title = 'Delivery Lists';
   $this->params['breadcrumbs'][] = $this->title;
   
 ?>
-
   <?= GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,

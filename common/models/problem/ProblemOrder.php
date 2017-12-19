@@ -3,9 +3,9 @@
 namespace common\models\problem;
 
 use Yii;
-use common\models\Orders;
-use common\models\Orderitem;
-use common\models\Orderitemselection;
+use common\models\Order\Orders;
+use common\models\Order\Orderitem;
+use common\models\Order\Orderitemselection;
 /**
  * This is the model class for table "problem_order".
  *

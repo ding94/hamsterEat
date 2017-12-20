@@ -207,7 +207,8 @@ Class AuthController extends Controller
 			$isValid = $model->validate();
 			if($isValid)
 			{
-				$data = Yii::$app->request->post('AuthItem');
+				$data = Yii::$app->request->post('AdminAuthItem');
+			
 				$message = self::roleOrPermission($data);
 				if($message == true)
 				{
@@ -263,7 +264,7 @@ Class AuthController extends Controller
 	public static function roleOrPermission($data)
 	{
 		$auth = \Yii::$app->authManager;
-
+	
 		if((int)$data['type'] === 2)
 		{
 			$create = $auth->createPermission($data['name']);

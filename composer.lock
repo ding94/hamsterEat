@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "df7bc02c964a8a7ddcdb85a85e175e35",
+    "content-hash": "f99577ac2e44bffd8f0e571e733c6523",
     "packages": [
         {
             "name": "2amigos/yii2-chartjs-widget",
@@ -323,12 +323,25 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/chartjs/Chart.js/zipball/0fead21939b92c15093c1b7d5ee2627fb5900fff",
                 "reference": "0fead21939b92c15093c1b7d5ee2627fb5900fff",
-                "shasum": null
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "./dist/Chart.js",
+                "bower-asset-ignore": [
+                    ".github",
+                    ".codeclimate.yml",
+                    ".gitignore",
+                    ".npmignore",
+                    ".travis.yml",
+                    "scripts"
+                ]
             },
             "type": "bower-asset",
             "license": [
                 "MIT"
-            ]
+            ],
+            "description": "Simple HTML5 charts using the canvas element."
         },
         {
             "name": "bower-asset/flag-icon-css",

@@ -36,6 +36,15 @@ echo Select2::widget([
 ]);
 Modal::end();
 
+    Modal::begin([
+            'header' => '<h2 class="modal-title">Placed Orders</h2>',
+            'id'     => 'add-modal2',
+            'size'   => 'modal-lg',
+            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    
+    Modal::end()
+
 ?>
 
 <div class="container" id="group-area-index">
@@ -57,19 +66,22 @@ Modal::end();
     <div class="page-wrap">
       <!-- <label for="sidebartoggler" class="toggle"><i class="fa fa-sliders" aria-hidden="true">&nbsp;Filter</i></label>-->
 	  <div class="tm">
-            <div id="menu">
-              <ul>
-                <li> <a class="toggle">Filter</a></li>
-				<li><?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['data-toggle'=>'modal','data-target'=>'#add-modal']); ?></li>
-                <li>
-                  <?php  $cookies = Yii::$app->request->cookies;
-                        $halal = $cookies->getValue('halal');
-                  ?>           
-                  <?php echo Html::a("Change to: ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0])?>
-                </li>
-                <li><?php echo Html::a('<span class="glyphicon glyphicon-log-out"> Logout',['/site/logout'],['data-method'=>'post']);?></li>
-              </ul>
-            </div>
+      <div id="menu">
+        <ul>
+          <li> <a class="toggle">Filter</a></li>
+				  <li><?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['data-toggle'=>'modal','data-target'=>'#add-modal']); ?></li>
+          <li>
+            <?php $cookies = Yii::$app->request->cookies;
+                  $halal = $cookies->getValue('halal');
+            ?>           
+            <?php echo Html::a("Change to: ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0])?>
+          </li>
+          <?php if($staffs == true): ?>
+            <li><?php echo Html::a("Placed Orders",['/Restaurant/restaurant/phonecooking'],['data-toggle'=>'modal','data-target'=>'#add-modal2'])?></li>
+          <?php endif; ?>
+          <li><?php echo Html::a('<span class="glyphicon glyphicon-log-out"> Logout',['/site/logout'],['data-method'=>'post']);?></li>
+        </ul>
+      </div>
 	  </div>
 	  <a href="#top" class="scrollToTop"></a>
       <div class="filter">

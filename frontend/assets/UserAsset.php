@@ -18,6 +18,7 @@ class UserAsset extends AssetBundle
     ];
     public $js = [
         // 'js/rating-index.js',
+        'js/add-modal.js',
         'js/user.js'
     ];
     public $depends = [

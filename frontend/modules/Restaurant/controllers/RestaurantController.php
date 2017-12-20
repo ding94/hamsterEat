@@ -32,7 +32,7 @@ class RestaurantController extends CommonController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['restaurant-service','food-service','providereason','active','deactive','pauserestaurant','cooking-detail'],
+                        'actions' => ['restaurant-service','food-service','providereason','active','deactive','pauserestaurant','cooking-detail','phonecooking'],
                         'allow' => true,
                         'roles' => ['restaurant manager'],
                     ]
@@ -346,6 +346,27 @@ class RestaurantController extends CommonController
         }
      
         return $this->render('cooking',['singleData'=>$singleData,'companyData'=>$companyData]);
+    }
+
+    public function actionPhonecooking()
+    {
+        $staffs = Rmanagerlevel::find()->where('User_Username=:u',[':u' => Yii::$app->user->identity->username])->all();
+        if ($staffs) {
+            $count = 0;
+            foreach ($staffs as $k => $staff) {
+                $restaurants[$k] = Restaurant::find()->where('Restaurant_ID=:r',[':r' => $staff['Restaurant_ID']])->asArray()->one();
+                $restaurants[$k]['Restaurant_Orders'] = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$staff['Restaurant_ID'],':s'=>'Pending'])->joinwith(['food'])->count();
+                $count += $restaurants[$k]['Restaurant_Orders'];
+            }
+            return $this->renderAjax('phonecooking',['restaurants'=>$restaurants,'count'=>$count]);
+        }
+        elseif(empty($staffs))
+        {
+            Yii::$app->session->setFlash('warning', "You are not any staff or owner of restaurant.");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        Yii::$app->session->setFlash('warning', "You Are Not The Right Person In This Page!");
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     protected function findModel($id)

@@ -19,11 +19,12 @@ RestaurantServiceAsset::register($this);
           <div class="item-no-border">
             <div class="img"><?php echo Html::img('@web/imageLocation/'.$restaurant['Restaurant_RestaurantPicPath']) ?></div>
             <div class="inner-item">
-              <span class="restaurant-name"><?php echo $restaurant['Restaurant_Name']; ?></span>
-
-              <p><?php echo $restaurant['Restaurant_UnitNo'].','.$restaurant['Restaurant_Street'].','.$restaurant['Restaurant_Area'].', '.$restaurant['Restaurant_Postcode'] ?></p>
-            </div>
-    		    <span class="small-text pull-right stars" alt="<?php echo $restaurant['Restaurant_Rating']; ?>"><?php echo $restaurant['Restaurant_Rating']; ?></span>  	
+              <div class="restaurant-name-div">
+                <span class="restaurant-name"><?php echo $restaurant['Restaurant_Name']; ?></span>
+                <span class="small-text pull-right stars" alt="<?php echo $restaurant['Restaurant_Rating']; ?>"><?php echo $restaurant['Restaurant_Rating']; ?></span>
+              </div>
+              <span><p><?php echo $restaurant['Restaurant_UnitNo'].','.$restaurant['Restaurant_Street'].','.$restaurant['Restaurant_Area'].', '.$restaurant['Restaurant_Postcode'] ?></p></span>
+            </div>  	
           </div>
     		</a>
       </div>

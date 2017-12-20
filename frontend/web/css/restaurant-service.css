@@ -27,6 +27,7 @@
   border-bottom:1px solid #FFDA00;
   padding-right: 20px;
   cursor:pointer;
+  display: flex;
 }
 
 .item-no-border p{
@@ -47,23 +48,24 @@
 
 .item-no-border .inner-item{
   margin:10px 0px 10px 30px;
-  float:left;
-  width: 50%;
+  width: auto;
+  flex-grow: 2;
+}
+
+.item-no-border .restaurant-name-div{
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
 }
 
 .item-no-border .tag{
-    font-size: 13px;
-    color: grey;
-}
-
-.item-no-border .img{
-
-  float:left;
+  font-size: 13px;
+  color: grey;
 }
 
 .item-no-border img{
 	margin-top:15px;
-    width:130px;
+  width:130px;
   height:130px;
 }
 

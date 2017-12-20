@@ -19,7 +19,8 @@ class RestaurantDefaultIndexAsset extends AssetBundle
     public $js = [
         // 'js/PhotoSlider.js',
         'js/filter.js',
-		'js/scrolltop.js',
+        'js/scrolltop.js',
+		'js/add-modal.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

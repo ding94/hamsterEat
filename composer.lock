@@ -380,12 +380,25 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/chartjs/Chart.js/zipball/0fead21939b92c15093c1b7d5ee2627fb5900fff",
                 "reference": "0fead21939b92c15093c1b7d5ee2627fb5900fff",
-                "shasum": null
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "./dist/Chart.js",
+                "bower-asset-ignore": [
+                    ".github",
+                    ".codeclimate.yml",
+                    ".gitignore",
+                    ".npmignore",
+                    ".travis.yml",
+                    "scripts"
+                ]
             },
             "type": "bower-asset",
             "license": [
                 "MIT"
-            ]
+            ],
+            "description": "Simple HTML5 charts using the canvas element."
         },
         {
             "name": "bower-asset/flag-icon-css",

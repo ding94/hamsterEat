@@ -44,3 +44,26 @@ $('body').on('submit','#a2cart',function(e){
             }
        });
 })
+
+/* JS function to calculate and display food price with user selection in add to cart button */
+function calcprice() {
+  price = 0;
+  var foodprice = parseFloat($(".foodprice").data("price"));
+  var quantity = document.getElementById("cart-quantity").value;
+  $(".price:checked").each(function () {
+    price += parseFloat($(this).next().children("span.selection-price").data("price"));
+  });
+  var priceperunit = (price + foodprice);
+  var totalprice = quantity*priceperunit;
+  if ($(".price:checked")['length']==0){
+    $(".total-price").html((foodprice*quantity).toFixed(2));
+  }else{
+  $(".total-price").html(totalprice.toFixed(2));
+  }
+}
+
+$(document).ready(function () {
+  $("body").change(function () {
+    calcprice()
+  });
+});

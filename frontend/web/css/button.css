@@ -45,5 +45,7 @@
 
 .success-btn:hover{
   background: #a0d6a0;
+  border: 1px solid #a0d6a0;
+  transition-duration: 0.4s;
 }
 

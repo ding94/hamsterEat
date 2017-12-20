@@ -77,7 +77,8 @@
 }
 
 .outer-item :hover{
-   background-color: #fffbe5;
+  background-color: #fffbe5;
+  text-decoration: none;
 }
 
 #res{

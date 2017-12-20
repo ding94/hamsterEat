@@ -225,7 +225,7 @@ NotificationAsset::register($this);
                                 $orderitem = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$level['Restaurant_ID'],':s'=>'Pending'])->joinwith(['food'])->count();
                                 $count += $orderitem;
                             }
-                            echo Html::a('<span class="glyphicon glyphicon-list-alt">('.$count.')</span>',['/Restaurant/restaurant/phonecooking'],['data-toggle'=>'modal','data-target'=>'#add-modal']);
+                            echo Html::a('<span class="glyphicon glyphicon-list-alt"></span><span class="badge">('.$count.')</span>',['/Restaurant/restaurant/phonecooking'],['data-toggle'=>'modal','data-target'=>'#add-modal']);
                         ?>
                     <?php endif;?>
 

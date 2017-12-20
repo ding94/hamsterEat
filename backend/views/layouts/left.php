@@ -45,10 +45,12 @@
                                     ],
                         'options' => ['class' => 'active'],
                     ],
-                    [   'label' => 'Banner Controller' , 'icon' => 'square' ,'url' => '#',
+                    [   'label' => 'Banner And News ' , 'icon' => 'square' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Banner List' ,'icon' => 'circle-o' , 'url' => ['/banner/index']],
                                         ['label' => 'Add Banner' ,'icon' => 'circle-o' , 'url' => ['/banner/addbanner']],
+                                        ['label' => 'News List' ,'icon' => 'circle-o' , 'url' => ['/news/index']],
+                                        ['label' => 'Add News' ,'icon' => 'circle-o' , 'url' => ['/news/addnews']],
                                     ],
                         'options' => ['class' => 'active'],
                     ],
@@ -58,16 +60,12 @@
                                     ],
                         'options' => ['class' => 'active'],
                     ],
-                    [   'label' => 'C.S Controller', 'icon' => 'user', 'url' => "#",
-                        'items' =>  [
-                                        [ 'label' => 'Cancelled Order List', 'icon' => 'circle-o', 'url' => ['/customerservice/pausedorder']],
-                                        [ 'label' => 'Solved Order List', 'icon' => 'circle-o', 'url' => ['/customerservice/comproblem']],
-                                    ],
-                        'options' => ['class' => 'active'],
-                    ],
                     [   'label' => 'Order Controller', 'icon' => 'user', 'url' => "#",
                         'items' =>  [
+                                        ['label' => 'Delivery List' ,'icon' => 'circle-o' , 'url' => ['/order/default/delivery']],
                                         [ 'label' => 'Order List', 'icon' => 'circle-o', 'url' => ['/order/default/index']],
+                                        [ 'label' => 'Cancelled Order List', 'icon' => 'circle-o', 'url' => ['/customerservice/pausedorder']],
+                                        [ 'label' => 'Solved Order List', 'icon' => 'circle-o', 'url' => ['/customerservice/comproblem']],
                                     ],
                         'options' => ['class' => 'active'],
                     ],
@@ -80,12 +78,7 @@
                         'options' => ['class' => 'active'],
 
                     ],
-                    [   'label' => 'Order Controller' , 'icon' => 'cog' ,'url' => '#',
-                        'items' =>  [
-                                        ['label' => 'Delivery List' ,'icon' => 'circle-o' , 'url' => ['/order/default/delivery']],
-                                    ],
-                        'options' => ['class' => 'active'],
-                    ],
+
                     [   'label' => 'Ticket Controller' , 'icon' => 'cog' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Ticket List' ,'icon' => 'circle-o' , 'url' => ['/ticket/index']],
@@ -136,13 +129,6 @@
                                    ],
                         'options' => ['class' => 'active'],
 
-                    ],
-                    [   'label' => 'News Controller' , 'icon' => 'newspaper-o' ,'url' => '#',
-                        'items' =>  [
-                                        ['label' => 'News List' ,'icon' => 'circle-o' , 'url' => ['/news/index']],
-                                        ['label' => 'Add News' ,'icon' => 'circle-o' , 'url' => ['/news/addnews']],
-                                    ],
-                        'options' => ['class' => 'active'],
                     ],
                     [   'label' => 'Auth Controller' , 'icon' => 'cog' ,'url' => '#',
                         'items' =>  [

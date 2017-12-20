@@ -77,8 +77,8 @@ class ProfitController extends CommonController
         $profit->cid = $address->cid;
         $profit->earlyDiscount = $order->Orders_DiscountEarlyAmount;
         $profit->voucherDiscount = $order->Orders_DiscountTotalAmount;
-        $profit->total = $order->Orders_TotalPrice;
-
+        $profit->total = $order->Orders_Subtotal;
+        $profit->deliveryCharge = $order->Orders_DeliveryCharge;
         return $profit;
 	}
 }

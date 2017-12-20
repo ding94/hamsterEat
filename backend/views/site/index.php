@@ -7,11 +7,11 @@ use kartik\widgets\Select2;
 use kartik\widgets\ActiveForm;
 use yii\helpers\Html;
 
-$this->title = 'Total Order And countDelivery';
+$this->title = 'Total Order And Delivery';
 ?>
 <div class="site-index">
-<?php $form = ActiveForm::begin(['method' => 'get']); ?>
-    <label class="control-label">Select Date</label>
+<?php $form = ActiveForm::begin(['method' => 'get','action'=>['site/index']]); ?>
+    <label class="control-label">Choose Selection</label>
     <div class="row">
         <div class="col-md-6">
             <?php

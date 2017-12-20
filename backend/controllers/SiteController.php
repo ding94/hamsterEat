@@ -67,7 +67,7 @@ class SiteController extends Controller
         if($first == 0 && $last == 0)
         {
             $first = date("Y-m-d", strtotime("first day of this month"));
-            $last = date("Y-m-d", strtotime("today")); 
+            $last = date("Y-m-d", strtotime("+1 days")); 
         }
         
         $days= CommonController::getMonth($first,$last,1);

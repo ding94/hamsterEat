@@ -25,6 +25,7 @@ use common\models\Order\Orders;
 
 AppAsset::register($this);
 NotificationAsset::register($this);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -69,6 +70,16 @@ NotificationAsset::register($this);
     ]);
     
     Modal::end() ?>
+
+    <?php Modal::begin([
+            'header' => '<h2 class="modal-title">Placed Orders</h2>',
+            'id'     => 'add-modal',
+            'size'   => 'modal-lg',
+            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    
+    Modal::end() ?>
+
 
 <?php $this->beginBody() ?>
 
@@ -138,34 +149,40 @@ NotificationAsset::register($this);
             $key = array_keys($menuItems);
             $lvl = Rmanagerlevel::find()->where('User_Username=:u',[':u'=>$rmanager['User_Username']])->all();
 
+            $count = 0;
             foreach ($lvl as $k => $level) {
                 $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$level['Restaurant_ID']])->one();
-                $orderitem = Orderitem::find()->where('Restaurant_ID=:id',[':id'=>$level['Restaurant_ID']])->joinwith(['food'])->count();
+                $orderitem = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$level['Restaurant_ID'],':s'=>'Pending'])->joinwith(['food'])->count();
                 if ($orderitem > 0) {
                     $menuItems[end($key)]['items'][] = ['label'=>$restaurant['Restaurant_Name'].'('.$orderitem.')','url'=>['/Restaurant/restaurant/cooking-detail','rid'=>$level['Restaurant_ID']]];
-                    $menuItems[end($key)]['items'][] = '<li class="divider"></li>'; 
+                    $menuItems[end($key)]['items'][] = '<li class="divider"></li>';
                 }
+                $count += $orderitem;
+            }
+            if ($count <= 0){
+                $menuItems[end($key)]['items'][] = ['label'=>'Empty Orders'];
+                $menuItems[end($key)]['items'][] = '<li class="divider"></li>';
             }
         }
-        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span> ' . Yii::$app->user->identity->username . '', 'items' => [
+        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span><span class="username"> ' . Yii::$app->user->identity->username . '</span>', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile']],
                         '<li class="divider"></li>',
                        ]];
 
          $keys = array_keys($menuItems);
         if (!empty($rmanager)) {
-                $menuItems[end($keys)]['items'][] =['label' => 'Restaurants ', 'url' => ['/Restaurant/restaurant/restaurant-service'],'linkOptions' => ['data-method' => 'post']];
+                $menuItems[end($keys)]['items'][] =['label' => 'Restaurants ', 'url' => ['/Restaurant/restaurant/restaurant-service']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
         if (Deliveryman::find()->where('User_id=:id',[':id'=>Yii::$app->user->identity->id])->one()){
-                $menuItems[end($keys)]['items'][] =['label' => 'Delivery Orders', 'url' => ['/order/deliveryman-orders'],'linkOptions' => ['data-method' => 'post']];
+                $menuItems[end($keys)]['items'][] =['label' => 'Delivery Orders', 'url' => ['/order/deliveryman-orders']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
         /*if ($company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
             $menuItems[end($keys)]['items'][] =['label' => 'Company', 'url' => ['/company/index']];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }*/
-        $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']];
+        $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
                     //var_dump($menuItems);exit;
         
        //  $menuItems = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];
@@ -200,20 +217,29 @@ NotificationAsset::register($this);
                     <?php } elseif(Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) { ?>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span>',['/cart/view-cart']);?></li>
                     <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>',['/notification/index']);?></li>
+
+                    <?php if (!empty($rmanager)): ?>
+                        <?php 
+                            $count = 0;
+                            foreach ($lvl as $k => $level) {
+                                $orderitem = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$level['Restaurant_ID'],':s'=>'Pending'])->joinwith(['food'])->count();
+                                $count += $orderitem;
+                            }
+                            echo Html::a('<span class="glyphicon glyphicon-list-alt"></span><span class="badge">('.$count.')</span>',['/Restaurant/restaurant/phonecooking'],['data-toggle'=>'modal','data-target'=>'#add-modal']);
+                        ?>
+                    <?php endif;?>
+
                     <li><?php echo Html::a('<i class="fa fa-cutlery"></i>',['/Restaurant/restaurant/restaurant-service']);?></li>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-user">',['/user/user-profile']);?></li>
-                    <li><?php echo Html::a('<span class="glyphicon glyphicon-log-out">',['/site/logout'],['data-method'=>'post']);?></li>
                     <?php } elseif(Deliveryman::find()->where('User_id=:id',[':id'=>Yii::$app->user->identity->id])->one()){ ?>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span>',['/cart/view-cart']);?></li>
                     <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>',['/notification/index']);?></li>
                     <li><?php echo Html::a('<i class="fa fa-truck"></i>',['/order/deliveryman-orders']);?></li>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-user">',['/user/user-profile']);?></li>
-                    <li><?php echo Html::a('<span class="glyphicon glyphicon-log-out">',['/site/logout'],['data-method'=>'post']);?></li>
                     <?php } else{ ?>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span>',['/cart/view-cart']);?></li>
                     <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>',['/notification/index']);?></li>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-user">',['/user/user-profile']);?></li>
-                    <li><?php echo Html::a('<span class="glyphicon glyphicon-log-out">',['/site/logout'],['data-method'=>'post']);?></li>
                     <?php } ?>
                 </ul>
             </div>

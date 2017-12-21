@@ -62,9 +62,9 @@ class RestaurantItemProfit extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'oid' => 'Oid',
-            'rid' => 'Rid',
-            'did' => 'Did',
+            'oid' => 'Order ID',
+            'rid' => 'Restaurant ID',
+            'did' => 'Delivery ID',
             'quantity' => 'Quantity',
             'originalPrice' => 'Original Price',
             'finalPrice' => 'Final Price',
@@ -72,6 +72,27 @@ class RestaurantItemProfit extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
+    public function getFinalSum()
+    {
+        $data = RestaurantProfit::findOne($this->did);
+        return $data->total;
+    }
+
+    public function getDiscount()
+    {
+        $data = RestaurantProfit::findOne($this->did);
+        $discount = $data->earlyDiscount == 0 ? $data->voucherDiscount : $data->earlyDiscount;
+        return $discount;
+    }
+
+    public function getTotalSum()
+    {
+        $data = RestaurantProfit::findOne($this->did);
+        $discount = $data->earlyDiscount == 0 ? $data->voucherDiscount : $data->earlyDiscount;
+        return $data->total - $discount;
+    }
+
 
     public function getOriginal()
     {

@@ -77,7 +77,13 @@
 .userprofile-editbutton{
   min-height: 40px; 
   width: 150px;
-  margin-top: 3em;
+  margin-top: 2em;
+}
+
+.userprofile-logoutbutton{
+  min-height: 40px; 
+  width: 150px;
+  margin-top: 1em;
 }
 
 .userprofile-pencil{
@@ -153,7 +159,7 @@
   .change-password-resize-btn{
     width: 100%;
     margin-top: 10px;
-  }
+  } 
 }
 
 .right-side{
@@ -222,10 +228,9 @@
   .userprofile-avatar{
     margin : 20px auto;
   }
+
   .userprofile-left{
-    border-right: 0px;
     border-bottom: 1px solid #efefef;
-    height: 23em;
   }
   
   .userprofile-edit-input{

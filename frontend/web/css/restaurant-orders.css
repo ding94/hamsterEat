@@ -44,6 +44,7 @@
   .switchbutton a{
     width: 100%;
   }
+  
 	#restaurant-orders-content > table, thead, tbody, th, td, tr { 
     display: block; 
   }

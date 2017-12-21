@@ -151,24 +151,24 @@ NotificationAsset::register($this);
             }
         }
         
-        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span> ' . Yii::$app->user->identity->username . '', 'items' => [
+        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span><span class="username"> ' . Yii::$app->user->identity->username . '</span>', 'items' => [
                        ['label' => 'Profile', 'url' => ['/user/user-profile']],
                         '<li class="divider"></li>',
                        ]];
          $keys = array_keys($menuItems);
         if (Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
-                $menuItems[end($keys)]['items'][] =['label' => 'Restaurants ', 'url' => ['/Restaurant/restaurant/restaurant-service'],'linkOptions' => ['data-method' => 'post']];
+                $menuItems[end($keys)]['items'][] =['label' => 'Restaurants ', 'url' => ['/Restaurant/restaurant/restaurant-service']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
         if (Deliveryman::find()->where('User_id=:id',[':id'=>Yii::$app->user->identity->id])->one()){
-                $menuItems[end($keys)]['items'][] =['label' => 'Delivery Orders', 'url' => ['/order/deliveryman-orders'],'linkOptions' => ['data-method' => 'post']];
+                $menuItems[end($keys)]['items'][] =['label' => 'Delivery Orders', 'url' => ['/order/deliveryman-orders']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
         /*if ($company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
             $menuItems[end($keys)]['items'][] =['label' => 'Company', 'url' => ['/company/index']];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }*/
-        $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions' => ['data-method' => 'post']];
+        $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
                     //var_dump($menuItems);exit;
         
        //  $menuItems = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];

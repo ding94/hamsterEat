@@ -1,7 +1,7 @@
 <?php
 namespace common\models\Rating;
 
-use common\models\Orders;
+use common\models\Order\Orders;
 use yii\data\ActiveDataProvider;
 
 class RatingSearch extends Orders

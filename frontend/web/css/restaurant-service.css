@@ -16,6 +16,7 @@
 
 .outer-item{
   border: 1px solid #e5e5e5;
+  background-color: #FFF;
 }
 
 .item-no-border{
@@ -27,6 +28,7 @@
   border-bottom:1px solid #FFDA00;
   padding-right: 20px;
   cursor:pointer;
+  display: flex;
 }
 
 .item-no-border p{
@@ -35,35 +37,36 @@
 }
 
 .item-no-border .small-text{
-   font-size:15px;
+  font-size:15px;
   color:grey; 
   margin-top: 10px;
 }
 
 .item-no-border .price{
-    font-size: 17px;
-    color: black;
+  font-size: 17px;
+  color: black;
 }
 
 .item-no-border .inner-item{
   margin:10px 0px 10px 30px;
-  float:left;
-  width: 50%;
+  width: auto;
+  flex-grow: 2;
+}
+
+.item-no-border .restaurant-name-div{
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
 }
 
 .item-no-border .tag{
-    font-size: 13px;
-    color: grey;
-}
-
-.item-no-border .img{
-
-  float:left;
+  font-size: 13px;
+  color: grey;
 }
 
 .item-no-border img{
 	margin-top:15px;
-    width:130px;
+  width:130px;
   height:130px;
 }
 
@@ -75,7 +78,8 @@
 }
 
 .outer-item :hover{
-   background-color: #fffbe5;
+  background-color: #fffbe5;
+  text-decoration: none;
 }
 
 #res{
@@ -83,7 +87,7 @@
   float: right;
 }
 #res:hover{
-	 background-color: #e67300; 
+	background-color: #e67300; 
 }
 
 #food{
@@ -99,15 +103,21 @@
   float: right;
 }
 #resume:hover{
-   background-color: #1a651a; 
+  background-color: #1a651a; 
 }
 
 #pause{
   margin: 10px 10px 10px 10px;
   float: right;
 }
+
 #pause:hover{
-   background-color: #ff1a1a; 
+  background-color: #ff1a1a; 
+}
+
+.placed-orders-btn{
+  margin: 10px;
+  margin-bottom: 10px !important;
 }
 
 @media (max-width: 767px){

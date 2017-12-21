@@ -4,6 +4,8 @@ namespace frontend\modules\Restaurant\controllers;
 use yii;
 use yii\web\Controller;
 use yii\helpers\Json;
+use yii\data\Pagination;
+use frontend\controllers\CartController;
 use frontend\controllers\CommonController;
 use common\models\Profit\RestaurantItemProfit;
 use common\models\Profit\RestaurantProfit;
@@ -25,14 +27,17 @@ class ProfitController extends CommonController
 			$last = date("Y-m-d", strtotime("last day of this month"));
 		}
 		
-	
-		$itemProfit = RestaurantItemProfit::find()->where('rid = :rid',[':rid'=>$rid])->andWhere(['between','created_at',strtotime($first),strtotime($last)])->all();
-		$data = [];
-		foreach ($itemProfit as $key => $item) {
-			$data[$item->did][] = $item;
-		}
-		
-		return $this->render('index',['data'=>$data,'first'=>$first,'last'=>$last ,'link'=>$link]);
+		$itemProfit = RestaurantProfit::find()->distinct()->where(['between','restaurant_profit.created_at',strtotime($first),strtotime($last)])->joinWith(['itemProfit'=>function($query) use ($rid){
+			return $query->where('rid = :rid',[':rid'=>$rid]);
+		}]);
+
+		$countQuery = clone $itemProfit;
+    	$pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize' => 5]);
+    	$data = $itemProfit->offset($pages->offset)
+        ->limit($pages->limit)
+        ->all();
+
+		return $this->render('index',['data'=>$data,'pages' => $pages,'first'=>$first,'last'=>$last ,'link'=>$link]);
 		
 	}
 
@@ -52,7 +57,7 @@ class ProfitController extends CommonController
 			$profit->rid = $value->food->Restaurant_ID;
 			$profit->quantity = $value->OrderItem_Quantity;
 			$profit->finalPrice = $value->OrderItem_LineTotal;
-			$profit->originalPrice = $profit->finalPrice/100 * 70;
+			$profit->originalPrice =  CartController::actionDisplay2decimal($profit->finalPrice*0.76924);
 			$profit->fid = Json::encode(['id'=>$value->Food_ID,'name'=>$value->food->Name]);
 			
 			$profit->sid = $selectionName;
@@ -72,8 +77,8 @@ class ProfitController extends CommonController
         $profit->cid = $address->cid;
         $profit->earlyDiscount = $order->Orders_DiscountEarlyAmount;
         $profit->voucherDiscount = $order->Orders_DiscountTotalAmount;
-        $profit->total = $order->Orders_TotalPrice;
-
+        $profit->total = $order->Orders_Subtotal;
+        $profit->deliveryCharge = $order->Orders_DeliveryCharge;
         return $profit;
 	}
 }

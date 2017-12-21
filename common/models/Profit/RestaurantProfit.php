@@ -48,9 +48,9 @@ class RestaurantProfit extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['did', 'cid', 'earlyDiscount', 'voucherDiscount', 'total'], 'required'],
+            [['did', 'cid', 'earlyDiscount', 'voucherDiscount', 'total','deliveryCharge'], 'required'],
             [['did', 'cid', 'created_at', 'updated_at'], 'integer'],
-            [['earlyDiscount', 'voucherDiscount', 'total'], 'number'],
+            [['earlyDiscount', 'voucherDiscount', 'total','deliveryCharge'], 'number'],
         ];
     }
 
@@ -68,5 +68,10 @@ class RestaurantProfit extends \yii\db\ActiveRecord
             'created_at' => 'Create At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function getItemProfit()
+    {
+        return $this->hasMany(RestaurantItemProfit::className(),['did'=>'did']);
     }
 }

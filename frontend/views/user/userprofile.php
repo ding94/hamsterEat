@@ -19,20 +19,12 @@ UserAsset::register($this);
   Modal::end();
     //new address modal
   Modal::begin([
-      'header' => '<h2 class="modal-title">New Address</h2>',
+      //'header' => '<h2 class="modal-title">New Address</h2>',
       'id'     => 'address-modal',
-      'size'   => 'modal-md',
-      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
+      'size'   => 'modal-xs',
+      //'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
   ]);
   Modal::end();
-  // edit address modal
-  Modal::begin([
-        'header' => '<h2 class="modal-title">Edit Address</h2>',
-        'id'     => 'edit-address-modal',
-        'size'   => 'modal-md',
-        'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
-  ]);
-  Modal::end() 
 ?>
 
 
@@ -46,6 +38,7 @@ UserAsset::register($this);
               <?php $picpath = is_null($user->userdetails->User_PicPath) ? Url::to('@web/imageLocation/Default.png'): Url::to('@web'.$user->userdetails->User_PicPath); ?>
               <?php echo Html::img($picpath,['class'=>"userprofile-image"])?>
               <?= Html::a('Edit', ['/user/userdetails'], ['class'=>'raised-btn btn-default userprofile-editbutton']) ?>
+              <?= Html::a('Logout', ['/site/logout'], ['class'=>'raised-btn btn-danger userprofile-logoutbutton','data-method'=>'post']) ?>
           </div>
         </div>
         <div class="col-sm-9 userprofile-right">

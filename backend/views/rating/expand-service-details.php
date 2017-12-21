@@ -26,7 +26,7 @@ use yii\data\ArrayDataProvider
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            'foods.Food_Name',
+            'foods.Name',
             'foodstatus.title'
         ],
     ]); ?>

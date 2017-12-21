@@ -14,6 +14,7 @@ use common\models\Order\DeliveryAddress;
  */
 class DefaultController extends Controller
 {
+
     /**
      * Renders the index view for the module
      * @return string
@@ -21,8 +22,8 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $searchModel = new OrderSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,2);
-        
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,1);
+
         return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
 

@@ -254,53 +254,50 @@ class CartController extends CommonController
 //--This function is to assign a delivery man when an order has been placed
     public static function assignDeliveryMan($area,$cid)
     {   
-        if($cid!=0){
-            $dc = DeliverymanCompany::find()->where('cid=:cid',[':cid'=>$cid])->one();
-            if($dc != null){
-                $uid = $dc['uid'];
-                return $uid;
-            }
-        } else {
-
-            $data = DailySignInController::getAllDailyRecord($area);
+        $data = DailySignInController::getAllDailyRecord($area);
           
-            if(empty($data))
-            {
-                  Yii::$app->session->setFlash('error', 'Sorry! We have insufficient of deliveryman, please try after 10 minutes or contact our customer service for more information.');
-                return -1;
-            }
+        if(empty($data))
+        {
+            Yii::$app->session->setFlash('error', 'Sorry! We have insufficient of deliveryman, please try after 10 minutes or contact our customer service for more information.');
+            return -1;
+        }
 
-            $allData ="" ;
-            foreach ($data as $id)
-            {
-                $sql = Deliveryman::findOne($id);    
-                $allData[] = $sql;
-            }
+        $dc = DeliverymanCompany::find()->where('cid=:cid',[':cid'=>$cid])->one();
+        if($dc != null){
+            $uid = $dc['uid'];
+            return $uid;
+        }
+
+        $allData ="" ;
+        foreach ($data as $id)
+        {
+            $sql = Deliveryman::findOne($id);    
+            $allData[] = $sql;
+        }
             
-            $lowest = 0;
-            $uid = 0;
-            foreach($allData as $i => $delivery)
+        $lowest = 0;
+        $uid = 0;
+        foreach($allData as $i => $delivery)
+        {
+            if($lowest == 0 )
             {
-                if($lowest == 0 )
+                $lowest = $delivery->DeliveryMan_Assignment;
+                $uid = $delivery->User_id;
+            }
+            else
+            {
+                if($delivery->DeliveryMan_Assignment < $lowest)
                 {
                     $lowest = $delivery->DeliveryMan_Assignment;
                     $uid = $delivery->User_id;
                 }
-                else
-                {
-                    if($delivery->DeliveryMan_Assignment < $lowest)
-                    {
-                        $lowest = $delivery->DeliveryMan_Assignment;
-                        $uid = $delivery->User_id;
-                    }
                    
-                }
             }
-            return $uid;
+        }
+        return $uid;
             //$user = User::findOne($uid);
            
-            //return $user->username;
-        }
+            //return $user->username;       
     }
 
     public function actionNewaddress()

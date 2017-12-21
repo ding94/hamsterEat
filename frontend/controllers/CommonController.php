@@ -149,6 +149,7 @@ class CommonController extends Controller
         $data = [
                     Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Back',
                     Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Pending']) => 'Pending',
+                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Canceled']) => 'Canceled',
                     Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Preparing']) => 'Preparing',
                     Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Pick Up In']) => 'Pick Up In',
                     Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'On The Way']) => 'On The Way',
@@ -160,7 +161,7 @@ class CommonController extends Controller
     public static function restaurantPermission($rid)
     {
         $staff = Rmanagerlevel::find()->where('rmanagerlevel.Restaurant_ID = :rid and rmanagerlevel.User_Username = :u and  Rmanager_Approval = 1',[':rid'=>$rid,':u' => Yii::$app->user->identity->username])->joinWith(['manager','restaurant'])->one();
-
+       
         if(empty($staff))
         {
             throw new HttpException('403','Permission Denied!');

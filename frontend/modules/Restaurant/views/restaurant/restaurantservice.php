@@ -24,10 +24,10 @@ RestaurantServiceAsset::register($this);
                 <span class="small-text pull-right stars" alt="<?php echo $restaurant['Restaurant_Rating']; ?>"><?php echo $restaurant['Restaurant_Rating']; ?></span>
               </div>
               <span><p><?php echo $restaurant['Restaurant_UnitNo'].','.$restaurant['Restaurant_Street'].','.$restaurant['Restaurant_Area'].', '.$restaurant['Restaurant_Postcode'] ?></p></span>
-              <span style="float: right;"><?= Html::a('Placed Orders',['/Restaurant/restaurant/cooking-detail','rid'=>$restaurant['Restaurant_ID']],['class'=>'raised-btn btn-success success-btn']);?></span>
             </div>  	
           </div>
     		</a>
+        <?= Html::a('Placed Orders',['/Restaurant/restaurant/cooking-detail','rid'=>$restaurant['Restaurant_ID']],['class'=>'raised-btn btn-success success-btn placed-orders-btn']);?>
       </div>
       <?php } ?>
     <?php else : ?>

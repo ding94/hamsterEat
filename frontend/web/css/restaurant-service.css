@@ -16,6 +16,7 @@
 
 .outer-item{
   border: 1px solid #e5e5e5;
+  background-color: #FFF;
 }
 
 .item-no-border{
@@ -36,14 +37,14 @@
 }
 
 .item-no-border .small-text{
-   font-size:15px;
+  font-size:15px;
   color:grey; 
   margin-top: 10px;
 }
 
 .item-no-border .price{
-    font-size: 17px;
-    color: black;
+  font-size: 17px;
+  color: black;
 }
 
 .item-no-border .inner-item{
@@ -86,7 +87,7 @@
   float: right;
 }
 #res:hover{
-	 background-color: #e67300; 
+	background-color: #e67300; 
 }
 
 #food{
@@ -102,15 +103,21 @@
   float: right;
 }
 #resume:hover{
-   background-color: #1a651a; 
+  background-color: #1a651a; 
 }
 
 #pause{
   margin: 10px 10px 10px 10px;
   float: right;
 }
+
 #pause:hover{
-   background-color: #ff1a1a; 
+  background-color: #ff1a1a; 
+}
+
+.placed-orders-btn{
+  margin: 10px;
+  margin-bottom: 10px !important;
 }
 
 @media (max-width: 767px){

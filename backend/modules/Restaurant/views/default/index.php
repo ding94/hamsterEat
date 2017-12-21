@@ -3,7 +3,7 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
@@ -61,11 +61,7 @@ use yii\bootstrap\Modal;
                 'attribute' => 'Restaurant_Status',
                 'filter' => array( "Operating"=>"Operating","Under Renovation"=>"Under Renovation"),
             ],
-            [
-                'attribute' => 'area',
-                'value' => 'area.Area_State',
-                'filter' => $stateList,
-            ],
+           
             [
                 'attribute' => 'address',
                 'value' => 'fulladdress',
@@ -91,6 +87,19 @@ use yii\bootstrap\Modal;
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
+                'template' => '{earning}',
+                'header' => "Earning",
+                'buttons' => [
+                    'earning' => function($url , $model)
+                    {
+                        $url =  Url::to(['/restaurant/restaurant/profit' ,'id'=>$model->Restaurant_ID]);
+
+                        return Html::a('View' , $url , ['class' => 'text-underline','title' => 'Restaurant Earning'])   ;
+                    },
+                ],
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
                 'template' => '{fooddetail}',
                 'header' => "Food Detail",
                 'buttons' => [
@@ -98,7 +107,7 @@ use yii\bootstrap\Modal;
                     {
                         $url =  Url::to(['food/index' ,'id'=>$model->Restaurant_ID]);
 
-                        return Html::a('View Food Detail' , $url , ['class' => 'text-underline','title' => 'Food Detail'])   ;
+                        return Html::a('View' , $url , ['class' => 'text-underline','title' => 'Food Detail'])   ;
                     },
                 ],
             ],

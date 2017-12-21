@@ -56,9 +56,9 @@ class Restaurant extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'Restaurant_ID' => 'Restaurant  ID',
-            'Restaurant_Manager' => 'Restaurant  Manager',
-            'Restaurant_Name' => 'Restaurant  Name',
+            'Restaurant_ID' => 'ID',
+            'Restaurant_Manager' => 'Restaurant Manager',
+            'Restaurant_Name' => 'Name',
             'Restaurant_Postcode' => 'Restaurant  Postcode',
             'Restaurant_Area' => 'Restaurant  Area',
             'Restaurant_Street' => 'Restaurant  Street',

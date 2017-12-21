@@ -4,18 +4,22 @@ namespace backend\modules\Restaurant\controllers;
 
 use Yii;
 use yii\web\Controller;
-use backend\models\RestaurantSearch;
+use backend\models\ItemProfitSearch;
 use common\models\Restaurant;
 use yii\web\NotFoundHttpException;
 
 class RestaurantController extends Controller
 {
-	public function actionIndex()
+    public function actionProfit($id,$first =0 , $last = 0)
     {
-    	$searchModel = new RestaurantSearch();
-    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-    	return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
+        if($first == 0 && $last == 0)
+        {
+            $first = date("Y-m", strtotime("first day of this month"));
+            $last = date("Y-m", strtotime("last day of this month")); 
+        }
+        $searchModel = new ItemProfitSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$first,$last,$id);
+        return $this->render('index',['model' => $dataProvider ,'searchModel'=>$searchModel,'first'=>$first,'last'=>$last,'id'=>$id]);
     }
 
     public function actionActive($id)

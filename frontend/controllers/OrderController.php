@@ -205,7 +205,7 @@ class OrderController extends CommonController
         elseif($order['Orders_Status']== 'Canceled'){
             $label='<span class="label label-danger">'.$order['Orders_Status'].'</span>';
         }
-        elseif($order['Orders_Status']== 'Canceled abd Refunded'){
+        elseif($order['Orders_Status']== 'Canceled and Refunded'){
             $label='<span class="label label-danger">'.$order['Orders_Status'].'</span>';
         }
         else{

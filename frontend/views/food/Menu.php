@@ -62,14 +62,16 @@ Modal::end();
         </div>
 		<a href="#top" class="scrollToTop"></a>
         <div id="food-menu-content" class="col-sm-10">
-          <?php echo Html::a('Insert Food', ['/food/insert-food','rid'=>$rid], ['class'=>'raised-btn main-btn']); ?>
-          <span style="float: right;"> 
-            <?php if ($restaurant['Restaurant_Status'] == "Closed"): ?>
-            <?=Html::a('Resume Resturant Operate', Url::to(['restaurant/active', 'id'=>$restaurant['Restaurant_ID'],'item'=>1]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'resize-btn raised-btn btn-success'])?>
-            <?php elseif($restaurant['Restaurant_Status'] == "Operating"): ?>
-            <?=Html::a('Pause Resturant Operate', Url::to(['restaurant/pauserestaurant', 'id'=>$restaurant['Restaurant_ID'],'item'=>1]), ['id'=>'pause','data-confirm'=>"Do you want to Pause Operate?",'class'=>'resize-btn raised-btn btn-danger'])?>  
-            <?php endif ?>
-          </span>
+          <div class="top-button-div">
+            <span><?php echo Html::a('Insert Food', ['/food/insert-food','rid'=>$rid], ['class'=>'raised-btn main-btn']); ?></span>
+            <span> 
+              <?php if ($restaurant['Restaurant_Status'] == "Closed"): ?>
+              <?=Html::a('Resume Resturant Operate', Url::to(['restaurant/active', 'id'=>$restaurant['Restaurant_ID'],'item'=>1]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'resize-btn raised-btn btn-success'])?>
+              <?php elseif($restaurant['Restaurant_Status'] == "Operating"): ?>
+              <?=Html::a('Pause Resturant Operate', Url::to(['restaurant/pauserestaurant', 'id'=>$restaurant['Restaurant_ID'],'item'=>1]), ['id'=>'pause','data-confirm'=>"Do you want to Pause Operate?",'class'=>'resize-btn raised-btn btn-danger'])?>  
+              <?php endif ?>
+            </span>
+          </div>
           <div class="outer-container" id="outer">
             <div class="menu-container" id="menucon">
               <?php foreach ($menu as $menu){ 
@@ -80,11 +82,10 @@ Modal::end();
                 <div class="item-no-border">
                   <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$menu['PicPath']); ?></div>
                   <div class="inner-item">
-                    <span class="foodName"><?php echo $menu['Name']; ?></span>
-                    <p class="foodDesc">Description: <?php echo $menu['Description']; ?></p>
-                    <p>Ingredients: <?php echo $menu['Ingredient']?></p>
-                    <p>Nick Name: <?php echo $menu['Nickname']?></p>
-                    <span class="small-text stars" alt="<?php echo $menu['Rating']; ?>"><?php echo $menu['Rating']; ?></span>
+                    <div class="foodName-div"><span class="foodName"><?php echo $menu['Name']; ?></span><span class="small-text stars" alt="<?php echo $menu['Rating']; ?>"><?php echo $menu['Rating']; ?></span></div>
+                    <div class="foodDesc-div"><p class="foodDesc">Description: <?php echo $menu['Description']; ?></p></div>
+                    <div class="ingredient-div"><p>Ingredients: <?php echo $menu['Ingredient']?></p></div>
+                    <div class="nickname-div"><p>Nick Name: <?php echo $menu['Nickname']?></p></div>
                   </div>
                 </div>
                 <?php

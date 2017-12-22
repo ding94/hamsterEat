@@ -44,11 +44,20 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
     <div class="row">
     <?php foreach($totalProfit as $date=>$data):?>
         <div class="col-md-3">
-            <p><?php echo $date?></p>
-            <p>Total Cost <?php echo $data['cost']?></p>
-            <p>Total Sell Price <?php echo $data['sellPrice']?></p>
+            <table class="table table-bordered">
+                <tr>
+                    <td colspan="2"><?php echo $date?></td>
+                </tr>
+                <tr>
+                    <td>Total Cost</td>
+                    <td><?php echo $data['cost']?></td>
+                </tr>
+                <tr>
+                    <td>Total Sell Price</td>
+                    <td><?php echo $data['sellPrice']?></td>
+                </tr>
+            </table>
         </div>
-    
     <?php endforeach ;?>
     </div>
 <?php  echo GridView::widget([

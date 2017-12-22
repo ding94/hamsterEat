@@ -42,11 +42,11 @@ class Rmanager extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'User_Username' => 'User  Username',
-            'Rmanager_NRIC' => 'Rmanager  Nric',
-            'Rmanager_Approval' => 'Rmanager  Approval',
-            'Rmanager_DateTimeApplied' => 'Rmanager  Date Time Applied',
-            'Rmanager_DateTimeApproved' => 'Rmanager  Date Time Approved',
+            'User_Username' => 'User Username',
+            'Rmanager_NRIC' => 'Rmanager Nric',
+            'Rmanager_Approval' => 'Rmanager Approval',
+            'Rmanager_DateTimeApplied' => 'Rmanager Date Time Applied',
+            'Rmanager_DateTimeApproved' => 'Rmanager Date Time Approved',
         ];
     }
 }

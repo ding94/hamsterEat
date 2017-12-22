@@ -80,6 +80,19 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 },
                 'filter' =>  array( 0=>"Close",1=>"Open"),
             ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{foodrating}',
+                'header' => "Food Rating",
+                'buttons' => [
+                    'foodrating' => function($url , $model)
+                    {
+                        $url =  Url::to(['/rating/food-rating-stats' ,'fid'=>$model->Food_ID]);
+
+                        return Html::a('View' , $url , ['class' => 'text-underline','title' => 'Food Rating'])   ;
+                    },
+                ],
+            ],
             'created_at:datetime',
             'updated_at:datetime',
         ],

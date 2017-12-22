@@ -12,5 +12,5 @@ $.fn.stars = function() {
 }
 
 $(function() {
-    $('span.stars').stars();
+    $('.stars').stars();
 });

@@ -23,15 +23,13 @@ class ItemProfitSearch extends RestaurantItemProfit
 	public function search($params,$first,$last,$id)
 	{
 		
-		$query = RestaurantItemProfit::find();
+		$query = RestaurantItemProfit::find()->where(['between','created_at',strtotime($first),strtotime($last)]);
 
 		if($id !=0)
 		{
 			if($params['r'] == 'restaurant/restaurant/profit')
 			{
 				$query->andWhere('rid = :rid',[':rid'=>$id]);
-				$first = date('Y-m-01 00:00:00', strtotime($first));
-				$last = date('Y-m-t 00:00:00', strtotime($last));
 			}
 			else
 			{
@@ -39,8 +37,7 @@ class ItemProfitSearch extends RestaurantItemProfit
 			}
 			
 		}
-		
-		$query->andWhere(['between','created_at',strtotime($first),strtotime($last)]);
+	
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

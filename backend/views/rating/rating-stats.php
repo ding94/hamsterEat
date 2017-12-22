@@ -8,7 +8,7 @@ use kartik\widgets\Select2;
 use kartik\widgets\ActiveForm;
 use yii\helpers\Html;
 
-$this->title = 'Total Order And Delivery';
+$this->title = 'Food Rating Per Month';
 $fid = Yii::$app->request->get('fid');
 ?>
 <div class="site-index">

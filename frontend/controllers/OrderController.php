@@ -126,6 +126,7 @@ class OrderController extends CommonController
                     break;
                 
                 default:
+               
                     $status = StatusType::find()->where('id=:id',[':id'=>$data['Orders_Status']])->one()->type;
                     $countOrder[$status]['total'] += 1;
                     break;

@@ -79,7 +79,7 @@ Class RatingController extends CommonController
 	protected static function changeStatus($id)
 	{
 		$order = Orders::findOne($id);
-		$order->Orders_Status = "Rating Done";
+		$order->Orders_Status = 7;
 		$order->update();
 	}
 
@@ -94,11 +94,11 @@ Class RatingController extends CommonController
 		else
 		{
 			switch ($completed->Orders_Status) {
-				case 'Rating Done':
+				case 7:
 					Yii::$app->session->setFlash('warning', "You Already take part in");
 					return true;
 					break;
-				case 'Completed':
+				case 6:
 					return false;
 					break;
 				default:

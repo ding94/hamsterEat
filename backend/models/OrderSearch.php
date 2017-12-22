@@ -20,7 +20,7 @@ Class OrderSearch extends Orders
 				$query->joinWith(['order_status']);
 				break;
 			case 2:
-				$query = Orders::find()->where('Orders_Status=:s',[':s'=>'Pending'])->andWhere('Orders_DateTimeMade > '.strtotime(date('Y-m-d')))->orderBy('Orders_DateTimeMade DESC');
+				$query = Orders::find()->where('Orders_Status=:s',[':s'=>2])->andWhere('Orders_DateTimeMade > '.strtotime(date('Y-m-d')))->orderBy('Orders_DateTimeMade DESC');
 				$query->joinWith(['order_item']);
 				$query->joinWith(['address']);
 				break;

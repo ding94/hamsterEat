@@ -47,7 +47,7 @@ RestaurantOrdersAsset::register($this);
                 <ul id="restaurant-orders-nav" class="nav nav-pills nav-stacked">
                     <li><?php echo Html::a("<i class='fa fa-chevron-left'></i> Back",['order/restaurant-order-history', 'rid'=>$rid])?></li>
                     <?php foreach($countOrder as $i=> $count):?>
-                      <li><?php echo Html::a($i.'<span class="badge">'.$count['total'].'</span>',['/order/restaurant-orders','status'=>$i,'rid'=>$rid])?></li>
+                      <li><?php echo Html::a($i.'<span class="badge">'.$count['total'].'</span>',['/order/restaurant-orders','status'=>$statusid[$i],'rid'=>$rid])?></li>
                     <?php endforeach ;?>
                 </ul>
             </div>
@@ -119,22 +119,22 @@ RestaurantOrdersAsset::register($this);
                             endforeach; ?></td>
 					<td data-th="Quantity"><?= $orderitem['OrderItem_Quantity']; ?></td>
 				<!--	<td data-th="Remark"><?= $orderitem['OrderItem_Remark']; ?></td>-->
-					 <?php if ($orderitem['OrderItem_Status'] == 'Pending'): ?>
+					 <?php if ($orderitem['OrderItem_Status'] == 2): ?>
                                 <td data-th="Update Status"><?php echo Html::a('Preparing', ['update-preparing', 'oid'=>$orderitem['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn']); ?></td>
 
-                            <?php elseif ($orderitem['OrderItem_Status'] == 'Preparing'): ?>
+                            <?php elseif ($orderitem['OrderItem_Status'] == 3): ?>
                                 <td data-th="Update Status"><?php echo Html::a('Ready for Pick Up', ['update-readyforpickup', 'oid'=>$orderitem['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn']); ?></td>
 
-                            <?php elseif ($orderitem['OrderItem_Status'] == 'Ready For Pick Up'): ?>
+                            <?php elseif ($orderitem['OrderItem_Status'] == 4): ?>
                                 <td data-th="Update Status"><span class='label label-warning'> Waiting for Pick Up </span></td>
 
-                            <?php elseif ($orderitem['OrderItem_Status'] == 'Picked Up'): ?>
+                            <?php elseif ($orderitem['OrderItem_Status'] == 10): ?>
                                 <td data-th="Update Status"><span class='label label-warning'> Picked Up </span></td>
 
-                            <?php elseif ($orderitem['OrderItem_Status'] == 'Canceled'): ?>
+                            <?php elseif ($orderitem['OrderItem_Status'] == 8): ?>
                                 <td data-th="Update Status"><span class='label label-danger'> Canceled </span></td>
 
-                            <?php elseif ($orderitem['OrderItem_Status'] == 'Canceled and Refunded'): ?>
+                            <?php elseif ($orderitem['OrderItem_Status'] == 9): ?>
                                 <td data-th="Update Status"><span class='label label-danger'> Canceled & Refunded </span></td>
 
                             <?php endif; ?>

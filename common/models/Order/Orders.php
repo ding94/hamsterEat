@@ -47,28 +47,28 @@ class Orders extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         switch ($this->Orders_Status) {
-            case 'Pending':
+            case 2:
                 $status = new Ordersstatuschange;
                 $status->Delivery_ID =  $this->Delivery_ID;
                 $status->OChange_PendingDateTime = time();
                 $status->save();
                 break;
-            case 'Preparing':
+            case 3:
                 $status = Ordersstatuschange::findOne($this->Delivery_ID);
                 $status->OChange_PreparingDateTime = time();
                 $status->save();
                 break;
-            case 'Pick Up in Process':
+            case 11:
                 $status = Ordersstatuschange::findOne($this->Delivery_ID);
                 $status->OChange_PickUpInProcessDateTime = time();
                 $status->save();
                 break;
-            case 'On The Way':
+            case 5:
                 $status = Ordersstatuschange::findOne($this->Delivery_ID);
                 $status->OChange_OnTheWayDateTime = time();
                 $status->save();
                 break;
-            case 'Completed':
+            case 6:
                 $status = Ordersstatuschange::findOne($this->Delivery_ID);
                 $status->OChange_CompletedDateTime = time();
                 $status->save();
@@ -85,9 +85,8 @@ class Orders extends \yii\db\ActiveRecord
             [['User_Username','Orders_Subtotal','Orders_DeliveryCharge','Orders_TotalPrice','Orders_PaymentMethod','Orders_Status','Orders_DateTimeMade','Orders_Time','Orders_Date'],'required'],
             [['Orders_Subtotal', 'Orders_DeliveryCharge', 'Orders_TotalPrice','Orders_DiscountEarlyAmount', 'Orders_DiscountTotalAmount'], 'number'],
             [['Orders_DiscountEarlyAmount','Orders_DiscountTotalAmount'],'default','value' => 0],
-            [[ 'Orders_DateTimeMade'], 'integer'],
+            [[ 'Orders_DateTimeMade','Orders_Status'], 'integer'],
             [['User_Username', 'Orders_PaymentMethod'], 'string', 'max' => 255],
-            [['Orders_Status'], 'string', 'max' => 50],
             [['Orders_Time' ],'time'],
             [['Orders_Date'],'date', 'format' => 'php:Y-m-d'],
             [['Delivery_ID'],'safe'],

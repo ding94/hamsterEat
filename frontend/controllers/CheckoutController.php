@@ -97,7 +97,7 @@ class CheckoutController extends CommonController
 
 		$deliveryman = CartController::assignDeliveryMan($post['area'],$post['DeliveryAddress']['cid']);
 
-		if($deliveryman == -1   )
+		if($deliveryman == -1)
 		{
 			return $this->redirect(Yii::$app->request->referrer);
 		}
@@ -111,19 +111,21 @@ class CheckoutController extends CommonController
 		$isValid = $allorderitem == -1 ? false : true;
 
 		$dataorder = $this->createOrder($post,$deliveryman,$address['area']);
-		
+
 		if($dataorder['value'] == -1)
 		{
 			return $this->redirect(Yii::$app->request->referrer);
 		}
+
 		$order = $dataorder['data'];
 		$delivery = $this->addDeliveryAssignment($deliveryman);
 
-		$isValid = $order->validate()  && $delivery->validate() && $address->validate();
+		$isValid = $order->validate()  && $delivery->validate() && $address->validate() && $isValid;
 		
 		if($isValid)
 		{
 			$transaction = Yii::$app->db->beginTransaction();
+
 			try{
 				$payment = -1;
 				$order->save();
@@ -146,7 +148,7 @@ class CheckoutController extends CommonController
 							$item->Order_ID = $orderitem->Order_ID;
 							if(!($isValid = $item->save()))
 		                    {
-		                           break;
+		                        break;
 		                    }
 						}
 						
@@ -286,7 +288,7 @@ class CheckoutController extends CommonController
 		$order->User_Username = Yii::$app->user->identity->username;
 		$order->Orders_Date = date("Y-m-d");
 		$order->Orders_Time = date("13:00:00");
-		$order->Orders_Status = $order->Orders_PaymentMethod == "Cash on Delivery" ? "Pending" : "Not Paid";
+		$order->Orders_Status = $order->Orders_PaymentMethod == "Cash on Delivery" ? 2 : 1;
 		$order->Orders_DateTimeMade = time();
 		$order->Orders_Subtotal = $subtotal;
 		$order->Orders_DeliveryCharge = 5;
@@ -331,7 +333,7 @@ class CheckoutController extends CommonController
 			$orderitem->OrderItem_Quantity  = $detail->quantity;
 			$orderitem->OrderItem_SelectionTotal = $detail->selectionprice;
 			$orderitem->OrderItem_LineTotal = $detail->price;
-			$orderitem->OrderItem_Status = $status == "Cash on Delivery" ? "Pending" : "Not Paid";
+			$orderitem->OrderItem_Status = $status == "Cash on Delivery" ? 2 : 1;
 			$orderitem->OrderItem_Remark = $detail->remark;
 			$isValid = $orderitem->validate() && $isValid;
 			$allitem[$i] = $orderitem;

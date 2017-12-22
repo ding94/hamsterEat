@@ -15,7 +15,7 @@ class RatingSearch extends Orders
 
 	public function search($params)
 	{
-		$query = Orders::find()->where(['Orders_Status' => 'Rating Done']);
+		$query = Orders::find()->where(['Orders_Status' => 7]);
 
 	
 		$dataProvider = new ActiveDataProvider([

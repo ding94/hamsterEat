@@ -41,7 +41,7 @@ class PaymentController extends CommonController
     {
         $order = $this->findOrder($did);
         $balance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => Yii::$app->user->identity->username])->one();
-        if($order->User_Username != $balance->User_Username || $order->Orders_Status != "Not Paid")
+        if($order->User_Username != $balance->User_Username || $order->Orders_Status != 1)
         {
             throw new NotFoundHttpException('Wrong Request.');
         }
@@ -52,23 +52,30 @@ class PaymentController extends CommonController
     {
         $post = Yii::$app->request->post();
         
-        
-        if(empty($post['type']))
+        if(empty($post['account-balance']))
         {
-            Yii::$app->session->setFlash('warning', 'Please Choose A Payment Method');
+            Yii::$app->session->setFlash('warning', 'Please Choose A Method');
             return $this->redirect(Yii::$app->request->referrer);
         }
 
-        if($post['type'] == 1)
+        if($post['account-balance'] == 1)
         {
             $order = $this->findOrder($post['did']);
             $isValid = $this->Payment($order->Orders_TotalPrice,$post['did']);
             if($isValid)
             {
-                $this->updateOrderStatus($post['did']);
+                $this->updateOrderStatus($post['did'],1);
                 NotificationController::createNotification($post['did'],3);
                 return $this->redirect(['/cart/aftercheckout','did'=>$post['did']]);
             }
+        }
+        elseif($post['account-balance'] == 2)
+        {
+            $order = $this->findOrder($post['did']);
+
+            $this->updateOrderStatus($post['did'],2);
+            NotificationController::createNotification($post['did'],3);
+            return $this->redirect(['/cart/aftercheckout','did'=>$post['did']]);
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -128,13 +135,25 @@ class PaymentController extends CommonController
         return false;
     }
 
-    protected static function updateOrderStatus($did)
+    protected static function updateOrderStatus($did,$case)
     {
         $order = Orders::find()->where('orders.Delivery_ID = :id',[':id'=>$did])->joinWith(['item'])->one();
-        $order->Orders_Status = "Pending";
+        switch ($case) {
+            case 2:
+                $order['Orders_PaymentMethod'] = 'Cash on Delivery';
+                break;
+            
+            default:
+                Yii::$app->session->setFlash('error','Something went wrong!');
+                return $this->redirect(Yii::$app->request->referrer);
+                break;
+        }
+
+        $order->Orders_Status = 2;
+        
         foreach($order['item'] as $item)
         {
-            $item->OrderItem_Status = "Pending";
+            $item->OrderItem_Status = 2;
             $item->save();
         }
         $order->save();

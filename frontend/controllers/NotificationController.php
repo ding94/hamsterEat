@@ -177,13 +177,13 @@ class NotificationController extends CommonController
 	public static function getPreOrderStatus($status)
 	{
 		switch ($status) {
-			case "Preparing":
+			case 2:
 				$data = "Pending";
 				break;
-			case "On The Way":
+			case 5:
 				$data = "Pick Up";
 				break;
-			case "Completed":
+			case 6:
 				$data = "On The Way";
 				break;
 			default:

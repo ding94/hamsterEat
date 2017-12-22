@@ -24,7 +24,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             'Orders_Time',
             [
                 'attribute' => 'Orders_Status',
-                'filter' => array( "Pending"=>"Pending","Not Placed"=>"Not Placed"),
+                'filter' => array( 2=>"Pending"),
             ],
             ['class' => 'yii\grid\ActionColumn' ,
              'template'=>'{showdetails}',

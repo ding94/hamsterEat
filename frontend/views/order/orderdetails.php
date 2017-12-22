@@ -34,7 +34,7 @@ OrderDetailsAsset::register($this);
                 <th><center> Approximate Receiving Time </th>
                 <td><?php $date = strtotime($order['Orders_Date'].' '.$order['Orders_Time']); echo date('d M Y h:i:s A',$date);?> </td>
                 <th><center> Status </th>
-                <td><?php echo $label; ?> </td>
+                <td> <?= $label[$order->Orders_Status]['label']; ?> </td>
             </tr>
             <tr>
                 <th><center> Payment Method </th>

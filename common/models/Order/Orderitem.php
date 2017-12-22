@@ -35,23 +35,23 @@ class Orderitem extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         switch ($this->OrderItem_Status) {
-            case 'Pending':
+            case 2:
                 $status = new Orderitemstatuschange;
                 $status->Order_ID = $this->Order_ID;
                 $status->Change_PendingDateTime = time();
                 $status->save();
                 break;
-            case 'Preparing':
+            case 3:
                 $status = Orderitemstatuschange::findOne($this->Order_ID);
                 $status->Change_PreparingDateTime = time();
                 $status->save();
                 break;
-            case 'Ready For Pick Up':
+            case 4:
                 $status = Orderitemstatuschange::findOne($this->Order_ID);
                 $status->Change_ReadyForPickUpDateTime = time();
                 $status->save();
                 break;
-            case 'Picked Up':
+            case 10:
                 $status = Orderitemstatuschange::findOne($this->Order_ID);
                 $status->   Change_PickedUpDateTime = time();
                 $status->save();
@@ -69,9 +69,9 @@ class Orderitem extends \yii\db\ActiveRecord
     {
         return [
             [['Food_ID','OrderItem_Quantity','OrderItem_SelectionTotal','OrderItem_LineTotal','OrderItem_Status'],'required'],
-            [['Delivery_ID', 'Food_ID', 'OrderItem_Quantity'], 'integer'],
+            [['Delivery_ID', 'Food_ID', 'OrderItem_Quantity','OrderItem_Status'], 'integer'],
             [['OrderItem_LineTotal','OrderItem_SelectionTotal'], 'number'],
-            [['OrderItem_Status', 'OrderItem_Remark'], 'string', 'max' => 255],
+            [['OrderItem_Remark'], 'string', 'max' => 255],
             [['Order_ID'],'safe'],
         ];
     }

@@ -114,13 +114,13 @@ class CommonController extends Controller
             case 3:
                 $data = [
                             Url::to(['/order/my-orders']) => 'All',
-                            Url::to(['/order/my-orders','status'=>'Not Paid']) => 'Not Paid',
-                            Url::to(['/order/my-orders','status'=>'Pending']) => 'Pending',
-                            Url::to(['/order/my-orders','status'=>'Canceled']) => 'Canceled',
-                            Url::to(['/order/my-orders','status'=>'Preparing']) => 'Preparing',
-                            Url::to(['/order/my-orders','status'=>'Pick Up In']) => 'Pick Up In',
-                            Url::to(['/order/my-orders','status'=>'On The Way']) => 'On The Way',
-                            Url::to(['/order/my-orders','status'=>'Completed']) => 'Completed',
+                            Url::to(['/order/my-orders','status'=>1]) => 'Not Paid',
+                            Url::to(['/order/my-orders','status'=>2]) => 'Pending',
+                            Url::to(['/order/my-orders','status'=>8]) => 'Canceled',
+                            Url::to(['/order/my-orders','status'=>3]) => 'Preparing',
+                            Url::to(['/order/my-orders','status'=>11]) => 'Pick Up In Process',
+                            Url::to(['/order/my-orders','status'=>5]) => 'On The Way',
+                            Url::to(['/order/my-orders','status'=>6]) => 'Completed',
                         ];
                 break;
             case 4:
@@ -148,11 +148,11 @@ class CommonController extends Controller
     public static function getRestaurantOrdersUrl($rid){
         $data = [
                     Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Back',
-                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Pending']) => 'Pending',
-                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Canceled']) => 'Canceled',
-                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Preparing']) => 'Preparing',
-                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'Pick Up In']) => 'Pick Up In',
-                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>'On The Way']) => 'On The Way',
+                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>2]) => 'Pending',
+                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>8]) => 'Canceled',
+                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>3]) => 'Preparing',
+                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>11]) => 'Pick Up In Process',
+                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>5]) => 'On The Way',
                 ];
 
         return $data;

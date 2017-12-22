@@ -296,3 +296,14 @@ label span.checkbox-custom-label{
   color: indianred;
   float: right;
 }
+
+.total-price{
+  float: right;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 27px;
+}
+
+.total-price::before{
+  content: "RM";
+}

@@ -219,6 +219,8 @@ label span.checkbox-custom-label{
   float: right;
   background-color: #FFDA00;
   border: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
 }
 
 .plus-btn,

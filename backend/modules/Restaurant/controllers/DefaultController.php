@@ -56,6 +56,7 @@ class DefaultController extends Controller
     public function actionDeactive($name)
     {
         $model = self::findModel($name);
+       
         $model->Rmanager_Approval = 0;
        
         if($model->save())
@@ -71,7 +72,7 @@ class DefaultController extends Controller
 
     protected function findModel($name)
     {
-        $model = Rmanager::find()->where('User_username = :name',[':name' =>$name])->one();
+        $model = Rmanager::find()->where('User_Username = :name',[':name' =>$name])->one();
         if ($model !== null) {
             return $model;
         } else {

@@ -256,7 +256,11 @@ class OrderController extends CommonController
         $record = DailySignInController::getDailyData(1);
         $link = CommonController::createUrlLink(5);
 
-        return $this->render('deliverymanorder', ['dman'=>$dman,'record'=>$record,'link'=>$link,'statusid'=>$statusid]);
+
+		$orderitem = Orderitem::find()->where('deliveryman = :u',[':u'=> Yii::$app->user->identity->id])->joinWith(['address','order','food.restaurant'])->all();
+
+        return $this->render('deliverymanorder', ['dman'=>$dman,'record'=>$record,'link'=>$link,'orderitem'=>$orderitem,'statusid'=>$statusid]);
+
     }
 	
 	public function actionDeliverymanPickup()

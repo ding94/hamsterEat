@@ -36,3 +36,9 @@ phpunit.phar
 *.jpg
 *.jpg
 frontend/web/imageLocation/1513843196.png
+
+/frontend/web/imageLocation/*.jpg
+/frontend/web/imageLocation/*.png
+/frontend/web/imageLocation/bank/*.img
+/frontend/web/imageLocation/topup/*.img
+/frontend/web/imageLocation/feedback/*.img

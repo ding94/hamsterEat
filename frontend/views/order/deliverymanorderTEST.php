@@ -57,7 +57,7 @@ DeliverymanOrdersAsset::register($this);
 				<?php  $address = array_shift($restaurant)?>
 				<div style="border:1px solid black;">
 					<div class="inner-row"><h4><b><?php echo $rname; ?></b></h4>
-					<div style="padding-left:20px;"><?php echo Html::a('Show Location',"$address" ,['class'=>'raised-btn main-btn','target'=>'_blank']);?>
+					<div style="padding-left:20px;"><?php echo Html::a('Show Location',"$address" ,['class'=>'raised-btn secondary-btn','target'=>'_blank']);?>
 				</div>
 				</div>
 				<?php foreach($restaurant as $sname=> $order): ?>

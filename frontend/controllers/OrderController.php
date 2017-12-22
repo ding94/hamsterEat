@@ -251,22 +251,13 @@ class OrderController extends CommonController
 //--This function loads all the specific delivery man's assigned orders (not completed)
     public function actionDeliverymanOrders()
     {
-<<<<<<< HEAD
         $dman = Orders::find()->where('deliveryman = :dman and Orders_Status != :status and Orders_Status != :status1', [':dman'=>Yii::$app->user->identity->id, ':status'=>6, ':status1'=>7])->orderBy(['Delivery_ID'=>SORT_ASC])->joinWith(['address'])->all();
         $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
         $record = DailySignInController::getDailyData(1);
         $link = CommonController::createUrlLink(5);
-
-        return $this->render('deliverymanorder', ['dman'=>$dman,'record'=>$record,'link'=>$link,'statusid'=>$statusid]);
-=======
-        $dman = Orders::find()->where('deliveryman = :dman and Orders_Status != :status and Orders_Status != :status1', [':dman'=>Yii::$app->user->identity->id, ':status'=>'Completed', ':status1'=>'Rating Done'])->orderBy(['Delivery_ID'=>SORT_ASC])->joinWith(['address'])->all();
 		$orderitem = Orderitem::find()->where('deliveryman = :u',[':u'=> Yii::$app->user->identity->id])->joinWith(['address','order','food.restaurant'])->all();
-		
-        $record = DailySignInController::getDailyData(1);
-        $link = CommonController::createUrlLink(5);
 
-        return $this->render('deliverymanorder', ['dman'=>$dman,'record'=>$record,'link'=>$link,'orderitem'=>$orderitem]);
->>>>>>> acea78a2ad1bcc435ecf98485d179b51f898e81b
+        return $this->render('deliverymanorder', ['dman'=>$dman,'record'=>$record,'link'=>$link,'orderitem'=>$orderitem,'statusid'=>$statusid]);
     }
 	
 	public function actionDeliverymanPickup()

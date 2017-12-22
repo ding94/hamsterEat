@@ -73,7 +73,7 @@ Class RatingController extends CommonController
 		{
 			Yii::$app->session->setFlash('warning', "Fail");
 		}
-		return $this->redirect(['order/my-order-history']);
+		return $this->redirect(['order/my-orders','status'=>6]);
 	}
 
 	protected static function changeStatus($id)

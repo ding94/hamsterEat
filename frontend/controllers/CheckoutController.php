@@ -96,13 +96,8 @@ class CheckoutController extends CommonController
 		$address = $deliveyaddress['data'];
 
 		$deliveryman = CartController::assignDeliveryMan($post['area'],$post['DeliveryAddress']['cid']);
-<<<<<<< HEAD
-
-		if($deliveryman == -1)
-=======
-	
+		
 		if($deliveryman == -1   )
->>>>>>> acea78a2ad1bcc435ecf98485d179b51f898e81b
 		{
 			return $this->redirect(Yii::$app->request->referrer);
 		}

@@ -7,6 +7,7 @@ use Yii;
 /**
  * This is the model class for table "rmanager".
  *
+ * @property integer $uid
  * @property string $User_Username
  * @property string $Rmanager_NRIC
  * @property integer $Rmanager_Approval
@@ -29,8 +30,8 @@ class Rmanager extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            ['uid','User_Username','Rmanager_NRIC','required'],
-            [['Rmanager_Approval', 'Rmanager_DateTimeApplied', 'Rmanager_DateTimeApproved'], 'integer'],
+            [['uid'], 'required'],
+            [['uid', 'Rmanager_Approval', 'Rmanager_DateTimeApplied', 'Rmanager_DateTimeApproved'], 'integer'],
             [['User_Username'], 'string', 'max' => 255],
             [['Rmanager_NRIC'], 'string', 'max' => 12],
         ];
@@ -42,11 +43,12 @@ class Rmanager extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'User_Username' => 'User Username',
-            'Rmanager_NRIC' => 'Rmanager Nric',
-            'Rmanager_Approval' => 'Rmanager Approval',
-            'Rmanager_DateTimeApplied' => 'Rmanager Date Time Applied',
-            'Rmanager_DateTimeApproved' => 'Rmanager Date Time Approved',
+            'uid' => 'Uid',
+            'User_Username' => 'User  Username',
+            'Rmanager_NRIC' => 'Rmanager  Nric',
+            'Rmanager_Approval' => 'Rmanager  Approval',
+            'Rmanager_DateTimeApplied' => 'Rmanager  Date Time Applied',
+            'Rmanager_DateTimeApproved' => 'Rmanager  Date Time Approved',
         ];
     }
 }

@@ -58,6 +58,7 @@ class DefaultController extends Controller
         $model = self::findModel($name);
        
         $model->Rmanager_Approval = 0;
+       
         if($model->save())
         {
             Yii::$app->session->setFlash('success', "Deapprove completed");

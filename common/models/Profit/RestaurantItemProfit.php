@@ -93,7 +93,6 @@ class RestaurantItemProfit extends \yii\db\ActiveRecord
         return $data->total - $discount;
     }
 
-
     public function getOriginal()
     {
         return  CartController::actionDisplay2decimal($this->originalPrice);
@@ -107,5 +106,10 @@ class RestaurantItemProfit extends \yii\db\ActiveRecord
     public function getSellPrice()
     {
         return  CartController::actionDisplay2decimal($this->finalPrice * $this->quantity);
+    }
+
+    public function getTime()
+    {
+        return date("Y-m-d" , $this->created_at);
     }
 }

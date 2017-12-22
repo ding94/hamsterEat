@@ -22,10 +22,11 @@
   font-size: 24px;
   color: black;
   background-color: white;
-  min-width: 300px;
+  min-width: 250px;
   min-height: 180px;
   border-bottom:1px solid #FFDA00;
   padding-right: 20px;
+  display: flex;
 }
 
 .item-no-border p{
@@ -34,29 +35,26 @@
 }
 
 .item-no-border .small-text{
-   font-size:15px;
+  font-size:15px;
   color:grey; 
   margin-top: 10px;
 }
 
 .item-no-border .price{
-    font-size: 17px;
-    color: black;
+  font-size: 17px;
+  color: black;
 }
 
 .item-no-border .inner-item{
   margin:10px 0px 10px 30px;
-  float:left;
   width: 80%;
+  display: flex;
+  flex-direction: column;
 }
 
 .item-no-border .tag{
-    font-size: 13px;
-    color: grey;
-}
-
-.item-no-border .img{
-  float:left;
+  font-size: 13px;
+  color: grey;
 }
 
 .item-no-border img{
@@ -86,7 +84,7 @@
 
 .item-no-border .foodName{
   display: block;
-  width: 30em;
+  width: 27em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -94,7 +92,7 @@
 
 .item-no-border .foodDesc{
   display: block;
-  width: 47em;
+  width: 46em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -105,13 +103,29 @@
   float: right;
 }
 
+.foodName-div{
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  flex: 1 1 auto;
+}
+
+.foodDesc-div{
+  flex: 0 1 auto;
+}
+
+.top-button-div{
+  display: flex;
+  justify-content: space-between;
+}
+
 @media (max-width: 1199px){
   .item-no-border .inner-item{
     width: 78%;
   }
 
   .item-no-border .foodName{
-    width: 24em;
+    width: 20em;
   }
 
   .item-no-border .foodDesc{
@@ -125,7 +139,7 @@
   }
 
   .item-no-border .foodName{
-    width: 17em;
+    width: 12em;
   }
 
   .item-no-border .foodDesc{
@@ -139,7 +153,7 @@
   }
 
   .item-no-border .foodName{
-    width: 13em;
+    width: 9em;
   }
 
   .item-no-border .foodDesc{
@@ -157,10 +171,19 @@
   }
 
   .item-no-border .foodName{
-    width: 10em;
+    width: 5em;
   }
 
   .item-no-border .foodDesc{
-    width: 13em;
+    width: 12em;
+  }
+
+  .top-button-div{
+    flex-direction: column;
+  }
+
+  .top-button-div a{
+    width: 100%;
+    margin-bottom: 10px;
   }
 }

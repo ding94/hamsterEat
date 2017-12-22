@@ -3,6 +3,9 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 use yii\helpers\Url;
+use kartik\date\DatePicker;
+use kartik\widgets\Select2;
+use kartik\widgets\ActiveForm;
 use kartik\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
@@ -11,19 +14,52 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
   $this->title = "Order Profit";
   $this->params['breadcrumbs'][] = $this->title;
 
-  echo GridView::widget([
+?>
+<?php $form = ActiveForm::begin(['method' => 'get','action'=>['/order/profit/index']]); ?>
+    <label class="control-label">Search ...</label>
+    <div class="row">
+        <div class="col-md-6">
+            <?php
+                echo DatePicker::widget([
+                        'name' => 'first',
+                        'value' => $first,
+                        'type' => DatePicker::TYPE_RANGE,
+                        'name2' => 'last',
+                        'value2' => $last,
+                        'pluginOptions' => [
+                            'autoclose'=>true,
+                            'format' => 'yyyy-m-d'
+                    ]
+                ]);
+            ?>
+        </div>
+        <div class="col-md-3">
+            <?=Html::input('text','id','',['class'=>'form-control', 'placeholder' => "Enter Delivery ID"])?>
+        </div>
+        <div class="col-md-3">
+            <?= Html::submitButton('Search', ['class' => 'btn-block ']) ?>
+        </div>
+     </div>
+<?php ActiveForm::end(); ?> 
+<?php   echo GridView::widget([
         'dataProvider'=>$model,
-        'filterModel'=>$searchModel,    
         'pjax'=>true,
         'striped'=>false,
         'hover'=>true,
+        'headerRowOptions' => ['class' => 'kartik-sheet-style'],
+         'panel'=>[
+            'type'=>GridView::TYPE_SUCCESS,
+          
+        ],
         //'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
         'columns'=>[
             [
-                'header' => 'did',
+               'format' => 'raw',
+
                 'value'=>function ($model, $key, $index, $widget) { 
-                    return "Delivery ID : ".$model->did;
+                    return "<div class='col-md-8'>Delivery ID : ".$model->did ."</div><div class='col-md-2 pull-right'>Time : ".$model->time."</div>";
                 },
+
                 'group'=>true, 
                 'groupedRow'=>true,  
                 'groupOddCssClass'=>'kv-grouped-row',  // configure odd group cell css class
@@ -42,29 +78,40 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                             5=>['format'=>'number', 'decimals'=>2],
                         ],
                         'contentOptions'=>[      // content html attributes for each summary cell
+                            4=>['style'=>'text-align:right'],
+                            5=>['style'=>'text-align:right'],
                             6=>['style'=>'text-align:right'],
                         ],
                     'options'=>['class'=>'success','style'=>'font-weight:bold;']
                     ];
                 }
             ],
-            'oid',
+            [    
+                'header' => 'Order ID',
+                'value' => 'oid',
+                'mergeHeader'=>true,
+            ],
+          
             [
+                'hAlign'=>'right',
                 'header' => 'Single Price',
                 'value' => 'original',
                 'mergeHeader'=>true,
             ],
             [
+                'hAlign'=>'right',
                 'header' => 'Quantity',
                 'value' => 'quantity',
                 'mergeHeader'=>true,
             ],
             [
+                'hAlign'=>'right',
                 'header' => 'Cost',
                 'value' => 'cost',
                 'mergeHeader'=>true,
             ],
             [
+                'hAlign'=>'right',
                 'class'=>'kartik\grid\FormulaColumn',
                 'header'=>'Mark Up 30%',
                 'value'=>function ($model, $key, $index, $widget) { 

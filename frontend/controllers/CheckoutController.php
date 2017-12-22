@@ -96,8 +96,13 @@ class CheckoutController extends CommonController
 		$address = $deliveyaddress['data'];
 
 		$deliveryman = CartController::assignDeliveryMan($post['area'],$post['DeliveryAddress']['cid']);
+<<<<<<< HEAD
 
 		if($deliveryman == -1)
+=======
+	
+		if($deliveryman == -1   )
+>>>>>>> acea78a2ad1bcc435ecf98485d179b51f898e81b
 		{
 			return $this->redirect(Yii::$app->request->referrer);
 		}
@@ -118,6 +123,7 @@ class CheckoutController extends CommonController
 		}
 
 		$order = $dataorder['data'];
+		
 		$delivery = $this->addDeliveryAssignment($deliveryman);
 
 		$isValid = $order->validate()  && $delivery->validate() && $address->validate() && $isValid;
@@ -359,6 +365,7 @@ class CheckoutController extends CommonController
 	protected static function addDeliveryAssignment($id)
 	{
 		$user = User::findOne($id);
+		
 		$delivery = Deliveryman::find()->where("User_id = :uid",[':uid' => $user->id])->one();
 		$delivery->DeliveryMan_Assignment += 1;
 		return $delivery;

@@ -3,56 +3,103 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
+use kartik\date\DatePicker;
+use kartik\widgets\Select2;
+use kartik\widgets\ActiveForm;
+use kartik\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
+use kartik\export\ExportMenu;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
-  $this->title = 'Restuarant Lists';
-  $this->params['breadcrumbs'][] = $this->title;
+    $this->title = "Restaurant ".$id." Earning";
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Restuarant Detail '), 'url' => ['default/index']];
+    $this->params['breadcrumbs'][] = $this->title;
+?>
+<?php $form = ActiveForm::begin(['method' => 'get','action'=>['/restaurant/restaurant/profit','id'=>$id]]); ?>
+    <label class="control-label">Search ...</label>
+    <div class="row">
+        <div class="col-md-9">
+            <?php
+                echo DatePicker::widget([
+                        'name' => 'first',
+                        'value' => $first,
+                        'type' => DatePicker::TYPE_RANGE,
+                        'name2' => 'last',
+                        'value2' => $last,
+                        'pluginOptions' => [
+                            'autoclose'=>true,
+                            'startView'=>'year',
+                            'minViewMode'=>'months',
+                            'format' => 'yyyy-m'
+                            ]
+                ]);
+            ?>
+        </div>
+        <div class="col-md-3">
+            <?= Html::submitButton('Search', ['class' => 'btn-block ']) ?>
+        </div>
+     </div>
+<?php ActiveForm::end(); ?> 
+<?php   echo GridView::widget([
+        'dataProvider'=>$model,
+        'filterModel' => $searchModel,
+        'pjax'=>true,
+        'striped'=>false,
+        'hover'=>true,
+        'showPageSummary' => true,
+        'headerRowOptions' => ['class' => 'kartik-sheet-style'],
+        'panel'=>[
+            'type'=>GridView::TYPE_SUCCESS,
+          
+        ],
+         'exportConfig' =>[ExportMenu::EXCEL => false,
+                        ExportMenu::PDF => false],
+        //'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
+        'columns'=>[
+            'oid',
+            [
+                'header'=>'Original',
+                'hAlign'=>'right',
+                'value' => 'original',
+                
+            ],
+            [
+                'header'=>'Quantity',
+                'hAlign'=>'right',
+                'value' => 'quantity',
+                
+            ],
+            [
+                'header'=>'Cost',
+                'hAlign'=>'right',
+                'value' => 'cost',
+                'pageSummary' => true,
+                'format'=>['decimal', 2],
+            ],
+            [
+                'hAlign'=>'right',
+                'class'=>'kartik\grid\FormulaColumn',
+                'header'=>'Mark Up 30%',
+                'headerOptions' => ['class' => 'kartik-sheet-style'],
+                'mergeHeader' => true,
+                'value' => function ($model, $key, $index, $widget) { 
+                    $p = compact('model', 'key', 'index');
+                    return $widget->col(5, $p) - $widget->col(3, $p);
+                },
+
+                'format'=>['decimal', 2],     
+            ],
+            [
+                'hAlign'=>'right',
+                'value' => 'sellPrice',
+                'pageSummary' => true,
+                'format'=>['decimal', 2],
+            ],
+            'created_at:datetime'
+        ],
+        
+    ]);
   
 ?>
-
-<?= GridView::widget([
-        'dataProvider' => $model,
-        'filterModel' => $searchModel,
-        'columns' => [
-        	'Restaurant_ID',
-        	'Restaurant_Name',
-        	'Restaurant_Manager',
-        	'Restaurant_Area',
-            [
-                'attribute' => 'Restaurant_Status',
-                'filter' => array( "Closed"=>"Closed","Under Renovation"=>"Under Renovation"),
-            ],
-            
-            'Restaurant_LicenseNo',
-            'Restaurant_Rating',
-            [ 
-                'attribute'=> 'Restaurant_DateTimeCreated',
-                'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'Restaurant_DateTimeCreated', 'dateFormat' => 'yyyy-MM-dd',]),
-                'format' => 'datetime',
-             ],
-            
-            
-            [
-                'attribute' => 'approve',
-                'format' => 'raw',
-                'value' => function($model,$url)
-                {
-                    if($model->Restaurant_Status == "Closed")
-                    {
-                        $url =Url::to(['restaurant/active','id' =>$model->Restaurant_ID]);
-                    }
-                    else
-                    {
-                        $url = Url::to(['restaurant/deactive','id' =>$model->Restaurant_ID]);
-                    }
-                
-                    return $model->Restaurant_Status == "Closed" ?  Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'Activate']) :  Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'Deactivate']);
-                },
-                'filter' =>  array( "Closed"=>"Closed","Operating"=>"Operating"),
-            ],
-
-        ]
-]); ?>
+   

@@ -4,6 +4,7 @@ namespace common\models\Order;
 
 use Yii;
 use yii\helpers\Json;
+use common\models\Restaurant;
 use common\models\food\Food;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
@@ -26,6 +27,7 @@ class Orderitem extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+	 public $check;
     public $item = [];
     public static function tableName()
     {
@@ -71,7 +73,11 @@ class Orderitem extends \yii\db\ActiveRecord
             [['Food_ID','OrderItem_Quantity','OrderItem_SelectionTotal','OrderItem_LineTotal','OrderItem_Status'],'required'],
             [['Delivery_ID', 'Food_ID', 'OrderItem_Quantity','OrderItem_Status'], 'integer'],
             [['OrderItem_LineTotal','OrderItem_SelectionTotal'], 'number'],
+<<<<<<< HEAD
             [['OrderItem_Remark'], 'string', 'max' => 255],
+=======
+            [['OrderItem_Status', 'OrderItem_Remark','check'], 'string', 'max' => 255],
+>>>>>>> acea78a2ad1bcc435ecf98485d179b51f898e81b
             [['Order_ID'],'safe'],
         ];
     }

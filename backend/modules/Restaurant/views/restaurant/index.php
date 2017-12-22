@@ -40,19 +40,18 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             <?= Html::submitButton('Search', ['class' => 'btn-block ']) ?>
         </div>
      </div>
-<?php 
-    ActiveForm::end(); 
-    foreach($totalProfit as $date=>$data):
-?>
+<?php ActiveForm::end(); ?>
     <div class="row">
+    <?php foreach($totalProfit as $date=>$data):?>
         <div class="col-md-3">
-            <p><?php echo $data['cost']?></p>
-            <p><?php echo $data['sellPrice']?></p>
+            <p><?php echo $date?></p>
+            <p>Total Cost <?php echo $data['cost']?></p>
+            <p>Total Sell Price <?php echo $data['sellPrice']?></p>
         </div>
+    
+    <?php endforeach ;?>
     </div>
-<?php 
-    endforeach ;
-    echo GridView::widget([
+<?php  echo GridView::widget([
         'dataProvider'=>$model,
         'filterModel' => $searchModel,
         'pjax'=>true,

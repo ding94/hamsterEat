@@ -38,7 +38,7 @@ FoodDetailsAsset::register($this);
                      <?php echo $fooddata->Name;?>
             </div>
               
-          <div class="foodprice">
+          <div class="foodprice" data-price="<?php echo CartController::actionRoundoff1decimal($fooddata->Price); ?>">
                     <!--<td>Food Price (RM):</td>-->
 
                  RM <?php echo CartController::actionRoundoff1decimal($fooddata->Price);?>
@@ -66,12 +66,12 @@ FoodDetailsAsset::register($this);
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="radio">';
-                                      $return .= '<input id="'. $value .'" class="radio-custom" type="radio" name="' . $name . '" value="' . $value . '" >';
+                                      $return .= '<input id="'. $value .'" class="radio-custom price" type="radio" name="' . $name . '" value="' . $value . '" >';
                                       $return .= '<label for="'. $value .'" class="food-detail-label">';
                                       $return .= $label;
                                       $return .= '</label>';
                                       $return .= '</div>';
-
+                                      
                                       return $return;
                                   }
                               ])->label(false); ?>
@@ -91,7 +91,7 @@ FoodDetailsAsset::register($this);
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="checkbox">';
-                                      $return .= '<input id="'. $value .'" class="checkbox-custom" type="checkbox" name="' . $name . '" value="' . $value . '" >';
+                                      $return .= '<input id="'. $value .'" class="checkbox-custom price" type="checkbox" name="' . $name . '" value="' . $value . '" >';
                                       $return .= '<label for="'. $value .'" class="food-detail-label">';
                                       $return .= $label;
                                       $return .= '</label>';
@@ -116,7 +116,7 @@ FoodDetailsAsset::register($this);
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="checkbox">';
-                                      $return .= '<input id="'. $value .'" class="checkbox-custom" type="checkbox" name="' . $name . '" value="' . $value . '" >';
+                                      $return .= '<input id="'. $value .'" class="checkbox-custom price" type="checkbox" name="' . $name . '" value="' . $value . '" >';
                                       $return .= '<label for="'. $value .'" class="food-detail-label">';
                                       $return .= $label;
                                       $return .= '</label>';
@@ -136,7 +136,8 @@ FoodDetailsAsset::register($this);
                
                 <?= $form->field($cart, 'quantity',['options'=>['class'=>'quantity']],['enableClientValidation' => false])->widget(TouchSpin::classname(), [
                     'options' => [
-                        'style'=>'height:40px;text-align:center'
+                        'style'=>'height:40px;text-align:center',
+                        'class'=>'price'
                     ],
                     'pluginOptions' => [
                         'min' => 1,
@@ -149,7 +150,7 @@ FoodDetailsAsset::register($this);
                     ],
                 ])->label(false); ?> 
               <div>
-                <?= Html::submitButton('Add to cart', ['class' => 'raised-btn addtocart-btn', 'name' => 'addtocart']) ?>
+                <?= Html::submitButton('Add to cart<span class="total-price">'. CartController::actionRoundoff1decimal($fooddata->Price) .'</span>', ['class' => 'raised-btn addtocart-btn', 'name' => 'addtocart']) ?>
 
        
              </div>

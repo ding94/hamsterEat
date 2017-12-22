@@ -105,78 +105,31 @@ DeliverymanOrdersAsset::register($this);
                     </tr>
                 </thead>
                 <?php
-                    $orderitemdetails = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$orderdetails['Delivery_ID']])->orderBy(['Order_ID'=>SORT_ASC])->all();
+                $orderitemdetails = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$orderdetails['Delivery_ID']])->orderBy(['Order_ID'=>SORT_ASC])->all();
                     
-                    foreach ($orderitemdetails as $orderitemdetails) :
+                foreach ($orderitemdetails as $orderitemdetails) :
                 ?>
-                <tr>
-                    <?php
-                         $foodname = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitemdetails['Food_ID']])->one();
-                        $restname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$foodname['Restaurant_ID']])->one();
-                    ?>
-                    <td data-th="Restaurant Name"><?php echo $restname['Restaurant_Name']; ?></td>
-                    <td colspan="2" data-th="Area"><?php echo $restname['Restaurant_Area']; ?></td>
-                    <td data-th="Quantity"><?php echo $orderitemdetails['OrderItem_Quantity']; ?></td>
-                    <?php
-                        if ($orderitemdetails['OrderItem_Status'] == 'Pending'){
-                    ?>
-                    <td data-th="Current Status"><span class="label label-warning"><?php echo $orderitemdetails['OrderItem_Status'];?></span></td>
-                    <?php
-                        }
-                        elseif($orderitemdetails['OrderItem_Status']== 'Preparing')
-                        {
-                    ?>
-                    <td data-th="Current Status"><span class="label label-info"><?php echo $orderitemdetails['OrderItem_Status'];?></span></td>
-                    <?php
-                        }
-                        elseif($orderitemdetails['OrderItem_Status']== 'Ready For Pick Up')
-                        {
-                    ?>
-                    <td data-th="Current Status"><span class="label label-info"><?php echo $orderitemdetails['OrderItem_Status'];?></span></td>
-                    <?php
-                        }
-                        elseif($orderitemdetails['OrderItem_Status']== 'Picked Up')
-                        {
-                    ?>
-                    <td data-th="Current Status"><span class="label label-info"><?php echo $orderitemdetails['OrderItem_Status'];?></span></td>
-                    <?php
-                        }
-                        if ($orderitemdetails['OrderItem_Status'] == 'Pending')
-                        {
-                    ?>
-                    <td data-th="Current Status"><span class='label label-warning'> Wait for Food to be Prepared </span></td>
-                    <?php
-                        }
-                        elseif ($orderitemdetails['OrderItem_Status'] == 'Preparing')
-                        {
-                    ?>
-                    <td data-th="Current Status"><span class='label label-warning'> Wait for Food to be Prepared </span></td>
-                    <?php
-                        }
-                        elseif ($orderitemdetails['OrderItem_Status'] == 'Ready For Pick Up')
-                        {
-                    ?>
+                    <tr>
+                        <?php
+                             $foodname = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitemdetails['Food_ID']])->one();
+                            $restname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$foodname['Restaurant_ID']])->one();
+                        ?>
+                        <td data-th="Restaurant Name"><?php echo $restname['Restaurant_Name']; ?></td>
+                        <td colspan="2" data-th="Area"><?php echo $restname['Restaurant_Area']; ?></td>
+                        <td data-th="Quantity"><?php echo $orderitemdetails['OrderItem_Quantity']; ?></td>
+                        <td><?= $statusid[$orderitemdetails['OrderItem_Status']];?></td>
 
-                    <td data-th="Update Status"><?php echo Html::a('Picked Up', ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$orderdetails['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td>
-
-                    <?php
-                        }
-                        if ($orderdetails['Orders_Status'] != 'On The Way')
-                        {
-                    ?>
-                </tr>
-                    <?php
-                        }
-                        else
-                        {
-                    ?>
-                    <td data-th="Update Status"><?php echo Html::a('Completed', ['update-completed', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$orderdetails['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td>
-
-                </tr>
-                    <?php
-                        }
-                    endforeach;
-                    ?>
+                        <?php if ($orderitemdetails['OrderItem_Status'] == 2): ?>
+                            <td data-th="Current Status"><span class='label label-warning'> Wait for Food to be Prepared </span></td>
+                        <?php elseif($orderitemdetails['OrderItem_Status']== 3): ?>
+                            <td data-th="Current Status"><span class='label label-warning'> Wait for Food to be Prepared </span></td>
+                        <?php elseif($orderitemdetails['OrderItem_Status']== 4): ?>
+                            <td data-th="Update Status"><?php echo Html::a('Picked Up', ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$orderdetails['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td>
+                        <?php elseif ($orderdetails['Orders_Status'] == 5): ?>
+                            <td data-th="Update Status"><?php echo Html::a('Completed', ['update-completed', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$orderdetails['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td>
+                        <?php endif;?>
+                    </tr>
+                <?php endforeach; ?>
             </table>
         <?php endforeach; } ?>
         </div>

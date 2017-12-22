@@ -58,12 +58,12 @@ class Foodselection extends \yii\db\ActiveRecord
 
     public function getTypeprice()
     {
-        return '<span>'.$this->Name.'</span><span>(+ RM'.CartController::actionRoundoff1decimal($this->Price).')</span><span class="radio-custom-label"></span>';
+        return '<span>'.$this->Name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($this->Price).'">(+ RM'.CartController::actionRoundoff1decimal($this->Price).')</span><span class="radio-custom-label"></span>';
     }
 
     public function getCheckboxtypeprice()
     {
-        return '<span>'.$this->Name.'</span><span>(+ RM'.CartController::actionRoundoff1decimal($this->Price).')</span><span class="checkbox-custom-label"></span>';
+        return '<span>'.$this->Name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($this->Price).'">(+ RM'.CartController::actionRoundoff1decimal($this->Price).')</span><span class="checkbox-custom-label"></span>';
     }
 
     public function getSelectedtpye()

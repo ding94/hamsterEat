@@ -376,7 +376,7 @@ class CartController extends CommonController
     {
         $order = Orders::find()->where("orders.Delivery_ID = :id",[':id'=>$did])->joinWith(['address'])->one();
         
-        if($order->Orders_Status == "Not Paid")
+        if($order->Orders_Status == 1)
         {
             return $this->redirect(['/payment/process-payment','did'=>$did]);
         }

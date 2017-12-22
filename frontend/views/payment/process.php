@@ -36,15 +36,21 @@ PaymentAsset::register($this);
 		<?php $form = ActiveForm::begin(['action' => ['/payment/payment-post']]); ?>
 		<ul class="payment-selection">
 			<li>
-				<input type="radio" id="account-balance" name="type" value="1">
-    			<label for="account-balance">Use Account Balance</label>
-    			<span class="pull-right">Your Current Balance : RM<?php echo $balance->User_Balance ?></span>
-    			<div class="check"></div>
-    		</li>
+        <input type="radio" id="account-balance" name="account-balance" value="1">
+          <label for="account-balance">Use Account Balance</label>
+          <span class="pull-right">Your Current Balance : RM<?php echo $balance->User_Balance ?></span>
+          <div class="check"></div>
+        </li>
+        <li>
+        <input type="radio" id="cash-on" name="account-balance" value="2">
+          <label for="cash-on">Back to COD</label>
+          <span class="pull-right">*COD = Cash On Delivery</span>
+          <div class="check"></div>
+        </li>
 		</ul>
 		<?php echo Html::hiddenInput('did', $order->Delivery_ID);?>
 		<div class="button-div">
-			<?php echo Html::submitButton('Make A Payment', ['class' => 'raised-btn main-btn payment-button']);?>
+			<?php echo Html::submitButton('Submit', ['class' => 'raised-btn main-btn payment-button']);?>
 		</div>
 		<?php ActiveForm::end(); ?>
 	</div>

@@ -71,39 +71,39 @@ RestaurantOrdersHistoryAsset::register($this);
                             <th><center> Money Collected (RM) </th>
                         </tr>
                     </thead>
-                    <?php
-                    // This calculates the total amount the restaurant earns from this whole order (For each specific restaurant)
-                    $thefinalselectionprice = 0;
-                    $thefinalmoneycollected = 0;
-                    $thefinalfoodprice = 0;
-                    $themoneycollected = 0;
-                    $thequantity = $result['OrderItem_Quantity'];
-                    $theorderid = $result['Order_ID'];
-                    $thefoodid = $result['Food_ID'];
+                        <?php
+                        // This calculates the total amount the restaurant earns from this whole order (For each specific restaurant)
+                            $thefinalselectionprice = 0;
+                            $thefinalmoneycollected = 0;
+                            $thefinalfoodprice = 0;
+                            $themoneycollected = 0;
+                            $thequantity = $result['OrderItem_Quantity'];
+                            $theorderid = $result['Order_ID'];
+                            $thefoodid = $result['Food_ID'];
 
-                    $thefoodprice = Food::find()->where('Food_ID = :fid', [':fid' => $thefoodid])->one();
-                    $thefoodprice = $thefoodprice['BeforeMarkedUp'];
+                            $thefoodprice = Food::find()->where('Food_ID = :fid', [':fid' => $thefoodid])->one();
+                            $thefoodprice = $thefoodprice['BeforeMarkedUp'];
 
-                    $selectionids = Orderitemselection::find()->where('Order_ID = :oid', [':oid' => $theorderid])->all();
-                    foreach ($selectionids as $selectionids) :
-                        $theselectionid = $selectionids['Selection_ID'];
+                            $selectionids = Orderitemselection::find()->where('Order_ID = :oid', [':oid' => $theorderid])->all();
+                            foreach ($selectionids as $selectionids) :
+                                $theselectionid = $selectionids['Selection_ID'];
 
-                        $theselectionprice = Foodselection::find()->where('ID = :sid', [':sid' => $theselectionid])->one();
-                        $theselectionprice = $theselectionprice['BeforeMarkedUp'];
-                            
-                        $thefinalselectionprice = $thefinalselectionprice + $theselectionprice;
-                    endforeach;
-                        
-                    $thefinalfoodprice = $thefinalfoodprice + $thefoodprice;
-                    $themoneycollected = ($thefinalfoodprice + $thefinalselectionprice) * $thequantity;
-                    $thefinalmoneycollected = $thefinalmoneycollected + $themoneycollected;
-                    ?>
+                                $theselectionprice = Foodselection::find()->where('ID = :sid', [':sid' => $theselectionid])->one();
+                                $theselectionprice = $theselectionprice['BeforeMarkedUp'];
+                                    
+                                $thefinalselectionprice = $thefinalselectionprice + $theselectionprice;
+                            endforeach;
+                                
+                            $thefinalfoodprice = $thefinalfoodprice + $thefoodprice;
+                            $themoneycollected = ($thefinalfoodprice + $thefinalselectionprice) * $thequantity;
+                            $thefinalmoneycollected = $thefinalmoneycollected + $themoneycollected;
+                        ?>
                     <tr>
                         <td data-th="Delivery ID"><?php echo $result['Delivery_ID']; ?></td>
                         <td data-th="Username"><?php echo $result['order']['User_Username']; ?></td>
                         <td data-th="Date to be Received"><?php echo $result['order']['Orders_Date']; ?></td>
                         <td data-th="Time to be Received"><?php echo $result['order']['Orders_Time']; ?></td>
-                        <td data-th="Current Status"><span class="label label-success"><?php echo $result['order']['Orders_Status']; ?></span></td>
+                        <td data-th="Current Status"><span class="label label-success"><?= $statusid[$result['order']['Orders_Status']]; ?></span></td>
                         <?php date_default_timezone_set("Asia/Kuala_Lumpur");
                         $timeplaced = date('d/m/Y H:i:s', $result['order']['Orders_DateTimeMade']); ?>
                         <td colspan ="2" data-th="Time Placed"><?php echo $timeplaced; ?></td>
@@ -142,17 +142,17 @@ RestaurantOrdersHistoryAsset::register($this);
                             </td>
                             <td data-th="Quantity"><?php echo $result['OrderItem_Quantity']; ?></td>
                             <td data-th="Remarks"><?php echo $result['OrderItem_Remark']; ?></td>
-                            <td colspan="2" data-th="Current Status"><span class='label label-info'><?php echo $result['OrderItem_Status']; ?></span></td>
+                            <td colspan="2" data-th="Current Status"><span class='label label-info'><?= $statusid[$result['OrderItem_Status']]; ?></span></td>
                             <?php 
-                            if ($result['OrderItem_Status'] == 'Pending')
+                            if ($result['OrderItem_Status'] == 2)
                             {
                                 echo "<td colspan = 2 data-th='Current Status'>".Html::a('Preparing', ['update-preparing', 'oid'=>$result['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn'])."</td>";
                             }
-                            elseif ($result['OrderItem_Status'] == 'Preparing')
+                            elseif ($result['OrderItem_Status'] == 3)
                             {
                                 echo "<td colspan = 2 data-th='Current Status'>".Html::a('Ready for Pick Up', ['update-readyforpickup', 'oid'=>$result['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn'])."</td>";
                             }
-                            elseif ($result['OrderItem_Status'] == 'Ready For Pick Up')
+                            elseif ($result['OrderItem_Status'] == 4)
                             {
                                 echo "<td colspan = 2 data-th='Current Status'> Waiting for Pick Up </td>";
                             }

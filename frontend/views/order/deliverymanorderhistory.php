@@ -70,19 +70,8 @@ DeliverymanOrdersHistoryAsset::register($this);
                         <td data-th="Username"><?php echo $orderdetails['User_Username']; ?></td>
                         <td data-th="Date to be Received"><?php echo $orderdetails['Orders_Date']; ?></td>
                         <td data-th="Time to be Received"><?php echo $orderdetails['Orders_Time']; ?></td>
-                        <?php
-                            if ($orderdetails['Orders_Status']== 'Rating Done')
-                            {
-                        ?>
-                        <td data-th="Current Status"><span class="label label-success"><?php echo $orderdetails['Orders_Status']; ?></span></td>
-                        <?php
-                            } 
-                            elseif ($orderdetails['Orders_Status']== 'Completed')
-                            {
-                        ?>
-                        <td data-th="Current Status"><span class="label label-success"><?php echo $orderdetails['Orders_Status']; ?></span></td>
-                        <?php
-                            }
+                        <td data-th="Current Status"><span class="label label-success"><?= $statusid[$orderdetails['Orders_Status']]; ?></span></td>
+                        <?php 
                             date_default_timezone_set("Asia/Kuala_Lumpur");
                             $timeplaced = date('d/m/Y H:i:s', $orderdetails['Orders_DateTimeMade']);
                         ?>
@@ -111,7 +100,7 @@ DeliverymanOrdersHistoryAsset::register($this);
                         <td data-th="Restaurant Name"><?php echo $restname['Restaurant_Name']; ?></td>
                         <td colspan="2" data-th="Restaurant Address"><?php echo $restname['Restaurant_UnitNo'].', '.$restname['Restaurant_Street'].', '.$restname['Restaurant_Area'].', '.$restname['Restaurant_Postcode']; ?></td>
                         <td data-th="Quantity"><?php echo $orderitemdetails['OrderItem_Quantity']; ?></td>
-                        <td colspan="2" data-th="Current Status"><span class="label label-info"><?php echo $orderitemdetails['OrderItem_Status']; ?></span></td>
+                        <td colspan="2" data-th="Current Status"><span class="label label-info"><?= $statusid[$orderitemdetails['OrderItem_Status']]; ?></span></td>
                     </tr>
                 <?php endforeach; ?>
             </table>

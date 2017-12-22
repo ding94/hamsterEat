@@ -128,7 +128,7 @@ class RestaurantController extends CommonController
 
     protected function CancelOrder($id)
     {
-        $orderitem = Orderitem::find()->where('Food_ID=:id AND OrderItem_Status=:s',[':id'=>$id, ':s'=>'Pending'])->all();
+        $orderitem = Orderitem::find()->where('Food_ID=:id AND OrderItem_Status=:s',[':id'=>$id, ':s'=>2])->all();
 
         if (!empty($orderitem)) 
         {
@@ -144,10 +144,8 @@ class RestaurantController extends CommonController
                     $reason['Delivery_ID'] = $value['Delivery_ID'];
                     $reason['status'] = 1;
                     $reason['datetime'] = time();
-                    $value['OrderItem_Status'] = 'Canceled';
-
-
-                    $order['Orders_Status'] = 'Canceled';
+                    $value['OrderItem_Status'] = 8;
+                    $order['Orders_Status'] = 8;
 
                     //check did user use balance to pay
                     if ($order['Orders_PaymentMethod'] == 'Account Balance') {
@@ -157,8 +155,8 @@ class RestaurantController extends CommonController
                         $acc['AB_minus'] -= $order['Orders_TotalPrice'];
                         if ($acc->validate()) {
                                 $acc->save();
-                                $order['Orders_Status'] = 'Canceled and Refunded';
-                                $value['OrderItem_Status'] = 'Canceled and Refunded';
+                                $order['Orders_Status'] = 9;
+                                $value['OrderItem_Status'] = 9;
                         }
                     }
                     if ($reason->validate() && $value->validate() && $order->validate()) {
@@ -269,8 +267,8 @@ class RestaurantController extends CommonController
         $companyData = [];
         $singleData=[];
 
-        $item = Orderitem::find()->distinct()->where("Restaurant_ID = :rid and OrderItem_Status = 'Pending'",[':rid'=>$rid])->joinWith(['food','address']);
-        //$item->andWhere("Orders_Status != 'Not Paid' and Orders_Status != 'Completed'");
+        $item = Orderitem::find()->distinct()->where("Restaurant_ID = :rid and OrderItem_Status = 2",[':rid'=>$rid])->joinWith(['food','address']);
+        //$item->andWhere("Orders_Status != 1 and Orders_Status != 6");
         $allitem = $item->all();
 
         if(empty($allitem))
@@ -355,7 +353,7 @@ class RestaurantController extends CommonController
             $count = 0;
             foreach ($staffs as $k => $staff) {
                 $restaurants[$k] = Restaurant::find()->where('Restaurant_ID=:r',[':r' => $staff['Restaurant_ID']])->asArray()->one();
-                $restaurants[$k]['Restaurant_Orders'] = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$staff['Restaurant_ID'],':s'=>'Pending'])->joinwith(['food'])->count();
+                $restaurants[$k]['Restaurant_Orders'] = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$staff['Restaurant_ID'],':s'=>2])->joinwith(['food'])->count();
                 $count += $restaurants[$k]['Restaurant_Orders'];
             }
             return $this->renderAjax('phonecooking',['restaurants'=>$restaurants,'count'=>$count]);

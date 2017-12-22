@@ -48,6 +48,30 @@ Class CommonController extends Controller
         return $list;
     }
 
+    public static function getYear($year)
+    {
+        for($m=1; $m<13; $m+=1)
+        {
+            $month = date('F',strtotime('01-'.$m.'-'.$year.''));
+            $list[] = $month;
+        }
+        return $list;
+    }
+
+    public static function getStartEnd($year)
+    {
+        for($m=1; $m<13; $m+=1)
+        {
+            $nm = $m+1;
+            $start = strtotime('01-'.$m.'-'.$year.'');
+            $end = strtotime('01-'.$nm.'-'.$year.'');
+            $list[$m]= [$start,$end];
+        }
+        $nyear = $year+1;
+        $list[12][1] = strtotime('01-01-'.$nyear.'');
+        return $list;
+    }
+
     public static function convertToArray($object)
     {
         $data= [];

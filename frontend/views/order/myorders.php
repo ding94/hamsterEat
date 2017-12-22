@@ -36,8 +36,8 @@ MyOrdersAsset::register($this);
         <div class="nav-url">
           <ul id="my-orders-nav" class="nav nav-pills nav-stacked">
             <li><?php echo Html::a("All",['/order/my-orders'])?></li>
-            <?php foreach($countOrder as $i=> $count):?>
-              <li><?php echo Html::a($i.'<span class="badge">'.$count['total'].'</span>',['/order/my-orders','status'=>$i])?></li>
+            <?php foreach($countOrder as $i=> $count): ?>
+              <li><?php echo Html::a($i.'<span class="badge">'.$count['total'].'</span>',['/order/my-orders','status'=>$statusid[$i]])?></li>
             <?php endforeach ;?>
         </ul>
       </div>
@@ -61,7 +61,7 @@ MyOrdersAsset::register($this);
           <?php foreach ($order as $data) :?>
           <tr class="orderRow">
             <td colspan="2" class="block">
-              <?php if($data['Orders_Status'] == "Completed" || $data['Orders_Status'] == "Rating Done"): ?>
+              <?php if($data['Orders_Status'] == 6 || $data['Orders_Status'] == 7): ?>
                  <?php echo Html::a("Invoice Detail" ,['invoice-pdf','did'=>$data['Delivery_ID']], ['target'=>'_blank' ,'class'=>'raised-btn main-btn btn-block']); ?>
               <?php else :?>
                 <a class="raised-btn main-btn btn-block" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$data['Delivery_ID']]); ?>">
@@ -77,19 +77,19 @@ MyOrdersAsset::register($this);
                 <?php echo date('Y-m-d h:i:s',$data['Orders_DateTimeMade']); ?>
             </td>
 
-            <?php if($data['Orders_Status'] == "Completed"): ?>
+            <?php if($data['Orders_Status'] == 6): ?>
               <td class="with" data-th="Rating">
                 <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?>
 
-            <?php elseif ($data['Orders_Status'] == "Not Paid") : 
+            <?php elseif ($data['Orders_Status'] == 1) : 
               echo '<td>'.Html::a('Go payment page', ['payment/process-payment','did'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']).'</td>'; ?>
 
-            <?php elseif ($data['Orders_Status'] == "Canceled" || $data['Orders_Status'] == "Canceled and Refunded") : ?>
+            <?php elseif ($data['Orders_Status'] == 8 || $data['Orders_Status'] == 9) : ?>
               <td>
                 <label class="label label-danger"><?= $data['Orders_Status']; ?></label>
               </td>
 
-            <?php elseif ($data['Orders_Status'] == "Rating Done") : ?>
+            <?php elseif ($data['Orders_Status'] == 7) : ?>
               <td><center> Rating Done </td>
             <?php endif;?>
 

@@ -23,7 +23,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             'order_item.OrderItem_LineTotal',
             [
                 'attribute' => 'order_item.OrderItem_Status',
-                'filter' => array( "Pending"=>"Pending","Not Placed"=>"Not Placed"),
+                'filter' => array( 2=>"Pending"),
             ],
             ['class' => 'yii\grid\ActionColumn' ,
              'template'=>'{showdetails}',

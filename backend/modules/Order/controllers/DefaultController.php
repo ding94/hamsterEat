@@ -44,7 +44,7 @@ class DefaultController extends Controller
         if (Yii::$app->request->post()) {
             $order->load(Yii::$app->request->post());
            
-            if ($order->validate() && $order->Orders_Status == "Pending") {
+            if ($order->validate() && $order->Orders_Status == 2) {
                 $order->save();
                 Yii::$app->session->setFlash('success','Edited!');
             }

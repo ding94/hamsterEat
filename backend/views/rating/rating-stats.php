@@ -8,7 +8,7 @@ use kartik\widgets\Select2;
 use kartik\widgets\ActiveForm;
 use yii\helpers\Html;
 
-$this->title = 'Food Rating Per Month';
+$this->title = 'Average Food Rating Per Month';
 $fid = Yii::$app->request->get('fid');
 ?>
 <div class="site-index">
@@ -42,7 +42,7 @@ $fid = Yii::$app->request->get('fid');
             ]);?>
         </div>
         <div class="col-md-3">
-            <?= Html::submitButton('Filter', ['class' => 'btn-block ']) ?>
+            <?= Html::submitButton('Filter', ['class' => 'btn-block']) ?>
         </div>
      </div>
 <?php ActiveForm::end(); ?> 

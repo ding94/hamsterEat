@@ -240,7 +240,7 @@ class OrderController extends CommonController
             $result->andWhere(['Orders_Status'=>$status]);
         }
 
-        $result->andWhere("Orders_Status != 1 and Orders_Status != 6");
+        $result->andWhere("Orders_Status != 1 and Orders_Status != 6 and Orders_Status != 7");
         
         $pagination = new Pagination(['totalCount'=>$result->count(),'pageSize'=>10]);
         $result = $result->offset($pagination->offset)
@@ -427,11 +427,23 @@ class OrderController extends CommonController
 //--This function loads the restaurant's orders which have been completed
     public function actionRestaurantOrderHistory($rid)
     {
+        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
+        if (empty($staff)) {
+            Yii::$app->session->setFlash('error','Permission Denied!');
+            return $this->redirect(['/user/user-profile']);
+        }
+
+        $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
+        if ($restaurantname['approval'] != 1) {
+            Yii::$app->session->setFlash('warning','Restaurant was waiting admin to approve.');
+            return $this->redirect(['/Restaurant/restaurant/restaurant-service']);
+        }
+
         $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
         
-        $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
-
-        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->andWhere(['like', 'Orders_Status', 6])->orWhere(['like', 'Orders_Status', 7])->joinWith('food')->joinWith('order');
+        $result = Orderitem::find()->distinct()
+        ->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])
+        ->andwhere(['or',['Orders_Status'=>6],['Orders_Status'=>7]])->joinWith('food')->joinWith('order');
         
         /* Code to generate pagination */
         $pagination = new Pagination(['totalCount'=>$result->count(),'pageSize'=>10]);
@@ -440,7 +452,6 @@ class OrderController extends CommonController
         ->all();
         /* end.. */
 
-        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
         $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
         $linkData = CommonController::restaurantPermission($rid);
         $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);

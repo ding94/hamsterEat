@@ -102,6 +102,19 @@ use yii\bootstrap\Modal;
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
+                'template' => '{rating}',
+                'header' => "Rating",
+                'buttons' => [
+                    'rating' => function($url , $model)
+                    {
+                        $url =  Url::to(['/rating/average-restaurant-rating-stats' ,'rid'=>$model->Restaurant_ID]);
+
+                        return Html::a('View' , $url , ['class' => 'text-underline','title' => 'Restaurant Rating'])   ;
+                    },
+                ],
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
                 'template' => '{fooddetail}',
                 'header' => "Food Detail",
                 'buttons' => [

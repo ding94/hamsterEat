@@ -13,21 +13,24 @@ $('body').on('submit','#a2cart',function(e){
             {  
             	obj = JSON.parse(data);
             	
-            	if(obj.value == 1)
+            	if(obj.value == 1 || obj.value == 4)
            		{
            			$('#system-messages').append("<div id='aa' class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.message+"</div>").fadeIn();
 	           		$('#system-messages').children().delay(3000).fadeTo(500,0).slideUp(500).queue(function() { $('#aa').remove(); });
            			//$("#w1-success-0").html(data).fadeIn().delay(3000).fadeOut();
            			$("#foodDetail").modal('hide');
-           			if(!($(".cart").children(".badge").html()))
-           			{
-           				$(".cart").children('.badge').html(1);
-           			}
-           			else
-           			{
-           				var count = parseInt($(".cart").children(".badge").html()) +1;
-           				$(".cart").children(".badge").html(count);
-           			}
+                if(obj.value == 1)
+                {
+                    if(!($(".cart").children(".badge").html()))
+                  {
+                    $(".cart").children('.badge').html(1);
+                  }
+                  else
+                  {
+                    var count = parseInt($(".cart").children(".badge").html()) +1;
+                    $(".cart").children(".badge").html(count);
+                  }
+                }
            			//location.reload();
            		}
            		else

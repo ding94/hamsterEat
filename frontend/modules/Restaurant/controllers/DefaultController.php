@@ -78,14 +78,11 @@ class DefaultController extends CommonController
        
         $query = restaurant::find()->distinct()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $session['group'], ':status'=>'Operating'])->joinWith(['rJunction']);
         
-        if(empty($halal) || $halal == 0)
+        if(!empty($halal) || $halal == 1)
         {
-            $query->andWhere('Type_ID =  24');
+            $query->andWhere('Type_ID =  23');
         }
-        else
-        {
-           $query->andWhere('Type_ID =  23'); 
-        }
+      
         if($type !=0)
         {
             $query->OrWhere('Type_ID = :tid',[':tid' => $type]);
@@ -186,12 +183,19 @@ class DefaultController extends CommonController
             $valid = Restaurant::find()->where('Restaurant_ID=:id AND Restaurant_Status=:s',[':id'=>$rid,':s'=>"Operating"])->one();
             if (empty($valid)) {
                 Yii::$app->session->setFlash('error', 'This restaurant was not valid now.');
-                return $this->redirect(['/site/index']);
+               
             }
         }
 
         $id = restaurant::find()->where('restaurant.Restaurant_ID = :rid' ,[':rid' => $rid])->innerJoinWith('restaurantType')->one();
 
+        if(empty($id))
+        {
+            Yii::$app->session->setFlash('error', 'This restaurant cannot be found.');
+             return $this->redirect(['/site/index']);
+        }
+
+      
         //$model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
         $model = food::find()->where('Restaurant_ID=:id',[':id' => $rid])->joinWith(['foodStatus'=>function($query){
             $query->where('Status = 1');
@@ -511,14 +515,13 @@ class DefaultController extends CommonController
         $halal = $cookies->getValue('halal');
       
         $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus']);
-        if(empty($halal) || $halal == 0)
+
+        if(!empty($halal) || $halal == 1)
         {
-            $query->andWhere('foodtypejunction.Type_ID =  4');
+            $query->andWhere('foodtypejunction.Type_ID =  3');
         }
-        else
-        {
-           $query->andWhere('foodtypejunction.Type_ID =  3'); 
-        }
+        
+         
 
         if($type != 0)
         {

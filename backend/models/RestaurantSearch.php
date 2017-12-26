@@ -16,9 +16,13 @@ class RestaurantSearch extends Restaurant
 		];
 	}
 
-	public function search($params)
+	public function search($params,$case = 1)
 	{
 		$query = Restaurant::find();
+
+		if ($case == 2) {
+			$query->orderby('Restaurant_DateTimeCreated DESC');
+		}
 
 		$query->joinWith(['area','manager']);
 

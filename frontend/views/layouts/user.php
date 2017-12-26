@@ -123,7 +123,7 @@ UserAsset::register($this);
         $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">View All</h4>','url' => ['/notification/index']];
 
-        $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
+        $rmanager = Rmanager::find()->where('uid=:id AND Rmanager_Approval=:ra',[':id'=>Yii::$app->user->identity->id,':ra'=>1])->one();
         $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">View All</h4>','url' => ['/notification/index']];
         if (!empty($rmanager)) {
@@ -153,7 +153,7 @@ UserAsset::register($this);
                         '<li class="divider"></li>',
                     ]];
          $keys = array_keys($menuItems);
-        if ($rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
+        if ($rmanager) {
             $menuItems[end($keys)]['items'][] =['label' => 'Restaurants ', 'url' => ['/Restaurant/restaurant/restaurant-service']];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }

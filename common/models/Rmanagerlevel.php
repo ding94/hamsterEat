@@ -30,8 +30,8 @@ class Rmanagerlevel extends \yii\db\ActiveRecord
     {
         return [
             [['User_Username', 'Restaurant_ID', 'RmanagerLevel_Level', 'Rmanager_DateTimeAdded'], 'required'],
-            [['Rmanager_DateTimeAdded'], 'integer'],
-            [['User_Username', 'Restaurant_ID', 'RmanagerLevel_Level'], 'string', 'max' => 255],
+            [['Restaurant_ID','Rmanager_DateTimeAdded'], 'integer'],
+            [['User_Username',  'RmanagerLevel_Level'], 'string', 'max' => 255],
         ];
     }
 

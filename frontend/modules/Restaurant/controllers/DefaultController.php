@@ -78,14 +78,11 @@ class DefaultController extends CommonController
        
         $query = restaurant::find()->distinct()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $session['group'], ':status'=>'Operating'])->joinWith(['rJunction']);
         
-        if(empty($halal) || $halal == 0)
+        if(!empty($halal) || $halal == 1)
         {
-            $query->andWhere('Type_ID =  24');
+            $query->andWhere('Type_ID =  23');
         }
-        else
-        {
-           $query->andWhere('Type_ID =  23'); 
-        }
+      
         if($type !=0)
         {
             $query->OrWhere('Type_ID = :tid',[':tid' => $type]);
@@ -516,14 +513,13 @@ class DefaultController extends CommonController
         $halal = $cookies->getValue('halal');
       
         $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus']);
-        if(empty($halal) || $halal == 0)
+
+        if(!empty($halal) || $halal == 1)
         {
-            $query->andWhere('foodtypejunction.Type_ID =  4');
+            $query->andWhere('foodtypejunction.Type_ID =  3');
         }
-        else
-        {
-           $query->andWhere('foodtypejunction.Type_ID =  3'); 
-        }
+        
+         
 
         if($type != 0)
         {

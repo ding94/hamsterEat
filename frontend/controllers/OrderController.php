@@ -294,7 +294,8 @@ class OrderController extends CommonController
     public function actionUpdatePreparing($oid, $rid)
     {
         $updateOrder = false;
-        $orderitem = $this->findOrderitem($oid);
+        $orderitem = $this->findOrderitem($oid,3);
+      
         $orderitem->OrderItem_Status = 3;
 
         $orderitem->save();
@@ -318,7 +319,7 @@ class OrderController extends CommonController
 //--This function updates the specific order item status to ready for pick up
     public function actionUpdateReadyforpickup($oid, $rid)
     {
-        $orderitem = $this->findOrderitem($oid);
+        $orderitem = $this->findOrderitem($oid,4);
         $orderitem->OrderItem_Status = 4;
         $orderitem->save();
         return $this->redirect(Yii::$app->request->referrer);
@@ -328,7 +329,7 @@ class OrderController extends CommonController
     public function actionUpdatePickedup($oid, $did)
     {
         $updateOrder = false;
-        $orderitem = $this->findOrderitem($oid);
+        $orderitem = $this->findOrderitem($oid,10);
         $orderitem->OrderItem_Status = 10;
        
         $orderitem->save();
@@ -360,7 +361,6 @@ class OrderController extends CommonController
     public function actionUpdateCompleted($oid, $did)
     {
         $order = $this->findOrder($did);
-        
         
         $order->Orders_Status = 6;
         $profit = ProfitController::getProfit($order,$did);
@@ -478,12 +478,43 @@ class OrderController extends CommonController
         }
     }
 
-    protected function findOrderitem($id)
+    protected function findOrderitem($id,$type)
     {
-        if (($model = OrderItem::findOne($id)) !== null) {
-            return $model;
-        } else {
+        $validate = true;
+        $model = OrderItem::findOne($id);
+       
+        if ($model == null) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+
+        switch ($type) {
+            case 3:
+                if($model->OrderItem_Status != 2){
+                    $validate = false;
+                } 
+                break;
+            case 4:
+                if($model->OrderItem_Status != 3){
+                  
+                    $validate = false;
+                } 
+                break;
+            case 10:
+                if($model->OrderItem_Status != 4){
+                  
+                    $validate = false;
+                } 
+                break;
+            default:
+                # code...
+                break;
+        }
+        
+        if(!$validate)
+        {
+            throw new NotFoundHttpException('The requested was Wrong.');
+        }
+     
+        return $model;       
     }
 }

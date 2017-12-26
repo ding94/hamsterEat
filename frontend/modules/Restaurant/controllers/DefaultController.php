@@ -186,12 +186,19 @@ class DefaultController extends CommonController
             $valid = Restaurant::find()->where('Restaurant_ID=:id AND Restaurant_Status=:s',[':id'=>$rid,':s'=>"Operating"])->one();
             if (empty($valid)) {
                 Yii::$app->session->setFlash('error', 'This restaurant was not valid now.');
-                return $this->redirect(['/site/index']);
+               
             }
         }
 
         $id = restaurant::find()->where('restaurant.Restaurant_ID = :rid' ,[':rid' => $rid])->innerJoinWith('restaurantType')->one();
 
+        if(empty($id))
+        {
+            Yii::$app->session->setFlash('error', 'This restaurant cannot be found.');
+             return $this->redirect(['/site/index']);
+        }
+
+      
         //$model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
         $model = food::find()->where('Restaurant_ID=:id',[':id' => $rid])->joinWith(['foodStatus'=>function($query){
             $query->where('Status = 1');

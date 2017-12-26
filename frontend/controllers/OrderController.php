@@ -78,7 +78,13 @@ class OrderController extends CommonController
                     $query->andWhere('Orders_Status = :status',[':status' => $status])->orderBy(['Delivery_ID'=>SORT_DESC]);
                     break;
             }
-            $status = StatusType::find()->where(['id'=>$status])->one()->type;
+            $status = StatusType::find()->where(['id'=>$status])->one();
+            if(empty($status) || is_null($status))
+            {
+                Yii::$app->session->setFlash('error', 'Something Went Wrong!!.');
+                return $this->redirect(['/order/my-orders']);
+            }
+            $status = $status->type;
         }
 
         $pagination = new Pagination(['totalCount'=>$query->count(),'pageSize'=>10]);

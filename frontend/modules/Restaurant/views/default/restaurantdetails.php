@@ -45,7 +45,12 @@ RestaurantDetailsAsset::register($this);
          ?>
         </div> 
         <div class="restaurant-info-inner">
-        <div class="restaurant-name-div"><h1 class="restaurant-name"><?php echo $id['Restaurant_Name']; ?></h1><span class="report-button"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#report-modal']) ?></span></div>
+        <div class="restaurant-name-div"><h1 class="restaurant-name"><?php echo $id['Restaurant_Name']; ?></h1>
+        <?php if(!Yii::$app->user->isGuest):?>
+        <span class="report-button"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#report-modal']) ?>
+        <?php endif ;?>
+        </span>
+    </div>
         <div class="rating"><span class="small-text stars"><?php echo $id['Restaurant_Rating']; ?></span></div>
         <div class="info-div">
           <ul class="info">

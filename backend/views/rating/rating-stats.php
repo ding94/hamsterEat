@@ -24,7 +24,8 @@ $fid = Yii::$app->request->get('fid');
                         'type' => DatePicker::TYPE_INPUT,
                         'pluginOptions' => [
                             'autoclose'=>true,
-                            'format' => 'yyyy'
+                            'format' => 'yyyy',
+                            'minViewMode' => 2,
                     ]
                 ]);
             ?>

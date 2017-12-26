@@ -43,8 +43,8 @@ class Restaurant extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Restaurant_Name', 'Restaurant_Street', 'Restaurant_UnitNo', 'Restaurant_Pricing', 'Restaurant_LicenseNo','Restaurant_AreaGroup'], 'required'],
-            [['Restaurant_Postcode', 'Restaurant_Pricing', 'Restaurant_Rating', 'Restaurant_DateTimeCreated', 'Restaurant_AreaGroup'], 'integer'],
+            [['Restaurant_Name', 'Restaurant_Street', 'Restaurant_UnitNo', 'Restaurant_Pricing', 'Restaurant_LicenseNo','Restaurant_AreaGroup','approval'], 'required'],
+            [['Restaurant_Postcode', 'Restaurant_Pricing', 'Restaurant_Rating', 'Restaurant_DateTimeCreated', 'Restaurant_AreaGroup','approval'], 'integer'],
             [['Restaurant_Manager', 'Restaurant_Name', 'Restaurant_RestaurantPicPath', 'Restaurant_Status', 'Restaurant_LicenseNo'], 'string', 'max' => 255],
             [['Restaurant_Area', 'Restaurant_Street', 'Restaurant_UnitNo'], 'string', 'max' => 50],
         ];

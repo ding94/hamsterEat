@@ -256,47 +256,50 @@ class DefaultController extends CommonController
         if ($restaurant->load(Yii::$app->request->post()))
             {
                 $post = Yii::$app->request->post();
-
                 $upload->imageFile =  UploadedFile::getInstance($restaurant, 'Restaurant_RestaurantPicPath');
                 $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-                //$post['User_PicPath'] = 
+
                 $upload->upload('imageLocation/');
-                
-                // $restaurant->load($post);
-            
+
                 $restaurant->Restaurant_RestaurantPicPath = $upload->imageFile->name;
                 $restaurant->Restaurant_Manager=Yii::$app->user->identity->username;
 
-                $restaurant->Restaurant_AreaGroup = Yii::$app->request->post('restArea');
-                $restaurant->Restaurant_Area = Yii::$app->request->post('areachosen');
-                $time = time(); $restaurant->Restaurant_DateTimeCreated = $time;
+                $restaurant->Restaurant_AreaGroup = $restArea;
+                $restaurant->Restaurant_Area = $areachosen;
+                $restaurant->Restaurant_DateTimeCreated = time();
                 $restaurant->Restaurant_Status = 'Under Renovation';
                 $restaurant->Restaurant_Rating = "0";
-                
-                $restaurant->save();
+                $restaurant->approval = 0;
 
-                RestauranttypeController::newRestaurantJunction($post['Type_ID'],$restaurant->Restaurant_ID);
-                
-//--------------The restaurant creator is created here
-                $rmanagerlevel = new Rmanagerlevel();
-                $asd =  restaurant::find()->where('Restaurant_Manager = :restaurantowner and Restaurant_DateTimeCreated = :timecreated',[':restaurantowner'=>Yii::$app->user->identity->username, ':timecreated'=>$time])->one();
-                $rid = $asd['Restaurant_ID'];
-                $rowner = $asd['Restaurant_Manager'];
-                $rmanagerlevel->Restaurant_ID = $rid;
-                $rmanagerlevel->User_Username = $rowner;
-                $rmanagerlevel->RmanagerLevel_Level = 'Owner';
-                $rmanagerlevel->Rmanager_DateTimeAdded = $time;
-                //var_dump($rmanagerlevel->save());exit;
-                $rmanagerlevel->save(false);
-                
-                Yii::$app->session->setFlash('success', 'Congratulations! Your restaurant has been set up and is currently waiting for a menu to be set up.');
-                
-                return $this->redirect(['restaurant-details', 'restaurant'=> $restaurant, 'restArea'=>Yii::$app->request->post('restArea'), 'areachosen'=>Yii::$app->request->post('areachosen'), 'rid'=>$rid]);           
+                if ($restaurant->validate()) {
+                    $restaurant->save();
+
+                    $post['Type_ID'][] = $post['Restauranttypejunction']['Type_ID'];
+                    RestauranttypeController::newRestaurantJunction($post['Type_ID'],$restaurant->Restaurant_ID);
+                    
+    //--------------The restaurant creator is created here
+                    $rmanagerlevel = new Rmanagerlevel();
+                    $rmanagerlevel->User_Username = Yii::$app->user->identity->username;
+                    $rmanagerlevel->Restaurant_ID =  $restaurant['Restaurant_ID'];
+                    $rmanagerlevel->RmanagerLevel_Level = 'Owner';
+                    $rmanagerlevel->Rmanager_DateTimeAdded = time();
+                    
+                    if ($rmanagerlevel->validate()) {
+                        $rmanagerlevel->save();
+                        Yii::$app->session->setFlash('success', 'Registered! Please wait admin to confirm restaurant information!');
+                        return $this->redirect(['/Restaurant/restaurant/restaurant-service']);       
+                    }
+                    else
+                    {
+                        RestauranttypeController::deleteRestaurantJunction($restaurant['Restaurant_ID']);
+                        $restaurant->delete();
+                    }
+                }
+
+                Yii::$app->session->setFlash('warning', 'Register Failed!');
+                return $this->redirect(['/Restaurant/restaurant/restaurant-service']);  
             }
-        else 
-            {
-                return $this->render('newrestaurant', ['restaurant' => $restaurant, 'restArea'=>$restArea, 'areachosen'=>$areachosen, 'type'=>$type]);
-            }
+        return $this->render('newrestaurant', ['restaurant' => $restaurant, 'type'=>$type,'area'=>$areachosen,'foodjunction'=>$foodjunction]);
     }
 
 //--This saves the edited restaurant details
@@ -317,7 +320,6 @@ class DefaultController extends CommonController
 
         $chosen = ArrayHelper::map($restaurant['restaurantType'],'ID','ID');
         $type = ArrayHelper::map(RestaurantType::find()->orderBy(['(Type_Name)' => SORT_ASC])->all(),'ID','Type_Name');
-        //var_dump($restArea,$areachosen,$postcodechosen,$rid);exit;
 
         if($restaurantdetails->load(Yii::$app->request->post()))
         {

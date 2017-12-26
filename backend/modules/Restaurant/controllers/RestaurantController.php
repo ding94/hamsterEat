@@ -30,36 +30,31 @@ class RestaurantController extends Controller
         return $this->render('index',['model' => $dataProvider ,'searchModel'=>$searchModel,'first'=>$first,'last'=>$last,'totalProfit' => $totalProfit,'id'=>$id]);
     }
 
-    public function actionActive($id)
+    public function actionChangeOperation($id,$case)
     {
         $model = self::findModel($id);
-        $model->Restaurant_Status = "Operating";
+
+        switch ($case) {
+            case 1:
+                $model['Restaurant_Status'] = 'Closed';
+                break;
+            case 2:
+                $model['Restaurant_Status'] = 'Operating';
+                break;
+            default:
+                break;
+        }
+
         if($model->validate())
         {
         	$model->save();
-            Yii::$app->session->setFlash('success', "Status change to operating.");
+            Yii::$app->session->setFlash('success', "Status changed!");
         }
         else
         {
             Yii::$app->session->setFlash('warning', "Change status failed.");
         }
 
-        return $this->redirect(Yii::$app->request->referrer);
-    }
-
-    public function actionDeactive($id)
-    {
-        $model = self::findModel($id);
-        $model->Restaurant_Status = "Closed";
-        if($model->validate())
-        {
-        	$model->save();
-            Yii::$app->session->setFlash('success', "Status change to closed.");
-        }
-        else
-        {
-            Yii::$app->session->setFlash('warning', "Change status failed.");
-        }
         return $this->redirect(Yii::$app->request->referrer);
     }
 

@@ -28,23 +28,21 @@ NewRestaurantAsset::register($this);
 
             <?= $form->field($restaurant, 'Restaurant_Street') ?> <br>
 
-            <?php echo "<strong>"."Restaurant Area"; ?> </strong> <br> <?php echo $areachosen; ?> <br> <br>
+            <?php echo "<strong>"."Restaurant Area"; ?> </strong> <br> <?php echo $area; ?> <br> <br>
 
-            <?= $form->field($restaurant, 'Restaurant_Postcode') ?><br> <br>
-
-            <?php echo "<strong>"."Restaurant Group Area"; ?> </strong> <br> <?php echo $restArea; ?> <br> <br>
+            <?= $form->field($foodjunction, 'Type_ID')->inline(true)->radioList(["22"=>'Halal',"23"=>'Non-Halal'])->label('<strong>Type</strong>') ?>
 
             <div class="five">
-                <?php echo '<label class="control-label">Type</label>';
+                <?php 
                         echo Select2::widget([
                             'name' => 'Type_ID',
                             'data' => $type,
                             'showToggleAll' => false,
-                            'options' => ['placeholder' => 'Select a type ...', 'multiple' => true],
+                            'options' => ['placeholder' => 'Select another two types ...', 'multiple' => true],
                             'pluginOptions' => [
                                 'tags' => true,
                                 'maximumInputLength' => 10,
-                                'maximumSelectionLength' => 3,
+                                'maximumSelectionLength' => 2,
                             ],
                         ]);
                 ?>
@@ -59,9 +57,6 @@ NewRestaurantAsset::register($this);
             <?= $form->field($restaurant, 'Restaurant_LicenseNo') ?>
 
             <?= $form->field($restaurant, 'Restaurant_RestaurantPicPath')->fileInput()->label('Restaurant Picture') ?>
-
-            <?= Html::hiddenInput("restArea", $restArea); ?>
-            <?= Html::hiddenInput("areachosen", $areachosen); ?>
             
             <div class="form-group">
                 <?= Html::submitButton('Create Restaurant', ['class' => 'raised-btn main-btn', 'name' => 'newrestaurant-button']) ?>                

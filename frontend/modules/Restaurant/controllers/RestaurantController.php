@@ -89,7 +89,7 @@ class RestaurantController extends CommonController
     {
         $restaurant = self::findModel($id);
         $restaurant['Restaurant_Status'] = 'Closed';
-
+        $valid = true;
         $foods = Food::find()->JoinWith(['foodStatus'])->where('Restaurant_ID=:id',[':id'=>$restaurant['Restaurant_ID']])->andWhere('Status >= 0')->all();
 
         foreach ($foods as $k => $food) {
@@ -105,7 +105,7 @@ class RestaurantController extends CommonController
             $restaurant->save();
             Yii::$app->session->setFlash('warning', "Status changed! Please inform customer service.");
         }
-        return $this->redirect(['/Restaurant/default/restaurant-details','rid'=>$id]);
+        return $this->redirect(['/food/menu','rid'=>$id,'page'=>'menu']);
     }
 
     public function actionProvidereason($id,$rid,$item)
@@ -207,6 +207,7 @@ class RestaurantController extends CommonController
                 {
                     Yii::$app->session->setFlash('warning', "Change status failed.");
                 }
+                $id = $food['Restaurant_ID'];
                 break;
             
             default:
@@ -215,7 +216,7 @@ class RestaurantController extends CommonController
         }
         
 
-        return $this->redirect(Yii::$app->request->referrer);
+        return $this->redirect(['/food/menu','rid'=>$id,'page'=>'menu']);
     }
 
     public function actionDeactive($id,$item)

@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "rmanager".
@@ -50,5 +51,19 @@ class Rmanager extends \yii\db\ActiveRecord
             'Rmanager_DateTimeApplied' => 'Rmanager  Date Time Applied',
             'Rmanager_DateTimeApproved' => 'Rmanager  Date Time Approved',
         ];
+    }
+
+    public function search($params)
+    {
+        $query = self::find()->orderby('Rmanager_DateTimeApplied DESC');
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        return $dataProvider;
+
     }
 }

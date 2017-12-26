@@ -11,23 +11,22 @@ use yii\web\NotFoundHttpException;
 
 class RestaurantController extends Controller
 {
-    public function actionProfit($id,$first =0 , $last = 0)
+    public function actionProfit($id,$first =0)
     {
        
-        if($first == 0 && $last == 0)
+        if($first == 0)
         {
-            $first = $last = date("Y-m", strtotime("first day of this month"));
-           
+            $first = date("Y-m", strtotime("first day of this month")); 
         }
        
         $firstDay = date('Y-m-01 00:00:00', strtotime($first));
-        $lastDay = date('Y-m-t 23:59:59', strtotime($last));
+        $lastDay = date('Y-m-t 23:59:59', strtotime("last day of".$first.""));
 
         $totalProfit = $this->monthyTotalProfit($firstDay,$lastDay,$id);
 
         $searchModel = new ItemProfitSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$firstDay,$lastDay,$id);
-        return $this->render('index',['model' => $dataProvider ,'searchModel'=>$searchModel,'first'=>$first,'last'=>$last,'totalProfit' => $totalProfit,'id'=>$id]);
+        return $this->render('index',['model' => $dataProvider ,'searchModel'=>$searchModel,'first'=>$first,'totalProfit' => $totalProfit,'id'=>$id]);
     }
 
     public function actionActive($id)

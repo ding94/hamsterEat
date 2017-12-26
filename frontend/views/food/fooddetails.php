@@ -29,6 +29,7 @@ FoodDetailsAsset::register($this);
 
      
       <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
+          
   		<!--<table class="table-user-information" style="width:60%; margin:auto;">-->  
             <?php echo Html::hiddenInput('id',$fooddata->Food_ID);?>       
              <br>

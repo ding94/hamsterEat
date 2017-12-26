@@ -69,6 +69,7 @@ class FoodController extends CommonController
         if(!Yii::$app->request->isAjax){
             return $this->redirect(Yii::$app->request->referrer);
         }
+
         if (!(Yii::$app->user->isGuest)) {
             $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
         }
@@ -95,7 +96,7 @@ class FoodController extends CommonController
         $cart = new Cart;
         
         $comments = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$id])->orderBy(['created_at' => SORT_DESC])->all();
-
+        
         return $this->renderAjax('fooddetails',['fooddata' => $fooddata,'foodtype' => $foodtype, 'cart'=>$cart ,'cartSelection' => $cartSelection, 'comments'=>$comments]);
          
     }

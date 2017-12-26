@@ -17,6 +17,7 @@ use common\models\Order\DeliveryAddress;
 use common\models\food\Foodselection;
 use common\models\user\Useraddress;
 use common\models\Company\Company;
+use common\models\DeliverymanCompany;
 use common\models\Area;
 use common\models\User;
 use common\models\user\Userdetails;
@@ -95,7 +96,7 @@ class CheckoutController extends CommonController
 		}
 		$address = $deliveyaddress['data'];
 
-		$deliveryman = CartController::assignDeliveryMan($post['area'],$post['DeliveryAddress']['cid']);
+		$deliveryman = $this->assignDeliveryMan($post['area'],$post['DeliveryAddress']['cid']);
 		
 		if($deliveryman == -1   )
 		{
@@ -206,15 +207,9 @@ class CheckoutController extends CommonController
 	*/
 	protected static function areaDetect($area,$post)
 	{
-	
-		if($post['DeliveryAddress']['cid'] != 0)
-		{
-			return self::createCompanyAddress($area,$post);
-		}
-		else
-		{
-			return self::createUserAddress($area,$post);
-		}
+		$type = $post['DeliveryAddress']['cid'] != 0 ? 1 : 2;
+		
+		return self::createAddress($area,$post,$type);
 	}
 
 	/*
@@ -223,53 +218,39 @@ class CheckoutController extends CommonController
 	* id => user address id
 	* -1 => false address
 	*/
-	protected static function createUserAddress($area,$post)
+	protected static function createAddress($area,$post,$type)
 	{
 		$data['value'] = -1;
 		$data['data'] = "";
-		$groupArea = ArrayHelper::map(Area::find()->where('Area_Group = :group',[':group' => $area])->all() ,'Area_Postcode','Area_Postcode');
-		$address = Useraddress::findOne($post['DeliveryAddress']['location']);
-
-		if(!empty($groupArea[$address['postcode']]))
+		if($type == 2)
 		{
-			$deliveryaddress = new DeliveryAddress;
-			$deliveryaddress->load($post);
-			$deliveryaddress->type = 2;
-			$deliveryaddress->location = $address->address;
-			$deliveryaddress->postcode = $address->postcode;
-			
-			$deliveryaddress->area = $address->city;
-			$data['value'] = 1;
-			$data['data'] = $deliveryaddress;
-			return $data;
+			$groupArea = ArrayHelper::map(Area::find()->where('Area_Group = :group',[':group' => $area])->all() ,'Area_Postcode','Area_Postcode');
+			$address = Useraddress::findOne($post['DeliveryAddress']['location']);
+			if(empty($groupArea[$address['postcode']]))
+			{
+				Yii::$app->session->setFlash('error', 'The address does not match your cart area.');
+				return $data;
+			}
 		}
 		else
 		{
-			Yii::$app->session->setFlash('error', 'The address does not match your cart area.');
-			return $data;
+			$address = Company::findOne($post['DeliveryAddress']['cid']);
+			if(empty($address) || $address->area_group != $area)
+			{
+				Yii::$app->session->setFlash('error', 'The company address does not match your cart area.');
+				return $data;
+			}
 		}
-	}
-
-	/*
-	* create company address
-	*/
-	protected static function createCompanyAddress($area,$post)
-	{
-		$data['value'] = -1;
-		$data['data'] = "";
-		$address = Company::findOne($post['DeliveryAddress']['cid']);
-		if(empty($address) || $address->area_group != $area)
-		{
-			Yii::$app->session->setFlash('error', 'The company address does not match your cart area.');
-			return $data;
-		}
-
+	
 		$deliveryaddress = new DeliveryAddress;
 		$deliveryaddress->load($post);
-		$deliveryaddress->type = 1;
+		$deliveryaddress->type = $type;
 		$deliveryaddress->location = $address->address;
 		$deliveryaddress->postcode = $address->postcode;
-		$deliveryaddress->area = $address->area;
+		
+		$area = $type != 0 ? $address->area : $address->city;
+		
+		$deliveryaddress->area = $area;
 		$data['value'] = 1;
 		$data['data'] = $deliveryaddress;
 		return $data;
@@ -365,4 +346,53 @@ class CheckoutController extends CommonController
 		$delivery->DeliveryMan_Assignment += 1;
 		return $delivery;
 	}
+
+	//--This function is to assign a delivery man when an order has been placed
+    protected static function assignDeliveryMan($area,$cid)
+    {   
+        /*$data = DailySignInController::getAllDailyRecord($area);
+          
+        if(empty($data))
+        {s
+            Yii::$app->session->setFlash('error', 'Sorry! We have insufficient of deliveryman, please try after 10 minutes or contact our customer service for more information.');
+            return -1;
+        }*/
+
+        $dc = DeliverymanCompany::find()->where('cid=:cid',[':cid'=>$cid])->one();
+        if($dc != null){
+            $uid = $dc['uid'];
+            return $uid;
+        }
+
+        $allData ="" ;
+        foreach ($data as $id)
+        {
+            $sql = Deliveryman::findOne($id);    
+            $allData[] = $sql;
+        }
+            
+        $lowest = 0;
+        $uid = 0;
+        foreach($allData as $i => $delivery)
+        {
+            if($lowest == 0 )
+            {
+                $lowest = $delivery->DeliveryMan_Assignment;
+                $uid = $delivery->User_id;
+            }
+            else
+            {
+                if($delivery->DeliveryMan_Assignment < $lowest)
+                {
+                    $lowest = $delivery->DeliveryMan_Assignment;
+                    $uid = $delivery->User_id;
+                }
+                   
+            }
+        }
+        return $uid;
+            //$user = User::findOne($uid);
+           
+            //return $user->username;       
+    }
 }

@@ -21,7 +21,6 @@ use common\models\Restaurant;
 use common\models\Account\Accountbalance;
 use common\models\Cart\Cart;
 use common\models\Cart\CartSelection;
-use common\models\DeliverymanCompany;
 use frontend\models\Deliveryman;
 use frontend\controllers\PaymentController;
 use frontend\controllers\MemberpointController;
@@ -72,6 +71,12 @@ class CartController extends CommonController
             $data['message'] = "Something Went Wrong!";
             $data['value'] = 0;
             return Json::encode($data);
+        }
+        
+        $availableCart = self::availableCart($id,$post);
+        if($availableCart['value'] != 1)
+        {
+            return Json::encode($availableCart);
         }
 
         $session = Yii::$app->session;
@@ -249,55 +254,6 @@ class CartController extends CommonController
             $areaArray[] = $object;
         }
         return $areaArray;
-    }
-
-//--This function is to assign a delivery man when an order has been placed
-    public static function assignDeliveryMan($area,$cid)
-    {   
-        $data = DailySignInController::getAllDailyRecord($area);
-          
-        if(empty($data))
-        {
-            Yii::$app->session->setFlash('error', 'Sorry! We have insufficient of deliveryman, please try after 10 minutes or contact our customer service for more information.');
-            return -1;
-        }
-
-        $dc = DeliverymanCompany::find()->where('cid=:cid',[':cid'=>$cid])->one();
-        if($dc != null){
-            $uid = $dc['uid'];
-            return $uid;
-        }
-
-        $allData ="" ;
-        foreach ($data as $id)
-        {
-            $sql = Deliveryman::findOne($id);    
-            $allData[] = $sql;
-        }
-            
-        $lowest = 0;
-        $uid = 0;
-        foreach($allData as $i => $delivery)
-        {
-            if($lowest == 0 )
-            {
-                $lowest = $delivery->DeliveryMan_Assignment;
-                $uid = $delivery->User_id;
-            }
-            else
-            {
-                if($delivery->DeliveryMan_Assignment < $lowest)
-                {
-                    $lowest = $delivery->DeliveryMan_Assignment;
-                    $uid = $delivery->User_id;
-                }
-                   
-            }
-        }
-        return $uid;
-            //$user = User::findOne($uid);
-           
-            //return $user->username;       
     }
 
     public function actionNewaddress()
@@ -592,6 +548,47 @@ class CartController extends CommonController
             }
         }
         return 0;  
+    }
+
+    protected static function availableCart($id,$post)
+    {
+        $data['value'] =1 ;
+        $data['message'] = "";
+        $avaiableSelection ="";
+        if(!empty($post['CartSelection']))
+        {
+            $avaiableSelection = CommonController::removeNestedArray($post['CartSelection']);
+        }
+        
+        $availableCart = Cart::find()->where('uid = :uid and fid = :fid',[':uid'=>Yii::$app->user->identity->id,'fid'=>$id])->joinWith(['selection'=>function($query) use($avaiableSelection){
+                if(!empty($avaiableSelection))
+                {
+                   foreach($avaiableSelection as $selectionid)
+                    {
+                        $query->andWhere('selectionid = :id',[':id' => $selectionid]);
+                    }
+                    return $query; 
+                }     
+        }])->one();
+
+        if(!empty($availableCart))
+        {
+            $availableCart->quantity += $post['Cart']['quantity'];
+            if($availableCart->save())
+            {
+                $data['message'] = 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.';
+                    $data['value'] = 4;
+                    //Yii::$app->session->setFlash('success', 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.');
+                   
+            }
+            else
+            {
+                $data['message'] = "Something Went Wrong!";
+                $data['value'] = 0;
+              
+            }
+        }
+        return $data;
     }
 
     /*

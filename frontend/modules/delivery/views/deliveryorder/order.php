@@ -1,10 +1,6 @@
 <?php
 /* @var $this yii\web\View */
 use common\models\food\Food;
-use common\models\Order\Orderitemselection;
-use common\models\food\Foodselection;
-use common\models\food\Foodselectiontype;
-use common\models\Order\Orders;
 use common\models\Order\Orderitem;
 use common\models\Restaurant;
 use yii\helpers\Html;
@@ -41,9 +37,11 @@ DeliverymanOrdersAsset::register($this);
             </div>
             <div class="nav-url">
                 <ul id="deliveryman-orders-nav" class="nav nav-pills nav-stacked">
-                    <li role="presentation" class="active"><?php echo Html::a("Deliveryman Orders",['order/deliveryman-orders'],['class'=>'btn-block'])?></li>
-                    <li role="presentation"><?php echo Html::a("Deliveryman Orders History",['order/deliveryman-order-history'],['class'=>'btn-block'])?></li>
-                    <li role="presentation"><?php echo Html::a("Delivery Location",['/Delivery/daily-sign-in/delivery-location'],['class'=>'btn-block'])?></li>
+                    <?php foreach($link as $url=>$name):?>
+                        <li role="presentation" class=<?php echo $name=="Deliveryman Orders" ? "active" :"" ?>>
+                            <a class="btn-block" href=<?php echo $url?>><?php echo $name?></a>
+                        </li>
+                    <?php endforeach ;?>
                 </ul>
             </div>
         </div>

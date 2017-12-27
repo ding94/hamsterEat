@@ -522,8 +522,6 @@ class DefaultController extends CommonController
         {
             $query->andWhere('foodtypejunction.Type_ID =  3');
         }
-        
-         
 
         if($type != 0)
         {

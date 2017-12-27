@@ -10,6 +10,7 @@ use kartik\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use kartik\export\ExportMenu;
+use dosamigos\chartjs\ChartJs;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
     $this->title = "Restaurant ".$id." Earning";
@@ -24,9 +25,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 echo DatePicker::widget([
                         'name' => 'first',
                         'value' => $first,
-                        'type' => DatePicker::TYPE_RANGE,
-                        'name2' => 'last',
-                        'value2' => $last,
+                        'type' => DatePicker::TYPE_INPUT,
                         'pluginOptions' => [
                             'autoclose'=>true,
                             'startView'=>'year',
@@ -42,8 +41,25 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
      </div>
 <?php ActiveForm::end(); ?>
     <div class="row">
-    <?php foreach($totalProfit as $date=>$data):?>
-        <div class="col-md-3">
+        <?php foreach($totalProfit as $date=>$data):?>
+        <div class="col-md-6">
+        <h4><?php echo $date; ?></h4>
+        <?= ChartJs::widget([
+    'type' => 'doughnut',
+    'options' => [
+    ],
+    'data' => [
+        'labels' => ['Cost','Selling Price'],
+        'datasets' => [
+            [
+                'label' => ['Cost','Selling Price'],
+                'backgroundColor' => ["#f45b69","#ffda00"],
+                'data' => [$data['cost'],$data['sellPrice']]
+            ],
+        ]
+    ]
+]);
+?>
             <table class="table table-bordered">
                 <tr>
                     <td colspan="2"><?php echo $date?></td>
@@ -57,6 +73,9 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     <td><?php echo $data['sellPrice']?></td>
                 </tr>
             </table>
+        </div>
+        <div class="col-md-3">
+            <?= Html::a('Compare','#',['class' => 'btn btn-block ']) ?>
         </div>
     <?php endforeach ;?>
     </div>

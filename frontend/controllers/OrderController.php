@@ -265,12 +265,13 @@ class OrderController extends CommonController
         if($updateOrder)
         {
             $order = $this->findOrder($orderitem->Delivery_ID);
+
             $order->Orders_Status = 3;
             $order->save();
         }
         
         NotificationController::createNotification($oid,2);
-        NotificationController::createNotification($oid,3);
+       
         return $this->redirect(Yii::$app->request->referrer);
     }
 
@@ -280,6 +281,7 @@ class OrderController extends CommonController
         $orderitem = $this->findOrderitem($oid,4);
         $orderitem->OrderItem_Status = 4;
         $orderitem->save();
+        NotificationController::createNotification($orderitem->Delivery_ID,3);
         return $this->redirect(Yii::$app->request->referrer);
     }
 

@@ -133,9 +133,8 @@ class CommonController extends Controller
                 break;
             case 5:
                 $data = [
-                            Url::to(['/Delivery/deliveryorder/order']) => 'Deliveryman Orders',
-                            Url::to(['/Delivery/deliveryorder/pickup']) => 'Pick Up Orders',
-                            Url::to(['/Delivery/deliveryorder/history']) => 'Deliveryman Orders History',
+                            Url::to(['/order/deliveryman-orders']) => 'Deliveryman Orders',
+                            Url::to(['/order/deliveryman-order-history']) => 'Deliveryman Orders History',
                             Url::to(['/Delivery/daily-sign-in/delivery-location']) => 'Delivery Location',
                         ];
                 break;

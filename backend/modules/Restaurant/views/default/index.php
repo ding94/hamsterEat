@@ -72,16 +72,18 @@ use yii\bootstrap\Modal;
                 'format' => 'raw',
                 'value' => function($model,$url)
                 {
-                    if($model->manager['Rmanager_Approval'] == 0)
-                    {
-                        $url =Url::to(['default/active','name' =>$model->Restaurant_Manager]);
+                    if ($model['Restaurant_Status']!='Under Renovation') {
+
+                        if($model['Restaurant_Status'] == 'Operating'){
+                            $url =Url::to(['/restaurant/restaurant/change-operation','id' =>$model->Restaurant_ID,'case'=>1]);
+                        }
+                        else{
+                            $url = Url::to(['/restaurant/restaurant/change-operation','id' =>$model->Restaurant_ID,'case'=>2]);
+                        }
+                    
+                        return $model['Restaurant_Status'] == 'Closed' ?  Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'Activate']) :  Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'Deactivate']);
                     }
-                    else
-                    {
-                        $url = Url::to(['default/deactive','name' =>$model->Restaurant_Manager]);
-                    }
-                
-                    return $model->manager['Rmanager_Approval'] == 0 ?  Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'Activate']) :  Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'Deactivate']);
+                    return '';
                 },
                 'filter' =>  array( 0=>"Deactive",1=>"Active"),
             ],
@@ -95,6 +97,19 @@ use yii\bootstrap\Modal;
                         $url =  Url::to(['/restaurant/restaurant/profit' ,'id'=>$model->Restaurant_ID]);
 
                         return Html::a('View' , $url , ['class' => 'text-underline','title' => 'Restaurant Earning'])   ;
+                    },
+                ],
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{rating}',
+                'header' => "Rating",
+                'buttons' => [
+                    'rating' => function($url , $model)
+                    {
+                        $url =  Url::to(['/rating/average-restaurant-rating-stats' ,'rid'=>$model->Restaurant_ID]);
+
+                        return Html::a('View' , $url , ['class' => 'text-underline','title' => 'Restaurant Rating'])   ;
                     },
                 ],
             ],

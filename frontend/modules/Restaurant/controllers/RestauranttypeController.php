@@ -10,15 +10,23 @@ use common\models\Restauranttypejunction;
 class RestauranttypeController extends Controller
 {
 	public static function newRestaurantJunction($data,$id)
-	{
-		foreach ($data as $typeid) {
+    {
+        foreach ($data as $typeid) {
             $newtype = new Restauranttypejunction;
                                
             $newtype->Restaurant_ID =$id;
             $newtype->Type_ID = $typeid;
             $newtype->save();
         }
-	}
+    }
+
+    public static function deleteRestaurantJunction($rid)
+    {
+        $data = Restauranttypejunction::find()->where('Restaurant_ID =:id',[':id'=>$rid])->all();
+        foreach ($data as $key => $type) {
+            $type->delete();
+        }
+    }
 
     /*
     * diff between old data and new junction data

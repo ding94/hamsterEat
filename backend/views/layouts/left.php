@@ -36,6 +36,8 @@
                     [   'label' => 'Admin Controller' , 'url' => '#', 'icon' => 'lock',
                         'items' =>  [
                                         [ 'label' => 'Admin List', 'icon' => 'circle-o', 'url' => ['/admin/index']],
+                                        [ 'label' => 'R.Manager Approve', 'icon' => 'circle-o', 'url' => ['/restaurant/default/rmanager_approval']],
+                                        [ 'label' => 'Restaurant Approve', 'icon' => 'circle-o', 'url' => ['/restaurant/default/restaurant_approval']],
                                     ],
                         'options' => ['class' => 'active'],
                     ],

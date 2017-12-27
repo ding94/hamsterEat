@@ -66,9 +66,9 @@ Modal::end();
             <span><?php echo Html::a('Insert Food', ['/food/insert-food','rid'=>$rid], ['class'=>'raised-btn main-btn']); ?></span>
             <span> 
               <?php if ($restaurant['Restaurant_Status'] == "Closed"): ?>
-              <?=Html::a('Resume Resturant Operate', Url::to(['restaurant/active', 'id'=>$restaurant['Restaurant_ID'],'item'=>1]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'resize-btn raised-btn btn-success'])?>
+              <?=Html::a('Resume Resturant Operate', Url::to(['/Restaurant/restaurant/active', 'id'=>$restaurant['Restaurant_ID'],'item'=>1]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'resize-btn raised-btn btn-success'])?>
               <?php elseif($restaurant['Restaurant_Status'] == "Operating"): ?>
-              <?=Html::a('Pause Resturant Operate', Url::to(['restaurant/pauserestaurant', 'id'=>$restaurant['Restaurant_ID'],'item'=>1]), ['id'=>'pause','data-confirm'=>"Do you want to Pause Operate?",'class'=>'resize-btn raised-btn btn-danger'])?>  
+              <?=Html::a('Pause Resturant Operate', Url::to(['/Restaurant/restaurant/pauserestaurant', 'id'=>$restaurant['Restaurant_ID'],'item'=>1]), ['id'=>'pause','data-confirm'=>"Do you want to Pause Operate?",'class'=>'resize-btn raised-btn btn-danger'])?>  
               <?php endif ?>
             </span>
           </div>

@@ -8,6 +8,7 @@ use backend\models\RestaurantSearch;
 use common\models\Area;
 use common\models\User;
 use common\models\Rmanager;
+use common\models\Restaurant;
 use yii\web\NotFoundHttpException;
 /**
  * Default controller for the `Restaurant` module
@@ -36,41 +37,73 @@ class DefaultController extends Controller
         return $this->renderPartial('_manager',['model' => $model]);
     }
 
-    public function actionActive($name)
+    public function actionRestaurant_approval()
     {
-        $model = self::findModel($name);
-        $model->Rmanager_Approval = 1;
-        $model->Rmanager_DateTimeApproved = time();
-        if($model->save())
-        {
+        $searchModel = new RestaurantSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,2);
+
+        return $this->render('restaurant-approval',['model' => $dataProvider , 'searchModel' => $searchModel]);
+    }
+
+    public function actionRmanager_approval()
+    {
+        $searchModel = new Rmanager();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('rmanager-approval',['model' => $dataProvider , 'searchModel' => $searchModel]);
+    }
+
+    public function actionRmanagerOperate($id,$case)
+    {
+        $rmanager = Rmanager::find()->where('uid=:id',[':id'=>$id])->one();
+        switch ($case) {
+            case 1:
+                $rmanager['Rmanager_Approval'] = 1;
+                break;
+            case 2:
+                $rmanager['Rmanager_Approval'] = 0;
+                break;
+            default:
+                break;
+        }
+
+        if($rmanager->validate()){
+            $rmanager->save();
             Yii::$app->session->setFlash('success', "Approve completed");
         }
-        else
-        {
+        else{
             Yii::$app->session->setFlash('warning', "Approve fail");
         }
 
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-    public function actionDeactive($name)
+    public function actionRestaurantOperate($id,$case)
     {
-        $model = self::findModel($name);
-       
-        $model->Rmanager_Approval = 0;
-       
-        if($model->save())
-        {
-            Yii::$app->session->setFlash('success', "Deapprove completed");
+        //$model = self::findModel($id);
+        $model = Restaurant::find()->where('Restaurant_ID = :id',[':id' =>$id])->one();
+        switch ($case) {
+            case 1:
+                $model['approval'] = 1;
+                break;
+            case 2:
+                $model['approval'] = 0;
+                break;
+            default:
+                break;
         }
-        else
-        {
-            Yii::$app->session->setFlash('warning', "Deapprove fail");
+
+        if($model->save()){
+            Yii::$app->session->setFlash('success', "Approve completed");
         }
+        else{
+            Yii::$app->session->setFlash('warning', "Approve fail");
+        }
+
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-    protected function findModel($name)
+    protected function findModel($id)
     {
         $model = Rmanager::find()->where('User_Username = :name',[':name' =>$name])->one();
         if ($model !== null) {

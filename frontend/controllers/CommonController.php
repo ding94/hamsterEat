@@ -10,6 +10,7 @@ use yii\helpers\Json;
 use common\models\Notification;
 use common\models\NotificationSetting;
 use common\models\Cart\Cart;
+use common\models\Rmanager;
 use common\models\Rmanagerlevel;
 use yii\web\HttpException;
 
@@ -161,7 +162,6 @@ class CommonController extends Controller
     public static function restaurantPermission($rid)
     {
         $staff = Rmanagerlevel::find()->where('rmanagerlevel.Restaurant_ID = :rid and rmanagerlevel.User_Username = :u and  Rmanager_Approval = 1',[':rid'=>$rid,':u' => Yii::$app->user->identity->username])->joinWith(['manager','restaurant'])->one();
-       
         if(empty($staff))
         {
             throw new HttpException('403','Permission Denied!');
@@ -183,6 +183,17 @@ class CommonController extends Controller
         $data[1] = $staff->restaurant->Restaurant_Area;
         $data[2] = $staff->RmanagerLevel_Level;
         return $data;
+    }
+
+    public static function rmanagerApproval() 
+    {
+        $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
+        if (!empty($rmanager)) {
+            if ($rmanager['Rmanager_Approval'] == 1) {
+                return $rmanager;
+            }
+        }
+        throw new HttpException('403','Permission Denied!');
     }
 
     public static function getRestaurantUrl($restArea,$areachosen,$staff,$rid)

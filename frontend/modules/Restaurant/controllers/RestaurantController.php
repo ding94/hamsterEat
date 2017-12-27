@@ -51,7 +51,7 @@ class RestaurantController extends CommonController
 
     public function actionRestaurantService()
     {
-        //$rightperson = Rmanager::find()->where('uid=:id',[':id' => Yii::$app->user->identity->id])->one();
+        $rmanager = CommonController::rmanagerApproval();
         $staffs = Rmanagerlevel::find()->where('User_Username=:u',[':u' => Yii::$app->user->identity->username])->all();
         if ($staffs) {
             foreach ($staffs as $k => $staff) {
@@ -61,7 +61,7 @@ class RestaurantController extends CommonController
         }
         elseif(empty($staffs))
         {
-            if ($rmanager = Rmanager::find()->where('uid=:u',[':u'=>Yii::$app->user->identity->id])->one()) {
+            if ($rmanager) {
                 return $this->render('restaurantservice',['restaurants'=>""]);
             }
         }

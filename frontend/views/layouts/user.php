@@ -99,6 +99,7 @@ UserAsset::register($this);
         {
             $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">Notifications</h4>'];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+            $menuItems[end($keys)]['items'][] = '<div class="inner-notic">';
             foreach(Yii::$app->view->params['notication'] as $i=> $notic)
             {
 
@@ -119,9 +120,9 @@ UserAsset::register($this);
                 }
             }
         }
-
+        $menuItems[end($keys)]['items'][] = '</div>';
         $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
-        $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">View All</h4>','url' => ['/notification/index']];
+        $menuItems[end($keys)]['items'][] = "<li><div class='col-sm-6'>".Html::a('<h3 class="menu-title">Mark as Read</h3>',['/notication/turnoff'])."</div><div class='col-sm-6'>".Html::a('<h4 class="menu-title">View All</h4>',['/notication/index'],['class'=>'pull-right'])."</div></li>";
         $rmanager = Rmanager::find()->where('uid=:id AND Rmanager_Approval=:ra',[':id'=>Yii::$app->user->identity->id,':ra'=>1])->one();
         if (!empty($rmanager)) {
             $menuItems[] = ['label' => '<span class="glyphicon glyphicon-list-alt">'];

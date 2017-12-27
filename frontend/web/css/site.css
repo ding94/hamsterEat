@@ -125,9 +125,23 @@ h2
   background-color:#FFDA00;
 }
 
+.inner-notic > li >a{
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+}
+
 #notication ul.dropdown-menu{
-  max-height: 400px;
-  overflow: auto;
+  width: 350px;
+}
+
+.inner-notic {
+  max-height: 200px;
+  overflow-x: hidden;
 }
 
 

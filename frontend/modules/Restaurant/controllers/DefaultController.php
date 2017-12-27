@@ -232,6 +232,7 @@ class DefaultController extends CommonController
 //--This function captures the new restaurant's area group based on the entered postcode and area
     public function actionNewRestaurantLocation()
     {
+        CommonController::rmanagerApproval();
         $postcode = new Area();
         $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Area','Area_Area');
         if(Yii::$app->request->isPost)
@@ -250,6 +251,7 @@ class DefaultController extends CommonController
 //--This creates a new restaurant
     public function actionNewRestaurant($restArea, $areachosen)
     {
+        CommonController::rmanagerApproval();
         $restaurant = new Restaurant();
 
         $upload = new Upload();

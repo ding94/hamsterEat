@@ -107,7 +107,7 @@ class DeliveryorderController extends CommonController
             $data[$company->name]['id'][$order->Delivery_ID] =  $singleprice;
 
     	}
-    	
+    	//var_dump($data);exit;
     	return $this->render("complete",['data'=>$data,'link'=>$link]);
     }
 

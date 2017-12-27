@@ -358,7 +358,7 @@ class OrderController extends CommonController
         return $this->render('restaurantorderhistory', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination,'statusid'=>$statusid]);
     }
 
-    public function findOrder($id)
+    public static function findOrder($id)
     {
         if (($model = Orders::findOne($id)) !== null) {
             return $model;
@@ -367,7 +367,7 @@ class OrderController extends CommonController
         }
     }
 
-    public function findOrderitem($id,$type)
+    public static function findOrderitem($id,$type)
     {
         $validate = true;
         $model = OrderItem::findOne($id);

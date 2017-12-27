@@ -74,10 +74,21 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 </tr>
             </table>
         </div>
-        <div class="col-md-3">
-            <?= Html::a('Compare','#',['class' => 'btn btn-block ']) ?>
-        </div>
     <?php endforeach ;?>
+    <?php $form = ActiveForm::begin(['method' => 'post']); ?>
+        <div class="col-md-3">
+            <?php
+                echo $form->field($tempmodel, 'Restaurant_ID')->widget(Select2::classname(),[
+                        'name' => 'compare',
+                        'data' => $restaurantlist,
+                        'options' => [
+                            'placeholder' => 'Compare with ...',
+                        ],
+                ])->label('Compare with...');
+            ?>
+            <?= Html::submitButton('Compare',['class' => 'btn-block ']) ?>
+        </div>
+    <?php ActiveForm::end(); ?>
     </div>
 <?php  echo GridView::widget([
         'dataProvider'=>$model,

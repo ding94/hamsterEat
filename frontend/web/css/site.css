@@ -125,6 +125,12 @@ h2
   background-color:#FFDA00;
 }
 
+#notication ul.dropdown-menu{
+  max-height: 400px;
+  overflow: auto;
+}
+
+
 /*
 * navbar drop down design end
 */
@@ -566,6 +572,7 @@ div.dotted {
 #faq ul{
   list-style-type:none;
 }
+
 
 @media(max-width: 991px){
   .form{

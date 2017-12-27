@@ -37,7 +37,7 @@ class ProfitController extends CommonController
         ->limit($pages->limit)
         ->all();
 
-		return $this->render('index',['data'=>$data,'pages' => $pages,'first'=>$first,'last'=>$last ,'link'=>$link]);
+		return $this->render('index',['data'=>$data,'pages' => $pages,'first'=>$first,'last'=>$last ,'link'=>$link,'rid'=>$rid]);
 		
 	}
 

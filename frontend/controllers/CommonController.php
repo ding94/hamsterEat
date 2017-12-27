@@ -134,6 +134,7 @@ class CommonController extends Controller
                 $data = [
                             Url::to(['/Delivery/deliveryorder/order']) => 'Deliveryman Orders',
                             Url::to(['/Delivery/deliveryorder/pickup']) => 'Pick Up Orders',
+                            Url::to(['/Delivery/deliveryorder/complete']) => 'Complete Orders',
                             Url::to(['/Delivery/deliveryorder/history']) => 'Deliveryman Orders History',
                             Url::to(['/Delivery/daily-sign-in/delivery-location']) => 'Delivery Location',
                         ];

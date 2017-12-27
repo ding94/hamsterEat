@@ -107,7 +107,7 @@ NotificationAsset::register($this);
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> Login', 'url' => ['/site/login-popup'],'linkOptions'=>['data-toggle'=>'modal','data-target'=>'#login-modal']]; 
     } else {
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span>', 'url' => ['/cart/view-cart']];
-        $menuItems[] = ['label' => '<span class=""> <i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>'];
+        $menuItems[] = ['label' => '<span> <i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>' ,'options'=> ['id'=>'notication']];
         $keys = array_keys($menuItems);
 
         if(empty(Yii::$app->view->params['notication']))
@@ -141,9 +141,11 @@ NotificationAsset::register($this);
                 }
             }
         }
-        $rmanager = Rmanager::find()->where('uid=:id AND Rmanager_Approval=:ra',[':id'=>Yii::$app->user->identity->id,':ra'=>1])->one();
         $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">View All</h4>','url' => ['/notification/index']];
+        $rmanager = Rmanager::find()->where('uid=:id AND Rmanager_Approval=:ra',[':id'=>Yii::$app->user->identity->id,':ra'=>1])->one();
+      
+       
         if (!empty($rmanager)) {
             $menuItems[] = ['label' => '<span class="glyphicon glyphicon-list-alt">'];
             $key = array_keys($menuItems);

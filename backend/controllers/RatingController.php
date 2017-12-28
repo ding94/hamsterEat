@@ -80,16 +80,24 @@ Class RatingController extends Controller
 	public static function calRatingForRestaurantPerMonth($start,$end,$rid)
 	{
 		$food = Food::find()->select(['Food_ID'])->where('Restaurant_ID=:rid',[':rid'=>$rid])->asArray()->all();
-		foreach ($food as $key => $value) {
-			$foodrating[] = self::calRatingForFoodPerMonth($start,$end,$value['Food_ID']);
+		if(!empty($food)){
+			foreach ($food as $key => $value) {
+				$foodrating[] = self::calRatingForFoodPerMonth($start,$end,$value['Food_ID']);
+			}
+		} else {
+			$foodrating = [];
 		}
 		$count = 0;
 		$totalrating = 0;
-		foreach ($foodrating as $key => $value) {
-			$count += 1;
-			$totalrating += $value;
+		if(!empty($foodrating)){
+			foreach ($foodrating as $key => $value) {
+				$count += 1;
+				$totalrating += $value;
+			}
+			$averagerating = $totalrating/$count;
+		} else {
+			$averagerating = 0;
 		}
-		$averagerating = $totalrating/$count;
 		return $averagerating;
 	}
 

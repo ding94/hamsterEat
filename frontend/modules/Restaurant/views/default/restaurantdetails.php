@@ -41,7 +41,7 @@ RestaurantDetailsAsset::register($this);
         <div class="restaurant-img-div">
         <?php echo Html::a("Back" ,Yii::$app->request->referrer,['class'=>'raised-btn secondary-btn','id'=>'back'])?>
         <?php 
-         echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'restaurant-img']) 
+         echo Html::img(Yii::$app->params['restaurant'].$picpath, ['class' => 'restaurant-img']) 
          ?>
         </div> 
         <div class="restaurant-info-inner">

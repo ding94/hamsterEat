@@ -12,38 +12,7 @@ use yii\bootstrap\Modal;
 
 $this->title = "Edit ".$restaurantdetails['Restaurant_Name']."'s Details";
 EditRestaurantDetailsAsset::register($this); ?>
-<style>
-    /* Edit modal mobile size */
-@media(max-width: 480px){
-#location-modal .modal-content{
-    margin:auto;
-    width:298px;
-    }
-}
-</style>
-<body>
 
-<?php Modal::begin([
-            'header' => '<h2 class="modal-title">Edit '.$restaurantdetails['Restaurant_Name'].' Location</h2>',
-            'id'     => 'location-modal',
-            'size'   => 'modal-sm',
-            //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
-    ]);
-    
-    Modal::end() ?>
-
-</body> <?php
-
-if (!is_null($restArea))
-{
-    $restaurantdetails['Restaurant_AreaGroup']=$restArea;
-}
-
-if (!is_null($areachosen))
-{
-    $restaurantdetails['Restaurant_Area']=$areachosen;
-}
-?>
 <div id="edit-restaurant-details-container" class="container">
     <div class="edit-restaurant-details-header">
         <div class="edit-restaurant-details-header-title"><?= Html::encode($this->title) ?></div>
@@ -80,18 +49,11 @@ if (!is_null($areachosen))
             </div>
         </div>
         <div id="edit-restaurant-details-content" class="col-sm-10">
+            <strong>Restaurant Name</strong><br><?php echo $restaurantdetails['Restaurant_Name']; ?><br><br>
+            <strong>Restaurant License No</strong><br><?php echo $restaurantdetails['Restaurant_LicenseNo']; ?><br><br>
+            <strong>Restaurant Area</strong><br><?php echo $restaurantdetails['Restaurant_Area']; ?><br><br>
+
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-
-                <?= $form->field($restaurantdetails, 'Restaurant_Name')->textInput()->label('Restaurant Name') ?>
-
-                <?= $form->field($restaurantdetails, 'Restaurant_LicenseNo')->textInput()->label('Restaurant License No') ?>
-                
-                <strong>Restaurant Area</strong><br><?php echo $restaurantdetails['Restaurant_Area']; ?><br><br>
-
-                <strong>Restaurant Group Area</strong><br><?php echo $restaurantdetails['Restaurant_AreaGroup']; ?><br><br>
-
-                <?php echo Html::a('Edit Area', ['edit-restaurant-area', 'rid'=>$restaurantdetails['Restaurant_ID']], ['class'=>'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#location-modal']); ?><br><br>
-
                 <?php echo '<label class="control-label">Type</label>';
                         echo Select2::widget([
                             'name' => 'Type_ID',
@@ -107,7 +69,6 @@ if (!is_null($areachosen))
                         ]);
                 ?>
                 <br>
-                <br>
 
                 <?= $form->field($restaurantdetails, 'Restaurant_Pricing')->radioList(["1"=>'Less than RM 10',"2"=>'More than RM 10', "3"=>'More Than RM 100'])->label('Average Food Prices') ?>
           
@@ -116,7 +77,7 @@ if (!is_null($areachosen))
                 <div class="form-group">
                     <?= Html::submitButton('Save', ['class' => 'raised-btn main-btn', 'name' => 'save-button']) ?>
                 </div>
-
+                <p style="color: red;">* To change other restaurant details, please contact customer service.</p>
             <?php ActiveForm::end(); ?>
         </div>
     </div>

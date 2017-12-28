@@ -55,7 +55,7 @@ class UserController extends CommonController
     {
         $upload = new Upload();
         $upload->scenario = 'ticket';
-        $path = 'imageLocation/userprofilepic/';
+        $path = Yii::$app->params['userprofilepic'];
         
         // return $this->render('upload', ['detail' => $detail]);
         $link = CommonController:: createUrlLink(1);
@@ -72,7 +72,7 @@ class UserController extends CommonController
             {
                 $upload->imageFile->name = Yii::$app->user->identity->username.'.'.$upload->imageFile->extension;
                 $upload->upload($path);
-                $detail->User_PicPath ='/'.$path.$upload->imageFile->name;
+                $detail->User_PicPath =$upload->imageFile->name;
             }
             else
             {

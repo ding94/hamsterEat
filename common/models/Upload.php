@@ -19,9 +19,10 @@ class Upload extends Model
     }
      public function upload($path)
     {
-        //default location = 'imageLocation/'
         if ($this->validate()) {
-            //var_dump($this);exit;
+            //$path = './imageLocation/(file name)/'
+            //save path = './imageLocation/(file name)/(image name).(extension)'
+            //save database = '(image name).(extension)'
             $this->imageFile->saveAs($path.$this->imageFile->baseName.'.'.$this->imageFile->extension);
         
             return true;

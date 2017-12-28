@@ -72,7 +72,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             </table>
         </div>
     <?php endforeach ;?>
-    <?php $form = ActiveForm::begin(['method' => 'post']); ?>
+    <?php $form = ActiveForm::begin(); ?>
         <div class="col-md-3">
             <?php
                 echo $form->field($tempmodel, 'Restaurant_ID')->widget(Select2::classname(),[

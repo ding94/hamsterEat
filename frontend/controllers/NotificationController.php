@@ -27,7 +27,7 @@ class NotificationController extends CommonController
 	{
 		$this->layout = 'user';
 		$title = "All Notification";
-
+		self::turnOffNotification();
 		$link = CommonController::createUrlLink(6);
 		$query = Notification::find()->where('uid = :uid',[':uid' =>Yii::$app->user->identity->id ]);
 
@@ -222,9 +222,9 @@ class NotificationController extends CommonController
 	public static function turnOffNotification()
 	{
 		$data = [];
-		if(!empty(Yii::$app->view->params['notication']))
+		if(!empty(Yii::$app->params['notication']))
 		{
-			foreach(Yii::$app->view->params['notication'] as $notic)
+			foreach(Yii::$app->params['notication'] as $notic)
 			{
 				
 				$data[]= array_column($notic, 'id');

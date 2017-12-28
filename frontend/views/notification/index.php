@@ -47,7 +47,9 @@ NotificationAsset::register($this);
             </div>
     	</div>
     </div>
+
     <div class="col-sm-10 notifcation-right">
+
 		<?php if(empty($notification)) : ?>
 			<h4>You  have not receive any notifcaiton yet</h4>
 		<?php else :?>
@@ -70,11 +72,11 @@ NotificationAsset::register($this);
 					<?php endif;?>
 				</div>
 			<?php endforeach ;?>
-
+        <?php echo LinkPager::widget([
+            'pagination' => $pages,
+        ]);?>
 		<?php endif ;?>
-    	<?php echo LinkPager::widget([
-			'pagination' => $pages,
-		]);?>	
+    		
     </div>
 
 </div>

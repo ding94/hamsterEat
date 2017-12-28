@@ -141,8 +141,9 @@ NotificationAsset::register($this);
                     $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['description'].' from <span class="right">'.$ago.'</span></h4>','url' => $url];
                 }
             }
+            $menuItems[end($keys)]['items'][] = '</div>';
         }
-        $menuItems[end($keys)]['items'][] = '</div>';
+       
         $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         $menuItems[end($keys)]['items'][] = "<li><div class='col-sm-6'>".Html::a('<h3 class="menu-title">Mark as Read</h3>',['/notication/turnoff'])."</div><div class='col-sm-6'>".Html::a('<h4 class="menu-title">View All</h4>',['/notication/index'],['class'=>'pull-right'])."</div></li>";
         $rmanager = Rmanager::find()->where('uid=:id AND Rmanager_Approval=:ra',[':id'=>Yii::$app->user->identity->id,':ra'=>1])->one();

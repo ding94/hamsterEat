@@ -222,9 +222,9 @@ class NotificationController extends CommonController
 	public static function turnOffNotification()
 	{
 		$data = [];
-		if(!empty(Yii::$app->view->params['notication']))
+		if(!empty(Yii::$app->params['notication']))
 		{
-			foreach(Yii::$app->view->params['notication'] as $notic)
+			foreach(Yii::$app->params['notication'] as $notic)
 			{
 				
 				$data[]= array_column($notic, 'id');

@@ -27,7 +27,7 @@ class NotificationController extends CommonController
 	{
 		$this->layout = 'user';
 		$title = "All Notification";
-
+		self::turnOffNotification();
 		$link = CommonController::createUrlLink(6);
 		$query = Notification::find()->where('uid = :uid',[':uid' =>Yii::$app->user->identity->id ]);
 

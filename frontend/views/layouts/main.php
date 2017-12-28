@@ -106,11 +106,11 @@ NotificationAsset::register($this);
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span> Signup', 'url' => ['/site/ruser']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> Login', 'url' => ['/site/login-popup'],'linkOptions'=>['data-toggle'=>'modal','data-target'=>'#login-modal']]; 
     } else {
-        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span>', 'url' => ['/cart/view-cart']];
-        $menuItems[] = ['label' => '<span> <i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>' ,'options'=> ['id'=>'notication']];
+        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['countCart'].'</span></span>', 'url' => ['/cart/view-cart']];
+        $menuItems[] = ['label' => '<span> <i class="fa fa-bell"></i>'.Yii::$app->params['countNotic'].'</span>' ,'options'=> ['id'=>'notication']];
         $keys = array_keys($menuItems);
 
-        if(empty(Yii::$app->view->params['notication']))
+        if(empty(Yii::$app->params['notication']))
         {
             $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">Empty Notication</h4>'];
         }
@@ -120,10 +120,10 @@ NotificationAsset::register($this);
 
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
             $menuItems[end($keys)]['items'][] = '<div class="inner-notic">';
-            foreach(Yii::$app->view->params['notication'] as $i=> $notic)
+            foreach(Yii::$app->params['notication'] as $i=> $notic)
             {
 
-                $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">'.Yii::$app->view->params['listOfNotic'][$i]['description'].'</h4>' ];
+                $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">'.Yii::$app->params['listOfNotic'][$i]['description'].'</h4>' ];
                 foreach($notic as $data)
                 {
                     $ago = Yii::$app->formatter->asRelativeTime($data['created_at']);
@@ -135,7 +135,7 @@ NotificationAsset::register($this);
                     }
                     else
                     {
-                         $url = [Yii::$app->view->params['listOfNotic'][$i]['url']];
+                         $url = [Yii::$app->params['listOfNotic'][$i]['url']];
                     }
                    
                     $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['description'].' from'.$ago.'</h4>','url' => $url];
@@ -145,7 +145,7 @@ NotificationAsset::register($this);
         }
        
      
-        if(empty(Yii::$app->view->params['notication']))
+        if(empty(Yii::$app->params['notication']))
         {
              $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title pull-right">View All</h4>','url' => ['/notification/index']];
         }
@@ -225,12 +225,12 @@ NotificationAsset::register($this);
             <div>
                 <ul>
                     <?php if(Yii::$app->user->isGuest){ ?>
-                    <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span>',['/cart/view-cart']);?></li>
-                    <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>',['/notification/index']);?></li>
+                    <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['countCart'].'</span></span>',['/cart/view-cart']);?></li>
+                    <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->params['countNotic'].'</span>',['/notification/index']);?></li>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-log-in"></span>',['/site/login-popup'],['data-toggle'=>'modal','data-target'=>'#login-modal']);?></li>
                     <?php } elseif(Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) { ?>
-                    <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span>',['/cart/view-cart']);?></li>
-                    <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>',['/notification/index']);?></li>
+                    <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['countCart'].'</span></span>',['/cart/view-cart']);?></li>
+                    <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->params['countNotic'].'</span>',['/notification/index']);?></li>
 
                     <?php if (!empty($rmanager)): ?>
                         <?php 
@@ -246,13 +246,13 @@ NotificationAsset::register($this);
                     <li><?php echo Html::a('<i class="fa fa-cutlery"></i>',['/Restaurant/restaurant/restaurant-service']);?></li>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-user">',['/user/user-profile']);?></li>
                     <?php } elseif(Deliveryman::find()->where('User_id=:id',[':id'=>Yii::$app->user->identity->id])->one()){ ?>
-                    <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span>',['/cart/view-cart']);?></li>
-                    <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>',['/notification/index']);?></li>
+                    <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['countCart'].'</span></span>',['/cart/view-cart']);?></li>
+                    <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->params['countNotic'].'</span>',['/notification/index']);?></li>
                     <li><?php echo Html::a('<i class="fa fa-truck"></i>',['/order/deliveryman-orders']);?></li>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-user">',['/user/user-profile']);?></li>
                     <?php } else{ ?>
-                    <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span>',['/cart/view-cart']);?></li>
-                    <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->view->params['countNotic'].'</span>',['/notification/index']);?></li>
+                    <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['countCart'].'</span></span>',['/cart/view-cart']);?></li>
+                    <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->params['countNotic'].'</span>',['/notification/index']);?></li>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-user">',['/user/user-profile']);?></li>
                     <?php } ?>
                 </ul>

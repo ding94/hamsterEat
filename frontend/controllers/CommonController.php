@@ -39,11 +39,6 @@ class CommonController extends Controller
                 {
                     return true;
                 }
-                
-                $this->view->params['notication'] = "";
-                $this->view->params['listOfNotic'] = "";
-                $this->view->params['countNotic'] = "";
-                $this->view->params['number'] = "";
                     
                 $this->redirect(['/site/validation']);
                 return false;
@@ -56,18 +51,15 @@ class CommonController extends Controller
 
     public function init()
     {
-        $data = "";
-        $listOfNotic = "";
-        $count = "";
         $number ="";
         if(!Yii::$app->user->isGuest)
         {
             
             $result = [];
-            $listOfNotic = ArrayHelper::index(NotificationSetting::find()->asArray()->all(), 'id');
+            Yii::$app->params['listOfNotic'] = ArrayHelper::index(NotificationSetting::find()->asArray()->all(), 'id');
             $query = Notification::find()->where('uid = :uid and view = :v',[':uid' => Yii::$app->user->identity->id,':v'=>0])->asArray()->orderBy(['created_at'=>SORT_DESC]);
             $count = $query->count();
-            $count = $count ==0 ? "" : " (".$count.")";
+            Yii::$app->params['countNotic'] = $count == 0 ? "" : " (".$count.")";
             $notication = $query->limit(10)->all();
             foreach($notication as $single)
             {
@@ -75,19 +67,16 @@ class CommonController extends Controller
                 //$result[$single['type']]['url'] = $this->urlLink($single['type'],$single['rid']);
             }
             
-            $data = $result;
+            Yii::$app->params['notication'] = $result;
            
 
             //Total Cart item
-            $totalcart="";
+          
             $cart = Cart::find()->where(['uid'=> Yii::$app->user->identity->id])->count();
-            $number = $cart == 0 ? "" : $cart;
+            Yii::$app->params['countCart'] = $cart == 0 ? "" : $cart;
 
         }
-        $this->view->params['notication'] = $data;
-        $this->view->params['listOfNotic'] = $listOfNotic;
-        $this->view->params['countNotic'] = $count;
-        $this->view->params['number'] = $number;
+       
     }
 
     /*

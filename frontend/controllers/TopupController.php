@@ -59,7 +59,7 @@ class TopupController extends CommonController
 		
     		$model['Account_ReceiptPicPath'] = $upload->imageFile->name;
 			//$model['Account_ChosenBank'] = $post['Bank_ID'];
-    		$upload->upload('imageLocation/topup/');
+    		$upload->upload(Yii::$app->params['topup']);
 			//var_dump($upload->imageFile);exit;
 			// var_dump($model->validate());exit;
 			 if ($model->validate()){

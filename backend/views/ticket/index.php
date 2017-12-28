@@ -46,7 +46,7 @@ use common\models\User;
                     'img' => function($url,$model)
                     {
                         if(!empty($model->Ticket_PicPath)){
-                            return Html::a('Picture',Yii::$app->urlManagerFrontEnd->baseUrl.'/'.$model->Ticket_PicPath,['target'=>'_blank']); //open page in new tab
+                            return Html::a('Picture',Yii::$app->params['backend-submitticket-pic'].$model->Ticket_PicPath,['target'=>'_blank']); //open page in new tab
                         }
                     },
                 ],

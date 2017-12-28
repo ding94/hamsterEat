@@ -133,7 +133,7 @@ Modal::end();
                       $picpath = "DefaultRestaurant.jpg";
                     }
                   ?>
-                <?php echo Html::img('@web/imageLocation/'.$picpath, ['class' => 'img']) ?>
+                <?php echo Html::img(Yii::$app->params['restaurant'].$picpath, ['class' => 'img']) ?>
               </div>
               <div class="inner-item">
                 <div class="restaurant-name">

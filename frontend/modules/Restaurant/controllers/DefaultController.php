@@ -265,7 +265,7 @@ class DefaultController extends CommonController
                 $upload->imageFile =  UploadedFile::getInstance($restaurant, 'Restaurant_RestaurantPicPath');
                 $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
 
-                $upload->upload('imageLocation/');
+                $upload->upload(Yii::$app->params['restaurant']);
 
                 $restaurant->Restaurant_RestaurantPicPath = $upload->imageFile->name;
                 $restaurant->Restaurant_Manager=Yii::$app->user->identity->username;
@@ -309,130 +309,74 @@ class DefaultController extends CommonController
     }
 
 //--This saves the edited restaurant details
-    public function actionEditRestaurantDetails($rid, $areachosen, $restArea)
+    public function actionEditRestaurantDetails($rid)
     {
         $upload = new Upload();
-
-        //$path = Yii::$app->request->baseUrl.'/imageLocation/';
-        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
-        $restaurantdetails = restaurant::find()->where('Restaurant_ID = :rid'  , [':rid' => $rid])->one();
-        $rpicpath = $restaurantdetails['Restaurant_RestaurantPicPath'];
-        $restArea = $restArea;
-        $areachosen = $areachosen;
-        $restaurant = Restaurant::find()->where(Restaurant::tableName().'.Restaurant_ID = :id' ,[':id' => $rid])->innerJoinWith('restaurantType',true)->one();
 
         $linkData = CommonController::restaurantPermission($rid);
         $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
 
+        $restaurantdetails = restaurant::find()->where('Restaurant_ID = :rid',[':rid' => $rid])->one();
+        $rpicpath = $restaurantdetails['Restaurant_RestaurantPicPath'];
+
+        $restaurant = Restaurant::find()->where(Restaurant::tableName().'.Restaurant_ID = :id' ,[':id' => $rid])->innerJoinWith('restaurantType',true)->one();
         $chosen = ArrayHelper::map($restaurant['restaurantType'],'ID','ID');
         $type = ArrayHelper::map(RestaurantType::find()->orderBy(['(Type_Name)' => SORT_ASC])->all(),'ID','Type_Name');
 
         if($restaurantdetails->load(Yii::$app->request->post()))
         {
-                $post = Yii::$app->request->post();
-        
-                //$model->action = 1;
-                //$model->action_before=1;
-                $upload->imageFile =  UploadedFile::getInstance($restaurantdetails, 'Restaurant_RestaurantPicPath');
+            $post = Yii::$app->request->post();
+            $upload->imageFile =  UploadedFile::getInstance($restaurantdetails, 'Restaurant_RestaurantPicPath');
 
-                if (!is_null($upload->imageFile))
+            if (!is_null($upload->imageFile)){
+                $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
+                $upload->upload(Yii::$app->params['restaurant']);
+                $restaurantdetails->Restaurant_RestaurantPicPath = $upload->imageFile->name;
+            }
+            else{
+                $restaurantdetails->Restaurant_RestaurantPicPath = $rpicpath;
+            }
+
+            if($restaurantdetails->validate())
+            {
+                $restaurantdetails->save();
+
+                $restaurant = Restaurant::findOne($rid);
+                $modelJunction = $restaurant->rJunction;
+                $junctionData = RestauranttypeController::diffStatus($modelJunction,$post['Type_ID']);
+                $transaction = Yii::$app->db->beginTransaction();
+                try
                 {
-                    $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-                    // $post['User_PicPath'] = 
-                     $upload->upload('imageLocation/');
-                     
-                     //$restaurantdetails->load($post);
-                 
-                     $restaurantdetails->Restaurant_RestaurantPicPath = $upload->imageFile->name;
-     
-                     Yii::$app->session->setFlash('success', 'Upload Successful');
-                }
-                else
-                {
-                    $restaurantdetails->Restaurant_RestaurantPicPath = $rpicpath;
-                }
-
-                $restaurantdetails->Restaurant_Area = $areachosen;
-                $restaurantdetails->Restaurant_AreaGroup = $restArea;
-
-                 $isValid = $restaurantdetails->validate();
-                if($isValid)
-                {
-                    $restaurantdetails->save();
-
-                    $restaurant = Restaurant::findOne($rid);
-                    $modelJunction = $restaurant->rJunction;
-            
-                    $junctionData = RestauranttypeController::diffStatus($modelJunction,$post['Type_ID']);
-            
-                        $transaction = Yii::$app->db->beginTransaction();
-                        try
-                        {
-                            if(!empty($junctionData[0]))
-                            {
-                                foreach($junctionData[0] as $deleteId)
-                                {
-                                        Restauranttypejunction::deleteAll('Restaurant_ID = :rid and Type_ID = :tid',[':rid' => $restaurant->Restaurant_ID, ':tid' => $deleteId]);
-                                }
-                            }
+                    if(!empty($junctionData[0])){
+                        foreach($junctionData[0] as $deleteId){
+                            Restauranttypejunction::deleteAll('Restaurant_ID = :rid and Type_ID = :tid',[':rid' => $restaurant->Restaurant_ID, ':tid' => $deleteId]);
+                        }
+                    }
                             
-                            if(!empty($junctionData[1]))
-                            {
-                                RestauranttypeController::newRestaurantJunction($junctionData[1],$restaurant->Restaurant_ID);
-                            }
+                    if(!empty($junctionData[1])){
+                        RestauranttypeController::newRestaurantJunction($junctionData[1],$restaurant->Restaurant_ID);
+                    }
 
-                            $transaction->commit();
-                            Yii::$app->session->setFlash('success', "Success edit");
+                    $transaction->commit();
+                    Yii::$app->session->setFlash('success', "Success edit");
 
-                            Yii::$app->session->setFlash('success', "Update completed");
-                            return $this->redirect(['restaurant-details', 'rid'=>$rid]);
-                        }
-
-                        catch(Exception $e)
-                        {
-                            $transaction->rollBack();
-                        }
-                            Yii::$app->session->setFlash('warning', "Fail edit");
-                            return $this->redirect(Yii::$app->request->referrer);
-                        }
-                        else
-                        {
-                            Yii::$app->session->setFlash('warning', "Fail edit");
-                            return $this->redirect(Yii::$app->request->referrer);
-                        }
+                    Yii::$app->session->setFlash('success', "Update completed");
+                    return $this->redirect(['/Restaurant/default/edit-restaurant-details', 'rid'=>$rid]);
                 }
 
-    //$this->view->title = 'Update Profile';
-    //$this->layout = 'user';
-    
-    return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails, 'areachosen'=>$areachosen, 'restArea'=>$restArea, 'chosen'=>$chosen, 'type'=>$type, 'staff'=>$staff,'link'=>$link]);
-    }
+                catch(Exception $e){
+                    $transaction->rollBack();
+                }
 
-    public function actionEditRestaurantArea($rid)
-    {
-        $restaurantdetails = restaurant::find()->where('Restaurant_ID = :rid'  , [':rid' => $rid])->one();
-        $rid = $restaurantdetails['Restaurant_ID'];
-        $postcode = new Area();
-        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Area','Area_Area');
-        if($postcode->load(Yii::$app->request->post()))
-        {
-            $area = Yii::$app->request->post('Area');
-            $areachosen = $area['Area_Area'];
-            if ($areachosen == ''){
-                $areachosen = $restaurantdetails['Restaurant_Area'];
-                $restArea = $restaurantdetails['Restaurant_AreaGroup'];
-                Yii::$app->session->setFlash('danger', "Area not chosen.");
-                return $this->redirect(['edit-restaurant-details', 'restArea'=>$restArea, 'rid'=>$rid, 'areachosen'=>$areachosen]);
-            } else {
-            $restArea = Area::find()->where('Area_Area = :area_area',[':area_area'=>$area['Area_Area']])->one();
-            $restArea = $restArea['Area_Group'];
-            
-            // return $this->actionEditRestaurantDetails2($restArea, $postcodechosen, $areachosen, $rid);
-            return $this->redirect(['edit-restaurant-details', 'restArea'=>$restArea, 'rid'=>$rid, 'areachosen'=>$areachosen]);
+                Yii::$app->session->setFlash('warning', "Fail edit");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            else{
+                Yii::$app->session->setFlash('warning', "Fail edit");
+                return $this->redirect(Yii::$app->request->referrer);
             }
         }
-
-        return $this->renderAjax('editrestaurantlocation',['restaurantdetails'=>$restaurantdetails, 'postcode'=>$postcode , 'rid'=>$rid, 'postcodeArray'=>$postcodeArray]);
+        return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails,'chosen'=>$chosen, 'type'=>$type,'link'=>$link]);
     }
 
 //--This function shows all the staff under a specific restaurant

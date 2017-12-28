@@ -43,15 +43,15 @@ class TicketController extends Controller
             }
     		if (Yii::$app->request->post()) {
                 
-                $path = Yii::$app->urlManagerBackEnd->baseUrl.'/'.Yii::$app->params['replyticket'];
+                $path = Yii::$app->params['replyticket-pic'];
 
                 $upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
                 if (!empty($upload->imageFile)) {
                     
                     $imageName = time().'.'.$upload->imageFile->extension;
                     $upload->imageFile->name = $imageName;
-                    $upload->upload($path.'/');
-                    $reply->Replies_PicPath = Yii::$app->params['replyticket'].'/'.$imageName;
+                    $upload->upload($path);
+                    $reply->Replies_PicPath = $upload->imageFile->name;
                     
                 }
 

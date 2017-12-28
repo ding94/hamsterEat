@@ -119,11 +119,10 @@ class FoodController extends CommonController
             $post = Yii::$app->request->post();
             $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
             $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-            $location = 'imageLocation/foodImg/';
-            $upload->upload($location);
+            $upload->upload(Yii::$app->params['foodImg']);
     
             $food = self::newFood($post,$rid,$upload->imageFile->name);
-    
+            
             $foodtype = Model::createMultiple(Foodselectiontype::classname());
 
             Model::loadMultiple($foodtype, Yii::$app->request->post());
@@ -286,10 +285,8 @@ class FoodController extends CommonController
         if (!is_null($upload->imageFile))
         {
             $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-                  
-            $location = 'imageLocation/foodImg/';
                 
-            $upload->upload($location);
+            $upload->upload(Yii::$app->params['foodImg']);
 
             $food->PicPath = $upload->imageFile->name;
         }

@@ -19,13 +19,13 @@ $this->params['breadcrumbs'][] = $this->title;
           <tr>
       	   <th> <?php echo $name; ?>	</th> 
            <th><?php echo $model->Ticket_Content; ?> </th> 
-           <th><?php if(!empty($model->Ticket_PicPath)){ echo Html::a('Picture',Yii::$app->urlManagerFrontEnd->baseUrl.'/'.$model->Ticket_PicPath,['target'=>'_blank']); }?></th>
+           <th><?php if(!empty($model->Ticket_PicPath)){ echo Html::a('Picture',Yii::$app->params['backend-submitticket-pic'].$model->Ticket_PicPath,['target'=>'_blank']); }?></th>
   	   	</tr>
         
           <?php 
           foreach ($chat as $chatt) { 
             echo '<tr><td>'.$chatt->Replies_ReplyPerson.' </td><td>'.$chatt->Replies_ReplyContent.'</td><td>';
-            if(!empty($chatt->Replies_PicPath)){ echo Html::a('Picture',Yii::$app->urlManagerFrontEnd->baseUrl.'/'.$chatt->Replies_PicPath,['target'=>'_blank']).'</td></tr>'; }
+            if(!empty($chatt->Replies_PicPath)){ echo Html::a('Picture',Yii::$app->params['replyticket-pic'].$chatt->Replies_PicPath,['target'=>'_blank']).'</td></tr>'; }
          }?>
          </table>
      </div>

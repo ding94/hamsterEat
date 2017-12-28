@@ -35,7 +35,7 @@ UserAsset::register($this);
       <div class="userprofile-detail">
         <div class="col-sm-3 userprofile-left">
           <div class="userprofile-avatar">
-              <?php $picpath = is_null($user->userdetails->User_PicPath) ? Url::to('@web/imageLocation/Default.png'): Url::to('@web'.$user->userdetails->User_PicPath); ?>
+              <?php $picpath = is_null($user->userdetails->User_PicPath) ? Url::to('@web/imageLocation/Default.png'): Url::to(Yii::$app->params['userprofilepic'].$user->userdetails->User_PicPath); ?>
               <?php echo Html::img($picpath,['class'=>"userprofile-image"])?>
               <?= Html::a('Edit', ['/user/userdetails'], ['class'=>'raised-btn btn-default userprofile-editbutton']) ?>
               <?= Html::a('Logout', ['/site/logout'], ['class'=>'raised-btn btn-danger userprofile-logoutbutton','data-method'=>'post']) ?>

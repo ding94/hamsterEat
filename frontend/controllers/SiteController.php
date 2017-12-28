@@ -694,11 +694,9 @@ class SiteController extends CommonController
         {
             $upload->imageFile = UploadedFile::getInstance($feedback, 'Feedback_PicPath');
             $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-            $path1 = './imageLocation';
-            $path2 = '/feedback/';
-            $upload->upload($path1.$path2);
+            $upload->upload(Yii::$app->params['feedback']);
         
-            $feedback->Feedback_PicPath = $path2.$upload->imageFile->name;
+            $feedback->Feedback_PicPath = $upload->imageFile->name;
             $postcode = new Area();
             $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
             $list =array();
@@ -715,7 +713,7 @@ class SiteController extends CommonController
             $feedback->save(false);
             
             Yii::$app->getSession()->setFlash('success','Thank you for submitting your feedback. We will improve to serve you better.');
-            return $this->redirect(['index', 'postcode'=>$postcode ,'list'=>$list,'postcodeArray'=>$postcodeArray,'banner'=>$banner]);
+            return $this->redirect(Yii::$app->request->referrer);
         }
 
         return $this->renderAjax('feedback', ['feedback'=>$feedback, 'categoryarray'=>$categoryarray]);

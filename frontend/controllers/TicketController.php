@@ -49,7 +49,7 @@ class TicketController extends CommonController
         $link = CommonController::createUrlLink(4);
         $type = Ticketcategorytypes::find()->all();
         $data = ArrayHelper::map($type,'Category_Name','Category_Name');
-        $path = Yii::$app->params['submitticket'];
+        $path = Yii::$app->params['baseUrl'].Yii::$app->params['submitticket'];
         $upload = new Upload;
 
         if (Yii::$app->request->post()) {
@@ -60,8 +60,8 @@ class TicketController extends CommonController
             if (!empty($upload->imageFile)) {
                 $imageName = time().'.'.$upload->imageFile->extension;
                 $upload->imageFile->name = $imageName;
-                $post['Ticket']['Ticket_PicPath'] = $path.'/'.$upload->imageFile->name;
-                $upload->upload($path.'/');
+                $post['Ticket']['Ticket_PicPath'] = $upload->imageFile->name;
+                $upload->upload($path);
                 
             }
 
@@ -120,15 +120,15 @@ class TicketController extends CommonController
             $reply->Replies_ReplyBy = 1;
             $reply->Replies_ReplyPerson = Yii::$app->user->identity->id;
             $ticket->Ticket_Status = 1;
-            $path = Yii::$app->params['baseUrl'].Yii::$app->params['submitticket'];
+            $path = Yii::$app->params['replyticket-pic'];
             $upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
 
             if (!empty($upload->imageFile)) {
 
                 $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
                 
-                $upload->upload($path.'/');
-                $reply->Replies_PicPath = Yii::$app->params['submitticket'].'/'.$upload->imageFile->name;
+                $upload->upload($path);
+                $reply->Replies_PicPath = $upload->imageFile->name;
             }
 
            if ($reply->validate() && $ticket->validate()) {

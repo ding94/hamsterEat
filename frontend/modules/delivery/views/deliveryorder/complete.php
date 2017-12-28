@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use frontend\assets\DeliverymanOrdersAsset;
 use kartik\widgets\Select2;
 use kartik\widgets\ActiveForm;
@@ -9,6 +10,13 @@ use kartik\widgets\ActiveForm;
 $this->title = "Pick Up Orders";
 DeliverymanOrdersAsset::register($this);
 ?>
+<style>
+.inner-row{
+  display: flex;
+  flex-wrap: wrap;
+  padding-left:10%;
+}
+</style>
 <div class="container" id="deliveryman-orders-container">
     <div class="deliveryman-orders-header">
         <div class="deliveryman-orders-header-title"><?= Html::encode($this->title) ?></div>
@@ -49,8 +57,9 @@ DeliverymanOrdersAsset::register($this);
 		<?php foreach ($data as $cname => $company) :?>
 		
 		<div style="border:1px solid black;">
-			<h2><center> <?= $cname; ?></center> </h2> 
-			<div id="parent1">
+			<div style="background-color:#fffced;padding-top:1px; padding-bottom:1px;"><h2><center> <?= $cname; ?></center> </h2> 
+			</div>
+			<div id="parent1" style="padding-top:5px;">
 				<div class="blocka left1"><div class="inner-rows" style=" display:flex;">
 				Total Collect(RM): <p style="color:red;"><?= $company['collectprice']; ?></p></div>
 				</div>
@@ -61,6 +70,7 @@ DeliverymanOrdersAsset::register($this);
 				<?= Html::submitButton('Complete', ['class' => 'raised-btn main-btn']) ?>
 				</div>
 			</div>
+			<?php $form = ActiveForm::begin();?>
 		<table class="table table-hover" style="border:0px solid black;">
 		<thead class='none'>
 						<tr>
@@ -69,13 +79,15 @@ DeliverymanOrdersAsset::register($this);
 							
 						</tr>
 					</thead>
+	<?php $checkboxdata = ArrayHelper::map($company['id'],'ID','ID');?>
 			<?php foreach ($company['id'] as $did => $price) : ?>
 			<tr>
-					<td data-th="Order ID"><?= $did; ?></td>
+					<td data-th="Order ID"><div class="inner-row"><?= $form->field($test, 'Delivery_ID')->checkboxList($checkboxdata,['style'=>'margin-top:-10px;'])->label(false);?><?= $did; ?></div></td>
 					<td data-th="Price"><?= $price; ?></td>
 					
 			<?php endforeach; ?>
 			</table>
+			 <?php ActiveForm::end();?> 
 			</div>
 		<?php endforeach; ?>
 		

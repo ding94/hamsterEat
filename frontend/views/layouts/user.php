@@ -116,14 +116,23 @@ UserAsset::register($this);
                          $url = [Yii::$app->view->params['listOfNotic'][$i]['url']];
                     }
                    
-                    $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['description'].' from <span class="right">'.$ago.'</span></h4>','url' => $url];
+                    $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['description'].' from '.$ago.'</h4>','url' => $url];
                 }
             }
             $menuItems[end($keys)]['items'][] = '</div>';
         }
       
-        $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
-        $menuItems[end($keys)]['items'][] = "<li><div class='col-sm-6'>".Html::a('<h3 class="menu-title">Mark as Read</h3>',['/notication/turnoff'])."</div><div class='col-sm-6'>".Html::a('<h4 class="menu-title">View All</h4>',['/notication/index'],['class'=>'pull-right'])."</div></li>";
+        
+        if(empty(Yii::$app->view->params['notication']))
+        {
+             $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title pull-right">View All</h4>','url' => ['/notification/index']];
+        }
+        else
+        {
+            $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+            $menuItems[end($keys)]['items'][] = "<li><div class='col-sm-6'>".Html::a('<h4 class="menu-title">Mark All as Read</h4>',['/notification/turnoff'])."</div><div class='col-sm-6'>".Html::a('<h4 class="menu-title pull-right">View All</h4>',['/notification/index'])."</div></li>";
+        }
+
         $rmanager = Rmanager::find()->where('uid=:id AND Rmanager_Approval=:ra',[':id'=>Yii::$app->user->identity->id,':ra'=>1])->one();
         if (!empty($rmanager)) {
             $menuItems[] = ['label' => '<span class="glyphicon glyphicon-list-alt">'];

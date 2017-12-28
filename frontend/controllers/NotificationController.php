@@ -23,18 +23,33 @@ class NotificationController extends CommonController
 	* view all notification for the user
 	* turn off the notification in the parm to read
 	*/
-	public function actionIndex()
+	public function actionIndex($type = 0)
 	{
-	
 		$this->layout = 'user';
-		self::turnOffNotification();
+		$title = "All Notification";
+
+		$link = CommonController::createUrlLink(6);
 		$query = Notification::find()->where('uid = :uid',[':uid' =>Yii::$app->user->identity->id ]);
+
+		switch ($type) {
+			case 1:
+				$query->andWhere('view = 0');
+				$title = "Unread";
+				break;
+			case 2:
+				$query->andWhere('view = 1');
+				$title = "Read";
+				break;
+			default:
+				# code...
+				break;
+		}
 	    $count = $query->count();
       	
         $pagination = new Pagination(['totalCount' => $count,'pageSize'=>10]);		    
         $notification = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at'=> SORT_DESC])->all();
       
-		return $this->render('index',['notification'=>$notification,'pages' => $pagination]);
+		return $this->render('index',['notification'=>$notification,'pages' => $pagination,'link'=>$link,'title'=>$title]);
 	}
 
 	public function actionTurnoff()

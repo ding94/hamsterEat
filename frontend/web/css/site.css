@@ -127,12 +127,11 @@ h2
 
 .inner-notic > li >a{
   display: block;
-  padding: 3px 20px;
+  padding: 2px 20px;
   clear: both;
   font-weight: normal;
   line-height: 1.42857143;
   color: #333;
-  white-space: nowrap;
 }
 
 #notication ul.dropdown-menu{
@@ -140,7 +139,7 @@ h2
 }
 
 .inner-notic {
-  max-height: 200px;
+  max-height: 500px;
   overflow-x: hidden;
 }
 

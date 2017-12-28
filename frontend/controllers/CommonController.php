@@ -53,6 +53,7 @@ class CommonController extends Controller
        
         return true;
     }
+
     public function init()
     {
         $data = "";
@@ -64,9 +65,10 @@ class CommonController extends Controller
             
             $result = [];
             $listOfNotic = ArrayHelper::index(NotificationSetting::find()->asArray()->all(), 'id');
-            $notication = Notification::find()->where('uid = :uid and view = :v',[':uid' => Yii::$app->user->identity->id,':v'=>0])->limit(10)->asArray()->orderBy(['created_at'=>SORT_DESC])->all();
-            $count = count($notication);
+            $query = Notification::find()->where('uid = :uid and view = :v',[':uid' => Yii::$app->user->identity->id,':v'=>0])->asArray()->orderBy(['created_at'=>SORT_DESC]);
+            $count = $query->count();
             $count = $count ==0 ? "" : " (".$count.")";
+            $notication = $query->limit(10)->all();
             foreach($notication as $single)
             {
                 $result[$single['type']][] = $single;
@@ -139,6 +141,13 @@ class CommonController extends Controller
                             Url::to(['/Delivery/deliveryorder/history']) => 'Deliveryman Orders History',
                             Url::to(['/Delivery/daily-sign-in/delivery-location']) => 'Delivery Location',
                         ];
+                break;
+            case 6:
+                $data = [
+                           Url::to(['/notification/index']) => 'All Notification',  
+                           Url::to(['/notification/index','type'=>1]) => 'Unread',  
+                           Url::to(['/notification/index','type'=>2]) => 'Read',  
+                       ];
                 break;
             default:
                 $data =[];

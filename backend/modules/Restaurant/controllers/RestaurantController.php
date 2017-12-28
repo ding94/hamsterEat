@@ -47,30 +47,6 @@ class RestaurantController extends Controller
         return $this->render('index',['model' => $dataProvider ,'searchModel'=>$searchModel,'first'=>$first,'totalProfit' => $totalProfit,'id'=>$id,'restaurantlist'=>$restaurantlist,'tempmodel'=>$tempmodel]);
     }
 
-    public function actionCompareEarnings($id,$first = 0,$oid = 0)
-    {
-        if ($first == 0) {
-            $first = date("Y-m", strtotime("first day of this month"));
-        }
-
-        $model = Restaurant::find()->one();
-
-        if (Yii::$app->request->post()) {
-            $post = Yii::$app->request->post();
-            $oid = $post['Restaurant']['Restaurant_ID'];
-        }
-
-        $restaurantlist = Restaurant::find()->asArray()->all();
-        $restaurantlist = ArrayHelper::map($restaurantlist, 'Restaurant_ID', 'Restaurant_Name');
-
-        $firstDay = date('Y-m-01 00:00:00', strtotime($first));
-        $lastDay = date('Y-m-t 23:59:59', strtotime("last day of".$first.""));
-
-        $totalProfit = $this->monthyTotalProfit($firstDay,$lastDay,$id);
-
-        return $this->render('compare',['first'=>$first,'totalProfit' => $totalProfit,'id'=>$id,'restaurantlist'=>$restaurantlist,'model'=>$model]);
-    }
-
     public function actionChangeOperation($id,$case)
     {
         $model = self::findModel($id);

@@ -21,6 +21,7 @@ use dosamigos\chartjs\ChartJs;
     <div class="row">
         <?php foreach($totalProfit as $date=>$data):?>
         <div class="col-md-6">
+        <h3>Restaurant <?php echo $id ?> Earning</h3>
         <h4><?php echo $date; ?></h4>
         <?= ChartJs::widget([
     'type' => 'doughnut',
@@ -39,9 +40,6 @@ use dosamigos\chartjs\ChartJs;
 ]);
 ?>
             <table class="table table-bordered">
-                <tr>
-                    <td colspan="2"><?php echo $date?></td>
-                </tr>
                 <tr>
                     <td>Total Cost</td>
                     <td><?php echo $data['cost']?></td>
@@ -55,6 +53,7 @@ use dosamigos\chartjs\ChartJs;
     <?php endforeach ;?>
     <?php foreach($totalProfitOther as $date=>$data):?>
         <div class="col-md-6">
+        <h3>Restaurant <?php echo $oid ?> Earning</h3>
         <h4><?php echo $date; ?></h4>
         <?= ChartJs::widget([
     'type' => 'doughnut',
@@ -73,9 +72,6 @@ use dosamigos\chartjs\ChartJs;
 ]);
 ?>
             <table class="table table-bordered">
-                <tr>
-                    <td colspan="2"><?php echo $date?></td>
-                </tr>
                 <tr>
                     <td>Total Cost</td>
                     <td><?php echo $data['cost']?></td>

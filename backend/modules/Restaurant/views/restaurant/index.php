@@ -62,9 +62,6 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 ?>
             <table class="table table-bordered">
                 <tr>
-                    <td colspan="2"><?php echo $date?></td>
-                </tr>
-                <tr>
                     <td>Total Cost</td>
                     <td><?php echo $data['cost']?></td>
                 </tr>

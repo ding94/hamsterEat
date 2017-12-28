@@ -10,13 +10,28 @@ $('#afterprice').change(function(){
     $('#price').val((price/1.3).toFixed(2));
 });
 
-function beforeMarkUp()
+$("#price").change(function(){
+    price = $(this).val();
+    $('#afterprice').val((price*1.3).toFixed(2));
+})
+
+function markUp(type)
 {
     $('.selectionTable').children('tbody').each(function(){
         trChild = $(this).children('tr');
         trChild.each(function(){
-            value = $(this).children('.selectionPrice').children('.form-group').children('input').val();
-            $(this).children('.selectionBefore').children('.form-group').children('input').val((value/1.3).toFixed(2));
+            if(type == 1)
+            {
+                value = $(this).children('.selectionPrice').children('.form-group').children('input').val();
+                $(this).children('.selectionBefore').children('.form-group').children('input').val((value/1.3).toFixed(2));
+            }
+            else
+            {
+                value = $(this).children('.selectionBefore').children('.form-group').children('input').val();
+            $(this).children('.selectionPrice').children('.form-group').children('input').val((value*1.3).toFixed(2));
+            }
+           
         })
     });
 }
+

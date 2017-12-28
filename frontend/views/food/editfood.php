@@ -41,9 +41,9 @@ AddFoodAsset::register($this);
                         'content' => '<i class="fa fa-times"></i> 1.3 <i>=</i>',
                     ],
                     //'groupOptions' => ['class'=>'input-group-lg'],
-                        'contentAfter' => '<input id="afterprice" class="form-control" name="Food[Price]" value = "'.$food->Price.'" "onchange="changePrice()" type="text">'
+                        'contentAfter' => '<input id="afterprice" class="form-control" name="Food[Price]" value = "'.$food->Price.'"type="text">'
                     ]
-                ])->textInput(['readonly' => true,'id'=>'price'])->label("Money Received");?>
+                ])->textInput(['id'=>'price'])->label("Money Received");?>
 
                 <?php echo '<label class="control-label" for="Type_ID">Type</label>';
                      echo Select2::widget([

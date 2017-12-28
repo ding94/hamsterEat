@@ -51,8 +51,8 @@ AddFoodAsset::register($this);
                 
             </td>
               
-             <td class="vcenter selectionBefore"><?= $form->field($foodselection, "[{$i}][{$ix}]BeforeMarkedUp")->label(false)->textInput(['readonly'=>true,'maxlength' => true]) ?></td>
-             <td class="vcenter selectionPrice"><?= $form->field($foodselection, "[{$i}][{$ix}]Price")->label(false)->textInput(['maxlength' => true,'onChange' => 'beforeMarkUp()']) ?></td>  
+             <td class="vcenter selectionBefore"><?= $form->field($foodselection, "[{$i}][{$ix}]BeforeMarkedUp")->label(false)->textInput(['maxlength' => true ,'onChange' => 'markUp(2)']) ?></td>
+             <td class="vcenter selectionPrice"><?= $form->field($foodselection, "[{$i}][{$ix}]Price")->label(false)->textInput(['maxlength' => true,'onChange' => 'markUp(1)']) ?></td>  
              <td class="vcenter"><?= $form->field($foodselection, "[{$i}][{$ix}]Nickname")->label(false)->textInput(['maxlength' => true]) ?></td>
         </tr>
      <?php endforeach; ?>

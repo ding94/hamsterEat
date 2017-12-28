@@ -10,7 +10,7 @@ return [
 	'userprofilepic' => './imageLocation/userprofilepic/',
 	'feedback' => './imageLocation/feedback/',
 	'restaurant' => './imageLocation/restaurant/',
-	
+	 
 	'countNotic' => "",
 	'countCart' => "",
 	'notication' => "",

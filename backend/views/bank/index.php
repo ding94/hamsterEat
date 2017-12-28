@@ -30,22 +30,38 @@ use yii\db\ActiveRecord;
                 'attribute' => 'Bank_AccNo',
             ],
 
-            [
-                'attribute' => 'Bank_PicPath',
+            ['class' => 'yii\grid\ActionColumn' ,
+                 'template'=>' {img}',
+                 'buttons' => [
+                    'img' => function($url,$model)
+                    {
+                        if(!empty($model->Bank_PicPath)){
+                            return Html::a('Picture',Yii::$app->params['bank'].$model->Bank_PicPath,['target'=>'_blank']);
+                        }
+                    },
+                ],
+            ],
+
+            ['class' => 'yii\grid\ActionColumn' ,
+                 'template'=>' {img}',
+                 'buttons' => [
+                    'img' => function($url,$model)
+                    {
+                        return  $model->redirectUrl ? Html::a($model->redirectUrl,$model->redirectUrl,['target'=>'_blank']) :'';
+                    },
+                ],
             ],
 			
-            [
-                'attribute' => 'redirectUrl',
-            ],
-			 [
-                    'attribute' => 'status',
-                    'value' => function($model)
-                    {
-                        return $model->status ==10 ? 'Active' : 'Inactive';
-                    },
-                    'filter' => array( "10"=>"Active","0"=>"Inactive"),
+			[
+                'attribute' => 'status',
+                'value' => function($model)
+                {
+                    return $model->status ==10 ? 'Active' : 'Inactive';
+                },
+                'filter' => array( "10"=>"Active","0"=>"Inactive"),
 
-                ],
+            ],
+
 			 ['class' => 'yii\grid\ActionColumn' , 
              'template'=>'{update} ',
              'header' => "Update",

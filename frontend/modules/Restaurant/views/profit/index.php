@@ -52,7 +52,7 @@ RestaurantEarningsAsset::register($this);
 	        </div>
 	    </div>
 	    <div id="restaurant-earnings-content" class = "col-sm-10">
-			<?php $form = ActiveForm::begin(['method' => 'get']); ?>
+			<?php $form = ActiveForm::begin(['method' => 'get','action'=>['index','rid'=>$rid]]); ?>
 			<label class="control-label">Select Date</label>
 			<div class="row">
 				<div class="col-md-9 date-picker">

@@ -142,10 +142,10 @@ class PaymentController extends CommonController
             case 2:
                 $order['Orders_PaymentMethod'] = 'Cash on Delivery';
                 break;
-            
+            case 1:
+                break;
             default:
-                Yii::$app->session->setFlash('error','Something went wrong!');
-                return $this->redirect(Yii::$app->request->referrer);
+                return false;
                 break;
         }
 
@@ -156,7 +156,11 @@ class PaymentController extends CommonController
             $item->OrderItem_Status = 2;
             $item->save();
         }
-        $order->save();
+        if($order->save())
+        {
+            return true;
+        }
+        return false;
     }
 
     public static function findOrder($id)

@@ -125,6 +125,26 @@ h2
   background-color:#FFDA00;
 }
 
+.inner-notic > li >a{
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+}
+
+#notication ul.dropdown-menu{
+  width: 350px;
+}
+
+.inner-notic {
+  max-height: 200px;
+  overflow-x: hidden;
+}
+
+
 /*
 * navbar drop down design end
 */
@@ -567,6 +587,7 @@ div.dotted {
   list-style-type:none;
 }
 
+
 @media(max-width: 991px){
   .form{
     width: 80%;
@@ -635,4 +656,25 @@ span.badge{
     width:300px;
     margin-left:15px;
   }
+}
+
+#SSCrow4{
+  height: 500px;
+  background-color: #FFF;
+  display: flex;
+}
+
+#SSCrow4 .container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.graphic{
+  height: 300px;
+  width: 400px;
+  background-color: grey;
+  text-align: center;
+  font-size: 20px;
+  color: #FFF;
 }

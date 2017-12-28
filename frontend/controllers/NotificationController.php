@@ -8,8 +8,10 @@ use yii\helpers\ArrayHelper;
 use common\models\User;
 use common\models\Order\Orderitem;
 use common\models\Order\Orders;
+use common\models\Order\DeliveryAddress;
 use common\models\Notification;
 use common\models\NotificationSetting;
+use common\models\Order\StatusType;
 use yii\data\Pagination;
 use frontend\controllers\CommonController;
 use frontend\modules\UserPackage\controllers\PackageController;
@@ -33,6 +35,12 @@ class NotificationController extends CommonController
         $notification = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at'=> SORT_DESC])->all();
       
 		return $this->render('index',['notification'=>$notification,'pages' => $pagination]);
+	}
+
+	public function actionTurnoff()
+	{
+		Notification::updateAll(['view' => 1],'uid = :uid',[':uid'=>Yii::$app->user->identity->id]);
+		return $this->redirect(Yii::$app->request->referrer); 
 	}
 
 	/*
@@ -82,7 +90,7 @@ class NotificationController extends CommonController
 					$model->rid = $value['rid'];
 					break;
 				case 3:
-					$model->description = "Your Order id : ".$id." has ready to pick up";
+					$model->description = "Your Delivery id : ".$id." has ready to pick up";
 					break;
 				case 4:
 					$model->description = "Your Order id : ".$id." is ".$value['currentStatus'];
@@ -130,7 +138,8 @@ class NotificationController extends CommonController
 		$data[0]['uid'] = User::find()->where('username = :name',[':name'=>$item['order']['User_Username']])->one()->id;
 		$data[0]['rid'] = $item['order']['Delivery_ID'];
 		$data[0]['foodName'] = $item['food']['Name'];
-		$data[0]['currentStatus'] = $item['OrderItem_Status'];
+		$status = StatusType::findOne($item['OrderItem_Status']);
+		$data[0]['currentStatus'] = $status->type;
 		//$data[0]['preStatus'] = self::getPreOrderStatus($item['OrderItem_Status']);
 		return $data;
 	}
@@ -144,7 +153,8 @@ class NotificationController extends CommonController
 		$item = Orders::find()->where('Delivery_ID = :did',[':did' => $did])->joinWith('user')->one();
 
 		$data[0]['uid'] = User::find()->where('username = :name',[':name' => $item['User_Username']])->one()->id;
-		$data[0]['currentStatus'] = $item['Orders_Status'];
+		$status = StatusType::findOne($item['Orders_Status']);
+		$data[0]['currentStatus'] = $status->type;
 		//$data[0]['preStatus'] = self::getPreOrderStatus($item['Orders_Status']);
 
 		$email = \Yii::$app->mailer->compose(['html' => 'orderLink-html'],['item'=>$item])//html file, word file in email     
@@ -158,15 +168,12 @@ class NotificationController extends CommonController
 	/*
 	* get deliveryman detail by order
 	*/
-	public static function getDeliverydetail($oid)
+	public static function getDeliverydetail($did)
 	{
-		$item = Orderitem::find()->where('Order_ID = :oid',[':oid'=> $oid])->joinWith(['order'])->one();
+		$address = DeliveryAddress::findOne($did);
 		//var_dump($item);exit;
-		if(empty($item['order']['Orders_Deliveryman']))
-		{
-			return $data="";
-		}
-		$data[0]['uid'] = User::find()->where('username = :name' ,[':name' => $item['order']['Orders_Deliveryman']])->one()->id;
+		
+		$data[0]['uid'] = $address->deliveryman;
 		return $data;
 	}
 

@@ -33,7 +33,7 @@ class DeliveryorderController extends CommonController
                  'rules' => [
                      [
                          'actions' => ['mutiple-pick','pickup','order','history',
-                         'update-pickedup','update-completed'],
+                         'update-pickedup','update-completed','complete'],
                          'allow' => true,
                          'roles' => ['rider'],
                      ],
@@ -42,6 +42,25 @@ class DeliveryorderController extends CommonController
         ];
     }
 
+    /*
+    * show all deliveryman order
+    */
+    public function actionOrder()
+    {
+        $dman = Orders::find()->where('deliveryman = :dman and Orders_Status != :status and Orders_Status != :status1', [':dman'=>Yii::$app->user->identity->id, ':status'=>6, ':status1'=>7])->orderBy(['Delivery_ID'=>SORT_ASC])->joinWith(['address'])->all();
+        $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
+        $record = DailySignInController::getDailyData(1);
+        $link = CommonController::createUrlLink(5);
+
+		$orderitem = Orderitem::find()->where('deliveryman = :u',[':u'=> Yii::$app->user->identity->id])->joinWith(['address','order','food.restaurant'])->all();
+
+        return $this->render('order', ['dman'=>$dman,'record'=>$record,'link'=>$link,'orderitem'=>$orderitem,'statusid'=>$statusid]);
+    }
+
+    /*
+    * combine data in status pickup
+    * for multiple pass data
+    */
     public function actionPickup()
     {
     	$link = CommonController::createUrlLink(5);
@@ -61,16 +80,35 @@ class DeliveryorderController extends CommonController
 		return $this->render('pickup', ['data'=>$data,'link'=>$link]);
     }
 
-    public function actionOrder()
+    /*
+    * combine data in status complete
+    * for multiple pass data
+    */
+    public function actionComplete()
     {
-        $dman = Orders::find()->where('deliveryman = :dman and Orders_Status != :status and Orders_Status != :status1', [':dman'=>Yii::$app->user->identity->id, ':status'=>6, ':status1'=>7])->orderBy(['Delivery_ID'=>SORT_ASC])->joinWith(['address'])->all();
-        $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
-        $record = DailySignInController::getDailyData(1);
-        $link = CommonController::createUrlLink(5);
+    	$link = CommonController::createUrlLink(5);
+    	$orders = Orders::find()->where('deliveryman = :u and Orders_Status = 5',[':u'=> Yii::$app->user->identity->id])->joinWith(['address'])->all();
+    	
+    	$data = [];
+    	foreach($orders as $order)
+    	{
+    		$company = Company::findOne($order->address->cid);
+    		$data[$company->name]['address'] = "http://maps.google.com/maps?daddr=".$company->address.",".$company->area.",".$company->postcode.",Malaysia&amp;ll=";
+    		
+    		$singleprice = $order->Orders_PaymentMethod == 'Cash on Delivery' ? $order->Orders_TotalPrice : 0;
+    		if(!array_key_exists('collectprice',$data[$company->name]))
+            {
+                $data[$company->name]['collectprice'] = $singleprice;
+            }
+            else
+            {
+            	$data[$company->name]['collectprice'] += $singleprice;
+            }
+            $data[$company->name]['id'][$order->Delivery_ID] =  $singleprice;
 
-		$orderitem = Orderitem::find()->where('deliveryman = :u',[':u'=> Yii::$app->user->identity->id])->joinWith(['address','order','food.restaurant'])->all();
-
-        return $this->render('order', ['dman'=>$dman,'record'=>$record,'link'=>$link,'orderitem'=>$orderitem,'statusid'=>$statusid]);
+    	}
+    	//var_dump($data);exit;
+    	return $this->render("complete",['data'=>$data,'link'=>$link]);
     }
 
     public function actionHistory()
@@ -82,7 +120,6 @@ class DeliveryorderController extends CommonController
 
         return $this->render('history', ['dman'=>$dman,'link'=>$link,'statusid'=>$statusid]);
     }
-
 
 	public function actionMutiplePick()
 	{

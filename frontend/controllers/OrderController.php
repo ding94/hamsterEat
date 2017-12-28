@@ -265,12 +265,13 @@ class OrderController extends CommonController
         if($updateOrder)
         {
             $order = $this->findOrder($orderitem->Delivery_ID);
+
             $order->Orders_Status = 3;
             $order->save();
         }
         
         NotificationController::createNotification($oid,2);
-        NotificationController::createNotification($oid,3);
+       
         return $this->redirect(Yii::$app->request->referrer);
     }
 
@@ -280,6 +281,7 @@ class OrderController extends CommonController
         $orderitem = $this->findOrderitem($oid,4);
         $orderitem->OrderItem_Status = 4;
         $orderitem->save();
+        NotificationController::createNotification($orderitem->Delivery_ID,3);
         return $this->redirect(Yii::$app->request->referrer);
     }
 
@@ -356,7 +358,7 @@ class OrderController extends CommonController
         return $this->render('restaurantorderhistory', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination,'statusid'=>$statusid]);
     }
 
-    public function findOrder($id)
+    public static function findOrder($id)
     {
         if (($model = Orders::findOne($id)) !== null) {
             return $model;
@@ -365,7 +367,7 @@ class OrderController extends CommonController
         }
     }
 
-    public function findOrderitem($id,$type)
+    public static function findOrderitem($id,$type)
     {
         $validate = true;
         $model = OrderItem::findOne($id);

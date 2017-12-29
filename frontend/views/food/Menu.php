@@ -82,7 +82,13 @@ Modal::end();
               ?>
               <div class="outer-item">
                 <div class="item-no-border">
-                  <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$menu['PicPath']); ?></div>
+                  <div class="img">
+                    <?php if (empty($menu->img)) :?>
+                        <?php echo Html::img('@web/imageLocation/DefaultRestaurant.jpg') ?>
+                    <?php else :?>
+                        <img  src=<?php echo $menu->img[0]?> alt="">
+                    <?php endif ;?>
+                  </div>
                   <div class="inner-item">
                     <div class="foodName-div"><span class="foodName"><?php echo $menu['Name']; ?></span><span class="small-text stars" alt="<?php echo $menu['Rating']; ?>"><?php echo $menu['Rating']; ?></span></div>
                     <div class="foodDesc-div"><p class="foodDesc">Description: <?php echo $menu['Description']; ?></p></div>
@@ -118,8 +124,10 @@ Modal::end();
                         ],
                         'initialPreviewConfig' => $menu->captionImg,
                         'overwriteInitial'=>false,
-                        'maxFileCount' => 3
+                        'maxFileCount' => 3,
+                        'pluginLoading' => true,
                       ]
+
                     ]);
                   ActiveForm::end();
                 Modal::end();

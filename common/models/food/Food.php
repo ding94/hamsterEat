@@ -62,9 +62,7 @@ class Food extends \yii\db\ActiveRecord
             [['Restaurant_ID', 'Name', 'Description', 'Ingredient'], 'required'],
             [['Restaurant_ID', 'Sales', 'created_at', 'updated_at'], 'integer'],
             [['Rating', 'Price', 'BeforeMarkedUp'], 'number'],
-            [['Name', 'Description', 'Ingredient', 'Nickname', 'PicPath'], 'string'],
-            ['PicPath','safe' ,'on' =>'edit'],
-            ['PicPath','required' , 'on' => 'new'],
+            [['Name', 'Description', 'Ingredient', 'Nickname'], 'string'],
         ];
     }
 
@@ -84,7 +82,6 @@ class Food extends \yii\db\ActiveRecord
             'Description' => 'Description',
             'Ingredient' => 'Ingredient',
             'Nickname' => 'Nickname',
-            'PicPath' => 'Pic Path',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

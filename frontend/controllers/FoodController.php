@@ -114,13 +114,9 @@ class FoodController extends CommonController
        if(Yii::$app->request->isPost)
        {
             $post = Yii::$app->request->post();
-<<<<<<< HEAD
-=======
+
             $post['Type_ID'][] = $post['Foodtypejunction']['Type_ID'];
-            $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
-            $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-            $upload->upload(Yii::$app->params['foodImg']);
->>>>>>> 38fe4907e72448082b3a9bb9cd698f4983d230d3
+
     
             $food = self::newFood($post,$rid);
             

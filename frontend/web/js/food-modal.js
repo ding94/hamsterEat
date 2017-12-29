@@ -7,9 +7,16 @@ $(function(){
            
             var href = button.attr('href');
             var mutipleImg = jQuery.parseJSON(button.attr('data-img'));
-            console.log(mutipleImg);
-            var img = '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><img class=\"img-rounded img-responsive detail-img\" src=\"./../imageLocation/foodImg/'+button.attr('data-img')+'\" alt=\"\" ">';
-            var imgslide = '<img class="mySlides" src="http://imgsv.imaging.nikon.com/lineup/lens/zoom/normalzoom/af-s_dx_18-300mmf_35-56g_ed_vr/img/sample/sample4_l.jpg"><img class="mySlides" src="http://imgsv.imaging.nikon.com/lineup/lens/zoom/normalzoom/af-s_dx_18-140mmf_35-56g_ed_vr/img/sample/sample1_l.jpg"><img class="mySlides" src="http://imgsv.imaging.nikon.com/lineup/lens/zoom/normalzoom/af-s_nikkor28-300mmf_35-56gd_ed_vr/img/sample/sample2_l.jpg"><div class="left-container" onclick="plusDivs(-1)"><div class="w3-left">&#10094;</div></div><div class="right-container" onclick="plusDivs(1)"><div class="w3-right">&#10095;</div></div><div class="bottom"><span class="dots w3-border"></span><span class="dots w3-border"></span><span class="dots w3-border"></span></div>';
+            var count = Object.keys(mutipleImg).length;
+            var imgslide = '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>';
+            for (i = 0; i < count; i++){
+                imgslide += '<img class="mySlides" src="'+mutipleImg[i]+'">';
+            }
+            imgslide += '<div class="left-container" onclick="plusDivs(-1)"><div class="w3-left">&#10094;</div></div><div class="right-container" onclick="plusDivs(1)"><div class="w3-right">&#10095;</div></div><div class="bottom">';
+            for(i = 0; i < count; i++){
+                imgslide += '<span class="dots w3-border"></span>';
+            }
+            imgslide += '</div>';
             modal.find('.modal-body').html('<i class=\"fa fa-spinner fa-spin\"></i>');
             $.post({url : href, async: true, backdropLimit: 1})
                 .done(function( data ) {

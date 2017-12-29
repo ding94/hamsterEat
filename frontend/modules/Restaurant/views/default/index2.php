@@ -11,7 +11,7 @@ use frontend\assets\CartAsset;
 use kartik\widgets\Select2;
 use frontend\assets\RestaurantDefaultIndex2Asset;
 
-$this->title = "Available Restaurants";
+$this->title = "Available Food";
 
 StarsAsset::register($this);
 RestaurantDefaultIndex2Asset::register($this);
@@ -128,8 +128,11 @@ Modal::end();
                 <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-backdrop-limit="1" data-toggle="modal" data-target="#foodDetail"  data-img="<?php echo $fooddata['PicPath'];?>">
                     <div class="item">
                         <div class="page-img">
-                            <?php echo Html::img('@web/imageLocation/foodImg/'.$fooddata['PicPath'],['class'=>'img']) ?>
-                           
+                            <?php if (empty($fooddata->img)) :?>
+                                <?php echo Html::img('@web/imageLocation/DefaultRestaurant.jpg',['class'=>'img']) ?>
+                            <?php else :?>
+                                <img  class="img" src=<?php echo $fooddata->img[0]?> alt="">
+                            <?php endif ;?>
                         </div>
                         <div class="inner-item">
                             <div class="foodName-div"><span class="foodName"><?php echo $fooddata['Name']; ?></span><span class="small-text stars" alt="<?php echo $fooddata['Rating']; ?>"><?php echo $fooddata['Rating']; ?></span></div>

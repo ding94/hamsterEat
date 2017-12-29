@@ -27,9 +27,7 @@ AddFoodAsset::register($this);
        </div>
        <div class="col-sm-10 food-content">
             <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
-          
-                <?= $form->field($food, 'PicPath')->fileInput()->label('Picture') ?>
-
+        
                 <?= $form->field($food, 'Name')->textInput()->label('Name') ?>
 
                 <?= $form->field($food, 'Nickname')->textInput() ?>

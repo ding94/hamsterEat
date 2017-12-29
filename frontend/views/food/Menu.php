@@ -10,6 +10,8 @@ use yii\bootstrap\Modal;
 use frontend\assets\FoodServiceAsset;
 use kartik\widgets\Select2;
 use yii\widgets\LinkPager;
+use kartik\widgets\FileInput;
+use yii\widgets\ActiveForm;
 
 $this->title = $rname."'s"." Menu";
 FoodMenuAsset::register($this);
@@ -89,6 +91,39 @@ Modal::end();
                   </div>
                 </div>
                 <?php
+                
+                  Modal::begin([
+                    'header'=>'Food Image Uploader',
+                    'toggleButton' => [
+                        'label'=>'Show  Image/Upload Image', 'class'=>'raised-btn'
+                    ],
+                  ]);
+
+                  $form1 = ActiveForm::begin([
+                    'options'=>['enctype'=>'multipart/form-data'] // important
+                  ]);
+
+                  echo FileInput::widget([
+                      'name' => 'foodimg[]',
+
+                      'options'=>[
+                          'multiple'=>true
+                      ],
+                      'pluginOptions' => [
+                        'initialPreview' => $menu->img,
+                        'initialPreviewAsData'=>true,
+                        'uploadUrl' => Url::to(['/food-img/upload']),
+                        'uploadExtraData' => [
+                          'id' => $menu['Food_ID'],
+                        ],
+                        'initialPreviewConfig' => $menu->captionImg,
+                        'overwriteInitial'=>false,
+                        'maxFileCount' => 3
+                      ]
+                    ]);
+                  ActiveForm::end();
+                Modal::end();
+
                   echo Html::a('', ['/food/edit-food','id'=>$menu['Food_ID']], ['class'=>'raised-btn btn-lg main-btn fa fa-pencil edit-button']); 
                   if (!empty($status)) :
                       if ($status['Status'] == 0) :

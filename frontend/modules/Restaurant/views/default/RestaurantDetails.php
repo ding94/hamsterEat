@@ -88,9 +88,16 @@ RestaurantDetailsAsset::register($this);
             <?php
               foreach($rowfood as $data): 
             ?>
-        <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>"  class ="food-link" data-toggle="modal" data-target="#foodDetail" data-img="<?php echo $data['PicPath'];?> ">
+        <?php $imgdata = empty($data->img) ? [Yii::getAlias('@web').'/imageLocation/DefaultRestaurant.jpg'] : $data->img?>
+        <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>"  class ="food-link" data-toggle="modal" data-target="#foodDetail" data-img= <?php echo json_encode($imgdata) ?>>
         <div class="item">
-            <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$data['PicPath']) ?></div>
+            <div class="img">
+                <?php if (empty($data->img)) :?>
+                    <?php echo Html::img('@web/imageLocation/DefaultRestaurant.jpg') ?>
+                <?php else :?>
+                    <img  src=<?php echo $data->img[0]?> alt="">
+                <?php endif ;?>
+            </div>
             <div class="inner-item">
             <div class="foodName-div"><span class="foodName"><?php echo $data['Name']; ?></span><span class="small-text stars" alt="<?php echo $data['Rating']; ?>"><?php echo $data['Rating']; ?></span></div>
             <!-- <div class="stars-div"></div> -->

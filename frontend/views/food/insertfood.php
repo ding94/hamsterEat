@@ -27,7 +27,7 @@ AddFoodAsset::register($this);
        </div>
        <div class="col-sm-10 food-content">
             <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
-          
+
                 <?= $form->field($food, 'PicPath')->fileInput()->label('Picture') ?>
 
                 <?= $form->field($food, 'Name')->textInput()->label('Name') ?>
@@ -44,7 +44,14 @@ AddFoodAsset::register($this);
                     ]
                 ])->textInput(['id'=>'price'])->label("Money Received");?>
 
-                <?= $form->field($foodjunction, 'Type_ID')->radioList(["3"=>'Halal',"4"=>'Non-Halal'])->label('<strong>Type</strong>') ?>
+                <?php if($rtype==$nonhalal['ID']): ?>
+                    <?= $form->field($foodjunction, 'Type_ID')->radioList([$halal['ID']=>$halal['Type_Name'],$nonhalal['ID']=>$nonhalal['Type_Name']])->label('<strong>Type</strong>') ?>
+                <?php else:?>
+                    <?php $foodjunction['Type_ID']=$halal['ID']; ?>
+                    <?= $form->field($foodjunction, 'Type_ID')->hiddenInput()->label(false); ?>
+                    <strong>Type</strong>
+                <?php endif;?>
+
                 <?php echo Select2::widget([
                         'name' => 'Type_ID',
                         'data' => $type,

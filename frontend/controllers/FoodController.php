@@ -4,7 +4,6 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use common\models\food\Food;
-use common\models\Upload;
 use yii\web\UploadedFile;
 use common\models\food\Foodselectiontype;
 use common\models\food\Foodselection;
@@ -14,8 +13,6 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\Json;
 use common\models\Model;
-use common\models\Order\Orderitem;
-use common\models\Order\Orderitemselection;
 use common\models\User;
 use common\models\Rmanager;
 use common\models\Restaurant;
@@ -30,6 +27,7 @@ use frontend\modules\Restaurant\controllers\FoodtypeAndStatusController;
 use frontend\modules\Restaurant\controllers\DefaultController;
 use frontend\controllers\CartController;
 use frontend\controllers\CommonController;
+use frontend\controllers\FoodImgController;
 use common\models\Rmanagerlevel;
 use yii\data\Pagination;
 
@@ -109,7 +107,6 @@ class FoodController extends CommonController
         $food->scenario = "new"; 
         $foodtype = [new Foodselectiontype()];
         $foodselection = [[new Foodselection()]];
-        $upload = new Upload();
         
         $foodjunction = new Foodtypejunction();
         $type = ArrayHelper::map(FoodType::find()->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
@@ -117,17 +114,14 @@ class FoodController extends CommonController
        if(Yii::$app->request->isPost)
        {
             $post = Yii::$app->request->post();
-            $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
-            $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-            $upload->upload(Yii::$app->params['foodImg']);
     
-            $food = self::newFood($post,$rid,$upload->imageFile->name);
+            $food = self::newFood($post,$rid);
             
             $foodtype = Model::createMultiple(Foodselectiontype::classname());
 
             Model::loadMultiple($foodtype, Yii::$app->request->post());
          
-            $valid =  Model::validateMultiple($foodtype) && $food->validate() && $upload;
+            $valid =  Model::validateMultiple($foodtype) && $food->validate();
             
             if (isset($_POST['Foodselection'][0][0])) {
 
@@ -249,7 +243,6 @@ class FoodController extends CommonController
             $foodselection = FoodselectionController::oldData($foodtype,1);
         }
 
-        $upload = new Upload();
         $picpath = $food['PicPath'];
         $food->scenario = "edit";
     
@@ -266,8 +259,8 @@ class FoodController extends CommonController
         $oldSelect = [];
         $selectionId = [];
 
-        $upload = new Upload();
-        $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
+      
+        
 
         $post = Yii::$app->request->post();
 
@@ -282,18 +275,6 @@ class FoodController extends CommonController
         $food->Price = CartController::actionDisplay2decimal($food->Price);
         $food->BeforeMarkedUp =  CartController::actionRoundoff1decimal($food->Price / 1.3);
     
-        if (!is_null($upload->imageFile))
-        {
-            $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-                
-            $upload->upload(Yii::$app->params['foodImg']);
-
-            $food->PicPath = $upload->imageFile->name;
-        }
-        else
-        {
-            $food->PicPath = $picpath;
-        }
 
         $oldSelectionTypeId = ArrayHelper::map($modelSelectionType, 'ID', 'ID');
 
@@ -388,11 +369,6 @@ class FoodController extends CommonController
                                 $model->Food_ID = $food->Food_ID;
                                 $model->Price = CartController::actionDisplay2decimal($model->Price);
                                 $model->BeforeMarkedUp =  CartController::actionRoundoff1decimal($model->Price / 1.3);
-                                //$beforemarkedup = CartController::actionRoundoff1decimal($model->BeforeMarkedUp);
-                                //$markedup = $beforemarkedup * 1.3;
-                                //$markedup = CartController::actionRoundoff1decimal($markedup);
-                                //$model->BeforeMarkedUp = $beforemarkedup;
-                                //$model->Price = $markedup;
                                 if(!($flag = $model->save()))
                                 {
                                     break;
@@ -429,22 +405,13 @@ class FoodController extends CommonController
         }
     }
 
-    protected static function newFood($post,$rid,$upload)
+    protected static function newFood($post,$rid)
     {
         $food = new Food();
         $food->load($post);
-        
-        //$food->BeforeMarkedUp = CartController::actionDisplay2decimal($food->BeforeMarkedUp);
-
-        //$foodprice = CartController::actionRoundoff1decimal($food->BeforeMarkedUp);
-        //$markedupprice = $foodprice * 1.3;
-        //$markedupprice = CartController::actionRoundoff1decimal($markedupprice);
-
-        //$food->Price = $markedupprice;
         $food->Price = CartController::actionDisplay2decimal($food->Price);
         $food->BeforeMarkedUp =  CartController::actionRoundoff1decimal($food->Price / 1.3);
         $food->Restaurant_ID = $rid;
-        $food->PicPath = $upload;
         $food->Ingredient = 'xD';
         return $food;
     }

@@ -8,6 +8,7 @@ use yii\db\ActiveRecord;
 use frontend\controllers\CartController;
 use common\models\Restaurant;
 use common\models\Rmanagerlevel;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "food".
@@ -134,5 +135,28 @@ class Food extends \yii\db\ActiveRecord
         return CartController::actionRoundoff1decimal($this->BeforeMarkedUp);
     }
 
-    
+    public function getImg()
+    {
+        $data = "";
+        $images = FoodImg::find()->where('fid = :id',[':id'=>$this->Food_ID])->all();
+        foreach($images as $image)
+        {
+            $data[] =  Yii::getAlias('@web').'/'.Yii::$app->params['foodImg'].$image->img;
+        }
+
+        return $data;
+    }
+
+    public function getCaptionImg()
+    {
+        $data = "";
+        $images = FoodImg::find()->where('fid = :id',[':id'=>$this->Food_ID])->all();
+        foreach($images as $i=>$image)
+        {
+            $data[$i]['caption'] =  $image->img;
+            $data[$i]['url'] = Url::to(['/food-img/delete','id'=>$image->id]);
+        }
+        
+        return $data;
+    }
 }

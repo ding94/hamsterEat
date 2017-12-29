@@ -333,6 +333,11 @@ class DefaultController extends CommonController
         {
             $post = Yii::$app->request->post();
             $post['Type_ID'][] = $post['Restauranttypejunction']['Type_ID'];
+            $valid = self::checkHalal($rid);
+            if ($valid == false) {
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
             $upload->imageFile =  UploadedFile::getInstance($restaurantdetails, 'Restaurant_RestaurantPicPath');
 
             if (!is_null($upload->imageFile)){
@@ -384,6 +389,23 @@ class DefaultController extends CommonController
             }
         }
         return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails,'chosen'=>$chosen, 'type'=>$type,'link'=>$link,'foodjunction'=>$foodjunction]);
+    }
+
+    protected function checkHalal($rid)
+    {
+        $restaurant = Restaurant::find()->where('restaurant.Restaurant_ID=:id',[':id'=>$rid])->joinWith(['food'])->one();
+        $halal = Foodtype::find()->where('Type_Desc=:t',[':t'=>'Halal'])->one();
+        $nonhalal = Foodtype::find()->where('Type_Desc=:t',[':t'=>'Non-Halal'])->one();
+
+        foreach ($restaurant['food'] as $one => $foods) {
+            foreach ($foods['junction'] as $two => $types) {
+                if ($types['Type_ID'] == $nonhalal['ID']) {
+                    Yii::$app->session->setFlash('error','Your menu having non-halal food, therefore restaurant cannot change to halal-restaurant.');
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 //--This function shows all the staff under a specific restaurant

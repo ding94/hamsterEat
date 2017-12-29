@@ -16,6 +16,8 @@ use common\models\Model;
 use common\models\User;
 use common\models\Rmanager;
 use common\models\Restaurant;
+use common\models\Restauranttype;
+use common\models\Restauranttypejunction;
 use common\models\food\Foodtype;
 use common\models\food\Foodtypejunction;
 use common\models\food\Foodstatus;
@@ -107,16 +109,25 @@ class FoodController extends CommonController
         $food->scenario = "new"; 
         $foodtype = [new Foodselectiontype()];
         $foodselection = [[new Foodselection()]];
-        
         $foodjunction = new Foodtypejunction();
+
         $type = ArrayHelper::map(FoodType::find()->andWhere(['and',['!=','Type_Desc','Halal'],['!=','Type_Desc','Non-Halal']])->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
-    
+        $halal = Foodtype::find()->where('Type_Desc=:t',[':t'=>'Halal'])->one();
+        $nonhalal = Foodtype::find()->where('Type_Desc=:t',[':t'=>'Non-Halal'])->one();
+        $restauranttype = Restauranttypejunction::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->joinWith('restauranttype')->all();
+        $rtype= "";
+
+        foreach ($restauranttype as $k => $value) {
+            if ($value['restauranttype']['Type_Name'] == $halal['Type_Desc'] || $value['restauranttype']['Type_Name'] == $nonhalal['Type_Desc']) {
+                $rtype = $value['restauranttype']['Type_Name'];
+            }
+        }
+        
        if(Yii::$app->request->isPost)
        {
             $post = Yii::$app->request->post();
 
             $post['Type_ID'][] = $post['Foodtypejunction']['Type_ID'];
-
     
             $food = self::newFood($post,$rid);
             
@@ -160,7 +171,18 @@ class FoodController extends CommonController
             }
         }
       
-        return $this->render('insertfood',['food' => $food,'foodjunction'=>$foodjunction,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection,'type' => $type ,'rid'=>$rid]);
+        return $this->render('insertfood',
+            [
+                'food' => $food,
+                'foodjunction'=>$foodjunction,
+                'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,
+                'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection,
+                'type' => $type,
+                'rid'=>$rid,
+                'halal'=>$halal,
+                'nonhalal'=>$nonhalal,
+                'rtype'=>$rtype,
+            ]);
     }
     
 //---This function is for loading the restaurant's menu

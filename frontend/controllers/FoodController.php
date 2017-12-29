@@ -115,23 +115,23 @@ class FoodController extends CommonController
         $upload = new Upload();
 
         $type = ArrayHelper::map(FoodType::find()->andWhere(['and',['!=','Type_Desc','Halal'],['!=','Type_Desc','Non-Halal']])->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
-        $halal = Restauranttype::find()->where('Type_Name=:t',[':t'=>'Halal'])->one();
-        $nonhalal = Restauranttype::find()->where('Type_Name=:t',[':t'=>'Non-Halal'])->one();
-        $restauranttype = Restauranttypejunction::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->all();
+        $halal = Foodtype::find()->where('Type_Desc=:t',[':t'=>'Halal'])->one();
+        $nonhalal = Foodtype::find()->where('Type_Desc=:t',[':t'=>'Non-Halal'])->one();
+        $restauranttype = Restauranttypejunction::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->joinWith('restauranttype')->all();
         $rtype= "";
 
         foreach ($restauranttype as $k => $value) {
-            if ($value['Type_ID'] == $halal['ID'] || $value['Type_ID'] == $nonhalal['ID']) {
-                $rtype = $value['Type_ID'];
+            if ($value['restauranttype']['Type_Name'] == $halal['Type_Desc'] || $value['restauranttype']['Type_Name'] == $nonhalal['Type_Desc']) {
+                $rtype = $value['restauranttype']['Type_Name'];
             }
         }
-
+        
        if(Yii::$app->request->isPost)
        {
             $post = Yii::$app->request->post();
-            var_dump($post);exit;
 
             $post['Type_ID'][] = $post['Foodtypejunction']['Type_ID'];
+            var_dump($post);exit;
             $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
             $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
             $upload->upload(Yii::$app->params['foodImg']);

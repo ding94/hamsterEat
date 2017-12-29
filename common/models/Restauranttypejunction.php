@@ -43,4 +43,9 @@ class Restauranttypejunction extends \yii\db\ActiveRecord
             'Type_ID' => 'Type  ID',
         ];
     }
+
+    public function getRestauranttype()
+    {
+        return $this->hasOne(Restauranttype::className(),['ID' =>'Type_ID']);
+    }
 }

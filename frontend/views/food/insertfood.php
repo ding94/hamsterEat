@@ -44,7 +44,7 @@ AddFoodAsset::register($this);
                     ]
                 ])->textInput(['id'=>'price'])->label("Money Received");?>
 
-                <?php if($rtype==$nonhalal['ID']): ?>
+                <?php if($rtype==$nonhalal['Type_Desc']): ?>
                     <?= $form->field($foodjunction, 'Type_ID')->radioList([$halal['ID']=>$halal['Type_Name'],$nonhalal['ID']=>$nonhalal['Type_Name']])->label('<strong>Type</strong>') ?>
                 <?php else:?>
                     <?php $foodjunction['Type_ID']=$halal['ID']; ?>

@@ -44,8 +44,8 @@ AddFoodAsset::register($this);
                     ]
                 ])->textInput(['id'=>'price'])->label("Money Received");?>
 
-                <?php echo '<label class="control-label" for="Type_ID">Type</label>';
-                    echo Select2::widget([
+                <?= $form->field($foodjunction, 'Type_ID')->radioList(["3"=>'Halal',"4"=>'Non-Halal'])->label('<strong>Type</strong>') ?>
+                <?php echo Select2::widget([
                         'name' => 'Type_ID',
                         'data' => $type,
                         'showToggleAll' => false,
@@ -53,7 +53,7 @@ AddFoodAsset::register($this);
                         'pluginOptions' => [
                             'tags' => true,
                             'maximumInputLength' => 10,
-                            'maximumSelectionLength' => 3,
+                            'maximumSelectionLength' => 2,
                         ],
                     ]);
                 ?>

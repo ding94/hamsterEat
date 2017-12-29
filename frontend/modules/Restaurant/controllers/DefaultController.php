@@ -257,7 +257,7 @@ class DefaultController extends CommonController
         $upload = new Upload();
         //$path = Yii::$app->request->baseUrl.'/imageLocation/';
         $foodjunction = new Restauranttypejunction();
-        $type = ArrayHelper::map(Restauranttype::find()->orderBy(['(Type_Name)' => SORT_ASC])->all(),'ID','Type_Name');
+        $type = ArrayHelper::map(Restauranttype::find()->andWhere(['and',['!=','Type_Name','Halal'],['!=','Type_Name','Non-Halal']])->orderBy(['(Type_Name)' => SORT_ASC])->all(),'ID','Type_Name');
 
         if ($restaurant->load(Yii::$app->request->post()))
             {
@@ -312,7 +312,7 @@ class DefaultController extends CommonController
     public function actionEditRestaurantDetails($rid)
     {
         $upload = new Upload();
-
+        $foodjunction = new Restauranttypejunction();
         $linkData = CommonController::restaurantPermission($rid);
         $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
 
@@ -321,11 +321,18 @@ class DefaultController extends CommonController
 
         $restaurant = Restaurant::find()->where(Restaurant::tableName().'.Restaurant_ID = :id' ,[':id' => $rid])->innerJoinWith('restaurantType',true)->one();
         $chosen = ArrayHelper::map($restaurant['restaurantType'],'ID','ID');
-        $type = ArrayHelper::map(RestaurantType::find()->orderBy(['(Type_Name)' => SORT_ASC])->all(),'ID','Type_Name');
+        $type = ArrayHelper::map(RestaurantType::find()->andWhere(['and',['!=','Type_Name','Halal'],['!=','Type_Name','Non-Halal']])->orderBy(['(Type_Name)' => SORT_ASC])->all(),'ID','Type_Name');
+
+        foreach ($restaurant['restaurantType'] as $key => $value) :
+            if ($value['Type_Name'] == 'Halal' || $value['Type_Name'] == 'Non-Halal') {
+                $foodjunction['Type_ID'] = $value['ID'];
+            }
+        endforeach;
 
         if($restaurantdetails->load(Yii::$app->request->post()))
         {
             $post = Yii::$app->request->post();
+            $post['Type_ID'][] = $post['Restauranttypejunction']['Type_ID'];
             $upload->imageFile =  UploadedFile::getInstance($restaurantdetails, 'Restaurant_RestaurantPicPath');
 
             if (!is_null($upload->imageFile)){
@@ -376,7 +383,7 @@ class DefaultController extends CommonController
                 return $this->redirect(Yii::$app->request->referrer);
             }
         }
-        return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails,'chosen'=>$chosen, 'type'=>$type,'link'=>$link]);
+        return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails,'chosen'=>$chosen, 'type'=>$type,'link'=>$link,'foodjunction'=>$foodjunction]);
     }
 
 //--This function shows all the staff under a specific restaurant

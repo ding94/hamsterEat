@@ -112,11 +112,12 @@ class FoodController extends CommonController
         $upload = new Upload();
         
         $foodjunction = new Foodtypejunction();
-        $type = ArrayHelper::map(FoodType::find()->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
+        $type = ArrayHelper::map(FoodType::find()->andWhere(['and',['!=','Type_Desc','Halal'],['!=','Type_Desc','Non-Halal']])->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
     
        if(Yii::$app->request->isPost)
        {
             $post = Yii::$app->request->post();
+            $post['Type_ID'][] = $post['Foodtypejunction']['Type_ID'];
             $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
             $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
             $upload->upload(Yii::$app->params['foodImg']);
@@ -224,9 +225,14 @@ class FoodController extends CommonController
 //--This function runs when a food's details are edited
     public function actionEditFood($id)
     {
-       
         $food = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
         $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$food['Restaurant_ID']])->one();
+        $foodjunction = new Foodtypejunction();
+        foreach ($food['foodType'] as $key => $value) :
+            if ($value['Type_Desc'] == 'Halal' || $value['Type_Desc'] == 'Non-Halal') {
+                $foodjunction['Type_ID'] = $value['ID'];
+            }
+        endforeach;
 
         if (!empty($restaurant)) {
             if ($user = User::find()->where('username=:u',[':u'=>$restaurant['Restaurant_Manager']])->one()) {
@@ -239,7 +245,7 @@ class FoodController extends CommonController
         }
         CommonController::restaurantPermission($restaurant->Restaurant_ID);
         $chosen = ArrayHelper::map($food['foodType'],'ID','ID');
-        $type = ArrayHelper::map(FoodType::find()->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
+        $type = ArrayHelper::map(FoodType::find()->andWhere(['and',['!=','Type_Desc','Halal'],['!=','Type_Desc','Non-Halal']])->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
       
         $foodtype =$food->foodselectiontypes;
         $foodselection = [];
@@ -253,11 +259,11 @@ class FoodController extends CommonController
         $picpath = $food['PicPath'];
         $food->scenario = "edit";
     
-        return $this->render('editfood',['food' => $food,'chosen'=> $chosen,'type' => $type,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection ]);
+        return $this->render('editfood',['food' => $food,'foodjunction'=>$foodjunction, 'chosen'=> $chosen,'type' => $type,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection ]);
     }
 
     public function actionPostedit($id)
-    {
+    { 
         $food = Food::findOne($id);
         $modelSelectionType = $food->foodselectiontypes;
         $modelJunction = $food->junction;
@@ -270,7 +276,7 @@ class FoodController extends CommonController
         $upload->imageFile =  UploadedFile::getInstance($food, 'PicPath');
 
         $post = Yii::$app->request->post();
-
+        $post['Type_ID'][] = $post['Foodtypejunction']['Type_ID'];
         $picpath = $food['PicPath'];
 
         if (!empty($modelSelectionType)) 
@@ -404,7 +410,7 @@ class FoodController extends CommonController
                     {
                         $transaction->commit();
                         Yii::$app->session->setFlash('success', "Success edit");
-                        return $this->redirect(['food/menu', 'rid' => $food->Restaurant_ID , 'page' => 'menu']);
+                        return $this->redirect(Yii::$app->request->referrer);
 
                     }
                     else

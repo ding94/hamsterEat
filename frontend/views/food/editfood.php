@@ -44,9 +44,8 @@ AddFoodAsset::register($this);
                         'contentAfter' => '<input id="afterprice" class="form-control" name="Food[Price]" value = "'.$food->Price.'"type="text">'
                     ]
                 ])->textInput(['id'=>'price'])->label("Money Received");?>
-
-                <?php echo '<label class="control-label" for="Type_ID">Type</label>';
-                     echo Select2::widget([
+                <?= $form->field($foodjunction, 'Type_ID')->radioList(["3"=>'Halal',"4"=>'Non-Halal'])->label('<strong>Type</strong>') ?>
+                <?php  echo Select2::widget([
                             'name' => 'Type_ID',
                             'value' => $chosen,
                             'data' => $type,

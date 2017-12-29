@@ -54,8 +54,8 @@ EditRestaurantDetailsAsset::register($this); ?>
             <strong>Restaurant Area</strong><br><?php echo $restaurantdetails['Restaurant_Area']; ?><br><br>
 
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-                <?php echo '<label class="control-label">Type</label>';
-                        echo Select2::widget([
+            <?= $form->field($foodjunction, 'Type_ID')->inline(true)->radioList(["22"=>'Halal',"23"=>'Non-Halal'])->label('<strong>Type</strong>') ?>
+                <?php echo Select2::widget([
                             'name' => 'Type_ID',
                             'value' => $chosen,
                             'data' => $type,
@@ -64,7 +64,7 @@ EditRestaurantDetailsAsset::register($this); ?>
                             'pluginOptions' => [
                                 'tags' => true,
                                 'maximumInputLength' => 10,
-                                'maximumSelectionLength' => 3,
+                                'maximumSelectionLength' => 2,
                             ],
                         ]);
                 ?>

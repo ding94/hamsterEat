@@ -88,7 +88,9 @@ class DeliveryorderController extends CommonController
     {
     	$link = CommonController::createUrlLink(5);
     	$orders = Orders::find()->where('deliveryman = :u and Orders_Status = 5',[':u'=> Yii::$app->user->identity->id])->joinWith(['address'])->all();
-    	
+    	$test=new Orderitem();
+		
+               
     	$data = [];
     	foreach($orders as $order)
     	{
@@ -108,7 +110,7 @@ class DeliveryorderController extends CommonController
 
     	}
     	//var_dump($data);exit;
-    	return $this->render("complete",['data'=>$data,'link'=>$link]);
+    	return $this->render("complete",['data'=>$data,'link'=>$link,'test'=>$test]);
     }
 
     public function actionHistory()

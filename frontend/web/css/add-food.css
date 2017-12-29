@@ -36,6 +36,10 @@ td.vcenter div.form-group{
   border-bottom: 1px solid #efefef;
 }
 
+.radio{
+	display: inline;
+}
+
 /*
 * food selection block for mobile
 * disable first

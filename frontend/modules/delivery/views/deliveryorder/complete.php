@@ -16,10 +16,20 @@ DeliverymanOrdersAsset::register($this);
   flex-wrap: wrap;
   padding-left:10%;
 }
+.inner-row2{
+  display: flex;
+  flex-wrap: wrap;
+  float:right;
+}
 </style>
+
+
 <div class="container" id="deliveryman-orders-container">
     <div class="deliveryman-orders-header">
-        <div class="deliveryman-orders-header-title"><?= Html::encode($this->title) ?></div>
+        <div class="deliveryman-orders-header-title"><?= Html::encode($this->title) ?>
+		</div>
+<div class="inner-row2"><input id="chkSelectAll" class="checkbox" type="checkbox" />Select All</div> 
+		
     </div>
     <div class="content">
         <div class="col-sm-2">
@@ -71,15 +81,16 @@ DeliverymanOrdersAsset::register($this);
 				</div>
 			</div>
 			<?php $form = ActiveForm::begin();?>
+				<?php $checkboxdata = ArrayHelper::map($company['id'],'ID','ID');?>
 		<table class="table table-hover" style="border:0px solid black;">
 		<thead class='none'>
 						<tr>
-							<th>Order ID</th>
+							<th><div class="inner-row" ><?= $form->field($test, 'Delivery_ID')->checkboxList($checkboxdata,['style'=>'margin-top:-10px;'])->label(false);?>Order ID</th>
 							<th>Collect Price</th>
 							
 						</tr>
 					</thead>
-	<?php $checkboxdata = ArrayHelper::map($company['id'],'ID','ID');?>
+
 			<?php foreach ($company['id'] as $did => $price) : ?>
 			<tr>
 					<td data-th="Order ID"><div class="inner-row"><?= $form->field($test, 'Delivery_ID')->checkboxList($checkboxdata,['style'=>'margin-top:-10px;'])->label(false);?><?= $did; ?></div></td>
@@ -96,3 +107,6 @@ DeliverymanOrdersAsset::register($this);
 </div>
 </div>
 </div>
+
+
+

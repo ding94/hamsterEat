@@ -165,3 +165,9 @@ function quantity(up,cid)
    document.getElementById('refresh').style.display = "block";
    document.getElementById('voucher').style.display = "none";
 }
+
+$('#chkSelectAll').click(function () {
+    var checked_status = this.checked;
+
+    $('input[type=checkbox]').not(":disabled").prop('checked', checked_status);
+});

@@ -14,10 +14,11 @@
     float:left;
    margin-left:-10px;
 }
-.filter.container{
-     border: 1px solid #e5e5e5;
+.filter-container{
+    border: 1px solid #e5e5e5;
     padding: 20px;
-    margin-top:26px; 
+    margin-top:26px;
+    margin-right: 10px; 
 }
 .filter-list{
     list-style: none;

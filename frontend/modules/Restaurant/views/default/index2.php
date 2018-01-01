@@ -73,7 +73,7 @@ Modal::end();
         <!--<a href="#top" title="Go to top of page"><span><i class="fa fa-chevron-up fa-2x" aria-hidden="true"></i></span>-->
     <a href="#top" class="scrollToTop"></a>
             <div class="filter">
-                <div class="filter container">
+                <div class="filter-container">
                     <div class="input-group">
                     <?php $form = ActiveForm::begin(['id' => 'form-searchfood','method'=>'get']) ?>
                        <div class="input-group"><input id="food-nickname" class="form-control" name="filter" placeholder="Search Food" type="text">

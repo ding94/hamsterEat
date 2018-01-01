@@ -142,7 +142,7 @@ class Food extends \yii\db\ActiveRecord
         }
         if(empty($data))
         {
-            $data[] = Yii::getAlias('@web').'imageLocation/DefaultRestaurant.jpg';
+            $data[] = Yii::getAlias('@web').'/imageLocation/DefaultRestaurant.jpg';
         }
         return $data;
     }

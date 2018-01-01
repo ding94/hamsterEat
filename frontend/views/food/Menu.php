@@ -97,7 +97,7 @@ Modal::end();
                   </div>
                 </div>
                 <?php
-                
+                  $id = $menu['Food_ID'];
                   Modal::begin([
                     'header'=>'Food Image Uploader',
                     'toggleButton' => [
@@ -119,13 +119,14 @@ Modal::end();
                         'initialPreview' => $menu->img,
                         'initialPreviewAsData'=>true,
                         'uploadUrl' => Url::to(['/food-img/upload']),
-                        'uploadExtraData' => [
+                        'uploadExtraData'=>[
                           'id' => $menu['Food_ID'],
                         ],
                         'initialPreviewConfig' => $menu->captionImg,
                         'overwriteInitial'=>false,
                         'maxFileCount' => 3,
                         'pluginLoading' => true,
+                        'allowedFileExtensions' => ['jpg','png','jpeg'],
                       ]
 
                     ]);

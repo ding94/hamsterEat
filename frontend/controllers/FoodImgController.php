@@ -40,6 +40,7 @@ class FoodImgController extends CommonController
         }
 
         $post = Yii::$app->request->post();	
+       
         $validate = self::imgName($post['id'],$_FILES['foodimg']);
         $image = $_FILES['foodimg'];
 

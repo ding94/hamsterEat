@@ -10,6 +10,7 @@ use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\helpers\Url;
+use common\models\Upload;
 
 class FoodImgController extends CommonController
 {
@@ -63,21 +64,10 @@ class FoodImgController extends CommonController
         {
             $success = false;
         }
-       
+       	$output[] ="";
         if ($success === true) 
         {
             $id = self::save($post['id'], $filename);
-            /*$output = 	[
-            			'initialPreview' => Yii::getAlias('@web').'/'.Yii::$app->params['foodImg'].$filename,
-            			'initialPreviewConfig' =>
-            				[
-            					'caption'=>$filename,
-            					'url' => Url::to(['/food-img/delete','id'=>$id]),
-            					'extra'=>['id'=>'set one indetify for element (optional)']
-
-            				],
-            			];*/
-           $output = [];
            $output['initialPreview'] =  Yii::getAlias('@web').'/'.Yii::$app->params['foodImg'].$filename;
            $output['initialPreviewConfig'][0]['caption'] = $filename;
            $output['initialPreviewConfig'][0]['url'] = Url::to(['/food-img/delete','id'=>$id]);

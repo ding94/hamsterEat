@@ -9,6 +9,7 @@ use yii\bootstrap\ActiveForm;
 use kartik\widgets\Select2;
 use frontend\assets\EditRestaurantDetailsAsset;
 use yii\bootstrap\Modal;
+use kartik\widgets\FileInput;
 
 $this->title = "Edit ".$restaurantdetails['Restaurant_Name']."'s Details";
 EditRestaurantDetailsAsset::register($this); ?>
@@ -71,8 +72,14 @@ EditRestaurantDetailsAsset::register($this); ?>
                 <br>
 
                 <?= $form->field($restaurantdetails, 'Restaurant_Pricing')->radioList(["1"=>'Less than RM 10',"2"=>'More than RM 10', "3"=>'More Than RM 100'])->label('Average Food Prices') ?>
-          
-                <?= $form->field($restaurantdetails, 'Restaurant_RestaurantPicPath')->fileInput()->label('Picture') ?>
+                
+                <?php 
+                    echo $form->field($restaurantdetails, 'Restaurant_RestaurantPicPath')->widget(FileInput::classname(), [
+                        'options' => ['accept' => 'image/*'],
+                       
+                    ]);
+                ?>
+              
 
                 <div class="form-group">
                     <?= Html::submitButton('Save', ['class' => 'raised-btn main-btn', 'name' => 'save-button']) ?>

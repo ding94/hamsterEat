@@ -83,11 +83,8 @@ Modal::end();
               <div class="outer-item">
                 <div class="item-no-border">
                   <div class="img">
-                    <?php if (empty($menu->img)) :?>
-                        <?php echo Html::img('@web/imageLocation/DefaultRestaurant.jpg') ?>
-                    <?php else :?>
-                        <img  src=<?php echo $menu->img[0]?> alt="">
-                    <?php endif ;?>
+                      <img  src=<?php echo $menu->img[0]?> alt="">
+                    
                   </div>
                   <div class="inner-item">
                     <div class="foodName-div"><span class="foodName"><?php echo $menu['Name']; ?></span><span class="small-text stars" alt="<?php echo $menu['Rating']; ?>"><?php echo $menu['Rating']; ?></span></div>

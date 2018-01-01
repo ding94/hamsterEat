@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\widgets\Select2;
 use frontend\assets\UserAsset;
+use kartik\widgets\FileInput;
 
 $this->title = 'Edit details';
 UserAsset::register($this);
@@ -49,8 +50,13 @@ UserAsset::register($this);
     </div>
         <div class="col-sm-8 userprofile-edit-input">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-            
-                <?= $form->field($detail, 'User_PicPath')->fileInput()->label('Picture') ?>
+                
+                <?php 
+                    echo $form->field($detail, 'User_PicPath')->widget(FileInput::classname(), [
+                        'options' => ['accept' => 'image/*'],
+                    ]);
+                ?>
+             
                 <div class="row">
                     <div class="col-sm-6">
                           <?= $form->field($detail, 'User_FirstName')->textInput()->label('First Name') ?>

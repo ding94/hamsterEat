@@ -4,7 +4,6 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use common\models\food\Food;
-use yii\web\UploadedFile;
 use common\models\food\Foodselectiontype;
 use common\models\food\Foodselection;
 use yii\widgets\ActiveForm;

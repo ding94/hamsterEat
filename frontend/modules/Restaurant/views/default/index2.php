@@ -128,11 +128,7 @@ Modal::end();
                 <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-backdrop-limit="1" data-toggle="modal" data-target="#foodDetail"  data-img=<?php echo json_encode($imgdata) ?>>
                     <div class="item">
                         <div class="page-img">
-                            <?php if (empty($fooddata->img)) :?>
-                                <?php echo Html::img('@web/imageLocation/DefaultRestaurant.jpg',['class'=>'img']) ?>
-                            <?php else :?>
-                                <img  class="img" src=<?php echo $fooddata->img[0]?> alt="">
-                            <?php endif ;?>
+                            <img  class="img" src=<?php echo $fooddata->img[0]?> alt="">
                         </div>
                         <div class="inner-item">
                             <div class="foodName-div"><span class="foodName"><?php echo $fooddata['Name']; ?></span><span class="small-text stars" alt="<?php echo $fooddata['Rating']; ?>"><?php echo $fooddata['Rating']; ?></span></div>

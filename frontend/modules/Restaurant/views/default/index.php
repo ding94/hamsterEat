@@ -85,7 +85,7 @@ Modal::end();
 	  </div>
 	  <a href="#top" class="scrollToTop"></a>
       <div class="filter">
-        <div class="filter container">
+        <div class="filter-container">
           <div class="input-group">
             <?php $form = ActiveForm::begin(['id' => 'form-searchrestaurant','method' => 'get']) ?>
               <div class="input-group">

@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use yii\helpers\Url;
 
 class FoodImgController extends CommonController
 {
@@ -38,9 +39,9 @@ class FoodImgController extends CommonController
             // or you can throw an exception 
             return; // terminate
         }
-
+        
         $post = Yii::$app->request->post();	
-       
+  		
         $validate = self::imgName($post['id'],$_FILES['foodimg']);
         $image = $_FILES['foodimg'];
 
@@ -53,8 +54,8 @@ class FoodImgController extends CommonController
        
         $target = Yii::$app->params['foodImg'] . $filename;
         $source = $image['tmp_name'];
-       
-        if(move_uploaded_file($source[0], $target))
+       	 
+        if(move_uploaded_file($source, $target))
         {
             $success = true;
         }
@@ -63,13 +64,34 @@ class FoodImgController extends CommonController
             $success = false;
         }
        
-        if ($success === true) {
-            self::save($post['id'], $filename);
-            $output = ['success' => "Success"];
-        } elseif ($success === false) {
+        if ($success === true) 
+        {
+            $id = self::save($post['id'], $filename);
+            /*$output = 	[
+            			'initialPreview' => Yii::getAlias('@web').'/'.Yii::$app->params['foodImg'].$filename,
+            			'initialPreviewConfig' =>
+            				[
+            					'caption'=>$filename,
+            					'url' => Url::to(['/food-img/delete','id'=>$id]),
+            					'extra'=>['id'=>'set one indetify for element (optional)']
+
+            				],
+            			];*/
+           $output = [];
+           $output['initialPreview'] =  Yii::getAlias('@web').'/'.Yii::$app->params['foodImg'].$filename;
+           $output['initialPreviewConfig'][0]['caption'] = $filename;
+           $output['initialPreviewConfig'][0]['url'] = Url::to(['/food-img/delete','id'=>$id]);
+           $output['initialPreviewConfig'][0]['key'] = $id;
+         
+
+
+        } 
+        elseif ($success === false) 
+        {
             $output = ['error'=>'Error while uploading images. Contact the system administrator'];
             unlink($target);   
-        } else {
+        } 
+        else {
             $output = ['error'=>'No files were processed.'];
         }
         echo json_encode($output);
@@ -108,7 +130,7 @@ class FoodImgController extends CommonController
    		$query = FoodImg::find()->where("fid = :id",[':id' => $id]);
         $count = $query->count()+1;
 
-        $tmp =   explode('.', $image['name'][0]);
+        $tmp =   explode('.', $image['name']);
         $extension=end($tmp);
         if($count > 3)
         {
@@ -139,6 +161,7 @@ class FoodImgController extends CommonController
         	}
         	
         }
+
         $data['value'] = 1;
         $data['message'] = $name;
         return $data;
@@ -150,6 +173,9 @@ class FoodImgController extends CommonController
         $img = new FoodImg;
         $img->fid = $fid;
         $img->img = $filename;
-        $img->save();
+        if($img->save())
+        {
+        	return $img->id;
+        }
     }
 }

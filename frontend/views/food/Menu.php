@@ -107,7 +107,7 @@ Modal::end();
                   endif;
                 ?>
                 <?php
-                  $id = $menu['Food_ID'];
+                  
                   Modal::begin([
                     'header'=>'Food Image Uploader',
                     'toggleButton' => [
@@ -116,23 +116,25 @@ Modal::end();
                   ]);
 
                   $form1 = ActiveForm::begin([
-                    'options'=>['enctype'=>'multipart/form-data'] // important
+                    'options'=>['enctype'=>'multipart/form-data'], // important
+                   
                   ]);
 
                   echo FileInput::widget([
-                      'name' => 'foodimg[]',
+                      'name' => 'foodimg',
 
                       'options'=>[
                           'multiple'=>true
                       ],
                       'pluginOptions' => [
                         'initialPreview' => $menu->img,
+                        'initialPreviewConfig' => $menu->captionImg,
                         'initialPreviewAsData'=>true,
                         'uploadUrl' => Url::to(['/food-img/upload']),
                         'uploadExtraData'=>[
                           'id' => $menu['Food_ID'],
                         ],
-                        'initialPreviewConfig' => $menu->captionImg,
+                        
                         'overwriteInitial'=>false,
                         'maxFileCount' => 3,
                         'pluginLoading' => true,

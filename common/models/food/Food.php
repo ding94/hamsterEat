@@ -140,7 +140,10 @@ class Food extends \yii\db\ActiveRecord
         {
             $data[] =  Yii::getAlias('@web').'/'.Yii::$app->params['foodImg'].$image->img;
         }
-
+        if(empty($data))
+        {
+            $data[] = Yii::getAlias('@web').'imageLocation/DefaultRestaurant.jpg';
+        }
         return $data;
     }
 
@@ -148,11 +151,23 @@ class Food extends \yii\db\ActiveRecord
     {
         $data = "";
         $images = FoodImg::find()->where('fid = :id',[':id'=>$this->Food_ID])->all();
-        foreach($images as $i=>$image)
+
+        if(empty($images))
         {
-            $data[$i]['caption'] =  $image->img;
-            $data[$i]['url'] = Url::to(['/food-img/delete','id'=>$image->id]);
+            $data[0]['caption'] = "DefaultRestaurant.jpg";
+         
+            $data[0]['key'] = "0";
         }
+        else
+        {
+            foreach($images as $i=>$image)
+            {
+                $data[$i]['caption'] =  $image->img;
+                $data[$i]['url'] = Url::to(['/food-img/delete','id'=>$image->id]);
+                $data[$i]['key'] = $image->id;
+            }
+        }
+        
         
         return $data;
     }

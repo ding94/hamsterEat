@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use yii\bootstrap\Modal;
 
-  $this->title = 'Restuarant Detail';
+  $this->title = 'Restaurant Detail';
   $this->params['breadcrumbs'][] = $this->title;
   
 ?>

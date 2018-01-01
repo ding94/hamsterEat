@@ -245,23 +245,27 @@ class FoodController extends CommonController
     {
         $food = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
         $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$food['Restaurant_ID']])->one();
+        CommonController::rmanagerApproval();
+        CommonController::restaurantPermission($restaurant->Restaurant_ID);
         $foodjunction = new Foodtypejunction();
+        $halal = Foodtype::find()->where('Type_Desc=:t',[':t'=>'Halal'])->one();
+        $nonhalal = Foodtype::find()->where('Type_Desc=:t',[':t'=>'Non-Halal'])->one();
+        $restauranttype = Restauranttypejunction::find()->where('Restaurant_ID=:rid',[':rid'=>$food['Restaurant_ID']])->joinWith('restauranttype')->all();
+        $rtype= "";
+
         foreach ($food['foodType'] as $key => $value) :
             if ($value['Type_Desc'] == 'Halal' || $value['Type_Desc'] == 'Non-Halal') {
                 $foodjunction['Type_ID'] = $value['ID'];
             }
         endforeach;
 
-        if (!empty($restaurant)) {
-            if ($user = User::find()->where('username=:u',[':u'=>$restaurant['Restaurant_Manager']])->one()) {
-                $user = $user['id'];
-                $check = ValidController::checkUserValid($user);
-                if ($check == false) {
-                    return $this->redirect(['site/index']);
-                }
+
+        foreach ($restauranttype as $k => $value) {
+            if ($value['restauranttype']['Type_Name'] == $halal['Type_Desc'] || $value['restauranttype']['Type_Name'] == $nonhalal['Type_Desc']) {
+                $rtype = $value['restauranttype']['Type_Name'];
             }
         }
-        CommonController::restaurantPermission($restaurant->Restaurant_ID);
+
         $chosen = ArrayHelper::map($food['foodType'],'ID','ID');
         $type = ArrayHelper::map(FoodType::find()->andWhere(['and',['!=','Type_Desc','Halal'],['!=','Type_Desc','Non-Halal']])->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
       
@@ -273,10 +277,9 @@ class FoodController extends CommonController
             $foodselection = FoodselectionController::oldData($foodtype,1);
         }
 
-        $picpath = $food['PicPath'];
         $food->scenario = "edit";
     
-        return $this->render('editfood',['food' => $food,'foodjunction'=>$foodjunction, 'chosen'=> $chosen,'type' => $type,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection ]);
+        return $this->render('editfood',['food' => $food,'halal'=>$halal,'nonhalal'=>$nonhalal,'rtype'=>$rtype,'foodjunction'=>$foodjunction, 'chosen'=> $chosen,'type' => $type,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection ]);
     }
 
     public function actionPostedit($id)
@@ -289,12 +292,8 @@ class FoodController extends CommonController
         $oldSelect = [];
         $selectionId = [];
 
-      
-        
-
         $post = Yii::$app->request->post();
         $post['Type_ID'][] = $post['Foodtypejunction']['Type_ID'];
-        $picpath = $food['PicPath'];
 
         if (!empty($modelSelectionType)) 
         {

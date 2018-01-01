@@ -96,12 +96,22 @@ Modal::end();
                     <div class="nickname-div"><p>Nick Name: <?php echo $menu['Nickname']?></p></div>
                   </div>
                 </div>
+                  <?php
+                  echo Html::a('', ['/food/edit-food','id'=>$menu['Food_ID']], ['class'=>'raised-btn btn-lg main-btn fa fa-pencil edit-button']); 
+                  if (!empty($status)) :
+                      if ($status['Status'] == 0) :
+                        echo Html::a('Resume Food Service', Url::to(['/Restaurant/restaurant/active', 'id'=>$menu['Food_ID'],'item'=>2]), ['id'=>'res','data-confirm'=>"Do you want to Resume Operate?",'class'=>'raised-btn btn-success']);
+                      elseif ($status['Status'] == 1) :
+                        echo Html::a('Pause Food Service', Url::to(['/Restaurant/restaurant/providereason', 'id'=>$menu['Food_ID'],'rid'=>$rid,'item'=>2]), ['id'=>'res','class'=>'raised-btn btn-danger','data-toggle'=>'modal','data-target'=>'#add-modal']);
+                      endif;
+                  endif;
+                ?>
                 <?php
                   $id = $menu['Food_ID'];
                   Modal::begin([
                     'header'=>'Food Image Uploader',
                     'toggleButton' => [
-                        'label'=>'Show  Image/Upload Image', 'class'=>'raised-btn'
+                        'label'=>'Show Image/Upload Image', 'class'=>'raised-btn upload-btn'
                     ],
                   ]);
 
@@ -131,17 +141,8 @@ Modal::end();
 
                     ]);
                   ActiveForm::end();
-                Modal::end();
-
-                  echo Html::a('', ['/food/edit-food','id'=>$menu['Food_ID']], ['class'=>'raised-btn btn-lg main-btn fa fa-pencil edit-button']); 
-                  if (!empty($status)) :
-                      if ($status['Status'] == 0) :
-                        echo Html::a('Resume Food Service', Url::to(['/Restaurant/restaurant/active', 'id'=>$menu['Food_ID'],'item'=>2]), ['id'=>'res','data-confirm'=>"Do you want to Resume Operate?",'class'=>'raised-btn btn-success']);
-                      elseif ($status['Status'] == 1) :
-                        echo Html::a('Pause Food Service', Url::to(['/Restaurant/restaurant/providereason', 'id'=>$menu['Food_ID'],'rid'=>$rid,'item'=>2]), ['id'=>'res','class'=>'raised-btn btn-danger','data-toggle'=>'modal','data-target'=>'#add-modal']);
-                      endif;
-                  endif;
-                ?>
+                  Modal::end();
+                  ?>
               </div>
               <?php 
               endif;

@@ -7,6 +7,7 @@ use common\models\Area;
 use common\models\Rmanager;
 use common\models\Restauranttype;
 use common\models\Restauranttypejunction;
+use common\models\food\Food;
 
 /**
  * This is the model class for table "restaurant".
@@ -96,5 +97,10 @@ class Restaurant extends \yii\db\ActiveRecord
     public function getRJunction()
     {
         return $this->hasMany(Restauranttypejunction::className(),['Restaurant_ID' => 'Restaurant_ID']);
+    }
+
+    public function getFood()
+    {
+        return $this->hasMany(Food::className(),['Restaurant_ID' => 'Restaurant_ID']);
     }
 }

@@ -68,6 +68,7 @@ class UserController extends CommonController
             $model = UserDetails::find()->where('User_Username = :uname',[':uname' => Yii::$app->user->identity->username])->one(); 
 
     		$upload->imageFile =  UploadedFile::getInstance($detail, 'User_PicPath');
+
             if (!empty($upload->imageFile))
             {
                 $upload->imageFile->name = Yii::$app->user->identity->username.'.'.$upload->imageFile->extension;
@@ -78,7 +79,7 @@ class UserController extends CommonController
             {
                 $detail->User_PicPath = $picpath;
             }
-               
+           
 			$isValid = $detail->validate();
             if($isValid){
                 $detail->save();

@@ -249,6 +249,10 @@
 
 @media(max-width: 489px){
 
+  div.userprofile-label
+  {
+    margin-left:10px;
+  }
   .userprofile-avatar{
     margin:auto;
   }

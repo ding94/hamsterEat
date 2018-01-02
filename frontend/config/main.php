@@ -8,7 +8,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
-    'name' => 'HamsterEat',
+    'name' => 'Delivery Food In Medini | HamsterEat',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'modules' => [

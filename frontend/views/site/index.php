@@ -73,6 +73,16 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 	   	</div>
 	</div>
 <!--<div id="DescContainer" class="container">-->
+	<div id="SSCrow4">
+		<div class="container">
+			<div class="graphic">
+				Graphic Content
+			</div>	
+			<div class="textcontainer">
+				Some content
+			</div>
+		</div>
+	</div>
 <div id="SSCrow3">
    <div class="container">
 		

@@ -28,7 +28,7 @@ Modal::end();
       <?php if ($status['Status'] >= 0): ?>
       <div class="outer-item">
       <div class="item-no-border">
-        <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$food['PicPath']) ?></div>
+        <div class="img"><img src=<?php echo $fooddata->singleImg ?> alt=""></div>
         <div class="inner-item">
           <span class="foodName"><?php echo $food['Name']; ?></span>
           <p class="foodDesc">Description: <?php echo $food['Description']?></p>

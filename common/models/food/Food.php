@@ -142,7 +142,7 @@ class Food extends \yii\db\ActiveRecord
         }
         if(empty($data))
         {
-            $data[] = Yii::getAlias('@web').'/imageLocation/DefaultRestaurant.jpg';
+            $data[] = Yii::getAlias('@web').'/imageLocation/defaultfood.png';
         }
         return $data;
     }
@@ -154,7 +154,7 @@ class Food extends \yii\db\ActiveRecord
 
         if(empty($images))
         {
-            $data[0]['caption'] = "DefaultRestaurant.jpg";
+            $data[0]['caption'] = "defaultfood.png";
          
             $data[0]['key'] = "0";
         }
@@ -170,5 +170,20 @@ class Food extends \yii\db\ActiveRecord
         
         
         return $data;
+    }
+
+    public function getSingleImg()
+    {
+        $images = FoodImg::find()->where('fid = :id',[':id'=>$this->Food_ID])->all();
+        foreach($images as $image)
+        {
+            if(file_exists(Yii::$app->params['foodImg'].$image->img))
+            {
+
+                return Yii::getAlias('@web').'/'.Yii::$app->params['foodImg'].$image->img;
+            }
+        }
+
+        return  Yii::getAlias('@web').'/imageLocation/defaultfood.png';
     }
 }

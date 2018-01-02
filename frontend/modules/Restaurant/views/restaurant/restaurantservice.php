@@ -17,7 +17,13 @@ RestaurantServiceAsset::register($this);
       <div class="outer-item">
         <a href=" <?php echo yii\helpers\Url::to(['/order/restaurant-order-history','rid'=>$restaurant['Restaurant_ID']]); ?> ">
           <div class="item-no-border">
-            <div class="img"><?php echo Html::img(Yii::$app->params['restaurant'].$restaurant['Restaurant_RestaurantPicPath']) ?></div>
+            <div class="img">
+            <?php if(empty($restaurant['Restaurant_RestaurantPicPath'])):?>
+              <?php echo Html::img(Yii::$app->params['baseUrl'].'DefaultRestaurant.jpg') ?>
+            <?php else : ?>
+              <?php echo Html::img(Yii::$app->params['restaurant'].$restaurant['Restaurant_RestaurantPicPath']) ?>
+            <?php endif ;?>
+           </div>
             <div class="inner-item">
               <div class="restaurant-name-div">
                 <span class="restaurant-name"><?php echo $restaurant['Restaurant_Name']; ?></span>

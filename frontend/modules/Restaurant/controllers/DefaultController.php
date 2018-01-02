@@ -317,7 +317,7 @@ class DefaultController extends CommonController
         $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
 
         $restaurantdetails = restaurant::find()->where('Restaurant_ID = :rid',[':rid' => $rid])->one();
-        $rpicpath = $restaurantdetails['Restaurant_RestaurantPicPath'];
+      
 
         $restaurant = Restaurant::find()->where(Restaurant::tableName().'.Restaurant_ID = :id' ,[':id' => $rid])->innerJoinWith('restaurantType',true)->one();
         $chosen = ArrayHelper::map($restaurant['restaurantType'],'ID','ID');
@@ -338,17 +338,23 @@ class DefaultController extends CommonController
                 return $this->redirect(Yii::$app->request->referrer);
             }
 
-            $upload->imageFile =  UploadedFile::getInstance($restaurantdetails, 'Restaurant_RestaurantPicPath');
+            $upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
 
             if (!is_null($upload->imageFile)){
-                $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-                $upload->upload(Yii::$app->params['restaurant']);
+                
+                $upload->imageFile->name = $rid.'-'.str_replace (' ', '-', $restaurantdetails->Restaurant_Name).'.'.$upload->imageFile->extension;
+                if(!empty($restaurantdetails->Restaurant_RestaurantPicPath))
+                {
+                    $upload->upload(Yii::$app->params['restaurant'],Yii::$app->params['restaurant'].$restaurantdetails->Restaurant_RestaurantPicPath);
+                }
+                else
+                {
+                    $upload->upload(Yii::$app->params['restaurant']);
+                }
+               
                 $restaurantdetails->Restaurant_RestaurantPicPath = $upload->imageFile->name;
             }
-            else{
-                $restaurantdetails->Restaurant_RestaurantPicPath = $rpicpath;
-            }
-
+            
             if($restaurantdetails->validate())
             {
                 $restaurantdetails->save();
@@ -370,7 +376,6 @@ class DefaultController extends CommonController
                     }
 
                     $transaction->commit();
-                    Yii::$app->session->setFlash('success', "Success edit");
 
                     Yii::$app->session->setFlash('success', "Update completed");
                     return $this->redirect(['/Restaurant/default/edit-restaurant-details', 'rid'=>$rid]);
@@ -388,7 +393,7 @@ class DefaultController extends CommonController
                 return $this->redirect(Yii::$app->request->referrer);
             }
         }
-        return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails,'chosen'=>$chosen, 'type'=>$type,'link'=>$link,'foodjunction'=>$foodjunction]);
+        return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails,'chosen'=>$chosen, 'type'=>$type,'link'=>$link,'foodjunction'=>$foodjunction,'upload'=>$upload]);
     }
 
     protected function checkHalal($rid)

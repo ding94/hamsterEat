@@ -52,7 +52,7 @@ UserAsset::register($this);
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
                 
                 <?php 
-                    echo $form->field($detail, 'User_PicPath')->widget(FileInput::classname(), [
+                    echo $form->field($upload, 'imageFile')->widget(FileInput::classname(), [
                         'options' => ['accept' => 'image/*'],
                     ]);
                 ?>

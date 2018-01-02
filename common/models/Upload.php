@@ -15,10 +15,19 @@ class Upload extends Model
         return [
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
             [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'on' => ['ticket']],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'on' => ['profile']],
         ];
     }
-     public function upload($path)
+
+    public function upload($path,$image="")
     {
+        if(!empty($image))
+        {
+            if(file_exists($image))
+            {
+              unlink($image);  
+            }
+        }
         if ($this->validate()) {
             //$path = './imageLocation/(file name)/'
             //save path = './imageLocation/(file name)/(image name).(extension)'
@@ -30,5 +39,12 @@ class Upload extends Model
         {
             return false;
         }
+    }
+
+    public function attributeLabels()
+    {
+        return [
+           'imageFile' => 'Upload Image',
+        ];
     }
 }

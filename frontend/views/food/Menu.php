@@ -83,7 +83,7 @@ Modal::end();
               <div class="outer-item">
                 <div class="item-no-border">
                   <div class="img">
-                      <img  src=<?php echo $menu->img[0]?> alt="">
+                         <img src=<?php echo $menu->singleImg ?> alt="">
                     
                   </div>
                   <div class="inner-item">

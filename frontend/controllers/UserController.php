@@ -54,30 +54,34 @@ class UserController extends CommonController
     public function actionUserdetails()
     {
         $upload = new Upload();
-        $upload->scenario = 'ticket';
+        $upload->scenario = 'profile';
         $path = Yii::$app->params['userprofilepic'];
         
         // return $this->render('upload', ['detail' => $detail]);
         $link = CommonController:: createUrlLink(1);
         $detail = Userdetails::find()->where('User_id = :id'  , [':id' => Yii::$app->user->identity->id])->one();
         
-        $picpath = $detail['User_PicPath']; 
+        //$picpath = $detail['User_PicPath']; 
         if($detail->load(Yii::$app->request->post()))
         {
             $post = Yii::$app->request->post();
             $model = UserDetails::find()->where('User_Username = :uname',[':uname' => Yii::$app->user->identity->username])->one(); 
 
-    		$upload->imageFile =  UploadedFile::getInstance($detail, 'User_PicPath');
-
+    		$upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');
+           
             if (!empty($upload->imageFile))
             {
-                $upload->imageFile->name = Yii::$app->user->identity->username.'.'.$upload->imageFile->extension;
-                $upload->upload($path);
+                $upload->imageFile->name = Yii::$app->user->identity->username.'.'.$upload->    imageFile->extension;
+                if(!empty($detail->User_PicPath))
+                {
+                   $upload->upload($path,$path.$detail->User_PicPath);
+                }
+                else
+                {
+                  $upload->upload($path);  
+                }
+                
                 $detail->User_PicPath =$upload->imageFile->name;
-            }
-            else
-            {
-                $detail->User_PicPath = $picpath;
             }
            
 			$isValid = $detail->validate();
@@ -94,7 +98,7 @@ class UserController extends CommonController
 	
 		//$this->view->title = 'Update Profile';
 		$this->layout = 'user';
-		return $this->render("userdetails",['detail' => $detail,'link' => $link]);
+		return $this->render("userdetails",['detail' => $detail,'link' => $link,'upload'=>$upload]);
     }
 
 	public function actionUserbalance()

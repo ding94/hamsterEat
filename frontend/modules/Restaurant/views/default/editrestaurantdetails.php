@@ -74,7 +74,7 @@ EditRestaurantDetailsAsset::register($this); ?>
                 <?= $form->field($restaurantdetails, 'Restaurant_Pricing')->radioList(["1"=>'Less than RM 10',"2"=>'More than RM 10', "3"=>'More Than RM 100'])->label('Average Food Prices') ?>
                 
                 <?php 
-                    echo $form->field($restaurantdetails, 'Restaurant_RestaurantPicPath')->widget(FileInput::classname(), [
+                    echo $form->field($upload, 'imageFile')->widget(FileInput::classname(), [
                         'options' => ['accept' => 'image/*'],
                        
                     ]);

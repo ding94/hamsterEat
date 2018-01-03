@@ -88,7 +88,7 @@ RestaurantDetailsAsset::register($this);
             <?php
               foreach($rowfood as $data): 
             ?>
-        <?php $imgdata =  $data->mutipleImg?>
+        <?php $imgdata =  $data->multipleImg?>
         <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>"  class ="food-link" data-toggle="modal" data-target="#foodDetail" data-img= <?php echo json_encode($imgdata) ?>>
         <div class="item">
             <div class="img">

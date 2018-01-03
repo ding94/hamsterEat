@@ -48,10 +48,10 @@ DeliverymanOrdersAsset::register($this);
         <div id="deliveryman-orders-content" class="col-sm-10">
             <?php if($record->result == 1):?>
                 <h3>You can receive delivery orders for today!</h3>
-              <?=Html::a('Already Sign In',['Delivery/daily-sign-in/signin'],['class' => 'raised-btn alternative-btn btn-lg btn-signin', 'disabled' =>"true"]);?>
+              <?=Html::a('Already Sign In',['/Delivery/daily-sign-in/signin'],['class' => 'raised-btn alternative-btn btn-lg btn-signin', 'disabled' =>"true"]);?>
             <?php else :?>
                 <h3>Sign in to receive delivery orders!</h3>
-              <?=Html::a('Sign In',['Delivery/daily-sign-in/signin'],['class' => 'raised-btn main-btn btn-lg btn-signin']);?>
+              <?=Html::a('Sign In',['/Delivery/daily-sign-in/signin'],['class' => 'raised-btn main-btn btn-lg btn-signin']);?>
             <?php endif ;?>
             <?php 
                 if (empty($dman)){
@@ -115,9 +115,9 @@ DeliverymanOrdersAsset::register($this);
                         <td data-th="Restaurant Name"><?php echo $restname['Restaurant_Name']; ?></td>
                         <td colspan="2" data-th="Area"><?php echo $restname['Restaurant_Area']; ?></td>
                         <td data-th="Quantity"><?php echo $orderitemdetails['OrderItem_Quantity']; ?></td>
-						
+                        
                         <td><?= $statusid[$orderitemdetails['OrderItem_Status']];?></td>
-
+                        
                         <?php if ($orderitemdetails['OrderItem_Status'] == 2): ?>
                             <td data-th="Current Status"><span class='label label-warning'> Wait for Food to be Prepared </span></td>
                         <?php elseif($orderitemdetails['OrderItem_Status']== 3): ?>

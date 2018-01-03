@@ -162,7 +162,7 @@ class Food extends \yii\db\ActiveRecord
         {
             $data['data'][0]['caption'] = Yii::$app->params['defaultFoodImg'];
             $data['data'][0]['key'] = "0";
-            $data['header'] = 'true';
+            $data['header'] = true;
 
         }
         else
@@ -174,8 +174,8 @@ class Food extends \yii\db\ActiveRecord
                 $data['data'][$i]['key'] = $image->id;
 
             }
-            $data['header'] = 'false';
-          
+            $data['header'] = false;
+
         }
         
         
@@ -183,7 +183,7 @@ class Food extends \yii\db\ActiveRecord
     }
 
     /*
-    * show single image and 
+    * show single image 
     */
     public function getSingleImg()
     {
@@ -200,7 +200,10 @@ class Food extends \yii\db\ActiveRecord
         return  Yii::$app->params['defaultFoodImg'];
     }
 
-    public function getMutipleImg()
+    /*
+    * show multiple image 
+    */
+    public function getMultipleImg()
     {
         //$data [] ="";
         $images = FoodImg::find()->where('fid = :id',[':id'=>$this->Food_ID])->all();

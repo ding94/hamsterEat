@@ -115,9 +115,9 @@ DeliverymanOrdersAsset::register($this);
                         <td data-th="Restaurant Name"><?php echo $restname['Restaurant_Name']; ?></td>
                         <td colspan="2" data-th="Area"><?php echo $restname['Restaurant_Area']; ?></td>
                         <td data-th="Quantity"><?php echo $orderitemdetails['OrderItem_Quantity']; ?></td>
-						
+                        
                         <td><?= $statusid[$orderitemdetails['OrderItem_Status']];?></td>
-
+                        
                         <?php if ($orderitemdetails['OrderItem_Status'] == 2): ?>
                             <td data-th="Current Status"><span class='label label-warning'> Wait for Food to be Prepared </span></td>
                         <?php elseif($orderitemdetails['OrderItem_Status']== 3): ?>

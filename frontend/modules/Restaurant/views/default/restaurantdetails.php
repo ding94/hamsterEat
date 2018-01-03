@@ -5,6 +5,7 @@ use yii\bootstrap\Modal;
 use common\models\Rmanagerlevel;
 use frontend\assets\StarsAsset;
 use frontend\assets\RestaurantDetailsAsset;
+
 $this->title = $id['Restaurant_Name'];
 
 StarsAsset::register($this);

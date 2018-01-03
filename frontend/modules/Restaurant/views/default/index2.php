@@ -125,10 +125,10 @@ Modal::end();
             Modal::end(); ?>
 
                 <?php $imgdata = empty($fooddata->img) ? [Yii::getAlias('@web').'/imageLocation/DefaultRestaurant.jpg'] : $fooddata->img?>
-                <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-backdrop-limit="1" data-toggle="modal" data-target="#foodDetail"  data-img=<?php echo json_encode($imgdata) ?>>
+                <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-backdrop-limit="1" data-toggle="modal" data-target="#foodDetail" data-img=<?php echo json_encode($imgdata) ?>>
                     <div class="item">
                         <div class="page-img">
-                            <img  class="img" src=<?php echo $fooddata->singleImg?> alt="">
+                            <img class="img" src=<?php echo $fooddata->singleImg?> alt="">
                         </div>
                         <div class="inner-item">
                             <div class="foodName-div"><span class="foodName"><?php echo $fooddata['Name']; ?></span><span class="small-text stars" alt="<?php echo $fooddata['Rating']; ?>"><?php echo $fooddata['Rating']; ?></span></div>

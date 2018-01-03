@@ -125,14 +125,7 @@ Modal::end();
           <a href="<?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$data['Restaurant_ID']]); ?>">
             <div class="list">
               <div class="page-img">
-                <?php if(!empty($data['Restaurant_RestaurantPicPath']) && file_exists(Yii::$app->params['restaurant'].$data['Restaurant_RestaurantPicPath'])) :
-                  $picture = Yii::$app->params['restaurant'].$data['Restaurant_RestaurantPicPath'];
-                else :
-                  $picture = Yii::$app->params['baseUrl'].'/DefaultRestaurant.jpg';
-                 
-                endif ; ?>
-                  <?php echo Html::img($picture, ['class' => 'img'])?>
-               
+                  <?php echo Html::img($data->img, ['class' => 'img'])?>
               </div>
               <div class="inner-item">
                 <div class="restaurant-name">

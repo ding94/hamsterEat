@@ -124,7 +124,7 @@ Modal::end();
                     
             Modal::end(); ?>
 
-                <?php $imgdata = empty($fooddata->img) ? [Yii::getAlias('@web').'/imageLocation/DefaultRestaurant.jpg'] : $fooddata->img?>
+                <?php $imgdata =  $fooddata->mutipleImg;?>
                 <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-backdrop-limit="1" data-toggle="modal" data-target="#foodDetail"  data-img=<?php echo json_encode($imgdata) ?>>
                     <div class="item">
                         <div class="page-img">

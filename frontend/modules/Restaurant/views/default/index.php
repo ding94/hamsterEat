@@ -76,10 +76,7 @@ Modal::end();
             ?>           
             <?php echo Html::a("Change to: ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0])?>
           </li>
-          <?php if($staffs == true): ?>
-            <li><?php echo Html::a("Placed Orders",['/Restaurant/restaurant/phonecooking'],['data-toggle'=>'modal','data-target'=>'#add-modal2'])?></li>
-          <?php endif; ?>
-          <li><?php echo Html::a('<span class="glyphicon glyphicon-log-out"> Logout',['/site/logout'],['data-method'=>'post']);?></li>
+         
         </ul>
       </div>
 	  </div>

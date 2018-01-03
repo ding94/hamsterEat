@@ -102,13 +102,7 @@ class DefaultController extends CommonController
         $typequery= Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->where(['and',['!=','id',23],['!=','id',24]])->all();
         $allrestauranttype = ArrayHelper::map($typequery,'ID','Type_Name');
        
-       $staffs = Rmanagerlevel::find()->where('User_Username=:u',[':u' => Yii::$app->user->identity->username])->all();
-       if (!empty($staffs)) {
-           $staffs = true;
-       }
-       else{
-        $staff=false;
-       }
+       
 
         // var_dump($restaurant[0]['restaurantType'][0]);exit;
         /*$types = Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all();
@@ -129,7 +123,7 @@ class DefaultController extends CommonController
             return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword,'pagination'=>$pagination]);
         }*/
         $this->layout = 'main3';
-        return $this->render('index',['restaurant'=>$restaurant, 'allrestauranttype'=>$allrestauranttype ,'type' => $type,'filter'=>$filter,'pagination'=>$pagination,'staffs'=>$staffs]);
+        return $this->render('index',['restaurant'=>$restaurant, 'allrestauranttype'=>$allrestauranttype ,'type' => $type,'filter'=>$filter,'pagination'=>$pagination]);
     }
 
 

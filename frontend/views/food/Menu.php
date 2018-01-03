@@ -114,7 +114,7 @@ Modal::end();
                         'label'=>'Show Image/Upload Image', 'class'=>'raised-btn upload-btn'
                     ],
                   ]);
-
+                  
                   $form1 = ActiveForm::begin([
                     'options'=>['enctype'=>'multipart/form-data'], // important
                    
@@ -128,14 +128,14 @@ Modal::end();
                       ],
                       'pluginOptions' => [
                         'initialPreview' => $menu->img,
-                        'initialPreviewConfig' => $menu->captionImg,
+                        'initialPreviewConfig' => $menu->captionImg['data'],
                         'initialPreviewAsData'=>true,
                         'uploadUrl' => Url::to(['/food-img/upload']),
                         'uploadExtraData'=>[
                           'id' => $menu['Food_ID'],
                         ],
                         
-                        'overwriteInitial'=>false,
+                        'overwriteInitial'=>$menu->captionImg['header'],
                         'maxFileCount' => 3,
                         'pluginLoading' => true,
                         'allowedFileExtensions' => ['jpg','png','jpeg'],

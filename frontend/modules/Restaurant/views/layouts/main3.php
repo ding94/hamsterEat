@@ -213,7 +213,7 @@ NotificationAsset::register($this);
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-user">',['/user/user-profile']);?></li>
                     <li><?php echo Html::a('<i class="fa fa-bars"></i>','#',['id'=>'toggle-menu-test']);?></li>
                     <?php } else{ ?>
-                    <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['number'].'</span></span>',['/cart/view-cart']);?></li>
+                    <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['countCart'].'</span></span>',['/cart/view-cart']);?></li>
                     <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->params['countNotic'].'</span>',['/notification/index']);?></li>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-user">',['/user/user-profile']);?></li>
                     <li><?php echo Html::a('<i class="fa fa-bars"></i>','#',['id'=>'toggle-menu-test']);?></li>

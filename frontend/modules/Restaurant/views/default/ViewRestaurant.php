@@ -18,14 +18,14 @@ ViewRestaurantAsset::register($this);
       <a href=" <?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$restaurant['Restaurant_ID']]); ?> " style="display:block" >
 
       <div class="item" onclick="window.document.location='<?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$restaurant['Restaurant_ID']]); ?>';">
-        <div class="img"><?php echo Html::img('@web/imageLocation/'.$restaurant['Restaurant_RestaurantPicPath']) ?></div>
+        <div class="img"><?php echo Html::img($restaurant->img) ?></div>
         <div class="inner-item">
           <span><?php echo $restaurant['Restaurant_Name']; ?></span>
 
           <p><?php echo $restaurant['Restaurant_UnitNo'].','.$restaurant['Restaurant_Street'].','.$restaurant['Restaurant_Area'].', '.$restaurant['Restaurant_Postcode'] ?></p>
     
         </div>
-       
+  
 		    <span class="small-text pull-right stars" alt="<?php echo $restaurant['Restaurant_Rating']; ?>"><?php echo $restaurant['Restaurant_Rating']; ?></span>
         
       </div>

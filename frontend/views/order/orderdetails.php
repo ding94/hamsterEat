@@ -52,7 +52,7 @@ OrderDetailsAsset::register($this);
                    <th colspan="3" id="cell-border"><?php echo $detail['Order_ID']; ?></th>
                 </tr>
                 <tr>
-                    <td rowspan="6" class="vertical-center"><?php echo Html::img('@web/imageLocation/foodImg/'.$food['PicPath'], ['style'=>'height:100px; width:100px;']); ?></td>
+                    <td rowspan="6" class="vertical-center"><?php echo Html::img($food->singleImg, ['style'=>'height:100px; width:100px;']); ?></td>
                 </tr>
                 <tr>
                     <td>Food Name:</td>

@@ -132,6 +132,9 @@ class Food extends \yii\db\ActiveRecord
         return CartController::actionRoundoff1decimal($this->BeforeMarkedUp);
     }
 
+    /*
+    * use only for upload image
+    */
     public function getImg()
     {
         $data = "";
@@ -142,11 +145,14 @@ class Food extends \yii\db\ActiveRecord
         }
         if(empty($data))
         {
-            $data[] = Yii::getAlias('@web').'/imageLocation/defaultfood.png';
+            $data[] = Yii::$app->params['defaultFoodImg'];
         }
         return $data;
     }
 
+    /*
+    * use only for upload image
+    */
     public function getCaptionImg()
     {
         $data = "";
@@ -154,24 +160,31 @@ class Food extends \yii\db\ActiveRecord
 
         if(empty($images))
         {
-            $data[0]['caption'] = "defaultfood.png";
-         
-            $data[0]['key'] = "0";
+            $data['data'][0]['caption'] = Yii::$app->params['defaultFoodImg'];
+            $data['data'][0]['key'] = "0";
+            $data['header'] = true;
+
         }
         else
         {
             foreach($images as $i=>$image)
             {
-                $data[$i]['caption'] =  $image->img;
-                $data[$i]['url'] = Url::to(['/food-img/delete','id'=>$image->id]);
-                $data[$i]['key'] = $image->id;
+                $data['data'][$i]['caption'] =  $image->img;
+                $data['data'][$i]['url'] = Url::to(['/food-img/delete','id'=>$image->id]);
+                $data['data'][$i]['key'] = $image->id;
+
             }
+            $data['header'] = false;
+
         }
         
         
         return $data;
     }
 
+    /*
+    * show single image 
+    */
     public function getSingleImg()
     {
         $images = FoodImg::find()->where('fid = :id',[':id'=>$this->Food_ID])->all();
@@ -184,6 +197,33 @@ class Food extends \yii\db\ActiveRecord
             }
         }
 
-        return  Yii::getAlias('@web').'/imageLocation/defaultfood.png';
+        return  Yii::$app->params['defaultFoodImg'];
+    }
+
+    /*
+    * show multiple image 
+    */
+    public function getMultipleImg()
+    {
+        //$data [] ="";
+        $images = FoodImg::find()->where('fid = :id',[':id'=>$this->Food_ID])->all();
+        foreach($images as $image)
+        {
+            if(file_exists(Yii::$app->params['foodImg'].$image->img))
+            {
+                $data[] = Yii::getAlias('@web').'/'.Yii::$app->params['foodImg'].$image->img;
+                //return Yii::getAlias('@web').'/'.Yii::$app->params['foodImg'].$image->img;
+            }
+        }
+
+        if(empty($data))
+        {
+           
+           $data[] = Yii::$app->params['defaultFoodImg'];
+          
+        }
+        
+        return $data; 
+        
     }
 }

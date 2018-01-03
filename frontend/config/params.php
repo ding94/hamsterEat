@@ -5,6 +5,8 @@ return [
 	'baseUrl' => './imageLocation',
 	'submitticket-pic' => './imageLocation/submitticket/',
 	'replyticket-pic' => './imageLocation/replyticket/',
+	'defaultFoodImg' => './imageLocation/defaultfood.png',
+	'defaultRestaurantImg' => './imageLocation/DefaultRestaurant.jpg',
 	'foodImg' => './imageLocation/foodImg/',
 	'topup' => './imageLocation/topup/',
 	'userprofilepic' => './imageLocation/userprofilepic/',

@@ -103,4 +103,25 @@ class Restaurant extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Food::className(),['Restaurant_ID' => 'Restaurant_ID']);
     }
+
+    public function getImg()
+    {
+        $image = $this->Restaurant_RestaurantPicPath;
+
+        if(is_null($image))
+        {
+
+            return Yii::$app->params['defaultRestaurantImg'];
+        }
+        else if(!file_exists(Yii::$app->params['restaurant'].$image))
+        {
+
+            return Yii::$app->params['defaultRestaurantImg'];
+        }
+        else
+        {
+
+            return Yii::$app->params['restaurant'].$image;
+        }
+    }
 }

@@ -5,6 +5,7 @@ use yii\bootstrap\Modal;
 use common\models\Rmanagerlevel;
 use frontend\assets\StarsAsset;
 use frontend\assets\RestaurantDetailsAsset;
+
 $this->title = $id['Restaurant_Name'];
 
 StarsAsset::register($this);
@@ -32,17 +33,10 @@ RestaurantDetailsAsset::register($this);
   
 <a href="#top" class="scrollToTop"></a>
   <div class="restaurant-info-container">
-    <?php $picpath = $id['Restaurant_RestaurantPicPath'];
-
-        if (is_null($id['Restaurant_RestaurantPicPath'])){
-            $picpath = "DefaultRestaurant.jpg";
-        }
-        ?>
         <div class="restaurant-img-div">
         <?php echo Html::a("Back" ,Yii::$app->request->referrer,['class'=>'raised-btn secondary-btn','id'=>'back'])?>
-        <?php 
-         echo Html::img(Yii::$app->params['restaurant'].$picpath, ['class' => 'restaurant-img']) 
-         ?>
+       
+        <?php echo Html::img($id->img, ['class' => 'restaurant-img']) ?>
         </div> 
         <div class="restaurant-info-inner">
         <div class="restaurant-name-div"><h1 class="restaurant-name"><?php echo $id['Restaurant_Name']; ?></h1>
@@ -88,15 +82,11 @@ RestaurantDetailsAsset::register($this);
             <?php
               foreach($rowfood as $data): 
             ?>
-        <?php $imgdata = empty($data->img) ? [Yii::getAlias('@web').'/imageLocation/DefaultRestaurant.jpg'] : $data->img?>
+        <?php $imgdata =  $data->multipleImg?>
         <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>"  class ="food-link" data-toggle="modal" data-target="#foodDetail" data-img= <?php echo json_encode($imgdata) ?>>
         <div class="item">
             <div class="img">
-                <?php if (empty($data->img)) :?>
-                    <?php echo Html::img('@web/imageLocation/DefaultRestaurant.jpg') ?>
-                <?php else :?>
-                    <img  src=<?php echo $data->img[0]?> alt="">
-                <?php endif ;?>
+                <img  src=<?php echo $data->singleImg?> alt="">
             </div>
             <div class="inner-item">
             <div class="foodName-div"><span class="foodName"><?php echo $data['Name']; ?></span><span class="small-text stars" alt="<?php echo $data['Rating']; ?>"><?php echo $data['Rating']; ?></span></div>

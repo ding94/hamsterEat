@@ -62,7 +62,7 @@ CartAsset::register($this);
           <?php echo Html::hiddenInput('id',$single['id'])?> 
 				  <header>
 					  <a class="remove">
-              <?php echo Html::img('@web/imageLocation/foodImg/'.$single['food']['PicPath'], ['class' => 'img-responsive']);?>  
+              <img src=<?php echo $single->food->singleImg ?> alt="" class="img-responsive"> 
               <h3> 
                 <a class="remove delete" href="#">Remove</a>
   				    </h3>

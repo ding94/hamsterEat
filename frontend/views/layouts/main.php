@@ -138,7 +138,7 @@ NotificationAsset::register($this);
                          $url = [Yii::$app->params['listOfNotic'][$i]['url']];
                     }
                    
-                    $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['description'].' from'.$ago.'</h4>','url' => $url];
+                    $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['description'].' from '.$ago.'</h4>','url' => $url];
                 }
             }
             $menuItems[end($keys)]['items'][] = '</div>';

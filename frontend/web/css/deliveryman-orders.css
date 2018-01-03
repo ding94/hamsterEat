@@ -95,7 +95,7 @@
    
 }
 }
-@media (min-width:620px) and (max-width:1200px){
+@media (min-width:620px){
 #parent {
 	
     text-align:right;
@@ -121,6 +121,15 @@
 .right {
     margin:auto 0 auto auto;
    
+}
+.checkbox-inner{
+  display: flex;
+  flex-wrap: wrap;
+  float:left;
+}
+
+.order-inner{
+  border:1px solid black;
 }
 .inner-row{
   display: flex;

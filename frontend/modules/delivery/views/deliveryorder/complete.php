@@ -58,8 +58,10 @@ DeliverymanOrdersAsset::register($this);
             </div>
         </div>
 		<div id="deliveryman-orders-content" class="col-sm-10">
-		<?php foreach ($data as $cname => $company) :?>
-		
+		<?php 
+			$i =0;
+		 	foreach ($data as $cname => $company) :
+		 ?>
 		<div class="order-inner">
 			<div style="background-color:#fffced;padding-top:1px; padding-bottom:1px;"><h2><center> <?= $cname; ?></center> </h2> 
 			</div>
@@ -75,25 +77,26 @@ DeliverymanOrdersAsset::register($this);
 				</div>
 			</div>
 			<?php $form = ActiveForm::begin();?>
-				<?php $checkboxdata = ArrayHelper::map($company['id'],'ID','ID');?>
-		<table class="table table-hover" style="border:0px solid black;">
-		<thead class='none'>
+				
+				<table class="table table-hover" style="border:0px solid black;">
+					<thead class='none'>
 						<tr>
-							<th><div class="inner-row" ><?= $form->field($test, 'Delivery_ID')->checkboxList($checkboxdata,['style'=>'margin-top:-10px;'])->label(false);?>Order ID</th>
+						
+							<th><div class="inner-row"><?php echo Html::checkbox('null',false ) ?>Order ID</th>
 							<th>Collect Price</th>
 							
 						</tr>
 					</thead>
 
-			<?php foreach ($company['id'] as $did => $price) : ?>
-			<tr>
-					<td data-th="Order ID"><div class="inner-row"><?= $form->field($test, 'Delivery_ID')->checkboxList($checkboxdata,['style'=>'margin-top:-10px;'])->label(false);?><?= $did; ?></div></td>
-					<td data-th="Price"><?= $price; ?></td>
-					
-			<?php endforeach; ?>
+					<?php $i++ ;foreach ($company['id'] as $did => $price) : ?>
+					<tr>
+							<td data-th="Order ID"><div class="inner-row"><?php echo Html::checkbox('id['.$i.']',false ,['label'=>$did]) ?></div></td>
+							<td data-th="Price"><?= $price; ?></td>
+							
+					<?php endforeach; ?>
 			</table>
 			 <?php ActiveForm::end();?> 
-			</div>
+		</div>
 		<?php endforeach; ?>
 		
 		

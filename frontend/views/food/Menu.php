@@ -103,6 +103,9 @@ Modal::end();
                       endif;
                   endif;
                 ?>
+
+                <a href=<?= Url::to(['/food/delete','fid'=>$menu['Food_ID']]); ?>><button class="raised-btn delete-btn btn-danger"><font style="color:white;">Delete  <i class="fa fa-times" aria-hidden="true"></i></font></button>
+
                 <?php
                   
                   Modal::begin([

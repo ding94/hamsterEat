@@ -16,11 +16,7 @@ DeliverymanOrdersAsset::register($this);
   flex-wrap: wrap;
   padding-left:10%;
 }
-.inner-row2{
-  display: flex;
-  flex-wrap: wrap;
-  float:right;
-}
+
 </style>
 
 
@@ -28,8 +24,6 @@ DeliverymanOrdersAsset::register($this);
     <div class="deliveryman-orders-header">
         <div class="deliveryman-orders-header-title"><?= Html::encode($this->title) ?>
 		</div>
-<div class="inner-row2"><input id="chkSelectAll" class="checkbox" type="checkbox" />Select All</div> 
-		
     </div>
     <div class="content">
         <div class="col-sm-2">
@@ -66,7 +60,7 @@ DeliverymanOrdersAsset::register($this);
 		<div id="deliveryman-orders-content" class="col-sm-10">
 		<?php foreach ($data as $cname => $company) :?>
 		
-		<div style="border:1px solid black;">
+		<div class="order-inner">
 			<div style="background-color:#fffced;padding-top:1px; padding-bottom:1px;"><h2><center> <?= $cname; ?></center> </h2> 
 			</div>
 			<div id="parent1" style="padding-top:5px;">

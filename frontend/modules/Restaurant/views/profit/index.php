@@ -54,7 +54,7 @@ RestaurantEarningsAsset::register($this);
 	    <div id="restaurant-earnings-content" class = "col-sm-10">
 			<?php $form = ActiveForm::begin(['method' => 'get','action'=>['index','rid'=>$rid]]); ?>
 			<label class="control-label">Select Date</label>
-			<div class="row">
+			
 				<div class="col-md-9 date-picker">
 					<?php
 				    	echo DatePicker::widget([
@@ -73,10 +73,11 @@ RestaurantEarningsAsset::register($this);
 				<div class="col-md-3">
 					<?= Html::submitButton('Filter', ['class' => 'btn-block raised-btn main-btn']) ?>
 				</div>
-			</div>
+			
 			<?php ActiveForm::end(); ?> 
 			<br>
-			<?php foreach($data as $delivery):?>
+			<div id="mobile-table">
+				<?php foreach($data as $delivery):?>
 				
 				<table class="table table-bordered">
 					<thead>
@@ -126,7 +127,8 @@ RestaurantEarningsAsset::register($this);
 						</tr>
 					</tbody>
 				</table>
-			<?php endforeach ;?>
+				<?php endforeach ;?>
+			</div>
 		</div>
 		<?php echo LinkPager::widget([
 		    'pagination' => $pages,

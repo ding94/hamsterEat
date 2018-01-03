@@ -102,7 +102,10 @@ class FoodImgController extends CommonController
         if($data->delete())
         {
         	$output = ['success'=>'Sucess'];
-            unlink($image);
+            if(file_exists($image))
+            {
+                unlink($image);
+            }
         }
         else
         {

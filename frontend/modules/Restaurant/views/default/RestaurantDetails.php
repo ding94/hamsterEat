@@ -33,17 +33,10 @@ RestaurantDetailsAsset::register($this);
   
 <a href="#top" class="scrollToTop"></a>
   <div class="restaurant-info-container">
-    <?php $picpath = $id['Restaurant_RestaurantPicPath'];
-
-        if (is_null($id['Restaurant_RestaurantPicPath'])){
-            $picpath = "DefaultRestaurant.jpg";
-        }
-        ?>
         <div class="restaurant-img-div">
         <?php echo Html::a("Back" ,Yii::$app->request->referrer,['class'=>'raised-btn secondary-btn','id'=>'back'])?>
-        <?php 
-         echo Html::img(Yii::$app->params['restaurant'].$picpath, ['class' => 'restaurant-img']) 
-         ?>
+       
+        <?php echo Html::img($id->img, ['class' => 'restaurant-img']) ?>
         </div> 
         <div class="restaurant-info-inner">
         <div class="restaurant-name-div"><h1 class="restaurant-name"><?php echo $id['Restaurant_Name']; ?></h1>

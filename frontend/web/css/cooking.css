@@ -25,30 +25,30 @@
 		background-color: transparent;
 	}
 	
-	#restaurant-earnings-content tbody{
+	#mobile-table tbody{
 		border: 2px solid black;
 	}
 
-	#restaurant-earnings-content > table, thead, tbody, th, td, tr { 
+	#mobile-table > table,#mobile-table thead,#mobile-table tbody,#mobile-table th,#mobile-table td,#mobile-table tr { 
 	  display: block; 
 	}
 
 /* Hide table headers (but not display: none;, for accessibility) */
-    #restaurant-earnings-content thead tr { 
+    #mobile-table thead tr { 
       position: absolute;
       top: -9999px;
       left: -9999px;
     }
 
-    #restaurant-earnings-content td.none { 
+    #mobile-table td.none { 
       position: absolute;
       top: -9999px;
       left: -9999px;
     }
   
-    #restaurant-earnings-content tr { border: 1px solid #ccc; }
+    #mobile-table tr { border: 1px solid #ccc; }
   
-    #restaurant-earnings-content td { 
+    #mobile-table td { 
 
       /* Behave  like a "row" */
       border: none;
@@ -56,7 +56,7 @@
       position: relative;
     }
 
-	#restaurant-earnings-content td.thead{
+	#mobile-table td.thead{
 		font-weight: bold;
 		font-size: 20px;
 		display: flex;
@@ -65,14 +65,14 @@
 		background-color: #EEEFA8;
 	}
   
-	div#restaurant-earnings-content td:before { 
+	div#mobile-table td:before { 
       content : attr(data-th) ": ";
       width: 10.5em;
       display: inline-block;
       font-weight: bold;
     }
 
-    div#restaurant-earnings-content td.thead:before { 
+    div#mobile-table td.thead:before { 
       content : attr(data-th) ": ";
       width: auto;
       display: inline-block;
@@ -93,7 +93,7 @@
 		border: none;
 	}
 
-	.cooking-table > table, thead, tbody, th, td, tr{
+	.cooking-table > table,.cooking-table thead,.cooking-table tbody,.cooking-table th,.cooking-table td,.cooking-table tr{
 		display: block;
 	}
 

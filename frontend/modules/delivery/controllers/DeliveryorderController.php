@@ -23,8 +23,8 @@ class DeliveryorderController extends CommonController
          	'verbs' => [
 	            'class' => \yii\filters\VerbFilter::className(),
 	            'actions' => [
-	                'mutiple-pick'  => ['POST'],
-	               
+	               'mutiple-pick'  => ['POST'],
+	               'mutiple-complete' => ['POST'],
 	            ],
 	        ],
              'access' => [
@@ -32,7 +32,7 @@ class DeliveryorderController extends CommonController
                  //'only' => ['logout', 'signup','index'],
                  'rules' => [
                      [
-                         'actions' => ['mutiple-pick','pickup','order','history',
+                         'actions' => ['mutiple-pick','mutiple-complete','pickup','order','history',
                          'update-pickedup','update-completed','complete'],
                          'allow' => true,
                          'roles' => ['rider'],
@@ -126,11 +126,10 @@ class DeliveryorderController extends CommonController
 	public function actionMutiplePick()
 	{
 		$post = Yii::$app->request->post();
-		$message = "";
 		
         foreach($post['order'] as $order)
         {
-        	$valid = $this->pickup($order['oid'],$order['did']);
+        	$valid = $this->singlePickup($order['oid'],$order['did']);
         	if(!$valid){
         		$message .= "Order ID ".$order['oid']. " fail<br>";
         	}
@@ -144,16 +143,47 @@ class DeliveryorderController extends CommonController
         return $this->redirect(Yii::$app->request->referrer);
 	}
 
+    public function actionMutipleComplete()
+    {
+        $post = Yii::$app->request->post();
+        if(empty($post['did']))
+        {
+            Yii::$app->session->setFlash('danger', "Please Select One!!");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+
+        foreach($post['did'] as $did)
+        {
+            
+            $valid = $this->singleComplete($did);
+            if(!$valid)
+            {
+                $message .= "Delivery ID ".$did. " fail<br>";
+            }
+        }
+        if(!empty($message))
+        {
+            Yii::$app->session->setFlash('warning', $message);
+        }
+        
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
 	//This function updates the orders status to on the way and specific order item status to picked up
     public function actionUpdatePickedup($oid, $did)
     {
-        
-       $valid = $this->pickup($oid,$did);
+       $valid = $this->singlePickup($oid,$did);
        return $this->redirect(Yii::$app->request->referrer);
     }
 
 //--This function updates the order's status to completed
-    public function actionUpdateCompleted($oid, $did)
+    public function actionUpdateCompleted( $did)
+    {
+        $this->singleComplete($did);
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    protected static function singleComplete($did)
     {
         $order = OrderController::findOrder($did);
         
@@ -174,28 +204,39 @@ class DeliveryorderController extends CommonController
             {
                 $item->save();
             }
+            NotificationController::createNotification($did,4);
+            return true;
+        }
+        else
+        {
+            return false;
         }
         
-        NotificationController::createNotification($did,4);
-        return $this->redirect(Yii::$app->request->referrer);
     }
 
-    protected static function pickup($oid,$did)
+    protected static function singlePickup($oid,$did)
     {
     	$updateOrder = false;
         $orderitem = OrderController::findOrderitem($oid,10);
         $orderitem->OrderItem_Status = 10;
        
-        $orderitem->save();
+       
         $order = OrderController::findOrder($orderitem->Delivery_ID);
 
         if ($order['Orders_Status'] == 3)
         {
             $order->Orders_Status = 11;
-            if(!$order->save())
+            if(!$order->save() && !$orderitem->save())
             {
             	return false;
             }
+        }
+        else
+        {
+            if(! $orderitem->save())
+            {
+                return false;
+            } 
         }
 
         $allitem = OrderItem::find()->where('Delivery_ID =:did',[':did' => $orderitem->Delivery_ID])->all();

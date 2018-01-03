@@ -7,7 +7,7 @@ use frontend\assets\DeliverymanOrdersAsset;
 use kartik\widgets\Select2;
 use kartik\widgets\ActiveForm;
 
-$this->title = "Pick Up Orders";
+$this->title = "Collect Orders";
 DeliverymanOrdersAsset::register($this);
 ?>
 <style>
@@ -65,6 +65,7 @@ DeliverymanOrdersAsset::register($this);
 		<div class="order-inner">
 			<div style="background-color:#fffced;padding-top:1px; padding-bottom:1px;"><h2><center> <?= $cname; ?></center> </h2> 
 			</div>
+			<?php $form = ActiveForm::begin(['action'=>['deliveryorder/mutiple-complete']]);?>
 			<div id="parent1" style="padding-top:5px;">
 				<div class="blocka left1"><div class="inner-rows" style=" display:flex;">
 				Total Collect(RM): <p style="color:red;"><?= $company['collectprice']; ?></p></div>
@@ -76,25 +77,22 @@ DeliverymanOrdersAsset::register($this);
 				<?= Html::submitButton('Complete', ['class' => 'raised-btn main-btn']) ?>
 				</div>
 			</div>
-			<?php $form = ActiveForm::begin();?>
-				
 				<table class="table table-hover" style="border:0px solid black;">
 					<thead class='none'>
 						<tr>
-						
-							<th><div class="inner-row"><?php echo Html::checkbox('null',false ) ?>Order ID</th>
+							<th><div class="inner-row"><?php echo Html::checkbox('null',false ,['class'=>'check-all']) ?>Delivery ID</th>
 							<th>Collect Price</th>
-							
 						</tr>
 					</thead>
-
-					<?php $i++ ;foreach ($company['id'] as $did => $price) : ?>
-					<tr>
-							<td data-th="Order ID"><div class="inner-row"><?php echo Html::checkbox('id['.$i.']',false ,['label'=>$did]) ?></div></td>
+					<tbody>
+						<?php foreach ($company['id'] as $did => $price) : $i++ ;?>
+						<tr>
+							<td data-th="Order ID"><div class="inner-row"><?php echo Html::checkbox('did[]',false ,['label'=>$did ,'value'=> $did]) ?></div></td>
 							<td data-th="Price"><?= $price; ?></td>
-							
-					<?php endforeach; ?>
-			</table>
+						</tr>		
+						<?php endforeach; ?>
+					</tbody>
+				</table>
 			 <?php ActiveForm::end();?> 
 		</div>
 		<?php endforeach; ?>

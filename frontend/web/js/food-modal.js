@@ -55,7 +55,6 @@ $(function(){
                           x[i].style.display = "none"; 
                         }
                         slideIndex++;
-                        console.log(slideIndex);
                         if (slideIndex > x.length) {slideIndex = 1} 
                         x[slideIndex-1].style.display = "block"; 
                         for (i = 0; i < dots.length; i++) {

@@ -162,6 +162,27 @@
   outline: none;
 }
 
+/* @-webkit-keyframes fadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+}  
+@keyframes fadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+} */
+
+.modal-header .left-container,
+.modal-header .right-container,
+.modal-header .bottom{
+  display: none;
+}
+
+.modal-header:hover > .left-container,
+.modal-header:hover > .right-container,
+.modal-header:hover > .bottom{
+  display: block;
+}
+
 @media(max-width: 500px){
   #button-container a{
     display: block;

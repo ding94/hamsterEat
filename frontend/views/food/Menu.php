@@ -134,7 +134,7 @@ Modal::end();
                         'uploadExtraData'=>[
                           'id' => $menu['Food_ID'],
                         ],
-                        
+                        'showRemove' => false,
                         'overwriteInitial'=>$menu->captionImg['header'],
                         'maxFileCount' => 3,
                         'pluginLoading' => true,

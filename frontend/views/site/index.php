@@ -75,7 +75,7 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 <!--<div id="DescContainer" class="container">-->
 	<div id="SSCrow4">
 		<div class="container">
-			<div id="box1" class="content">
+			<div id="box1" class="index-content">
 				<div class="graphic">
 					Graphic Content 1
 				</div>	
@@ -88,7 +88,7 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 		        	</svg>
 		      	</button>
 			</div>
-			<div id="box2" class="content">
+			<div id="box2" class="index-content">
 				<div class="graphic">
 					Graphic Content 2
 				</div>	
@@ -101,7 +101,7 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 		        	</svg>
 		      	</button>
 			</div>
-			<div id="box3" class="content">
+			<div id="box3" class="index-content">
 				<div class="graphic">
 					Graphic Content 3
 				</div>	

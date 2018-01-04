@@ -670,7 +670,7 @@ span.badge{
   position:relative;
 }
 
-.content{
+.index-content{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -696,7 +696,7 @@ span.badge{
   line-height: 1.2;
 }
 
-.content button{
+.index-content button{
   margin-left: 100px;
   display: flex;
   justify-content: center;

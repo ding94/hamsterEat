@@ -90,7 +90,13 @@ RestaurantDetailsAsset::register($this);
             <div class="inner-item">
             <div class="foodName-div"><span class="foodName"><?php echo $data['Name']; ?></span><span class="small-text stars" alt="<?php echo $data['Rating']; ?>"><?php echo $data['Rating']; ?></span></div>
             <!-- <div class="stars-div"></div> -->
-            <div class="price-div"><span class="price"><?php echo 'RM'.$data['Price']; ?></span></div>
+            <div class="price-div">
+                <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
+                    <span class="price"><?php echo 'RM'.$data['Price']; ?></span>
+                <?php else: ?>
+                    <span class="price"><strike><?php echo 'RM'.$data['Price']; ?></strike>        <?php $data['Price']=$data['Price']*0.8; echo 'RM'.number_format($data['Price'],2); ?></span>
+                <?php endif;?>
+            </div>
             <div class="foodDesc-div"><span class="foodDesc"><?php echo $data['Description']; ?></span></div>
             <div class="tag-div">
             <?php foreach($data['foodType']as $type): ?>

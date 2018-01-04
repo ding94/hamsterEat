@@ -170,6 +170,7 @@ class DefaultController extends CommonController
 //--This function loads the restaurant's details
     public function actionRestaurantDetails($rid)
     {
+        date_default_timezone_set("Asia/Kuala_Lumpur");
         if (!(Yii::$app->user->isGuest)) {
             $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
         }

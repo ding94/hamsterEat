@@ -39,11 +39,13 @@ FoodDetailsAsset::register($this);
                      <?php echo $fooddata->Name;?>
             </div>
               
-          <div class="foodprice" data-price="<?php echo CartController::actionRoundoff1decimal($fooddata->Price); ?>">
-                    <!--<td>Food Price (RM):</td>-->
-
-                 RM <?php echo CartController::actionRoundoff1decimal($fooddata->Price);?>
-                     </div>
+          <div class="foodprice" data-price="<?php $price = CartController::actionRoundoff1decimal($fooddata->Price); echo $price?>">
+            <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
+              <span class="price"><?php echo 'RM'.$price; ?></span>
+            <?php else: ?>
+              <span class="price"><strike><?php echo 'RM'.$price; ?></strike>        <?php $price=$price*0.8; echo 'RM'.number_format($price,2); ?></span>
+            <?php endif;?>
+          </div>
             
         <br>
               <div class="description">

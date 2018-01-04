@@ -65,6 +65,7 @@ class FoodController extends CommonController
 //--This function loads the food item's details
     public function actionFoodDetails($id,$rid)
     {
+        date_default_timezone_set("Asia/Kuala_Lumpur");
         if(!Yii::$app->request->isAjax){
             return $this->redirect(Yii::$app->request->referrer);
         }
@@ -206,36 +207,28 @@ class FoodController extends CommonController
      }
 
 //--This function runs when a food is deleted
-    public function actionDelete($rid,$id,$page)
+    public function actionDelete($fid)
     {
-        $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->one();
-        if (!empty($restaurant)) {
-            if ($user = User::find()->where('username=:u',[':u'=>$restaurant['Restaurant_Manager']])->one()) {
-                $user = $user['id'];
-                $check = ValidController::checkUserValid($user);
-                if ($check == false) {
-                    return $this->redirect(['site/index']);
+        $food = Food::find()->where('Food_ID = :fid',[':fid'=>$fid])->joinWith('restaurant')->one();
+        if ($food['restaurant']['Restaurant_Manager'] == Yii::$app->user->identity->username) {
+            $status = Foodstatus::find()->where('Food_ID =:fid',[':fid'=>$fid])->one();
+            if ($status['Status']==0) {
+                $status['Status'] = -1;
+                if ($status->validate()) {
+                    $status->save();
+                    Yii::$app->session->setFlash('success','Item Deleted.');
+                    return $this->redirect(Yii::$app->request->referrer);
                 }
             }
-        }
-
-        $status = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$id])->one();
-        if ($status['Status'] == true)
-        {
-            $sql = "UPDATE foodstatus SET status = false WHERE Food_ID ='$id'";
-            Yii::$app->db->createCommand($sql)->execute();
- 
-            $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+            else
+            {
+                Yii::$app->session->setFlash('error','You need to pause the item first.');
+            }
         }
         else
         {
-             $sql = "UPDATE foodstatus SET status = true WHERE Food_ID ='$id'";
-             Yii::$app->db->createCommand($sql)->execute();
- 
-             $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
+            Yii::$app->session->setFlash('error','You are not allowed to perform this action.');
         }
-        $rid = $rid;
-
         return $this->redirect(Yii::$app->request->referrer);
     }
 

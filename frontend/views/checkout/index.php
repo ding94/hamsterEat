@@ -80,10 +80,14 @@ Modal::end();
                 <h3>Payment Method</h3>
                 <?= $form->field($order, 'Orders_PaymentMethod')->radioList(['Account Balance'=>'Account Balance','Cash on Delivery'=>'Cash on Delivery'])->label(''); ?>
             </div>
-            <?php echo Html::hiddenInput('area', $area);?>
-            <?php echo Html::hiddenInput('code', $code);?>
+            <?php 
+              foreach($postdata['cid'] as $id) :
+                echo Html::hiddenInput('cid[]', $id);
+              endforeach;
+            ?>
+            <?php echo Html::hiddenInput('area', $postdata['area']);?>
+            <?php echo Html::hiddenInput('code', $postdata['code']);?>
             <?= Html::submitButton('Place Order', ['class' => 'raised-btn main-btn', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?>
-          
         </div>
         <?php ActiveForm::end(); ?>
     </div>

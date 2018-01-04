@@ -31,7 +31,7 @@ class CheckoutController extends CommonController
 	        'verbs' => [
 	            'class' => \yii\filters\VerbFilter::className(),
 	            'actions' => [
-	                'index'  => ['GET'],
+	                'index'  => ['POST'],
 	                'order'   => ['POST'],
 	            ],
 	        ],
@@ -50,14 +50,17 @@ class CheckoutController extends CommonController
 	/*
 	* code => coupun id
 	*/
-	public function actionIndex($area,$code = 0)
+	public function actionIndex()
 	{
-		$cart = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$area])->all();
-      	if(empty($cart))
+		$post = Yii::$app->request->post();
+		
+      	if(empty($post['cid']))
       	{
       		Yii::$app->session->setFlash('error', 'Your Cart is Empty. Please Add item before processing to checkout');
 			 return $this->redirect(Yii::$app->request->referrer);
       	}
+      	
+      
 		$early = $this->earlyOrder();
 
 		if($early == false)
@@ -66,9 +69,10 @@ class CheckoutController extends CommonController
 			  return $this->redirect(Yii::$app->request->referrer);
 		}
         
-        $company = Company::find()->where('area_group = :group',[':group'=>$area])->all();
+        $company = Company::find()->where('area_group = :group',[':group'=>$post['area']])->all();
         $companymap = ArrayHelper::map($company,'id','name');
        	$user = Userdetails::find()->where('User_id=:uid',[':uid'=>Yii::$app->user->identity->id])->one();
+
        	$username = "";
        	$contact = "";
        	if (!empty($user['User_FirstName']) || !empty($user['User_LastName'])) {
@@ -78,10 +82,11 @@ class CheckoutController extends CommonController
        		$contact = $user['User_ContactNo'];
        	}
         $order = new Orders;
+
         $deliveryAddress = new DeliveryAddress;
 		//$address = Useraddress::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->orderBy('level DESC')->all();
 		//$addressmap = ArrayHelper::map($address,'id','address');
-		return $this->render('index',['deliveryaddress'=>$deliveryAddress, 'order'=>$order, 'area'=>$area, 'code'=>$code, 'username'=>$username, 'contact'=>$contact, 'companymap'=>$companymap]);
+		return $this->render('index',['deliveryaddress'=>$deliveryAddress, 'order'=>$order, 'postdata'=>$post, 'username'=>$username, 'contact'=>$contact, 'companymap'=>$companymap]);
 	}
 
 	public function actionOrder()
@@ -105,14 +110,14 @@ class CheckoutController extends CommonController
 		
 		$address->deliveryman = $deliveryman;
 
-		$cart = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$post['area']])->joinWith('selection')->all();
-
-		$allorderitem =$this->createOrderitem($cart,$post['Orders']['Orders_PaymentMethod']);
+		//$cart = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$post['area']])->joinWith('selection')->all();
 		
+		$allorderitem =$this->createOrderitem($post);
+	
 		$isValid = $allorderitem == -1 ? false : true;
 
 		$dataorder = $this->createOrder($post,$deliveryman,$address['area']);
-
+		
 		if($dataorder['value'] == -1)
 		{
 			return $this->redirect(Yii::$app->request->referrer);
@@ -164,7 +169,7 @@ class CheckoutController extends CommonController
                 {
                     $transaction->commit();
                     NotificationController::createNotification($did,1);
-                    CartController::mutipleDelete($cart);
+                    CartController::mutipleDelete($post['cid']);
                    	return $this->redirect(['/cart/aftercheckout','did'=>$did]);
                 }
                 else
@@ -259,27 +264,37 @@ class CheckoutController extends CommonController
 	/*
 	* create order
 	*/
-	protected static function createOrder($data,$deliveryman)
+	protected static function createOrder($post,$deliveryman)
 	{
+		
 		$data['value'] = -1;
 		$data['data'] = "";
- 		$subtotal = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$data['area']])->sum('price * quantity');
-
+		
+		$total =0;
+		foreach($post['cid'] as $cid)
+		{
+			$cart = Cart::find()->where('cart.id = :id',[':id'=>$cid])->joinWith(['food'])->one();
+			
+			$countDelivery[$cart->food->Restaurant_ID] = 0;
+			$total += $cart->price * $cart->quantity;
+		}
+ 		
+ 		$deliveryCharge = count($countDelivery) * 5;
 		$order = new Orders;
-		$order->load($data);
+		$order->load($post);
 		$order->User_Username = Yii::$app->user->identity->username;
 		$order->Orders_Date = date("Y-m-d");
 		$order->Orders_Time = date("13:00:00");
 		$order->Orders_Status = $order->Orders_PaymentMethod == "Cash on Delivery" ? 2 : 1;
 		$order->Orders_DateTimeMade = time();
-		$order->Orders_Subtotal = $subtotal;
-		$order->Orders_DeliveryCharge = 5;
+		$order->Orders_Subtotal = $total;
+		$order->Orders_DeliveryCharge = $deliveryCharge;
 		$order->Orders_DiscountTotalAmount = 0;
-		$order->Orders_TotalPrice = 5 + $subtotal;
-
+		$order->Orders_TotalPrice = $deliveryCharge + $total;
+		
 		if(self::earlyOrder())
 		{
-			$order->Orders_DiscountEarlyAmount = CartController::actionRoundoff1decimal($subtotal * 0.2);
+			$order->Orders_DiscountEarlyAmount = CartController::actionRoundoff1decimal($total * 0.15);
 			//$order->Orders_DiscountTotalAmount += $order->Orders_DiscountEarlyAmount;
 			$order->Orders_TotalPrice -= $order->Orders_DiscountEarlyAmount;
 		}
@@ -304,24 +319,28 @@ class CheckoutController extends CommonController
 	* id => order id
 	* query => Cart Query
 	*/
-	protected static function createOrderitem($cart,$status)
+	protected static function createOrderitem($post)
 	{
 		$isValid = true;
-		foreach($cart as $i=>$detail)
+		
+		foreach($post['cid'] as $i=>$cid)
 		{
+			$cart = Cart::find()->where('cart.id = :id',[':id'=>$cid])->joinWith(['selection'])->one();
+			
 			$orderitem = new Orderitem;
 			//$orderitem->Delivery_ID = $id;
-			$orderitem->Food_ID = $detail->fid;
-			$orderitem->OrderItem_Quantity  = $detail->quantity;
-			$orderitem->OrderItem_SelectionTotal = $detail->selectionprice;
-			$orderitem->OrderItem_LineTotal = $detail->price;
-			$orderitem->OrderItem_Status = $status == "Cash on Delivery" ? 2 : 1;
-			$orderitem->OrderItem_Remark = $detail->remark;
+			$orderitem->Food_ID = $cart->fid;
+			$orderitem->OrderItem_Quantity  = $cart->quantity;
+			$orderitem->OrderItem_SelectionTotal = $cart->selectionprice;
+			$orderitem->OrderItem_LineTotal = $cart->price;
+			$orderitem->OrderItem_Status = $post['Orders']['Orders_PaymentMethod'] == "Cash on Delivery" ? 2 : 1;
+			$orderitem->OrderItem_Remark = $cart->remark;
+			
 			$isValid = $orderitem->validate() && $isValid;
 			$allitem[$i] = $orderitem;
-			if(!empty($detail['selection']))
+			if(!empty($cart['selection']))
 			{
-				foreach($detail['selection'] as $k=>$data)
+				foreach($cart['selection'] as $k=>$data)
 				{
 					$orderitemselection = new Orderitemselection;
 					//$orderitemselection->Order_ID = $oid;
@@ -334,6 +353,7 @@ class CheckoutController extends CommonController
 				}
 			}
 		}
+
 		//return $allitem;
 		return $isValid == true ? $allitem : -1;	
 	}

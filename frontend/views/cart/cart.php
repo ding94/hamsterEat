@@ -55,11 +55,13 @@ CartAsset::register($this);
     </div>
       <?php echo Html::a('Continue Shopping',Yii::$app->request->referrer,['class' => 'raised-btn btn-b']) ;?>
 	</div>
+   <?php $form = ActiveForm::begin(['action' =>['checkout/index'],'method' => 'post']); ?>
 	<div class="container">
     <?php foreach($cart as $single) :?> 
 			<section class="cart">
 			  <article class="product">
           <?php echo Html::hiddenInput('id',$single['id'])?> 
+          <?php echo Html::hiddenInput('cid[]',$single['id'])?> 
 				  <header>
 					  <a class="remove">
               <img src=<?php echo $single->food->singleImg ?> alt="" class="img-responsive"> 
@@ -96,14 +98,14 @@ CartAsset::register($this);
   </div> 
   <iframe id="iframe" src=<?php echo Url::toRoute(['cart/totalcart','area'=>$index])?>></iframe>
   <div class="container">
-   <?php $form = ActiveForm::begin(['action' =>['checkout/index'],'method' => 'get']); ?>
         <?php echo Html::hiddenInput('area', $index);?>
         <?php echo Html::hiddenInput('code', '');?>
         <?php echo Html::submitButton('Checkout', ['class' => 'raised-btn main-btn checkout-btn']);?>
-      <?php ActiveForm::end(); ?>
+     
   </div>
   <?php endforeach ;?>
   <?php echo Html::hiddenInput('totalCart' , $count);?>
+   <?php ActiveForm::end(); ?>
 <?php endif ;?>
 </div>
  <!-- js for quantity 

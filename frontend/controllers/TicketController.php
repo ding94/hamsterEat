@@ -49,7 +49,6 @@ class TicketController extends CommonController
         $link = CommonController::createUrlLink(4);
         $type = Ticketcategorytypes::find()->all();
         $data = ArrayHelper::map($type,'Category_Name','Category_Name');
-        $path = Yii::$app->params['baseUrl'].Yii::$app->params['submitticket'];
         $upload = new Upload;
 
         if (Yii::$app->request->post()) {
@@ -61,7 +60,7 @@ class TicketController extends CommonController
                 $imageName = time().'.'.$upload->imageFile->extension;
                 $upload->imageFile->name = $imageName;
                 $post['Ticket']['Ticket_PicPath'] = $upload->imageFile->name;
-                $upload->upload($path);
+                $upload->upload(Yii::$app->params['submitticket-pic']);
                 
             }
 

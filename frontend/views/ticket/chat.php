@@ -12,6 +12,8 @@ use yii\helpers\ArrayHelper;
 use backend\models\Admin;
 use frontend\assets\UserAsset;
 use kartik\widgets\Select2;
+use kartik\widgets\FileInput;
+
 $this->title = 'My Questions';
 UserAsset::register($this);
 ?>
@@ -93,7 +95,10 @@ UserAsset::register($this);
       <?php if ($ticket->Ticket_Status <3): ?>
         <?php $form = ActiveForm::begin(); ?>
         <?= $form->field($reply, 'Replies_ReplyContent')->textarea(['rows' => 6]) ?>
-        <?= $form->field($upload, 'imageFile')->fileInput() ?>
+        <?php echo $form->field($upload, 'imageFile')->widget(FileInput::classname(), [
+              'options' => ['accept' => 'image/*'],
+            ]);
+        ?>
 
         <div class="form-group" id="chat-ticket">
              <?= Html::submitButton('Submit', ['class' => 'raised-btn main-btn resize-btn', 'name' => 'contact-button']) ?>

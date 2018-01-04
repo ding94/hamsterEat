@@ -107,6 +107,50 @@ class Ticket extends \yii\db\ActiveRecord
         return $dataProvider;
     }
 
+    /*
+    * use only for upload image
+    */
+    public function getImg()
+    {
+        $data = "";
+        $ticket = Ticket::find()->where('fid = :id',[':id'=>$this->Food_ID])->all();
+        foreach($images as $image)
+        {
+            $data[] =  Yii::getAlias('@web').'/'.Yii::$app->params['foodImg'].$image->img;
+        }
+        if(empty($data))
+        {
+            $data[] = Yii::$app->params['defaultFoodImg'];
+        }
+        return $data;
+    }
+
+    /*
+    * use only for upload image
+    */
+    public function getCaptionImg()
+    {
+        $data = "";
+        $images = FoodImg::find()->where('fid = :id',[':id'=>$this->Food_ID])->all();
+        if(empty($images))
+        {
+            $data['data'][0]['caption'] = Yii::$app->params['defaultFoodImg'];
+            $data['data'][0]['key'] = "0";
+            $data['header'] = true;
+        }
+        else
+        {
+            foreach($images as $i=>$image)
+            {
+                $data['data'][$i]['caption'] =  $image->img;
+                $data['data'][$i]['url'] = Url::to(['/food-img/delete','id'=>$image->id]);
+                $data['data'][$i]['key'] = $image->id;
+            }
+            $data['header'] = false;
+        }
+        return $data;
+    }
+
     public function getUser()
     {
         return $this->hasOne(User::className(),['id' => 'User_id']); 

@@ -7,6 +7,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
+use kartik\widgets\FileInput;
 
 $this->title = 'Reply to '.$name;
 $this->params['breadcrumbs'][] = $this->title;
@@ -37,7 +38,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
                 <?= $form->field($reply, 'Replies_ReplyContent')->textArea(['rows' => 4 , 'autofocus' => true]) ?>
-                 <?= $form->field($upload, 'imageFile')->fileInput() ?>
+                <?php echo $form->field($upload, 'imageFile')->widget(FileInput::classname(), [
+                    'options' => ['accept' => 'image/*'],
+                  ]);
+                ?>
                 <div class="form-group">
                     <?= Html::submitButton('Reply', ['class' => 'btn btn-primary', 'name' => 'Reply-button']) ?>
                     <?= Html::a('Back',['/ticket/index'], ['class'=>'btn btn-primary']) ?>

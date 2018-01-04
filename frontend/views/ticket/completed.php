@@ -59,6 +59,7 @@ We would like to thank you for writing to us, have a great day!</p><br>
                 <th>Category</th> 
                 <th>Subject</th>
                 <th>Status</th>
+                <th>Date</th>
                 <th>Chat</th>
             </tr>
 
@@ -80,11 +81,13 @@ We would like to thank you for writing to us, have a great day!</p><br>
                                     echo "Completed";
                                 }
                                  else {
-                                      echo "error";
-                                  } 
+                                    echo "error";
+                                } 
                             ?>
                         </td>
-                        
+                        <td>
+                            <?= date('Y-m-d h:i:s',$model['Ticket_DateTime']); ?>
+                        </td>
                         <td data-th="Chat">
                             <a href=<?php echo  Url::to(['ticket/chatting','sid'=>$k,'tid'=>$model['Ticket_ID']]); ?> >
                                 <font color="blue">See Chat Record </font>

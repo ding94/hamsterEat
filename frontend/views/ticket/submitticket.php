@@ -5,10 +5,13 @@
 /* @var $model \frontend\models\ContactForm */
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 use kartik\widgets\Select2;
 use frontend\assets\UserAsset;
+use yii\bootstrap\Modal;
+use kartik\widgets\FileInput;
 
 $this->title = 'Submit Ticket';
 UserAsset::register($this);
@@ -59,7 +62,11 @@ UserAsset::register($this);
 
                 <?= $form->field($model, 'Ticket_Content')->textarea(['rows' => 6]) ?>
 
-                 <?= $form->field($upload, 'imageFile')->fileInput() ?>
+                <?php 
+                    echo $form->field($upload, 'imageFile')->widget(FileInput::classname(), [
+                        'options' => ['accept' => 'image/*'],
+                    ]);
+                ?>
 
                 <div class="form-group" id="submit-ticket">
                     <?= Html::submitButton('Submit', ['class' => 'raised-btn main-btn submit-resize-btn', 'name' => 'contact-button']) ?>

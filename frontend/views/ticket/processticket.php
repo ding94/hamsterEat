@@ -62,12 +62,12 @@ UserAsset::register($this);
                 <th>Category</th> 
                 <th>Subject</th>
                 <th>Status</th>
+                <th>Date</th>
                 <th>Chat</th>
             </tr>
 
             <?php  
                     foreach ($model as $k => $model) { ?>
-                
                     <tr>
                         <td data-th="Serial No.">
                             <?php $k+=1; echo $k; ?>
@@ -83,14 +83,16 @@ UserAsset::register($this);
                                     echo "Submitted";
                                 }
                                 elseif ($model['Ticket_Status'] == 2) {
-                                     echo "Replied";
-                                 }
-                                 else {
-                                      echo "error";
-                                  } 
+                                    echo "Replied";
+                                }
+                                else {
+                                    echo "error";
+                                } 
                             ?>
                         </td>
-                        
+                        <td>
+                            <?= date('Y-m-d h:i:s',$model['Ticket_DateTime']); ?>
+                        </td>
                         <td data-th="Chat">
                             <a href=<?php echo  Url::to(['ticket/chatting','sid'=>$k,'tid'=>$model['Ticket_ID']]); ?> >
                                 <font color="blue">Go Chat</font>

@@ -75,11 +75,44 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 <!--<div id="DescContainer" class="container">-->
 	<div id="SSCrow4">
 		<div class="container">
-			<div class="graphic">
-				Graphic Content
-			</div>	
-			<div class="textcontainer">
-				Some content
+			<div id="box1" class="content">
+				<div class="graphic">
+					Graphic Content 1
+				</div>	
+				<div class="textcontainer">
+					<p>Find food from your favourite restaurants around Bukit Indah.</p>
+				</div>
+				<button class="raised-btn main-btn" onclick="moveToBox2()">
+		        	<svg viewBox="0 0 64 64" width="24px" height="24px">
+		        		<path fill-rule="evenodd" clip-rule="evenodd" d="M59.927 31.985l.073.076-16.233 17.072-3.247-3.593L51.324 34H4v-4h47.394L40.52 18.407l3.247-3.494L60 31.946l-.073.039z"></path>
+		        	</svg>
+		      	</button>
+			</div>
+			<div id="box2" class="content">
+				<div class="graphic">
+					Graphic Content 2
+				</div>	
+				<div class="textcontainer">
+					<p>Add food to cart, enter delivery details and place order.</p>
+				</div>
+				<button class="raised-btn main-btn" onclick="moveToBox3()">
+		        	<svg viewBox="0 0 64 64" width="24px" height="24px">
+		        		<path fill-rule="evenodd" clip-rule="evenodd" d="M59.927 31.985l.073.076-16.233 17.072-3.247-3.593L51.324 34H4v-4h47.394L40.52 18.407l3.247-3.494L60 31.946l-.073.039z"></path>
+		        	</svg>
+		      	</button>
+			</div>
+			<div id="box3" class="content">
+				<div class="graphic">
+					Graphic Content 3
+				</div>	
+				<div class="textcontainer">
+					<p>Food is prepared and delivered to you during lunch time.</p>
+				</div>
+				<button class="raised-btn main-btn" onclick="moveToBox1()">
+		        	<svg viewBox="0 0 64 64" width="24px" height="24px">
+		        		<path fill-rule="evenodd" clip-rule="evenodd" d="M59.927 31.985l.073.076-16.233 17.072-3.247-3.593L51.324 34H4v-4h47.394L40.52 18.407l3.247-3.494L60 31.946l-.073.039z"></path>
+		        	</svg>
+		      	</button>
 			</div>
 		</div>
 	</div>

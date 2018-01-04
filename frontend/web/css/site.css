@@ -661,12 +661,20 @@ span.badge{
   height: 500px;
   background-color: #FFF;
   display: flex;
+  font-family: 'Lato', sans-serif;
 }
 
 #SSCrow4 .container{
+  height:500px;
+  overflow:hidden;
+  position:relative;
+}
+
+.content{
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
 }
 
 .graphic{
@@ -676,4 +684,34 @@ span.badge{
   text-align: center;
   font-size: 20px;
   color: #FFF;
+}
+
+.textcontainer{
+  margin-left: 30px;
+}
+
+.textcontainer p{
+  width: 320px;
+  font-size: 45px;
+  line-height: 1.2;
+}
+
+.content button{
+  margin-left: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#box1,#box2,#box3{
+  height:100%;
+  width:100%;
+}
+
+#box2{
+  transform: translateX(100%);
+}
+
+#box3{
+  transform: translateX(200%);
 }

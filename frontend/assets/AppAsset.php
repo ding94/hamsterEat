@@ -25,6 +25,7 @@ class AppAsset extends AssetBundle
         'js/feedback-modal.js',
         'js/login-modal.js',
         'js/add-modal.js',
+        'js/site.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

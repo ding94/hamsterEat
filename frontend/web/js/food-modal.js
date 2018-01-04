@@ -22,8 +22,10 @@ $(function(){
                 .done(function( data ) {
                     modal.find('.modal-body').html(data);
                     modal.find('.modal-header').html(imgslide);
-                    var slideIndex = 1;
-                    showDivs(slideIndex);
+                    var slideIndex = 0;
+                    var repeat;
+                    carousel();  
+                    // showDivs(slideIndex);
 
                     function plusDivs(n) {
                         showDivs(slideIndex += n);
@@ -44,7 +46,30 @@ $(function(){
                         x[slideIndex-1].style.display = "block"; 
                         dots[slideIndex-1].className += " w3-white";
                     }
-                });
+
+                    function carousel() {
+                        var i;
+                        var x = document.getElementsByClassName("mySlides");
+                        var dots = document.getElementsByClassName("dots");
+                        for (i = 0; i < x.length; i++) {
+                          x[i].style.display = "none"; 
+                        }
+                        slideIndex++;
+                        if (slideIndex > x.length) {slideIndex = 1} 
+                        x[slideIndex-1].style.display = "block"; 
+                        for (i = 0; i < dots.length; i++) {
+                           dots[i].className = dots[i].className.replace(" w3-white", "");
+                        }
+                        dots[slideIndex-1].className += " w3-white";
+                        repeat = setTimeout(carousel, 4000); // Change image every 5 seconds
+                    }
+
+                    $('#foodDetail').on('hidden.bs.modal', function () {
+                            clearTimeout(repeat);
+                        });
+
+                    modal.find('.stars').stars(); //show stars in comment tab
+                }); 
             });
 
 
@@ -64,7 +89,7 @@ $(function(){
 */
 });
 
-var slideIndex = 1;
+var slideIndex = 0;
 
 function plusDivs(n) {
     showDivs(slideIndex += n);

@@ -125,7 +125,7 @@ DeliverymanOrdersAsset::register($this);
                         <?php elseif($orderitemdetails['OrderItem_Status']== 4): ?>
                             <td data-th="Update Status"><?php echo Html::a('Picked Up', ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$orderdetails['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td>
                         <?php elseif ($orderdetails['Orders_Status'] == 5): ?>
-                            <td data-th="Update Status"><?php echo Html::a('Completed', ['update-completed', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$orderdetails['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td>
+                            <td data-th="Update Status"><?php echo Html::a('Completed', ['update-completed', 'did'=>$orderdetails['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td>
                         <?php endif;?>
                     </tr>
                 <?php endforeach; ?>

@@ -71,7 +71,8 @@ RatingIndexAsset::register($this);
 			
 				<?php foreach($orderitem as $k => $data):?>
 				 <div class="item2">
-				   <div class="img"><?php echo Html::img('@web/imageLocation/foodImg/'.$data['food']['PicPath']) ?></div>
+				 	
+				   <div class="img"><?php echo Html::img($data['food']['singleImg']) ?></div>
 					<div class="inner-item">
 					<?= $form->field($foodrating , '['.$k.']FoodRating_Rating')->inline()->radioList($ratingLevel,[
                                 'item' => function($index, $label, $name, $checked, $value) {

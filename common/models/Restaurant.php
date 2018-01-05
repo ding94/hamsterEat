@@ -121,7 +121,7 @@ class Restaurant extends \yii\db\ActiveRecord
         else
         {
 
-            return Yii::$app->params['restaurant'].$image;
+            return Yii::getAlias('@web').'/'.Yii::$app->params['restaurant'].$image;
         }
     }
 }

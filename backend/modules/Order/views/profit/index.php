@@ -48,8 +48,8 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'hover'=>true,
         'headerRowOptions' => ['class' => 'kartik-sheet-style'],
          'panel'=>[
-            'type'=>GridView::TYPE_SUCCESS,
-          
+            'type'=>'success',
+            'layout'=>'{export} {toggleData}',
         ],
         //'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
         'columns'=>[

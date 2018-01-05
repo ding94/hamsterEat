@@ -11,7 +11,6 @@ $this->title = $id['Restaurant_Name'];
 StarsAsset::register($this);
 RestaurantDetailsAsset::register($this);
 ?>
-
 <?php Modal::begin([
             'id'     => 'foodDetail',
             'size'   => 'modal-lg',
@@ -85,6 +84,9 @@ RestaurantDetailsAsset::register($this);
         <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>"  class ="food-link" data-toggle="modal" data-target="#foodDetail" data-img= <?php echo json_encode($imgdata) ?>>
         <div class="item">
             <div class="img">
+                <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
+                    <div class="corner-ribbon top-left sticky red shadow">-15%</div>
+                <?php endif; ?>
                 <img  src=<?php echo $data->singleImg?> alt="">
             </div>
             <div class="inner-item">
@@ -92,9 +94,9 @@ RestaurantDetailsAsset::register($this);
             <!-- <div class="stars-div"></div> -->
             <div class="price-div">
                 <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
-                    <span class="price"><?php echo 'RM'.$data['Price']; ?></span>
+                    <span class="price"><strike><?php echo 'RM'.$data['Price']; ?></strike>        <?php $data['Price']=$data['Price']*0.85; echo 'RM'.number_format($data['Price'],2); ?></span>
                 <?php else: ?>
-                    <span class="price"><strike><?php echo 'RM'.$data['Price']; ?></strike>        <?php $data['Price']=$data['Price']*0.8; echo 'RM'.number_format($data['Price'],2); ?></span>
+                    <span class="price"><?php echo 'RM'.$data['Price']; ?></span>
                 <?php endif;?>
             </div>
             <div class="foodDesc-div"><span class="foodDesc"><?php echo $data['Description']; ?></span></div>

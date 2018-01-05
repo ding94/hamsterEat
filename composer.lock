@@ -1717,12 +1717,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "7e126cf8e1dd3393002a031e5d456bde4d58e447"
+                "reference": "b2af96c445be6041bd08a6d157b2e200ca269b9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/7e126cf8e1dd3393002a031e5d456bde4d58e447",
-                "reference": "7e126cf8e1dd3393002a031e5d456bde4d58e447",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/b2af96c445be6041bd08a6d157b2e200ca269b9a",
+                "reference": "b2af96c445be6041bd08a6d157b2e200ca269b9a",
                 "shasum": ""
             },
             "require": {
@@ -1762,7 +1762,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2017-12-27 03:31:59"
+            "time": "2018-01-03 13:03:03"
         },
         {
             "name": "kartik-v/yii2-helpers",
@@ -3162,16 +3162,16 @@
         },
         {
             "name": "mpdf/mpdf",
-            "version": "7.0.2",
+            "version": "v7.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mpdf/mpdf.git",
-                "reference": "78e5899101203d9ef5e63316e4748aac1c8c2ec1"
+                "reference": "5681a0cae1eea197143d5d27f06e19b0523cd8d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/78e5899101203d9ef5e63316e4748aac1c8c2ec1",
-                "reference": "78e5899101203d9ef5e63316e4748aac1c8c2ec1",
+                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/5681a0cae1eea197143d5d27f06e19b0523cd8d6",
+                "reference": "5681a0cae1eea197143d5d27f06e19b0523cd8d6",
                 "shasum": ""
             },
             "require": {
@@ -3225,7 +3225,7 @@
                 "php",
                 "utf-8"
             ],
-            "time": "2017-11-22T20:21:45+00:00"
+            "time": "2018-01-03T07:32:36+00:00"
         },
         {
             "name": "paragonie/random_compat",

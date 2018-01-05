@@ -16,6 +16,7 @@ class RestaurantDetailsAsset extends AssetBundle
         'css/button.css',
         'css/filter.css',
         'css/food-details-img-slider.css',
+        'css/ribbon.css',
     ];
     public $js = [
         'js/food-modal.js',

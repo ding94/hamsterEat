@@ -58,10 +58,11 @@ class Foodselection extends \yii\db\ActiveRecord
 
     public function getTypeprice()
     {
-        $am = time() < strtotime(date("Y/m/d 12:0:0"));
+        $am = time() < strtotime(date("Y/m/d 11:0:0"));
         if ($am) {
             if ($this->Price != 0) {
-                $this->Price = $this->Price *0.85;
+                $discount = CartController::actionRoundoff1decimal($this->Price *0.15);
+                $this->Price = $this->Price - $discount;
             }
         }
         return '<span>'.$this->Name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($this->Price).'">(+ RM'.CartController::actionRoundoff1decimal($this->Price).')</span><span class="radio-custom-label"></span>';
@@ -69,10 +70,11 @@ class Foodselection extends \yii\db\ActiveRecord
 
     public function getCheckboxtypeprice()
     {
-        $am = time() < strtotime(date("Y/m/d 12:0:0"));
+        $am = time() < strtotime(date("Y/m/d 11:0:0"));
         if ($am) {
             if ($this->Price != 0) {
-                $this->Price = $this->Price *0.85;
+                $discount = CartController::actionRoundoff1decimal($this->Price *0.15);
+                $this->Price = $this->Price - $discount;
             }
         }
         return '<span>'.$this->Name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($this->Price).'">(+ RM'.CartController::actionRoundoff1decimal($this->Price).')</span><span class="checkbox-custom-label"></span>';

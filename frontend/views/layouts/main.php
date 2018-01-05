@@ -1,8 +1,6 @@
 <?php
-
 /* @var $this \yii\web\View */
 /* @var $content string */
-
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -22,10 +20,8 @@ use yii\bootstrap\Modal;
 use frontend\assets\NotificationAsset;
 use common\models\Company\Company;
 use common\models\Order\Orders;
-
 AppAsset::register($this);
 NotificationAsset::register($this);
-
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -36,7 +32,7 @@ NotificationAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-    <link rel="shortcut icon" type="image/png" href="SysImg/Icon.png">
+    <link rel="shortcut icon" type="image/png" href=<?php echo Url::to('@web/SysImg/Icon.png')?>>
     <?= Alert::widget(['options'=>[
         'style'=>'position:fixed;
                 top:80px;
@@ -88,7 +84,6 @@ NotificationAsset::register($this);
     <?php
     NavBar::begin([
         'brandLabel' => Html::img('@web/SysImg/Logo.png' ,['id'=>'logo']),
-
         'brandUrl' => Yii::$app->homeUrl,
         'innerContainerOptions' => ['class' => 'container'],
         'options' => [
@@ -110,28 +105,25 @@ NotificationAsset::register($this);
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['countCart'].'</span></span>', 'url' => ['/cart/view-cart']];
         $menuItems[] = ['label' => '<span> <i class="fa fa-bell"></i>'.Yii::$app->params['countNotic'].'</span>' ,'options'=> ['id'=>'notication']];
         $keys = array_keys($menuItems);
-
         if(empty(Yii::$app->params['notication']))
         {
-            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">Empty Notication</h4>'];
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">Empty Notication</h4>'];
+            $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title pull-right">View All</h4>','url' => ['/notification/index']];
         }
         else
         {
             $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">Notifications</h4>'];
-
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
             $menuItems[end($keys)]['items'][] = '<div class="inner-notic">';
             foreach(Yii::$app->params['notication'] as $i=> $notic)
             {
-
                 $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">'.Yii::$app->params['listOfNotic'][$i]['description'].'</h4>' ];
                 foreach($notic as $data)
                 {
                     $ago = Yii::$app->formatter->asRelativeTime($data['created_at']);
-
                     if($data['type'] == 1)
                     {
-
                         $url = ["order/restaurant-orders",'rid' => $data['rid']];
                     }
                     else
@@ -143,15 +135,6 @@ NotificationAsset::register($this);
                 }
             }
             $menuItems[end($keys)]['items'][] = '</div>';
-        }
-       
-     
-        if(empty(Yii::$app->params['notication']))
-        {
-             $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title pull-right">View All</h4>','url' => ['/notification/index']];
-        }
-        else
-        {
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
             $menuItems[end($keys)]['items'][] = "<li><div class='col-sm-6'>".Html::a('<h4 class="menu-title">Mark All as Read</h4>',['/notification/turnoff'])."</div><div class='col-sm-6'>".Html::a('<h4 class="menu-title pull-right">View All</h4>',['/notification/index'])."</div></li>";
         }
@@ -163,7 +146,6 @@ NotificationAsset::register($this);
             $menuItems[] = ['label' => '<span class="glyphicon glyphicon-list-alt">'];
             $key = array_keys($menuItems);
             $lvl = Rmanagerlevel::find()->where('User_Username=:u',[':u'=>$rmanager['User_Username']])->all();
-
             $count = 0;
             foreach ($lvl as $k => $level) {
                 $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$level['Restaurant_ID']])->one();
@@ -183,7 +165,6 @@ NotificationAsset::register($this);
                        ['label' => 'Profile', 'url' => ['/user/user-profile']],
                         '<li class="divider"></li>',
                        ]];
-
          $keys = array_keys($menuItems);
         if (!empty($rmanager)) {
                 $menuItems[end($keys)]['items'][] =['label' => 'Restaurants ', 'url' => ['/Restaurant/restaurant/restaurant-service']];
@@ -220,7 +201,7 @@ NotificationAsset::register($this);
     ]);
     NavBar::end();
     ?>
-	 </div>
+     </div>
 
      <nav id="bottom-navbar">
             <div>
@@ -268,7 +249,7 @@ NotificationAsset::register($this);
         <?= Alert::widget() ?>
         <?php  $cookies = Yii::$app->request->cookies;?>
         <?php $emptyCookie = empty($cookies['halal']) ? 1: 0?>
-		
+        
         <div id="type-modal" class="modal fade" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -295,60 +276,59 @@ NotificationAsset::register($this);
 <footer class="footer ">
     <div class="container">
         <p class="pull-left">&copy; hamsterEat <?= date('Y') ?></p>
-
        
     </div>
 </footer>-->
-	<!--Footer-->
-	<footer id="Footer" class="footer">
+    <!--Footer-->
+    <footer id="Footer" class="footer">
         <div class="container-fluid">
-		<!--Footer First Row-->
-<!-- 		<div class="row"> -->
-			<div id="Box1" class = "col-sm-3 col-xs-12">
-				<h3 id="footertitle">HamsterEat</h3>
-				<hr>
-				<ul id="linklist" class="list-unstyled">
+        <!--Footer First Row-->
+<!--        <div class="row"> -->
+            <div id="Box1" class = "col-sm-3 col-xs-12">
+                <h3 id="footertitle">HamsterEat</h3>
+                <hr>
+                <ul id="linklist" class="list-unstyled">
                     <li><?php echo Html::a('Feedback', Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal']) ?></li>
-					<li><?php echo Html::a('About Us' ,['site/about']) ?></li>
+                    <li><?php echo Html::a('About Us' ,['site/about']) ?></li>
                     <li><?php echo Html::a('Guide' ,['site/faq']) ?></li>
-					<li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>
+                    <li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>
                     <?php if (Yii::$app->user->isGuest)
                     { ?>
                         <li><?php echo Html::a('Login' ,['site/login-popup'], ['data-toggle'=>'modal','data-target'=>'#login-modal']) ?></li>
                         <li><?php echo Html::a('Signup' ,['site/ruser']) ?></li> <?php
                     }
                     ?>
-				</ul>
-				
-			</div>
+                </ul>
+                
+            </div>
 
-			<div id="Box2" class = "col-sm-3 col-xs-12">
-				<h3>Contact Us</h3>
-				<hr>
+            <div id="Box2" class = "col-sm-3 col-xs-12">
+                <h3>Contact Us</h3>
+                <hr>
                 <ul id="linklist" class="list-unstyled">
                     <li> <?php echo Html::a('Contact' ,['site/contact']) ?></li>
                 </ul>
-				<p>Tel. 1700-818-315</p>
+                <p>Tel. 1700-818-315</p>
 
-				<p>Email. support@hamsterEat.my</p>
-				<a href="mailto:support@hamsterEat.my" target="_blank" class="raised-btn main-btn">Email Us</a>
+                <p>Email. support@hamsterEat.my</p>
+                <a href="mailto:support@hamsterEat.my" target="_blank" class="raised-btn main-btn">Email Us</a>
 
-			</div>
-			
-			<div id="Box3" class = "col-sm-3 col-xs-12">
-				<h3>Follow | Get in Touch</h3>
-				<hr>
-				 <center>
-				 <a target="_blank" href="https://www.facebook.com" class="btn btn-social-icon btn-facebook"><span class="fa fa-facebook"></span></a>
-				 <a target="_blank" href="https://plus.google.com" class="btn btn-social-icon btn-google"><span class="fa fa-google"></span></a>
-				 <a target="_blank" href="https://www.instagram.com" class="btn btn-social-icon btn-instagram"><span class="fa fa-instagram"></span></a>
-				 </center>				 
-			</div>
+            </div>
+            
+            <div id="Box3" class = "col-sm-3 col-xs-12">
+                <h3>Follow | Get in Touch</h3>
+                <hr>
+                 <center>
+                 <a target="_blank" href="https://www.facebook.com" class="btn btn-social-icon btn-facebook"><span class="fa fa-facebook"></span></a>
+                 <a target="_blank" href="https://plus.google.com" class="btn btn-social-icon btn-google"><span class="fa fa-google"></span></a>
+                 <a target="_blank" href="https://www.instagram.com" class="btn btn-social-icon btn-instagram"><span class="fa fa-instagram"></span></a>
+                 </center>               
+            </div>
 
-		<!-- </div> -->
+        <!-- </div> -->
 </div>
-		
-	</footer>
+        
+    </footer>
 
 <?php $this->endBody() ?>
 </body>

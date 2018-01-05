@@ -33,7 +33,7 @@ UserAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-     <link rel="shortcut icon" type="image/png" href="SysImg/Icon.png">
+    <link rel="shortcut icon" type="image/png" href=<?php echo Url::to('@web/SysImg/Icon.png')?>>
         <?= Alert::widget(['options'=>[
         'style'=>'position:fixed;
                     top:80px;
@@ -93,7 +93,9 @@ UserAsset::register($this);
       
         if(empty(Yii::$app->params['notication']))
         {
-            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">Empty Notication</h4>'];
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">Empty Notication</h4>'];
+            $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title pull-right">View All</h4>','url' => ['/notification/index']];
         }
         else
         {
@@ -102,8 +104,7 @@ UserAsset::register($this);
             $menuItems[end($keys)]['items'][] = '<div class="inner-notic">';
             foreach(Yii::$app->params['notication'] as $i=> $notic)
             {
-
-                $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">'.Yii::$app->params['listOfNotic'][$i]['description'].'</h4>'];
+                $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">'.Yii::$app->params['listOfNotic'][$i]['description'].'</h4>' ];
                 foreach($notic as $data)
                 {
                     $ago = Yii::$app->formatter->asRelativeTime($data['created_at']);
@@ -120,18 +121,10 @@ UserAsset::register($this);
                 }
             }
             $menuItems[end($keys)]['items'][] = '</div>';
-        }
-      
-        
-        if(empty(Yii::$app->params['notication']))
-        {
-             $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title pull-right">View All</h4>','url' => ['/notification/index']];
-        }
-        else
-        {
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
             $menuItems[end($keys)]['items'][] = "<li><div class='col-sm-6'>".Html::a('<h4 class="menu-title">Mark All as Read</h4>',['/notification/turnoff'])."</div><div class='col-sm-6'>".Html::a('<h4 class="menu-title pull-right">View All</h4>',['/notification/index'])."</div></li>";
         }
+        
 
         $rmanager = Rmanager::find()->where('uid=:id AND Rmanager_Approval=:ra',[':id'=>Yii::$app->user->identity->id,':ra'=>1])->one();
         if (!empty($rmanager)) {

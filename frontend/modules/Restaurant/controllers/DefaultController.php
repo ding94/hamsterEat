@@ -80,12 +80,14 @@ class DefaultController extends CommonController
         
         if(!empty($halal) || $halal == 1)
         {
-            $query->andWhere('Type_ID =  23');
-        }
-      
-        if($type !=0)
-        {
-            $query->OrWhere('Type_ID = :tid',[':tid' => $type]);
+            if($type != 0)
+            {
+                $query->andWhere('Type_ID = :tid',[':tid' => [$type,23]]);
+            }
+            else
+            {
+                $query->andWhere('Type_ID =  23'); 
+            }
         }
 
         if(!empty($filter))
@@ -499,12 +501,16 @@ class DefaultController extends CommonController
 
         if(!empty($halal) || $halal == 1)
         {
-            $query->andWhere('foodtypejunction.Type_ID =  3');
-        }
-
-        if($type != 0)
-        {
-          $query->OrWhere('foodtypejunction.Type_ID = :tid', [':tid' => $type]);
+            if($type != 0)
+            {
+                $query->andWhere('foodtypejunction.Type_ID = :tid', [':tid' => [$type,3]]);
+            }
+            else
+            {
+                
+                $query->andWhere('foodtypejunction.Type_ID =  3');
+            }
+           
         }
 
         if(!empty($filter))

@@ -41,7 +41,7 @@ UserAsset::register($this);
                   $picpath = Url::to('@web/imageLocation/DefaultPic.png');
                 else :
                   if(file_exists(Yii::$app->params['userprofilepic'].$user->userdetails->User_PicPath)) :
-                    $picpath = Url::to(Yii::$app->params['userprofilepic'].$user->userdetails->User_PicPath);
+                     $picpath = Url::to("@web/".Yii::$app->params['userprofilepic'].$user->userdetails->User_PicPath);
                   else :
                     $picpath = Url::to('@web/imageLocation/DefaultPic.png');
                   endif ;

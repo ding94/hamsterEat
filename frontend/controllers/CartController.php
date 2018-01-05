@@ -658,6 +658,7 @@ class CartController extends CommonController
             foreach($cartSelection as $selection)
             {
                 $price[1] += self::actionRoundoff1decimal($foodSelection[$selection]);
+                self::actionRoundoff1decimal($price[1]);
             }
         }
         $price[0] =  self::actionRoundoff1decimal($food->Price + $price[1]);

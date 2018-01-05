@@ -58,7 +58,7 @@ class Foodselection extends \yii\db\ActiveRecord
 
     public function getTypeprice()
     {
-        $am = time() < strtotime(date("Y/m/d 12:0:0"));
+        $am = time() < strtotime(date("Y/m/d 11:0:0"));
         if ($am) {
             if ($this->Price != 0) {
                 $discount = CartController::actionRoundoff1decimal($this->Price *0.15);
@@ -70,7 +70,7 @@ class Foodselection extends \yii\db\ActiveRecord
 
     public function getCheckboxtypeprice()
     {
-        $am = time() < strtotime(date("Y/m/d 12:0:0"));
+        $am = time() < strtotime(date("Y/m/d 11:0:0"));
         if ($am) {
             if ($this->Price != 0) {
                 $discount = CartController::actionRoundoff1decimal($this->Price *0.15);

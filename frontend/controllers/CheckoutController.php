@@ -307,6 +307,7 @@ class CheckoutController extends CommonController
 			}
 			$order  = $data['data'];
 		}
+		
 		$data['value'] = 1;
 		$data['data'] = $order;
 		//$order->Orders_TotalPrice=0;

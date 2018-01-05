@@ -68,10 +68,10 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 {
                     return[
                         'content'=>[             // content to show in each summary cell
-                            1=>"Total<br>Discount<br>Final Total",
+                            1=>"Total<br>Delivery Charge<br>Discount<br>Final Total",
                             4=>GridView::F_SUM,
                             5=>GridView::F_SUM,
-                            6=>$model->finalSum."<br>-".$model->discount."<br>".$model->TotalSum,
+                            6=>$model->finalSum."<br>".$model->delivery."<br>-".$model->discount."<br>".$model->TotalSum,
                         ],
                         'contentFormats'=>[      // content reformatting for each summary cell
                             4=>['format'=>'number', 'decimals'=>2],

@@ -4,7 +4,6 @@ namespace frontend\modules\Restaurant\controllers;
 
 use Yii;
 use yii\web\Controller;
-use backend\models\RestaurantSearch;
 use common\models\Restaurant;
 use common\models\Rmanager;
 use common\models\Rmanagerlevel;
@@ -32,21 +31,13 @@ class RestaurantController extends CommonController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['restaurant-service','food-service','providereason','active','deactive','pauserestaurant','cooking-detail','phonecooking'],
+                        'actions' => ['restaurant-service','food-service','providereason','active','deactive','pauserestaurant','resume-restaurant','cooking-detail','phonecooking'],
                         'allow' => true,
                         'roles' => ['restaurant manager'],
                     ]
                 ],
             ],
         ];
-    }
-
-	public function actionIndex()
-    {
-    	$searchModel = new RestaurantSearch();
-    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-    	return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
 
     public function actionRestaurantService()
@@ -87,7 +78,9 @@ class RestaurantController extends CommonController
 
     public function actionPauserestaurant($id,$item)
     {
+        CommonController::restaurantPermission($id);
         $restaurant = self::findModel($id);
+
         $restaurant['Restaurant_Status'] = 'Closed';
         $valid = true;
         $foods = Food::find()->JoinWith(['foodStatus'])->where('Restaurant_ID=:id',[':id'=>$restaurant['Restaurant_ID']])->andWhere('Status >= 0')->all();
@@ -110,6 +103,7 @@ class RestaurantController extends CommonController
 
     public function actionProvidereason($id,$rid,$item)
     {
+        CommonController::restaurantPermission($rid);
         $reason = new ProblemOrder;
         $list = ArrayHelper::map(ProblemStatus::find()->all(),'id','description');
 
@@ -172,51 +166,50 @@ class RestaurantController extends CommonController
         return true;
     }
 
-    public function actionActive($id,$item)
+    public function actionResumeRestaurant($id)
     {
-        switch ($item) {
-            case 1:
-                $model = self::findModel($id);
-                $model->Restaurant_Status = "Operating";
-                if($model->validate())
-                {
-                    $model->save();
-                    Yii::$app->session->setFlash('success', "Status change to operating.");
-                }
-                else
-                {
-                    Yii::$app->session->setFlash('warning', "Change status failed.");
-                }
-                break;
-
-            case 2:
-                $model = Foodstatus::find()->where('Food_ID=:id',[':id'=>$id])->one();
-                $food = Food::find()->where('Food_ID=:id',[':id'=>$model['Food_ID']])->one();
-                $restaurant = self::findModel($food['Restaurant_ID']);
-                if ($restaurant['Restaurant_Status'] == 'Closed') {
-                    Yii::$app->session->setFlash('error', "Restaurant was not opening.");
-                    return $this->redirect(Yii::$app->request->referrer);
-                }
-                $model->Status = 1;
-                if($model->validate())
-                {
-                    $model->save();
-                    Yii::$app->session->setFlash('success', "Status change to operating.");
-                }
-                else
-                {
-                    Yii::$app->session->setFlash('warning', "Change status failed.");
-                }
-                $id = $food['Restaurant_ID'];
-                break;
-            
-            default:
-                # code...
-                break;
+        CommonController::restaurantPermission($id);
+        $model = self::findModel($id);
+        $model->Restaurant_Status = "Operating";
+        if($model->validate())
+        {
+            $model->save();
+            Yii::$app->session->setFlash('success', "Status change to operating.");
         }
-        
+        else
+        {
+            Yii::$app->session->setFlash('warning', "Change status failed.");
+        }
 
         return $this->redirect(['/food/menu','rid'=>$id,'page'=>'menu']);
+    }
+
+    public function actionActive($id)
+    {
+       
+        $model = Foodstatus::find()->where('Food_ID=:id',[':id'=>$id])->one();
+        $food = Food::find()->where('Food_ID=:id',[':id'=>$model['Food_ID']])->one();
+        $restaurant = self::findModel($food['Restaurant_ID']);
+        $rid =  $food['Restaurant_ID'];
+         CommonController::restaurantPermission($rid);
+        if ($restaurant['Restaurant_Status'] == 'Closed') {
+            Yii::$app->session->setFlash('error', "Restaurant was not opening.");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        $model->Status = 1;
+        if($model->validate())
+        {
+            $model->save();
+            Yii::$app->session->setFlash('success', "Status change to operating.");
+        }
+        else
+        {
+            Yii::$app->session->setFlash('warning', "Change status failed.");
+        }
+        
+          
+
+        return $this->redirect(['/food/menu','rid'=>$rid,'page'=>'menu']);
     }
 
     public function actionDeactive($id,$item)

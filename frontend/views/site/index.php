@@ -77,7 +77,7 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 		<div class="container">
 			<div id="box1" class="index-content">
 				<div class="graphic">
-					Graphic Content 1
+					<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index-1.jpg" alt="">
 				</div>	
 				<div class="textcontainer">
 					<p>Find food from your favourite restaurants around Bukit Indah.</p>
@@ -90,7 +90,7 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 			</div>
 			<div id="box2" class="index-content">
 				<div class="graphic">
-					Graphic Content 2
+					<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index-2.jpg" alt="">
 				</div>	
 				<div class="textcontainer">
 					<p>Add food to cart, enter delivery details and place order.</p>
@@ -103,7 +103,7 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 			</div>
 			<div id="box3" class="index-content">
 				<div class="graphic">
-					Graphic Content 3
+					<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index-3.jpg" alt="">
 				</div>	
 				<div class="textcontainer">
 					<p>Food is prepared and delivered to you during lunch time.</p>

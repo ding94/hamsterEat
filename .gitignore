@@ -34,7 +34,6 @@ phpunit.phar
 # vagrant runtime
 /.vagrant
 *.jpg
-*.jpg
 
 /frontend/web/imageLocation/bank/*
 /frontend/web/imageLocation/topup/*

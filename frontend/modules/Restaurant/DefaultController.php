@@ -80,12 +80,21 @@ class DefaultController extends CommonController
         
         if(!empty($halal) || $halal == 1)
         {
-            $query->andWhere('Type_ID =  23');
+            if($type != 0)
+            {
+                $query->andWhere('Type_ID = :tid',[':tid' => [$type,23]]);
+            }
+            else
+            {
+                $query->andWhere('Type_ID =  23'); 
+            }
         }
-      
-        if($type !=0)
+        else
         {
-            $query->OrWhere('Type_ID = :tid',[':tid' => $type]);
+            if($type != 0)
+            {
+                 $query->andWhere('Type_ID = :tid',[':tid' => $type]);
+            }
         }
 
         if(!empty($filter))
@@ -293,8 +302,7 @@ class DefaultController extends CommonController
         $restaurant = Restaurant::find()->where(Restaurant::tableName().'.Restaurant_ID = :id' ,[':id' => $rid])->innerJoinWith('restaurantType',true)->one();
         $chosen = ArrayHelper::map($restaurant['restaurantType'],'ID','ID');
         $type = ArrayHelper::map(RestaurantType::find()->andWhere(['and',['!=','Type_Name','Halal'],['!=','Type_Name','Non-Halal']])->orderBy(['(Type_Name)' => SORT_ASC])->all(),'ID','Type_Name');
-        $halal = RestaurantType::find()->where('Type_Name=:t',[':t'=>'Halal'])->one();
-        $nonhalal = RestaurantType::find()->where('Type_Name=:t',[':t'=>'Non-Halal'])->one();
+
         foreach ($restaurant['restaurantType'] as $key => $value) :
             if ($value['Type_Name'] == 'Halal' || $value['Type_Name'] == 'Non-Halal') {
                 $foodjunction['Type_ID'] = $value['ID'];
@@ -365,7 +373,7 @@ class DefaultController extends CommonController
                 return $this->redirect(Yii::$app->request->referrer);
             }
         }
-        return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails,'chosen'=>$chosen, 'type'=>$type,'halal'=>$halal,'nonhalal'=>$nonhalal,'link'=>$link,'foodjunction'=>$foodjunction,'upload'=>$upload]);
+        return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails,'chosen'=>$chosen, 'type'=>$type,'link'=>$link,'foodjunction'=>$foodjunction,'upload'=>$upload]);
     }
 
     protected function checkHalal($rid)
@@ -501,12 +509,25 @@ class DefaultController extends CommonController
 
         if(!empty($halal) || $halal == 1)
         {
-            $query->andWhere('foodtypejunction.Type_ID =  3');
+            if($type != 0)
+            {
+                $data = [$type,3];
+               
+                $query->andWhere('foodtypejunction.Type_ID = :tid', [':tid' => $data]);
+            }
+            else
+            {
+                
+                $query->andWhere('foodtypejunction.Type_ID =  3');
+            }
+           
         }
-
-        if($type != 0)
+        else
         {
-          $query->OrWhere('foodtypejunction.Type_ID = :tid', [':tid' => $type]);
+            if($type != 0)
+            {
+               $query->andWhere('foodtypejunction.Type_ID = :tid', [':tid' => $type]); 
+            }
         }
 
         if(!empty($filter))

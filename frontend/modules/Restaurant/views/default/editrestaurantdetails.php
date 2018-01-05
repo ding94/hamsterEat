@@ -55,7 +55,7 @@ EditRestaurantDetailsAsset::register($this); ?>
             <strong>Restaurant Area</strong><br><?php echo $restaurantdetails['Restaurant_Area']; ?><br><br>
 
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-            <?= $form->field($foodjunction, 'Type_ID')->inline(true)->radioList(["22"=>'Halal',"23"=>'Non-Halal'])->label('<strong>Type</strong>') ?>
+            <?= $form->field($foodjunction, 'Type_ID')->inline(true)->radioList([$halal['ID']=>$halal['Type_Name'],$nonhalal['ID']=>$nonhalal['Type_Name']])->label('<strong>Type</strong>') ?>
                 <?php echo Select2::widget([
                             'name' => 'Type_ID',
                             'value' => $chosen,

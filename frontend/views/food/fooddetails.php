@@ -41,7 +41,7 @@ FoodDetailsAsset::register($this);
               <?php $am = time() < strtotime(date("Y/m/d 11:0:0"));?>
           <div class="foodprice" data-price="<?php $price = CartController::actionRoundoff1decimal($fooddata->Price);if($am){$price=$price*0.85;} echo $price?>">
             <?php if ($am == true):?>
-              <span><strike><?php echo 'RM'.$price; ?></strike></span>        <span class='price'><?php echo 'RM'.number_format($price,2); ?></span>
+              <span><strike><?php echo 'RM'.$fooddata->Price; ?></strike></span>        <span class='price'><?php echo 'RM'.number_format($price,2); ?></span>
             <?php else: ?>
               <span class="price"><?php echo 'RM'.$price; ?></span>
             <?php endif;?>

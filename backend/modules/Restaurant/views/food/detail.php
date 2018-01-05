@@ -47,7 +47,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 'Nickname',
                 'BeforeMarkedUp',
                 'Price',
-                [
+                /*[
                     'attribute' => 'tpyeStatus',
                     'format' => 'raw',
                     'value' => function($model)
@@ -63,7 +63,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                         return $model->Status == 0 ?  Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'ON']) :  Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'OFF']);
                     },
                     'filter' =>  array( 0=>"Close",1=>"Open"),
-                ],
+                ],*/
             ],
         ])
         ?>

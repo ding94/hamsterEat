@@ -64,12 +64,13 @@ class CartController extends CommonController
         $cartSelection = new CartSelection;
         $post = Yii::$app->request->post();
         $cart->load(Yii::$app->request->post());
+        $data['value'] = 0;
         //$cartSelection->load(Yii::$app->request->post());
         if(empty($post))
         {
             //Yii::$app->session->setFlash('error', "");
             $data['message'] = "Something Went Wrong!";
-            $data['value'] = 0;
+            ;
             return Json::encode($data);
         }
         
@@ -80,11 +81,18 @@ class CartController extends CommonController
         }
 
         $session = Yii::$app->session;
-        $food = food::find()->where('food.Food_ID = :id',[':id'=> $id])->joinWith(['restaurant','foodSelection'])->one();
+        $food = food::find()->where('food.Food_ID = :id and foodstatus.Status = 1',[':id'=> $id])->joinWith(['restaurant','foodSelection','foodStatus'])->one();
+
+        if(empty($food))
+        {
+            $data['message'] = "The Food Is Not Available Or Missing";
+            return Json::encode($data);
+        }
         
         if(empty($session['group']) || $session['group'] != $food['restaurant']['Restaurant_AreaGroup'])
         {
-            return "This item is in a different area from your area. Please re-enter your area.";
+            $data['message'] = "This item is in a different area from your area. Please re-enter your area.";
+            return Json::encode($data);
         }
 
         $minMaxValidate = self::detectEmptySelection($post,$id);
@@ -92,7 +100,7 @@ class CartController extends CommonController
         if($minMaxValidate['value'] == 3)
         {
             $data['message'] = $minMaxValidate['message'];
-            $data['value'] = 0;
+           
             return Json::encode($data);
         }
        
@@ -194,7 +202,18 @@ class CartController extends CommonController
     public function actionTotalcart($area)
     {
         $time['now'] = Yii::$app->formatter->asTime(time());
-        $total =  Cart::find()->where('uid = :uid and area = :area',[':uid' => Yii::$app->user->identity->id ,':area'=>$area])->sum('price*quantity');
+        $query =  Cart::find()->where('uid = :uid and area = :area',[':uid' => Yii::$app->user->identity->id ,':area'=>$area]);
+       
+        $price['total'] = $query->sum('price*quantity');
+        $query = $query->joinWith(['food'])->all();
+        foreach($query as $cart)
+        {
+            $countDelivery[$cart->food->Restaurant_ID] = 0;
+        }
+        
+        $deliveryCharge = count($countDelivery) * Yii::$app->params['deliveryCharge'];
+        $price['delivery'] = $deliveryCharge;
+
         $time['early'] = date('08:00:00');
         $time['late'] = date('23:00:59');
 
@@ -204,7 +223,7 @@ class CartController extends CommonController
                 $query->andWhere(['=','discount_type',5])->orWhere(['=','discount_type',2]);
             }])->all(),'code','code');
         $ren = new VouchersType;
-        return $this->render('totalcart',['total'=>$total ,'time' => $time,'voucher'=>$voucher,'ren'=>$ren,'area'=>$area]);
+        return $this->render('totalcart',['price'=>$price ,'time' => $time,'voucher'=>$voucher,'ren'=>$ren,'area'=>$area]);
     }
 
     public function actionAddsession()
@@ -530,9 +549,10 @@ class CartController extends CommonController
 
     public static function mutipleDelete($cart)
     {
-        foreach($cart as $data)
+        foreach($cart as $id)
         {
-            $data->delete();
+            $cart = Cart::findOne($id);
+            $cart->delete();
         }
     }
 

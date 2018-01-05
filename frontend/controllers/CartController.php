@@ -114,7 +114,6 @@ class CartController extends CommonController
 
         $valid = $cart->validate();
        
-        return JSON::encode($data);
         if($valid)
         {
             $transaction = Yii::$app->db->beginTransaction();

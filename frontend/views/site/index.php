@@ -116,6 +116,34 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 			</div>
 		</div>
 	</div>
+	<div id="SSCrow5">
+		<div class="container">
+			<div class="operatingtime-content">
+				<div class="text">
+					<p>MONDAY – FRIDAY</p>
+					<p class="s-text">Order before 11am,</p>
+					<p class="s-text">Get Lunch by 1pm.</p>
+				</div>
+				<div class="graphic">
+					Graphic
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="SSCrow6">
+		<div class="container">
+			<div class="promo-content">
+				<div class="graphic">
+					Graphic
+				</div>
+				<div class="text">
+					<p>Early Bird Promo</p>
+					<p class="s-text">Get 15% off Food!</p>
+					<p class="s-text">All Orders Included.</p>
+				</div>
+			</div>
+		</div>
+	</div>
 <div id="SSCrow3">
    <div class="container">
 		

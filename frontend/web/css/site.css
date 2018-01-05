@@ -657,6 +657,7 @@ span.badge{
   }
 }
 
+/* SSCrow4 How It Works Section */
 #SSCrow4{
   height: 500px;
   background-color: #FFF;
@@ -714,4 +715,60 @@ span.badge{
 
 #box3{
   transform: translateX(200%);
+}
+
+/* SSCrow5 Operating Time Section */
+#SSCrow5{
+  height: 500px;
+  display: flex;
+  font-family: 'Lato', sans-serif;
+}
+
+#SSCrow5 .container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.operatingtime-content{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#SSCrow5 .text{
+  font-size: 30px;
+  text-align: center;
+  margin-right: 50px;
+}
+
+#SSCrow5 .s-text{
+  font-size: 24px;
+}
+
+/* SSCrow6 Promo Section */
+
+#SSCrow6{
+  height: 500px;
+  display: flex;
+  font-family: 'Lato', sans-serif;
+  background-color: #FFF;
+}
+
+#SSCrow6 .container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.promo-content{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#SSCrow6 .text{
+  font-size: 30px;
+  text-align: center;
+  margin-left: 50px;
 }

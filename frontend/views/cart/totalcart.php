@@ -29,8 +29,8 @@ CartAsset::register($this);
       <table class="table table-total" style="clear: both;table-layout: fixed;">
         <tr>
           <?php 
-            $total = CartController::actionRoundoff1decimal($price['total']); 
-            $charge = CartController::actionRoundoff1decimal($price['delivery']); 
+            $total = $price['total']; 
+            $charge = $price['delivery']; 
           ?>
           <td>Subtotal</td>
           <td class="text-xs-right">RM <font id="subtotal"><?php echo $total ; ?></font></td>

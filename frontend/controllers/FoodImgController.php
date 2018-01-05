@@ -72,9 +72,7 @@ class FoodImgController extends CommonController
            $output['initialPreviewConfig'][0]['caption'] = $filename;
            $output['initialPreviewConfig'][0]['url'] = Url::to(['/food-img/delete','id'=>$id]);
            $output['initialPreviewConfig'][0]['key'] = $id;
-         
-
-
+ 
         } 
         elseif ($success === false) 
         {

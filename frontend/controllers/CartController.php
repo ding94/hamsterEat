@@ -657,11 +657,12 @@ class CartController extends CommonController
             $foodSelection = ArrayHelper::map($food['foodSelection'],'ID','Price');
             foreach($cartSelection as $selection)
             {
-                $price[1] += self::actionRoundoff1decimal($foodSelection[$selection]);
-                self::actionRoundoff1decimal($price[1]);
+                $price[1] += $foodSelection[$selection];
+            
             }
         }
-        $price[0] =  self::actionRoundoff1decimal($food->Price + $price[1]);
+
+        $price[0] =  $food->Price + $price[1];
         
         return $price;
     }

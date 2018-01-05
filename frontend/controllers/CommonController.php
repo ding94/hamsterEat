@@ -162,6 +162,7 @@ class CommonController extends Controller
     public static function restaurantPermission($rid)
     {
         $staff = Rmanagerlevel::find()->where('rmanagerlevel.Restaurant_ID = :rid and rmanagerlevel.User_Username = :u and  Rmanager_Approval = 1',[':rid'=>$rid,':u' => Yii::$app->user->identity->username])->joinWith(['manager','restaurant'])->one();
+
         if(empty($staff))
         {
             throw new HttpException('403','Permission Denied!');
@@ -173,7 +174,7 @@ class CommonController extends Controller
         $auth = \Yii::$app->authManager;
         
         $verify = $auth->getChildren($staff->RmanagerLevel_Level);
-       
+        
         if(empty($verify[$permissionName]))
         {
            throw new HttpException('403','Permission Denied!');

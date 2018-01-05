@@ -90,7 +90,13 @@ class RestaurantItemProfit extends \yii\db\ActiveRecord
     {
         $data = RestaurantProfit::findOne($this->did);
         $discount = $data->earlyDiscount == 0 ? $data->voucherDiscount : $data->earlyDiscount;
-        return $data->total - $discount;
+        return $data->total + $data->deliveryCharge - $discount;
+    }
+
+    public function getDelivery()
+    {
+        $data = RestaurantProfit::findOne($this->did);
+        return $data->deliveryCharge;
     }
 
     public function getOriginal()

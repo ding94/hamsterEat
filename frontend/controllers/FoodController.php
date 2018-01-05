@@ -277,6 +277,8 @@ class FoodController extends CommonController
     public function actionPostedit($id)
     { 
         $food = Food::findOne($id);
+        $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$food['Restaurant_ID']])->one();
+        CommonController::restaurantPermission($restaurant->Restaurant_ID);
         $modelSelectionType = $food->foodselectiontypes;
         $modelJunction = $food->junction;
 

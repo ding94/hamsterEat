@@ -463,7 +463,6 @@
                 "bower-asset/microplugin": "dev-0.0.x|0.0.x",
                 "bower-asset/sifter": "dev-0.5.x|0.5.x"
             },
-            "require-dev": {
             "type": "bower-asset",
             "license": [
                 "Apache License, Version 2.0"

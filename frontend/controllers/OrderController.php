@@ -194,7 +194,7 @@ class OrderController extends CommonController
 
         
         date_default_timezone_set("Asia/Kuala_Lumpur");
-        
+       
         $order['Orders_Subtotal'] = number_format($order['Orders_Subtotal'],2);
         $order['Orders_DeliveryCharge'] = number_format($order['Orders_DeliveryCharge'],2);
         $order['Orders_TotalPrice'] = number_format($order['Orders_TotalPrice'],2);
@@ -251,6 +251,7 @@ class OrderController extends CommonController
 //--This function updares the order's status and the specific order item status to preparing
     public function actionUpdatePreparing($oid, $rid)
     {
+        CommonController::restaurantPermission($rid);
         $updateOrder = false;
         $orderitem = $this->findOrderitem($oid,3);
       
@@ -258,6 +259,7 @@ class OrderController extends CommonController
 
         $orderitem->save();
         $allitem = OrderItem::find()->where('Delivery_ID =:did',[':did' => $orderitem->Delivery_ID])->all();
+
         foreach ($allitem as $item) {
             $updateOrder = $item->OrderItem_Status == 3 ? true : false && $updateOrder;
         }
@@ -278,6 +280,7 @@ class OrderController extends CommonController
 //--This function updates the specific order item status to ready for pick up
     public function actionUpdateReadyforpickup($oid, $rid)
     {
+        CommonController::restaurantPermission($rid);
         $orderitem = $this->findOrderitem($oid,4);
         $orderitem->OrderItem_Status = 4;
         $orderitem->save();
@@ -288,7 +291,12 @@ class OrderController extends CommonController
 //--This loads the order history as an invoice in pdf form
     public function actionInvoicePdf($did)
     {
-        $order = Orders::find()->where('Delivery_ID = :did', [':did'=>$did])->one();
+        $order = Orders::find()->where('Delivery_ID = :did and User_Username = :name', [':did'=>$did,':name'=> Yii::$app->user->identity->username])->one();
+        if(empty($order))
+        {
+            Yii::$app->session->setFlash('error', 'Something Went Wrong!!.');
+            return $this->redirect(['/order/my-orders']);
+        }
         $orderitem = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
         $address = DeliveryAddress::find()->where('delivery_id=:did',[':did'=>$did])->one();
         
@@ -327,12 +335,9 @@ class OrderController extends CommonController
 //--This function loads the restaurant's orders which have been completed
     public function actionRestaurantOrderHistory($rid)
     {
-        $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
-        if (empty($staff)) {
-            Yii::$app->session->setFlash('error','Permission Denied!');
-            return $this->redirect(['/user/user-profile']);
-        }
-
+        $linkData = CommonController::restaurantPermission($rid);
+        $link = CommonController::getRestaurantUrl($linkData,$rid);
+        
         $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
         if ($restaurantname['approval'] != 1) {
             Yii::$app->session->setFlash('warning','Restaurant was waiting admin to approve.');
@@ -353,9 +358,8 @@ class OrderController extends CommonController
         /* end.. */
 
         $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
-        $linkData = CommonController::restaurantPermission($rid);
-        $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
-        return $this->render('restaurantorderhistory', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result, 'staff'=>$staff,'link'=>$link,'pagination'=>$pagination,'statusid'=>$statusid]);
+      
+        return $this->render('restaurantorderhistory', ['rid'=>$rid, 'restaurantname'=>$restaurantname, 'result'=>$result,'link'=>$link,'pagination'=>$pagination,'statusid'=>$statusid]);
     }
 
     public static function findOrder($id)

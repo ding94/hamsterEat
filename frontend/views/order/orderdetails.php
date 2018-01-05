@@ -103,7 +103,7 @@ OrderDetailsAsset::register($this);
                             <th>Delivery Charge:</th>
                             <td><?= $order['Orders_DeliveryCharge']; ?></td>
                         </tr>
-                        <?php if ($order['Orders_DiscountTotalAmount'] >0): ?>
+                        <?php if ($order['Orders_DiscountEarlyAmount'] >0): ?>
                             <tr>
                                 <th>Early Discount:</th>
                                 <td style="color: red;">- <?= $order['Orders_DiscountEarlyAmount']; ?></td>

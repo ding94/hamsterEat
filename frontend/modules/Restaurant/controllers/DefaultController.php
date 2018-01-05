@@ -102,26 +102,6 @@ class DefaultController extends CommonController
         $typequery= Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->where(['and',['!=','id',23],['!=','id',24]])->all();
         $allrestauranttype = ArrayHelper::map($typequery,'ID','Type_Name');
        
-       
-
-        // var_dump($restaurant[0]['restaurantType'][0]);exit;
-        /*$types = Restauranttype::find()->orderBy(['Type_Name'=>SORT_ASC])->all();
-        $mode = 1;
-
-        $search = new Food();
-
-        if ($search->load(Yii::$app->request->post()))
-        {
-            $mode = 3;
-            $keyword = $search->Nickname;
-            $restaurant = restaurant::find()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->andWhere(['like', 'Restaurant_Name', $keyword]);
-            $pagination = new Pagination(['totalCount'=>$restaurant->count(),'pageSize'=>10]);
-            $restaurant = $restaurant->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-
-            return $this->render('index',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword,'pagination'=>$pagination]);
-        }*/
         $this->layout = 'main3';
         return $this->render('index',['restaurant'=>$restaurant, 'allrestauranttype'=>$allrestauranttype ,'type' => $type,'filter'=>$filter,'pagination'=>$pagination]);
     }
@@ -305,7 +285,7 @@ class DefaultController extends CommonController
         $upload = new Upload();
         $foodjunction = new Restauranttypejunction();
         $linkData = CommonController::restaurantPermission($rid);
-        $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
+        $link = CommonController::getRestaurantUrl($linkData,$rid);
 
         $restaurantdetails = restaurant::find()->where('Restaurant_ID = :rid',[':rid' => $rid])->one();
       
@@ -416,7 +396,7 @@ class DefaultController extends CommonController
         // var_dump($me);exit;
         
         $linkData = CommonController::restaurantPermission($rid);
-        $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
+        $link = CommonController::getRestaurantUrl($linkData,$rid);
 
         return $this->render('managerestaurantstaff',['rid'=>$rid, 'rstaff'=>$rstaff, 'id'=>$id, 'me'=>$me ,'link'=>$link]);
     }
@@ -437,6 +417,7 @@ class DefaultController extends CommonController
 //--This function lists all the restaurant managers in hamsterEat
     public function actionAllRmanagers($rid)
     {
+        CommonController::restaurantPermission($rid);
         $allrmanagers = user::find()->innerJoinWith('authAssignment','user.id = authAssignment.user_id')->where(['auth_assignment.item_name' => "restaurant manager"])->all();
 
         $food = new Food;
@@ -459,23 +440,52 @@ class DefaultController extends CommonController
 //--This function adds restaurant managers as a staff to a specific restaurant and under different positions
     public function actionAddStaff($rid, $uname, $num)
     {
+        CommonController::restaurantPermission($rid);
+        
         $time = time();
-        if ($num == "1")
+
+        if(empty($num) || $num < 1 || $num > 4)
         {
-            $sql = "INSERT INTO rmanagerlevel (User_Username, Restaurant_ID, RmanagerLevel_Level, Rmanager_DateTimeAdded) VALUES ('$uname', $rid, 'Owner', $time)";
+            Yii::$app->session->setFlash('error', 'Something Went Wrong!');
+            return $this->redirect(Yii::$app->request->referrer);
         }
-        elseif ($num == "2")
-        {
-            $sql = "INSERT INTO rmanagerlevel (User_Username, Restaurant_ID, RmanagerLevel_Level, Rmanager_DateTimeAdded) VALUES ('$uname', $rid, 'Manager', $time)";
+        switch ($num) {
+            case 1:
+                $name = "Owner"; 
+                break;
+            case 2:
+                $name = "Manager";
+                break;
+            case 3:
+                $name = "Operator";
+                break;
+            default:
+                $name = "";
+                # code...
+                break;
         }
-        elseif ($num == "3")
+        $sql = Rmanagerlevel::find()->where('User_Username = :u and Restaurant_ID = :r and      RmanagerLevel_Level = :l',[':u' => $uname , ':r' => $rid , ':l' => $name])->one();
+        if(!empty($sql))
         {
-            $sql = "INSERT INTO rmanagerlevel (User_Username, Restaurant_ID, RmanagerLevel_Level, Rmanager_DateTimeAdded) VALUES ('$uname', $rid, 'Operator', $time)";
+           Yii::$app->session->setFlash('error', 'Something Went Wrong!');
+            return $this->redirect(Yii::$app->request->referrer); 
         }
 
-        Yii::$app->db->createCommand($sql)->execute();
+        $manager = new Rmanagerlevel;
+        $manager->User_Username = $uname;
+        $manager->Restaurant_ID = $rid;
+        $manager->RmanagerLevel_Level = $name;
+        $manager->Rmanager_DateTimeAdded = time();
         
-        return $this->redirect(['manage-restaurant-staff','rid'=>$rid]);
+        if($manager->save())
+        {
+            return $this->redirect(['manage-restaurant-staff','rid'=>$rid]);
+        }
+        else
+        {
+            Yii::$app->session->setFlash('error', 'Something Went Wrong!');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
     }
 
 //--This shows the food available in the area group according to user keyed in postcode and area

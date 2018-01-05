@@ -18,7 +18,7 @@ class ProfitController extends CommonController
 	public function actionIndex($rid,$first =0 ,$last =0)
 	{
 		$linkData = CommonController::restaurantPermission($rid);
-        $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
+        $link = CommonController::getRestaurantUrl($linkData,$rid);
         
 		if($first == 0 || $last == 0)
 		{

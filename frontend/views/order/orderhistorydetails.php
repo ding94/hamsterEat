@@ -99,10 +99,16 @@ use yii\helpers\Html;
                         <td style="text-align: right;">Delivery Charge:</td>
                         <td style="text-align: right;">RM <?=  number_format($order['Orders_DeliveryCharge'],2); ?></td>
                     </tr>
+                    <?php if (!empty($order['Orders_DiscountEarlyAmount'])): ?>
+                        <tr>
+                            <td style="text-align: right;">Discounted:</td>
+                            <td style="text-align: right;">- RM <?= number_format($order['Orders_DiscountEarlyAmount'],2); ?></td>
+                        </tr>
+                    <?php endif ?>
                     <?php if (!empty($order['Orders_DiscountTotalAmount'])): ?>
                         <tr>
                             <td style="text-align: right;">Discounted:</td>
-                            <td style="text-align: right;">RM <?= number_format($order['Orders_DiscountTotalAmount'],2); ?></td>
+                            <td style="text-align: right;">- RM <?= number_format($order['Orders_DiscountTotalAmount'],2); ?></td>
                         </tr>
                     <?php endif ?>
                     <tr>

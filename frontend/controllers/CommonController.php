@@ -179,10 +179,7 @@ class CommonController extends Controller
            throw new HttpException('403','Permission Denied!');
         }
 
-        $data[0] = $staff->restaurant->Restaurant_AreaGroup;
-        $data[1] = $staff->restaurant->Restaurant_Area;
-        $data[2] = $staff->RmanagerLevel_Level;
-        return $data;
+        return $staff->RmanagerLevel_Level;
     }
 
     public static function rmanagerApproval() 
@@ -196,7 +193,7 @@ class CommonController extends Controller
         throw new HttpException('403','Permission Denied!');
     }
 
-    public static function getRestaurantUrl($restArea,$areachosen,$staff,$rid)
+    public static function getRestaurantUrl($staff,$rid)
     {
         //$restArea = $staff->restaurant->Restaurant_AreaGroup;
         //$areachosen = $staff->restaurant->Restaurant_Area;

@@ -189,7 +189,7 @@ class FoodController extends CommonController
      public function actionMenu($rid,$page)
      {
         $linkData = CommonController::restaurantPermission($rid);
-        $link = CommonController::getRestaurantUrl($linkData[0],$linkData[1],$linkData[2],$rid);
+        $link = CommonController::getRestaurantUrl($linkData,$rid);
         $menu = Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid]);
         $count = count(Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->all());
         // var_dump($count);exit;

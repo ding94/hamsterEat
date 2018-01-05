@@ -113,7 +113,8 @@ class CartController extends CommonController
         $cart->selectionprice = $price[1];
 
         $valid = $cart->validate();
-
+       
+        return JSON::encode($data);
         if($valid)
         {
             $transaction = Yii::$app->db->beginTransaction();
@@ -660,9 +661,9 @@ class CartController extends CommonController
                 $price[1] += self::actionRoundoff1decimal($foodSelection[$selection]);
             }
         }
-        $price[0] = $food->Price + $price[1];
+        $price[0] =  self::actionRoundoff1decimal($food->Price + $price[1]);
         
-        return  self::actionRoundoff1decimal($price);
+        return $price;
     }
 
     public static function actionDisplay2decimal($price)

@@ -193,8 +193,7 @@ class DefaultController extends CommonController
         $countQuery = clone $model;
         $pagination = new Pagination(['totalCount'=>$countQuery->count(),'pageSize'=>10]);
         $rowfood = $model->offset($pagination->offset)
-        ->limit($pagination->limit)
-      
+        ->limit($pagination->limit)->orderBy(['Name'=>SORT_ASC])
         ->all();
         
         return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood,'pagination'=>$pagination, 'rid'=>$rid]);

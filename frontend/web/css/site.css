@@ -512,7 +512,7 @@ div.dotted {
   transition-duration: 0.4s;
   text-decoration: none;
   overflow: hidden;
-	border-radius: 20px;
+	border-radius: 4px;
 	margin-top:10px;
 }
 
@@ -553,7 +553,7 @@ div.dotted {
   color: grey;
   cursor: pointer;
   outline: none;
-	border-radius: 25px;
+	border-radius: 4px;
 	text-align: center;
 }
 
@@ -666,6 +666,9 @@ span.badge{
 }
 
 #SSCrow4 .container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height:500px;
   overflow:hidden;
   position:relative;
@@ -751,7 +754,6 @@ span.badge{
 }
 
 /* SSCrow6 Promo Section */
-
 #SSCrow6{
   height: 500px;
   display: flex;

@@ -21,12 +21,15 @@
   padding:30px;
 
 }
+
 .list-unstyled>li>a{
   color:#adadad;
 }
+
 #Box2>p{
   color:#adadad;
 }
+
 #Box2>a{
   text-decoration: none!important;
 }
@@ -42,23 +45,29 @@
 	background-color:#fff;
 	border-radius: 50%;
 }
+
 .btn-facebook{
 	color:#3B5998;
 }
+
 .btn-facebook:hover{
 	background: #3B5998;
 	color: white;
 }
+
 .btn-google{
 	color:#DC4A38;
 }
+
 .btn-google:hover{
     background: #DC4A38;
     color: white;
 }
+
 .btn-instagram{
 	color:#d6249f;
 }
+
 .btn-instagram:hover{
     background: #d6249f;
     color: white;
@@ -67,4 +76,16 @@
 #Box4{
 	text-align: justify;
   text-justify: inter-word;
+}
+
+footer .container-fluid{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+#Box3 center{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

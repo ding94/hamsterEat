@@ -150,6 +150,9 @@ button.btn.btn-primary.bootstrap-touchspin-up{
 .radio label,
 .checkbox label{
   padding: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 label span.radio-custom-label,
@@ -205,6 +208,10 @@ label span.checkbox-custom-label{
 
 .checkbox-custom:focus + label span.checkbox-custom-label, .radio-custom:focus + label span.radio-custom-label {
   outline: 1px solid #ddd; /* focus style */
+}
+
+.foodselection-name{
+  flex-grow: 1;
 }
 
 .quantity{

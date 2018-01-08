@@ -75,14 +75,20 @@ CartAsset::register($this);
       		<h1>
             <?php echo Html::a($single['food']['Name'],['Restaurant/default/restaurant-details','rid'=> $single['food']['Restaurant_ID']],['target'=>"_blank"])?>
           </h1>
-      		<?php foreach($single['groupselection'] as $name=>$selection):?>
-            <?php $text = implode( ", ", $selection );?>
-              <span style="color:#a38b01;">   <?php echo $text?></span>
-            <?php endforeach;?>&nbsp;	
-      			<?php if(!empty($single['remark'])): ?>
-      				<span style="color:#fc7171;">  <?php echo '|'.' &nbsp;'.$single['remark'];?></span>
+          <div class="relative">
+            Food Selection
+            <i class="fa fa-info-circle"> <span class="i-detail i-selection" > 
+            <?php foreach($single['groupselection'] as $name=>$selection):?>
+              <?php $text = implode( ", ", $selection );?>
+                 <?php echo $text?>
+            <?php endforeach;?></span></i>&nbsp; 
+          </div>
+      		<?php if(!empty($single['remark'])): ?>
+            <div class="relative upper-trash" style="color:#fc7171;">Remark
+      				<i class="fa fa-info-circle"> <span class="i-detail i-selection" ><?php echo $single['remark'];?><span >  </i>
+            </div>
       			<?php endif; ?>
-            <a id="d" class="fa fa-trash delete" href="#"></a>
+          <a id="d" class="fa fa-trash delete" href="#"></a>
       	</div>	
       	<footer class="content">
       		<span class="qt-minus plusMinus">-</span>

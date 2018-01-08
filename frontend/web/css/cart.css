@@ -7,6 +7,43 @@ a:hover{
 	cursor: pointer;
 }
 
+
+.i-detail{
+	display: none;
+	font-size: 80%;
+	padding :10px;
+	
+	position: absolute;
+	background: #222;
+	color: #FFF;
+
+}
+
+.i-selection{
+	margin-left: 10px;
+	bottom :0.5px;
+}
+
+.i-information{
+	margin-left: 10px;
+	top : 0;
+}
+
+i:hover .i-detail,.i-detail:hover{
+	display: inline-block;
+}
+
+.upper-trash{
+	float:left;
+}
+
+.relative{
+	position: relative;
+}
+
+.touch .relative .no-hover .information-detail{
+	display: none !important;
+}
 .fa[class~=angle]{
     font-size:1.3rem;
     position:relative;
@@ -227,6 +264,7 @@ a:hover {
 	height: 50px;
 	margin: 6px 0 0 0;
 	padding: 0;
+	overflow: hidden;
 }
 
 .product footer .price {
@@ -338,7 +376,7 @@ a:hover {
 
 #d {
 	font-size: 25px;
-	padding: 10px 0;
+	padding: 0 0 0 10px;
 	text-align: center;
 	float:right;
 	-webkit-transition: all .2s linear;
@@ -438,6 +476,11 @@ a:hover {
 		-ms-transition: margin .2s linear, opacity .2s linear;
 		-o-transition: margin .2s linear, opacity .2s linear;
 		transition: margin .2s linear, opacity .2s linear;
+	}
+
+	.product h1 {
+		font-size: 20px;
+
 	}
 
 	/* .product header {

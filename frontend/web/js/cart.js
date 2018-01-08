@@ -79,6 +79,7 @@ $('footer.content').on('click', '.plusMinus', function(event) {
   })
 });
 
+
 function quantity(up,cid)
 {
   return $.ajax({
@@ -164,5 +165,24 @@ function quantity(up,cid)
    document.getElementById('pc').innerHTML = "Enter Promo Code:";
    document.getElementById('refresh').style.display = "block";
    document.getElementById('voucher').style.display = "none";
-}
+  }
 
+
+// Add no-touch class to body for mobile touch events and toggle hover class on elements that need it
+ if ("ontouchstart" in document.documentElement) {
+    document.documentElement.className += " touch";
+  }
+  
+  // Add and remove no-hover class to <li>'s for mobile hover events
+  $('.touch .relative').each(function() {
+    var div = jQuery(this);
+    
+    div.hover(function() {
+      div.removeClass('no-hover');
+    });
+    
+    jQuery('*').not(div).bind('click', function() {
+      div.addClass('no-hover');
+    });
+    
+  });

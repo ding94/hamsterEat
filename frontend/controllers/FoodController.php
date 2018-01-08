@@ -190,11 +190,14 @@ class FoodController extends CommonController
      {
         $linkData = CommonController::restaurantPermission($rid);
         $link = CommonController::getRestaurantUrl($linkData,$rid);
-        $menu = Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid]);
-        $count = count(Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->all());
+        $query = Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid]);
+        $countQuery = clone $query;
+        $pagination = new Pagination(['totalCount' => $countQuery->count()]);
+        //$count = count(Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->all());
         // var_dump($count);exit;
-        $pagination = new Pagination(['totalCount'=>$count,'pageSize'=>10]);
-        $menu = $menu
+        //$pagination = new Pagination(['totalCount'=>$count,'pageSize'=>10]);
+        $menu = $query->offset($pagination->offset)
+        ->limit($pagination->limit)
         ->all();
 
         // var_dump($menu);exit;

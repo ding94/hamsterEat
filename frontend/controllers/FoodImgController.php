@@ -77,7 +77,7 @@ class FoodImgController extends CommonController
         elseif ($success === false) 
         {
             $output = ['error'=>'Error while uploading images. Contact the system administrator'];
-            unlink($target);   
+            //unlink($target);   
         } 
         else {
             $output = ['error'=>'No files were processed.'];

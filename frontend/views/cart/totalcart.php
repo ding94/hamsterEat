@@ -35,18 +35,26 @@ CartAsset::register($this);
           <td>Subtotal</td>
           <td class="text-xs-right">RM <font id="subtotal"><?php echo $total ; ?></font></td>
         </tr>
-      <tr>
-        <td>Delivery Charge<span title="Delivery Fee is charged at RM5.00 per restaurant per delivery order.
-"><i class="fa fa-question-circle" aria-hidden="true"></i></span></td>
+      <tr class="relative">
+        <td>Delivery Charge<i class="fa fa-question-circle" aria-hidden="true">
+          <span class="i-detail i-information"> 
+            Delivery Fee is charged at RM5.00 per restaurant per delivery order.
+          </span></i>
+        </td>
         <td class="text-xs-right">RM <font id="delivery"><?php echo $charge ; ?></font></td>
-        </tr>
-        <?php if($time['early'] <= $time['now'] && $time['late'] >= $time['now']):?>
-          <tr id="earlytd">
-            <?php $earlyDiscount = CartController::actionRoundoff1decimal($total *0.15)?>
-          <td>Early Discount<span title="Early Bird Promo: 15% off All Food"><i class="fa fa-question-circle" aria-hidden="true"></i></span></td>
-  			 <td class="text-xs-right" style="color:red;">-RM <font id='early'><?php echo $earlyDiscount?></font></td>
-          </tr>
-        <?php endif ;?>
+      </tr>
+      <?php if($time['early'] <= $time['now'] && $time['late'] >= $time['now']):?>
+      <tr id="earlytd" class="relative">
+        <?php $earlyDiscount = CartController::actionRoundoff1decimal($total *0.15)?>
+        <td>Early Discount <i class="fa fa-question-circle" aria-hidden="true">
+          <span class="i-detail i-information"> 
+            Early Bird Promo: 15% off All Food
+          </span></i>
+        </td>
+  			<td class="text-xs-right" style="color:red;">-RM <font id='early'><?php echo $earlyDiscount?></font></td>
+      </tr>
+
+      <?php endif ;?>
               <!--<tr id="discount" >
                 <td><span><b>Discount:</span></td>
                 <td class="text-xs-right" id="disamount" value="" style="color: red;"><span></span></td>

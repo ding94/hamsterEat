@@ -420,10 +420,10 @@ a:hover {
 @media (max-width:501px){
 	.product header {
 		overflow: hidden;
-		padding-left: 10%;
+		/* padding-left: 10%; */
 		position: relative;
-		float:right;
-		width:auto;
+		float:left;
+		width:49%;
 	}
 
 	.product {
@@ -440,26 +440,28 @@ a:hover {
 		transition: margin .2s linear, opacity .2s linear;
 	}
 
-	.product header {
+	/* .product header {
 		display:none;
-	}
+	} */
 
-	.product img {
+	/* .product img {
 		width: 50%;
 		height: 50%;
-	}
+	} */
 
 	.qt{
 		width:25px;
-		font-size:15px;
+		font-size:12px;
 	
 	}
 	.qt-plus, .qt-minus {
-		font-size:15px;
+		font-size:12px;
+		padding: 0 10px;
 	}
 
 	.product footer .full-price {
-		font-size: 15px;	
+		font-size: 12px;
+		padding: 0 10px;	
 	}
 
 	.product footer .price {	
@@ -467,7 +469,7 @@ a:hover {
 	}
 
 	.product .content {
-		width:100%;
+		width:49%;
 	}
 }
 
@@ -480,10 +482,12 @@ a:hover {
 	.qt-plus, .qt-minus {
 		font-size:15px;
 		padding-left:10px;
+		padding: 0 25px;
 	}
 
 	.product footer .full-price {
 		font-size: 15px;
+		padding: 0 25px;
 	}
 
 	.product footer .price {
@@ -494,9 +498,10 @@ a:hover {
 	.content{
 		overflow-x: hidden;
 	}
-
-	.product header, .product .content {
-		float: none;
+	
+	.product header{
+		width: 100%;
+		margin: 10px 1% 3px 0;
 	}
 
 	.product .content {

@@ -185,6 +185,10 @@
   display: block;
 }
 
+.modal-header img{
+  object-fit: cover;
+}
+
 @media(max-width: 500px){
   #button-container a{
     display: block;

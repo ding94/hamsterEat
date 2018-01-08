@@ -53,7 +53,7 @@ RestaurantOrdersAsset::register($this);
             </div>
         </div>
         <div id="restaurant-orders-content" class="col-sm-10">
-        <div><?php echo Html::a('Cooking Detail',['/Restaurant/restaurant/cooking-detail','rid'=>$rid],['class'=>'btn btn-default','style'=>'margin-bottom:20px;']) ?>
+        <div><?php echo Html::a('Cooking Detail',['/Restaurant/restaurant/cooking-detail','rid'=>$rid],['class'=>'btn btn-default','style'=>'margin-bottom:20px;','target'=>'_blank']) ?>
         <?php
             if (empty($result)) { ?>
                 <h2>There are no orders currently...</h2>

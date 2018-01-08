@@ -49,6 +49,10 @@
 	margin-top: 20px;
 }
 
+.text-right{
+	text-align: right
+}
+
 .none{
 	display: none;
 }
@@ -60,6 +64,7 @@
 @media (max-width: 991px){
 	.raised-btn{
 		width: 100%;
+		margin-bottom: 10px !important;
 	}
 }
 

@@ -63,32 +63,32 @@ CheckoutAsset::register($this);
                 <table class="table table-hover" style="font-size: 1.2em; font-family: 'Times New Roman', Times, serif;">
                         <tr>
                             <td></td>
-                            <td style="text-align: right">Subtotal:</td>
-                            <td>RM <?= number_format($order['Orders_Subtotal'],2); ?></td>
+                            <td class="text-right" style="text-align: right">Subtotal:</td>
+                            <td class="text-right">RM <?= number_format($order['Orders_Subtotal'],2); ?></td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td style="text-align: right">Delivery Charge:</td>
-                            <td>RM <?= number_format($order['Orders_DeliveryCharge'],2); ?></td>
+                            <td class="text-right" style="text-align: right">Delivery Charge:</td>
+                            <td class="text-right">RM <?= number_format($order['Orders_DeliveryCharge'],2); ?></td>
                         </tr>
                         <?php if($order['Orders_DiscountEarlyAmount'] > 0 ) : ?>
                             <tr>
                                 <td></td>
-                                <td style="text-align: right;">Early Discounted:</td>
-                                <td style="color: red;">- RM <?= number_format($order['Orders_DiscountEarlyAmount'],2); ?></td>
+                                <td class="text-right">Early Discounted:</td>
+                                <td class="text-right" style="color: red;">- RM <?= number_format($order['Orders_DiscountEarlyAmount'],2); ?></td>
                             </tr>
                         <?php endif; ?>
                         <?php if($order['Orders_DiscountTotalAmount'] > 0 ) : ?>
                             <tr>
                                 <td></td>
-                                <td style="text-align: right;">Discounted:</td>
-                                <td style="color: red;">- RM <?= number_format($order['Orders_DiscountTotalAmount'],2); ?></td>
+                                <td class="text-right">Discounted:</td>
+                                <td class="text-right" style="color: red;">- RM <?= number_format($order['Orders_DiscountTotalAmount'],2); ?></td>
                             </tr>
                         <?php endif; ?>
                         <tr style="background-color: #d9d9d9">
                             <td></td>
-                            <td style="text-align: right;">Total:</td>
-                            <td>RM <?= number_format($order['Orders_TotalPrice'],2); ?></td>
+                            <td class="text-right" style="text-align: right;">Total:</td>
+                            <td class="text-right">RM <?= number_format($order['Orders_TotalPrice'],2); ?></td>
                         </tr>
                 </table>
             </div>

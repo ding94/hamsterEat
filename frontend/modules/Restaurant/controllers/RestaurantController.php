@@ -306,6 +306,7 @@ class RestaurantController extends CommonController
             {
                 $did = $single->Delivery_ID;
                 $singleData[$did]['foodname'] = $single->food->Name;
+                $singleData[$did]['foodname'] = $single->food->Nickname;
                 $singleData[$did]['quantity'] = $single->OrderItem_Quantity;
                 $singleData[$did]['selection'] = Json::decode($single->trim_selection);
                 $singleData[$did]['orderid'] = $single->Order_ID;
@@ -336,7 +337,7 @@ class RestaurantController extends CommonController
                 }
             }
         }
-     
+       
         return $this->render('cooking',['singleData'=>$singleData,'companyData'=>$companyData]);
     }
 

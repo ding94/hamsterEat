@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Json;
+use yii\helpers\Html;
 use frontend\assets\CookingAsset;
 
 $this->title = "Cooking List";
@@ -8,6 +9,7 @@ CookingAsset::register($this);
 
 <div class="container">
 	<div class="panel">
+		<input checked data-toggle="toggle" type="checkbox">
 		<div class="panel-heading">
 			<ul class="nav nav-tabs">
 				<?php foreach($companyData as $name=> $company):?>
@@ -53,7 +55,7 @@ CookingAsset::register($this);
 											<?php endif ;?>
 							                	<td class="selection-thead" data-th="Food Selection" rowspan=<?php echo $orderrow?>>
 							                      <?php foreach($single['selection'] as $id => $selection) :?>
-							                        <?php echo $selection?>
+							                        <?php echo $selection['name']?>
 							                      <?php endforeach ;?>
 							                    </td>
 							                    <td data-th="Quantity" rowspan=<?php echo $orderrow?>><?php echo $single['quantity']?></td>

@@ -65,7 +65,7 @@ class Foodselection extends \yii\db\ActiveRecord
                 $this->Price = $this->Price - $discount;
             }
         }
-        return '<span>'.$this->Name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($this->Price).'">(+ RM'.CartController::actionRoundoff1decimal($this->Price).')</span><span class="radio-custom-label"></span>';
+        return '<span class="foodselection-name">'.$this->Name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($this->Price).'">RM'.CartController::actionRoundoff1decimal($this->Price).'</span><span class="radio-custom-label"></span>';
     }
 
     public function getCheckboxtypeprice()
@@ -77,7 +77,7 @@ class Foodselection extends \yii\db\ActiveRecord
                 $this->Price = $this->Price - $discount;
             }
         }
-        return '<span>'.$this->Name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($this->Price).'">(+ RM'.CartController::actionRoundoff1decimal($this->Price).')</span><span class="checkbox-custom-label"></span>';
+        return '<span class="foodselection-name">'.$this->Name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($this->Price).'">RM'.CartController::actionRoundoff1decimal($this->Price).'</span><span class="checkbox-custom-label"></span>';
     }
 
     public function getSelectedtpye()

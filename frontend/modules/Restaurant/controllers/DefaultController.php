@@ -314,9 +314,11 @@ class DefaultController extends CommonController
         {
             $post = Yii::$app->request->post();
             $post['Type_ID'][] = $post['Restauranttypejunction']['Type_ID'];
-            $valid = self::checkHalal($rid);
-            if ($valid == false) {
-                return $this->redirect(Yii::$app->request->referrer);
+            if($post['Restauranttypejunction']['Type_ID'] == $halal['ID']){
+                $valid = self::checkHalal($rid);
+                if ($valid == false) {
+                    return $this->redirect(Yii::$app->request->referrer);
+                }
             }
 
             $upload->imageFile =  UploadedFile::getInstance($upload, 'imageFile');

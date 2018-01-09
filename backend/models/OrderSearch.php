@@ -24,6 +24,13 @@ Class OrderSearch extends Orders
 				$query->joinWith(['order_item']);
 				$query->joinWith(['address']);
 				break;
+			case 3:
+				$query = Orderitem::find()->where('OrderItem_Status=:s',[':s'=>2])->orderBy('Order_ID DESC');
+				$query->joinWith(['order']);
+				$query->joinWith(['order_selection']);
+				$query->joinWith(['food']);
+
+				break;
 			default:
 				# code...
 				break;

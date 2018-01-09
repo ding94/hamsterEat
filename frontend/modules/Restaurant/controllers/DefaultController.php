@@ -159,7 +159,6 @@ class DefaultController extends CommonController
 //--This function loads the restaurant's details
     public function actionRestaurantDetails($rid)
     {
-        date_default_timezone_set("Asia/Kuala_Lumpur");
         if (!(Yii::$app->user->isGuest)) {
             $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
         }
@@ -502,7 +501,6 @@ class DefaultController extends CommonController
 //--This shows the food available in the area group according to user keyed in postcode and area
     public function actionShowByFood($type = 0,$filter="")
     {
-        date_default_timezone_set("Asia/Kuala_Lumpur");
         $cookies = Yii::$app->request->cookies;
         $session = Yii::$app->session;
         $halal = $cookies->getValue('halal');

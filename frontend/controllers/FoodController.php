@@ -65,7 +65,6 @@ class FoodController extends CommonController
 //--This function loads the food item's details
     public function actionFoodDetails($id,$rid)
     {
-        date_default_timezone_set("Asia/Kuala_Lumpur");
         if(!Yii::$app->request->isAjax){
             return $this->redirect(Yii::$app->request->referrer);
         }
@@ -92,7 +91,7 @@ class FoodController extends CommonController
 
         $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id' => $id])->orderBy(['ID' => SORT_ASC])->all();
         
-        $cartSelection =new CartSelection;
+        $cartSelection = new CartSelection;
         $cart = new Cart;
         
         $comments = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$id])->orderBy(['created_at' => SORT_DESC])->all();

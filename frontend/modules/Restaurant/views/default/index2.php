@@ -17,6 +17,8 @@ $this->title = "Available Food";
 StarsAsset::register($this);
 RestaurantDefaultIndex2Asset::register($this);
 
+date_default_timezone_set("Asia/Kuala_Lumpur");
+
 Modal::begin([
     'options' => [
         'id' => 'add-modal',

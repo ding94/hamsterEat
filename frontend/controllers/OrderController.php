@@ -192,7 +192,6 @@ class OrderController extends CommonController
         $orderitems = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
         $label = StatusType::find()->asArray()->all();
 
-        
         date_default_timezone_set("Asia/Kuala_Lumpur");
        
         $order['Orders_Subtotal'] = number_format($order['Orders_Subtotal'],2);

@@ -11,6 +11,9 @@ $this->title = $id['Restaurant_Name'];
 
 StarsAsset::register($this);
 RestaurantDetailsAsset::register($this);
+
+
+date_default_timezone_set("Asia/Kuala_Lumpur");
 ?>
 <?php Modal::begin([
             'id'     => 'foodDetail',

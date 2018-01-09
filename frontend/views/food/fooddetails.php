@@ -15,6 +15,8 @@ $this->title = "Food Details";
 
 StarsAsset::register($this);
 FoodDetailsAsset::register($this);
+
+date_default_timezone_set("Asia/Kuala_Lumpur");
 ?>
 <div id="nav">
   <ul class="nav nav-pills food-details-tab">

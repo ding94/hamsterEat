@@ -47,4 +47,18 @@ class Foodstatus extends \yii\db\ActiveRecord
             'StopTime' => 'Stop Time',
         ];
     }
+
+    public function search($params)
+    {
+        $query = self::find();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        return $dataProvider;
+
+    }
 }

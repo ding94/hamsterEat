@@ -10,6 +10,7 @@ use frontend\assets\StarsAsset;
 use frontend\assets\CartAsset;
 use kartik\widgets\Select2;
 use frontend\assets\RestaurantDefaultIndex2Asset;
+use frontend\controllers\CartController;
 
 $this->title = "Available Food";
 
@@ -136,7 +137,7 @@ Modal::end();
                             <div class="foodName-div"><span class="foodName"><?php echo $fooddata['Name']; ?></span><span class="small-text stars" alt="<?php echo $fooddata['Rating']; ?>"><?php echo $fooddata['Rating']; ?></span></div>
                             <div class="price-div">
                                 <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
-                                    <span class="price"><strike><?php echo 'RM'.$fooddata['Price']; ?></strike>        <?php $fooddata['Price']=$fooddata['Price']*0.85; echo 'RM'.number_format($fooddata['Price'],2); ?></span>
+                                    <span class="price"><strike><?php echo 'RM'.$fooddata['Price']; ?></strike>        <?php $fooddata['Price']=$fooddata['Price']*0.85;$fooddata['Price'] = CartController::actionRoundoff1decimal($fooddata['Price']); echo 'RM'.number_format($fooddata['Price'],2); ?></span>
                                 <?php else: ?>
                                     <span class="price"><?php echo 'RM'.$fooddata['Price']; ?></span>
                                 <?php endif;?>

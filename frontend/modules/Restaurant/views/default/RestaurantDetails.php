@@ -5,6 +5,7 @@ use yii\bootstrap\Modal;
 use common\models\Rmanagerlevel;
 use frontend\assets\StarsAsset;
 use frontend\assets\RestaurantDetailsAsset;
+use frontend\controllers\CartController;
 
 $this->title = $id['Restaurant_Name'];
 
@@ -94,7 +95,7 @@ RestaurantDetailsAsset::register($this);
             <!-- <div class="stars-div"></div> -->
             <div class="price-div">
                 <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
-                    <span class="price"><strike><?php echo 'RM'.$data['Price']; ?></strike>        <?php $data['Price']=$data['Price']*0.85; echo 'RM'.number_format($data['Price'],2); ?></span>
+                    <span class="price"><strike><?php echo 'RM'.$data['Price']; ?></strike>        <?php $data['Price']=$data['Price']*0.85;$data['Price'] = CartController::actionRoundoff1decimal($data['Price']); echo 'RM'.number_format($data['Price'],2); ?></span>
                 <?php else: ?>
                     <span class="price"><?php echo 'RM'.$data['Price']; ?></span>
                 <?php endif;?>

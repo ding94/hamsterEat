@@ -27,7 +27,7 @@ class Orderitem extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-	 public $check;
+	public $check;
     public $item = [];
     public static function tableName()
     {
@@ -164,12 +164,12 @@ class Orderitem extends \yii\db\ActiveRecord
             if(empty($array[$single->FoodType_ID]))
             {
                 $array[$single->FoodType_ID]['name'] = Foodselection::findOne($single->Selection_ID)->Name ;
-                $array[$single->FoodType_ID]['nick'] = Foodselection::findOne($single->Selection_ID)->Name ;
+                $array[$single->FoodType_ID]['nick'] = Foodselection::findOne($single->Selection_ID)->Nickname ;
             }
             else
             {
                 $array[$single->FoodType_ID]['name'] .=  ",".Foodselection::findOne($single->Selection_ID)->Name ;
-                $array[$single->FoodType_ID]['nick'] .=  ",".Foodselection::findOne($single->Selection_ID)->Name ;
+                $array[$single->FoodType_ID]['nick'] .=  ",".Foodselection::findOne($single->Selection_ID)->Nickname ;
             }
             
         }

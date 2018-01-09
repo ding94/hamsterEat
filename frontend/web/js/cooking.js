@@ -50,3 +50,43 @@ function groupIndex(element){
   }
   return null;
 }
+
+$(".switch").on('click', function(event) {
+  event.preventDefault();
+  /* Act on the event */
+ 
+  $(".thead").each(function(index){
+    if($(this).hasClass('none'))
+    {
+      $(this).removeClass('none');
+    }
+    else
+    {
+      $(this).addClass('none');
+    }
+  });
+
+  $(".selection-thead").each(function(index){
+   
+    if($(this).hasClass('none'))
+    {
+      $(this).removeClass('none');
+    }
+    else
+    {
+      $(this).addClass('none');
+    }
+  });
+
+  
+  if($(this).hasClass('name'))
+  {
+    $(this).text('View Name');
+    $(this).removeClass('name');
+  }
+  else
+  {
+    $(this).text('View NickNames');
+    $(this).addClass('name');
+  }
+});

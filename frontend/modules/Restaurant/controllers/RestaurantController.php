@@ -277,13 +277,14 @@ class RestaurantController extends CommonController
             {
                 $companyName = Company::findOne($single->address->cid)->name;
                 $foodName = $single->food->Name;
-                $empty = json_encode(['empty'=>'N/A']);
+                $empty = json_encode(['empty'=>['name'=>'N/A','nick'=>'N/A']]);
 
                 $selectionName = empty(Json::decode($single->trim_selection)) ? $empty : $single->trim_selection;
                
                 //$companyData[$companyName][$selectionName][] = $single;
                 //if(empty($companyData[$companyname][$single->trim_selection]['quantity']))
                 $companyData[$companyName][$foodName]['rowspan'] = 0;
+                $companyData[$companyName][$foodName]['nickname'] = $single->food->Nickname;
                 $companyData[$companyName][$foodName][$selectionName]['orderid'][$single->Order_ID]['remark'] = "";
                 //$companyData[$companyName][$selectionName]['selection'] = $selectionName;
                 //$companyData[$companyName][$selectionName]['count'] = $count;
@@ -306,7 +307,7 @@ class RestaurantController extends CommonController
             {
                 $did = $single->Delivery_ID;
                 $singleData[$did]['foodname'] = $single->food->Name;
-                $singleData[$did]['foodname'] = $single->food->Nickname;
+                $singleData[$did]['nickname'] = $single->food->Nickname;
                 $singleData[$did]['quantity'] = $single->OrderItem_Quantity;
                 $singleData[$did]['selection'] = Json::decode($single->trim_selection);
                 $singleData[$did]['orderid'] = $single->Order_ID;
@@ -316,6 +317,7 @@ class RestaurantController extends CommonController
                 }
             }
         }
+
         //var_dump($companyData['SGshop Malaysia']);exit;
         foreach ($companyData as $k => $company) 
         {
@@ -337,7 +339,7 @@ class RestaurantController extends CommonController
                 }
             }
         }
-       
+    
         return $this->render('cooking',['singleData'=>$singleData,'companyData'=>$companyData]);
     }
 

@@ -6,6 +6,10 @@
 	background-color: #EEEFA8;
 }
 
+.none{
+	display: none;
+}
+
 #profit-container{
 	background-color: #FFF;
 }

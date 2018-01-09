@@ -8,8 +8,8 @@ CookingAsset::register($this);
 ?>
 
 <div class="container">
+	<?php echo Html::button('View Nicknames', ['class'=>'raised-btn btn-default fa fa-exchange swap-button pull-right switch name'])?>
 	<div class="panel">
-		<input checked data-toggle="toggle" type="checkbox">
 		<div class="panel-heading">
 			<ul class="nav nav-tabs">
 				<?php foreach($companyData as $name=> $company):?>
@@ -40,23 +40,41 @@ CookingAsset::register($this);
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach($company as $name=> $food):?>
-								<?php $rowspan = array_shift($food);?>
-								<?php foreach($food as $i=>$single):?>
-								<?php  
+							<?php 
+								foreach($company as $name=> $food):
+								 	$rowspan = array_shift($food);
+								 	$nickname = array_shift($food);
+								 	foreach($food as $i=>$single):
+									
 									$arrayKey = array_keys($single['orderid']);
 						            $orderrow = count($arrayKey);
-						        ?>
-							        <?php foreach($arrayKey as $index => $orderid):?>
+
+							        	foreach($arrayKey as $index => $orderid):
+
+							?>
 									<tr>
 										<?php if( $arrayKey[0] == $orderid):?>
 											<?php if($i == 0 ) :?>
 												<td class="thead" data-th="Food Name" rowspan=<?php echo $rowspan?>><?php echo $name?></td>
+												<td class="thead none" data-th="Nick Name" rowspan=<?php echo $rowspan?>><?php echo $nickname?></td>
+											
 											<?php endif ;?>
 							                	<td class="selection-thead" data-th="Food Selection" rowspan=<?php echo $orderrow?>>
-							                      <?php foreach($single['selection'] as $id => $selection) :?>
-							                        <?php echo $selection['name']?>
-							                      <?php endforeach ;?>
+							                      <?php 
+							                      	foreach($single['selection'] as $id => $selection) :
+							                      		
+							                         	echo $selection['name'];
+
+							                      	endforeach 
+							                      ;?>
+							                    </td>
+							                    <td class="selection-thead none" data-th="Food Selection" rowspan=<?php echo $orderrow?>>
+							                      <?php 
+							                      	foreach($single['selection'] as $id => $selection) :
+							                         	echo $selection['nick'];
+
+							                      	endforeach 
+							                      ;?>
 							                    </td>
 							                    <td data-th="Quantity" rowspan=<?php echo $orderrow?>><?php echo $single['quantity']?></td>
 						                <?php endif ;?>

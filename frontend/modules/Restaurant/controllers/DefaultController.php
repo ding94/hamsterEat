@@ -103,7 +103,7 @@ class DefaultController extends CommonController
         }
 
         
-        $pagination = new Pagination(['totalCount'=>$query->count(),'pageSize'=>10]);
+        $pagination = new Pagination(['totalCount'=>$query->count(),'pageSize'=>12]);
         $restaurant = $query->offset($pagination->offset)
         ->limit($pagination->limit)
         ->all();
@@ -159,7 +159,6 @@ class DefaultController extends CommonController
 //--This function loads the restaurant's details
     public function actionRestaurantDetails($rid)
     {
-        date_default_timezone_set("Asia/Kuala_Lumpur");
         if (!(Yii::$app->user->isGuest)) {
             $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
         }
@@ -191,7 +190,7 @@ class DefaultController extends CommonController
         //$countmodel = "SELECT DISTINCT food.Food_ID FROM food INNER JOIN foodstatus ON foodstatus.Food_ID = food.Food_ID WHERE food.Restaurant_ID = ".$rid." AND foodstatus.Status = ".true."";
         //$resultcountmodel = Yii::$app->db->createCommand($countmodel)->execute();
         $countQuery = clone $model;
-        $pagination = new Pagination(['totalCount'=>$countQuery->count(),'pageSize'=>10]);
+        $pagination = new Pagination(['totalCount'=>$countQuery->count(),'pageSize'=>12]);
         $rowfood = $model->offset($pagination->offset)
         ->limit($pagination->limit)->orderBy(['Name'=>SORT_ASC])
         ->all();
@@ -502,7 +501,6 @@ class DefaultController extends CommonController
 //--This shows the food available in the area group according to user keyed in postcode and area
     public function actionShowByFood($type = 0,$filter="")
     {
-        date_default_timezone_set("Asia/Kuala_Lumpur");
         $cookies = Yii::$app->request->cookies;
         $session = Yii::$app->session;
         $halal = $cookies->getValue('halal');
@@ -538,7 +536,7 @@ class DefaultController extends CommonController
         }
         
         $countQuery = clone $query;
-        $pages = new Pagination(['totalCount' => $countQuery->count()]);
+        $pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize'=>12]);
         $food = $query->offset($pages->offset)
         ->limit($pages->limit)
         ->all();

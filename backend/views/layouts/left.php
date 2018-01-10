@@ -64,8 +64,8 @@
                     ],
                     [   'label' => 'Order Controller', 'icon' => 'user', 'url' => "#",
                         'items' =>  [
-                                        ['label' => 'Delivery List' ,'icon' => 'circle-o' , 'url' => ['/order/default/delivery']],
-                                        [ 'label' => 'Order List', 'icon' => 'circle-o', 'url' => ['/order/default/index']],
+                                        ['label' => 'Delivery List' ,'icon' => 'circle-o' , 'url' => ['/order/default/index']],
+                                        [ 'label' => 'Order List', 'icon' => 'circle-o', 'url' => ['/order/default/order']],
                                         [ 'label' => 'Cancelled Order List', 'icon' => 'circle-o', 'url' => ['/customerservice/pausedorder']],
                                         [ 'label' => 'Solved Order List', 'icon' => 'circle-o', 'url' => ['/customerservice/comproblem']],
                                         ['label' => 'Delivery Earning','icon' => 'circle-o','url'=>['/order/profit/index']],
@@ -104,6 +104,8 @@
                                         ['label' => 'Restaurant Detail' , 'icon' => 'circle-o' , 'url' => ['/restaurant/default/index']],
                                         ['label' => 'All Food' , 'icon' => 'circle-o' , 'url' => ['/restaurant/food/index','id' => 0]],
                                         ['label' => 'Rating' , 'icon' => 'circle-o' ,'url' => ['/rating/index']],
+                                        ['label' => 'Restaurant Ranking' , 'icon' => 'circle-o' ,'url' => ['/restaurant/restaurant/restaurant-ranking-per-month']],
+                                        ['label' => 'Food Ranking' , 'icon' => 'circle-o' ,'url' => ['/restaurant/food/food-ranking-per-month']],
                                    ],
                         'options' => ['class' => 'active'],
 

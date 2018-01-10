@@ -4,74 +4,62 @@
 
 use yii\helpers\Html;
 
-$this->title = 'About';
+$this->title = 'About Us | HamsterEat.my';
 ?>
 
 <link href='https://fonts.googleapis.com/css?family=Quicksand|Asap:700' rel='stylesheet' type='text/css'>
-<div class="container" style="text-align:center" id="grad" >
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Welcome to hamsterEat! </p>
-	
-		<div class="row">
-
-            <div class="col-sm-4 element1" style="text-align:center; position: relative;">
-	 <div class="img-circular" ></div>
-	  <div class="content-box" id="grad1" style="position: absolute; z-index: -10">
-      <h4 class="service-heading">Insert</h4>
-      <p>Select postcode & area</p>
-      </div>  
-	 </div>
-	  <div class="col-sm-4 element2" style="text-align:center;">
-	 <div class="img-circular"></div>
-	  <div class="content-box" id="grad2" style="position: absolute; z-index: -10">
-	     <h4 class="service-heading">Add</h4>
-       <p>Add favourite foods to cart</p> 
-	 </div>
-	 </div>
-	  <div class="col-sm-4 element3" style="text-align:center;">
-	 <div class="img-circular"></div>
-	   <div class="content-box" id="grad3" style="position: absolute; z-index: -10">
-	      <h4 class="service-heading">Pay</h4>
-       <p>Pay and enjoy your food</p>
-  </div>
-</div>  
-
-<!--<div class="dotted">
-  <svg viewBox="0 0 103 103" version="1.1"
-  xmlns="http://www.w3.org/2000/svg"  class="dotted">
-  <circle cx="50%" cy="50%" r="50" />
-</svg>
-</div>
-
-//effect for text changing
-<section class="contactcharacter" id="about">
-  <div class="contentwrapper" id="contact">
-    
-    
-      <div class="thoughts">
-        
-        <div class="col-lg-10 col-lg-offset-4" style="text-align:center">
-          <p>hamsterEat provides a platform for you to order food online, you can have your food ...</p>
-          <div class="imacontainer"><span class="ima"></span></div>
-          <p>Do not hesitate to explore hamsterEat!!!</p>
-
-          <span class="imawhat">whenever you are</span>
-          <span class="imawhat">wherever you are</span>
-          <span class="imawhat">as long as you like!</span>
-          <span class="imawhat">in such easier way!</span>
-        </div>
-
-        
-
-      </div>
+<div class="container" id="about-container">
+  <section class="header-section">
+    <div class="header-img-div">
+      <img src="<?php echo Yii::$app->params['sysimg'] ?>/Icon.png" alt="" style="width: 50%;">
     </div>
-
-  
-  
-</section>-->
-
-
-</div>
+    <div class="header-text-div">
+      <h1>HamsterEat – Lunch Delivery to Offices in Medini</h1>
+    </div>
+  </section>
+  <section class="col-md-5">
+    <h3>Who are we?</h3>
+    <p>As a young and dynamic IT team working in an e-commerce (SGshop), we always face one challenge – going out for food within one-hour lunch time. With 3 years’ experience in online shopping, we told ourselves that since we can already deliver parcels from China to Malaysia, why can’t we deliver food from restaurants to our own office? Hence HamsterEat was created.</p>
+  </section>
+  <section class="col-md-5">
+    <h3>What we do?</h3>
+    <p>HamsterEat aims to provide the easiest-to-use food delivery service in Medini City, to serve customers with delicious food during office lunch time. We want to Make Lunch Great Again in Medini, with our lunch delivery services which has already covered Malay, Mamak and Chinese cuisine, we will continue the hard work to pleasure everyone’s taste bud!</p>
+  </section>
+  <section class="col-md-5">
+    <h3>
+      About Us
+    </h3>
+    <p>
+      <span class="secondary-header">Registered Company Name:</span>
+      SGshop Ecommerce Sdn Bhd
+    </p>
+    <p>
+      <span class="secondary-header">Address:</span>
+      B-GF-05, Medini 6, Jalan Medini Sentral 5,
+      Bandar Medini Iskandar Malaysia, 
+      79250 Iskandar Puteri, Johor.
+    </p>
+    <p>
+      <span class="secondary-header">Operating Hour:</span>
+      Monday to Friday 10:00am – 2:00pm
+      Closed on weekend and public holiday
+    </p>
+  </section>
+  <section class="col-md-5">
+    <h3>
+      Contact Us
+    </h3>
+    <p>
+      <span class="secondary-header">Customer Support Hotline:</span>
+      1700 818 315
+    </p>
+    <p>
+      <span class="secondary-header">Customer Support Email:</span>
+      support@HamsterEat.my
+    </p>
+    <p>
+      <span class="secondary-header">Business Contact Email:</span>
+      business@HamsterEat.my
+    </p>
+  </section>
 </div>

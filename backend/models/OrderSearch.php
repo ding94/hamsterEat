@@ -15,7 +15,7 @@ Class OrderSearch extends Orders
 	{
 		switch ($case) {
 			case 1:
-				$query = Orders::find()->orderBy('Orders_Date DESC');
+				$query = Orders::find()->where('OrderItem_Status=:s',[':s'=>2])->orderBy('Orders_DateTimeMade DESC');
 				$query->joinWith(['order_item']);
 				$query->joinWith(['order_status']);
 				break;
@@ -23,6 +23,13 @@ Class OrderSearch extends Orders
 				$query = Orders::find()->where('Orders_Status=:s',[':s'=>2])->andWhere('Orders_DateTimeMade > '.strtotime(date('Y-m-d')))->orderBy('Orders_DateTimeMade DESC');
 				$query->joinWith(['order_item']);
 				$query->joinWith(['address']);
+				break;
+			case 3:
+				$query = Orderitem::find()->where('OrderItem_Status=:s',[':s'=>2])->orderBy('Order_ID DESC');
+				$query->joinWith(['order']);
+				$query->joinWith(['order_selection']);
+				$query->joinWith(['food']);
+
 				break;
 			default:
 				# code...

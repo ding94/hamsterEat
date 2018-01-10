@@ -266,35 +266,6 @@ a.desc:after {
 	margin-top:50px;
 }
 
-#grad {
-  background: orange; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(rgb(255, 241, 221),rgba(255,0,0,0)); /* Standard syntax (must be last) */
-}
-
-@keyframes bounce {
-    0%, 20%, 60%, 100% {
-        -webkit-transform: translateY(0);
-        transform: translateY(0);
-    }
-
-    40% {
-        -webkit-transform: translateY(-20px);
-        transform: translateY(-20px);
-    }
-
-    80% {
-        -webkit-transform: translateY(-10px);
-        transform: translateY(-10px);
-    }
-}
-
-.bounce{
-  animation: bounce 1s;
-}
-
 .img-circular{
   margin-top:30px;
   width: 120px;
@@ -321,28 +292,6 @@ a.desc:after {
 	-webkit-border-radius: 15px; 
 	-moz-border-radius: 15px; 
 	border-radius: 15px;
-}
-
-#grad1 {
-    background: orange; /* For browsers that do not support gradients */    
-    background: -webkit-linear-gradient(left top,  rgb(214, 254, 255),rgb(255, 255, 255)); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(bottom right,   rgb(214, 254, 255),rgb(255, 255, 255)); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(bottom right, rgb(214, 254, 255),rgb(255, 255, 255)); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to bottom right,  rgb(214, 254, 255),rgb(255, 255, 255)); /* Standard syntax (must be last) */
-}
-#grad2 {
-    background: orange; /* For browsers that do not support gradients */    
-    background: -webkit-linear-gradient(left top,  rgb(255, 255, 255),rgb(242, 213, 241)); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(bottom right,   rgb(255, 255, 255),rgb(242, 213, 241)); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(bottom right,  rgb(255, 255, 255),rgb(242, 213, 241)); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to bottom right,   rgb(255, 255, 255),rgb(242, 213, 241)); /* Standard syntax (must be last) */
-}
-#grad3 {
-    background: orange; /* For browsers that do not support gradients */    
-    background: -webkit-linear-gradient(left top,  rgb(253, 255, 219),rgb(255, 255, 255)); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(bottom right,   rgb(253, 255, 219),rgb(255, 255, 255)); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(bottom right, rgb(253, 255, 219),rgb(255, 255, 255)); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to bottom right,   rgb(253, 255, 219),rgb(255, 255, 255)); /* Standard syntax (must be last) */
 }
 
 @import 'compass';
@@ -786,4 +735,57 @@ span.badge{
   font-size: 30px;
   text-align: center;
   margin-left: 50px;
+}
+
+#about-container,h1{
+  font-family: 'Lato', sans-serif;
+}
+
+#about-container section.header-section{
+  background-color: #FFF1D0;
+  display: flex;
+  position: relative;
+  height: 600px;
+}
+
+#about-container section h3{
+  border-bottom: 2px solid #FFDA00;
+  font-size: 34px;
+  font-weight: 900;
+  padding-bottom: 15px;
+}
+
+.header-section .header-img-div,
+.header-section .header-text-div{
+  position: absolute;
+}
+
+.header-section .header-img-div{
+
+}
+
+.header-section .header-text-div{
+  width: 400px;
+  padding: 60px 80px;
+  background-color:#FFF;
+  border-radius: 25px; 
+  right: 100px;
+  top: 100px;
+  box-shadow: 0px 11px 44.6px 0.5px rgba(0,0,0,0.35);
+}
+
+.header-img-div img{
+
+}
+
+#about-container section.col-md-5{
+  margin: 45px;
+}
+
+#about-container section.col-md-5 p{
+  font-size: 20px;
+}
+
+#about-container .secondary-header{
+  font-weight: bold;
 }

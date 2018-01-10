@@ -19,8 +19,7 @@ CartAsset::register($this);
     <div class="row">
         <div class="col-xs-12">
           <div> <?php echo Html::img('@web/imageLocation/Img/empty_cart.png', ['class' => 'img-responsive col-xs-12']); ?>
-              </div>
-        
+          </div>
         </div>
     </div>
   </div>

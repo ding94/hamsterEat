@@ -80,7 +80,7 @@ DeliverymanOrdersAsset::register($this);
 				<table class="table table-hover" style="border:0px solid black;">
 					<thead class='none'>
 						<tr>
-							<th><div class="inner-row"><?php echo Html::checkbox('null',false ,['class'=>'check-all']) ?>Delivery ID</th>
+							<th><div class="inner-row"><?php echo Html::checkbox('null',false ,['class'=>'check-all','id'=>'delivery']) ?>Delivery ID</th>
 							<th>Collect Price</th>
 						</tr>
 					</thead>

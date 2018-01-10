@@ -20,6 +20,7 @@ class RestaurantOrdersAsset extends AssetBundle
     public $js = [
         // 'js/cart.js',
 	  'js/scrolltop.js',
+      'js/check.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

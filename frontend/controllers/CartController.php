@@ -73,12 +73,6 @@ class CartController extends CommonController
             ;
             return Json::encode($data);
         }
-        
-        $availableCart = self::availableCart($id,$post);
-        if($availableCart['value'] != 1)
-        {
-            return Json::encode($availableCart);
-        }
 
         $session = Yii::$app->session;
         $food = food::find()->where('food.Food_ID = :id and foodstatus.Status = 1',[':id'=> $id])->joinWith(['restaurant','foodSelection','foodStatus'])->one();
@@ -102,6 +96,12 @@ class CartController extends CommonController
             $data['message'] = $minMaxValidate['message'];
            
             return Json::encode($data);
+        }
+
+        $availableCart = self::availableCart($id,$post);
+        if($availableCart['value'] != 1)
+        {
+            return Json::encode($availableCart);
         }
        
         $price = self::cartPrice($post,$food);
@@ -570,31 +570,41 @@ class CartController extends CommonController
         return 0;  
     }
 
+    /*
+    * detect either the cart and the food adding is available 
+    */
     protected static function availableCart($id,$post)
     {
         $data['value'] =1 ;
         $data['message'] = "";
-        $avaiableSelection ="";
-        if(!empty($post['CartSelection']))
-        {
-            $avaiableSelection = CommonController::removeNestedArray($post['CartSelection']);
-        }
-        
-        $availableCart = Cart::find()->where('uid = :uid and fid = :fid',[':uid'=>Yii::$app->user->identity->id,'fid'=>$id])->joinWith(['selection'=>function($query) use($avaiableSelection){
-                if(!empty($avaiableSelection))
-                {
-                   foreach($avaiableSelection as $selectionid)
-                    {
-                        $query->andWhere('selectionid = :id',[':id' => $selectionid]);
-                    }
-                    return $query; 
-                }     
-        }])->one();
 
-        if(!empty($availableCart))
+        if(!empty($post['Cart']['remark']))
         {
-            $availableCart->quantity += $post['Cart']['quantity'];
-            if($availableCart->save())
+            return $data;
+        }
+        $addedCart ="";
+        $isAvailable = false;
+        $allcart = Cart::find()->where("uid = :uid and fid = :fid and remark = ''",[':uid'=>Yii::$app->user->identity->id,':fid'=>$id])->joinWith(['selection'])->all();
+
+        if(empty($allcart))
+        {
+            return $data;
+        }
+        foreach($allcart as $i => $cart)
+        {
+            $isAvailable = self::detectAvailable($cart,$post);
+            if($isAvailable)
+            {
+                //$isAvailable = true;
+                $addedCart = $cart;
+                break;
+            }
+        }
+      
+        if($isAvailable)
+        {
+            $addedCart->quantity += $post['Cart']['quantity'];
+            if($cart->save())
             {
                 $data['message'] = 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.';
                     $data['value'] = 4;
@@ -611,8 +621,42 @@ class CartController extends CommonController
         return $data;
     }
 
+    protected static function detectAvailable($cart,$post)
+    {
+        $avaiableSelection =[];
+        if(!empty($post['CartSelection']))
+        {
+            $avaiableSelection = CommonController::removeNestedArray($post['CartSelection']);
+        }
+
+        if(empty($cart['selection']) && empty($avaiableSelection))
+        {
+            //return -1;
+            return true;
+        }
+        elseif(empty($cart['selection']) && !empty($avaiableSelection))
+        {
+            //return -2;
+            return false;
+        }
+        elseif(!empty($cart['selection']) && empty($avaiableSelection))
+        {
+            return false;
+        }
+
+        $selection = [];
+        foreach($cart['selection'] as $data)
+        {
+            $selection[] = $data->selectionid;
+        }
+        
+        $isAvailable = array_diff($avaiableSelection, $selection);
+
+        return empty($isAvailable);
+    }
+
     /*
-    * detect the food wether the selection is empty or not
+    * detect either the food selection is empty or not
     * if not process to another step
     */
     protected static function detectEmptySelection($post,$id)

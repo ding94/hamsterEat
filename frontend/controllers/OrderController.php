@@ -225,7 +225,7 @@ class OrderController extends CommonController
 		//$companyname=Company::find()->where('id=:cid',[':cid'=>$delid])->one()->name;
 		//var_dump($companyname);exit;
 		
-        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->joinWith(['food','order','address']);;
+        $result = Orderitem::find()->distinct()->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])->joinWith(['food','order','address']);
 		
 		
         if(!empty($status))
@@ -240,12 +240,18 @@ class OrderController extends CommonController
         ->limit($pagination->limit)
         ->all();
 
+        $companyData = [];
+        foreach($result as $single)
+        {
+            $companyName = Company::findOne($single->address->cid)->name;
+            $companyData[$companyName][$single->Delivery_ID][] = $single;
+        }
 
         $linkData = CommonController::restaurantPermission($rid);
 
         $link = CommonController::getRestaurantOrdersUrl($rid);
 
-        return $this->render('restaurantorders', ['rid'=>$rid, 'foodid'=>$foodid, 'restaurantname'=>$restaurantname, 'result'=>$result,'link'=>$link,'pagination'=>$pagination,'status'=>$status,'countOrder'=>$countOrder, 'mode'=>$mode,'statusid'=>$statusid]);
+        return $this->render('restaurantorders', ['rid'=>$rid, 'restaurantname'=>$restaurantname, 'companyData'=>$companyData,'link'=>$link,'pagination'=>$pagination,'status'=>$status,'countOrder'=>$countOrder, 'mode'=>$mode,'statusid'=>$statusid]);
     }
 
 //--This function updares the order's status and the specific order item status to preparing

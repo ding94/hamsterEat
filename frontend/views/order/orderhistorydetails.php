@@ -37,8 +37,8 @@ use yii\helpers\Html;
                         <td style="font-weight: bold;text-align: top;">Delivery Address:</td>
                         <td><?= $address['location'].', '.$address['postcode'].', '.$address['area']; ?></td>
                         <td style="font-weight: bold;">Payment Made:</td>
-                        <td><?= date('d M Y H:i:s', $order['Orders_DateTimeMade']); ?></td>
-                    </tr>
+                        <td><?= Yii::$app->formatter->asTime($order['Orders_DateTimeMade']); ?></td>
+                    </tr> 
                 </table>
             </div>
             <div name="titles"s style="padding-top: 5%">

@@ -126,7 +126,7 @@ class DeliveryorderController extends CommonController
 	public function actionMutiplePick()
 	{
 		$post = Yii::$app->request->post();
-		
+		$message = "";
         foreach($post['order'] as $order)
         {
         	$valid = $this->singlePickup($order['oid'],$order['did']);
@@ -146,6 +146,7 @@ class DeliveryorderController extends CommonController
     public function actionMutipleComplete()
     {
         $post = Yii::$app->request->post();
+        $message = "";
         if(empty($post['did']))
         {
             Yii::$app->session->setFlash('danger', "Please Select One!!");
@@ -216,7 +217,7 @@ class DeliveryorderController extends CommonController
 
     protected static function singlePickup($oid,$did)
     {
-    	$updateOrder = false;
+    	$updateOrder = true;
         $orderitem = OrderController::findOrderitem($oid,10);
         $orderitem->OrderItem_Status = 10;
        
@@ -226,6 +227,7 @@ class DeliveryorderController extends CommonController
         if ($order['Orders_Status'] == 3)
         {
             $order->Orders_Status = 11;
+         
             if(!$order->save() && !$orderitem->save())
             {
             	return false;
@@ -233,6 +235,7 @@ class DeliveryorderController extends CommonController
         }
         else
         {
+             
             if(! $orderitem->save())
             {
                 return false;

@@ -15,7 +15,7 @@ Class OrderSearch extends Orders
 	{
 		switch ($case) {
 			case 1:
-				$query = Orders::find()->orderBy('Orders_Date DESC');
+				$query = Orders::find()->where('OrderItem_Status=:s',[':s'=>2])->orderBy('Orders_DateTimeMade DESC');
 				$query->joinWith(['order_item']);
 				$query->joinWith(['order_status']);
 				break;

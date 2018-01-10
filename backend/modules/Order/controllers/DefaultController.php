@@ -76,7 +76,7 @@ class DefaultController extends Controller
         // find orderitem
         $orderitem = Orderitem::find()->where('Order_ID=:oid',[':oid'=>$oid])->joinWith('order')->one();
         //check orderstatus b4 delete
-        if ($orderitem['OrderItem_Status'] != 2) {
+        if ($orderitem['OrderItem_Status'] != 2 || empty($orderitem)) {
             Yii::$app->session->setFlash('error','Order was Prepared!');
             return $this->redirect(Yii::$app->request->referrer);
         }
@@ -84,11 +84,12 @@ class DefaultController extends Controller
         //refund function
         if ($orderitem['order']['Orders_PaymentMethod'] == 'Account Balance') {
             $valid = self::refund($orderitem);
+            if ($valid == false) {
+                Yii::$app->session->setFlash('error','Refund failed, therefore order delete fail.');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
         }
-        if ($valid == false) {
-            Yii::$app->session->setFlash('error','Refund failed, therefore order delete fail.');
-            return $this->redirect(Yii::$app->request->referrer);
-        }
+        
         //check order item was it last item in delivery items
         $deliveryitem = Orderitem::find()->where('Delivery_ID=:did',[':did'=>$orderitem['Delivery_ID']])->count();
         if ($deliveryitem<=1) {
@@ -117,6 +118,8 @@ class DefaultController extends Controller
             $orderitem['OrderItem_LineTotal'] = $orderitem['OrderItem_LineTotal'] - (CartController::actionRoundoff1decimal($orderitem['OrderItem_LineTotal']*0.15));
         }
         $user['User_Balance'] += $orderitem['OrderItem_LineTotal'];
+        $user['AB_topup'] += $orderitem['OrderItem_LineTotal'];
+        $user['AB_minus'] -= $orderitem['OrderItem_LineTotal'];
 
         $charge = self::refundcharge($orderitem['Order_ID']);
         if ($charge == false) {
@@ -151,8 +154,57 @@ class DefaultController extends Controller
                 }
             }
         }
-        
-
         return $check;
+    }
+
+    public function actionCancelDelivery($did)
+    {
+        $order = Orders::find()->where('Delivery_ID=:d',[':d'=>$did])->one();
+        if ($order['Orders_Status'] != 2 || empty($order)) {
+            Yii::$app->session->setFlash('error','Delivery was Preparing!');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+
+        $cancel = 8;
+        if ($order['Orders_PaymentMethod'] == 'Account Balance') {
+            $valid = self::fullrefund($did,$order);
+            if ($valid == false) {
+                Yii::$app->session->setFlash('error','Refund was Failed!');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            $cancel = 9;
+        }
+
+        $oitems = Orderitem::find()->where('Delivery_ID=:did',[':did'=>$did])->all();
+
+        foreach ($oitems as $k => $oitem) {
+            if ($oitem['OrderItem_Status'] =! 2) {
+                Yii::$app->session->setFlash('error','Order ID '.$oitem['Order_ID'].' was Preparing!');
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+            else{
+                $oitem['OrderItem_Status'] = $cancel;
+            }
+            if ($oitem->validate()) {
+                $oitem->save();
+            }
+        }
+
+        $order['Orders_Status'] = $cancel;
+        $order->save(false);
+        Yii::$app->session->setFlash('success','Delivery was Canceled!');
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function fullrefund($did,$order)
+    {
+        $user = Accountbalance::find()->where('User_Username=:u',[':u'=>$order['User_Username']])->one();
+        $user['User_Balance'] += $order['Orders_TotalPrice'];
+        $user['AB_topup'] += $order['Orders_TotalPrice'];
+        $user['AB_minus'] -= $order['Orders_TotalPrice'];
+        if ($user->save()) {
+            return true;
+        }
+        return false;
     }
 }

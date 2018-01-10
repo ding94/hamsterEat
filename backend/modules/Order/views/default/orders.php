@@ -10,6 +10,8 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 
   $this->title = 'Orders List';
   $this->params['breadcrumbs'][] = $this->title;
+
+  echo Html::a('Go to Delivery List', Url::to(['/order/default/index']),['class'=>'btn btn-primary']);
   
 ?>
   <?= GridView::widget([
@@ -30,6 +32,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             'Order_ID',
             'order.Delivery_ID',
             'order.User_Username',
+            'order.Orders_PaymentMethod',
             'food.Name',
             [
               'attribute' =>'selection',

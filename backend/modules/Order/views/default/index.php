@@ -7,24 +7,30 @@ use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
+use common\models\Order\Orderitem;
 
-  $this->title = 'Delivery Lists';
+  $this->title = 'Delivery List';
   $this->params['breadcrumbs'][] = $this->title;
-  
+  echo Html::a('Go to Orders List', Url::to(['/order/default/order']),['class'=>'btn btn-primary']);
 ?>
   <?= GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
-            'order_item.Order_ID',
-            'order_item.Food_ID',
-            'order_item.OrderItem_Quantity',
-            'order_item.OrderItem_SelectionTotal',
-            'order_item.OrderItem_LineTotal',
+            'Delivery_ID',
+            'Orders_TotalPrice',
+            'Orders_PaymentMethod',
+
             [
-                'attribute' => 'order_item.OrderItem_Status',
-                'filter' => array( 2=>"Pending"),
+              'attribute'=>'quantity',
+              'label' => 'No. Orders',
+              'value' => function($model){
+                return Orderitem::find()->where('Delivery_ID=:d',[':d'=>$model['Delivery_ID']])->count();
+              }
             ],
+            
+            'Orders_DateTimeMade:datetime',
+
             ['class' => 'yii\grid\ActionColumn' ,
              'template'=>'{showdetails}',
              'buttons' => [
@@ -41,6 +47,16 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 'editorder' => function($url , $model)
                 {
                     return  Html::a(FA::icon('pencil-square-o 2x') , $url , ['title' => "Edit Order"]);
+                },
+              ]
+            ],
+
+            ['class' => 'yii\grid\ActionColumn' ,
+             'template'=>'{delete}',
+             'buttons' => [
+                'delete' => function($url , $model)
+                {
+                    return  Html::a('Cancel Orders' , Url::to(['/order/default/cancel-delivery','did'=>$model['Delivery_ID']]) , ['title' => "Cancel Orders",'data'=>['confirm'=>'Cancel these orders? Delivery ID: '.$model['Delivery_ID']]]);
                 },
               ]
             ],

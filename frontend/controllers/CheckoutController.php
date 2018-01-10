@@ -93,12 +93,19 @@ class CheckoutController extends CommonController
 	{
 		$post = Yii::$app->request->post();
 
+		$avaiableCart = Cart::find()->where('id =:id',[':id'=>$post['cid']])->all();
+		
+		if(empty($avaiableCart))
+		{
+			return $this->redirect(Yii::$app->request->referrer);
+		}
 		$deliveyaddress = $this->areaDetect($post['area'],$post);
 		
 		if($deliveyaddress['value'] == -1)
 		{
 			return $this->redirect(Yii::$app->request->referrer);
 		}
+
 		$address = $deliveyaddress['data'];
 
 		$deliveryman = $this->assignDeliveryMan($post['area'],$post['DeliveryAddress']['cid']);

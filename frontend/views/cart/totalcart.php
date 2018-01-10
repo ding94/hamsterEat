@@ -33,7 +33,7 @@ CartAsset::register($this);
             $charge = $price['delivery']; 
           ?>
           <td>Subtotal</td>
-          <td class="text-xs-right">RM <font id="subtotal"><?php echo $total ; ?></font></td>
+          <td class="text-xs-right">RM <font id="subtotal"><?php echo CartController::actionRoundoff1decimal($total) ; ?></font></td>
         </tr>
       <tr class="relative">
         <td>Delivery Charge<i class="fa fa-question-circle" aria-hidden="true">

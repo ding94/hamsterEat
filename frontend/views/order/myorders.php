@@ -77,20 +77,12 @@ MyOrdersAsset::register($this);
                 <?php echo date('Y-m-d h:i:s',$data['Orders_DateTimeMade']); ?>
             </td>
 
-            <?php if($data['Orders_Status'] == 6): ?>
-              <td class="with" data-th="Rating">
-                <?php echo Html::a('Rate This Delivery', ['rating/index','id'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?>
-
-            <?php elseif ($data['Orders_Status'] == 1) : 
-              echo '<td>'.Html::a('Go payment page', ['payment/process-payment','did'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']).'</td>'; ?>
-
-            <?php elseif ($data['Orders_Status'] == 8 || $data['Orders_Status'] == 9) : ?>
-              <td>
-                <label class="label label-danger"><?= $data['Orders_Status']; ?></label>
-              </td>
-
+            <?php if ($data['Orders_Status'] == 1) : ?>
+              <td> <?= Html::a('Go payment page', ['payment/process-payment','did'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td> ?>
             <?php elseif ($data['Orders_Status'] == 7) : ?>
               <td><center> Rating Done </td>
+            <?php else: ?>
+              <td><?= $label[$data['Orders_Status']]; ?></td>
             <?php endif;?>
 
           </tr>

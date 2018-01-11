@@ -40,6 +40,7 @@ class OrderController extends CommonController
         $countOrder = $this->getTotalOrder();
         $query = Orders::find()->where('User_Username = :uname and Orders_Status != "Not Placed" ', [':uname'=>Yii::$app->user->identity->username])->orderBy(['Delivery_ID'=>SORT_DESC]);
         $statusid = ArrayHelper::map(StatusType::find()->all(),'type','id');
+        $label = ArrayHelper::map(StatusType::find()->all(),'id','label');
 
         if(!empty($status))
         {
@@ -71,7 +72,7 @@ class OrderController extends CommonController
         ->all();
         $link = CommonController::createUrlLink(3);
         $this->layout = 'user';
-        return $this->render('myorders', ['order'=>$order,'pagination' => $pagination,'countOrder'=>$countOrder,'link'=> $link ,'status' => empty($status) ? "All" : $status,'statusid'=>$statusid]);
+        return $this->render('myorders', ['order'=>$order,'pagination' => $pagination,'countOrder'=>$countOrder,'link'=> $link ,'status' => empty($status) ? "All" : $status,'statusid'=>$statusid,'label'=>$label]);
     }
 
     /*

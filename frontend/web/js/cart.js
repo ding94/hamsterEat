@@ -8,7 +8,7 @@ function detectEmptyCart()
   else
   {
     $('#outer-cart').empty();
-    $('#outer-cart').append("<div class='container' style='margin-top:2%;'><div class='row'><img class='img-responsive col-xs-12' src='/imageLocation/Img/empty_cart.png' alt='><div class='col-xs-12'><div></div></div></div></div>");
+    $('#outer-cart').append("<div class='container' style='margin-top:2%;'><div class='row'><div class='col-xs-12'><div><img class='img-responsive col-xs-12' src='../web/imageLocation/Img/empty_cart.png'></div></div></div></div>");
   }
   var count = parseInt($("#cart").children(".badge").html()) -1;
   if(count >= 1)

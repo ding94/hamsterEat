@@ -175,4 +175,5 @@ class Orderitem extends \yii\db\ActiveRecord
         }
         return Json::encode($array);
     }
+
 }

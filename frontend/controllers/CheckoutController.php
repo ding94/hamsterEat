@@ -92,10 +92,20 @@ class CheckoutController extends CommonController
 	public function actionOrder()
 	{
 		$post = Yii::$app->request->post();
-
-		$avaiableCart = Cart::find()->where('id =:id',[':id'=>$post['cid']])->all();
 		
-		if(empty($avaiableCart))
+		$avaiableCart = true;
+		foreach($post['cid'] as $id)
+		{
+			$query = Cart::find()->where('id = :id and uid = :uid',[':id'=>$id ,':uid'=>Yii::$app->user->identity->id])->one();
+			if(empty($query))
+			{
+				$avaiableCart = false;
+				break;
+			}
+		}
+		
+		
+		if(!$avaiableCart)
 		{
 			return $this->redirect(Yii::$app->request->referrer);
 		}

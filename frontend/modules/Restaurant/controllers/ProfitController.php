@@ -29,7 +29,7 @@ class ProfitController extends CommonController
 		
 		$itemProfit = RestaurantProfit::find()->distinct()->where(['between','restaurant_profit.created_at',strtotime($first),strtotime($last)])->joinWith(['itemProfit'=>function($query) use ($rid){
 			return $query->where('rid = :rid',[':rid'=>$rid]);
-		}]);
+		}])->orderBy(['created_at'=>SORT_DESC]);
 
 		$countQuery = clone $itemProfit;
     	$pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize' => 5]);

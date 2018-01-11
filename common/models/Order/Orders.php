@@ -155,6 +155,11 @@ class Orders extends \yii\db\ActiveRecord
          return $this->hasMany(Orderitem::className(),['Delivery_ID' => 'Delivery_ID']); 
     }
 
+    public function getFood()
+    {
+        return $this->hasOne(Food::className(),['Food_ID'=>$this->item->Food_ID]);
+    }
+
     public function getUser()
     {
         return $this->hasOne(User::className(),['username'=>'User_Username']);

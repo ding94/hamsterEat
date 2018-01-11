@@ -9,10 +9,12 @@ use Yii;
 use frontend\controllers\CommonController;
 use frontend\controllers\OrderController;
 use common\models\Order\Orderitem;
+use common\models\Order\Orders;
 use common\models\Order\StatusType;
 use common\models\Company\Company;
 use common\models\Restaurant;
 use common\models\food\Food;
+use common\models\Profit\RestaurantProfit;
 use frontend\controllers\NotificationController;
 
 class RestaurantorderController extends CommonController
@@ -80,28 +82,28 @@ class RestaurantorderController extends CommonController
         $linkData = CommonController::restaurantPermission($rid);
         $link = CommonController::getRestaurantUrl($linkData,$rid);
         
-        $restaurantname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
-        if ($restaurantname['approval'] != 1) {
+        $restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
+
+        if ($restaurant['approval'] != 1) {
             Yii::$app->session->setFlash('warning','Restaurant was waiting admin to approve.');
             return $this->redirect(['/Restaurant/restaurant/restaurant-service']);
         }
 
-        $foodid = Food::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->all();
+        $query = Orders::find()->distinct()->Where("Restaurant_ID = :rid",[':rid'=>$rid])->joinWith(['item','item.food'])->orderBy(['Orders_DateTimeMade'=>SORT_DESC]);
         
-        $result = Orderitem::find()->distinct()
-        ->where('Restaurant_ID = :rid',[':rid'=>$restaurantname['Restaurant_ID']])
-        ->andwhere(['or',['Orders_Status'=>6],['Orders_Status'=>7]])->joinWith('food')->joinWith('order');
-        
-        /* Code to generate pagination */
-        $pagination = new Pagination(['totalCount'=>$result->count(),'pageSize'=>10]);
-        $result = $result->offset($pagination->offset)
-        ->limit($pagination->limit)
+        $countQuery = clone $query;
+
+        $pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize' => 5]);
+
+        $result = $query->offset($pages->offset)
+        ->limit($pages->limit)
         ->all();
         /* end.. */
+        $title = $restaurant->Restaurant_Name ."'s Orders History";
 
         $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
       
-        return $this->render('history', ['rid'=>$rid, 'restaurantname'=>$restaurantname, 'result'=>$result,'link'=>$link,'pagination'=>$pagination,'statusid'=>$statusid]);
+        return $this->render('history', ['rid'=>$rid, 'title'=>$title, 'result'=>$result,'link'=>$link,'pagination'=>$pages,'statusid'=>$statusid]);
     }
 
     public function actionPreparing($oid, $rid)

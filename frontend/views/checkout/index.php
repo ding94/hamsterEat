@@ -12,23 +12,6 @@ use common\models\Company\Company;
 $this->title = "Check Out";
 CheckoutAsset::register($this);
 
-//new address modal
-Modal::begin([
-      'header' => '<h2 class="modal-title">New Address</h2>',
-      'id'     => 'address-modal',
-      'size'   => 'modal-md',
-      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
-]);
-Modal::end();
-//edit address modal
-Modal::begin([
-      'header' => '<h2 class="modal-title">Edit address</h2>',
-      'id'     => 'edit-address-modal',
-      'size'   => 'modal-md',
-      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
-]);
-Modal::end();
-
 ?>
         <div class="container">
        <div class="checkout-progress-bar">

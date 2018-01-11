@@ -108,7 +108,7 @@ class NotificationController extends CommonController
 					$model->description = "Your Delivery id : ".$id." has ready to pick up";
 					break;
 				case 4:
-					$model->description = "Your Order id : ".$id." is ".$value['currentStatus'];
+					$model->description = "Your Delivery id : ".$id." is ".$value['currentStatus'];
 					$model->rid = $id;
 					break;
 				default:

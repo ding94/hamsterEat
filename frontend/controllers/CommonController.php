@@ -149,12 +149,10 @@ class CommonController extends Controller
     public static function getRestaurantOrdersUrl($rid){
         $data = [
                     Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Back',
-                    Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'All',
-                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>2]) => 'Pending',
-                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>8]) => 'Canceled',
-                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>3]) => 'Preparing',
-                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>11]) => 'Pick Up In Process',
-                    Url::to(['/order/restaurant-orders','rid'=>$rid,'status'=>5]) => 'On The Way',
+                    Url::to(['/Restaurant/restaurantorder/index','rid'=>$rid]) => 'All',
+                    Url::to(['/Restaurant/restaurantorder/index','rid'=>$rid,'status'=>2]) => 'Pending',
+                    Url::to(['/Restaurant/restaurantorder/index','rid'=>$rid,'status'=>3]) => 'Preparing',
+                    Url::to(['/Restaurant/restaurantorder/index','rid'=>$rid,'status'=>4]) => 'Ready for Pickup',
                 ];
 
         return $data;
@@ -201,8 +199,8 @@ class CommonController extends Controller
         //$areachosen = $staff->restaurant->Restaurant_Area;
         $data = [];
         $data = [
-                    Url::to(['/order/restaurant-orders','rid'=>$rid]) => 'Restaurant Orders',
-                    Url::to(['/order/restaurant-order-history','rid'=>$rid]) => 'Restaurant Orders History',
+                    Url::to(['/Restaurant/restaurantorder/index','rid'=>$rid]) => 'Restaurant Orders',
+                    Url::to(['/Restaurant/restaurantorder/history','rid'=>$rid]) => 'Restaurant Orders History',
                 ];
         switch ($staff) {
             case 'Owner':

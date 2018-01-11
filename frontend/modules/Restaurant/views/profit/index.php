@@ -119,7 +119,7 @@ RestaurantEarningsAsset::register($this);
 						</tr>
 						
 						<?php endforeach ;?>
-						<tr><td class="none" colspan ="4"></td>
+						<tr><td colspan ="4"></td>
 							<td data-th="Total Cost">RM <?php echo CartController::actionDisplay2decimal($sumprice)?></td>
 							<td data-th="Total Mark Up">RM <?php echo CartController::actionDisplay2decimal($sumfinal - $sumprice)?></td>
 							<td data-th="Total Selling Price">RM <?php echo CartController::actionDisplay2decimal($sumfinal)?></td>

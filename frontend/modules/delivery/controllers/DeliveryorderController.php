@@ -126,11 +126,13 @@ class DeliveryorderController extends CommonController
 	public function actionMutiplePick()
 	{
 		$post = Yii::$app->request->post();
+
 		$message = "";
         foreach($post['order'] as $order)
         {
         	$valid = $this->singlePickup($order['oid'],$order['did']);
         	if(!$valid){
+
         		$message .= "Order ID ".$order['oid']. " fail<br>";
         	}
         }
@@ -146,6 +148,7 @@ class DeliveryorderController extends CommonController
     public function actionMutipleComplete()
     {
         $post = Yii::$app->request->post();
+
         $message = "";
         if(empty($post['did']))
         {
@@ -217,18 +220,18 @@ class DeliveryorderController extends CommonController
 
     protected static function singlePickup($oid,$did)
     {
-    	$updateOrder = true;
+    	$updateOrder = false;
         $orderitem = OrderController::findOrderitem($oid,10);
         $orderitem->OrderItem_Status = 10;
        
-       
+      
         $order = OrderController::findOrder($orderitem->Delivery_ID);
 
         if ($order['Orders_Status'] == 3)
         {
             $order->Orders_Status = 11;
          
-            if(!$order->save() && !$orderitem->save())
+            if(!$order->save() || !$orderitem->save())
             {
             	return false;
             }
@@ -242,12 +245,10 @@ class DeliveryorderController extends CommonController
             } 
         }
 
-        $allitem = OrderItem::find()->where('Delivery_ID =:did',[':did' => $orderitem->Delivery_ID])->all();
-        foreach ($allitem as $item) {
-            $updateOrder = $item->OrderItem_Status == 10 ? true : false && $updateOrder;
-        }
+        $allitem = OrderItem::find()->where('Delivery_ID =:did and OrderItem_Status != 10',[':did' => $orderitem->Delivery_ID])->all();
+        
 
-        if($updateOrder)
+        if(empty($allitem))
         {
             $order = OrderController::findOrder($orderitem->Delivery_ID);
             $order->Orders_Status = 5;
@@ -255,11 +256,10 @@ class DeliveryorderController extends CommonController
             	NotificationController::createNotification($did,4);
             	return true;
             }
+            return false;
           
         }
-        else{
-        	 return true;
-        }
-       return false;
+       
+       return true;
     }
 }

@@ -15,7 +15,7 @@ RestaurantServiceAsset::register($this);
       <?php if(!empty($restaurants)): ?>
       <?php foreach($restaurants as $k => $restaurant ){?>
       <div class="outer-item">
-        <a href=" <?php echo yii\helpers\Url::to(['/order/restaurant-order-history','rid'=>$restaurant['Restaurant_ID']]); ?> ">
+        <a href=" <?php echo yii\helpers\Url::to(['/Restaurant/restaurantorder/history','rid'=>$restaurant['Restaurant_ID']]); ?> ">
           <div class="item-no-border">
             <div class="img">
           

@@ -30,14 +30,24 @@ class ProfitController extends CommonController
 		$itemProfit = RestaurantProfit::find()->distinct()->where(['between','restaurant_profit.created_at',strtotime($first),strtotime($last)])->joinWith(['itemProfit'=>function($query) use ($rid){
 			return $query->where('rid = :rid',[':rid'=>$rid]);
 		}]);
-
+		$allItemProfit = $itemProfit->all();
 		$countQuery = clone $itemProfit;
     	$pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize' => 5]);
     	$data = $itemProfit->offset($pages->offset)
         ->limit($pages->limit)
         ->all();
-
-		return $this->render('index',['data'=>$data,'pages' => $pages,'first'=>$first,'last'=>$last ,'link'=>$link,'rid'=>$rid]);
+        $totalcost = 0;
+        $totalsellprice = 0;
+        foreach ($allItemProfit as $k => $object) {
+        	foreach ($object['itemProfit'] as $i => $order) {
+        		$totalcost+= $order->cost;
+        		$totalsellprice+=$order->sellPrice;
+        	}
+        }
+        $total['totalcost'] = $totalcost;
+        $total['totalsellprice'] = $totalsellprice;
+        $total['totalmarkupprice'] = ($totalsellprice-$totalcost);
+		return $this->render('index',['data'=>$data,'total'=>$total,'pages' => $pages,'first'=>$first,'last'=>$last ,'link'=>$link,'rid'=>$rid]);
 		
 	}
 

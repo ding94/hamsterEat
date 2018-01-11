@@ -29,30 +29,36 @@
 		background-color: transparent;
 	}
 	
-	#mobile-table tbody{
+	#mobile-table tbody,
+	#restaurant-earnings-content tbody{
 		border: 2px solid black;
 	}
 
-	#mobile-table > table,#mobile-table thead,#mobile-table tbody,#mobile-table th,#mobile-table td,#mobile-table tr { 
+	#mobile-table > table,#mobile-table thead,#mobile-table tbody,#mobile-table th,#mobile-table td,#mobile-table tr,
+	#restaurant-earnings-content > table,#restaurant-earnings-content thead,#restaurant-earnings-content tbody,#restaurant-earnings-content th,#restaurant-earnings-content td,#restaurant-earnings-content tr { 
 	  display: block; 
 	}
 
 /* Hide table headers (but not display: none;, for accessibility) */
-    #mobile-table thead tr { 
+    #mobile-table thead tr,
+    #restaurant-earnings-content thead tr { 
       position: absolute;
       top: -9999px;
       left: -9999px;
     }
 
-    #mobile-table td.none { 
+    #mobile-table td.none,
+    #restaurant-earnings-content td.mobilenone { 
       position: absolute;
       top: -9999px;
       left: -9999px;
     }
   
-    #mobile-table tr { border: 1px solid #ccc; }
+    #mobile-table tr,
+    #restaurant-earnings-content tr { border: 1px solid #ccc; }
   
-    #mobile-table td { 
+    #mobile-table td,
+    #restaurant-earnings-content td { 
 
       /* Behave  like a "row" */
       border: none;
@@ -60,7 +66,8 @@
       position: relative;
     }
 
-	#mobile-table td.thead{
+	#mobile-table td.thead,
+	#restaurant-earnings-content td.thead{
 		font-weight: bold;
 		font-size: 20px;
 		display: flex;
@@ -69,14 +76,16 @@
 		background-color: #EEEFA8;
 	}
   
-	div#mobile-table td:before { 
+	div#mobile-table td:before,
+	div#restaurant-earnings-content td:before { 
       content : attr(data-th) ": ";
-      width: 10.5em;
+      width: 17.5em;
       display: inline-block;
       font-weight: bold;
     }
 
-    div#mobile-table td.thead:before { 
+    div#mobile-table td.thead:before,
+    div#restaurant-earnings-content td.thead:before { 
       content : attr(data-th) ": ";
       width: auto;
       display: inline-block;

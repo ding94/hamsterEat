@@ -74,8 +74,29 @@ RestaurantEarningsAsset::register($this);
 					<?= Html::submitButton('Filter', ['class' => 'btn-block raised-btn main-btn']) ?>
 				</div>
 			</div>
-			<?php ActiveForm::end(); ?> 
+			<?php ActiveForm::end(); ?>
 			<br>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Total Cost For The Duration</th>
+						<th>Total Mark Up For The Duration</th>
+						<th>Total Selling Price For The Duration</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td data-th="Total Cost For The Month">RM <?php echo CartController::actionDisplay2decimal($total['totalcost']) ;?></td>
+						<td data-th="Total Mark Up For The Month">RM <?php echo CartController::actionDisplay2decimal($total['totalmarkupprice']) ;?></td>
+						<td data-th="Total Selling Price For The Month">RM <?php echo CartController::actionDisplay2decimal($total['totalsellprice']) ;?></td>
+					</tr>
+				</tbody>
+			</table>
+			<?php 
+				$totalsumprice = 0;
+				$totalmarkupprice = 0;
+				$totalsellingprice = 0;
+			?>
 			<?php foreach($data as $delivery):?>
 				
 				<table class="table table-bordered">
@@ -118,8 +139,12 @@ RestaurantEarningsAsset::register($this);
 							<td data-th="Selling Price"><?php echo $sellprice?></td>
 						</tr>
 						
-						<?php endforeach ;?>
-						<tr><td colspan ="4"></td>
+						<?php endforeach ;
+						$totalsumprice+=$sumprice;
+						$totalmarkupprice+=($sumfinal - $sumprice);
+						$totalsellingprice+=$sumfinal;
+						?>
+						<tr><td class="mobilenone" colspan ="4"></td>
 							<td data-th="Total Cost">RM <?php echo CartController::actionDisplay2decimal($sumprice)?></td>
 							<td data-th="Total Mark Up">RM <?php echo CartController::actionDisplay2decimal($sumfinal - $sumprice)?></td>
 							<td data-th="Total Selling Price">RM <?php echo CartController::actionDisplay2decimal($sumfinal)?></td>

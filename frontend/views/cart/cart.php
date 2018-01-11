@@ -113,4 +113,3 @@ CartAsset::register($this);
    <?php ActiveForm::end(); ?>
 <?php endif ;?>
 </div>
-<!-- <div class='container' style='margin-top:2%;'><div class='row'><div class='col-xs-12'><div><img class='img-responsive col-xs-12' src='@web/imageLocation/Img/empty_cart.png'></div></div></div></div> -->

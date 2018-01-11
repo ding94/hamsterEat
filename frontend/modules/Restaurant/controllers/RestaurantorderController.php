@@ -33,7 +33,7 @@ class RestaurantorderController extends CommonController
                 //'only' => ['logout', 'signup','index'],
                 'rules' => [
                     [
-                        'actions' => ['mutiple-order','index','preparing','singleReadyforpickup','history'],
+                        'actions' => ['mutiple-order','index','preparing','singleReadyforpickup','history','readyforpickup'],
                         'allow' => true,
                         'roles' => ['restaurant manager'],
  
@@ -98,7 +98,7 @@ class RestaurantorderController extends CommonController
         $result = $query->offset($pages->offset)
         ->limit($pages->limit)
         ->all();
-        /* end.. */
+        
         $title = $restaurant->Restaurant_Name ."'s Orders History";
 
         $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');

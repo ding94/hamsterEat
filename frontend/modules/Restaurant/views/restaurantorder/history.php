@@ -63,11 +63,11 @@ RestaurantOrdersHistoryAsset::register($this);
                     </thead>
                     <thead>
                         <tr>
-                            <th><center> Order ID </th>
-                            <th><center> Food Name </th>
-                            <th><center> Selection </th>
-                            <th><center> Quantity </th>
-                            <th><center> Status </th>
+                            <th>Order ID </th>
+                            <th>Food Name </th>
+                            <th>Selection </th>
+                            <th>Quantity </th>
+                            <th>Status </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -75,6 +75,24 @@ RestaurantOrdersHistoryAsset::register($this);
                         <tr>
                             <td data-th="Order ID"><?= $order->Order_ID?></td>
                             <td data-th="Food Name"><?= $order->food->Name?></td>
+                            <?php 
+                                $selectionName = json_decode($order->trim_selection);
+                                if(empty($selectionName)):
+                                    $name = "empty";
+                                else :
+                                    $name ="";
+                                    foreach($selectionName as $i=> $selection) :
+                                        if(empty($name)):
+                                            $name =$i .' '. $selection->name . ' ';
+                                        else :
+                                            $name .= "<br>".$i .' '.$selection->name ;
+                                        endif ;
+                                    endforeach ;
+                                endif;
+                            ?>
+                            <td data-th="Selection"><?=$name ?></td>
+                            <td data-th="Quantity"><?= $order->OrderItem_Quantity?></td>
+                            <td data-th="Status"><?= $statusid[$order->OrderItem_Status]?></td>
                         </tr>
                         <?php endforeach ;?>   
                     </tbody>

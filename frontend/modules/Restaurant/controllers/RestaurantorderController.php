@@ -158,7 +158,7 @@ class RestaurantorderController extends CommonController
         $countItem['Preparing'] = 0;
         $countItem['Ready for Pickup'] = 0;
        
-        $query =Orderitem::find()->where('food.Restaurant_ID = :rid and OrderItem_Status != 1 and OrderItem_Status != 10 and OrderItem_Status != 8',[':rid'=>$rid])->joinWith(['food.restaurant','address']);
+        $query =Orderitem::find()->where('food.Restaurant_ID = :rid and OrderItem_Status != 1 and OrderItem_Status != 10 and OrderItem_Status != 8 and OrderItem_Status != 9',[':rid'=>$rid])->joinWith(['food.restaurant','address']);
 
         foreach ($query->each() as $key => $item) 
         {

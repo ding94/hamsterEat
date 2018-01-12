@@ -191,7 +191,7 @@ Class FoodController extends Controller
             if(!empty($food)){
                 foreach ($food as $key => $value) {
                     $food_array = ['id'=>(int)$value['Food_ID'],'name'=>$value['Name']];
-                    $json_food = json_encode($food_array);
+                    $json_food = Json::encode($food_array);
                     $model = RestaurantItemProfit::find()->where('fid = :fid',[':fid'=>$json_food])->andWhere(['between','created_at',$date[0],$date[1]])->asArray()->all();
                     $modelcount = 0;
                     if(empty($model)){

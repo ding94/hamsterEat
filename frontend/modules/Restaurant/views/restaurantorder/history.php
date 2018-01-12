@@ -3,8 +3,12 @@
 
 use yii\helpers\Html;
 use kartik\widgets\Select2;
-use frontend\assets\RestaurantOrdersHistoryAsset;
 use yii\widgets\LinkPager;
+use yii\helpers\Json;
+use kartik\widgets\ActiveForm;
+use common\models\food\Foodselectiontype;
+use kartik\date\DatePicker;
+use frontend\assets\RestaurantOrdersHistoryAsset;
 
 $this->title = $title;
 RestaurantOrdersHistoryAsset::register($this);
@@ -46,53 +50,139 @@ RestaurantOrdersHistoryAsset::register($this);
             </div>
         </div>
         <div id="restaurant-orders-history-content" class="col-sm-10">
+            <?php $form = ActiveForm::begin(['method' => 'get','action'=>['history','rid'=>$rid]]); ?>
+                    <div class="border">
+                        <label class="control-label">Search Data</label>
+                        <div class="row margin-bottom">
+                            <div class="col-md-4">
+                                <?php 
+                                    echo Select2::widget([
+                                        'name' => 'search[did]',
+                                        'value' => $arrayData['select']['did'],
+                                        'data' => $arrayData['did'],
+                                        'options' => [
+                                            'placeholder' => 'Select Delivery ID',
+                                            //'multiple' => true
+                                        ],
+                                        'pluginOptions' => [
+                                            'allowClear' => true
+                                        ],
+                                    ]);
+                                ?>
+                            </div>
+                            <div class="col-md-4">
+                                 <?php 
+                                    echo Select2::widget([
+                                        'name' => 'search[oid]',
+                                        'value' => $arrayData['select']['oid'],
+                                        'data' => $arrayData['oid'],
+                                        'options' => [
+                                            'placeholder' => 'Select Order ID',
+                                            //'multiple' => true
+                                        ],
+                                        'pluginOptions' => [
+                                            'allowClear' => true
+                                        ],
+                                    ]);
+                                ?>
+                            </div>
+                            <div class="col-md-4">
+                                 <?php 
+                                    echo Select2::widget([
+                                        'name' => 'search[fid]',
+                                        'value' => $arrayData['select']['fid'],
+                                        'data' => $arrayData['fid'],
+                                        'options' => [
+                                            'placeholder' => 'Select Food Name',
+                                            //'multiple' => true
+                                        ],
+                                        'pluginOptions' => [
+                                            'allowClear' => true
+                                        ],
+                                    ]);
+                                ?>
+                           
+                            </div>
+                        </div>
+                        <div class="row margin-bottom">
+                            <div class="col-md-12">
+                                <?php
+                                    echo DatePicker::widget([
+                                        'name' => 'search[first]',
+                                        'value' => $arrayData['select']['first'],
+                                        'type' => DatePicker::TYPE_RANGE,
+                                        'name2' => 'search[last]',
+                                        'value2' => $arrayData['select']['last'],
+                                        'pluginOptions' => [
+                                            'autoclose'=>true,
+                                            'format' => 'yyyy-m-d'
+                                        ]
+                                    ]);
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row margin-bottom">
+                            <div class="col-md-6">
+                                <?= Html::submitButton('Search', ['class' => 'btn-block raised-btn main-btn']) ?>
+                            </div>
+                            <div class="col-md-6">
+                                 <?= Html::a('Reset', ['history','rid'=>$rid],['class' => 'btn-block raised-btn ']) ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php ActiveForm::end(); ?>
+                 <br>
             <?php if(empty($result)) :?>
                  <h2>There are no orders currently...</h2>
             <?php else :?>
-                <?php foreach ($result as $delivery) :?>  
+                <?php foreach ($result as $did =>$delivery) : 
+                        $deliveryStatus = array_shift($delivery);
+                ?>  
                 <table class="table table-user-info table-hover" style="border:1px solid black;">
-                    <thead>
+                    <thead id="thead-needed">
                         <tr>
                             <th colspan = '3' data-th="Delivery_ID">
-                                <center>Delivery ID: <?= $delivery->Delivery_ID?> 
+                                <center>Delivery ID: <?= $did?> 
                             </th>
                             <th colspan= '2' data-th="Delivery Status">
-                                <center>Status: <?= $statusid[$delivery->Orders_Status] ?>
+                                <center>Status: <?= $statusid[$deliveryStatus] ?>
                             </th>
                         </tr>
                     </thead>
                     <thead>
                         <tr>
-                            <th>Order ID </th>
-                            <th>Food Name </th>
+                            <th width="10%">Order ID</th>
+                            <th width="30%">Food Name </th>
                             <th>Selection </th>
-                            <th>Quantity </th>
-                            <th>Status </th>
+                            <th width="10%" class="center">Quantity </th>
+                            <th width="15%" class="center">Status </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($delivery['item'] as $order):?>
+                        <?php foreach($delivery as $order): ?>
                         <tr>
                             <td data-th="Order ID"><?= $order->Order_ID?></td>
-                            <td data-th="Food Name"><?= $order->food->Name?></td>
+                            <td data-th="Food Name"><?= $order->food['Name']?></td>
                             <?php 
-                                $selectionName = json_decode($order->trim_selection);
+                                $selectionName = Json::decode($order->trim_selection);
                                 if(empty($selectionName)):
                                     $name = "empty";
                                 else :
                                     $name ="";
                                     foreach($selectionName as $i=> $selection) :
+                                        $type = Foodselectiontype::findOne($i);
+
                                         if(empty($name)):
-                                            $name =$i .' '. $selection->name . ' ';
+                                            $name =$type->TypeName .': '. $selection['name'] . ' ';
                                         else :
-                                            $name .= "<br>".$i .' '.$selection->name ;
+                                            $name .= "&nbsp; | ".$type->TypeName .': '.$selection['name'] ;
                                         endif ;
                                     endforeach ;
                                 endif;
                             ?>
                             <td data-th="Selection"><?=$name ?></td>
-                            <td data-th="Quantity"><?= $order->OrderItem_Quantity?></td>
-                            <td data-th="Status"><?= $statusid[$order->OrderItem_Status]?></td>
+                            <td data-th="Quantity" class="center"><?= $order->OrderItem_Quantity?></td>
+                            <td data-th="Status" class="center"><?= $statusid[$order->OrderItem_Status]?></td>
                         </tr>
                         <?php endforeach ;?>   
                     </tbody>

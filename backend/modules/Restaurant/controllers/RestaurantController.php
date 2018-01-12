@@ -9,6 +9,7 @@ use common\models\Profit\RestaurantItemProfit;
 use common\models\Restaurant;
 use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
+use backend\controllers\CommonController;
 
 class RestaurantController extends Controller
 {
@@ -45,6 +46,42 @@ class RestaurantController extends Controller
         $searchModel = new ItemProfitSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$firstDay,$lastDay,$id);
         return $this->render('index',['model' => $dataProvider ,'searchModel'=>$searchModel,'first'=>$first,'totalProfit' => $totalProfit,'id'=>$id,'restaurantlist'=>$restaurantlist,'tempmodel'=>$tempmodel]);
+    }
+
+    public function actionRestaurantRankingPerMonth($month=0)
+    {
+        if($month == 0){
+            $month = date('Y-n',strtotime('this year'));
+        }
+        $explodemonth = explode("-",$month);
+        $restaurant = Restaurant::find()->asArray()->all();
+        $months = CommonController::getYear($explodemonth[0]);
+        $startend = CommonController::getStartEnd($explodemonth[0]);
+        foreach ($startend as $i => $date) {
+            foreach ($restaurant as $key => $value) {
+                $model = RestaurantItemProfit::find()->where('rid = :rid',[':rid'=>$value['Restaurant_ID']])->andWhere(['between','created_at',$date[0],$date[1]])->asArray()->all();
+                $modelcount = 0;
+                if(empty($model)){
+                    $modelcount = 0;
+                    $data[$i][$value['Restaurant_Name']] = $modelcount;
+                } else {
+                    foreach ($model as $k => $v) {
+                        $modelcount+= $v['quantity'];
+                    }
+                    $data[$i][$value['Restaurant_Name']] = $modelcount;
+                }
+            }
+            arsort($data[$i]);   
+        }
+        $data = $data[$explodemonth[1]];
+        if (count($data) > 10 ){
+            $data = array_slice($data,0,10);
+        }
+        foreach ($data as $key => $value) {
+            $data['rname'][] = $key;
+            $data['count'][] = $value;
+        }
+        return $this->render('ranking',['month'=>$month,'data'=>$data]);
     }
 
     public function actionChangeOperation($id,$case)

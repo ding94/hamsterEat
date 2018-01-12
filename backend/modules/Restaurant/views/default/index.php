@@ -115,6 +115,19 @@ use yii\bootstrap\Modal;
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
+                'template' => '{sales}',
+                'header' => "Top 10 Sales Per Month",
+                'buttons' => [
+                    'sales' => function($url , $model)
+                    {
+                        $url =  Url::to(['/restaurant/food/food-ranking-per-restaurant-per-month' ,'month'=>0,'rid'=>$model->Restaurant_ID]);
+
+                        return Html::a('View' , $url , ['class' => 'text-underline','title' => 'Restaurant Sales'])   ;
+                    },
+                ],
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
                 'template' => '{fooddetail}',
                 'header' => "Food Detail",
                 'buttons' => [

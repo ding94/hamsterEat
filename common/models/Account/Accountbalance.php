@@ -84,8 +84,7 @@ class Accountbalance extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['AB_ID'], 'integer'],
-            [['AB_DateTime'],'date'],
+            [['AB_ID','AB_DateTime'], 'integer'],
             [['AB_topup', 'AB_minus','User_Balance'],'number'],
             [['User_Username'], 'string', 'max' => 255],
         ];

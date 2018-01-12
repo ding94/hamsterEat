@@ -25,7 +25,8 @@ class RestaurantorderController extends CommonController
          	'verbs' => [
 		            'class' => \yii\filters\VerbFilter::className(),
 		            'actions' => [
-		               'mutiple-order'  => ['POST'],
+                       'mutiple-order'  => ['POST'],
+		               'history'  => ['GET'],
 		            ],
 		    ],
             'access' => [
@@ -81,7 +82,7 @@ class RestaurantorderController extends CommonController
     {
         $linkData = CommonController::restaurantPermission($rid);
         $link = CommonController::getRestaurantUrl($linkData,$rid);
-        
+      
         $restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
 
         if ($restaurant['approval'] != 1) {
@@ -89,21 +90,41 @@ class RestaurantorderController extends CommonController
             return $this->redirect(['/Restaurant/restaurant/restaurant-service']);
         }
 
-        $query = Orders::find()->distinct()->Where("Restaurant_ID = :rid",[':rid'=>$rid])->joinWith(['item','item.food'])->orderBy(['Orders_DateTimeMade'=>SORT_DESC]);
+      
+       
+        //$query = Orders::find()->distinct()->Where("Restaurant_ID = :rid",[':rid'=>$rid])->joinWith(['item','item.food'])->orderBy(['Orders_DateTimeMade'=>SORT_DESC]);
+
+        $query = Orderitem::find()->distinct()->where("Restaurant_ID = :rid",[':rid'=>$rid])->joinWith(['food','order'])->orderBy(['orderitem.Delivery_ID'=>SORT_DESC]);
+       
+        $arrayData = $this->getArrayData($query,$rid);
         
+        $get =  Yii::$app->request->get('search');
+        
+        $getData = $this->getData($get,$query,$arrayData);
+
+        $query = $getData['query'];
+        $arrayData = $getData['arrayData'];
+
         $countQuery = clone $query;
 
-        $pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize' => 5]);
+        $pages = new Pagination(['totalCount' => $countQuery->count()]);
 
-        $result = $query->offset($pages->offset)
+        $data = $query->offset($pages->offset)
         ->limit($pages->limit)
         ->all();
+
+        $result ="";
+
+        foreach ($data as $key => $value) { 
+            $result[$value->Delivery_ID][0] = $value->order->Orders_Status;
+            $result[$value->Delivery_ID][] = $value;   
+        }
         
         $title = $restaurant->Restaurant_Name ."'s Orders History";
 
         $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
       
-        return $this->render('history', ['rid'=>$rid, 'title'=>$title, 'result'=>$result,'link'=>$link,'pagination'=>$pages,'statusid'=>$statusid]);
+        return $this->render('history', ['rid'=>$rid, 'title'=>$title, 'result'=>$result,'link'=>$link,'pagination'=>$pages,'statusid'=>$statusid,'arrayData'=>$arrayData]);
     }
 
     public function actionPreparing($oid, $rid)
@@ -231,5 +252,78 @@ class RestaurantorderController extends CommonController
        	}
        	return false;
         //return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    protected static function getArrayData($query,$rid)
+    {
+        $arrayData =[];
+        foreach ($query->each() as $key => $order) 
+        {
+            $arrayData['did'][$order->Delivery_ID] = $order->Delivery_ID;
+     
+            $arrayData['oid'][$order->Order_ID] = $order->Order_ID;
+
+        }
+
+        if(empty($arrayData))
+        {
+            $arrayData['did'][] = "Empty";
+            $arrayData['oid'][] = "Empty";
+        }
+       
+        $food = Food::find()->where("Restaurant_ID = :rid",[":rid"=>$rid])->all();
+        $arrayData['fid'] = ArrayHelper::map($food,'Food_ID','Name');
+          
+        return $arrayData;
+    }
+
+    protected static function getData($data,$query,$arrayData)
+    {
+        $get['first'] = date("Y-m-d", strtotime("first day of this month"));
+        $get['last'] = date("Y-m-d", strtotime("last day of this month"));
+        $get['did'] = "";
+        $get['oid'] = "";
+        $get['fid'] = "";
+
+        if(!empty($data))
+        {
+            if(!empty($data['did']))
+            {
+                $query->andWhere('orderitem.Delivery_ID = :did',[':did'=>$data['did']]);
+                $get['did'] = $data['did'];
+            }
+
+            if(!empty($data['oid']))
+            {
+                $query->andWhere('Order_ID = :oid',[':oid'=>$data['oid']]);
+                $get['oid'] = $data['oid'];
+            }
+
+            if(!empty($data['fid']))
+            {
+                $query->andWhere('orderitem.Food_ID = :fid',[':fid'=>$data['fid']]);
+                $get['fid'] = $data['fid'];
+            }
+
+            if(!empty($data['first']) || !empty($data['last']))
+            {
+                $get['first'] = $data['first'];
+                $get['last'] = $data['last'];
+            }
+           
+        }
+
+        $query->andWhere(['between','Orders_DateTimeMade',strtotime($get['first']),strtotime($get['last'])]);
+
+
+        $arrayData['select']['fid'] = $get['fid'];
+        $arrayData['select']['oid'] = $get['oid'];
+        $arrayData['select']['did'] = $get['did'];
+        $arrayData['select']['first'] = $get['first'];
+        $arrayData['select']['last'] = $get['last'];
+
+        $data['query'] = $query;
+        $data['arrayData'] = $arrayData;
+        return $data;
     }
 }

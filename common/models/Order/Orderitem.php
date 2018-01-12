@@ -157,7 +157,7 @@ class Orderitem extends \yii\db\ActiveRecord
     {
         $array = [];
         
-        $data = Orderitemselection::find()->where('Order_ID = :id',[':id'=>$this->Order_ID])->orderBy(['Selection_ID'=>    SORT_ASC])->all();
+        $data = Orderitemselection::find()->where('Order_ID = :id',[':id'=>$this->Order_ID])->orderBy(['Selection_ID'=>SORT_ASC])->all();
 
         foreach($data as $single)
         {

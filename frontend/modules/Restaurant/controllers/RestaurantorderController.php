@@ -9,13 +9,13 @@ use Yii;
 use frontend\controllers\CommonController;
 use frontend\controllers\OrderController;
 use common\models\Order\Orderitem;
-use common\models\Order\Orders;
 use common\models\Order\StatusType;
 use common\models\Company\Company;
 use common\models\Restaurant;
 use common\models\food\Food;
 use common\models\Profit\RestaurantProfit;
 use frontend\controllers\NotificationController;
+use frontend\models\OrderHistorySearch;
 
 class RestaurantorderController extends CommonController
 {
@@ -90,20 +90,10 @@ class RestaurantorderController extends CommonController
             return $this->redirect(['/Restaurant/restaurant/restaurant-service']);
         }
 
-      
-       
-        //$query = Orders::find()->distinct()->Where("Restaurant_ID = :rid",[':rid'=>$rid])->joinWith(['item','item.food'])->orderBy(['Orders_DateTimeMade'=>SORT_DESC]);
-
-        $query = Orderitem::find()->distinct()->where("Restaurant_ID = :rid",[':rid'=>$rid])->joinWith(['food','order'])->orderBy(['orderitem.Delivery_ID'=>SORT_DESC]);
+        $searchModel = new OrderHistorySearch;
+        $query = $searchModel->search(Yii::$app->request->queryParams,$rid);
        
         $arrayData = $this->getArrayData($query,$rid);
-        
-        $get =  Yii::$app->request->get('search');
-        
-        $getData = $this->getData($get,$query,$arrayData);
-
-        $query = $getData['query'];
-        $arrayData = $getData['arrayData'];
 
         $countQuery = clone $query;
 
@@ -112,9 +102,7 @@ class RestaurantorderController extends CommonController
         $data = $query->offset($pages->offset)
         ->limit($pages->limit)
         ->all();
-
         $result ="";
-
         foreach ($data as $key => $value) { 
             $result[$value->Delivery_ID][0] = $value->order->Orders_Status;
             $result[$value->Delivery_ID][] = $value;   
@@ -124,7 +112,7 @@ class RestaurantorderController extends CommonController
 
         $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
       
-        return $this->render('history', ['rid'=>$rid, 'title'=>$title, 'result'=>$result,'link'=>$link,'pagination'=>$pages,'statusid'=>$statusid,'arrayData'=>$arrayData]);
+        return $this->render('history', ['rid'=>$rid, 'title'=>$title, 'result'=>$result,'link'=>$link,'pagination'=>$pages,'statusid'=>$statusid,'arrayData'=>$arrayData,'searchModel'=>$searchModel]);
     }
 
     public function actionPreparing($oid, $rid)
@@ -273,57 +261,10 @@ class RestaurantorderController extends CommonController
        
         $food = Food::find()->where("Restaurant_ID = :rid",[":rid"=>$rid])->all();
         $arrayData['fid'] = ArrayHelper::map($food,'Food_ID','Name');
+
+        $status = StatusType::find()->where("id != 1")->all();
+        $arrayData['status'] = ArrayHelper::map($status,'id','type');
           
         return $arrayData;
-    }
-
-    protected static function getData($data,$query,$arrayData)
-    {
-        $get['first'] = date("Y-m-d", strtotime("first day of this month"));
-        $get['last'] = date("Y-m-d", strtotime("last day of this month"));
-        $get['did'] = "";
-        $get['oid'] = "";
-        $get['fid'] = "";
-
-        if(!empty($data))
-        {
-            if(!empty($data['did']))
-            {
-                $query->andWhere('orderitem.Delivery_ID = :did',[':did'=>$data['did']]);
-                $get['did'] = $data['did'];
-            }
-
-            if(!empty($data['oid']))
-            {
-                $query->andWhere('Order_ID = :oid',[':oid'=>$data['oid']]);
-                $get['oid'] = $data['oid'];
-            }
-
-            if(!empty($data['fid']))
-            {
-                $query->andWhere('orderitem.Food_ID = :fid',[':fid'=>$data['fid']]);
-                $get['fid'] = $data['fid'];
-            }
-
-            if(!empty($data['first']) || !empty($data['last']))
-            {
-                $get['first'] = $data['first'];
-                $get['last'] = $data['last'];
-            }
-           
-        }
-
-        $query->andWhere(['between','Orders_DateTimeMade',strtotime($get['first']),strtotime($get['last'])]);
-
-
-        $arrayData['select']['fid'] = $get['fid'];
-        $arrayData['select']['oid'] = $get['oid'];
-        $arrayData['select']['did'] = $get['did'];
-        $arrayData['select']['first'] = $get['first'];
-        $arrayData['select']['last'] = $get['last'];
-
-        $data['query'] = $query;
-        $data['arrayData'] = $arrayData;
-        return $data;
     }
 }

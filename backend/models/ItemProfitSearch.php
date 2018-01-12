@@ -43,7 +43,7 @@ class ItemProfitSearch extends RestaurantItemProfit
         ]);
 
 		$this->load($params);
-
+		
 		$query->andFilterWhere([
            'oid' => $this->oid,
         ]);

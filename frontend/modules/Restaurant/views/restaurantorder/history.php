@@ -55,67 +55,66 @@ RestaurantOrdersHistoryAsset::register($this);
                         <label class="control-label">Search Data</label>
                         <div class="row margin-bottom">
                             <div class="col-md-4">
-                                <?php 
-                                    echo Select2::widget([
-                                        'name' => 'search[did]',
-                                        'value' => $arrayData['select']['did'],
-                                        'data' => $arrayData['did'],
-                                        'options' => [
-                                            'placeholder' => 'Select Delivery ID',
-                                            //'multiple' => true
-                                        ],
-                                        'pluginOptions' => [
-                                            'allowClear' => true
-                                        ],
-                                    ]);
+                                <?php echo $form->field($searchModel, 'did')->widget(Select2::classname(), [
+                                            'data' => $arrayData['did'],
+                                            'options' => [ 'placeholder' => 'Select Delivery ID',],
+                                            'pluginOptions' => [
+                                                'allowClear' => true
+                                            ],
+                                        ])->label(false);
                                 ?>
                             </div>
                             <div class="col-md-4">
-                                 <?php 
-                                    echo Select2::widget([
-                                        'name' => 'search[oid]',
-                                        'value' => $arrayData['select']['oid'],
-                                        'data' => $arrayData['oid'],
-                                        'options' => [
-                                            'placeholder' => 'Select Order ID',
-                                            //'multiple' => true
-                                        ],
-                                        'pluginOptions' => [
-                                            'allowClear' => true
-                                        ],
-                                    ]);
+                                 <?php echo $form->field($searchModel, 'oid')->widget(Select2::classname(), [
+                                             'data' => $arrayData['oid'],
+                                            'options' => [ 'placeholder' => 'Select Order ID',],
+                                            'pluginOptions' => [
+                                                'allowClear' => true
+                                            ],
+                                        ])->label(false);
                                 ?>
                             </div>
                             <div class="col-md-4">
-                                 <?php 
-                                    echo Select2::widget([
-                                        'name' => 'search[fid]',
-                                        'value' => $arrayData['select']['fid'],
-                                        'data' => $arrayData['fid'],
-                                        'options' => [
-                                            'placeholder' => 'Select Food Name',
-                                            //'multiple' => true
-                                        ],
-                                        'pluginOptions' => [
-                                            'allowClear' => true
-                                        ],
-                                    ]);
+                                <?php echo $form->field($searchModel, 'fid')->widget(Select2::classname(), [
+                                            'data' => $arrayData['fid'],
+                                            'options' => [ 'placeholder' => 'Select Food Name',],
+                                            'pluginOptions' => [
+                                                'allowClear' => true
+                                            ],
+                                        ])->label(false);
                                 ?>
-                           
+                            </div>
+                        </div>
+                        <div class="row margin-bottom">
+                            <div class="col-sm-6">
+                                <?php echo $form->field($searchModel, 'type')->widget(Select2::classname(), [
+                                            'data' => [1=>'Find Delivery Status',2=>'Find Order Status'],
+                                            'hideSearch' => true,
+                                        ])->label(false);
+                                ?>
+                            </div>
+                            <div class="col-sm-6">
+                                <?php echo $form->field($searchModel, 'status')->widget(Select2::classname(), [
+                                            'data' => $arrayData['status'],
+                                            'options' => [ 'placeholder' => 'Select Delivery Or Order Status',],
+                                            'pluginOptions' => [
+                                                'allowClear' => true
+                                            ],
+                                        ])->label(false);
+                                ?>
                             </div>
                         </div>
                         <div class="row margin-bottom">
                             <div class="col-md-12">
-                                <?php
-                                    echo DatePicker::widget([
-                                        'name' => 'search[first]',
-                                        'value' => $arrayData['select']['first'],
+                                <?php echo DatePicker::widget([
+                                        'model' => $searchModel,
+                                        'attribute' => 'first',
+                                        'attribute2' => 'last',
                                         'type' => DatePicker::TYPE_RANGE,
-                                        'name2' => 'search[last]',
-                                        'value2' => $arrayData['select']['last'],
+                                        'form' => $form,
                                         'pluginOptions' => [
-                                            'autoclose'=>true,
-                                            'format' => 'yyyy-m-d'
+                                            'format' => 'yyyy-mm-dd',
+                                            'autoclose' => true,
                                         ]
                                     ]);
                                 ?>

@@ -8,6 +8,7 @@ use kartik\widgets\ActiveForm;
 use kartik\widgets\DatePicker;
 
     $this->title = 'Average Food Prepare Time';
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Restaurants'), 'url' => ['show-restaurants']];
     $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -50,11 +51,8 @@ use kartik\widgets\DatePicker;
 </div>	
 
 <?php ActiveForm::end(); ?>
-
-
-
 	<div class="container" style="background-color: white;">
-		<table class="table table-hover" style="background-color: #ffe6e6;margin-top: 10px;">
+		<table class="table table-hover" style="background-color:#80bfff;margin-top: 10px;">
 			<thead>
 		      	<tr>
 		      		<th>Food Name</th>
@@ -67,14 +65,11 @@ use kartik\widgets\DatePicker;
 			</thead>
 
 			<?php foreach ($data as $k => $value) : ?>
-
 			    <tbody>
-			    	<?php if ($value['divider'] <= 0) {
-			    		$value['divider'] =1;
-			    	}?>
 		    		<tr>
 		    			<td><?= $foodname[$k]; ?></td>
 		    			<td><?= $value['divider']; ?></td>
+				    	<?php if ($value['divider'] <= 0) {$value['divider'] =1;}?>
 		        		<td><?= gmdate("H:i:s",$value['pending']/$value['divider']); ?></td>
 		        		<td><?= gmdate("H:i:s",$value['preparing']/$value['divider']); ?></td>
 		        		<td><?= gmdate("H:i:s",$value['ready']/$value['divider']); ?></td>

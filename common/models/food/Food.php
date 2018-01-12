@@ -8,6 +8,7 @@ use yii\db\ActiveRecord;
 use frontend\controllers\CartController;
 use common\models\Restaurant;
 use common\models\Rmanagerlevel;
+use common\models\Order\Orderitem;
 use yii\helpers\Url;
 
 /**
@@ -110,6 +111,11 @@ class Food extends \yii\db\ActiveRecord
     public function getFoodSelection()
     {
         return $this->hasMany(Foodselection::className(),['Food_ID'=> 'Food_ID']);
+    }
+
+    public function getOrderitem()
+    {
+        return $this->hasMany(Orderitem::className(),['Food_ID' => 'Food_ID']);
     }
 
     public function getSelectedtpye()

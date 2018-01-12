@@ -37,7 +37,8 @@ class Restaurant extends \yii\db\ActiveRecord
     {
         return 'restaurant';
     }
-
+    public $timestart;
+    public $timeend;
     /**
      * @inheritdoc
      */
@@ -48,6 +49,7 @@ class Restaurant extends \yii\db\ActiveRecord
             [['Restaurant_Postcode', 'Restaurant_Pricing', 'Restaurant_Rating', 'Restaurant_DateTimeCreated', 'Restaurant_AreaGroup','approval'], 'integer'],
             [['Restaurant_Manager', 'Restaurant_Name', 'Restaurant_RestaurantPicPath', 'Restaurant_Status', 'Restaurant_LicenseNo'], 'string', 'max' => 255],
             [['Restaurant_Area', 'Restaurant_Street', 'Restaurant_UnitNo'], 'string', 'max' => 50],
+            [['timestart','timeend'],'date'],
         ];
     }
 

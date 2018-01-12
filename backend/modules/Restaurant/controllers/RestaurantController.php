@@ -5,8 +5,10 @@ namespace backend\modules\Restaurant\controllers;
 use Yii;
 use yii\web\Controller;
 use backend\models\ItemProfitSearch;
+use backend\models\RestaurantSearch;
 use common\models\Profit\RestaurantItemProfit;
 use common\models\Restaurant;
+use common\models\Food\Food;
 use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
 
@@ -113,5 +115,91 @@ class RestaurantController extends Controller
         } else {
             throw new NotFoundHttpException('The requested restaurant does not exist.');
         }
+    }
+
+    public function actionShowRestaurants()
+    {
+        $searchModel = new RestaurantSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,2);
+
+        return $this->render('showrestaurant',['dataProvider'=>$dataProvider, 'searchModel'=>$searchModel]);
+    }
+
+    public function actionSpeedrating($rid)
+    {
+        $restaurant = Restaurant::find()->where('restaurant.Restaurant_ID=:rid',[':rid'=>$rid])->joinWith(['food'])->one();
+        $foodname = Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->asArray()->all();
+        $foodname = ArrayHelper::map($foodname, 'Food_ID', 'Name');
+
+        if ($post=Yii::$app->request->post()) {
+            $start = strtotime($post['Restaurant']['timestart']);
+            $end = strtotime($post['Restaurant']['timeend']);
+            $restaurant = Restaurant::find()->where('restaurant.Restaurant_ID=:rid',[':rid'=>$rid])
+            ->joinWith(['food','food.orderitem'=>function($query)use($start,$end){$query->joinWith('order')->andWhere(['between','orders.Orders_DateTimeMade',$start,$end]);}])
+            ->one();
+            if (empty($restaurant['food'])) {
+                Yii::$app->session->setFlash('warning', "No food was available");
+                return $this->redirect(['/restaurant/restaurant/speedrating','rid'=>$rid]);
+            }
+        }
+
+        if (empty($restaurant['food'])) {
+            Yii::$app->session->setFlash('warning', "No food was available");
+            return $this->redirect(['/restaurant/restaurant/show-restaurants']);
+        }
+
+        foreach ($restaurant['food'] as $first => $foods) {
+
+            $data[$foods['Food_ID']]['pending'] = 0;
+            $data[$foods['Food_ID']]['preparing'] = 0;
+            $data[$foods['Food_ID']]['ready'] = 0;
+            $data[$foods['Food_ID']]['pickedup'] = 0;
+            $count=0;
+
+            foreach ($foods['orderitem'] as $second => $oitem) {
+                foreach ($data as $thrid => $food) {
+                    $time1 = $oitem['item_status']['Change_PendingDateTime'] - $oitem['order']['Orders_DateTimeMade'];
+                    $time2 = $oitem['item_status']['Change_PreparingDateTime'] - $oitem['item_status']['Change_PendingDateTime'];
+                    $time3 = $oitem['item_status']['Change_ReadyForPickUpDateTime'] - $oitem['item_status']['Change_PreparingDateTime'];
+                    $time4 = $oitem['item_status']['Change_PickedUpDateTime'] - $oitem['item_status']['Change_ReadyForPickUpDateTime'];
+                    $valid = $time1 >=0 && $time2 >=0 && $time3 >=0 && $time4 >=0;
+
+                    foreach ($food as $fourth => $value) {
+                        if ($valid) {
+                            switch ($fourth) {
+                                case 'pending':
+                                    $data[$foods['Food_ID']]['pending'] += $time1;
+                                    break;
+
+                                case 'preparing':
+                                    $data[$foods['Food_ID']]['preparing'] += $time2;
+                                    break;
+
+                                case 'ready':
+                                    $data[$foods['Food_ID']]['ready'] += $time3;
+                                    break;
+
+                                case 'pickedup':
+                                    $data[$foods['Food_ID']]['pickedup'] += $time4;
+                                    break;
+                                
+                                default:
+                                    # code...
+                                    break;
+                            }
+                        }
+                    }
+                    if ($valid) {
+                        $count+=1;
+                    }
+                }
+            }
+
+            $data[$foods['Food_ID']]['divider'] = $count;
+        }
+        if (!empty($post)) {
+            return $this->render('speedrating',['data'=>$data,'foodname'=>$foodname,'restaurant'=>$restaurant,'post'=>$post]);
+        }
+        return $this->render('speedrating',['data'=>$data,'foodname'=>$foodname,'restaurant'=>$restaurant]);
     }
 }

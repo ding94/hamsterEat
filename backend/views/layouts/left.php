@@ -102,6 +102,7 @@
                         'label' => 'Restaurant Controller' ,'icon' => 'cutlery' ,   'url' => '#',
                         'items' => [
                                         ['label' => 'Restaurant Detail' , 'icon' => 'circle-o' , 'url' => ['/restaurant/default/index']],
+                                        ['label' => 'Food Prepare Speed Detail' , 'icon' => 'circle-o' , 'url' => ['/restaurant/restaurant/show-restaurants']],
                                         ['label' => 'All Food' , 'icon' => 'circle-o' , 'url' => ['/restaurant/food/index','id' => 0]],
                                         ['label' => 'Rating' , 'icon' => 'circle-o' ,'url' => ['/rating/index']],
                                         ['label' => 'Restaurant Ranking' , 'icon' => 'circle-o' ,'url' => ['/restaurant/restaurant/restaurant-ranking-per-month']],

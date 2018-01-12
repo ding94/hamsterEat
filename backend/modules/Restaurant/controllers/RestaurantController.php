@@ -199,7 +199,7 @@ class RestaurantController extends Controller
                     $time2 = $oitem['item_status']['Change_PreparingDateTime'] - $oitem['item_status']['Change_PendingDateTime'];
                     $time3 = $oitem['item_status']['Change_ReadyForPickUpDateTime'] - $oitem['item_status']['Change_PreparingDateTime'];
                     $time4 = $oitem['item_status']['Change_PickedUpDateTime'] - $oitem['item_status']['Change_ReadyForPickUpDateTime'];
-                    $valid = $time1 >=0 && $time2 >=0 && $time3 >=0 && $time4 >=0;
+                    $valid = $time1 >0 && $time2 >0 && $time3 >0 && $time4 >0;
 
                     foreach ($food as $fourth => $value) {
                         if ($valid) {
@@ -226,13 +226,13 @@ class RestaurantController extends Controller
                             }
                         }
                     }
-                    if ($valid) {
+                    if ($valid == true) {
                         $count+=1;
                     }
                 }
             }
-
             $data[$foods['Food_ID']]['divider'] = $count;
+
         }
         if (!empty($post)) {
             return $this->render('speedrating',['data'=>$data,'foodname'=>$foodname,'restaurant'=>$restaurant,'post'=>$post]);

@@ -4,6 +4,7 @@ namespace backend\modules\Restaurant\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
 use backend\models\FoodSearch;
 use backend\controllers\CommonController;
@@ -14,7 +15,6 @@ use common\models\food\Foodtype;
 use common\models\Order\Orderitem;
 use common\models\Order\Orders;
 use common\models\Profit\RestaurantItemProfit;
- 
 
 Class FoodController extends Controller
 {
@@ -137,12 +137,14 @@ Class FoodController extends Controller
         }
         $explodemonth = explode("-",$month);
         $food = Food::find()->asArray()->all();
+
         $months = CommonController::getYear($explodemonth[0]);
         $startend = CommonController::getStartEnd($explodemonth[0]);
         foreach ($startend as $i => $date) {
             foreach ($food as $key => $value) {
                 $food_array = ['id'=>(int)$value['Food_ID'],'name'=>$value['Name']];
-                $json_food = json_encode($food_array);
+                $json_food = Json::encode($food_array);
+                 
                 $model = RestaurantItemProfit::find()->where('fid = :fid',[':fid'=>$json_food])->andWhere(['between','created_at',$date[0],$date[1]])->asArray()->all();
                 $modelcount = 0;
                 if(empty($model)){

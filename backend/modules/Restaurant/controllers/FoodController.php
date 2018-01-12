@@ -141,23 +141,7 @@ Class FoodController extends Controller
         $months = CommonController::getYear($explodemonth[0]);
         $startend = CommonController::getStartEnd($explodemonth[0]);
         foreach ($startend as $i => $date) {
-            foreach ($food as $key => $value) {
-                $food_array = ['id'=>(int)$value['Food_ID'],'name'=>$value['Name']];
-                $json_food = Json::encode($food_array);
-                 
-                $model = RestaurantItemProfit::find()->where('fid = :fid',[':fid'=>$json_food])->andWhere(['between','created_at',$date[0],$date[1]])->asArray()->all();
-                $modelcount = 0;
-                if(empty($model)){
-                    $modelcount = 0;
-                    $data[$i][$value['Name']] = $modelcount;
-                } else {
-                    foreach ($model as $k => $v) {
-                        $modelcount+= $v['quantity'];
-                    }
-                    $data[$i][$value['Name']] = $modelcount;
-                }
-            }
-            arsort($data[$i]);
+            $data[$i] = self::countFoodSold($food,$date[0],$date[1]);
         }
         $data = $data[$explodemonth[1]];
         if (count($data) > 10 ){
@@ -189,22 +173,7 @@ Class FoodController extends Controller
         $startend = CommonController::getStartEnd($explodemonth[0]);
         foreach ($startend as $i => $date) {
             if(!empty($food)){
-                foreach ($food as $key => $value) {
-                    $food_array = ['id'=>(int)$value['Food_ID'],'name'=>$value['Name']];
-                    $json_food = json_encode($food_array);
-                    $model = RestaurantItemProfit::find()->where('fid = :fid',[':fid'=>$json_food])->andWhere(['between','created_at',$date[0],$date[1]])->asArray()->all();
-                    $modelcount = 0;
-                    if(empty($model)){
-                        $modelcount = 0;
-                        $data[$i][$value['Name']] = $modelcount;
-                    } else {
-                        foreach ($model as $k => $v) {
-                            $modelcount+= $v['quantity'];
-                        }
-                        $data[$i][$value['Name']] = $modelcount;
-                    }
-                }
-                arsort($data[$i]); 
+                $data[$i] = self::countFoodSold($food,$date[0],$date[1]);
             } else {
                 $data[$i] = [] ;
             }
@@ -214,6 +183,13 @@ Class FoodController extends Controller
             if (count($data) > 10 ){
                 $data = array_slice($data,0,10);
             }
+        }
+        $num = 0;
+        foreach ($data as $count => $rank) {
+            $num+=1;
+            $newcount = '#'.$num.' '.$count;
+            $data[$newcount] = $data[$count];
+            unset($data[$count]);
         }
         if(!empty($data)){
             foreach ($data as $key => $value) {
@@ -226,6 +202,28 @@ Class FoodController extends Controller
         }
         $textmonth = date('F Y',strtotime($month));
         return $this->render('ranking',['month'=>$month,'textmonth'=>$textmonth,'data'=>$data]);
+    }
+
+    public static function countFoodSold($food,$start,$end)
+    {
+        foreach ($food as $key => $value) {
+            $food_array = ['id'=>(int)$value['Food_ID'],'name'=>$value['Name']];
+            $json_food = Json::encode($food_array);
+             
+            $model = RestaurantItemProfit::find()->where('fid = :fid',[':fid'=>$json_food])->andWhere(['between','created_at',$start,$end])->asArray()->all();
+            $modelcount = 0;
+            if(empty($model)){
+                $modelcount = 0;
+                $data[$value['Name']] = $modelcount;
+            } else {
+                foreach ($model as $k => $v) {
+                    $modelcount+= $v['quantity'];
+                }
+                $data[$value['Name']] = $modelcount;
+            }
+        }
+        arsort($data);
+        return $data;
     }
 }
 

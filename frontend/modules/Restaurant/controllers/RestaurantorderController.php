@@ -92,8 +92,6 @@ class RestaurantorderController extends CommonController
 
         $searchModel = new OrderHistorySearch;
         $query = $searchModel->search(Yii::$app->request->queryParams,$rid);
-       
-        $arrayData = $this->getArrayData($query,$rid);
 
         $countQuery = clone $query;
 
@@ -104,15 +102,17 @@ class RestaurantorderController extends CommonController
         ->all();
         $result ="";
         foreach ($data as $key => $value) { 
-            $result[$value->Delivery_ID][0] = $value->order->Orders_Status;
+            $result[$value->Delivery_ID][0]['status'] = $value->order->Orders_Status;
+            $result[$value->Delivery_ID][0]['DateTime'] = Yii::$app->formatter->asDateTime($value->order->Orders_DateTimeMade);
             $result[$value->Delivery_ID][] = $value;   
         }
         
         $title = $restaurant->Restaurant_Name ."'s Orders History";
 
+        $status = ArrayHelper::map(StatusType::find()->all(),'id','type');
         $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
       
-        return $this->render('history', ['rid'=>$rid, 'title'=>$title, 'result'=>$result,'link'=>$link,'pagination'=>$pages,'statusid'=>$statusid,'arrayData'=>$arrayData,'searchModel'=>$searchModel]);
+        return $this->render('history', ['rid'=>$rid, 'title'=>$title, 'result'=>$result,'link'=>$link,'pagination'=>$pages,'statusid'=>$statusid,'status'=>$status,'searchModel'=>$searchModel]);
     }
 
     public function actionPreparing($oid, $rid)
@@ -240,31 +240,5 @@ class RestaurantorderController extends CommonController
        	}
        	return false;
         //return $this->redirect(Yii::$app->request->referrer);
-    }
-
-    protected static function getArrayData($query,$rid)
-    {
-        $arrayData =[];
-        foreach ($query->each() as $key => $order) 
-        {
-            $arrayData['did'][$order->Delivery_ID] = $order->Delivery_ID;
-     
-            $arrayData['oid'][$order->Order_ID] = $order->Order_ID;
-
-        }
-
-        if(empty($arrayData))
-        {
-            $arrayData['did'][] = "Empty";
-            $arrayData['oid'][] = "Empty";
-        }
-       
-        $food = Food::find()->where("Restaurant_ID = :rid",[":rid"=>$rid])->all();
-        $arrayData['fid'] = ArrayHelper::map($food,'Food_ID','Name');
-
-        $status = StatusType::find()->where("id != 1")->all();
-        $arrayData['status'] = ArrayHelper::map($status,'id','type');
-          
-        return $arrayData;
     }
 }

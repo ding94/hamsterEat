@@ -54,40 +54,23 @@ RestaurantOrdersHistoryAsset::register($this);
                     <div class="border">
                         <label class="control-label">Search Data</label>
                         <div class="row margin-bottom">
-                            <div class="col-md-4">
-                                <?php echo $form->field($searchModel, 'did')->widget(Select2::classname(), [
-                                            'data' => $arrayData['did'],
+                            <div class="col-sm-6">
+                                <?php echo $form->field($searchModel, 'keyWordStatus')->widget(Select2::classname(), [
+                                            'data' => $searchModel->keyWordArray,
                                             'options' => [ 'placeholder' => 'Select Delivery ID',],
                                             'pluginOptions' => [
                                                 'allowClear' => true
                                             ],
-                                        ])->label(false);
+                                        ]);
                                 ?>
                             </div>
-                            <div class="col-md-4">
-                                 <?php echo $form->field($searchModel, 'oid')->widget(Select2::classname(), [
-                                             'data' => $arrayData['oid'],
-                                            'options' => [ 'placeholder' => 'Select Order ID',],
-                                            'pluginOptions' => [
-                                                'allowClear' => true
-                                            ],
-                                        ])->label(false);
-                                ?>
-                            </div>
-                            <div class="col-md-4">
-                                <?php echo $form->field($searchModel, 'fid')->widget(Select2::classname(), [
-                                            'data' => $arrayData['fid'],
-                                            'options' => [ 'placeholder' => 'Select Food Name',],
-                                            'pluginOptions' => [
-                                                'allowClear' => true
-                                            ],
-                                        ])->label(false);
-                                ?>
+                            <div class="col-sm-6">
+                                <?php echo $form->field($searchModel, 'keyWord');?>
                             </div>
                         </div>
                         <div class="row margin-bottom">
                             <div class="col-sm-6">
-                                <?php echo $form->field($searchModel, 'type')->widget(Select2::classname(), [
+                                <?php echo $form->field($searchModel, 'statusType')->widget(Select2::classname(), [
                                             'data' => [1=>'Find Delivery Status',2=>'Find Order Status'],
                                             'hideSearch' => true,
                                         ])->label(false);
@@ -95,7 +78,7 @@ RestaurantOrdersHistoryAsset::register($this);
                             </div>
                             <div class="col-sm-6">
                                 <?php echo $form->field($searchModel, 'status')->widget(Select2::classname(), [
-                                            'data' => $arrayData['status'],
+                                            'data' => $status,
                                             'options' => [ 'placeholder' => 'Select Delivery Or Order Status',],
                                             'pluginOptions' => [
                                                 'allowClear' => true
@@ -135,17 +118,20 @@ RestaurantOrdersHistoryAsset::register($this);
                  <h2>There are no orders currently...</h2>
             <?php else :?>
                 <?php foreach ($result as $did =>$delivery) : 
-                        $deliveryStatus = array_shift($delivery);
+                        $deliveryData = array_shift($delivery);
                 ?>  
                 <table class="table table-user-info table-hover" style="border:1px solid black;">
                     <thead id="thead-needed">
                         <tr>
-                            <th colspan = '3' data-th="Delivery_ID">
+                            <th colspan = '2' data-th="Delivery_ID">
                                 <center>Delivery ID: <?= $did?> 
                             </th>
                             <th colspan= '2' data-th="Delivery Status">
-                                <center>Status: <?= $statusid[$deliveryStatus] ?>
+                                <center> <?= $deliveryData['DateTime'] ?>
                             </th>
+                            <th colspan= '1' data-th="Delivery Status">
+                                <center>Status: <?= $statusid[$deliveryData['status']] ?>
+                            </th> 
                         </tr>
                     </thead>
                     <thead>

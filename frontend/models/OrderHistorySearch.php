@@ -7,11 +7,11 @@ use common\models\Order\Orderitem;
 
 class OrderHistorySearch extends Orderitem
 {
-	public $oid;
-	public $fid;
-	public $did;
+	public $keyWordArray = [1=>'Delivery ID',2=>"Order ID",3=>"FoodName"];
+	public $keyWordStatus =1;
+	public $keyWord;
 	public $status;
-	public $type = 1;
+	public $statusType = 1;
 	public $first;
 	public $last;
 
@@ -25,7 +25,7 @@ class OrderHistorySearch extends Orderitem
 	public function rules()
 	{
 		return [
-			[['oid','fid','did','first','last','status','type'] ,'safe'],
+			[['keyWordStatus','keyWord','status','first','last','statusType'] ,'safe'],
 		];
 	}
 
@@ -41,7 +41,7 @@ class OrderHistorySearch extends Orderitem
 			$this->last = date("Y-m-d", strtotime("last day of this month"));
 		}
 
-		if($this->type == 1)
+		if($this->statusType == 1)
 		{
 			$query->andFilterWhere(['Orders_Status' => $this->status]);
 		}
@@ -50,9 +50,21 @@ class OrderHistorySearch extends Orderitem
 			$query->andFilterWhere(['OrderItem_Status' => $this->status]);
 		}
 
-		$query->andFilterWhere(['Order_ID' => $this->oid]);
-		$query->andFilterWhere(['orders.Delivery_ID' => $this->did]);
-		$query->andFilterWhere(['orderitem.Food_ID' => $this->fid]);
+		switch ($this->keyWordStatus) {
+			case 1:
+				$query->andFilterWhere(['orders.Delivery_ID' => $this->keyWord]);
+				break;
+			case 2:
+				$query->andFilterWhere(['Order_ID' => $this->keyWord]);
+				break;
+			case 3:
+				$query->andFilterWhere(['like','food.Name', $this->keyWord]);
+				break;
+			default:
+				# code...
+				break;
+		}
+
 		$query->andWhere(['between','Orders_DateTimeMade',strtotime($this->first),strtotime($this->last)]);
 
 		return $query;

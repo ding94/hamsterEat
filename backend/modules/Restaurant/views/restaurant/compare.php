@@ -22,6 +22,7 @@ use dosamigos\chartjs\ChartJs;
         <?php foreach($totalProfit as $date=>$data):?>
         <div class="col-md-6">
         <h3>Restaurant <?php echo $id ?> Earning</h3>
+        <?= $cost = str_replace(",", "", $data['cost']); $price = str_replace(",", "", $data['sellPrice']);?>
         <h4><?php echo $date; ?></h4>
         <?= ChartJs::widget([
     'type' => 'doughnut',
@@ -33,7 +34,7 @@ use dosamigos\chartjs\ChartJs;
             [
                 'label' => ['Cost','Selling Price'],
                 'backgroundColor' => ["#f45b69","#ffda00"],
-                'data' => [$data['cost'],$data['sellPrice']]
+                'data' => [$cost,$price]
             ],
         ]
     ]
@@ -54,6 +55,7 @@ use dosamigos\chartjs\ChartJs;
     <?php foreach($totalProfitOther as $date=>$data):?>
         <div class="col-md-6">
         <h3>Restaurant <?php echo $oid ?> Earning</h3>
+         <?= $cost = str_replace(",", "", $data['cost']); $price = str_replace(",", "", $data['sellPrice']);?>
         <h4><?php echo $date; ?></h4>
         <?= ChartJs::widget([
     'type' => 'doughnut',
@@ -65,7 +67,7 @@ use dosamigos\chartjs\ChartJs;
             [
                 'label' => ['Cost','Selling Price'],
                 'backgroundColor' => ["#f45b69","#ffda00"],
-                'data' => [$data['cost'],$data['sellPrice']]
+                'data' => [$cost,$price]
             ],
         ]
     ]

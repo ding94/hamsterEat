@@ -41,9 +41,10 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
      </div>
 <?php ActiveForm::end(); ?>
     <div class="row">
-        <?php foreach($totalProfit as $date=>$data):?>
+        <?php foreach($totalProfit as $date=>$data): ?>
         <div class="col-md-6">
         <h4><?php echo $date; ?></h4>
+        <?= $cost = str_replace(",", "", $data['cost']); $price = str_replace(",", "", $data['sellPrice']);?>
         <?= ChartJs::widget([
     'type' => 'doughnut',
     'options' => [
@@ -54,7 +55,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             [
                 'label' => ['Cost','Selling Price'],
                 'backgroundColor' => ["#f45b69","#ffda00"],
-                'data' => [$data['cost'],$data['sellPrice']]
+                'data' => [$cost,$price]
             ],
         ]
     ]

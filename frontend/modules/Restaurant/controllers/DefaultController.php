@@ -322,14 +322,15 @@ class DefaultController extends CommonController
         $restaurant = Restaurant::find()->where(Restaurant::tableName().'.Restaurant_ID = :id' ,[':id' => $rid])->innerJoinWith('restaurantType',true)->one();
         $chosen = ArrayHelper::map($restaurant['restaurantType'],'ID','ID');
         $type = ArrayHelper::map(RestaurantType::find()->andWhere(['and',['!=','Type_Name','Halal'],['!=','Type_Name','Non-Halal']])->orderBy(['(Type_Name)' => SORT_ASC])->all(),'ID','Type_Name');
-        $halal = RestaurantType::find()->where('Type_Name=:t',[':t'=>'Halal'])->one();
-        $nonhalal = RestaurantType::find()->where('Type_Name=:t',[':t'=>'Non-Halal'])->one();
+        $halal = RestaurantType::find()->where("Type_Name='Halal'")->one();
+        $nonhalal = RestaurantType::find()->where("Type_Name = 'Non-halal'")->one();
+        
         foreach ($restaurant['restaurantType'] as $key => $value) :
             if ($value['Type_Name'] == 'Halal' || $value['Type_Name'] == 'Non-Halal') {
                 $foodjunction['Type_ID'] = $value['ID'];
             }
         endforeach;
-
+       
         if($restaurantdetails->load(Yii::$app->request->post()))
         {
             $post = Yii::$app->request->post();
@@ -527,22 +528,17 @@ class DefaultController extends CommonController
         $session = Yii::$app->session;
         $halal = $cookies->getValue('halal');
       
-        $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus']);
+        $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus','restaurant.rJunction']);
 
         if(!empty($halal) || $halal == 1)
         {
             if($type != 0)
             {
-                $data = [$type,3];
                
-                $query->andWhere('foodtypejunction.Type_ID = :tid', [':tid' => $data]);
+                $query->andWhere('foodtypejunction.Type_ID = :tid', [':tid' => $type]);
             }
-            else
-            {
-                
-                $query->andWhere('foodtypejunction.Type_ID =  3');
-            }
-           
+          
+            $query->andWhere('restauranttypejunction.Type_ID =  23');
         }
         else
         {
@@ -562,6 +558,7 @@ class DefaultController extends CommonController
         $food = $query->offset($pages->offset)
         ->limit($pages->limit)
         ->all();
+        
         //$food = food::find()->where('restaurant.Restaurant_AreaGroup = :group',[':group' => $groupArea])->joinWith(['restaurant' ,'junction'])->all();
         
         $foodquery = Foodtype::find()->andWhere('ID != 3 and ID != 4')->orderBy(['Type_Desc'=>SORT_ASC]);

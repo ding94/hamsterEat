@@ -128,6 +128,11 @@ class Food extends \yii\db\ActiveRecord
         return $this->hasOne(Restaurant::className(),['Restaurant_ID' => 'Restaurant_ID']);
     }
 
+    public function getRJunction()
+    {
+        return $this->hasMany(Restauranttypejunction::className(),['Restaurant_ID' => $this->restaurant->Restaurant_ID]);
+    }
+
     public function getManager()
     {
         return $this->hasMany(Rmanagerlevel::className(),['Restaurant_ID' => 'Restaurant_ID']);

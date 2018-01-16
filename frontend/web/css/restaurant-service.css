@@ -59,6 +59,10 @@
   align-content: center;
 }
 
+.restaurant-name-div{
+  flex-wrap: wrap;
+}
+
 .item-no-border .tag{
   font-size: 13px;
   color: grey;
@@ -74,7 +78,6 @@
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .outer-item :hover{

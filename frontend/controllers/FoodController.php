@@ -289,8 +289,16 @@ class FoodController extends CommonController
         $selectionId = [];
 
         $post = Yii::$app->request->post();
+        $foodtypemodel = Foodtype::find()->where('Type_Desc=:t',[':t'=>$post['Type_ID'][0]])->one();
+        $foodtypeid = Foodtype::find()->where('ID=:id',[':id'=>$post['Type_ID'][0]])->one();
+        if($foodtypemodel==null && $foodtypeid==null){
+            $foodtypemodel = new Foodtype();
+            $foodtypemodel->Type_Desc = $post['Type_ID'][0];
+            $foodtypemodel->save();
+            $post['Type_ID'][0] = (string)$foodtypemodel->ID;
+        }
         $post['Type_ID'][] = $post['Foodtypejunction']['Type_ID'];
-
+        
         if (!empty($modelSelectionType)) 
         {
             $oldSelect = FoodselectionController::oldData($modelSelectionType,2);

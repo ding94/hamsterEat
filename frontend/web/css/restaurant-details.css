@@ -189,6 +189,16 @@
   object-fit: cover;
 }
 
+.fixed {
+  top: 62px;
+  z-index: 100;
+  position: fixed;
+  width: 100%;
+  background-color: #FFF;
+  left: 0;
+  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.1);
+}
+
 @media(max-width: 500px){
   #button-container a{
     display: block;

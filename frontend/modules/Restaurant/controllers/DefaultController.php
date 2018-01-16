@@ -18,6 +18,7 @@ use common\models\User;
 use common\models\AuthAssignment;
 use common\models\user\Userdetails;
 use common\models\food\Foodtype;
+use common\models\food\Foodtypejunction;
 use yii\data\Pagination;
 use common\models\Restauranttypejunction;
 use common\models\Restauranttype;
@@ -182,7 +183,7 @@ class DefaultController extends CommonController
         //$model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
         $model = food::find()->where('Restaurant_ID=:id',[':id' => $rid])->joinWith(['foodStatus'=>function($query){
             $query->where('Status = 1');
-        }]);
+        }])->joinWith('junction');
         // if (!empty($rmanager)) {
         //    $model = food::find()->where('Restaurant_ID=:id', [':id' => $rid])->andWhere(["!=","Status",'-1'])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
         // }
@@ -194,8 +195,29 @@ class DefaultController extends CommonController
         $rowfood = $model->offset($pagination->offset)
         ->limit($pagination->limit)->orderBy(['Name'=>SORT_ASC])
         ->all();
+
+        foreach ($rowfood as $k => $v) {
+            $restaurantfood[] = $v['Food_ID'];
+        }
+        $allfoodtype = [];
+        foreach ($restaurantfood as $food => $foodvalue) {
+            $foodtypejunction = Foodtypejunction::find()->where('Food_ID=:fid',[':fid'=>$foodvalue])->all();
+            foreach ($foodtypejunction as $i => $type) {
+                $foodtype[] = $type->Type_ID;
+                foreach ($foodtype as $f => $foodtypeid) {
+                    $foodtypename = Foodtype::find()->where('ID=:id',[':id'=>$foodtypeid])->one()->Type_Desc;
+                    if (((in_array($foodtypename, $allfoodtype))==false)&&$foodtypename != 'Halal'&&$foodtypename != 'Non-Halal') {
+                        $allfoodtype[]= $foodtypename;
+                    }
+                }
+            }
+        }
+        foreach($allfoodtype as $onekey => $onefoodtype){
+            $findfoodtypeid = Foodtype::find()->where('Type_Desc=:td',[':td'=>$onefoodtype])->one();
+            $allfoodtype[$onekey]=['name'=>$onefoodtype,'id'=>$findfoodtypeid->ID];
+        }
         
-        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood,'pagination'=>$pagination, 'rid'=>$rid]);
+        return $this->render('restaurantdetailstest',['id'=>$id, 'rowfood'=>$rowfood,'pagination'=>$pagination, 'rid'=>$rid,'allfoodtype'=>$allfoodtype]);
     }
 
 //--This function loads the Food Details according to the FoodController

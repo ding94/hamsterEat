@@ -44,12 +44,40 @@ $this->title = 'Total Order And Delivery';
         </div>
      </div>
 <?php ActiveForm::end(); ?> 
+<div class="row">
+    <div class="col-md-3">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Order Price</td>
+                    <td class="pull-right"><?= $data['final']['orderFinalPrice']  ?></td>
+                </tr>
+                <tr>
+                    <td>Delivery Charge</td>
+                    <td class="pull-right"><?= $data['final']['totalDeliveryCharge']?></td>
+                </tr>
+                <tr>
+                    <td>Early Discount</td>
+                    <td class="pull-right">-<?= $data['final']['earlyDiscount']?></td>
+                </tr>
+                <tr>
+                    <td>Voucher Discount</td>
+                    <td class="pull-right">-<?= $data['final']['voucherDiscount']?></td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td class="pull-right"><?= $data['final']['totalDelivery']?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 <?= ChartJs::widget([
     'type' => $arrayType[$type],
     'options' => [
     ],
     'data' => [
-        'labels' => $days['date'],
+        'labels' => $data['date'],
         'datasets' => [
             [
                 'label' => "Orders",
@@ -59,7 +87,7 @@ $this->title = 'Total Order And Delivery';
                 'pointBorderColor' => "#fff",
                 'pointHoverBackgroundColor' => "#fff",
                 'pointHoverBorderColor' => "rgba(255,99,132,1)",
-                'data' => $days['countOrder']
+                'data' => $data['countOrder']
             ],
             [
                 'label' => "Delivery",
@@ -69,7 +97,7 @@ $this->title = 'Total Order And Delivery';
                 'pointBorderColor' => "#fff",
                 'pointHoverBackgroundColor' => "#fff",
                 'pointHoverBorderColor' => "rgba(179,181,198,1)",
-                'data' => $days['countDelivery']
+                'data' => $data['countDelivery']
         ],
         ]
     ]

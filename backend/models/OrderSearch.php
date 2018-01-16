@@ -35,7 +35,7 @@ Class OrderSearch extends Orders
 				# code...
 				break;
 		}
-
+		
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

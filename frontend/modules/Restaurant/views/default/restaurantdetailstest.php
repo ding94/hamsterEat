@@ -141,11 +141,6 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                 <?php endif;?>
             </div>
             <div class="foodDesc-div"><span class="foodDesc"><?php echo $newdata['Description']; ?></span></div>
-            <div class="tag-div">
-            <?php foreach($newdata['foodType']as $type): ?>
-            <span class="tag"><?php echo $type['Type_Desc'].'&nbsp;&nbsp;&nbsp;'; ?></span>
-            <?php endforeach; ?>
-            </div>
             </div>
         </div>
         </a>

@@ -32,10 +32,10 @@ $(window).scroll(function(e) {
     timer = setTimeout(function() {
           // do something
           if($(window).scrollTop() + $(window).height() >= $(document).height()-500) {
-    	var id = $(".item:last").attr("data-id");
+    	var time = $(".item:last").attr("data-id");
     	$.ajax({
 			url: 'index.php?r=Restaurant/default/load-more-food',
-			data: { id: id} ,
+			data: { time: time} ,
 			dataType: 'json',
 			
 		})

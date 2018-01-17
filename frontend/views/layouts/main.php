@@ -22,6 +22,14 @@ use common\models\Company\Company;
 use common\models\Order\Orders;
 AppAsset::register($this);
 NotificationAsset::register($this);
+
+use common\models\LanguageLine;
+use frontend\controllers\CommonController;
+$language = Yii::$app->request->cookies->getValue('language');
+if (empty($language)) {
+    $language = CommonController::getLanguage();
+}
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

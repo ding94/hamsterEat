@@ -17,11 +17,13 @@ use yii\filters\AccessControl;
 use common\models\User;
 use common\models\AuthAssignment;
 use common\models\user\Userdetails;
+use common\models\user\UserLanguage;
 use common\models\food\Foodtype;
 use common\models\food\Foodtypejunction;
 use yii\data\Pagination;
 use common\models\Restauranttypejunction;
 use common\models\Restauranttype;
+use common\models\LanguageLine;
 use frontend\modules\Restaurant\controllers\RestauranttypeController;
 use frontend\controllers\CommonController;
 use common\models\MonthlyUnix;
@@ -179,7 +181,6 @@ class DefaultController extends CommonController
              return $this->redirect(['/site/index']);
         }
 
-      
         //$model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
         $model = food::find()->where('Restaurant_ID=:id',[':id' => $rid])->joinWith(['foodStatus'=>function($query){
             $query->where('Status = 1');
@@ -217,6 +218,11 @@ class DefaultController extends CommonController
             $allfoodtype[$onekey]=['name'=>$onefoodtype,'id'=>$findfoodtypeid->ID];
         }
         
+        $language = Yii::$app->request->cookies->getValue('language');
+        /*$line = LanguageLine::find()->where('id=:id',[':id'=>$language])->one();
+        $objPHPExcel = \PHPExcel_IOFactory::load(Yii::$app->params['langExcel'].$line['file_location']);
+        $sheetData = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);*/
+
         return $this->render('restaurantdetailstest',['id'=>$id, 'rowfood'=>$rowfood,'pagination'=>$pagination, 'rid'=>$rid,'allfoodtype'=>$allfoodtype]);
     }
 

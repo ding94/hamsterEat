@@ -18,4 +18,5 @@ return [
 	'countCart' => "",
 	'notication' => "",
 	'listOfNotic' => "",
+	'langExcel'=>"C:/wamp64/www/hamsterEat/frontend/web/language/",
 ];

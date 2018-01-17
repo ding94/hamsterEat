@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use yii\helpers\Html;
 use yii\web\Controller;
+use yii\web\Cookie;
 use Yii;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
@@ -144,6 +145,27 @@ class CommonController extends Controller
         }
         
         return $data;
+    }
+
+    public static function getLanguage($case='')
+    {
+        if (!empty($case)) {
+            $cookies = Yii::$app->response->cookies;
+            if(!is_null($cookies['language'])){
+                $cookies->remove('language');
+            }
+        }
+        else{
+            $case=1;
+        }
+
+        $cookie =  new Cookie([
+            'name' => 'language',
+            'value' => $case,
+            'expire' => time() + 86400 * 365,
+        ]);
+        \Yii::$app->getResponse()->getCookies()->add($cookie);
+        return $case;
     }
 
     public static function getRestaurantOrdersUrl($rid){

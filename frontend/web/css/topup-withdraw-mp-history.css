@@ -163,8 +163,7 @@ a.remove-all  {
   }
 
   div.account-history td{
-      display: block !important;
-     
+      display: flex;
   }
 
   div.account-history .table > tbody >tr >td{
@@ -183,8 +182,10 @@ a.remove-all  {
 
   div.account-history td:before { 
       content : attr(data-th) ": ";
-      width: 6.5em;
-      display: inline-block;
+      display: flex;
+      flex-basis: 50%;
+      justify-content: flex-end;
+      padding-right:10px; 
   }
 
   /*

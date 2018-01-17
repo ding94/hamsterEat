@@ -199,6 +199,7 @@
     border-bottom: 1px solid #eee; 
     position: relative;
     padding-left: 50%; 
+    display: flex;
   }
   
   div.userprofile-address  td:before { 
@@ -408,7 +409,7 @@ div.userprofile-input{margin: 0px 0px 55px 0px;}
   }
 
   div.ticket-history td{
-      display: block;
+      display: flex;
   }
 
   div.ticket-history .table > tbody >tr >td{
@@ -426,8 +427,10 @@ div.userprofile-input{margin: 0px 0px 55px 0px;}
 
   div.ticket-history td:before { 
       content : attr(data-th) ": ";
-      width: 6.5em;
-      display: inline-block;
+      display: flex;
+      flex-basis: 50%;
+      justify-content: flex-end;
+      padding-right:10px; 
   }
 
   /*

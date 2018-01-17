@@ -105,12 +105,15 @@
     border-bottom: 1px solid #eee; 
     position: relative;
     padding-left: 50%; 
+    display: flex;
   }
 
   div.my-orders-table td.with:before { 
       content : attr(data-th) ": ";
-      width: 6.5em;
-      display: inline-block;
+      display: flex;
+      flex-basis: 50%;
+      justify-content: flex-end;
+      padding-right:10px; 
   }
   .my-orders-header-title{
     text-align: center;

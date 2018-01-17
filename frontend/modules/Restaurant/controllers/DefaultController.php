@@ -534,7 +534,7 @@ class DefaultController extends CommonController
         $session = Yii::$app->session;
         $halal = $cookies->getValue('halal');
       
-        $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus','restaurant.rJunction'])->orderBy(['Food_ID'=>SORT_DESC]);
+        $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus','restaurant.rJunction'])->orderBy(['food.created_at'=>SORT_DESC]);
 
         if(!empty($halal) || $halal == 1)
         {
@@ -547,7 +547,7 @@ class DefaultController extends CommonController
         ->limit($pages->limit)
         ->all();*/
         
-        $food = $query->limit(12)->all();
+        $food = $query->limit(3)->all();
         //$food = food::find()->where('restaurant.Restaurant_AreaGroup = :group',[':group' => $groupArea])->joinWith(['restaurant' ,'junction'])->all();
         
         $foodquery = Foodtype::find()->andWhere('ID != 3 and ID != 4')->orderBy(['Type_Desc'=>SORT_ASC]);
@@ -576,18 +576,18 @@ class DefaultController extends CommonController
         $result['message'] = "Empty Data";
         $get = Yii::$app->request->get();
        
-        if(empty($get['id']))
+        if(empty($get['time']))
         {   
             return json_encode($result);
         }
 
-        $id = $get['id'];
+        $time = $get['time'];
         //$id =51;
         $cookies = Yii::$app->request->cookies;
         $session = Yii::$app->session;
         $halal = $cookies->getValue('halal');
         
-        $query = food::find()->where(['<','food.Food_ID',$id])->andWhere('Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','foodStatus','restaurant.rJunction']);
+        $query = food::find()->where(['<','food.created_at',$time])->andWhere('Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','foodStatus','restaurant.rJunction']);
         
         if(!empty($halal) || $halal == 1)
         {

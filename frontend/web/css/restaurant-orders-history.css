@@ -53,9 +53,9 @@
 
   #restaurant-orders-history-content thead#thead-needed tr { 
     position: relative;
-     border: none;
-     top:0px;
-     left:0px;
+    border: none;
+    top:0px;
+    left:0px;
   }
   
   #restaurant-orders-history-content tr { border: 1px solid #ccc; }
@@ -65,6 +65,7 @@
     border: none;
     border-bottom: 1px solid #eee; 
     position: relative;
+    display: flex;
   }
 
   #restaurant-orders-history-content a{
@@ -73,13 +74,9 @@
 
   div#restaurant-orders-history-content td:before { 
       content : attr(data-th) ": ";
-      width: 16.5em;
-      display: inline-block;
+      display: flex;
+      flex-basis: 50%;
+      justify-content: flex-end;
+      padding-right:10px; 
   }
-}
-
-@media (max-width: 500px){
-	div#restaurant-orders-history-content td:before {
-		width: 5.5em;
-	}
 }

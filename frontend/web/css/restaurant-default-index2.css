@@ -27,7 +27,7 @@
   align-items: center;
 }
 
-@media (min-width: 1200px){
+@media (min-width: 1400px){
   #group-area-index2 .menu-container{
     grid-template-columns: 1fr 1fr 1fr;
   }
@@ -43,7 +43,7 @@
   }
 }
 
-@media (min-width: 992px) and (max-width: 1199px){
+@media (min-width: 992px) and (max-width: 1399px){
   #group-area-index2 .menu-container{
     grid-template-columns: 1fr 1fr;
   }

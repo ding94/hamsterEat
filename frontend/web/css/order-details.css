@@ -65,12 +65,15 @@
     /* Behave  like a "row" */
     border: none;
     position: relative;
+    display: flex;
   }
   
   div#order-details-content td.with:before { 
       content : attr(data-th) ": ";
-      width: 5.5em;
-      display: inline-block;
+      display: flex;
+      flex-basis: 50%;
+      justify-content: flex-end;
+      padding-right:10px; 
   }
 
   #order-details-content td > a{

@@ -5,24 +5,24 @@ use yii\web\Session;
 use frontend\controllers\CartController;
 use frontend\assets\CheckoutAsset;
 
-$this->title = "Order Placed";
+$this->title = Yii::t('cart','Order Placed');
 CheckoutAsset::register($this);
 ?>
     <div class="container">
        <div class="checkout-progress-bar">
          <div class="circle done">
            <span class="label"><i class="fa fa-check"></i></span>
-           <span class="title">Cart</span>
+           <span class="title"><?=Yii::t('cart','Cart'); ?></span>
          </div>
          <span class="bar done"></span>
          <div class="circle done">
            <span class="label"><i class="fa fa-check"></i></span>
-           <span class="title">Checkout</span>
+           <span class="title"><?=Yii::t('cart','Checkout'); ?></span>
          </div>
          <span class="bar done"></span>
          <div class="circle done">
            <span class="label"><i class="fa fa-check"></i></span>
-           <span class="title">Completed</span>
+           <span class="title"<?=Yii::t('cart','>Completed'); ?></span>
          </div>
        </div> 
     </div>
@@ -31,10 +31,10 @@ CheckoutAsset::register($this);
             <div class="col-md-6 checkout-detail" >
                 <table class="table table-hover" style="font-size: 1.2em; font-family: 'Times New Roman', Times, serif;">
                     <tr id="no-border">
-                        <td style="width: 40%;">Delivery ID:</td>
+                        <td style="width: 40%;"><?=Yii::t('cart','Delivery ID:'); ?></td>
                         <td colspan="2"><?= $order['Delivery_ID']; ?></td>
                     </tr>
-                        <td>Order ID:</td>
+                        <td><?=Yii::t('cart','Order ID:'); ?></td>
                         
                         <?php $orders=""; ?>
                         <?php foreach ($orderitem as $key => $oid): ?>
@@ -47,15 +47,15 @@ CheckoutAsset::register($this);
 
                         <td> <?= $orders; ?>
                     <tr>
-                        <td>Delivery Location:</td>
+                        <td><?=Yii::t('cart','Delivery Location:'); ?></td>
                         <td colspan="2"><?= $order['address']['fulladdress']; ?></td>
                     </tr>
                     <tr>
-                        <td>Recipient:</td>
+                        <td><?=Yii::t('cart','Recipient:'); ?></td>
                         <td colspan="2"><?= $order['address']['name']; ?></td>
                     </tr>
                     <tr>
-                        <td>Contact No:</td>
+                        <td><?=Yii::t('cart','Contact No:'); ?></td>
                         <td colspan="2"><?= $order['address']['contactno']; ?></td>
                     </tr>
                 </table>
@@ -63,59 +63,53 @@ CheckoutAsset::register($this);
                 <table class="table table-hover" style="font-size: 1.2em; font-family: 'Times New Roman', Times, serif;">
                         <tr>
                             <td></td>
-                            <td class="text-right" style="text-align: right">Subtotal:</td>
+                            <td class="text-right" style="text-align: right"><?=Yii::t('cart','Subtotal:'); ?></td>
                             <td class="text-right">RM <?= number_format($order['Orders_Subtotal'],2); ?></td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td class="text-right" style="text-align: right">Delivery Charge:</td>
+                            <td class="text-right" style="text-align: right"><?=Yii::t('cart','Delivery Charge:'); ?></td>
                             <td class="text-right">RM <?= number_format($order['Orders_DeliveryCharge'],2); ?></td>
                         </tr>
                         <?php if($order['Orders_DiscountEarlyAmount'] > 0 ) : ?>
                             <tr>
                                 <td></td>
-                                <td class="text-right">Early Discounted:</td>
+                                <td class="text-right"><?=Yii::t('cart','Early Discounted:'); ?></td>
                                 <td class="text-right" style="color: red;">- RM <?= number_format($order['Orders_DiscountEarlyAmount'],2); ?></td>
                             </tr>
                         <?php endif; ?>
                         <?php if($order['Orders_DiscountTotalAmount'] > 0 ) : ?>
                             <tr>
                                 <td></td>
-                                <td class="text-right">Discounted:</td>
+                                <td class="text-right"><?=Yii::t('cart','Discounted:'); ?></td>
                                 <td class="text-right" style="color: red;">- RM <?= number_format($order['Orders_DiscountTotalAmount'],2); ?></td>
                             </tr>
                         <?php endif; ?>
                         <tr style="background-color: #d9d9d9">
                             <td></td>
-                            <td class="text-right" style="text-align: right;">Total:</td>
+                            <td class="text-right" style="text-align: right;"><?=Yii::t('cart','Total:'); ?></td>
                             <td class="text-right">RM <?= number_format($order['Orders_TotalPrice'],2); ?></td>
                         </tr>
                 </table>
             </div>
             <div class="col-md-5 checkout-cash" >
-                <?php if ($order['Orders_PaymentMethod'] == "Cash on Delivery"): ?>
+                <center>
+                    <font style="font-size: 2em;">
+                        <?=Yii::t('cart','Thank you for placing order with us!'); ?><br><?=Yii::t('cart','Your order has been made'); ?><br><br>
+                    </font>
 
-                    <center>
-                        <font style="font-size: 2em;">
-                            Thank you for placing order with us!<br>Your order has been made<br><br>
-                        </font>
+                    <?php if($order['Orders_PaymentMethod'] == "Cash on Delivery"): ?>
+
                         <font style="font-size: 2em;background-color: #ffffb3">
-                            Please Prepare RM <?= number_format($order['Orders_TotalPrice'],2); ?> to our rider.
+                            <?=Yii::t('cart','Please Prepare'); ?> RM <?= number_format($order['Orders_TotalPrice'],2); ?> <?=Yii::t('cart','to our rider.'); ?>
                         </font>
-                    </center>
 
-                <?php elseif($order['Orders_PaymentMethod'] == "Account Balance"): ?>
-                    <center>
-                        <font style="font-size: 2em;">
-                            Thank you for placing order with us!<br>Your order has been made<br><br>
-                        </font>
-                    </center>
-
-                <?php endif?>
+                    <?php endif?>
+                </center>
             </div>
         </div>
         <div class="more-detail">
-            <center><?php echo Html::a('More Detail', ['/order/order-details','did'=>$order['Delivery_ID']], ['class'=>'raised-btn main-btn'])?>
-            <?php echo Html::a('Home', ['/site/index'], ['class'=>'raised-btn secondary-btn'])?></center>
+            <center><?php echo Html::a(Yii::t('cart','More Detail'), ['/order/order-details','did'=>$order['Delivery_ID']], ['class'=>'raised-btn main-btn'])?>
+            <?php echo Html::a(Yii::t('cart','Home'), ['/site/index'], ['class'=>'raised-btn secondary-btn'])?></center>
         </div>
     </div>

@@ -309,9 +309,16 @@ div.userprofile-input{margin: 0px 0px 55px 0px;}
 #nav > li.active{
   background-color:white;
   border-top:1px solid #FFDA00;
-
 }
 
+#nav > li:hover{
+  background-color: #FFFFDB;
+}
+
+#nav a:hover{
+  text-decoration: none;
+  color: #000000;
+}
 
 .nav-default.ul {
   max-width: 960px;

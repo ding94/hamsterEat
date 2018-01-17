@@ -22,6 +22,10 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
         justify-content: center;
     }
 
+    #category-bar ul{
+        font-size: 18px;
+    }
+
     #category-bar a{
         cursor: pointer;
     }
@@ -37,6 +41,11 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 
     .foodtype-name{
         margin: 30px 0;
+    }
+
+    .active-link{
+        background-color: #F2F2F2;
+        color: #FFCC00;
     }
 </style>
 <?php Modal::begin([
@@ -111,9 +120,9 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
     foreach($allfoodtype as $sft): 
         $k+=1;
     ?>
-    <div style="margin-top: 100px;" id="section<?php echo $k;?>">
+    <div style="margin-top: 100px;" id="section<?php echo $k;?>" class="foodtype">
         <div class="foodtype-name">
-            <h3><?php echo $sft['name']; ?></h3>
+            <h1><?php echo $sft['name']; ?></h1>
         </div>
         <div class="outer-container">
         <div class="menu-container" id="menu-container">

@@ -96,10 +96,10 @@ class Accountbalance extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'AB_ID' => 'Ab  ID',
+            'AB_ID' => 'ID',
             'User_Username' => 'User  Username',
-            'AB_topup' => 'Ab Topup',
-            'AB_minus' => 'Ab Minus',
+            'AB_topup' => 'Total Topup',
+            'AB_minus' => 'Total Used',
             'AB_DateTime' => 'Ab  Date Time',
         ];
     }

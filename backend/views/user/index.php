@@ -5,12 +5,35 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\helpers\Url;
+use yii\bootstrap\Modal;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
     $this->title =  'User List';
     $this->params['breadcrumbs'][] = $this->title;
 ?>
-
+<?php
+    Modal::begin([
+        'id' => 'userDetail',
+        'header' => '<h4 class="modal-title">...</h4>',
+        'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    Modal::begin()
+    Modal::end();
+    $this->registerJs("
+        $('#userDetail').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var modal = $(this)
+            var title = button.data('title') 
+            var href = button.attr('href') 
+            modal.find('.modal-title').html(title)
+            modal.find('.modal-body').html('<i class=\"fa fa-spinner fa-spin\"></i>')
+            $.post(href)
+                .done(function( data ) {
+                    modal.find('.modal-body').html(data)
+                });
+            })
+    ");
+?>
     <?= GridView::widget([
 
         'dataProvider' => $model,
@@ -20,7 +43,16 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 'attribute' => 'id',
                 'headerOptions' => ['width' => "15px"],
             ],
-            'username',
+           
+            [
+                'attribute' => 'username',
+                'format' => 'raw',
+                'value' => function($model)
+                {
+                   
+                     return Html::a($model->username,['user/detail' ,'id'=>$model->id],['data-toggle'=>"modal",'data-target'=>"#userDetail",'data-title'=>"User Detail",]);
+                },
+            ],
 			'email',
              [
                 'attribute' => 'status',
@@ -30,12 +62,15 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 },
                 'filter' => array( "10"=>"Active","0"=>"Inactive"),
             ],
-            'userdetails.fullname',
-            'authAssignment.item_name',
-            'userdetails.User_ContactNo',
-            'balance.User_Balance',
-			'created_at:time',
-            'updated_at:time',
+            'authAssignment.item_name',  
+            [
+                'label' => 'User Balance',
+                'attribute' => 'balance.User_Balance',
+                'value' => 'balance.User_Balance',
+                'headerOptions' => ['width' => "20px"],
+            ],
+			'created_at:datetime',
+            'updated_at:datetime',
 
             ['class' => 'yii\grid\ActionColumn' , 
              'template'=>'{update}',
@@ -46,6 +81,10 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
              'buttons' => [
                 'active' => function($url , $model)
                 {
+                    if($model->status == 1)
+                    {
+                        return Html::a("Resend email", ['user/email','id'=>$model->id]);
+                    }
                     if($model->status == 0)
                     {
                          $url = Url::to(['user/active' ,'id'=>$model->id]);

@@ -87,7 +87,12 @@ class FoodController extends CommonController
             return $this->redirect(Yii::$app->request->referrer);
         }
         
-        $fooddata = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->innerJoinWith('foodType',true)->one();
+        $fooddata = Food::find()->where('Food_ID = :id' ,[':id' => $id])->one();
+        if(empty($fooddata))
+        {
+            Yii::$app->session->setFlash('error', 'Something Went Wrong. Please Try Again Later!');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
 
         $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id' => $id])->orderBy(['ID' => SORT_ASC])->all();
         

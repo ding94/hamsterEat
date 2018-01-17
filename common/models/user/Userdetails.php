@@ -51,11 +51,12 @@ class Userdetails extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            
             'User_id' => 'User  ID',
             'User_FirstName' => 'User  First Name',
             'User_LastName' => 'User  Last Name',
             'User_PicPath' => 'User  Pic Path',
-            'User_ContactNo' => 'User  Contact No',
+            'User_ContactNo' => 'Contact No',
         ];
     }
 }

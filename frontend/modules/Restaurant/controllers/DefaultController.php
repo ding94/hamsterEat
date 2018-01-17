@@ -52,7 +52,7 @@ class DefaultController extends CommonController
  
                      ],
                     [
-                        'actions' => ['index','show-by-food', 'food-filter', 'restaurant-filter','food-details','restaurant-details','addsession','changecookie'],
+                        'actions' => ['index','show-by-food', 'food-filter', 'restaurant-filter','food-details','restaurant-details','addsession','changecookie','load-more-food'],
                         'allow' => true,
                         'roles' => ['@','?'],
 
@@ -500,43 +500,26 @@ class DefaultController extends CommonController
     }
 
 //--This shows the food available in the area group according to user keyed in postcode and area
-    public function actionShowByFood($type = 0,$filter="")
+    public function actionShowByFood()
     {
         $cookies = Yii::$app->request->cookies;
         $session = Yii::$app->session;
         $halal = $cookies->getValue('halal');
       
-        $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus','restaurant.rJunction']);
+        $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus','restaurant.rJunction'])->orderBy(['Food_ID'=>SORT_DESC]);
 
         if(!empty($halal) || $halal == 1)
         {
-            if($type != 0)
-            {
-               
-                $query->andWhere('foodtypejunction.Type_ID = :tid', [':tid' => $type]);
-            }
-          
             $query->andWhere('restauranttypejunction.Type_ID =  23');
         }
-        else
-        {
-            if($type != 0)
-            {
-               $query->andWhere('foodtypejunction.Type_ID = :tid', [':tid' => $type]); 
-            }
-        }
-
-        if(!empty($filter))
-        {
-            $query->andWhere(['like','Name',$filter]);
-        }
         
-        $countQuery = clone $query;
-        $pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize'=>12]);
+        /*$countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize'=>5]);
         $food = $query->offset($pages->offset)
         ->limit($pages->limit)
-        ->all();
+        ->all();*/
         
+        $food = $query->limit(12)->all();
         //$food = food::find()->where('restaurant.Restaurant_AreaGroup = :group',[':group' => $groupArea])->joinWith(['restaurant' ,'junction'])->all();
         
         $foodquery = Foodtype::find()->andWhere('ID != 3 and ID != 4')->orderBy(['Type_Desc'=>SORT_ASC]);
@@ -556,7 +539,56 @@ class DefaultController extends CommonController
 
         //var_dump($types);exit;
         $this->layout = 'main3';
-        return $this->render('index2',['food'=>$food, 'pagination' => $pages, 'allfoodtype'=>$allfoodtype, 'filter'=>$filter,'type' => $type]);
+        return $this->render('index2',['food'=>$food, 'allfoodtype'=>$allfoodtype]);
+    }
+
+    public function actionLoadMoreFood()
+    {
+        $result['value']  = 1;
+        $result['message'] = "Empty Data";
+        $get = Yii::$app->request->get();
+       
+        if(empty($get['id']))
+        {   
+            return json_encode($result);
+        }
+
+        $id = $get['id'];
+        //$id =51;
+        $cookies = Yii::$app->request->cookies;
+        $session = Yii::$app->session;
+        $halal = $cookies->getValue('halal');
+        
+        $query = food::find()->where(['<','food.Food_ID',$id])->andWhere('Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','foodStatus','restaurant.rJunction']);
+        
+        if(!empty($halal) || $halal == 1)
+        {
+          
+            $query->andWhere('restauranttypejunction.Type_ID =  23');
+        }
+       
+        $query->limit(3);  
+        
+        foreach($query->each() as $fooddata)
+        {
+            $data[] = Yii::$app->controller->renderPartial('_food',['fooddata'=>$fooddata]);
+        }
+       
+        if(!empty($data))
+        {
+           
+
+            $result['value'] = 2;
+            $result['message'] = $data;
+        }
+        else
+        {
+            $result['value'] =3;
+        }
+      
+        
+        
+        return json_encode($result);
     }
 
 

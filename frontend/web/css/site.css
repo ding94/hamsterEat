@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Lato|Open+Sans');
+@import url('https://afeld.github.io/emoji-css/emoji.css');
+
 html,
 body {
   height: 100%;
+  font-family: 'Open Sans', sans-serif;
 }
 
 body{
@@ -12,18 +16,6 @@ body{
 
 .page-wrap{
   flex: 1 0 auto;
-}
-
-h1
-{
-  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 500;
-}
-
-h2
-{
-  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 500;
 }
 
 .wrap {
@@ -45,7 +37,7 @@ h2
 
 
 #system-messages {
-   position:fixed;
+  position:fixed;
   top:80px;
   right:25%;
   width:50%;
@@ -758,10 +750,6 @@ span.badge{
 .header-section .header-img-div,
 .header-section .header-text-div{
   position: absolute;
-}
-
-.header-section .header-img-div{
-
 }
 
 .header-section .header-text-div{

@@ -50,7 +50,7 @@ AddFoodAsset::register($this);
                         'pluginOptions' => [
                             'tags' => true,
                             'maximumInputLength' => 10,
-                            'maximumSelectionLength' => 2,
+                            'maximumSelectionLength' => 1,
                         ],
                     ]);
                 ?>

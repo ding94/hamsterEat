@@ -8,7 +8,7 @@ use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use yii\helpers\ArrayHelper;
-use common\models\Food\Food;
+use common\models\food\Food;
     $this->title = 'Restaurants';
     $this->params['breadcrumbs'][] = $this->title;
     

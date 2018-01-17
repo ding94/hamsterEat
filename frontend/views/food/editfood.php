@@ -43,13 +43,6 @@ AddFoodAsset::register($this);
                     ]
                 ])->textInput(['id'=>'price'])->label("Money Received");?>
                 
-                <?php if($rtype==$nonhalal['Type_Desc']): ?>
-                    <?= $form->field($foodjunction, 'Type_ID')->radioList([$halal['ID']=>$halal['Type_Desc'],$nonhalal['ID']=>$nonhalal['Type_Desc']])->label('<strong>Type</strong>') ?>
-                <?php else:?>
-                    <?php $foodjunction['Type_ID']=$halal['ID']; ?>
-                    <?= $form->field($foodjunction, 'Type_ID')->hiddenInput()->label(false); ?>
-                    <strong>Type</strong>
-                <?php endif;?>
 
                 <?php  echo Select2::widget([
                             'name' => 'Type_ID',
@@ -60,7 +53,7 @@ AddFoodAsset::register($this);
                             'pluginOptions' => [
                                 'tags' => true,
                                 'maximumInputLength' => 10,
-                                'maximumSelectionLength' => 3,
+                                'maximumSelectionLength' => 1,
                             ],
                         ]);
                 ?>

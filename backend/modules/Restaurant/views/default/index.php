@@ -19,7 +19,6 @@ use yii\bootstrap\Modal;
         'header' => '<h4 class="modal-title">...</h4>',
         'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
-    $requestUrl = Url::toRoute('default/manager');
     Modal::end();
     $this->registerJs("
         $('#managerDetail').on('show.bs.modal', function (event) {

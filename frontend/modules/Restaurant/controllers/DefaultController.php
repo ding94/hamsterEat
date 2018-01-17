@@ -19,6 +19,7 @@ use common\models\AuthAssignment;
 use common\models\user\Userdetails;
 use common\models\user\UserLanguage;
 use common\models\food\Foodtype;
+use common\models\food\Foodtypejunction;
 use yii\data\Pagination;
 use common\models\Restauranttypejunction;
 use common\models\Restauranttype;
@@ -54,7 +55,7 @@ class DefaultController extends CommonController
  
                      ],
                     [
-                        'actions' => ['index','show-by-food', 'food-filter', 'restaurant-filter','food-details','restaurant-details','addsession','changecookie'],
+                        'actions' => ['index','show-by-food', 'food-filter', 'restaurant-filter','food-details','restaurant-details','addsession','changecookie','load-more-food'],
                         'allow' => true,
                         'roles' => ['@','?'],
 
@@ -183,20 +184,46 @@ class DefaultController extends CommonController
         //$model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
         $model = food::find()->where('Restaurant_ID=:id',[':id' => $rid])->joinWith(['foodStatus'=>function($query){
             $query->where('Status = 1');
-        }]);
-
+        }])->joinWith('junction');
+        // if (!empty($rmanager)) {
+        //    $model = food::find()->where('Restaurant_ID=:id', [':id' => $rid])->andWhere(["!=","Status",'-1'])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
+        // }
+       
+        //$countmodel = "SELECT DISTINCT food.Food_ID FROM food INNER JOIN foodstatus ON foodstatus.Food_ID = food.Food_ID WHERE food.Restaurant_ID = ".$rid." AND foodstatus.Status = ".true."";
+        //$resultcountmodel = Yii::$app->db->createCommand($countmodel)->execute();
         $countQuery = clone $model;
         $pagination = new Pagination(['totalCount'=>$countQuery->count(),'pageSize'=>12]);
         $rowfood = $model->offset($pagination->offset)
         ->limit($pagination->limit)->orderBy(['Name'=>SORT_ASC])
         ->all();
+
+        foreach ($rowfood as $k => $v) {
+            $restaurantfood[] = $v['Food_ID'];
+        }
+        $allfoodtype = [];
+        foreach ($restaurantfood as $food => $foodvalue) {
+            $foodtypejunction = Foodtypejunction::find()->where('Food_ID=:fid',[':fid'=>$foodvalue])->all();
+            foreach ($foodtypejunction as $i => $type) {
+                $foodtype[] = $type->Type_ID;
+                foreach ($foodtype as $f => $foodtypeid) {
+                    $foodtypename = Foodtype::find()->where('ID=:id',[':id'=>$foodtypeid])->one()->Type_Desc;
+                    if (((in_array($foodtypename, $allfoodtype))==false)&&$foodtypename != 'Halal'&&$foodtypename != 'Non-Halal') {
+                        $allfoodtype[]= $foodtypename;
+                    }
+                }
+            }
+        }
+        foreach($allfoodtype as $onekey => $onefoodtype){
+            $findfoodtypeid = Foodtype::find()->where('Type_Desc=:td',[':td'=>$onefoodtype])->one();
+            $allfoodtype[$onekey]=['name'=>$onefoodtype,'id'=>$findfoodtypeid->ID];
+        }
         
         $language = Yii::$app->request->cookies->getValue('language');
         /*$line = LanguageLine::find()->where('id=:id',[':id'=>$language])->one();
         $objPHPExcel = \PHPExcel_IOFactory::load(Yii::$app->params['langExcel'].$line['file_location']);
         $sheetData = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);*/
 
-        return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood,'pagination'=>$pagination, 'rid'=>$rid]);
+        return $this->render('restaurantdetailstest',['id'=>$id, 'rowfood'=>$rowfood,'pagination'=>$pagination, 'rid'=>$rid,'allfoodtype'=>$allfoodtype]);
     }
 
 //--This function loads the Food Details according to the FoodController
@@ -301,14 +328,15 @@ class DefaultController extends CommonController
         $restaurant = Restaurant::find()->where(Restaurant::tableName().'.Restaurant_ID = :id' ,[':id' => $rid])->innerJoinWith('restaurantType',true)->one();
         $chosen = ArrayHelper::map($restaurant['restaurantType'],'ID','ID');
         $type = ArrayHelper::map(RestaurantType::find()->andWhere(['and',['!=','Type_Name','Halal'],['!=','Type_Name','Non-Halal']])->orderBy(['(Type_Name)' => SORT_ASC])->all(),'ID','Type_Name');
-        $halal = RestaurantType::find()->where('Type_Name=:t',[':t'=>'Halal'])->one();
-        $nonhalal = RestaurantType::find()->where('Type_Name=:t',[':t'=>'Non-Halal'])->one();
+        $halal = RestaurantType::find()->where("Type_Name='Halal'")->one();
+        $nonhalal = RestaurantType::find()->where("Type_Name = 'Non-halal'")->one();
+        
         foreach ($restaurant['restaurantType'] as $key => $value) :
             if ($value['Type_Name'] == 'Halal' || $value['Type_Name'] == 'Non-Halal') {
                 $foodjunction['Type_ID'] = $value['ID'];
             }
         endforeach;
-
+       
         if($restaurantdetails->load(Yii::$app->request->post()))
         {
             $post = Yii::$app->request->post();
@@ -500,47 +528,26 @@ class DefaultController extends CommonController
     }
 
 //--This shows the food available in the area group according to user keyed in postcode and area
-    public function actionShowByFood($type = 0,$filter="")
+    public function actionShowByFood()
     {
         $cookies = Yii::$app->request->cookies;
         $session = Yii::$app->session;
         $halal = $cookies->getValue('halal');
       
-        $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus']);
+        $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus','restaurant.rJunction'])->orderBy(['Food_ID'=>SORT_DESC]);
 
         if(!empty($halal) || $halal == 1)
         {
-            if($type != 0)
-            {
-                $data = [$type,3];
-               
-                $query->andWhere('foodtypejunction.Type_ID = :tid', [':tid' => $data]);
-            }
-            else
-            {
-                
-                $query->andWhere('foodtypejunction.Type_ID =  3');
-            }
-           
-        }
-        else
-        {
-            if($type != 0)
-            {
-               $query->andWhere('foodtypejunction.Type_ID = :tid', [':tid' => $type]); 
-            }
-        }
-
-        if(!empty($filter))
-        {
-            $query->andWhere(['like','Name',$filter]);
+            $query->andWhere('restauranttypejunction.Type_ID =  23');
         }
         
-        $countQuery = clone $query;
-        $pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize'=>12]);
+        /*$countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize'=>5]);
         $food = $query->offset($pages->offset)
         ->limit($pages->limit)
-        ->all();
+        ->all();*/
+        
+        $food = $query->limit(12)->all();
         //$food = food::find()->where('restaurant.Restaurant_AreaGroup = :group',[':group' => $groupArea])->joinWith(['restaurant' ,'junction'])->all();
         
         $foodquery = Foodtype::find()->andWhere('ID != 3 and ID != 4')->orderBy(['Type_Desc'=>SORT_ASC]);
@@ -560,7 +567,56 @@ class DefaultController extends CommonController
 
         //var_dump($types);exit;
         $this->layout = 'main3';
-        return $this->render('index2',['food'=>$food, 'pagination' => $pages, 'allfoodtype'=>$allfoodtype, 'filter'=>$filter,'type' => $type]);
+        return $this->render('index2',['food'=>$food, 'allfoodtype'=>$allfoodtype]);
+    }
+
+    public function actionLoadMoreFood()
+    {
+        $result['value']  = 1;
+        $result['message'] = "Empty Data";
+        $get = Yii::$app->request->get();
+       
+        if(empty($get['id']))
+        {   
+            return json_encode($result);
+        }
+
+        $id = $get['id'];
+        //$id =51;
+        $cookies = Yii::$app->request->cookies;
+        $session = Yii::$app->session;
+        $halal = $cookies->getValue('halal');
+        
+        $query = food::find()->where(['<','food.Food_ID',$id])->andWhere('Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','foodStatus','restaurant.rJunction']);
+        
+        if(!empty($halal) || $halal == 1)
+        {
+          
+            $query->andWhere('restauranttypejunction.Type_ID =  23');
+        }
+       
+        $query->limit(3);  
+        
+        foreach($query->each() as $fooddata)
+        {
+            $data[] = Yii::$app->controller->renderPartial('_food',['fooddata'=>$fooddata]);
+        }
+       
+        if(!empty($data))
+        {
+           
+
+            $result['value'] = 2;
+            $result['message'] = $data;
+        }
+        else
+        {
+            $result['value'] =3;
+        }
+      
+        
+        
+        return json_encode($result);
     }
 
 

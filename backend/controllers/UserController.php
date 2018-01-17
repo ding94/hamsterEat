@@ -21,6 +21,12 @@ Class UserController extends Controller
 
 	}
 
+	public function actionDetail($id)
+	{
+		$model = User::find()->where('id = :id',[':id'=>$id])->joinWith(['balance','userdetails'])->one();
+		return $this->renderAjax('detail',['model'=>$model]);
+	}
+
 	public function actionActive($id)
 	{
 		$model = self::findModel($id);

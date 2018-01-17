@@ -29,7 +29,7 @@
 
 @media (min-width: 1200px){
   #group-area-index2 .menu-container{
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   .item .inner-item{

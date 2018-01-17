@@ -17,10 +17,12 @@ use yii\filters\AccessControl;
 use common\models\User;
 use common\models\AuthAssignment;
 use common\models\user\Userdetails;
+use common\models\user\UserLanguage;
 use common\models\food\Foodtype;
 use yii\data\Pagination;
 use common\models\Restauranttypejunction;
 use common\models\Restauranttype;
+use common\models\LanguageLine;
 use frontend\modules\Restaurant\controllers\RestauranttypeController;
 use frontend\controllers\CommonController;
 use common\models\MonthlyUnix;
@@ -178,23 +180,22 @@ class DefaultController extends CommonController
              return $this->redirect(['/site/index']);
         }
 
-      
         //$model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
         $model = food::find()->where('Restaurant_ID=:id',[':id' => $rid])->joinWith(['foodStatus'=>function($query){
             $query->where('Status = 1');
         }]);
-        // if (!empty($rmanager)) {
-        //    $model = food::find()->where('Restaurant_ID=:id', [':id' => $rid])->andWhere(["!=","Status",'-1'])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
-        // }
-       
-        //$countmodel = "SELECT DISTINCT food.Food_ID FROM food INNER JOIN foodstatus ON foodstatus.Food_ID = food.Food_ID WHERE food.Restaurant_ID = ".$rid." AND foodstatus.Status = ".true."";
-        //$resultcountmodel = Yii::$app->db->createCommand($countmodel)->execute();
+
         $countQuery = clone $model;
         $pagination = new Pagination(['totalCount'=>$countQuery->count(),'pageSize'=>12]);
         $rowfood = $model->offset($pagination->offset)
         ->limit($pagination->limit)->orderBy(['Name'=>SORT_ASC])
         ->all();
         
+        $language = Yii::$app->request->cookies->getValue('language');
+        /*$line = LanguageLine::find()->where('id=:id',[':id'=>$language])->one();
+        $objPHPExcel = \PHPExcel_IOFactory::load(Yii::$app->params['langExcel'].$line['file_location']);
+        $sheetData = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);*/
+
         return $this->render('restaurantdetails',['id'=>$id, 'rowfood'=>$rowfood,'pagination'=>$pagination, 'rid'=>$rid]);
     }
 

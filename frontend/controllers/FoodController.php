@@ -11,6 +11,7 @@ use yii\helpers\ArrayHelper;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\Json;
+use common\models\LanguageLine;
 use common\models\Model;
 use common\models\User;
 use common\models\Rmanager;
@@ -28,6 +29,7 @@ use frontend\modules\Restaurant\controllers\FoodtypeAndStatusController;
 use frontend\modules\Restaurant\controllers\DefaultController;
 use frontend\controllers\CartController;
 use frontend\controllers\CommonController;
+use frontend\controllers\ExcelController;
 use frontend\controllers\FoodImgController;
 use common\models\Rmanagerlevel;
 use yii\data\Pagination;
@@ -105,7 +107,6 @@ class FoodController extends CommonController
     {
         CommonController::restaurantPermission($rid);
         $food = new Food();
-        $food->scenario = "new"; 
         $foodtype = [new Foodselectiontype()];
         $foodselection = [[new Foodselection()]];
         $foodjunction = new Foodtypejunction();
@@ -115,6 +116,8 @@ class FoodController extends CommonController
         $nonhalal = Foodtype::find()->where('Type_Desc=:t',[':t'=>'Non-Halal'])->one();
         $restauranttype = Restauranttypejunction::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->joinWith('restauranttype')->all();
         $rtype= "";
+
+        $language = Yii::$app->request->cookies->getValue('language');
 
         foreach ($restauranttype as $k => $value) {
             if ($value['restauranttype']['Type_Name'] == $halal['Type_Desc'] || $value['restauranttype']['Type_Name'] == $nonhalal['Type_Desc']) {
@@ -148,7 +151,7 @@ class FoodController extends CommonController
                     if ($flag = $food->save()) {
 
                         FoodtypeAndStatusController::newFoodJuntion($post['Type_ID'],$food->Food_ID);
-
+                        
                         $isValid = FoodtypeAndStatusController::newStatus($food->Food_ID);
 
                         $flag = FoodselectionController::createfoodselection($foodtype,$foodselection,$food->Food_ID) && $isValid;
@@ -157,6 +160,7 @@ class FoodController extends CommonController
                             $transaction->commit();
                             $status = DefaultController::updateRestaurant($rid);
 
+                            Yii::$app->session->setFlash('success','Success!');
                             return $this->redirect(['food/menu', 'rid' => $rid , 'page' => 'menu']);
                         } 
                         else {

@@ -34,6 +34,8 @@ class Food extends \yii\db\ActiveRecord
      * @inheritdoc
      */
     public $foodPackage = 0;
+    public $zhName;
+    public $enName;
 
     public static function tableName()
     {
@@ -64,6 +66,8 @@ class Food extends \yii\db\ActiveRecord
             [['Restaurant_ID', 'Sales', 'created_at', 'updated_at'], 'integer'],
             [['Rating', 'Price', 'BeforeMarkedUp'], 'number'],
             [['Name', 'Description', 'Ingredient', 'Nickname'], 'string'],
+
+            [['enName','zhName'],'string'],
         ];
     }
 
@@ -85,6 +89,8 @@ class Food extends \yii\db\ActiveRecord
             'Nickname' => 'Nickname',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'enName' => 'English Name',
+            'zhName' => 'Chinese Name',
         ];
     }
 

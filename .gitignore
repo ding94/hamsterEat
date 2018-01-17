@@ -45,3 +45,5 @@ phpunit.phar
 /frontend/web/imageLocation/withdraw/*
 
 
+frontend/web/language/food-zh.xlsx
+frontend/web/language/food-en.xlsx

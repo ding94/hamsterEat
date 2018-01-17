@@ -29,7 +29,7 @@ AddFoodAsset::register($this);
             <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
             
                 <?= $form->field($food, 'Name')->textInput()->label('Name') ?>
-
+                
                 <?= $form->field($food, 'Nickname')->textInput() ?>
 
                 <?= $form->field($food, 'roundprice', [

@@ -1,5 +1,6 @@
 var timer = null;
-var stop = false;
+var stopScroll= false;
+var ignoreScroll = false;
 var i =0;
 $(document).ready(function(){
 	
@@ -25,42 +26,57 @@ $(document).ready(function(){
 $(window).scroll(function(e) {
 	e.preventDefault();
 	e.stopImmediatePropagation();
-	if(timer !== null) {
-        clearTimeout(timer);        
-    }
-
-    timer = setTimeout(function() {
-          // do something
-          if($(window).scrollTop() + $(window).height() >= $(document).height()-500) {
-    	var time = $(".item:last").attr("data-id");
-    	$.ajax({
+	if (ignoreScroll) return;
+	$('.ajax-load').show();
+    if($(window).scrollTop() + $(window).height() >= $(document).height()-500) 
+    {
+       	var dataID = new Array();
+        $(".item").each(function(index, el) {
+        	dataID.push($(this).data('id'));
+        });
+        ignoreScroll = true;
+        setTimeout(function(){
+            ignoreScroll = false;
+            $.ajax({
 			url: 'index.php?r=Restaurant/default/load-more-food',
-			data: { time: time} ,
+			data: { id: dataID} ,
 			dataType: 'json',
-			
+			beforeSend: function()
+            {
+                $('.ajax-load').show();
+            }
 		})
 		.done(function(data) {
+			console.log(data);
 			
 			if(data.value == 2)
 			{
-			
-					$('.menu-container').append(data.message);
-				
+				$('.menu-container').append(data.message);
+				$('.stars').singleStar();
 				
 			}
 			else if(data.value == 3)
 			{
-				stop = true;
-				$(window).scroll().off();
+				ignoreScroll = true;
+				$(window).unbind('scroll');
 			}
+			$('.ajax-load').hide();
 			console.log(i++);
 		})
 		.fail(function(e) {
-			 console.log(e);
+				console.log(e);
 		});
+        }, 1000);
+	    
     }
-    }, 150);
     
-
  });
+
+function stopNow()
+{
+	if(stopScroll === true)
+	{
+		$(window).scroll().off();
+	}
+}
 

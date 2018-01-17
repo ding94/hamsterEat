@@ -85,7 +85,7 @@ We would like to thank you for writing to us, have a great day!</p><br>
                                 } 
                             ?>
                         </td>
-                        <td>
+                        <td data-th="Date">
                             <?= date('Y-m-d h:i:s',$model['Ticket_DateTime']); ?>
                         </td>
                         <td data-th="Chat">

@@ -9,7 +9,7 @@ use frontend\assets\CartAsset;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
 
-$this->title = "My Cart";
+$this->title = Yii::t('cart','My Cart');
 CartAsset::register($this);
 
 ?>

@@ -48,8 +48,8 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 	<div id="SSCrow2" class="container">
         <div class="form">
 	<!--	<h1>Light up your taste buds!</h1><br>-->
-        <h1 id="h3"><b><center>Order Lunch Delivery</center></b></h3>
-		<h4 id="h5"><center>Exclusively catered for office users in Medini 6/7!</center></h5><br>
+        <h1 id="h3"><b><center><?= Yii::t('site','Order Lunch Delivery'); ?></center></b></h3>
+		<h4 id="h5"><center><?= Yii::t('site','Exclusively catered for office users in Medini 6/7!'); ?></center></h5><br>
         <?php //$form = ActiveForm::begin(); ?>
         <?php //echo  Select2::widget([
 		    
@@ -68,7 +68,7 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 		
 		<?php //ActiveForm::end(); ?>
 		<?php $form = ActiveForm::begin(); ?>
-			<?= Html::submitButton('Show Restaurants', ['class' => 'button-three']); ?>
+			<?= Html::submitButton(Yii::t('site','Show Restaurants'), ['class' => 'button-three']); ?>
 		<?php ActiveForm::end(); ?>
 	   	</div>
 	</div>
@@ -80,7 +80,7 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 					<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index-1.jpg" alt="">
 				</div>	
 				<div class="textcontainer">
-					<p>Find food from your favourite restaurants around Bukit Indah.</p>
+					<p><?= Yii::t('site','Find food from your favourite restaurants around Bukit Indah.'); ?></p>
 				</div>
 				<button class="raised-btn main-btn" onclick="moveToBox2()">
 		        	<svg viewBox="0 0 64 64" width="24px" height="24px">
@@ -93,7 +93,7 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 					<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index-2.jpg" alt="">
 				</div>	
 				<div class="textcontainer">
-					<p>Add food to cart, enter delivery details and place order.</p>
+					<p><?= Yii::t('site','Add food to cart, enter delivery details and place order.'); ?></p>
 				</div>
 				<button class="raised-btn main-btn" onclick="moveToBox3()">
 		        	<svg viewBox="0 0 64 64" width="24px" height="24px">
@@ -106,7 +106,7 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 					<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index-3.jpg" alt="">
 				</div>	
 				<div class="textcontainer">
-					<p>Food is prepared and delivered to you during lunch time.</p>
+					<p><?= Yii::t('site','Food is prepared and delivered to you during lunch time.'); ?></p>
 				</div>
 				<button class="raised-btn main-btn" onclick="moveToBox1()">
 		        	<svg viewBox="0 0 64 64" width="24px" height="24px">
@@ -120,9 +120,9 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 		<div class="container">
 			<div class="operatingtime-content">
 				<div class="text">
-					<p>MONDAY – FRIDAY</p>
-					<p class="s-text">Order before 11am,</p>
-					<p class="s-text">Get Lunch by 1pm.</p>
+					<p><?= Yii::t('site','MONDAY – FRIDAY'); ?></p>
+					<p class="s-text"><?= Yii::t('site','Order before 11am,'); ?></p>
+					<p class="s-text"><?= Yii::t('site','Get Lunch by 1pm.'); ?></p>
 				</div>
 				<div class="graphic">
 					Graphic
@@ -137,9 +137,9 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 					Graphic
 				</div>
 				<div class="text">
-					<p>Early Bird Promo</p>
-					<p class="s-text">Get 15% off Food!</p>
-					<p class="s-text">All Orders Included.</p>
+					<p><?= Yii::t('site','Early Bird Promo'); ?></p>
+					<p class="s-text"><?= Yii::t('site','Get 15% off Food!'); ?></p>
+					<p class="s-text"><?= Yii::t('site','All Orders Included.'); ?></p>
 				</div>
 			</div>
 		</div>
@@ -151,12 +151,12 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 				<div class="col-md-4">
 					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
 						<div class="align-center">
-							<h4>About Us</h4>					
+							<h4><?= Yii::t('site','About Us'); ?></h4>					
 							<div class="icon">
 								<i class="fa fa-cutlery fa-3x"></i>
 							</div>
 							<p>
-							Let's explore with HamsterEat! Wanna know more? Click below!
+								<?= Yii::t('site',"Let's explore with HamsterEat! Wanna know more? Click below!"); ?>
 							</p>
 							<div class="ficon">
 								<p><?= Html::a('View', ['site/about'],['class' => "button-one"]) ?> </p>
@@ -167,12 +167,12 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 				<div class="col-md-4">
 					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
 						<div class="align-center">
-							<h4>Guide</h4>				
+							<h4><?= Yii::t('site','Guide'); ?></h4>				
 							<div class="icon">
 								<i class="fa fa-question fa-3x" aria-hidden="true" ></i>
 							</div>
 							<p>
-							 Not sure what to do? No worry! Kindly view more for details!
+								<?= Yii::t('site','Not sure what to do? No worry! Kindly view more for details!'); ?>
 							</p>
 							<div class="ficon">
 								<p><?= Html::a('View', ['/site/faq'],['class' => "button-one"]) ?> </p>
@@ -183,12 +183,12 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 				<div class="col-md-4">
 					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
 						<div class="align-center">
-							<h4>Help</h4>					
+							<h4><?= Yii::t('site','Help'); ?></h4>					
 							<div class="icon">
 								<i class="fa fa-thumbs-o-up fa-3x"></i>
 							</div>
 							<p>
-							 Need help? We provide you the best services!
+							 	<?= Yii::t('site','Need help? We provide you the best services!'); ?>
 							</p>
 							<div class="ficon">
 								<p><?= Html::a('View', ['site/about'],['class' => "button-one"]) ?> </p>

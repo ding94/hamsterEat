@@ -50,12 +50,15 @@
     border: none;
     border-bottom: 1px solid #eee; 
     position: relative;
+    display: flex;
   }
   
   div#deliveryman-orders-content td:before { 
       content : attr(data-th) ": ";
-      width: 5.5em;
-      display: inline-block;
+      display: flex;
+      flex-basis: 50%;
+      justify-content: flex-end;
+      padding-right:10px; 
       font-weight: bold;
   }
 
@@ -72,7 +75,7 @@
 	
     text-align:right;
     display: flex;
-	flex-wrap: wrap;
+	  flex-wrap: wrap;
     height:100%;
     width:800px;
 }

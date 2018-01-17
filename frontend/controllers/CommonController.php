@@ -156,7 +156,7 @@ class CommonController extends Controller
             }
         }
         else{
-            $case=1;
+            $case='en';
         }
 
         $cookie =  new Cookie([

@@ -90,7 +90,7 @@ UserAsset::register($this);
                                 } 
                             ?>
                         </td>
-                        <td>
+                        <td data-th="Date">
                             <?= date('Y-m-d h:i:s',$model['Ticket_DateTime']); ?>
                         </td>
                         <td data-th="Chat">

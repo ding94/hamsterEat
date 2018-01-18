@@ -22,7 +22,7 @@ CheckoutAsset::register($this);
          <span class="bar done"></span>
          <div class="circle done">
            <span class="label"><i class="fa fa-check"></i></span>
-           <span class="title"<?=Yii::t('cart','>Completed'); ?></span>
+           <span class="title"><?=Yii::t('cart','>Completed'); ?></span>
          </div>
        </div> 
     </div>

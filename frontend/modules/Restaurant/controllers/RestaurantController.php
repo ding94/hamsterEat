@@ -31,7 +31,7 @@ class RestaurantController extends CommonController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['restaurant-service','food-service','providereason','active','deactive','pauserestaurant','resume-restaurant','cooking-detail','phonecooking'],
+                        'actions' => ['restaurant-service','food-service','providereason','active','deactive','pauserestaurant','resume-restaurant','cooking-detail','phonecooking','orderlist'],
                         'allow' => true,
                         'roles' => ['restaurant manager'],
                     ]
@@ -341,6 +341,23 @@ class RestaurantController extends CommonController
         }
     
         return $this->render('cooking',['singleData'=>$singleData,'companyData'=>$companyData]);
+    }
+
+    public function actionOrderlist($rid,$status = "",$mode = 1)
+    {
+        $restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
+        // food data with condition of today's orders and other table
+        $allData = [];
+        $data= Orderitem::find()->where('Restaurant_ID = :id',['id'=>$rid])->joinWith(['item_status'=>function($query){
+            $query->where(['>=','Change_PendingDateTime',strtotime(date('Y-m-d'))]);},
+            'food','order_selection'=>function($query){ $query->orderby('Selection_ID ASC');} ])->all();
+
+        foreach($data as $item)
+        {
+            $allData[$item['food']['Food_ID']][] = $item;
+        }
+        
+        return $this->render('orderlistpdf', ['rid'=>$rid,'allData'=>$allData,'restaurant'=>$restaurant]);
     }
 
     public function actionPhonecooking()

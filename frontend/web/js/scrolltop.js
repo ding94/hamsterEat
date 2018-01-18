@@ -26,6 +26,19 @@ $(document).ready(function(){
 $(window).scroll(function(e) {
 	e.preventDefault();
 	e.stopImmediatePropagation();
+	/* start:
+		code to display fixed navigation of category in restaurant details page. */
+	scrNav();
+
+	var height = $(window).scrollTop();
+
+	if(height  > 200) {
+	  $('#category-bar').addClass('fixed');
+	}
+	if (height < 250) {
+	  $('#category-bar').removeClass('fixed');
+	}
+	/* end */
 	if (ignoreScroll) return;
 	$('.ajax-load').show();
     if($(window).scrollTop() + $(window).height() >= $(document).height()-500) 

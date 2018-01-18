@@ -175,6 +175,11 @@ if (empty($language)) {
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }*/
         $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
+        $menuItems[] = ['label' => '<i class="fa fa-globe"></i> Language', 'items' => [
+                        ['label' => 'English', 'url' => ['#']],
+                        '<li class="divider"></li>',
+                        ['label' => 'Chinese', 'url' => ['#']]
+                        ]];
             
     }
      

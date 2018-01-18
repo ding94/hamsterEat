@@ -27,6 +27,12 @@ CheckoutAsset::register($this);
        </div> 
     </div>
     <div class="container" id="aftercheckout">
+        <div class="checkout-header">
+            <h3>
+                <?=Yii::t('cart','Delivery ID:'); ?>
+            <?= $order['Delivery_ID']; ?>
+            </h3>
+        </div>
         <div class="row">
             <div class="col-md-6 checkout-detail" >
                 <table class="table table-hover" style="font-size: 1.2em; font-family: 'Times New Roman', Times, serif;">

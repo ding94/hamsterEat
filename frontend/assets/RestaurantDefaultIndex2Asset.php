@@ -22,6 +22,7 @@ class RestaurantDefaultIndex2Asset extends AssetBundle
         'js/food-modal.js',
 		'js/scrolltop.js',
         'js/filter.js',
+        'js/infitescoll.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

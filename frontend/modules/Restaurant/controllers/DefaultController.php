@@ -548,6 +548,9 @@ class DefaultController extends CommonController
         ->all();*/
         
         $food = $query->limit(12)->all();
+
+        $moreFood = $query->limit(13)->count() > 12 ? 1 :0 ;
+      
         //$food = food::find()->where('restaurant.Restaurant_AreaGroup = :group',[':group' => $groupArea])->joinWith(['restaurant' ,'junction'])->all();
         
         $foodquery = Foodtype::find()->andWhere('ID != 3 and ID != 4')->orderBy(['Type_Desc'=>SORT_ASC]);
@@ -567,7 +570,7 @@ class DefaultController extends CommonController
 
         //var_dump($types);exit;
         $this->layout = 'main3';
-        return $this->render('index2',['food'=>$food, 'allfoodtype'=>$allfoodtype]);
+        return $this->render('index2',['food'=>$food, 'allfoodtype'=>$allfoodtype,'moreFood'=>$moreFood]);
     }
 
     public function actionLoadMoreFood()
@@ -575,14 +578,14 @@ class DefaultController extends CommonController
         $result['value']  = 1;
         $result['message'] = "Empty Data";
         $get = Yii::$app->request->get();
-       
-        if(empty($get['id']))
+        
+        if(empty($get['id']) || empty($get['limit']))
         {   
             return json_encode($result);
         }
 
         $id = $get['id'];
-
+        $limit = $get['limit'];
         //$id =51;
         $cookies = Yii::$app->request->cookies;
         $session = Yii::$app->session;
@@ -601,7 +604,7 @@ class DefaultController extends CommonController
             $query->andWhere('restauranttypejunction.Type_ID =  23');
         }
 
-        $query->limit(3);  
+        $query->limit($limit);  
         
         foreach($query->each() as $fooddata)
         {
@@ -611,10 +614,14 @@ class DefaultController extends CommonController
        
         if(!empty($data))
         {
-           
-
             $result['value'] = 2;
             $result['message'] = $data;
+
+            if($query->limit(4)->count() < $limit)
+            {
+                  $result['value'] = 4;
+            }
+           
         }
         else
         {

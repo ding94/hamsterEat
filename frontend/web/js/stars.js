@@ -15,8 +15,9 @@ $(function() {
     $('.stars').stars();
 });
 
-$.fn.singleStar = function() {
-        return $('.stars').slice(-3).each(function() {
+
+function singleStar(limit){
+    return $('.stars').slice('-'+limit).each(function() {
         // Get the value
         var val = parseFloat($(this).html());
         // Make sure that the value is in 0 - 5 range, multiply to get width
@@ -26,5 +27,4 @@ $.fn.singleStar = function() {
         // Replace the numerical value with stars
         $(this).html($span);
     });
-        
 }

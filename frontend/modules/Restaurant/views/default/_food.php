@@ -9,8 +9,10 @@ RestaurantDefaultIndex2Asset::register($this);
  $imgdata =  $fooddata->multipleImg;
 ?>
 <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-backdrop-limit="1" data-toggle="modal" data-target="#foodDetail"  data-img=<?php echo json_encode($imgdata)?> class="food-modal">
-    <div class="item" data-id=<?php echo $fooddata->created_at ?>>
-        <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
+     
+    <div class="item" data-id=<?php echo $fooddata->Food_ID ?>>
+       
+        <?php if (Yii::$app->formatter->asTime(time()) < date("11:0:0")):?>
             <div class="corner-ribbon top-left sticky red shadow">-15%</div>
         <?php endif; ?>
             <div class="page-img">
@@ -19,7 +21,7 @@ RestaurantDefaultIndex2Asset::register($this);
             <div class="inner-item">
                 <div class="foodName-div"><span class="foodName"><?php echo $fooddata['Name']; ?></span><span class="small-text stars" alt="<?php echo $fooddata['Rating']; ?>"><?php echo $fooddata['Rating']; ?></span></div>
                     <div class="price-div">
-                        <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
+                        <?php if (Yii::$app->formatter->asTime(time()) < date("11:0:0")):?>
                             <span class="price">
                                 <strike><?php echo 'RM'.$fooddata['Price']; ?></strike>
                                 <?php $fooddata['Price']=$fooddata['Price']*0.85;$fooddata['Price'] = CartController::actionRoundoff1decimal($fooddata['Price']); echo 'RM'.number_format($fooddata['Price'],2); ?>

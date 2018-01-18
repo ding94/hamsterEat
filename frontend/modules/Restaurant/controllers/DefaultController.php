@@ -534,7 +534,7 @@ class DefaultController extends CommonController
         $session = Yii::$app->session;
         $halal = $cookies->getValue('halal');
       
-        $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus','restaurant.rJunction'])->orderBy(['food.created_at'=>SORT_DESC]);
+        $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus','restaurant.rJunction']);
 
         if(!empty($halal) || $halal == 1)
         {
@@ -547,7 +547,10 @@ class DefaultController extends CommonController
         ->limit($pages->limit)
         ->all();*/
         
-        $food = $query->limit(3)->all();
+        $food = $query->limit(12)->all();
+
+        $moreFood = $query->limit(13)->count() > 12 ? 1 :0 ;
+      
         //$food = food::find()->where('restaurant.Restaurant_AreaGroup = :group',[':group' => $groupArea])->joinWith(['restaurant' ,'junction'])->all();
         
         $foodquery = Foodtype::find()->andWhere('ID != 3 and ID != 4')->orderBy(['Type_Desc'=>SORT_ASC]);
@@ -567,7 +570,7 @@ class DefaultController extends CommonController
 
         //var_dump($types);exit;
         $this->layout = 'main3';
-        return $this->render('index2',['food'=>$food, 'allfoodtype'=>$allfoodtype]);
+        return $this->render('index2',['food'=>$food, 'allfoodtype'=>$allfoodtype,'moreFood'=>$moreFood]);
     }
 
     public function actionLoadMoreFood()
@@ -575,39 +578,50 @@ class DefaultController extends CommonController
         $result['value']  = 1;
         $result['message'] = "Empty Data";
         $get = Yii::$app->request->get();
-       
-        if(empty($get['time']))
+        
+        if(empty($get['id']) || empty($get['limit']))
         {   
             return json_encode($result);
         }
 
-        $time = $get['time'];
+        $id = $get['id'];
+        $limit = $get['limit'];
         //$id =51;
         $cookies = Yii::$app->request->cookies;
         $session = Yii::$app->session;
         $halal = $cookies->getValue('halal');
         
-        $query = food::find()->where(['<','food.created_at',$time])->andWhere('Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','foodStatus','restaurant.rJunction']);
+        $query = food::find()->distinct()->where('Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','foodStatus','restaurant.rJunction']);
+
+        foreach($id as $value)
+        {
+            $query->andWhere(['!=','food.Food_ID',$value]);
+        }
         
         if(!empty($halal) || $halal == 1)
         {
           
             $query->andWhere('restauranttypejunction.Type_ID =  23');
         }
-       
-        $query->limit(3);  
+
+        $query->limit($limit);  
         
         foreach($query->each() as $fooddata)
         {
             $data[] = Yii::$app->controller->renderPartial('_food',['fooddata'=>$fooddata]);
+            //$data[] = $fooddata->Food_ID;
         }
        
         if(!empty($data))
         {
-           
-
             $result['value'] = 2;
             $result['message'] = $data;
+
+            if($query->limit(4)->count() < $limit)
+            {
+                  $result['value'] = 4;
+            }
+           
         }
         else
         {

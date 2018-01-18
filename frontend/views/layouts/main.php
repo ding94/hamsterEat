@@ -92,7 +92,7 @@ if (empty($language)) {
     NavBar::begin([
         'brandLabel' => Html::img('@web/SysImg/Logo.png' ,['id'=>'logo']),
         'brandUrl' => Yii::$app->homeUrl,
-        'innerContainerOptions' => ['class' => 'container'],
+        'innerContainerOptions' => ['class' => 'container-fluid'],
         'options' => [
             'class' => 'topnav navbar-fixed-top MainNav',
             'id' => 'uppernavbar'
@@ -186,6 +186,11 @@ if (empty($language)) {
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }*/
         $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
+        $menuItems[] = ['label' => '<i class="fa fa-globe"></i> Language', 'items' => [
+                        ['label' => 'English', 'url' => ['#']],
+                        '<li class="divider"></li>',
+                        ['label' => 'Chinese', 'url' => ['#']]
+                        ]];
                     //var_dump($menuItems);exit;
         
        //  $menuItems = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];

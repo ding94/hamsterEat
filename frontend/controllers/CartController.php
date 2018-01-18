@@ -349,7 +349,13 @@ class CartController extends CommonController
     */
     public function actionAftercheckout($did)
     {
-        $order = Orders::find()->where("orders.Delivery_ID = :id",[':id'=>$did])->joinWith(['address'])->one();
+        $order = Orders::find()->where("orders.Delivery_ID = :id and User_Username = :name",[':id'=>$did,':name'=>Yii::$app->user->identity->username])->joinWith(['address'])->one();
+
+        if(empty($order))
+        {
+            Yii::$app->session->setFlash('danger', 'Wrong Format Enter');
+            return $this->redirect(['/site/index']);
+        }
         
         if($order->Orders_Status == 1)
         {

@@ -15,7 +15,6 @@ $this->title = "Available Food";
 StarsAsset::register($this);
 RestaurantDefaultIndex2Asset::register($this);
 
-date_default_timezone_set("Asia/Kuala_Lumpur");
 
 Modal::begin([
     'options' => [
@@ -83,7 +82,7 @@ Modal::end();
     <a href="#top" class="scrollToTop"></a>
     
     <br>
-   
+    <?php echo Html::hiddenInput('moreFood', $moreFood);?>
     <div class="outer-container">
         <div class="menu-container">
         <?php 
@@ -94,7 +93,7 @@ Modal::end();
       </div>
     </div>
     <div class="ajax-load text-center" style="display:none">
-        <p><img src="http://demo.itsolutionstuff.com/plugin/loader.gif">Loading More post</p>
+        <p><img src="http://demo.itsolutionstuff.com/plugin/loader.gif">Loading More Food</p>
     </div>
 </div>
 

@@ -61,7 +61,7 @@ CartAsset::register($this);
     </div>
       <?php echo Html::a(Yii::t('cart','Continue Shopping'),Yii::$app->request->referrer,['class' => 'raised-btn btn-b']) ;?>
 	</div>
-   <?php $form = ActiveForm::begin(['action' =>['checkout/index'],'method' => 'post']); ?>
+   <?php $form = ActiveForm::begin(['action' =>['checkout/process'],'method' => 'post']); ?>
 	<div class="container">
     <?php foreach($cart as $single) :?> 
 			<section class="cart">
@@ -79,7 +79,7 @@ CartAsset::register($this);
 	 
         <div class="content">				
       		<h1>
-            <?php echo Html::a(Yii::t('food',$single['food']['Name']),['Restaurant/default/restaurant-details','rid'=> $single['food']['Restaurant_ID']],['target'=>"_blank"])?>
+            <?php echo Html::a(Yii::t('cart',$single['food']['Name']),['Restaurant/default/restaurant-details','rid'=> $single['food']['Restaurant_ID']],['target'=>"_blank"])?>
           </h1>
           <div class="relative">
               <?=Yii::t('cart','Food Selection');?>

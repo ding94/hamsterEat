@@ -292,7 +292,6 @@ class FoodController extends CommonController
             $foodtypemodel->save();
             $post['Type_ID'][0] = (string)$foodtypemodel->ID;
         }
-        $post['Type_ID'][] = $post['Foodtypejunction']['Type_ID'];
 
         if (!empty($modelSelectionType)) 
         {

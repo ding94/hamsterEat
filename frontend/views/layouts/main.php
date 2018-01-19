@@ -178,12 +178,14 @@ NotificationAsset::register($this);
             $menuItems[end($keys)]['items'][] =['label' => 'Company', 'url' => ['/company/index']];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }*/
-        $menuItems[end($keys)]['items'][] = ['label' => Yii::t('layout','Logout'), 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
-        $menuItems[] = ['label' => '<i class="fa fa-globe"></i>'.Yii::t('layout','Language'), 'items' => [
-                        ['label' => Yii::t('layout','English'), 'url' => Url::to(['/site/changelanguage','lang'=>'en'])],
-                        '<li class="divider"></li>',
-                        ['label' => Yii::t('layout','Chinese'), 'url' => Url::to(['/site/changelanguage','lang'=>'zh'])]
-                        ]];
+
+        $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
+        // $menuItems[] = ['label' => '<i class="fa fa-globe"></i><span class="language"> Language </span>', 'items' => [
+        //                 ['label' => 'English', 'url' => Url::to(['/site/changelanguage','lang'=>'en'])],
+        //                 '<li class="divider"></li>',
+        //                 ['label' => '中文', 'url' => Url::to(['/site/changelanguage','lang'=>'zh'])]
+        //                 ]];
+        $menuItems[] = '<li class="special-nav-item">'.Html::a('EN',['/site/changelanguage','lang'=>'en']).'<span>|</span>'.Html::a('中文',['/site/changelanguage','lang'=>'zh']).'</li>';
                     //var_dump($menuItems);exit;
         
        //  $menuItems = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];

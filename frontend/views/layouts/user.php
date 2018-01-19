@@ -174,11 +174,12 @@ if (empty($language)) {
             $menuItems[end($keys)]['items'][] =['label' => 'Company', 'url' => ['/company/index']];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }*/
-        $menuItems[end($keys)]['items'][] = ['label' => Yii::t('layout','Logout'), 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
-        $menuItems[] = ['label' => '<i class="fa fa-globe"></i>'.Yii::t('layout','Language'), 'items' => [
-                        ['label' => Yii::t('layout','English'), 'url' => Url::to(['/site/changelanguage','lang'=>'en'])],
+
+        $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
+        $menuItems[] = ['label' => '<i class="fa fa-globe"></i><span class="language"> Language </span>', 'items' => [
+                        ['label' => 'English', 'url' => Url::to(['/site/changelanguage','lang'=>'en'])],
                         '<li class="divider"></li>',
-                        ['label' => Yii::t('layout','Chinese'), 'url' => Url::to(['/site/changelanguage','lang'=>'zh'])]
+                        ['label' => Yii::t('layout','中文'), 'url' => Url::to(['/site/changelanguage','lang'=>'zh'])]
                         ]];
             
     }

@@ -46,7 +46,7 @@ class NotificationController extends CommonController
 		}
 	    $count = $query->count();
       	
-        $pagination = new Pagination(['totalCount' => $count,'pageSize'=>10]);		    
+        $pagination = new Pagination(['totalCount' => $count]);		    
         $notification = $query->offset($pagination->offset)->limit($pagination->limit)->orderBy(['updated_at'=> SORT_DESC])->all();
       
 		return $this->render('index',['notification'=>$notification,'pages' => $pagination,'link'=>$link,'title'=>$title]);

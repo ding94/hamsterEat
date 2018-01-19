@@ -62,15 +62,9 @@ CheckoutAsset::register($this);
             <div class="cart-content">
                 <h3><?= Yii::t('checkout','Payment Method') ?></h3>
                 <?= $form->field($order, 'Orders_PaymentMethod')->radioList(['Account Balance'=>'Account Balance','Cash on Delivery'=>'Cash on Delivery'])->label(''); ?>
-            </div>
-            <?php 
-              foreach($postdata['cid'] as $id) :
-                echo Html::hiddenInput('cid[]', $id);
-              endforeach;
-            ?>
-            <?php echo Html::hiddenInput('area', $postdata['area']);?>
-            <?php echo Html::hiddenInput('code', $postdata['code']);?>
-            <?= Html::submitButton(Yii::t('checkout','Place Order'), ['class' => 'raised-btn main-btn', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?>
+            </div>  
+            <?= Html::submitButton('Place Order', ['class' => 'raised-btn main-btn', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?>
+
         </div>
         <?php ActiveForm::end(); ?>
     </div>

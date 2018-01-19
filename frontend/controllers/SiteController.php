@@ -133,6 +133,12 @@ class SiteController extends CommonController
 
     }
 
+    public function actionChangelanguage($lang)
+    {
+        $lang = CommonController::getLanguage($lang);
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
     /**
      * Logs in a user.
      *

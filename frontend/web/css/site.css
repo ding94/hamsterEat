@@ -533,7 +533,8 @@ div.dotted {
     width: 80%;
   }
 
-  .username{
+  .username,
+  .language{
     display: none;
   }
 }

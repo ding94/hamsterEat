@@ -23,13 +23,6 @@ use common\models\Order\Orders;
 AppAsset::register($this);
 NotificationAsset::register($this);
 
-use common\models\LanguageLine;
-use frontend\controllers\CommonController;
-$language = Yii::$app->request->cookies->getValue('language');
-if (empty($language)) {
-    $language = CommonController::getLanguage();
-}
-
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -186,10 +179,10 @@ if (empty($language)) {
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }*/
         $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
-        $menuItems[] = ['label' => '<i class="fa fa-globe"></i> Language', 'items' => [
-                        ['label' => 'English', 'url' => ['#']],
+        $menuItems[] = ['label' => '<i class="fa fa-globe"></i><span class="language"> Language </span>', 'items' => [
+                        ['label' => 'English', 'url' => Url::to(['/site/changelanguage','lang'=>'en'])],
                         '<li class="divider"></li>',
-                        ['label' => 'Chinese', 'url' => ['#']]
+                        ['label' => 'Chinese', 'url' => Url::to(['/site/changelanguage','lang'=>'zh'])]
                         ]];
                     //var_dump($menuItems);exit;
         

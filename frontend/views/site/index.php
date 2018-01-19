@@ -159,7 +159,7 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 								<?= Yii::t('site',"Let's explore with HamsterEat! Wanna know more? Click below!"); ?>
 							</p>
 							<div class="ficon">
-								<p><?= Html::a('View', ['site/about'],['class' => "button-one"]) ?> </p>
+								<p><?= Html::a(Yii::t('site','View'), ['site/about'],['class' => "button-one"]) ?> </p>
 							</div>
 						</div>
 					</div>
@@ -175,7 +175,7 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 								<?= Yii::t('site','Not sure what to do? No worry! Kindly view more for details!'); ?>
 							</p>
 							<div class="ficon">
-								<p><?= Html::a('View', ['/site/faq'],['class' => "button-one"]) ?> </p>
+								<p><?= Html::a(Yii::t('site','View'), ['/site/faq'],['class' => "button-one"]) ?> </p>
 							</div>
 						</div>
 					</div>
@@ -191,7 +191,7 @@ $this->title = 'Delivery Food In Medini | HamsterEat';
 							 	<?= Yii::t('site','Need help? We provide you the best services!'); ?>
 							</p>
 							<div class="ficon">
-								<p><?= Html::a('View', ['site/about'],['class' => "button-one"]) ?> </p>
+								<p><?= Html::a(Yii::t('site','View'), ['site/about'],['class' => "button-one"]) ?> </p>
 							</div>
 						</div>
 					</div>

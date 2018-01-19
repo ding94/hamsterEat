@@ -7,7 +7,7 @@ use yii\widgets\ListView;
 
 <div class="container" id="news-container">
 	<div class="row">
-		<h1>All News</h1>
+		<h1><?= Yii::t('news','All News') ?></h1>
 		<?= 
 		ListView::widget([
 			'dataProvider' => $dataProvider,

@@ -9,16 +9,14 @@ use kartik\widgets\TouchSpin;
 use common\models\User;
 use frontend\assets\StarsAsset;
 use frontend\assets\CommentsAsset;
-$this->title = "Comments";
+$this->title = Yii::t('food','Comments');
 
 StarsAsset::register($this);
 CommentsAsset::register($this);
 ?>
 <div class ="container">
-<?php 
-
-echo "<h2 id='title'>All comments for ".$foodname."</h2>";
-foreach ($comments as $comments) :
+<h2 id='title'><?= Yii::t('food','All comments for') ?> <?= $foodname; ?></h2>
+<?php foreach ($comments as $comments) :
     if (!is_null($comments['Comment']))
     {?>
         <div class ="container">

@@ -28,6 +28,7 @@ return [
     'components' => [
         'i18n' => [
             'translations' => [
+                'common' => ['class' => 'common\translation\DbSentencesTranslate',],
                 'cart' => ['class' => 'common\translation\DbSentencesTranslate',],
                 'checkout' => ['class' => 'common\translation\DbSentencesTranslate',],
                 'company' => ['class' => 'common\translation\DbSentencesTranslate',],
@@ -51,6 +52,7 @@ return [
                 'm-delivery' => ['class' => 'common\translation\DbSentencesTranslate',],
                 'm-restaurant' => ['class' => 'common\translation\DbSentencesTranslate',],
                 'm-userpackage' => ['class' => 'common\translation\DbSentencesTranslate',],
+                'faq' => ['class' => 'common\translation\DbSentencesTranslate',],
 
                 //'food' => ['class' => 'common\translation\DbFoodSource',],
                 //'food-sel' => ['class' => 'common\translation\DbFoodSelSource',],

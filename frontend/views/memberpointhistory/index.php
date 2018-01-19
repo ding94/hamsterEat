@@ -19,13 +19,17 @@ TopupWithdrawMpHistoryAsset::register($this);
 <div class="container" id="mp-history-container">
 	<div class="tab-content col-md-7 col-md-offset-1" >
 		
-		<h2>My Account History</h2><br>
+		<h2><?= Yii::t('memberpoint-h','My Account History') ?></h2><br>
 
        <table class="table table-user-information" id="display">
         <tr>
-           <td id="topup" onclick="window.document.location='../web/index.php?r=topup-history/index';">Topup History</td>
-			<td id="withdraw" onclick="window.document.location='../web/index.php?r=withdraw-history/index';">Withdraw History</td>
-			<td id="mp">Point History</td>
+           <td id="topup" onclick="window.document.location='../web/index.php?r=topup-history/index';">
+                <?= Yii::t('memberpoint-h','Topup History') ?>
+            </td>
+			<td id="withdraw" onclick="window.document.location='../web/index.php?r=withdraw-history/index';">
+                <?= Yii::t('memberpoint-h','Withdraw History') ?>
+            </td>
+			<td id="mp"><?= Yii::t('memberpoint-h','Point History') ?></td>
         </tr>	
     </table>	
 	

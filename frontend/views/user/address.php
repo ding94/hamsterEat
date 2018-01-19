@@ -14,6 +14,6 @@ UserAsset::register($this);
       <?= $form->field($model, 'city')->textInput() ?>
       <?= $form->field($model, 'postcode')->textInput() ?>
       <?= $form->field($model, 'level')->checkbox(['label' => 'Set as Primary Address','checked'=>1])->label(false); ?>
-      <?= Html::submitButton("Save Address", ['class' => 'raised-btn main-btn', 'name' => 'insert-button']) ?>
+      <?= Html::submitButton(Yii::t('user','Save Address'), ['class' => 'raised-btn main-btn', 'name' => 'insert-button']) ?>
     <?php ActiveForm::end(); ?>
 

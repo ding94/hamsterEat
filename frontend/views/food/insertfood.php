@@ -12,7 +12,7 @@ use kartik\widgets\Select2;
 use frontend\assets\AddFoodAsset;
 use wbraganca\dynamicform\DynamicFormWidget;
 
-$this->title = 'New Food Item';
+$this->title = Yii::t('food','New Food Item');
 AddFoodAsset::register($this);
 ?>
 <div class="food-container container">
@@ -22,13 +22,13 @@ AddFoodAsset::register($this);
     <div class="content">
        <div class="col-sm-2">
             <ul id="add-food-nav" class="nav nav-pills nav-stacked">
-                <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i> Back",['/food/menu','rid' => $rid,'page' => 'menu'])?></li>
+                <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i>".Yii::t('food','Back'),['/food/menu','rid' => $rid,'page' => 'menu'])?></li>
             </ul>
        </div>
        <div class="col-sm-10 food-content">
             <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
             
-                <?= $form->field($food, 'Name')->textInput()->label('Name') ?>
+                <?= $form->field($food, 'Name')->textInput()->label(Yii::t('food','Name')) ?>
                 
                 <?= $form->field($food, 'Nickname')->textInput() ?>
 
@@ -40,7 +40,7 @@ AddFoodAsset::register($this);
                     //'groupOptions' => ['class'=>'input-group-lg'],
                         'contentAfter' => '<input id="afterprice" class="form-control" name="Food[Price]" type="text">'
                     ]
-                ])->textInput(['id'=>'price'])->label("Money Received");?>
+                ])->textInput(['id'=>'price'])->label(Yii::t('food','Money Received'));?>
 
                 <?php echo Select2::widget([
                         'name' => 'Type_ID',
@@ -55,7 +55,7 @@ AddFoodAsset::register($this);
                     ]);
                 ?>
                 
-                <?= $form->field($food, 'Description')->textInput()->label('Description') ?>
+                <?= $form->field($food, 'Description')->textInput()->label(Yii::t('food','Description')) ?>
                 
                 <?php DynamicFormWidget::begin([
                     'widgetContainer' => 'dynamicform_wrapper',
@@ -83,8 +83,8 @@ AddFoodAsset::register($this);
                              <th class="col-md-1 text-center ">
                                 <button type="button" class="add-house btn btn-success btn-xs"><span class="glyphicon glyphicon-plus"></span></button>
                             </th>
-                            <th class="col-md-2">Food Option</th>
-                            <th class="col-md-8">Selection</th>
+                            <th class="col-md-2"><?= Yii::t('food','Food Option') ?></th>
+                            <th class="col-md-8"><?= Yii::t('food','Selection') ?></th>
                            
                         </tr>
                     </thead>
@@ -117,7 +117,7 @@ AddFoodAsset::register($this);
                 <?php DynamicFormWidget::end(); ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Save', ['class' => 'raised-btn main-btn', 'name' => 'insert-button']) ?>
+                    <?= Html::submitButton(Yii::t('food','Save'), ['class' => 'raised-btn main-btn', 'name' => 'insert-button']) ?>
                 </div>
             
             <?php ActiveForm::end(); ?> 

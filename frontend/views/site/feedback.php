@@ -13,20 +13,20 @@ FeedbackAsset::register($this);
     <?php $form = ActiveForm::begin(['id' => 'form-feedback']); ?>
 
     <div id="feedback_category"> 
-        <?= $form->field($feedback, 'Feedback_Category')->widget(Select2::classname(), ['data' => $categoryarray])->label('Category');?>
+        <?= $form->field($feedback, 'Feedback_Category')->widget(Select2::classname(), ['data' => $categoryarray])->label(Yii::t('site','Category'));?>
     </div>
 
     <div id="feedback_email"> 
         <?php if (Yii::$app->user->isGuest) {
-            echo $form->field($feedback, 'User_Username')->textInput(['placeholder' => "Enter your email address here..."])->label('Email');
+            echo $form->field($feedback, 'User_Username')->textInput(['placeholder' => "Enter your email address here..."])->label(Yii::t('site','Email'));
         } ?>
     </div>
 
     <div id="feedback_message">               
-        <?= $form->field($feedback, 'Feedback_Message')->textArea(['placeholder' => "Enter your feedback here..."])->label('Message'); ?>
+        <?= $form->field($feedback, 'Feedback_Message')->textArea(['placeholder' => "Enter your feedback here..."])->label(Yii::t('site','Message')); ?>
     </div>
 
-    <?= $form->field($feedback, 'Feedback_PicPath')->fileInput()->label('Provide a Screenshot') ?>
+    <?= $form->field($feedback, 'Feedback_PicPath')->fileInput()->label(Yii::t('site','Provide a Screenshot')) ?>
         
     <div id="feedback_button">
         <?= Html::submitButton('Submit Feedback', ['class' => 'raised-btn main-btn', 'name' => 'feedback-button']); ?>

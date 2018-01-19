@@ -13,7 +13,7 @@ use kartik\widgets\Select2;
 use backend\models\Admin;
 use frontend\assets\UserAsset;
 
-$this->title = 'My Questions';
+$this->title = Yii::t('ticket','My Questions');
 UserAsset::register($this);
 ?>
 <div class="ticket">
@@ -45,25 +45,25 @@ UserAsset::register($this);
             </div>
             <div class="nav-url">
                 <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">All</a></li>
-                    <li role="presentation"><?php echo Html::a("Submit Ticket",['/ticket/submit-ticket'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-                    <li role="presentation"><?php echo Html::a("Completed Ticket",['/ticket/completed'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('ticket','All') ?></a></li>
+                    <li role="presentation"><?php echo Html::a(Yii::t('ticket','Submit Ticket'),['/ticket/submit-ticket'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation"><?php echo Html::a(Yii::t('ticket','Completed Ticket'),['/ticket/completed'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                 </ul>
             </div>
         </div>
        
     <div class="col-sm-8 right-side">
-	<p style="text-align:center;padding-top:20px;">We’re thrilled to hear from you, so talk to us any time you like.
+	<p style="text-align:center;padding-top:20px;"><?= Yii::t('ticket',"We're thrilled to hear from you, so talk to us any time you like.") ?>
 	</p><br>
 	<div class="ticket-history">
         <table class="table table-inverse">
             <tr >
-                <th>Serial No.</th>
-                <th>Category</th> 
-                <th>Subject</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th>Chat</th>
+                <th><?= Yii::t('ticket','Serial No.') ?></th>
+                <th><?= Yii::t('ticket','Category') ?></th> 
+                <th><?= Yii::t('ticket','Subject') ?></th>
+                <th><?= Yii::t('ticket','Status') ?></th>
+                <th><?= Yii::t('ticket','Date') ?></th>
+                <th><?= Yii::t('ticket','Chat') ?></th>
             </tr>
 
             <?php  
@@ -83,10 +83,10 @@ UserAsset::register($this);
                                     echo "Submitted";
                                 }
                                 elseif ($model['Ticket_Status'] == 2) {
-                                    echo "Replied";
+                                    echo Yii::t('ticket','Replied');
                                 }
                                 else {
-                                    echo "error";
+                                    echo Yii::t('ticket','error');
                                 } 
                             ?>
                         </td>
@@ -95,15 +95,15 @@ UserAsset::register($this);
                         </td>
                         <td data-th="Chat">
                             <a href=<?php echo  Url::to(['ticket/chatting','sid'=>$k,'tid'=>$model['Ticket_ID']]); ?> >
-                                <font color="blue">Go Chat</font>
+                                <font color="blue"><?= Yii::t('ticket','Go Chat') ?></font>
                             </a>
                         </td>
                     </tr>
             <?php   }   ?>
         </table>
         <div class="form-group" id="ticketb">
-            <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'raised-btn main-btn resize-btn']) ?>
-            <?= Html::a('Completed Ticket', ['/ticket/completed'], ['class'=>'raised-btn main-btn resize-btn']) ?>
+            <?= Html::a(Yii::t('ticket','Create a Ticket'), ['/ticket/submit-ticket'], ['class'=>'raised-btn main-btn resize-btn']) ?>
+            <?= Html::a(Yii::t('ticket','Completed Ticket'), ['/ticket/completed'], ['class'=>'raised-btn main-btn resize-btn']) ?>
         </div>
 
     </div>

@@ -6,7 +6,7 @@ use kartik\widgets\Select2;
 use frontend\assets\UserAsset;
 /* @var $this yii\web\View */
 
-$this->title = 'Change Password';
+$this->title = Yii::t('user','Change Password');
 UserAsset::register($this);
 ?>
 
@@ -38,8 +38,8 @@ UserAsset::register($this);
             </div>
             <div class="nav-url">
                 <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation" ><?php echo Html::a("Edit User Profile",['/user/userdetails'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Change password</a></li>
+                    <li role="presentation" ><?php echo Html::a(Yii::t('user','Edit User Profile'),['/user/userdetails'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"<?= Yii::t('user','>Change password') ?></a></li>
                 </ul>
             </div>
         </div>
@@ -51,10 +51,10 @@ UserAsset::register($this);
                 <?php $form = ActiveForm::begin();?>
         <?= $form->field($model, 'old_password')->passwordInput() ?>
         <?= $form->field($model, 'new_password')->passwordInput() ?>
-        <?= $form->field($model, 'repeat_password')->passwordInput()->label("Confirm New Password") ?>
+        <?= $form->field($model, 'repeat_password')->passwordInput()->label(Yii::t('user','Confirm New Password')) ?>
         <div class="form-group">
-            <?= Html::submitButton('Update', ['class' => 'raised-btn main-btn change-password-resize-btn']) ?>
-            <?php echo Html::a("Back" ,['/user/user-profile'],['class'=>'raised-btn secondary-btn change-password-resize-btn'])?>
+            <?= Html::submitButton(Yii::t('user','Update'), ['class' => 'raised-btn main-btn change-password-resize-btn']) ?>
+            <?php echo Html::a(Yii::t('user','Back'),['/user/user-profile'],['class'=>'raised-btn secondary-btn change-password-resize-btn'])?>
        </div>
     <?php ActiveForm::end();?>
 

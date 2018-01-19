@@ -7,13 +7,13 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Signup';
+$this->title = Yii::t('site','Signup');
 ?>
 <div class="site-signup">
      <div class="col-lg-6 col-lg-offset-3" style="text-align:center">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please select the following fields to signup:</p><br>
+    <p><?= Yii::t('site','Please select the following fields to signup') ?>:</p><br>
   </div>
     <div class="container">
   <div class="row1">
@@ -22,24 +22,24 @@ $this->title = 'Signup';
                         <i class="fa fa-circle fa-stack-2x text-primary" style="color:orange;"></i>
                          <i class="fa fa-user-o fa-stack-1x fa-inverse"></i>
                     </span>
-                    <h4 class="service-heading">Customer</h4>  
-                <p><?= Html::a('Sign Up &raquo;', ['site/signup'],['class' => "raised-btn btn-default"]) ?></p>
+                    <h4 class="service-heading"><?= Yii::t('site','Customer') ?></h4>  
+                <p><?= Html::a(Yii::t('site','Sign Up').' &raquo;', ['site/signup'],['class' => "raised-btn btn-default"]) ?></p>
             </div>
             <div class="col-lg-4" style="text-align:center">
 			<span class="fa-stack fa-4x">
                         <i class="fa fa-circle fa-stack-2x text-primary" style="color:orange;"></i>
                          <i class="fa fa-black-tie fa-stack-1x fa-inverse"></i>
                     </span>
-                    <h4 class="service-heading">Restaurant Manager</h4> 
-                <p><?= Html::a('Sign Up &raquo;', ['site/rmanager'],['class' => "raised-btn btn-default"]) ?> </p>
+                    <h4 class="service-heading"><?= Yii::t('site','Restaurant Manager') ?></h4> 
+                <p><?= Html::a(Yii::t('site','Sign Up').' &raquo;', ['site/rmanager'],['class' => "raised-btn btn-default"]) ?> </p>
              </div>
             <div class="col-lg-4" style="text-align:center">
 			<span class="fa-stack fa-4x">
                         <i class="fa fa-circle fa-stack-2x text-primary" style="color:orange;"></i>
                          <i class="fa fa-motorcycle fa-stack-1x fa-inverse"></i>
                     </span>
-                    <h4 class="service-heading">Delivery man</h4> 
-               <p><?= Html::a('Sign Up &raquo;', ['site/deliveryman'],['class' => "raised-btn btn-default"]) ?> </p>
+                    <h4 class="service-heading"><?= Yii::t('site','Delivery man') ?></h4> 
+               <p><?= Html::a(Yii::t('site','Sign Up').' &raquo;', ['site/deliveryman'],['class' => "raised-btn btn-default"]) ?> </p>
             </div>
         </div>
 

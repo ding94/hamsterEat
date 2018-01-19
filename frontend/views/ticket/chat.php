@@ -14,7 +14,7 @@ use frontend\assets\UserAsset;
 use kartik\widgets\Select2;
 use kartik\widgets\FileInput;
 
-$this->title = 'My Questions';
+$this->title = Yii::t('ticket','My Questions');
 UserAsset::register($this);
 ?>
 
@@ -46,14 +46,14 @@ UserAsset::register($this);
             </div>
         <div class="nav-url">
                 <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation"><?php echo Html::a("All",['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-                    <li role="presentation"><?php echo Html::a("Submit Ticket",['/ticket/submit-ticket'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Completed Ticket</a></li>
+                    <li role="presentation"><?php echo Html::a(Yii::t('ticket','All'),['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation"><?php echo Html::a(Yii::t('ticket','Submit Ticket'),['/ticket/submit-ticket'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('ticket','Completed Ticket') ?></a></li>
                 </ul>
             </div>
         </div>
 <div class="col-sm-8 right-side">
-<p style="text-align:center;padding-top:20px;"><?php echo "Serial ID : " . $sid; ?></p>
+<p style="text-align:center;padding-top:20px;"><?php echo Yii::t('ticket','Serial ID')." : " . $sid; ?></p>
   
   <div class="ticket-history">
       <table class="table table-inverse">
@@ -69,7 +69,7 @@ UserAsset::register($this);
               </th>
 
               <!-- picture error was normal to localhostm, path set for server -->
-              <th><?php if(!empty($ticket->Ticket_PicPath)){ echo Html::a('View Picture',[Yii::$app->params['submitticket-pic'].$ticket->Ticket_PicPath],['target'=>'_blank']); }?></th>
+              <th><?php if(!empty($ticket->Ticket_PicPath)){ echo Html::a(Yii::t('ticket','View Picture'),[Yii::$app->params['submitticket-pic'].$ticket->Ticket_PicPath],['target'=>'_blank']); }?></th>
           </tr>
 
         <?php foreach ($model as $k => $modell)  { ?> 
@@ -84,7 +84,7 @@ UserAsset::register($this);
               </td>
               <td data-th="Refrences">
                 
-              <?php if(!empty($modell->Replies_PicPath)){ echo Html::a('View Picture',[Yii::$app->params['replyticket-pic'].$modell->Replies_PicPath],['target'=>'_blank']); }?>
+              <?php if(!empty($modell->Replies_PicPath)){ echo Html::a(Yii::t('ticket','View Picture'),[Yii::$app->params['replyticket-pic'].$modell->Replies_PicPath],['target'=>'_blank']); }?>
                 
               </td>
           </tr>
@@ -101,7 +101,7 @@ UserAsset::register($this);
         ?>
 
         <div class="form-group" id="chat-ticket">
-             <?= Html::submitButton('Submit', ['class' => 'raised-btn main-btn resize-btn', 'name' => 'contact-button']) ?>
+             <?= Html::submitButton(Yii::t('ticket','Submit'), ['class' => 'raised-btn main-btn resize-btn', 'name' => 'contact-button']) ?>
             
         </div>
         <?php ActiveForm::end(); ?>

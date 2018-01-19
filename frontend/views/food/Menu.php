@@ -13,16 +13,16 @@ use yii\widgets\LinkPager;
 use kartik\widgets\FileInput;
 use yii\widgets\ActiveForm;
 
-$this->title = $rname."'s"." Menu";
+$this->title = $rname."'s".' '.Yii::t('food','Menu');
 FoodMenuAsset::register($this);
 StarsAsset::register($this);
 FoodServiceAsset::register($this);
 
 Modal::begin([
-      'header' => '<h2 class="modal-title">Please Provide Reason</h2>',
+      'header' => '<h2 class="modal-title">'.Yii::t('food','Please Provide Reason').'</h2>',
       'id'     => 'add-modal',
       'size'   => 'modal-md',
-      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
+      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('food','Close').'</a>',
 ]);
 Modal::end();
 ?>
@@ -65,7 +65,7 @@ Modal::end();
 		<a href="#top" class="scrollToTop"></a>
         <div id="food-menu-content" class="col-sm-10">
           <div class="top-button-div">
-            <span><?php echo Html::a('Insert Food', ['/food/insert-food','rid'=>$rid], ['class'=>'raised-btn main-btn']); ?></span>
+            <span><?php echo Html::a(Yii::t('food','Insert Food'), ['/food/insert-food','rid'=>$rid], ['class'=>'raised-btn main-btn']); ?></span>
             <span> 
               <?php if ($restaurant['Restaurant_Status'] == "Closed"): ?>
               <?=Html::a('Resume Resturant Operate', Url::to(['/Restaurant/restaurant/resume-restaurant', 'id'=>$restaurant['Restaurant_ID']]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'resize-btn raised-btn btn-success'])?>
@@ -84,11 +84,10 @@ Modal::end();
                 <div class="item-no-border">
                   <div class="img">
                          <img src=<?php echo $menu->singleImg ?> alt="">
-                    
                   </div>
                   <div class="inner-item">
                     <div class="foodName-div"><span class="foodName"><?php echo $menu['Name']; ?></span><span class="small-text stars" alt="<?php echo $menu['Rating']; ?>"><?php echo $menu['Rating']; ?></span></div>
-                    <div class="foodDesc-div"><p class="foodDesc">Description: <?php echo $menu['Description']; ?></p></div>
+                    <div class="foodDesc-div"><p class="foodDesc"><?= Yii::t('food','Description') ?>: <?php echo $menu['Description']; ?></p></div>
                     <!--<div class="ingredient-div"><p>Ingredients: <?php echo $menu['Ingredient']?></p></div> -->
                     <div class="nickname-div"><p>Nick Name: <?php echo $menu['Nickname']?></p></div>
                   </div>
@@ -97,12 +96,12 @@ Modal::end();
                   echo Html::a('', ['/food/edit-food','id'=>$menu['Food_ID']], ['class'=>'raised-btn btn-lg main-btn fa fa-pencil edit-button']); 
                   if (!empty($status)) :
                       if ($status['Status'] == 0) :
-                        echo Html::a('Resume Food Service', Url::to(['/Restaurant/restaurant/active', 'id'=>$menu['Food_ID'],'item'=>2]), ['id'=>'res','data-confirm'=>"Do you want to Resume Operate?",'class'=>'raised-btn btn-success']);?>
-                        <?= Html::a('Delete  <i class="fa fa-times" aria-hidden="true"></i>',['/food/delete','fid'=>$menu['Food_ID']],['class' => 'raised-btn delete-btn btn-danger',
-                          'data' => ['confirm' => 'Are you sure you want to permenant delete this item?','method' => 'post',],]) ?>
+                        echo Html::a(Yii::t('food','Resume Food Service'), Url::to(['/Restaurant/restaurant/active', 'id'=>$menu['Food_ID'],'item'=>2]), ['id'=>'res','data-confirm'=>Yii::t('food','Do you want to Resume Operate?'),'class'=>'raised-btn btn-success']);?>
+                        <?= Html::a(Yii::t('food','Delete').'<i class="fa fa-times" aria-hidden="true"></i>',['/food/delete','fid'=>$menu['Food_ID']],['class' => 'raised-btn delete-btn btn-danger',
+                          'data' => ['confirm' => Yii::t('food','Are you sure you want to permenant delete this item?'),'method' => 'post',],]) ?>
                     <?php 
                       elseif ($status['Status'] == 1) :
-                        echo Html::a('Pause Food Service', Url::to(['/Restaurant/restaurant/providereason', 'id'=>$menu['Food_ID'],'rid'=>$rid,'item'=>2]), ['id'=>'res','class'=>'raised-btn btn-danger','data-toggle'=>'modal','data-target'=>'#add-modal']);
+                        echo Html::a(Yii::t('food','Pause Food Service'), Url::to(['/Restaurant/restaurant/providereason', 'id'=>$menu['Food_ID'],'rid'=>$rid,'item'=>2]), ['id'=>'res','class'=>'raised-btn btn-danger','data-toggle'=>'modal','data-target'=>'#add-modal']);
                       endif;
                   endif;?>
 

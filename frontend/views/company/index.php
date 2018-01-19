@@ -12,7 +12,7 @@ use common\models\User;
 
 <?php $form = ActiveForm::begin(); ?>
 <div class="container" style="background-color:#fff;">
-<h1 style="font-size:30px;"><center>Employee Management</center></h1>
+<h1 style="font-size:30px;"><center><?= Yii::t('company','Employee Management') ?></center></h1>
 <div class="row" style="margin-top: 3%;">
 	<div class="col-lg-5 col-lg-offset-3" >
 		<?= $form->field($emplo, 'uid')->widget(Select2::classname(), [
@@ -32,28 +32,28 @@ use common\models\User;
 		        'templateResult' => new JsExpression('function(user) { return user.username; }'),
 		        'templateSelection' => new JsExpression('function (user) { return user.username; }'),
 		    ],
-		])->label('Username');  ?>
+		])->label(Yii::t('company','Username'));  ?>
 	</div>
 	<div class="col-md-2" style="margin-top: 2%;">
-		<?= Html::submitButton('Add Employee', ['class' => 'raised-btn main-btn submit-resize-btn', 'name' => 'add-button']) ?>
+		<?= Html::submitButton(Yii::t('company','Add Employee'), ['class' => 'raised-btn main-btn submit-resize-btn', 'name' => 'add-button']) ?>
 	</div>
 </div>
 <?php ActiveForm::end(); ?>
 
 
 <div class="col-lg-5 col-lg-offset-3">
-<h3>User Assigned in <?= $company['name']; ?> </h3>
+<h3><?= Yii::t('company','User Assigned in')?> <?= $company['name']; ?> </h3>
 	<table class="table table-hover">
 		<tr>
-			<th>Serial ID</th>
-			<th>Username</th>
+			<th><?= Yii::t('company','Serial ID')?></th>
+			<th><?= Yii::t('company','Username')?></th>
 			<th></th>
 		</tr>
 		<?php foreach($users as $k => $value) : ?>
 			<tr>
 				<td><?= $k+1; ?></td>
 				<td><font> <?= User::find()->where('id=:uid',[':uid'=>$value['uid']])->one()->username; ?> </font></td>
-				<td><?= Html::a('Remove', ['/company/removeemployee', 'id'=>$value['id']], ['class'=>'raised-btn btn-danger']);?></td>
+				<td><?= Html::a(Yii::t('company','Remove'), ['/company/removeemployee', 'id'=>$value['id']], ['class'=>'raised-btn btn-danger']);?></td>
 			</tr>
 		<?php endforeach; ?>
 	</table>

@@ -27,7 +27,9 @@ use wbraganca\dynamicform\DynamicFormWidget;
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Food Selection Name</th><th>Price</th><th>Description</th>
+            <th><?= Yii::t('food','Food Selection Name') ?></th>
+            <th><?= Yii::t('food','Price') ?></th>
+            <th><?= Yii::t('food','Description') ?></th>
             <th class="text-center">
                 <button type="button" class="add-room btn btn-success btn-xs"><span class="glyphicon glyphicon-plus"></span></button>
             </th>

@@ -14,7 +14,7 @@ use backend\models\Admin;
 use common\models\Bank;
 use frontend\assets\TopupWithdrawMpHistoryAsset;
 
-$this->title = 'Top Up History';
+$this->title = Yii::t('topup-h','Top Up History');
 TopupWithdrawMpHistoryAsset::register($this);
 ?>
 
@@ -46,9 +46,9 @@ TopupWithdrawMpHistoryAsset::register($this);
             </div>
            	<div class="nav-url">
            		<ul class="nav nav-pills nav-stacked">
-                	<li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Balance history</a></li>
-                	<li role="presentation"><?php echo Html::a("Top Up",['/topup/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-                	<li role="presentation"><?php echo Html::a("Withdraw",['/withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                	<li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('topup-h','Balance history') ?></a></li>
+                	<li role="presentation"><?php echo Html::a(Yii::t('topup-h','Top Up'),['/topup/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                	<li role="presentation"><?php echo Html::a(Yii::t('topup-h','Withdraw'),['/withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
             	</ul>
            	</div>
         </div>
@@ -56,9 +56,9 @@ TopupWithdrawMpHistoryAsset::register($this);
             <div  id="topup-history" class="history-container">
               <table class="table table-user-information" id="display">
                 <tr>
-                    <td id="right" class="link history-font"><?php echo Html::a("User Balance History",['/user/userbalance'],['class'=>'btn-block remove-all'])?></td> 
+                    <td id="right" class="link history-font"><?php echo Html::a(Yii::t('topup-h','User Balance History'),['/user/userbalance'],['class'=>'btn-block remove-all'])?></td> 
                     <td id="middle" class="history-font"><?php echo Html::encode($this->title)?></td>
-                    <td id="left" class="link history-font"><?php echo Html::a("Withdraw History",['/withdraw-history/index'],['class'=>'btn-block remove-all'])?></td>
+                    <td id="left" class="link history-font"><?php echo Html::a(Yii::t('topup-h','Withdraw History'),['/withdraw-history/index'],['class'=>'btn-block remove-all'])?></td>
                 </tr>  
               </table>
             </div> 
@@ -70,7 +70,7 @@ TopupWithdrawMpHistoryAsset::register($this);
 				'summary' => '',
 		        'columns' => [
 					[
-						'label' => 'Amount(RM)',
+						'label' => Yii::t('topup-h','Amount').'(RM)',
 		                'attribute' => 'Account_TopUpAmount',
 		                'filterInputOptions' => [
 		                    'class'       => 'form-control',
@@ -87,7 +87,7 @@ TopupWithdrawMpHistoryAsset::register($this);
 		                'contentOptions' => ['data-th' => 'Bank Name'],		
 		            ],
 					[
-						'label' => 'Status',
+						'label' => Yii::t('topup-h','Status'),
 		                'format' => 'raw',
 		                'headerOptions' => ['width' => "15px"],
 		                'contentOptions' => ['style' => 'font-size:20px;'],

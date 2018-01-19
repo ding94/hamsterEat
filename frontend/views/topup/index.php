@@ -7,7 +7,7 @@ use yii\grid\ActionColumn;
 use kartik\widgets\Select2;
 use common\models\Bank;
 use frontend\assets\TopupIndexAsset;
-$this->title = "Top up";	
+$this->title = Yii::t('topup','Top up');	
 TopupIndexAsset::register($this);
 ?>
 
@@ -39,9 +39,9 @@ TopupIndexAsset::register($this);
             </div>
            	<div class ="nav-url">
            		 <ul class="nav nav-pills nav-stacked">
-		        	<li role="presentation" ><?php echo Html::a("User Balance",['/user/userbalance'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-		        	<li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Top Up</a></li>
-		        	<li role="presentation"><?php echo Html::a("Withdraw",['/withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+		        	<li role="presentation" ><?php echo Html::a(Yii::t('topup','User Balance'),['/user/userbalance'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+		        	<li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('topup','Top Up') ?></a></li>
+		        	<li role="presentation"><?php echo Html::a(Yii::t('topup','Withdraw'),['/withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
 	    		</ul>
            	</div>
         </div>
@@ -53,9 +53,9 @@ TopupIndexAsset::register($this);
 						<div class="col-sm-4 label-outlet">
 							
 							<?php echo Html::img('@web/imageLocation/bank/'.$label['Bank_PicPath'],['class' => 'label-img']); ?>
-							<p>Bank Account Number :</p>
+							<p><?= Yii::t('topup','Bank Account Number') ?> :</p>
 							<p><?php echo $label['Bank_AccNo']?></p>
-							<?php echo Html::a("Go To ".$label['Bank_Name']." WebSite",$label['redirectUrl'] ,['target'=>'_blank'])?>		
+							<?php echo Html::a(Yii::t('topup','Go To').' '.$label['Bank_Name']." WebSite",$label['redirectUrl'] ,['target'=>'_blank'])?>		
 						</div>
 
 					<?php endforeach;?>		
@@ -69,7 +69,7 @@ TopupIndexAsset::register($this);
 										
 		        <?= $form->field($upload, 'imageFile')->fileInput() ?>
 		        <div class="form-group">
-		            <?= Html::submitButton('Submit', ['class' => 'raised-btn main-btn']) ?>
+		            <?= Html::submitButton(Yii::t('topup','Submit'), ['class' => 'raised-btn main-btn']) ?>
 		        </div>
 
 		        <?php ActiveForm::end(); ?>

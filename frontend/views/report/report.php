@@ -9,14 +9,14 @@ use kartik\widgets\Select2;
 	<div class="row">
 		<?php $form = ActiveForm::begin(); ?>
 		<?= $form->field($report, 'Report_Category')->widget(Select2::classname(), [
-	    'data' => $categoryArray,
-	    'options' => ['placeholder' => 'Select a category ...'],
-	    'pluginOptions' => [
-	        'allowClear' => true
-	    ],
-	]); ?>
+		    'data' => $categoryArray,
+		    'options' => ['placeholder' => 'Select a category ...'],
+		    'pluginOptions' => [
+		        'allowClear' => true
+		    ],
+		]); ?>
 		<?= $form->field($report, 'Report_Reason')->textArea(['rows'=>5,'cols'=>5]); ?>
-		<?= Html::submitButton('Report', ['class' => 'raised-btn main-btn pull-right']) ?>
+		<?= Html::submitButton(Yii::t('report','Report'), ['class' => 'raised-btn main-btn pull-right']) ?>
 		<?php ActiveForm::end(); ?>
 	</div>
 </div>

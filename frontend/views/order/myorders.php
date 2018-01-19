@@ -5,7 +5,7 @@ use yii\widgets\LinkPager;
 use kartik\widgets\Select2;
 use frontend\assets\MyOrdersAsset;
 
-$this->title = "My Orders : ". $status;
+$this->title = Yii::t('order','My Orders')." : ". $status;
 
 
 MyOrdersAsset::register($this);
@@ -35,7 +35,7 @@ MyOrdersAsset::register($this);
         </div>
         <div class="nav-url">
           <ul id="my-orders-nav" class="nav nav-pills nav-stacked">
-            <li><?php echo Html::a("All",['/order/my-orders'])?></li>
+            <li><?php echo Html::a(Yii::t('order','All'),['/order/my-orders'])?></li>
             <?php foreach($countOrder as $i=> $count): ?>
               <li><?php echo Html::a($i.'<span class="badge">'.$count['total'].'</span>',['/order/my-orders','status'=>$statusid[$i]])?></li>
             <?php endforeach ;?>
@@ -53,16 +53,16 @@ MyOrdersAsset::register($this);
         <table class="table table-user-info orderTable">
           <thead>
             <tr>
-              <th colspan="2"><center>More</th>
-              <th><center>Delivery ID</th>
-              <th><center>Date and Time Placed</th>
+              <th colspan="2"><center><?= Yii::t('order','More') ?></th>
+              <th><center><?= Yii::t('order','Delivery ID') ?></th>
+              <th><center><?= Yii::t('order','Date and Time Placed') ?></th>
             </tr>
           </thead>
           <?php foreach ($order as $data) :?>
           <tr class="orderRow">
             <td colspan="2" class="block">
               <?php if($data['Orders_Status'] == 6 || $data['Orders_Status'] == 7): ?>
-                 <?php echo Html::a("Invoice Detail" ,['invoice-pdf','did'=>$data['Delivery_ID']], ['target'=>'_blank' ,'class'=>'raised-btn main-btn btn-block']); ?>
+                 <?php echo Html::a(Yii::t('order','Invoice Detail'),['invoice-pdf','did'=>$data['Delivery_ID']], ['target'=>'_blank' ,'class'=>'raised-btn main-btn btn-block']); ?>
               <?php else :?>
                 <a class="raised-btn main-btn btn-block" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$data['Delivery_ID']]); ?>">
                   <i class="fa fa-info-circle"></i>
@@ -78,7 +78,7 @@ MyOrdersAsset::register($this);
             </td>
 
             <?php if ($data['Orders_Status'] == 1) : ?>
-              <td> <?= Html::a('Go payment page', ['payment/process-payment','did'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td> ?>
+              <td> <?= Html::a(Yii::t('order','Go payment page'), ['payment/process-payment','did'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td> ?>
             <?php elseif ($data['Orders_Status'] == 7) : ?>
               <td><center> Rating Done </td>
             <?php else: ?>

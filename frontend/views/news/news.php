@@ -10,7 +10,7 @@ NewsAsset::register($this);
 <div id="news-list">
 	<ul>
 		<li id="list-header">
-			Website Notice
+			<?= Yii::t('news','Website Notice') ?>
 		</li>
 	<?php foreach ($model as $k => $n) { ?>
 		<li id="list-news-links">
@@ -18,7 +18,7 @@ NewsAsset::register($this);
 		</li>
 	<?php } ?>
 		<li id="list-news-links" class="text-right">
-			<?= Html::a('<span>MORE</span><i class="fa fa-arrow-right" aria-hidden="true"></i>', Url::toRoute(['news/news-all']), ['class' => 'profile-link']) ?>
+			<?= Html::a('<span>'.Yii::t('news','MORE').'</span><i class="fa fa-arrow-right" aria-hidden="true"></i>', Url::toRoute(['news/news-all']), ['class' => 'profile-link']) ?>
 		</li>
 	</ul>
 </div>

@@ -2,8 +2,10 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\web\Cookie;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\filters\AccessControl;
 use frontend\controllers\CommonController;
 use frontend\controllers\CartController;
@@ -31,15 +33,16 @@ class CheckoutController extends CommonController
 	        'verbs' => [
 	            'class' => \yii\filters\VerbFilter::className(),
 	            'actions' => [
-	                'index'  => ['POST'],
+	                'index'  => ['GET'],
 	                'order'   => ['POST'],
+	                'process'   => ['POST'],
 	            ],
 	        ],
 	        'access' => [
 	        	'class' => AccessControl::className(),
 	            'rules' => [
 	            	'actions' => [
-	            	'actions' => ['index','order'],
+	            	'actions' => ['index','order','process'],
                     'allow' => true,
                     'roles' => ['@'],
 	            	],
@@ -51,17 +54,18 @@ class CheckoutController extends CommonController
 	* code => coupun id
 	*/
 	public function actionIndex()
-	{
-		$post = Yii::$app->request->post();
-		
-      	if(empty($post['cid']))
-      	{
-      		Yii::$app->session->setFlash('error', 'Your Cart is Empty. Please Add item before processing to checkout');
-			 return $this->redirect(Yii::$app->request->referrer);
-      	}
-      	
-      
+	{   
 		$early = $this->earlyOrder();
+		
+		$cookies = Yii::$app->request->cookies;
+		
+		if(empty($cookies['cart']))
+      	{
+      		Yii::$app->session->setFlash('error', 'You Already Submit The Order');
+			return $this->redirect(['order/my-orders']);
+      	}
+
+      	$cartData = $cookies->getValue('cart');
 
 		if($early == false)
 		{
@@ -69,7 +73,7 @@ class CheckoutController extends CommonController
 			  return $this->redirect(Yii::$app->request->referrer);
 		}
         
-        $company = Company::find()->where('area_group = :group',[':group'=>$post['area']])->all();
+        $company = Company::find()->where('area_group = :group',[':group'=>$cartData['area']])->all();
         $companymap = ArrayHelper::map($company,'id','name');
        	$user = Userdetails::find()->where('User_id=:uid',[':uid'=>Yii::$app->user->identity->id])->one();
 
@@ -86,17 +90,59 @@ class CheckoutController extends CommonController
         $deliveryAddress = new DeliveryAddress;
 		//$address = Useraddress::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->orderBy('level DESC')->all();
 		//$addressmap = ArrayHelper::map($address,'id','address');
-		return $this->render('index',['deliveryaddress'=>$deliveryAddress, 'order'=>$order, 'postdata'=>$post, 'username'=>$username, 'contact'=>$contact, 'companymap'=>$companymap]);
+		return $this->render('index',['deliveryaddress'=>$deliveryAddress, 'order'=>$order, 'username'=>$username, 'contact'=>$contact, 'companymap'=>$companymap]);
+	}
+
+	public function actionProcess()
+	{
+		$post = Yii::$app->request->post();
+
+		if(empty($post['cid']))
+      	{
+      		Yii::$app->session->setFlash('error', 'Your Cart is Empty. Please Add item before processing to checkout');
+			return $this->redirect(Yii::$app->request->referrer);
+      	}
+
+		$cookieData['cid'] = $post['cid'];
+      	$cookieData['area'] = $post['area'];
+      	$cookieData['code'] = $post['code'];
+
+      	$cookie =  new Cookie([
+            'name' => 'cart',
+            'value' => $cookieData,
+            'expire' => time() + 3600,
+        ]);
+       
+       
+        \Yii::$app->getResponse()->getCookies()->add($cookie);
+      
+		
+		return $this->redirect(['checkout/index']);
 	}
 
 	public function actionOrder()
 	{
 		$post = Yii::$app->request->post();
+		$cookies = Yii::$app->request->cookies;
+		
+		if(empty($cookies['cart']))
+		{
+			Yii::$app->session->setFlash('warning', "Order Expeire Aready. Please Try Again");
+			return $this->redirect(['/cart/view-cart']);
+		}
+	
+		if(empty($post['DeliveryAddress']) || empty($post['Orders']))
+		{
+			Yii::$app->session->setFlash('warning', "Please Fill Out Everything");
+			return $this->redirect(['/cart/view-cart']);
+		}
+		
+		$cartData = $cookies->getValue('cart');
 		
 		$avaiableCart = true;
-		foreach($post['cid'] as $id)
+		foreach($cartData['cid'] as $id)
 		{
-			$query = Cart::find()->where('id = :id and uid = :uid',[':id'=>$id ,':uid'=>Yii::$app->user->identity->id])->one();
+			$query = Cart::find()->where('id = :id and uid = :uid and area = :area',[':id'=>$id ,':uid'=>Yii::$app->user->identity->id,':area'=>$cartData['area']])->one();
 			if(empty($query))
 			{
 				$avaiableCart = false;
@@ -104,48 +150,44 @@ class CheckoutController extends CommonController
 			}
 		}
 		
-		
 		if(!$avaiableCart)
 		{
-			return $this->redirect(Yii::$app->request->referrer);
-		}
-		$deliveyaddress = $this->areaDetect($post['area'],$post);
-		
-		if($deliveyaddress['value'] == -1)
-		{
-			return $this->redirect(Yii::$app->request->referrer);
+			Yii::$app->session->setFlash('warning', "The Cart Item Does Not Match You Order Item");
+			return $this->redirect(['/cart/view-cart']);
 		}
 
+		$deliveyaddress = $this->areaDetect($cartData['area'],$post);
+
+		$deliveryman = $this->assignDeliveryMan($cartData['area'],$post['DeliveryAddress']['cid']);
+
+		if($deliveyaddress['value'] == -1 || $deliveryman == -1)
+		{
+			Yii::$app->session->setFlash('warning', "Currently Now Delivery Man.");
+			return $this->redirect(['/cart/view-cart']);
+		}
+		
 		$address = $deliveyaddress['data'];
-
-		$deliveryman = $this->assignDeliveryMan($post['area'],$post['DeliveryAddress']['cid']);
-		
-		if($deliveryman == -1   )
-		{
-			return $this->redirect(Yii::$app->request->referrer);
-		}
-		
 		$address->deliveryman = $deliveryman;
+
 
 		//$cart = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$post['area']])->joinWith('selection')->all();
 		
-		$allorderitem =$this->createOrderitem($post);
-	
-		$isValid = $allorderitem == -1 ? false : true;
-
-		$dataorder = $this->createOrder($post,$deliveryman,$address['area']);
+		$dataitem =$this->createOrderitem($cartData['cid'],$post['Orders']['Orders_PaymentMethod']);
 		
-		if($dataorder['value'] == -1)
+		$dataorder = $this->createOrder($post,$deliveryman,$cartData);
+	
+		if($dataorder['value'] == -1 || $dataitem['value'] == -1)
 		{
-			return $this->redirect(Yii::$app->request->referrer);
+			Yii::$app->session->setFlash('warning', "Your order Something Went Wrong");
+			return $this->redirect(['/cart/view-cart']);
 		}
 
 		$order = $dataorder['data'];
-		
+		$allorderitem = $dataitem['data'];
 		$delivery = $this->addDeliveryAssignment($deliveryman);
-
-		$isValid = $order->validate()  && $delivery->validate() && $address->validate() && $isValid;
-		
+	
+		$isValid = $delivery->validate() && $address->validate() ;
+			
 		if($isValid)
 		{
 			$transaction = Yii::$app->db->beginTransaction();
@@ -185,8 +227,12 @@ class CheckoutController extends CommonController
 				if($isValid == true)
                 {
                     $transaction->commit();
+                    CartController::mutipleDelete($cartData['cid']);
+                    $cookies = Yii::$app->response->cookies;
+                    $cookies->remove('cart');
+                    unset($cookies['cart']);
                     NotificationController::createNotification($did,1);
-                    CartController::mutipleDelete($post['cid']);
+                    
                    	return $this->redirect(['/cart/aftercheckout','did'=>$did]);
                 }
                 else
@@ -281,14 +327,14 @@ class CheckoutController extends CommonController
 	/*
 	* create order
 	*/
-	protected static function createOrder($post,$deliveryman)
+	protected static function createOrder($post,$deliveryman,$cookie)
 	{
 		
 		$data['value'] = -1;
 		$data['data'] = "";
 		
 		$total =0;
-		foreach($post['cid'] as $cid)
+		foreach($cookie['cid'] as $cid)
 		{
 			$cart = Cart::find()->where('cart.id = :id',[':id'=>$cid])->joinWith(['food'])->one();
 			
@@ -316,7 +362,8 @@ class CheckoutController extends CommonController
 			$order->Orders_TotalPrice -= $order->Orders_DiscountEarlyAmount;
 		}
 
-		if (!empty($data['code'])) {
+		if (!empty($cookie['code'])) {
+		
 			$data = DiscountController::orderdiscount($data['code'],$order);
 			if($data['value'] == -1)
 			{
@@ -324,9 +371,12 @@ class CheckoutController extends CommonController
 			}
 			$order  = $data['data'];
 		}
+		if($order->validate())
+		{
+			$data['value'] = 1;
+			$data['data'] = $order;
+		}
 		
-		$data['value'] = 1;
-		$data['data'] = $order;
 		//$order->Orders_TotalPrice=0;
 		return $data;
 	}
@@ -337,11 +387,12 @@ class CheckoutController extends CommonController
 	* id => order id
 	* query => Cart Query
 	*/
-	protected static function createOrderitem($post)
+	protected static function createOrderitem($allCid,$paymentMethod)
 	{
 		$isValid = true;
-		
-		foreach($post['cid'] as $i=>$cid)
+		$data['value'] = -1;
+		$data['data'] = "";
+		foreach($allCid as $i=>$cid)
 		{
 			$cart = Cart::find()->where('cart.id = :id',[':id'=>$cid])->joinWith(['selection'])->one();
 			
@@ -351,19 +402,19 @@ class CheckoutController extends CommonController
 			$orderitem->OrderItem_Quantity  = $cart->quantity;
 			$orderitem->OrderItem_SelectionTotal = $cart->selectionprice;
 			$orderitem->OrderItem_LineTotal = $cart->price;
-			$orderitem->OrderItem_Status = $post['Orders']['Orders_PaymentMethod'] == "Cash on Delivery" ? 2 : 1;
+			$orderitem->OrderItem_Status = $paymentMethod == "Cash on Delivery" ? 2 : 1;
 			$orderitem->OrderItem_Remark = $cart->remark;
 			
 			$isValid = $orderitem->validate() && $isValid;
 			$allitem[$i] = $orderitem;
 			if(!empty($cart['selection']))
 			{
-				foreach($cart['selection'] as $k=>$data)
+				foreach($cart['selection'] as $k=>$selection)
 				{
 					$orderitemselection = new Orderitemselection;
 					//$orderitemselection->Order_ID = $oid;
-					$orderitemselection->Selection_ID = $data->selectionid;
-					$foodtype = Foodselection::findOne($data->selectionid);
+					$orderitemselection->Selection_ID = $selection->selectionid;
+					$foodtype = Foodselection::findOne($selection->selectionid);
 					$orderitemselection->FoodType_ID = $foodtype->Type_ID;
 					$allitem[$i]->item[$k] = $orderitemselection;
 					$isValid = $orderitemselection->validate() && $isValid;
@@ -372,8 +423,13 @@ class CheckoutController extends CommonController
 			}
 		}
 
+		if($isValid)
+		{
+			$data['value'] = 1;
+			$data['data'] = $allitem;
+		}
 		//return $allitem;
-		return $isValid == true ? $allitem : -1;	
+		return $data;	
 	}
 
 	protected static function addDeliveryAssignment($id)

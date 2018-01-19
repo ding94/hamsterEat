@@ -54,7 +54,7 @@ CartAsset::register($this);
     </div>
       <?php echo Html::a('Continue Shopping',Yii::$app->request->referrer,['class' => 'raised-btn btn-b']) ;?>
 	</div>
-   <?php $form = ActiveForm::begin(['action' =>['checkout/index'],'method' => 'post']); ?>
+   <?php $form = ActiveForm::begin(['action' =>['checkout/process'],'method' => 'post']); ?>
 	<div class="container">
     <?php foreach($cart as $single) :?> 
 			<section class="cart">

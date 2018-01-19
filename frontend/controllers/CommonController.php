@@ -61,7 +61,7 @@ class CommonController extends Controller
             $query = Notification::find()->where('uid = :uid and view = :v',[':uid' => Yii::$app->user->identity->id,':v'=>0])->asArray()->orderBy(['created_at'=>SORT_DESC]);
             $count = $query->count();
             Yii::$app->params['countNotic'] = $count == 0 ? "" : " (".$count.")";
-            $notication = $query->limit(10)->all();
+            $notication = $query->limit(20)->all();
             foreach($notication as $single)
             {
                 $result[$single['type']][] = $single;

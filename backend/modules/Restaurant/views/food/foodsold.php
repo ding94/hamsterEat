@@ -8,9 +8,11 @@ use kartik\widgets\ActiveForm;
 use yii\helpers\Html;
 
 $this->title = 'Total Food Sold Per Month';
+$fid = Yii::$app->request->get('fid');
 ?>
 <div class="site-index">
 <?php $form = ActiveForm::begin(['method' => 'get','action'=>['food/food-sold']]); ?>
+    <input type="hidden" name="fid" value="<?php echo $fid; ?>">
     <label class="control-label">Choose Selection</label>
     <div class="row">
         <div class="col-md-6">
@@ -32,7 +34,19 @@ $this->title = 'Total Food Sold Per Month';
             <?= Html::submitButton('Filter', ['class' => 'btn-block ']) ?>
         </div>
      </div>
-<?php ActiveForm::end(); ?> 
+<?php ActiveForm::end(); ?>
+    <div class="row">
+        <div class="col-md-3">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Total Food Sold In This Period</td>
+                        <td><?php echo $data['totalcount']; ?></td>    
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div> 
 <?= ChartJs::widget([
     'type' => 'bar',
     'options' => [

@@ -11,6 +11,7 @@ use common\models\Order\Orderitemstatuschange;
 use common\models\Order\Ordersstatuschange;
 use common\models\Order\Orderitemselection;
 use common\models\Order\Orderitem;
+use common\models\Order\StatusType;
 use common\models\User;
 /**
  * This is the model class for table "orders".
@@ -168,6 +169,12 @@ class Orders extends \yii\db\ActiveRecord
     public function getAddress()
     {
         return $this->hasOne(DeliveryAddress::className(),['delivery_id'=>'Delivery_ID']);
+    }
+
+    public function getStatus()
+    {
+        $data = StatusType::findOne($this->Orders_Status);
+        return $data->type;
     }
 
     /*public function getFood_linking()

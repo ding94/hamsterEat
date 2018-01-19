@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use common\models\Order\Orderitem;
 
-  $this->title = 'Delivery List';
+  $this->title = 'Delivery Pending List';
   $this->params['breadcrumbs'][] = $this->title;
   echo Html::a('Go to Orders List', Url::to(['/order/default/order']),['class'=>'btn btn-primary']);
 ?>

@@ -64,8 +64,9 @@
                     ],
                     [   'label' => 'Order Controller', 'icon' => 'user', 'url' => "#",
                         'items' =>  [
-                                        ['label' => 'Delivery List' ,'icon' => 'circle-o' , 'url' => ['/order/default/index']],
-                                        [ 'label' => 'Order List', 'icon' => 'circle-o', 'url' => ['/order/default/order']],
+                                        ['label' => ' All Delivery  List' ,'icon' => 'circle-o' , 'url' => ['/order/all-order/index']],
+                                        ['label' => 'Delivery Pending List' ,'icon' => 'circle-o' , 'url' => ['/order/default/index']],
+                                        [ 'label' => 'Order Pending List', 'icon' => 'circle-o', 'url' => ['/order/default/order']],
                                         [ 'label' => 'Cancelled Order List', 'icon' => 'circle-o', 'url' => ['/customerservice/pausedorder']],
                                         [ 'label' => 'Solved Order List', 'icon' => 'circle-o', 'url' => ['/customerservice/comproblem']],
                                         ['label' => 'Delivery Earning','icon' => 'circle-o','url'=>['/order/profit/index']],

@@ -8,7 +8,7 @@ use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
-  $this->title = 'Orders List';
+  $this->title = 'Orders Pending List';
   $this->params['breadcrumbs'][] = $this->title;
 
   echo Html::a('Go to Delivery List', Url::to(['/order/default/index']),['class'=>'btn btn-primary']);

@@ -10,26 +10,38 @@ use common\models\Order\Orderitemselection;
 
 Class OrderSearch extends Orders
 {
-	
+
+	public function rules()
+	{
+		return [
+			[['Delivery_ID','User_Username','Orders_PaymentMethod','Orders_DateTimeMade','Orders_Status'],'safe'],
+		];
+	}
+
 	public function search($params,$case)
 	{
 		switch ($case) {
 			case 1:
-				$query = Orders::find()->where('OrderItem_Status=:s',[':s'=>2])->orderBy('Orders_DateTimeMade DESC');
+				$query = Orders::find()->distinct()->where('OrderItem_Status=:s',[':s'=>2])->orderBy('Orders_DateTimeMade DESC');
 				$query->joinWith(['order_item']);
 				$query->joinWith(['order_status']);
 				break;
 			case 2:
-				$query = Orders::find()->where('Orders_Status=:s',[':s'=>2])->andWhere('Orders_DateTimeMade > '.strtotime(date('Y-m-d')))->orderBy('Orders_DateTimeMade DESC');
+				$query = Orders::find()->distinct()->where('Orders_Status=:s',[':s'=>2])->andWhere('Orders_DateTimeMade > '.strtotime(date('Y-m-d')))->orderBy('Orders_DateTimeMade DESC');
 				$query->joinWith(['order_item']);
 				$query->joinWith(['address']);
 				break;
 			case 3:
-				$query = Orderitem::find()->where('OrderItem_Status=:s',[':s'=>2])->orderBy('Order_ID DESC');
+				$query = Orderitem::find()->distinct()->where('OrderItem_Status=:s',[':s'=>2])->orderBy('Order_ID DESC');
 				$query->joinWith(['order']);
 				$query->joinWith(['order_selection']);
 				$query->joinWith(['food']);
 
+				break;
+			case 4:
+				$query = Orders::find()->orderBy('orders.Delivery_ID DESC');
+				//$query->joinWith(['order_item']);
+				//$query->joinWith(['order_status']);
 				break;
 			default:
 				# code...
@@ -46,9 +58,13 @@ Class OrderSearch extends Orders
 	    ];
 
         $this->load($params);
-
-        $query->andFilterWhere(['like','Orders.Delivery_ID',$this->Delivery_ID]);
-        $query->andFilterWhere(['like','User_Username',$this->User_Username]);
+     	$query->andFilterWhere([
+           'orders.Delivery_ID' => $this->Delivery_ID,
+           'User_Username' => $this->User_Username,
+           'Orders_PaymentMethod' => $this->Orders_PaymentMethod,
+           'Orders_Status' => $this->Orders_Status,
+        ]);
+     
         $query->andFilterWhere(['like','Orders_Date',$this->Orders_Date]);
         $query->andFilterWhere(['like','Orders_Time',$this->Orders_Time]);
         $query->andFilterWhere(['like','Orders_Status',$this->Orders_Status]);

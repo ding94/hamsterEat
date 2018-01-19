@@ -65,10 +65,18 @@ Class OrderSearch extends Orders
            'Orders_Status' => $this->Orders_Status,
         ]);
      
-        $query->andFilterWhere(['like','Orders_Date',$this->Orders_Date]);
-        $query->andFilterWhere(['like','Orders_Time',$this->Orders_Time]);
+        //$query->andFilterWhere(['like','Orders_Time',$this->Orders_Time]);
         $query->andFilterWhere(['like','Orders_Status',$this->Orders_Status]);
 
+        if(!empty($this->Orders_DateTimeMade))
+        {
+        	$date = explode("to", $this->Orders_DateTimeMade);
+        	
+        	$first = strtotime($date[0]. ' 00:00:00');
+        	$last = empty($data[1]) ? strtotime($date[0]. ' 23:59:59') : strtotime($date[1]. ' 23:59:59');
+        	$query->andWhere(['between','Orders_DateTimeMade',$first,$last]);
+        }
+     	
         return $dataProvider;
 	}
 }

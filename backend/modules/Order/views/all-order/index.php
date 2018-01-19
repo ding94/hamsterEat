@@ -1,10 +1,34 @@
 <?php
 
 use kartik\grid\GridView;
+use yii\helpers\Html;
+use yii\bootstrap\Modal;
+use yii\helpers\Url;
 
 $this->title = 'All Order List';
 $this->params['breadcrumbs'][] = $this->title;
-
+	
+	Modal::begin([
+        'id' => 'orderDetail',
+        'header' => '<h4 class="modal-title">...</h4>',
+        'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    Modal::end();
+    $this->registerJs("
+        $('#orderDetail').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var modal = $(this)
+            var title = button.data('title') 
+            var href = button.attr('href') 
+            modal.find('.modal-title').html(title)
+            modal.find('.modal-body').html('<i class=\"fa fa-spinner fa-spin\"></i>')
+            $.post(href)
+                .done(function( data ) {
+                    modal.find('.modal-body').html(data)
+                });
+            })
+    ");
+   
  	echo GridView::widget([
         'dataProvider'=>$model,
         'filterModel'=>$searchModel,
@@ -42,13 +66,17 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'attribute' => 'Orders_PaymentMethod',
 				'filter' => ['Account Balance'=>'Account Balance','Cash on Delivery'=>'Cash on Delivery'],
+				'filterType' => GridView::FILTER_SELECT2,
+				'filterWidgetOptions' => [
+			        'pluginOptions' => ['allowClear' => true],
+			    ],
+			    'filterInputOptions' => ['placeholder' => 'Any Method'],
 				'format' => 'raw'
 			],
 			[
 				'attribute' =>'Orders_Status',
-				
-				'filter' => $arrayData['status'],
 				'filterType' => GridView::FILTER_SELECT2,
+				'filter' => $arrayData['status'],
 				'filterWidgetOptions' => [
 			        'pluginOptions' => ['allowClear' => true],
 			    ],
@@ -61,10 +89,47 @@ $this->params['breadcrumbs'][] = $this->title;
 			
 				'attribute' => 'Orders_DateTimeMade',
 				'format' => 'datetime',
-				'filterType' => GridView::FILTER_DATE,
-
+				'filterType' => GridView::FILTER_DATE_RANGE,
+				'filterWidgetOptions' => [
+			        'pluginOptions' => [
+			        	'locale' => [ 
+			        		'format' => 'YYYY-MM-DD',
+			        		'separator'=>' to ',
+			        	]
+			        ],
+			    ],
+			    'filterInputOptions' => ['placeholder' => 'Select Between Two Dates'],
 			],
-			
+			[
+				'attribute' => 'Orders_TotalPrice',
+				'format' => 'raw',
+				'vAlign' => 'middle',
+    			'hAlign' => 'center', 
+				'mergeHeader'=>true,
+				'value' => function($model)
+                {
+                	$html = "<div class='row'><div class='col-xs-6'>";
+                	$html .= number_format($model->Orders_TotalPrice, 2, '.', '');
+                	$html .="</div><div class='col-xs-6'>";
+                	$html .=  Html::a("View All Price",['price' ,'id'=>$model->Delivery_ID],['data-toggle'=>"modal",'data-target'=>"#orderDetail",'data-title'=>"Price Detail",]);
+                	$html .= "</div></div>";
+                    return $html;
+                },
+              
+			],
+			[
+                'class' => 'kartik\grid\ActionColumn',
+                'template' => '{view}',
+                'header' => "View Order Item",
+                'buttons' => [
+                    'view' => function($url , $model)
+                    {
+                        $url =  Url::to(['item' ,'id'=>$model->Delivery_ID]);
+
+                        return Html::a('All Order Item' , $url , ['class' => 'text-underline','title' => 'Order Item'])   ;
+                    },
+                ],
+            ],
         ],
     ]);
 ?>

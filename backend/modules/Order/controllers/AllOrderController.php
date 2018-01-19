@@ -7,6 +7,7 @@ use yii\web\Controller;
 use yii\helpers\ArrayHelper;
 use common\models\User;
 use common\models\Order\StatusType;
+use common\models\Order\Orders;
 use backend\models\OrderSearch;
 
 class AllOrderController extends Controller
@@ -22,5 +23,11 @@ class AllOrderController extends Controller
         $arrayData['status'] = $allstatus;
 
         return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel ,'arrayData'=>$arrayData]);
+	}
+
+	public function actionPrice($id)
+	{
+		$model = Orders::findOne($id);
+		return $this->renderAjax('_price',['model'=>$model]);
 	}
 }

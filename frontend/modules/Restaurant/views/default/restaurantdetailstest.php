@@ -20,6 +20,19 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
         border-bottom: 1px solid #E0E0E0;
         display: flex;
         justify-content: center;
+        overflow-x: auto;
+    }
+
+    #category-bar::-webkit-scrollbar
+    {
+      height: 10px;
+      background-color: transparent;
+    }
+
+    #category-bar::-webkit-scrollbar-thumb:horizontal
+    {
+      border-radius: 10px;
+      background-color: #C0C0C0;
     }
 
     #category-bar ul{

@@ -130,6 +130,39 @@ Class FoodController extends Controller
         return true;
     }
 
+    public function actionFoodSold($first = 0,$last = 0,$fid)
+    {
+        if($first == 0 && $last == 0)
+        {
+            $first = date("Y-m-d", strtotime("first day of this month"));
+            $last = date("Y-m-d", strtotime("+1 days")); 
+        }
+
+        $days= CommonController::getMonth($first,$last,1);
+
+        $food = Food::find()->where('Food_ID=:fid',[':fid'=>$fid])->one();
+
+        $food_array = ['id'=>(int)$food['Food_ID'],'name'=>$food['Name']];
+        $json_food = Json::encode($food_array);
+
+        $model = RestaurantItemProfit::find()->where('fid = :fid',[':fid'=>$json_food])->andWhere(['between','created_at',strtotime($first),strtotime($last)])->select(['created_at','quantity'])->asArray()->all();
+        $modelcount = 0;
+        $count = CommonController::getMonth($first,$last,2);
+        if(!empty($model))
+        {
+            foreach ($model as $key => $value) {
+                $modelcount+=$value['quantity'];
+                $date = date("Y-m-d", $value['created_at']);
+                $count[$date] += (int)$value['quantity'];
+            } 
+        }
+        $data['date'] = $days;
+        $data['count'] = CommonController::convertToArray($count);
+        $data['totalcount'] = $modelcount;
+
+        return $this->render('foodsold',['data'=>$data,'first'=>$first,'last'=>$last]);
+    }
+
     public function actionFoodRankingPerMonth($month=0)
     {
         if($month == 0){

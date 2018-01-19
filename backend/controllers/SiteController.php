@@ -94,7 +94,6 @@ class SiteController extends Controller
         $data['final']['voucherDiscount'] = number_format($queryDelivery->sum('voucherDiscount'));
         $data['final']['orderFinalPrice'] = number_format($queryOrder->sum('quantity * finalPrice'));
         $data['final']['orderOrignalPrice'] = number_format($queryOrder->sum('quantity * originalPrice'));
-       
         $arrayType = [0=>'bar','1'=>'horizontalBar','2'=>'line'];
 
         return $this->render('index',['data'=>$data,'first'=>$first,'last'=>$last,'arrayType'=>$arrayType,'type'=>$type]);

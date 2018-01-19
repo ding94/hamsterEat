@@ -51,7 +51,7 @@ NotificationAsset::register($this);
 <body>
 
 <?php Modal::begin([
-            'header' => '<h2 class="modal-title">Feedback</h2>',
+            'header' => '<h2 class="modal-title">'.Yii::t('layout','Feedback').'</h2>',
             'id'     => 'feedback-modal',
             'size'   => 'modal-md',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
@@ -60,7 +60,7 @@ NotificationAsset::register($this);
     Modal::end() ?>
 
 <?php Modal::begin([
-            'header' => '<h2 class="modal-title">Login</h2>',
+            'header' => '<h2 class="modal-title">'.Yii::t('layout','Login').'</h2>',
             'id'     => 'login-modal',
             'size'   => 'modal-md',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
@@ -69,10 +69,10 @@ NotificationAsset::register($this);
     Modal::end() ?>
 
     <?php Modal::begin([
-            'header' => '<h2 class="modal-title">Placed Orders</h2>',
+            'header' => '<h2 class="modal-title">'.Yii::t('layout','Placed Orders').'</h2>',
             'id'     => 'add-modal',
             'size'   => 'modal-lg',
-            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">'.Yii::t('layout','Close').'</a>',
     ]);
     
     Modal::end() ?>
@@ -98,22 +98,22 @@ NotificationAsset::register($this);
          //['label' => '<span class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
     ];*/
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart cart"></span> Cart ', 'url' => ['/cart/view-cart']];
-        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span> Signup', 'url' => ['/site/ruser']];
-        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> Login', 'url' => ['/site/login-popup'],'linkOptions'=>['data-toggle'=>'modal','data-target'=>'#login-modal']]; 
+        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart cart"></span>'.Yii::t('layout','Cart'), 'url' => ['/cart/view-cart']];
+        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span>'.Yii::t('layout','Signup'), 'url' => ['/site/ruser']];
+        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span>'.Yii::t('layout','Login'), 'url' => ['/site/login-popup'],'linkOptions'=>['data-toggle'=>'modal','data-target'=>'#login-modal']]; 
     } else {
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['countCart'].'</span></span>', 'url' => ['/cart/view-cart']];
         $menuItems[] = ['label' => '<span> <i class="fa fa-bell"></i>'.Yii::$app->params['countNotic'].'</span>' ,'options'=> ['id'=>'notication']];
         $keys = array_keys($menuItems);
         if(empty(Yii::$app->params['notication']))
         {
-            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">Empty Notication</h4>'];
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">'.Yii::t('layout','Empty Notication').'</h4>'];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
-            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title pull-right">View All</h4>','url' => ['/notification/index']];
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title pull-right">'.Yii::t('layout','View All').'</h4>','url' => ['/notification/index']];
         }
         else
         {
-            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">Notifications</h4>'];
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">'.Yii::t('layout','Notifications').'</h4>'];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
             $menuItems[end($keys)]['items'][] = '<div class="inner-notic">';
             foreach(Yii::$app->params['notication'] as $i=> $notic)
@@ -136,7 +136,7 @@ NotificationAsset::register($this);
             }
             $menuItems[end($keys)]['items'][] = '</div>';
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
-            $menuItems[end($keys)]['items'][] = "<li><div class='col-sm-6'>".Html::a('<h4 class="menu-title">Mark All as Read</h4>',['/notification/turnoff'])."</div><div class='col-sm-6'>".Html::a('<h4 class="menu-title pull-right">View All</h4>',['/notification/index'])."</div></li>";
+            $menuItems[end($keys)]['items'][] = "<li><div class='col-sm-6'>".Html::a('<h4 class="menu-title">'.Yii::t('layout','Mark All as Read').'</h4>',['/notification/turnoff'])."</div><div class='col-sm-6'>".Html::a('<h4 class="menu-title pull-right">'.Yii::t('layout','View All').'</h4>',['/notification/index'])."</div></li>";
         }
        
         $rmanager = Rmanager::find()->where('uid=:id AND Rmanager_Approval=:ra',[':id'=>Yii::$app->user->identity->id,':ra'=>1])->one();
@@ -157,32 +157,32 @@ NotificationAsset::register($this);
                 $count += $orderitem;
             }
             if ($count <= 0){
-                $menuItems[end($key)]['items'][] = ['label'=>'Empty Orders'];
+                $menuItems[end($key)]['items'][] = ['label'=>Yii::t('layout','Empty Orders')];
                 $menuItems[end($key)]['items'][] = '<li class="divider"></li>';
             }
         }
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span><span class="username"> ' . Yii::$app->user->identity->username . '</span>', 'items' => [
-                       ['label' => 'Profile', 'url' => ['/user/user-profile']],
+                       ['label' => Yii::t('layout','Profile'), 'url' => ['/user/user-profile']],
                         '<li class="divider"></li>',
                        ]];
          $keys = array_keys($menuItems);
         if (!empty($rmanager)) {
-                $menuItems[end($keys)]['items'][] =['label' => 'Restaurants ', 'url' => ['/Restaurant/restaurant/restaurant-service']];
+                $menuItems[end($keys)]['items'][] =['label' => Yii::t('layout','Restaurants'), 'url' => ['/Restaurant/restaurant/restaurant-service']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
         if (Deliveryman::find()->where('User_id=:id',[':id'=>Yii::$app->user->identity->id])->one()){
-                $menuItems[end($keys)]['items'][] =['label' => 'Delivery Orders', 'url' => ['/Delivery/deliveryorder/order']];
+                $menuItems[end($keys)]['items'][] =['label' => Yii::t('layout','Delivery Orders'), 'url' => ['/Delivery/deliveryorder/order']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
         /*if ($company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
             $menuItems[end($keys)]['items'][] =['label' => 'Company', 'url' => ['/company/index']];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }*/
-        $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
-        $menuItems[] = ['label' => '<i class="fa fa-globe"></i> Language', 'items' => [
-                        ['label' => 'English', 'url' => Url::to(['/site/changelanguage','lang'=>'en'])],
+        $menuItems[end($keys)]['items'][] = ['label' => Yii::t('layout','Logout'), 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
+        $menuItems[] = ['label' => '<i class="fa fa-globe"></i>'.Yii::t('layout','Language'), 'items' => [
+                        ['label' => Yii::t('layout','English'), 'url' => Url::to(['/site/changelanguage','lang'=>'en'])],
                         '<li class="divider"></li>',
-                        ['label' => 'Chinese', 'url' => Url::to(['/site/changelanguage','lang'=>'zh'])]
+                        ['label' => Yii::t('layout','Chinese'), 'url' => Url::to(['/site/changelanguage','lang'=>'zh'])]
                         ]];
                     //var_dump($menuItems);exit;
         
@@ -259,7 +259,7 @@ NotificationAsset::register($this);
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body food-type">
-                        <p>Please Select Type</p>
+                        <p><?= Yii::t('layout','Please Select Type') ?></p>
                         <?php echo Html::hiddenInput('cookie',$emptyCookie) ?>
                         <div class="row">
                             <div class="col-xs-6 non-halal box">
@@ -293,14 +293,14 @@ NotificationAsset::register($this);
                 <h3 id="footertitle">HamsterEat</h3>
                 <hr>
                 <ul id="linklist" class="list-unstyled">
-                    <li><?php echo Html::a('Feedback', Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal']) ?></li>
-                    <li><?php echo Html::a('About Us' ,['site/about']) ?></li>
-                    <li><?php echo Html::a('Guide' ,['site/faq']) ?></li>
+                    <li><?php echo Html::a(Yii::t('layout','Feedback'), Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal']) ?></li>
+                    <li><?php echo Html::a(Yii::t('layout','About Us'),['site/about']) ?></li>
+                    <li><?php echo Html::a(Yii::t('layout','Guide'),['site/faq']) ?></li>
                     <li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>
                     <?php if (Yii::$app->user->isGuest)
                     { ?>
-                        <li><?php echo Html::a('Login' ,['site/login-popup'], ['data-toggle'=>'modal','data-target'=>'#login-modal']) ?></li>
-                        <li><?php echo Html::a('Signup' ,['site/ruser']) ?></li> <?php
+                        <li><?php echo Html::a(Yii::t('layout','Login'),['site/login-popup'], ['data-toggle'=>'modal','data-target'=>'#login-modal']) ?></li>
+                        <li><?php echo Html::a(Yii::t('layout','Signup'),['site/ruser']) ?></li> <?php
                     }
                     ?>
                 </ul>
@@ -311,7 +311,7 @@ NotificationAsset::register($this);
                 <h3>Contact Us</h3>
                 <hr>
                 <ul id="linklist" class="list-unstyled">
-                    <li> <?php echo Html::a('Contact' ,['site/contact']) ?></li>
+                    <li> <?php echo Html::a(Yii::t('layout','Contact'),['site/contact']) ?></li>
                 </ul>
                 <p>Tel. 1700-818-315</p>
 

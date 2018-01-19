@@ -291,8 +291,14 @@ class FoodController extends CommonController
            
             $foodtypemodel = new Foodtype();
             $foodtypemodel->Type_Desc = $post['Type_ID'][0];
-          
-            $foodtypemodel->save();
+
+            if(!is_numeric($foodtypemodel->Type_Desc)){
+                $foodtypemodel->save();    
+            } else {
+                Yii::$app->session->setFlash('danger', "Invalid Food Type");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
             $post['Type_ID'][0] = (string)$foodtypemodel->ID;
         }
        

@@ -17,12 +17,12 @@
 .raised-btn:hover {
   box-shadow: 0 5px 7px 0 rgba(0,0,0,.26);
   text-decoration: none;
+  transition-duration: 0.4s;
 }
 
 .main-btn{
   background:#FFDA00;
   color:#000;
-  transition-duration: 0.4s;
 }
 
 .main-btn:hover{

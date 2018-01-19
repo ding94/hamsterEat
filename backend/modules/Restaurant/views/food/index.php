@@ -93,6 +93,19 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     },
                 ],
             ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{foodsold}',
+                'header' => "Food Sold",
+                'buttons' => [
+                    'foodsold' => function($url , $model)
+                    {
+                        $url =  Url::to(['food/food-sold' ,'fid'=>$model->Food_ID]);
+
+                        return Html::a('View' , $url , ['class' => 'text-underline','title' => 'Food Sold'])   ;
+                    },
+                ],
+            ],
             'created_at:datetime',
             'updated_at:datetime',
         ],

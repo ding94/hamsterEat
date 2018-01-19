@@ -104,7 +104,7 @@ body{
 }
 
 #uppernavbar .dropdown{
-  background-color:#fcffaf;
+  background-color:#FFDA00;
 }
 
 #uppernavbar .dropdown-menu .divider{
@@ -777,4 +777,17 @@ span.badge{
 
 #about-container .secondary-header{
   font-weight: bold;
+}
+
+#uppernavbar .special-nav-item > a{
+  /* display: flex; */
+  padding: 15px 4px;
+  line-height: 0;
+}
+
+#uppernavbar li.special-nav-item{
+  background-color: #FFDA00;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -171,12 +171,6 @@ class Orders extends \yii\db\ActiveRecord
         return $this->hasOne(DeliveryAddress::className(),['delivery_id'=>'Delivery_ID']);
     }
 
-    public function getStatus()
-    {
-        $data = StatusType::findOne($this->Orders_Status);
-        return $data->type;
-    }
-
     /*public function getFood_linking()
     {
         return $this->hasOne(Food::className(),['Food_ID' => $this->order_item->Food_ID]); 

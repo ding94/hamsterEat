@@ -87,11 +87,11 @@ class Orderitem extends \yii\db\ActiveRecord
             'Delivery_ID' => 'Delivery ID',
             'Food_ID' => 'Food ID',
             'Order_ID' => 'Order ID',
-            'OrderItem_Quantity' => 'Order Item Quantity',
-            'OrderItem_SelectionTotal' => 'Order Item Selection Total',
-            'OrderItem_LineTotal' => 'Order Item Line Total',
-            'OrderItem_Status' => 'Order Item Status',
-            'OrderItem_Remark' => 'Order Item Remark',
+            'OrderItem_Quantity' => 'Quantity',
+            'OrderItem_SelectionTotal' => 'Selection Total',
+            'OrderItem_LineTotal' => 'Total',
+            'OrderItem_Status' => 'Status',
+            'OrderItem_Remark' => 'Remark',
         ];
     }
 

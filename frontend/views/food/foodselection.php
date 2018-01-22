@@ -31,7 +31,10 @@ AddFoodAsset::register($this);
              <th class="text-center">
                 <button type="button" class="add-room btn btn-success btn-xs"><span class="glyphicon glyphicon-plus"></span></button>
             </th>
-            <th>Selection Name</th><th>Received</th><th>Price</th><th>Nickname</th>
+            <th><?= Yii::t('food','Selection Name') ?></th>
+            <th><?= Yii::t('food','Received') ?></th>
+            <th><?= Yii::t('food','Price') ?></th>
+            <th><?= Yii::t('food','Nickname') ?></th>
         </tr>
     </thead>
     <tbody class="container-rooms">

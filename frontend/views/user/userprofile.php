@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
 use frontend\assets\UserAsset;
-$this->title = 'My Profile';
+$this->title = Yii::t('user','My Profile');
 
 UserAsset::register($this);
 ?>
@@ -11,10 +11,10 @@ UserAsset::register($this);
 <?php 
   //user report modal
   Modal::begin([
-      'header' => '<h2 class="modal-title">Report</h2>',
+      'header' => '<h2 class="modal-title">'.Yii::t('user','Report').'</h2>',
       'id'     => 'modal',
       'size'   => 'modal-sm',
-      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
+      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('user','Close').'</a>',
   ]);
   Modal::end();
     //new address modal
@@ -49,8 +49,8 @@ UserAsset::register($this);
               ?>
             
               <?php echo Html::img($picpath,['class'=>"userprofile-image"])?>
-              <?= Html::a('Edit', ['/user/userdetails'], ['class'=>'raised-btn btn-default userprofile-editbutton']) ?>
-              <?= Html::a('Logout', ['/site/logout'], ['class'=>'raised-btn btn-danger userprofile-logoutbutton','data-method'=>'post']) ?>
+              <?= Html::a(Yii::t('user','Edit'), ['/user/userdetails'], ['class'=>'raised-btn btn-default userprofile-editbutton']) ?>
+              <?= Html::a(Yii::t('user','Logout'), ['/site/logout'], ['class'=>'raised-btn btn-danger userprofile-logoutbutton','data-method'=>'post']) ?>
           </div>
         </div>
         <div class="col-sm-9 userprofile-right">
@@ -58,22 +58,22 @@ UserAsset::register($this);
           <div class="userprofile-input">
               <div class="row outer-row">
                 <div class="inner-row">
-                  <div class="userprofile-label">User Name:</div>
+                  <div class="userprofile-label"><?= Yii::t('user','User Name')?>:</div>
                   <div class="userprofile-text"><?php echo $user->username?></div>
                 </div>
                </div>
               <div class="row outer-row">
 			   <div class="inner-row">
-                  <div class="userprofile-label">Full Name:</div>
+                  <div class="userprofile-label"><?= Yii::t('user','Full Name')?>:</div>
                   <div class="userprofile-text"><?php echo $user->userdetails->fullname ?></div>
                 </div>
                 </div>
 				 <div class="row outer-row">
-                <div class="userprofile-label">Contact:</div>
+                <div class="userprofile-label"><?= Yii::t('user','Contact')?>:</div>
                 <div class="userprofile-text"><?php echo empty($user->userdetails->User_ContactNo) ? "not set" :$user->userdetails->User_ContactNo ?></div>
               </div>
               <div class="row outer-row">
-                <div class="userprofile-label">Balance(RM): </div>
+                <div class="userprofile-label"><?= Yii::t('user','Balance')?>(RM): </div>
                 <div class="userprofile-text"><?php echo $user->balance->User_Balance?></div>
               </div>
           </div>

@@ -10,7 +10,7 @@ use yii\bootstrap\Modal;
 use frontend\assets\PhotoSliderAsset;
 
 PhotoSliderAsset::register($this);
-$this->title = 'Delivery Food In Medini | HamsterEat';
+$this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 ?>
 
 <style>

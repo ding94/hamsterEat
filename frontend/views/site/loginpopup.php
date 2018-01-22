@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Login';
+$this->title = Yii::t('common','Login');
 
 ?>
 
@@ -15,18 +15,18 @@ $this->title = 'Login';
 
             <?php $form = ActiveForm::begin(); ?>
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true])->label('Username or Email') ?>
+                <?= $form->field($model, 'username')->textInput(['autofocus' => true])->label(Yii::t('site','Username or Email')) ?>
                 
-                <?= $form->field($model, 'password')->passwordInput()->label('Password') ?>
+                <?= $form->field($model, 'password')->passwordInput()->label(Yii::t('common','Password')) ?>
 
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
                 <div id="form-group" class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'raised-btn main-btn', 'name' => 'login-button']) ?>
+                    <?= Html::submitButton(Yii::t('common','Login'), ['class' => 'raised-btn main-btn', 'name' => 'login-button']) ?>
                 </div>
 
                 <div id="forgotpassword" class="forgotpassword" style="color:#999;">
-                     <?= Html::a('Forgot Your Password?', ['site/request-password-reset']) ?>.
+                     <?= Html::a(Yii::t('site','Forgot Your Password?'), ['site/request-password-reset']) ?>.
                 </div>
 
             <?php ActiveForm::end(); ?>

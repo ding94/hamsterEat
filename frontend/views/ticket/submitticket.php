@@ -13,7 +13,7 @@ use frontend\assets\UserAsset;
 use yii\bootstrap\Modal;
 use kartik\widgets\FileInput;
 
-$this->title = 'Submit Ticket';
+$this->title = Yii::t('ticket','Submit Ticket');
 UserAsset::register($this);
 ?>
 <div class="ticket">
@@ -44,9 +44,9 @@ UserAsset::register($this);
             </div>
             <div class="nav-url">
                 <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation"><?php echo Html::a("All",['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Submit Ticket</a></li>
-				    <li role="presentation"><?php echo Html::a("Completed Ticket",['/ticket/completed'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation"><?php echo Html::a(Yii::t('ticket','All'),['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('ticket','Submit Ticket') ?></a></li>
+				    <li role="presentation"><?php echo Html::a(Yii::t('ticket','Completed Ticket'),['/ticket/completed'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                 </ul>
             </div>
         </div>
@@ -54,7 +54,7 @@ UserAsset::register($this);
     <div class="container">
      <div class="col-sm-8 right-side">
 	 <p style="text-align:center; padding-top:20px;">
-        If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
+        <?= Yii::t('ticket','If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.') ?>
     </p><br>
             <?php $form = ActiveForm::begin(); ?>
                 <?= $form->field($model, 'Ticket_Subject')->textInput(['autofocus' => true]) ?>
@@ -69,7 +69,7 @@ UserAsset::register($this);
                 ?>
 
                 <div class="form-group" id="submit-ticket">
-                    <?= Html::submitButton('Submit', ['class' => 'raised-btn main-btn submit-resize-btn', 'name' => 'contact-button']) ?>
+                    <?= Html::submitButton(Yii::t('ticket','Submit'), ['class' => 'raised-btn main-btn submit-resize-btn', 'name' => 'contact-button']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

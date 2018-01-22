@@ -12,7 +12,7 @@ use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use frontend\assets\UserAsset;
 
-$this->title = 'My Completed Questions';
+$this->title = Yii::t('ticket','My Completed Questions');
 UserAsset::register($this);
 ?>
 <div class="ticket">
@@ -43,24 +43,24 @@ UserAsset::register($this);
             </div>
             <div class="nav-url">
                 <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation"><?php echo Html::a("All",['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-                    <li role="presentation"><?php echo Html::a("Submit Ticket",['/ticket/submit-ticket'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Completed Ticket</a></li>
+                    <li role="presentation"><?php echo Html::a(Yii::t('ticket','All'),['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation"><?php echo Html::a(Yii::t('ticket','Submit Ticket'),['/ticket/submit-ticket'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('ticket','Completed Ticket') ?></a></li>
                 </ul>
             </div>
         </div>
 <div class="col-sm-8 right-side">
 <p style="text-align:center;padding-top:20px;">
-We would like to thank you for writing to us, have a great day!</p><br>
+    <?= Yii::t('ticket','We would like to thank you for writing to us, have a great day!') ?></p><br>
 <div class="ticket-history">
         <table class="table table-inverse">
             <tr >
-                <th>Serial No.</th>
-                <th>Category</th> 
-                <th>Subject</th>
-                <th>Status</th>
-                <th>Date</th>
-                <th>Chat</th>
+                <th><?= Yii::t('ticket','Serial No.') ?></th>
+                <th><?= Yii::t('ticket','Category') ?></th> 
+                <th><?= Yii::t('ticket','Subject') ?></th>
+                <th><?= Yii::t('ticket','Status') ?></th>
+                <th><?= Yii::t('ticket','Date') ?></th>
+                <th><?= Yii::t('ticket','Chat') ?></th>
             </tr>
 
             <?php  
@@ -78,10 +78,10 @@ We would like to thank you for writing to us, have a great day!</p><br>
                         </td>
                         <td data-th="Status">
                              <?php if ($model['Ticket_Status'] == 3) {
-                                    echo "Completed";
+                                    echo Yii::t('ticket','Completed');
                                 }
                                  else {
-                                    echo "error";
+                                    echo Yii::t('common','error');
                                 } 
                             ?>
                         </td>
@@ -90,15 +90,15 @@ We would like to thank you for writing to us, have a great day!</p><br>
                         </td>
                         <td data-th="Chat">
                             <a href=<?php echo  Url::to(['ticket/chatting','sid'=>$k,'tid'=>$model['Ticket_ID']]); ?> >
-                                <font color="blue">See Chat Record </font>
+                                <font color="blue"><?= Yii::t('ticket','See Chat Record') ?></font>
                             </a>
                         </td>
                     </tr>
             <?php   }   ?>
         </table>
         <div class="form-group" id="complete-ticket"> 
-            <?= Html::a('Create a Ticket', ['/ticket/submit-ticket'], ['class'=>'raised-btn main-btn resize-btn']) ?>
-            <?= Html::a('Processing Ticket', ['/ticket/index'], ['class'=>'raised-btn main-btn resize-btn']) ?>
+            <?= Html::a(Yii::t('ticket','Create a Ticket'), ['/ticket/submit-ticket'], ['class'=>'raised-btn main-btn resize-btn']) ?>
+            <?= Html::a(Yii::t('ticket','Processing Ticket'), ['/ticket/index'], ['class'=>'raised-btn main-btn resize-btn']) ?>
         </div>
     </div>
 </div>

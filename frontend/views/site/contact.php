@@ -8,7 +8,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
-$this->title = 'Contact';
+$this->title = Yii::t('site','Contact');
 
 ?>
 <div class="container">
@@ -17,6 +17,7 @@ $this->title = 'Contact';
 
     <p>
         If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
+        <?= Yii::t('site','Question1') ?>
     </p>
   </div>
     <div class="container" >
@@ -36,7 +37,7 @@ $this->title = 'Contact';
                 ]) ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Submit', ['class' => 'raised-btn main-btn', 'name' => 'contact-button']) ?>
+                    <?= Html::submitButton(Yii::t('site','Submit'), ['class' => 'raised-btn main-btn', 'name' => 'contact-button']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

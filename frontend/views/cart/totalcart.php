@@ -38,7 +38,7 @@ CartAsset::register($this);
       <tr class="relative">
         <td><?= Yii::t('cart','Delivery Charge') ?><i class="fa fa-question-circle" aria-hidden="true">
           <span class="i-detail i-information"> 
-            <?= Yii::t('cart','Delivery Fee is charged at RM5.00 per restaurant per delivery order.') ?>
+            <?= Yii::t('cart','delivery-charge') ?>
           </span></i>
         </td>
         <td class="text-xs-right">RM <font id="delivery"><?php echo $charge ; ?></font></td>
@@ -48,7 +48,7 @@ CartAsset::register($this);
         <?php $earlyDiscount = CartController::actionRoundoff1decimal($total *0.15)?>
         <td><?= Yii::t('cart','Early Discount') ?><i class="fa fa-question-circle" aria-hidden="true">
           <span class="i-detail i-information"> 
-            <?= Yii::t('cart','Early Bird Promo: 15% off All Food') ?>
+            <?= Yii::t('cart','early-promo') ?>
           </span></i>
         </td>
   			<td class="text-xs-right" style="color:red;">-RM <font id='early'><?php echo $earlyDiscount?></font></td>

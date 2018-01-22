@@ -11,7 +11,7 @@ use common\models\User;
 use frontend\assets\StarsAsset;
 use frontend\assets\FoodDetailsAsset;
 use iutbay\yii2fontawesome\FontAwesome as FA;
-$this->title = "Food Details";
+$this->title = "Food Details" Yii::t('food','');
 
 StarsAsset::register($this);
 FoodDetailsAsset::register($this);
@@ -20,8 +20,8 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 ?>
 <div id="nav">
   <ul class="nav nav-pills food-details-tab">
-    <li class="active"><a data-toggle="pill" href="#home">Food Details</a></li>
-    <li ><a data-toggle="pill" href="#comments">Comments</a></li>
+    <li class="active"><a data-toggle="pill" href="#home">Food Details<?= Yii::t('food','') ?></a></li>
+    <li ><a data-toggle="pill" href="#comments">Comments<?= Yii::t('food','') ?></a></li>
   </ul>
 </div>
   <div class="tab-content">
@@ -66,7 +66,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                   if ($foodtype['Min'] == 1 && $foodtype ['Max'] < 2 ) {
                     ?>
                       <span class="selection-name"><?php echo $foodtype['TypeName']; ?></span>
-                      <span class="selection-warning">*Please Select only 1 item.</span>
+                      <span class="selection-warning">*<?= Yii::t('food','Please Select only 1 item.') ?></span>
                         <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']', ['enableClientValidation' => false])->radioList($data,[
                                   'item' => function($index, $label, $name, $checked, $value) {
 
@@ -113,7 +113,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                         <span class="selection-name"><?php echo $foodtype['TypeName']; ?></span>
                    
                         <span class="selection-warning">
-                          *Select at least <?php echo $foodtype['Min']; ?> item and at most <?php echo $foodtype ['Max']; ?> items.
+                          *<?= Yii::t('food','Select') ?> <?= Yii::t('food','at least') ?> <?php echo $foodtype['Min']; ?> <?= Yii::t('food','item') ?> <?= Yii::t('food','and') ?> <?= Yii::t('food','at most') ?> <?php echo $foodtype ['Max']; ?> <?= Yii::t('food','items.') ?>
                         </span>
                      
                     
@@ -135,7 +135,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                 <?php } endforeach; ?>
                  </div>
              
-                 <?= $form->field($cart, 'remark',['enableClientValidation' => false])->label('Remarks'); ?>
+                 <?= $form->field($cart, 'remark',['enableClientValidation' => false])->label(Yii::t('food','Remarks')); ?>
           
 
                
@@ -155,7 +155,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                     ],
                 ])->label(false); ?> 
               <div>
-                <?= Html::submitButton('Add to cart<span class="total-price">'. CartController::actionRoundoff1decimal($price) .'</span>', ['class' => 'raised-btn addtocart-btn', 'name' => 'addtocart']) ?>
+                <?= Html::submitButton(Yii::t('food','Add to cart')'<span class="total-price">'. CartController::actionRoundoff1decimal($price) .'</span>', ['class' => 'raised-btn addtocart-btn', 'name' => 'addtocart']) ?>
 
        
              </div>
@@ -199,7 +199,7 @@ foreach ($comments as $comments) :
         </div>
    <?php }
     endforeach; ?>
-    <td><?php echo "<center>".Html::a('View All Comments', ['view-comments', 'id'=>$fooddata['Food_ID']], ['class'=>'btn btn-default']); ?></td>
+    <td><?php echo "<center>".Html::a(Yii::t('food','View All Comments'), ['view-comments', 'id'=>$fooddata['Food_ID']], ['class'=>'btn btn-default']); ?></td>
 </div>
 
 </div>

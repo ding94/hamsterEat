@@ -10,7 +10,7 @@ use kartik\widgets\Select2;
 use frontend\assets\UserAsset;
 use kartik\widgets\FileInput;
 
-$this->title = 'Edit details';
+$this->title = Yii::t('user','Edit details');
 UserAsset::register($this);
 ?>
 
@@ -42,8 +42,8 @@ UserAsset::register($this);
             </div>
             <div class="nav-url">
                 <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Edit User Profile</a></li>
-                    <li role="presentation"><?php echo Html::a("Change Password",['/user/changepassword'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('user','Edit User Profile') ?></a></li>
+                    <li role="presentation"><?php echo Html::a(Yii::t('user','Change Password'),['/user/changepassword'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                 </ul>
             </div>
         </div>
@@ -59,18 +59,18 @@ UserAsset::register($this);
              
                 <div class="row">
                     <div class="col-sm-6">
-                          <?= $form->field($detail, 'User_FirstName')->textInput()->label('First Name') ?>
+                          <?= $form->field($detail, 'User_FirstName')->textInput()->label(Yii::t('user','First Name')) ?>
                     </div> 
                     <div class="col-sm-6">
-                            <?= $form->field($detail, 'User_LastName')->textInput()->label('Last Name') ?>
+                            <?= $form->field($detail, 'User_LastName')->textInput()->label(Yii::t('user','Last Name')) ?>
                     </div>
                 </div>
 
-                <?= $form->field($detail, 'User_ContactNo')->textInput()->label('Contact Number') ?>
+                <?= $form->field($detail, 'User_ContactNo')->textInput()->label(Yii::t('user','Contact Number')) ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Update Profile', ['class' => 'raised-btn main-btn change-password-resize-btn', 'name' => 'signup-button']) ?>
-                    <?php echo Html::a("Back" ,['/user/user-profile'],['class'=>'raised-btn secondary-btn change-password-resize-btn'])?>
+                    <?= Html::submitButton(Yii::t('user','Update Profile'), ['class' => 'raised-btn main-btn change-password-resize-btn', 'name' => 'signup-button']) ?>
+                    <?php echo Html::a(Yii::t('user','Back'),['/user/user-profile'],['class'=>'raised-btn secondary-btn change-password-resize-btn'])?>
                 </div>
 
             <?php ActiveForm::end(); ?>

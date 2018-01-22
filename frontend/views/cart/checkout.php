@@ -36,15 +36,15 @@ Modal::end();
             <?php $form = ActiveForm::begin(['id' => 'checkout']); ?>
 
             <tr>
-                <th><?= Yii::t('cart','Name:');?></th>
+                <th><?= Yii::t('cart','Name');?>:</th>
                 <td> <?= $form->field($checkout, 'User_fullname')->textInput(['value' => $details['User_FirstName'].' '.$details['User_LastName']])->label('')?> </td>
             </tr>
             <tr>
-                <th><?= Yii::t('cart','Email:');?></th>
+                <th><?= Yii::t('cart','Email');?>:</th>
                 <td> <?php echo $email; ?>  </td>
             </tr>
             <tr>
-                <th><?= Yii::t('cart','Contact No:');?></th>
+                <th><?= Yii::t('cart','Contact No');?>:</th>
                 <td> <?= $form->field($checkout, 'User_contactno')->textInput(['value' => $details['User_ContactNo']])->label('')?>  </td>
             </tr>
         </table>
@@ -74,13 +74,13 @@ Modal::end();
                 <td><?php if(!empty($address)){ echo Html::a(Yii::t('cart','Edit'),['/cart/editaddress'],['class' => 'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#edit-address-modal','style'=>'float:right']); } ?></td>
             </tr>
             <tr>
-                <th><?= Yii::t('cart','Area:');?></th>
+                <th><?= Yii::t('cart','Area');?>:</th>
                 <td> <?= $session['area']; ?></td>
                 <td></td>
             </tr>
 
             <tr>
-                <th><?= Yii::t('cart','Postcode:');?></th>
+                <th><?= Yii::t('cart','Postcode');?>:</th>
                 <td> <?= $session['postcode']; ?></td>
                 <td></td>
             </tr>

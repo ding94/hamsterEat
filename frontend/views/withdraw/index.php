@@ -6,7 +6,7 @@ use yii\helpers\Html;
 use kartik\widgets\Select2;
 use frontend\assets\TopupIndexAsset;
 /* @var $this yii\web\View */
-$this->title = "Withdraw money";
+$this->title = Yii::t('withdraw','Withdraw money');
 TopupIndexAsset::register($this);
 ?>
 
@@ -40,20 +40,20 @@ TopupIndexAsset::register($this);
             </div>
            	<div class="nav-url">
            		<ul class="nav nav-pills nav-stacked">
-		        	<li role="presentation" ><?php echo Html::a("User Balance",['/user/userbalance'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-		        	<li role="presentation"><?php echo Html::a("Top Up",['/topup/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-		        	<li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav">Withdraw</a></li>
+		        	<li role="presentation" ><?php echo Html::a(Yii::t('withdraw','User Balance'),['/user/userbalance'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+		        	<li role="presentation"><?php echo Html::a(Yii::t('withdraw','Top Up'),['/topup/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+		        	<li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('withdraw','Withdraw')?></a></li>
 	    		</ul>
            	</div>
         </div>
         <div class="col-md-8 withdraw-right">
-	        <br><i><p>My Balance: <?php echo $balance['User_Balance']; ?></i></p>
+	        <br><i><p><?= Yii::t('withdraw','My Balance')?>: <?php echo $balance['User_Balance']; ?></i></p>
 			<?php $balance['User_Balance']-2;
 				if ($balance['User_Balance'] <=0) { ?>
-					<br><i><p>You cannot withdraw if your account doesn't have RM3 or higher.</i></p><br>
+					<br><i><p>You cannot withdraw if your account doesn't have RM3 or higher.<?= Yii::t('withdraw','withdraw-con')?></i></p><br>
 				<?php }else{ ?>
 
-					<br><i><p>You can withdraw below RM<?php echo $balance['User_Balance']-2; ?>. Transfer fee RM2.</i></p><br>
+					<br><i><p><?= Yii::t('withdraw','You can withdraw below')?> RM<?php echo $balance['User_Balance']-2; ?><?= Yii::t('withdraw','. Transfer fee')?> RM2.</i></p><br>
 
 				<?php } ?>
 				<?php $form = ActiveForm::begin(); ?>
@@ -65,7 +65,7 @@ TopupIndexAsset::register($this);
 					<?= $form->field($model, 'acc_name')->textInput() ?>				   
 					
                 <div class="form-group">
-                    <?= Html::submitButton('Withdraw', ['class' => 'raised-btn main-btn']) ?>
+                    <?= Html::submitButton(''Yii::t('withdraw','Withdraw'), ['class' => 'raised-btn main-btn']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

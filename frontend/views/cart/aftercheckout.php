@@ -29,7 +29,7 @@ CheckoutAsset::register($this);
     <div class="container" id="aftercheckout">
         <div class="checkout-header">
             <h3>
-                <?=Yii::t('cart','Delivery ID:'); ?>
+                <?=Yii::t('cart','Delivery ID'); ?>:
             <?= $order['Delivery_ID']; ?>
             </h3>
         </div>
@@ -37,10 +37,10 @@ CheckoutAsset::register($this);
             <div class="col-md-6 checkout-detail" >
                 <table class="table table-hover" style="font-size: 1.2em; font-family: 'Times New Roman', Times, serif;">
                     <tr id="no-border">
-                        <td style="width: 40%;"><?=Yii::t('cart','Delivery ID:'); ?></td>
+                        <td style="width: 40%;"><?=Yii::t('cart','Delivery ID'); ?>:</td>
                         <td colspan="2"><?= $order['Delivery_ID']; ?></td>
                     </tr>
-                        <td><?=Yii::t('cart','Order ID:'); ?></td>
+                        <td><?=Yii::t('cart','Order ID'); ?>:</td>
                         
                         <?php $orders=""; ?>
                         <?php foreach ($orderitem as $key => $oid): ?>
@@ -53,15 +53,15 @@ CheckoutAsset::register($this);
 
                         <td> <?= $orders; ?>
                     <tr>
-                        <td><?=Yii::t('cart','Delivery Location:'); ?></td>
+                        <td><?=Yii::t('cart','Delivery Location'); ?>:</td>
                         <td colspan="2"><?= $order['address']['fulladdress']; ?></td>
                     </tr>
                     <tr>
-                        <td><?=Yii::t('cart','Recipient:'); ?></td>
+                        <td><?=Yii::t('cart','Recipient'); ?>:</td>
                         <td colspan="2"><?= $order['address']['name']; ?></td>
                     </tr>
                     <tr>
-                        <td><?=Yii::t('cart','Contact No:'); ?></td>
+                        <td><?=Yii::t('cart','Contact No'); ?>:</td>
                         <td colspan="2"><?= $order['address']['contactno']; ?></td>
                     </tr>
                 </table>
@@ -69,31 +69,31 @@ CheckoutAsset::register($this);
                 <table class="table table-hover" style="font-size: 1.2em; font-family: 'Times New Roman', Times, serif;">
                         <tr>
                             <td></td>
-                            <td class="text-right" style="text-align: right"><?=Yii::t('cart','Subtotal:'); ?></td>
+                            <td class="text-right" style="text-align: right"><?=Yii::t('cart','Subtotal'); ?>:</td>
                             <td class="text-right">RM <?= number_format($order['Orders_Subtotal'],2); ?></td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td class="text-right" style="text-align: right"><?=Yii::t('cart','Delivery Charge:'); ?></td>
+                            <td class="text-right" style="text-align: right"><?=Yii::t('cart','Delivery Charge'); ?>:</td>
                             <td class="text-right">RM <?= number_format($order['Orders_DeliveryCharge'],2); ?></td>
                         </tr>
                         <?php if($order['Orders_DiscountEarlyAmount'] > 0 ) : ?>
                             <tr>
                                 <td></td>
-                                <td class="text-right"><?=Yii::t('cart','Early Discounted:'); ?></td>
+                                <td class="text-right"><?=Yii::t('cart','Early Discounted'); ?>:</td>
                                 <td class="text-right" style="color: red;">- RM <?= number_format($order['Orders_DiscountEarlyAmount'],2); ?></td>
                             </tr>
                         <?php endif; ?>
                         <?php if($order['Orders_DiscountTotalAmount'] > 0 ) : ?>
                             <tr>
                                 <td></td>
-                                <td class="text-right"><?=Yii::t('cart','Discounted:'); ?></td>
+                                <td class="text-right"><?=Yii::t('cart','Discounted'); ?>:</td>
                                 <td class="text-right" style="color: red;">- RM <?= number_format($order['Orders_DiscountTotalAmount'],2); ?></td>
                             </tr>
                         <?php endif; ?>
                         <tr style="background-color: #d9d9d9">
                             <td></td>
-                            <td class="text-right" style="text-align: right;"><?=Yii::t('cart','Total:'); ?></td>
+                            <td class="text-right" style="text-align: right;"><?=Yii::t('cart','Total'); ?>:</td>
                             <td class="text-right">RM <?= number_format($order['Orders_TotalPrice'],2); ?></td>
                         </tr>
                 </table>

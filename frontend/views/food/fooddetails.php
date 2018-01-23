@@ -155,7 +155,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                     ],
                 ])->label(false); ?> 
               <div>
-                <?= Html::submitButton(Yii::t('food','Add to cart')'<span class="total-price">'. CartController::actionRoundoff1decimal($price) .'</span>', ['class' => 'raised-btn addtocart-btn', 'name' => 'addtocart']) ?>
+                <?= Html::submitButton(Yii::t('food','Add to cart').'<span class="total-price">'. CartController::actionRoundoff1decimal($price) .'</span>', ['class' => 'raised-btn addtocart-btn', 'name' => 'addtocart']) ?>
 
        
              </div>

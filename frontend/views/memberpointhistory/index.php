@@ -27,7 +27,7 @@ TopupWithdrawMpHistoryAsset::register($this);
                 <?= Yii::t('memberpoint-h','Topup History') ?>
             </td>
 			<td id="withdraw" onclick="window.document.location='../web/index.php?r=withdraw-history/index';">
-                <?= Yii::t('memberpoint-h','Withdraw History') ?>
+                <?= Yii::t('common','Withdraw History') ?>
             </td>
 			<td id="mp"><?= Yii::t('memberpoint-h','Point History') ?></td>
         </tr>	

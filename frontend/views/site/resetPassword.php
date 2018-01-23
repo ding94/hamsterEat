@@ -20,7 +20,7 @@ $this->title = Yii::t('site','Reset password');
                 <?= $form->field($model, 'repeat_password')->passwordInput(['autofocus' => true]) ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton(Yii::t('site','Save'), ['class' => 'raised-btn main-btn']) ?>
+                    <?= Html::submitButton(Yii::t('common','Save'), ['class' => 'raised-btn main-btn']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

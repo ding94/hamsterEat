@@ -54,7 +54,7 @@ if (empty($language)) {
 </head>
 <body>
     <?php Modal::begin([
-            'header' => '<h2 class="modal-title">'.Yii::t('layout','Feedback').'</h2>',
+            'header' => '<h2 class="modal-title">'.Yii::t('layouts','Feedback').'</h2>',
             'id'     => 'feedback-modal',
             'size'   => 'modal-sm',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
@@ -63,10 +63,10 @@ if (empty($language)) {
     Modal::end() ?>
 
     <?php Modal::begin([
-            'header' => '<h2 class="modal-title">'.Yii::t('layout','Placed Orders').'</h2>',
+            'header' => '<h2 class="modal-title">'.Yii::t('layouts','Placed Orders').'</h2>',
             'id'     => 'add-modal',
             'size'   => 'modal-lg',
-            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">'.Yii::t('layout','Close').'</a>',
+            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
     ]);
     
     Modal::end() ?>
@@ -87,8 +87,8 @@ if (empty($language)) {
     
     if (Yii::$app->user->isGuest) {
           $menuItems[] = ['label' => '<span id ="cart1" class="glyphicon glyphicon-shopping-cart"></span> ', 'url' => ['/cart/view-cart']];
-        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span>'.Yii::t('layout','Signup'), 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span>'.Yii::t('layout','Login'), 'url' => ['/site/login']];
+        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span>'.Yii::t('common','Signup'), 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span>'.Yii::t('common','Login'), 'url' => ['/site/login']];
     }
        
 
@@ -100,13 +100,13 @@ if (empty($language)) {
       
         if(empty(Yii::$app->params['notication']))
         {
-            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">'.Yii::t('layout','Empty Notication').'</h4>'];
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">'.Yii::t('layouts','Empty Notication').'</h4>'];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
-            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title pull-right">'.Yii::t('layout','View All').'</h4>','url' => ['/notification/index']];
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title pull-right">'.Yii::t('layouts','View All').'</h4>','url' => ['/notification/index']];
         }
         else
         {
-            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">'.Yii::t('layout','Notifications').'</h4>'];
+            $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="menu-title">'.Yii::t('layouts','Notifications').'</h4>'];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
             $menuItems[end($keys)]['items'][] = '<div class="inner-notic">';
             foreach(Yii::$app->params['notication'] as $i=> $notic)
@@ -129,7 +129,7 @@ if (empty($language)) {
             }
             $menuItems[end($keys)]['items'][] = '</div>';
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
-            $menuItems[end($keys)]['items'][] = "<li><div class='col-sm-6'>".Html::a('<h4 class="menu-title">'.Yii::t('layout','Mark All as Read').'</h4>',['/notification/turnoff'])."</div><div class='col-sm-6'>".Html::a('<h4 class="menu-title pull-right">'.Yii::t('layout','View All').'</h4>',['/notification/index'])."</div></li>";
+            $menuItems[end($keys)]['items'][] = "<li><div class='col-sm-6'>".Html::a('<h4 class="menu-title">'.Yii::t('layouts','Mark All as Read').'</h4>',['/notification/turnoff'])."</div><div class='col-sm-6'>".Html::a('<h4 class="menu-title pull-right">'.Yii::t('layouts','View All').'</h4>',['/notification/index'])."</div></li>";
         }
         
 
@@ -157,16 +157,16 @@ if (empty($language)) {
         }
 
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span><span class="username"> ' . Yii::$app->user->identity->username . '</span>', 'items' => [
-                       ['label' => Yii::t('layout','Profile'), 'url' => ['/user/user-profile'] ,'options'=> ['class'=>'list-user'],],
+                       ['label' => Yii::t('layouts','Profile'), 'url' => ['/user/user-profile'] ,'options'=> ['class'=>'list-user'],],
                         '<li class="divider"></li>',
                     ]];
          $keys = array_keys($menuItems);
         if ($rmanager) {
-            $menuItems[end($keys)]['items'][] =['label' => Yii::t('layout','Restaurants'), 'url' => ['/Restaurant/restaurant/restaurant-service']];
+            $menuItems[end($keys)]['items'][] =['label' => Yii::t('layouts','Restaurants'), 'url' => ['/Restaurant/restaurant/restaurant-service']];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
         if (Deliveryman::find()->where('User_id=:id',[':id'=>Yii::$app->user->identity->id])->one()){
-                $menuItems[end($keys)]['items'][] =['label' => Yii::t('layout','Delivery Orders'), 'url' => ['/Delivery/deliveryorder/order']];
+                $menuItems[end($keys)]['items'][] =['label' => Yii::t('layouts','Delivery Orders'), 'url' => ['/Delivery/deliveryorder/order']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
         
@@ -238,11 +238,11 @@ if (empty($language)) {
         ]) ?>
         <div class="container vertical-divider">
             <ul id="nav" class="nav nav-default">
-                <li id="profile" role="presentation"><label class="label-btn"><i class="fa fa-user fa-lg"></i><?php echo Html::a('<span>'.Yii::t('layout','Profile').'</span>',['/user/user-profile'])?></label></li>
-                <li id="balance" role="presentation"><label class="label-btn"><i class="fa fa-money fa-lg"></i><?php echo Html::a('<span>'.Yii::t('layout','Balance').'</span>',['/user/userbalance'])?></label></li>
-                <li  id="order" role="presentation"><label class="label-btn"><i class="fa fa-cutlery fa-lg"></i><?php echo Html::a('<span>'.Yii::t('layout','Order').'</span>',['/order/my-orders'])?></label></li>
-                <li id="ticket" role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i><?php echo Html::a('<span>'.Yii::t('layout','Ticket').'</span>',['/ticket/index'])?></label></li>
-                <li id="voucher" role="presentation"><label class="label-btn"><i class="fa fa-ticket fa-lg"></i><?php echo Html::a('<span>'.Yii::t('layout','Vouchers').'</span>',['/vouchers/index'])?></label></li>
+                <li id="profile" role="presentation"><label class="label-btn"><i class="fa fa-user fa-lg"></i><?php echo Html::a('<span>'.Yii::t('layouts','Profile').'</span>',['/user/user-profile'])?></label></li>
+                <li id="balance" role="presentation"><label class="label-btn"><i class="fa fa-money fa-lg"></i><?php echo Html::a('<span>'.Yii::t('common','Balance').'</span>',['/user/userbalance'])?></label></li>
+                <li  id="order" role="presentation"><label class="label-btn"><i class="fa fa-cutlery fa-lg"></i><?php echo Html::a('<span>'.Yii::t('layouts','Order').'</span>',['/order/my-orders'])?></label></li>
+                <li id="ticket" role="presentation"><label class="label-btn"><i class="fa fa-comment fa-lg"></i><?php echo Html::a('<span>'.Yii::t('layouts','Ticket').'</span>',['/ticket/index'])?></label></li>
+                <li id="voucher" role="presentation"><label class="label-btn"><i class="fa fa-ticket fa-lg"></i><?php echo Html::a('<span>'.Yii::t('layouts','Vouchers').'</span>',['/vouchers/index'])?></label></li>
 
             </ul>
         </div>
@@ -268,10 +268,10 @@ if (empty($language)) {
                 <h3 id="footertitle">HamsterEat</h3>
                 <hr>
                 <ul id="linklist" class="list-unstyled">
-                    <li><?php echo Html::a(Yii::t('layout','Feedback'), Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal']) ?></li>
-                    <li><?php echo Html::a(Yii::t('layout','About Us'),['site/about']) ?></li>
-                    <li><?php echo Html::a(Yii::t('layout','Guide'),['site/faq']) ?></li>
-                    <li><a href="../HomeCookedDelicacies/Help.php"><?= Yii::t('layout','Help') ?></a></li>
+                    <li><?php echo Html::a(Yii::t('layouts','Feedback'), Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal']) ?></li>
+                    <li><?php echo Html::a(Yii::t('common','About Us'),['site/about']) ?></li>
+                    <li><?php echo Html::a(Yii::t('common','Guide'),['site/faq']) ?></li>
+                    <li><a href="../HomeCookedDelicacies/Help.php"><?= Yii::t('common','Help') ?></a></li>
                 </ul>
                 
             </div>
@@ -280,7 +280,7 @@ if (empty($language)) {
                 <h3>Contact Us</h3>
                 <hr>
                 <ul id="linklist" class="list-unstyled">
-                    <li> <?php echo Html::a(Yii::t('layout','Contact'),['site/contact']) ?></li>
+                    <li> <?php echo Html::a(Yii::t('common','Contact'),['site/contact']) ?></li>
                 </ul>
                 <p>Tel. 1700-818-315</p>
 

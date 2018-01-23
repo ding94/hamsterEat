@@ -21,23 +21,23 @@ OrderDetailsAsset::register($this);
     <div class="content">
         <div class="col-sm-2">
             <ul id="order-details-nav" class="nav nav-pills nav-stacked">
-                <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i>"Yii::t('order','Back'),['order/my-orders'],['class'=>'btn-block'])?></li>
+                <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i>"Yii::t('common','Back'),['order/my-orders'],['class'=>'btn-block'])?></li>
             </ul>
         </div>
         <div id="order-details-content" class="col-sm-10">
         <table class="table table-user-info" style="border:1px solid black;">
             <tr>
-                <th><center><?= Yii::t('order','Address') ?></th>
+                <th><center><?= Yii::t('common','Address') ?></th>
                 <td colspan="3"><?php echo $order['address']['fulladdress']; ?> </td>
             </tr>
             <tr>
                 <th><center><?= Yii::t('order','Approximate Receiving Time') ?></th>
                 <td><?php $date = strtotime($order['Orders_Date'].' '.$order['Orders_Time']); echo date('d M Y h:i:s A',$date);?> </td>
-                <th><center><?= Yii::t('order','Status') ?></th>
+                <th><center><?= Yii::t('common','Status') ?></th>
                 <td> <?= $label[$order->Orders_Status]['label']; ?> </td>
             </tr>
             <tr>
-                <th><center><?= Yii::t('order','Payment Method') ?></th>
+                <th><center><?= Yii::t('common','Payment Method') ?></th>
                 <td><?php echo $order['Orders_PaymentMethod']; ?> </td>
                 <th><center><?= Yii::t('order','Time Placed') ?></th>
                 <td><?php echo date('d M Y h:i:s A',$order['Orders_DateTimeMade']); ?> </td>
@@ -86,7 +86,7 @@ OrderDetailsAsset::register($this);
                     <td colspan="2">RM <?php echo number_format($detail['OrderItem_LineTotal'] * $detail['OrderItem_Quantity']); ?></td>
                 </tr>
                 <tr>
-                    <td><?= Yii::t('order','Remarks') ?>:</td>
+                    <td><?= Yii::t('common','Remarks') ?>:</td>
                     <td colspan="2"><?php echo $detail['OrderItem_Remark']; ?></td>
                 </tr>
             </table>
@@ -96,11 +96,11 @@ OrderDetailsAsset::register($this);
                 <div class="tab-content col-md-6">
                     <table class="table">
                         <tr>
-                            <th><?= Yii::t('order','Subtotal') ?>:</th>
+                            <th><?= Yii::t('common','Subtotal') ?>:</th>
                             <td><?= $order['Orders_Subtotal']; ?></td>
                         </tr>
                         <tr>
-                            <th><?= Yii::t('order','Delivery Charge') ?>:</th>
+                            <th><?= Yii::t('common','Delivery Charge') ?>:</th>
                             <td><?= $order['Orders_DeliveryCharge']; ?></td>
                         </tr>
                         <?php if ($order['Orders_DiscountEarlyAmount'] >0): ?>

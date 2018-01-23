@@ -53,7 +53,7 @@ use common\models\User;
 			<tr>
 				<td><?= $k+1; ?></td>
 				<td><font> <?= User::find()->where('id=:uid',[':uid'=>$value['uid']])->one()->username; ?> </font></td>
-				<td><?= Html::a(Yii::t('company','Remove'), ['/company/removeemployee', 'id'=>$value['id']], ['class'=>'raised-btn btn-danger']);?></td>
+				<td><?= Html::a(Yii::t('common','Remove'), ['/company/removeemployee', 'id'=>$value['id']], ['class'=>'raised-btn btn-danger']);?></td>
 			</tr>
 		<?php endforeach; ?>
 	</table>

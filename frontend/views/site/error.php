@@ -22,7 +22,7 @@ $this->title = $name;
         <?= Yii::t('site','The above error occurred while the Web server was processing your request.') ?>
     </p>
     <p>
-        <?= Yii::t('site',' Please contact us if you think this is a server error.') ?> <?= Yii::t('site','Thank you.') ?>
+        <?= Yii::t('site','Please contact us if you think this is a server error.') ?> <?= Yii::t('site','Thank you.') ?>
     </p>
 
 </div>

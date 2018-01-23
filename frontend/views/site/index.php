@@ -151,7 +151,7 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 				<div class="col-md-4">
 					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
 						<div class="align-center">
-							<h4><?= Yii::t('site','About Us'); ?></h4>					
+							<h4><?= Yii::t('common','About Us'); ?></h4>					
 							<div class="icon">
 								<i class="fa fa-cutlery fa-3x"></i>
 							</div>
@@ -167,7 +167,7 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 				<div class="col-md-4">
 					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
 						<div class="align-center">
-							<h4><?= Yii::t('site','Guide'); ?></h4>				
+							<h4><?= Yii::t('common','Guide'); ?></h4>				
 							<div class="icon">
 								<i class="fa fa-question fa-3x" aria-hidden="true" ></i>
 							</div>
@@ -183,7 +183,7 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 				<div class="col-md-4">
 					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
 						<div class="align-center">
-							<h4><?= Yii::t('site','Help'); ?></h4>					
+							<h4><?= Yii::t('common','Help'); ?></h4>					
 							<div class="icon">
 								<i class="fa fa-thumbs-o-up fa-3x"></i>
 							</div>

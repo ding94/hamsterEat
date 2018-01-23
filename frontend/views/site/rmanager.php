@@ -27,7 +27,7 @@ $this->title = Yii::t('site','Restaurant Manager Signup');
 
                 <?= $form->field($model, 'email') ?>
                 <div class="form-group">
-                    <?= Html::submitButton(Yii::t('site','Signup'), ['class' => 'raised-btn main-btn', 'name' => 'signup-button']) ?>
+                    <?= Html::submitButton(Yii::t('common','Signup'), ['class' => 'raised-btn main-btn', 'name' => 'signup-button']) ?>
                 </div>
                 
             <?php ActiveForm::end(); ?>

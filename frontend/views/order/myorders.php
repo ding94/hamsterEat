@@ -35,7 +35,7 @@ MyOrdersAsset::register($this);
         </div>
         <div class="nav-url">
           <ul id="my-orders-nav" class="nav nav-pills nav-stacked">
-            <li><?php echo Html::a(Yii::t('order','All'),['/order/my-orders'])?></li>
+            <li><?php echo Html::a(Yii::t('common','All'),['/order/my-orders'])?></li>
             <?php foreach($countOrder as $i=> $count): ?>
               <li><?php echo Html::a($i.'<span class="badge">'.$count['total'].'</span>',['/order/my-orders','status'=>$statusid[$i]])?></li>
             <?php endforeach ;?>
@@ -54,7 +54,7 @@ MyOrdersAsset::register($this);
           <thead>
             <tr>
               <th colspan="2"><center><?= Yii::t('order','More') ?></th>
-              <th><center><?= Yii::t('order','Delivery ID') ?></th>
+              <th><center><?= Yii::t('common','Delivery ID') ?></th>
               <th><center><?= Yii::t('order','Date and Time Placed') ?></th>
             </tr>
           </thead>

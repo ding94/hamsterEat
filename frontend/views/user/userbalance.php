@@ -40,9 +40,9 @@ TopupWithdrawMpHistoryAsset::register($this);
             </div>
           	<div class="nav-url">
           		<ul class="nav nav-pills nav-stacked">
-	                <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('user','Balance history') ?></a></li>
-	                <li role="presentation"><?php echo Html::a(Yii::t('user','Top Up'),['/topup/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-	                <li role="presentation"><?php echo Html::a(Yii::t('user','Withdraw'),['/withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+	                <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('common','Balance history') ?></a></li>
+	                <li role="presentation"><?php echo Html::a(Yii::t('common','Top Up'),['/topup/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+	                <li role="presentation"><?php echo Html::a(Yii::t('common','Withdraw'),['/withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
 	            </ul>
           	</div>
         </div>
@@ -51,8 +51,8 @@ TopupWithdrawMpHistoryAsset::register($this);
               <table class="table table-user-information" id="display">
                 <tr>
                     <td id="right" class="history-font"><?php echo Html::encode($this->title)?></td> 
-                    <td id="middle" class="link history-font"><?php echo Html::a(Yii::t('user','Top Up History'),['/topup-history/index'],['class'=>'btn-block remove-all'])?></td>
-                    <td id="left" class="link history-font"><?php echo Html::a(Yii::t('user','Withdraw History'),['/withdraw-history/index'],['class'=>'btn-block remove-all'])?></td>
+                    <td id="middle" class="link history-font"><?php echo Html::a(Yii::t('common','Top Up History'),['/topup-history/index'],['class'=>'btn-block remove-all'])?></td>
+                    <td id="left" class="link history-font"><?php echo Html::a(Yii::t('common','Withdraw History'),['/withdraw-history/index'],['class'=>'btn-block remove-all'])?></td>
                 </tr>  
               </table>
             </div> 
@@ -66,7 +66,7 @@ TopupWithdrawMpHistoryAsset::register($this);
 					'summary' => '',
 					'columns' => [
 						[	
-							'label' => Yii::t('user','Date'),
+							'label' => Yii::t('common','Date'),
 							'value' => 'created_at',
 							'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'created_at', 'dateFormat' => 'yyyy-MM-dd','options'=>['class'=>'form-control','placeholder'=>'Search Date']]),
 							'format' => 'html',
@@ -92,7 +92,7 @@ TopupWithdrawMpHistoryAsset::register($this);
 		                	'contentOptions' => ['data-th' => 'Type'],
 		                ],
 						[
-						'label' => Yii::t('user','Amount').'(RM)',
+						'label' => Yii::t('common','Amount').'(RM)',
 		                
 		                 'value' => function($model){
 		                 	

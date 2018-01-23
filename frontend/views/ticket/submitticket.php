@@ -44,7 +44,7 @@ UserAsset::register($this);
             </div>
             <div class="nav-url">
                 <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation"><?php echo Html::a(Yii::t('ticket','All'),['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation"><?php echo Html::a(Yii::t('common','All'),['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                     <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('ticket','Submit Ticket') ?></a></li>
 				    <li role="presentation"><?php echo Html::a(Yii::t('ticket','Completed Ticket'),['/ticket/completed'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                 </ul>
@@ -69,7 +69,7 @@ UserAsset::register($this);
                 ?>
 
                 <div class="form-group" id="submit-ticket">
-                    <?= Html::submitButton(Yii::t('ticket','Submit'), ['class' => 'raised-btn main-btn submit-resize-btn', 'name' => 'contact-button']) ?>
+                    <?= Html::submitButton(Yii::t('common','Submit'), ['class' => 'raised-btn main-btn submit-resize-btn', 'name' => 'contact-button']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

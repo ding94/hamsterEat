@@ -32,11 +32,11 @@ CartAsset::register($this);
             $total = $price['total']; 
             $charge = $price['delivery']; 
           ?>
-          <td><?= Yii::t('cart','Subtotal') ?></td>
+          <td><?= Yii::t('common','Subtotal') ?></td>
           <td class="text-xs-right">RM <font id="subtotal"><?php echo CartController::actionRoundoff1decimal($total) ; ?></font></td>
         </tr>
       <tr class="relative">
-        <td><?= Yii::t('cart','Delivery Charge') ?><i class="fa fa-question-circle" aria-hidden="true">
+        <td><?= Yii::t('common','Delivery Charge') ?><i class="fa fa-question-circle" aria-hidden="true">
           <span class="i-detail i-information"> 
             <?= Yii::t('cart','delivery-charge') ?>
           </span></i>
@@ -81,7 +81,7 @@ CartAsset::register($this);
     </div>
 	  <div id="cs" style="display:none;">
         <div id="dis" style=""><input id="codes">
-          <a class="raised-btn main-btn" onclick="return discount()"><?= Yii::t('cart','Submit') ?></a>
+          <a class="raised-btn main-btn" onclick="return discount()"><?= Yii::t('common','Submit') ?></a>
         </div>
 			</div>
     </div>

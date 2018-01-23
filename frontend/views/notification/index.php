@@ -51,7 +51,7 @@ NotificationAsset::register($this);
     <div class="col-sm-10 notifcation-right">
 
 		<?php if(empty($notification)) : ?>
-			<h4><?= Yii::t('notifcation','You  have not receive any notifcaiton yet') ?></h4>
+			<h4><?= Yii::t('notifcation','You have not receive any notifcaiton yet') ?></h4>
 		<?php else :?>
 			<?php foreach($notification as $i=> $notic) :?>
 				<?php $ago = Yii::$app->formatter->asRelativeTime($notic['created_at']);?>

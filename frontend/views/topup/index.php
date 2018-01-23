@@ -7,7 +7,7 @@ use yii\grid\ActionColumn;
 use kartik\widgets\Select2;
 use common\models\Bank;
 use frontend\assets\TopupIndexAsset;
-$this->title = Yii::t('topup','Top up');	
+$this->title = Yii::t('common','Top up');	
 TopupIndexAsset::register($this);
 ?>
 
@@ -39,9 +39,9 @@ TopupIndexAsset::register($this);
             </div>
            	<div class ="nav-url">
            		 <ul class="nav nav-pills nav-stacked">
-		        	<li role="presentation" ><?php echo Html::a(Yii::t('topup','User Balance'),['/user/userbalance'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-		        	<li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('topup','Top Up') ?></a></li>
-		        	<li role="presentation"><?php echo Html::a(Yii::t('topup','Withdraw'),['/withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+		        	<li role="presentation" ><?php echo Html::a(Yii::t('common','User Balance'),['/user/userbalance'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+		        	<li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('common','Top Up') ?></a></li>
+		        	<li role="presentation"><?php echo Html::a(Yii::t('common','Withdraw'),['/withdraw/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
 	    		</ul>
            	</div>
         </div>
@@ -69,7 +69,7 @@ TopupIndexAsset::register($this);
 										
 		        <?= $form->field($upload, 'imageFile')->fileInput() ?>
 		        <div class="form-group">
-		            <?= Html::submitButton(Yii::t('topup','Submit'), ['class' => 'raised-btn main-btn']) ?>
+		            <?= Html::submitButton(Yii::t('common','Submit'), ['class' => 'raised-btn main-btn']) ?>
 		        </div>
 
 		        <?php ActiveForm::end(); ?>

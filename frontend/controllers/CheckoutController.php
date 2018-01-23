@@ -364,7 +364,7 @@ class CheckoutController extends CommonController
 
 		if (!empty($cookie['code'])) {
 		
-			$data = DiscountController::orderdiscount($data['code'],$order);
+			$data = DiscountController::orderdiscount($cookie['code'],$order);
 			if($data['value'] == -1)
 			{
 				return $data;

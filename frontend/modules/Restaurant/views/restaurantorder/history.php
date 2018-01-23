@@ -55,8 +55,8 @@ RestaurantOrdersHistoryAsset::register($this);
                         <label class="control-label">Search Data</label>
                         <div class="row margin-bottom">
                             <div class="col-sm-6">
-                                <?php echo $form->field($searhModel, 'keyWordStatus')->widget(Select2::classname(), [
-                                            'data' => $searhModel->keyWordArray,
+                                <?php echo $form->field($searchModel, 'keyWordStatus')->widget(Select2::classname(), [
+                                            'data' => $searchModel->keyWordArray,
                                             'options' => [ 'placeholder' => 'Select Delivery ID',],
                                             'pluginOptions' => [
                                                 'allowClear' => true

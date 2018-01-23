@@ -11,5 +11,19 @@ return [
             'timeFormat' => 'php:H:i:s',
             'timeZone' => 'Asia/Kuala_Lumpur',
         ],
+        // bug for dynamic form
+        'assetManager' => [
+            'bundles' => [
+                'wbraganca\dynamicform\DynamicFormAsset' => [
+                    'sourcePath' => '@frontend/web/js',
+                    'js' => [
+                        'yii2-dynamic-form.js'
+                    ],
+                ],
+            ],
+        ],
+
     ],
+   
+
 ];

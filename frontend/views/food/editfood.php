@@ -64,7 +64,7 @@ AddFoodAsset::register($this);
                     'widgetContainer' => 'dynamicform_wrapper',
                     'widgetBody' => '.container-items',
                     'widgetItem' => '.house-item',
-                    'limit' => 3,
+                    'limit' => 10,
                     'min' => 0,
                     'insertButton' => '.add-house',
                     'deleteButton' => '.remove-house',

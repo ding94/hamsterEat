@@ -12,6 +12,6 @@ Class TranslateController extends Controller
 {
 	public function actionIndex()
 	{
-
+		
 	}
 }

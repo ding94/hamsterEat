@@ -14,6 +14,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
     Modal::end();
+    Modal::begin([
+        'id' => 'orderSpeed',
+        'header' => '<h4 class="modal-title">...</h4>',
+        'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    Modal::end();
     $this->registerJs("
         $('#orderDetail').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
@@ -25,10 +31,25 @@ $this->params['breadcrumbs'][] = $this->title;
             $.post(href)
                 .done(function( data ) {
                     modal.find('.modal-body').html(data)
-                });
-            })
+            });
+        });
+
+         $('#orderSpeed').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var modal = $(this)
+            var title = button.data('title') 
+            var href = button.attr('href') 
+            modal.find('.modal-title').html(title)
+            modal.find('.modal-body').html('<i class=\"fa fa-spinner fa-spin\"></i>')
+            $.post(href)
+                .done(function( data ) {
+                    modal.find('.modal-body').html(data)
+            });
+        });
     ");
-   
+
+   	$status = $arrayData['status'];
+
  	echo GridView::widget([
         'dataProvider'=>$model,
         'filterModel'=>$searchModel,
@@ -38,7 +59,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'headerRowOptions' => ['class' => 'kartik-sheet-style'],
         'filterRowOptions'=>['class'=>'kartik-sheet-style'],
         'panel'=>[
-            'type'=>'success',
             'layout'=>'{export} {toggleData}',
         ],
         'columns' =>[
@@ -76,13 +96,13 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'attribute' =>'Orders_Status',
 				'filterType' => GridView::FILTER_SELECT2,
-				'filter' => $arrayData['status'],
+				'filter' => $status,
 				'filterWidgetOptions' => [
 			        'pluginOptions' => ['allowClear' => true],
 			    ],
 			    'filterInputOptions' => ['placeholder' => 'Any Status'],
-			    'value'=>function($model){
-			    	return $model->status;
+			    'value'=>function($model)use($status){
+			    	return $status[$model->Orders_Status];
 			    }
 			],
 			[
@@ -119,6 +139,18 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			[
                 'class' => 'kartik\grid\ActionColumn',
+                'template' => '{speed}',
+                'header' => "View Order Time",
+                'buttons' => [
+                    'speed' => function($url,$model)
+                    {
+                    	return Html::a("View Order Time",['ordertime' ,'id'=>$model->Delivery_ID],['data-toggle'=>"modal",'data-target'=>"#orderSpeed",'data-title'=>"Price Detail",]);
+                
+                    }
+                ],
+            ],
+			[
+                'class' => 'kartik\grid\ActionColumn',
                 'template' => '{view}',
                 'header' => "View Order Item",
                 'buttons' => [
@@ -126,10 +158,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     {
                         $url =  Url::to(['item' ,'id'=>$model->Delivery_ID]);
 
-                        return Html::a('All Order Item' , $url , ['class' => 'text-underline','title' => 'Order Item'])   ;
+                        return Html::a('View Order Item' , $url , ['class' => 'text-underline','title' => 'Order Item'])   ;
                     },
                 ],
             ],
         ],
     ]);
-?>
+?> 

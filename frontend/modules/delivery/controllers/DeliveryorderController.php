@@ -5,11 +5,13 @@ namespace frontend\modules\delivery\controllers;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\data\Pagination;
 use Yii;
 use frontend\controllers\OrderController;
 use frontend\controllers\CommonController;
 use frontend\controllers\NotificationController;
 use frontend\modules\Restaurant\controllers\ProfitController;
+use frontend\models\OrderHistorySearch;
 use common\models\Order\Orderitem;
 use common\models\Order\Orders;
 use common\models\Company\Company;
@@ -47,7 +49,7 @@ class DeliveryorderController extends CommonController
     */
     public function actionOrder()
     {
-        $dman = Orders::find()->where('deliveryman = :dman and Orders_Status != :status and Orders_Status != :status1', [':dman'=>Yii::$app->user->identity->id, ':status'=>6, ':status1'=>7])->orderBy(['Delivery_ID'=>SORT_ASC])->joinWith(['address'])->all();
+        $dman = Orders::find()->where('deliveryman = :dman and Orders_Status != 6 and Orders_Status != 7 and Orders_Status !=8 and Orders_Status != 9', [':dman'=>Yii::$app->user->identity->id])->orderBy(['Delivery_ID'=>SORT_ASC])->joinWith(['address'])->all();
         $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
         $record = DailySignInController::getDailyData(1);
         $link = CommonController::createUrlLink(5);
@@ -115,12 +117,30 @@ class DeliveryorderController extends CommonController
 
     public function actionHistory()
     {
-        $dman = Orders::find()->where('deliveryman = :dman and Orders_Status = :status or Orders_Status = :status2', [':dman'=>Yii::$app->user->identity->id, ':status'=>6, ':status2'=>7])->orderBy(['Delivery_ID'=>SORT_ASC])->joinWith(['address'])->all();
+        $searchModel = new OrderHistorySearch;
+        $query =  $searchModel->search(Yii::$app->request->queryParams,Yii::$app->user->identity->id,1);
+
+        $countQuery = clone $query;
+        array_pop($searchModel->keyWordArray);
+      
+        $pages = new Pagination(['totalCount' => $countQuery->count()]);
+
+        $data = $query->offset($pages->offset)
+        ->limit($pages->limit)
+        ->all(); 
+
+        $dman ="";
+        foreach($data as $value)
+        {
+            $dman[$value->Delivery_ID]['order'] = $value->order;
+            $dman[$value->Delivery_ID]['item'][$value->food->Restaurant_ID][] = $value;
+        }
 
         $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
+        $status = ArrayHelper::map(StatusType::find()->all(),'id','type');
         $link = CommonController::createUrlLink(5);
 
-        return $this->render('history', ['dman'=>$dman,'link'=>$link,'statusid'=>$statusid]);
+        return $this->render('history', ['dman'=>$dman,'pagination'=>$pages,'link'=>$link,'statusid'=>$statusid,'searchModel'=>$searchModel,'status'=>$status]);
     }
 
 	public function actionMutiplePick()

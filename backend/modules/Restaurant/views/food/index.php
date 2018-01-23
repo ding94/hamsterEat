@@ -27,6 +27,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 'value'=>function ($model, $key, $index, $column) {
                     if(empty($model['foodSelection']))
                     {
+                        GridView::ROW_NONE;
                         return "";
                     }
                     else

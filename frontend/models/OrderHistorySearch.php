@@ -20,7 +20,6 @@ class OrderHistorySearch extends Orderitem
 	* fid => fid
 	* did => delivery id
 	* status =>  status
-	* type => 1=> delviery status 2=> order status
 	*/
 	public function rules()
 	{
@@ -29,9 +28,24 @@ class OrderHistorySearch extends Orderitem
 		];
 	}
 
-	public function search($params,$rid)
+	/*
+	* type => 1 is Delivery Man
+	*      => 2 is Restaurant
+	*/
+	public function search($params,$id,$type)
 	{
-		$query = Orderitem::find()->distinct()->where("Restaurant_ID = :rid and Orders_Status != 1",[':rid'=>$rid,])->joinWith(['food','order'])->orderBy(['orderitem.Delivery_ID'=>SORT_DESC]);
+		$query = Orderitem::find()->distinct()->joinWith(['food','order'])->orderBy(['orderitem.Delivery_ID'=>SORT_DESC]);
+
+		if($type == 2)
+		{
+			$query->where("Restaurant_ID = :rid and Orders_Status != 1",[':rid'=>$id]);
+			
+		}
+		else
+		{
+			$query->where("deliveryman = :did",['did'=>$id]);
+			$query->joinWith(['address']);
+		}
 
 		$this->load($params);
 		

@@ -117,7 +117,7 @@ if (empty($language)) {
                     $ago = Yii::$app->formatter->asRelativeTime($data['created_at']);
                     if($data['type'] == 1)
                     {
-                        $url = ["order/restaurant-orders",'rid' => $data['rid']];
+                         $url = ["/Restaurant/restaurantorder/index",'rid' => $data['rid']];
                     }
                     else
                     {

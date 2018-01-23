@@ -46,7 +46,7 @@ UserAsset::register($this);
             </div>
         <div class="nav-url">
                 <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation"><?php echo Html::a(Yii::t('ticket','All'),['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation"><?php echo Html::a(Yii::t('common','All'),['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                     <li role="presentation"><?php echo Html::a(Yii::t('ticket','Submit Ticket'),['/ticket/submit-ticket'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                     <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('ticket','Completed Ticket') ?></a></li>
                 </ul>
@@ -101,7 +101,7 @@ UserAsset::register($this);
         ?>
 
         <div class="form-group" id="chat-ticket">
-             <?= Html::submitButton(Yii::t('ticket','Submit'), ['class' => 'raised-btn main-btn resize-btn', 'name' => 'contact-button']) ?>
+             <?= Html::submitButton(Yii::t('common','Submit'), ['class' => 'raised-btn main-btn resize-btn', 'name' => 'contact-button']) ?>
             
         </div>
         <?php ActiveForm::end(); ?>

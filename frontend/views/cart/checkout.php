@@ -13,7 +13,7 @@ Modal::begin([
       'header' => '<h2 class="modal-title">'.Yii::t('cart','Edit address').'</h2>',
       'id'     => 'address-modal',
       'size'   => 'modal-md',
-      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('cart','Close');.'</a>',
+      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('common','Close');.'</a>',
 ]);
 Modal::end();
 //edit address modal
@@ -21,7 +21,7 @@ Modal::begin([
       'header' => '<h2 class="modal-title">'.Yii::t('cart','Edit address').'</h2>',
       'id'     => 'edit-address-modal',
       'size'   => 'modal-md',
-      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('cart','Close');.'</a>',
+      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('common','Close');.'</a>',
 ]);
 Modal::end();
 
@@ -36,15 +36,15 @@ Modal::end();
             <?php $form = ActiveForm::begin(['id' => 'checkout']); ?>
 
             <tr>
-                <th><?= Yii::t('cart','Name');?>:</th>
+                <th><?= Yii::t('common','Name');?>:</th>
                 <td> <?= $form->field($checkout, 'User_fullname')->textInput(['value' => $details['User_FirstName'].' '.$details['User_LastName']])->label('')?> </td>
             </tr>
             <tr>
-                <th><?= Yii::t('cart','Email');?>:</th>
+                <th><?= Yii::t('common','Email');?>:</th>
                 <td> <?php echo $email; ?>  </td>
             </tr>
             <tr>
-                <th><?= Yii::t('cart','Contact No');?>:</th>
+                <th><?= Yii::t('common','Contact No');?>:</th>
                 <td> <?= $form->field($checkout, 'User_contactno')->textInput(['value' => $details['User_ContactNo']])->label('')?>  </td>
             </tr>
         </table>
@@ -71,7 +71,7 @@ Modal::end();
                         }
                     ?>
                 </td>
-                <td><?php if(!empty($address)){ echo Html::a(Yii::t('cart','Edit'),['/cart/editaddress'],['class' => 'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#edit-address-modal','style'=>'float:right']); } ?></td>
+                <td><?php if(!empty($address)){ echo Html::a(Yii::t('common','Edit'),['/cart/editaddress'],['class' => 'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#edit-address-modal','style'=>'float:right']); } ?></td>
             </tr>
             <tr>
                 <th><?= Yii::t('cart','Area');?>:</th>
@@ -90,14 +90,14 @@ Modal::end();
 
         <table class="table table-user-paymethod">
             <tr>
-                <th><h3><?= Yii::t('cart','Payment Method');?></h3></th>
+                <th><h3><?= Yii::t('common','Payment Method');?></h3></th>
             </tr>
 
             <tr id='list'>
                 <td><?= $form->field($checkout, 'Orders_PaymentMethod')->radioList(['Account Balance'=>'Account Balance','Cash on Delivery'=>'Cash on Delivery'])->label(''); ?></td>
             </tr>
             <tr>
-                <td><?= Html::submitButton(Yii::t('cart','Place Order'), ['class' => 'raised-btn main-btn btn-lg', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?></td>
+                <td><?= Html::submitButton(Yii::t('common','Place Order'), ['class' => 'raised-btn main-btn btn-lg', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?></td>
             </tr>
         </table>
             <?php ActiveForm::end(); ?>

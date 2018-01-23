@@ -27,7 +27,7 @@ $this->title = Yii::t('common','Login');
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton(Yii::t('site','Login'), ['class' => 'raised-btn main-btn', 'name' => 'login-button']) ?>
+                    <?= Html::submitButton(Yii::t('common','Login'), ['class' => 'raised-btn main-btn', 'name' => 'login-button']) ?>
                 </div>
 
                 <div class="forgotpassword pull-right" style="color:#999;">

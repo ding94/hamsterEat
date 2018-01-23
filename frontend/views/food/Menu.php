@@ -22,7 +22,7 @@ Modal::begin([
       'header' => '<h2 class="modal-title">'.Yii::t('food','Please Provide Reason').'</h2>',
       'id'     => 'add-modal',
       'size'   => 'modal-md',
-      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('food','Close').'</a>',
+      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
 ]);
 Modal::end();
 ?>

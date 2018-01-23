@@ -70,7 +70,7 @@ UserAsset::register($this);
 
                 <div class="form-group">
                     <?= Html::submitButton(Yii::t('user','Update Profile'), ['class' => 'raised-btn main-btn change-password-resize-btn', 'name' => 'signup-button']) ?>
-                    <?php echo Html::a(Yii::t('user','Back'),['/user/user-profile'],['class'=>'raised-btn secondary-btn change-password-resize-btn'])?>
+                    <?php echo Html::a(Yii::t('common','Back'),['/user/user-profile'],['class'=>'raised-btn secondary-btn change-password-resize-btn'])?>
                 </div>
 
             <?php ActiveForm::end(); ?>

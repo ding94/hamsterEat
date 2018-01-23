@@ -93,7 +93,7 @@ RatingIndexAsset::register($this);
 					</div>
 				</div>
 				<div class="button-div">
-					<button class="raised-btn main-btn submit-btn"><?= Yii::t('rating','Submit') ?></button>
+					<button class="raised-btn main-btn submit-btn"><?= Yii::t('common','Submit') ?></button>
 				</div>
 			</div>
 		<?php ActiveForm::end();?>

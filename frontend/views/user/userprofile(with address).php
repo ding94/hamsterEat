@@ -11,10 +11,10 @@ UserAsset::register($this);
 <?php 
   //user report modal
   Modal::begin([
-      'header' => '<h2 class="modal-title">'.Yii::t('user','Report').'</h2>',
+      'header' => '<h2 class="modal-title">'.Yii::t('common','Report').'</h2>',
       'id'     => 'modal',
       'size'   => 'modal-sm',
-      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('user','Close').'</a>',
+      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
   ]);
   Modal::end();
     //new address modal
@@ -22,7 +22,7 @@ UserAsset::register($this);
       'header' => '<h2 class="modal-title">'.Yii::t('user','New Address').'</h2>',
       'id'     => 'address-modal',
       'size'   => 'modal-md',
-      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('user','Close').'</a>',
+      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
   ]);
   Modal::end();
   // edit address modal
@@ -30,7 +30,7 @@ UserAsset::register($this);
         'header' => '<h2 class="modal-title">'.Yii::t('user','Edit Address').'</h2>',
         'id'     => 'edit-address-modal',
         'size'   => 'modal-md',
-        'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('user','Close').'</a>',
+        'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
   ]);
   Modal::end() 
 ?>
@@ -45,7 +45,7 @@ UserAsset::register($this);
           <div class="userprofile-avatar">
               <?php $picpath = is_null($user->userdetails->User_PicPath) ? Url::to('@web/imageLocation/Default.png'): Url::to('@web/'.$user->userdetails->User_PicPath); ?>
               <?php echo Html::img($picpath,['class'=>"userprofile-image"])?>
-              <?= Html::a(Yii::t('user','Edit'), ['/user/userdetails'], ['class'=>'raised-btn btn-default userprofile-editbutton']) ?>
+              <?= Html::a(Yii::t('common','Edit'), ['/user/userdetails'], ['class'=>'raised-btn btn-default userprofile-editbutton']) ?>
           </div>
         </div>
         <div class="col-sm-9 userprofile-right">
@@ -64,11 +64,11 @@ UserAsset::register($this);
                 </div>
                 </div>
 				 <div class="row outer-row">
-                <div class="userprofile-label"><?= Yii::t('user','Contact')?>:</div>
+                <div class="userprofile-label"><?= Yii::t('common','Contact')?>:</div>
                 <div class="userprofile-text"><?php echo empty($user->userdetails->User_ContactNo) ? "not set" :$user->userdetails->User_ContactNo ?></div>
               </div>
               <div class="row outer-row">
-                <div class="userprofile-label"><?= Yii::t('user','Balance')?>(RM): </div>
+                <div class="userprofile-label"><?= Yii::t('common','Balance')?>(RM): </div>
                 <div class="userprofile-text"><?php echo $user->balance->User_Balance?></div>
               </div>
           </div>
@@ -85,7 +85,7 @@ UserAsset::register($this);
                   <tr>
                     <th style="width: 5%">#</th>
                     <th style="width: 20%"><?= Yii::t('user','Primary')?></th>
-                    <th style="width: 65%"><?= Yii::t('user','Address')?></th>
+                    <th style="width: 65%"><?= Yii::t('common','Address')?></th>
                     <th style="width: 10%"><?= Yii::t('user','Action')?></th>
                   </tr>
                 </thead>
@@ -97,9 +97,9 @@ UserAsset::register($this);
                       <td>
                         <?php echo $address->FullAddress?>
                         <br><br>
-                        <strong><?= Yii::t('user','Name')?>: </strong><?= $address['recipient']; ?>
+                        <strong><?= Yii::t('common','Name')?>: </strong><?= $address['recipient']; ?>
                         <br>
-                        <strong><?= Yii::t('user','Contact No')?>: </strong><?= $address['contactno']; ?></td>
+                        <strong><?= Yii::t('common','Contact No')?>: </strong><?= $address['contactno']; ?></td>
                       <td>
                         <div class="row address-button">
                           <div class="col-xs-6">

@@ -4,7 +4,7 @@
 
 use yii\helpers\Html;
 
-$this->title = Yii::t('site','About Us').' | HamsterEat.my';
+$this->title = Yii::t('common','About Us').' | HamsterEat.my';
 ?>
 
 <link href='https://fonts.googleapis.com/css?family=Quicksand|Asap:700' rel='stylesheet' type='text/css'>
@@ -20,27 +20,25 @@ $this->title = Yii::t('site','About Us').' | HamsterEat.my';
   <section class="col-md-5">
     <h3><?= Yii::t('site','Who are we?') ?></h3>
     <p>
-      As a young and dynamic IT team working in an e-commerce (SGshop), we always face one challenge – going out for food within one-hour lunch time. With 3 years’ experience in online shopping, we told ourselves that since we can already deliver parcels from China to Malaysia, why can’t we deliver food from restaurants to our own office? Hence HamsterEat was created.
       <?= Yii::t('site','About1') ?>
     </p>
   </section>
   <section class="col-md-5">
     <h3><?= Yii::t('site','What we do?') ?></h3>
     <p>
-      HamsterEat aims to provide the easiest-to-use food delivery service in Medini City, to serve customers with delicious food during office lunch time. We want to Make Lunch Great Again in Medini, with our lunch delivery services which has already covered Malay, Mamak and Chinese cuisine, we will continue the hard work to pleasure everyone’s taste bud!
       <?= Yii::t('site','About2') ?>
     </p>
   </section>
   <section class="col-md-5">
     <h3>
-      <?= Yii::t('site','About Us') ?>
+      <?= Yii::t('common','About Us') ?>
     </h3>
     <p>
       <span class="secondary-header"><?= Yii::t('site','Registered Company Name') ?>:</span>
       SGshop Ecommerce Sdn Bhd
     </p>
     <p>
-      <span class="secondary-header"><?= Yii::t('site','Address') ?>:</span>
+      <span class="secondary-header"><?= Yii::t('common','Address') ?>:</span>
       B-GF-05, Medini 6, Jalan Medini Sentral 5,
       Bandar Medini Iskandar Malaysia, 
       79250 Iskandar Puteri, Johor.

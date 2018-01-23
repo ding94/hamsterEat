@@ -184,7 +184,7 @@ h4{
           <?php endforeach ;?>
         </div>
       </div>
-      <button class="btn btn-primary2"><?= Yii::t('rating','Submit') ?></button>
+      <button class="btn btn-primary2"><?= Yii::t('common','Submit') ?></button>
     </div>
     <?php ActiveForm::end();?>
   </div>

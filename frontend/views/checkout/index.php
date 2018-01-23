@@ -17,24 +17,24 @@ CheckoutAsset::register($this);
        <div class="checkout-progress-bar">
          <div class="circle done">
            <span class="label"><i class="fa fa-check"></i></span>
-           <span class="title"><?= Yii::t('checkout','Cart') ?></span>
+           <span class="title"><?= Yii::t('common','Cart') ?></span>
          </div>
          <span class="bar done"></span>
          <div class="circle active">
            <span class="label"><i class="fa fa-cart-arrow-down"></i></span>
-           <span class="title"><?= Yii::t('checkout','Checkout') ?></span>
+           <span class="title"><?= Yii::t('common','Checkout') ?></span>
          </div>
          <span class="bar"></span>
          <div class="circle deactive">
            <span class="label"><i class="fa fa-credit-card"></i></span>
-           <span class="title"><?= Yii::t('checkout','Payment') ?></span>
+           <span class="title"><?= Yii::t('common','Payment') ?></span>
          </div>
        </div> 
       </div>
 <div class="container">
     <div class="tab-content" id="mydetails">
         <div class="cart-header">
-            <div class="header-title"><?= Yii::t('checkout','Checkout') ?></div>
+            <div class="header-title"><?= Yii::t('common','Checkout') ?></div>
         </div>
         <?php $form = ActiveForm::begin(['id' => 'checkout','action' => ['/checkout/order']]); ?>
         <div class="cart-detail">
@@ -47,23 +47,23 @@ CheckoutAsset::register($this);
             <div class="cart-content">
                 <h3><?= Yii::t('checkout','Receiver') ?></h3>
                 <div class="row">
-                    <div class="col-xs-3 cart-label"><?= Yii::t('checkout','Name') ?>:</div>
+                    <div class="col-xs-3 cart-label"><?= Yii::t('common','Name') ?>:</div>
                     <div class="col-xs-9">
                         <?= $form->field($deliveryaddress, 'name')->textInput(['value'=>$username])->label('')?> 
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-3 cart-label"><?= Yii::t('checkout','Contact No') ?>:</div>
+                    <div class="col-xs-3 cart-label"><?= Yii::t('common','Contact No') ?>:</div>
                     <div class="col-xs-9">
                         <?= $form->field($deliveryaddress, 'contactno')->textInput(['value'=>$contact])->label('')?>
                     </div>
                 </div>
             </div>
             <div class="cart-content">
-                <h3><?= Yii::t('checkout','Payment Method') ?></h3>
+                <h3><?= Yii::t('common','Payment Method') ?></h3>
                 <?= $form->field($order, 'Orders_PaymentMethod')->radioList(['Account Balance'=>'Account Balance','Cash on Delivery'=>'Cash on Delivery'])->label(''); ?>
             </div>  
-            <?= Html::submitButton('Place Order', ['class' => 'raised-btn main-btn', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?>
+            <?= Html::submitButton(Yii::t('common','Place Order'), ['class' => 'raised-btn main-btn', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?>
 
         </div>
         <?php ActiveForm::end(); ?>

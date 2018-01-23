@@ -11,7 +11,7 @@ use common\models\User;
 use frontend\assets\StarsAsset;
 use frontend\assets\FoodDetailsAsset;
 use iutbay\yii2fontawesome\FontAwesome as FA;
-$this->title = "Food Details" Yii::t('food','');
+$this->title =  Yii::t('food','Food Details');
 
 StarsAsset::register($this);
 FoodDetailsAsset::register($this);
@@ -20,8 +20,8 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 ?>
 <div id="nav">
   <ul class="nav nav-pills food-details-tab">
-    <li class="active"><a data-toggle="pill" href="#home">Food Details<?= Yii::t('food','') ?></a></li>
-    <li ><a data-toggle="pill" href="#comments">Comments<?= Yii::t('food','') ?></a></li>
+    <li class="active"><a data-toggle="pill" href="#home"><?= Yii::t('food','Food Details') ?></a></li>
+    <li ><a data-toggle="pill" href="#comments"><?= Yii::t('food','Comments') ?></a></li>
   </ul>
 </div>
   <div class="tab-content">
@@ -135,7 +135,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                 <?php } endforeach; ?>
                  </div>
              
-                 <?= $form->field($cart, 'remark',['enableClientValidation' => false])->label(Yii::t('food','Remarks')); ?>
+                 <?= $form->field($cart, 'remark',['enableClientValidation' => false])->label(Yii::t('common','Remarks')); ?>
           
 
                

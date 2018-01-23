@@ -12,24 +12,24 @@ CheckoutAsset::register($this);
        <div class="checkout-progress-bar">
          <div class="circle done">
            <span class="label"><i class="fa fa-check"></i></span>
-           <span class="title"><?=Yii::t('cart','Cart'); ?></span>
+           <span class="title"><?=Yii::t('common','Cart'); ?></span>
          </div>
          <span class="bar done"></span>
          <div class="circle done">
            <span class="label"><i class="fa fa-check"></i></span>
-           <span class="title"><?=Yii::t('cart','Checkout'); ?></span>
+           <span class="title"><?=Yii::t('common','Checkout'); ?></span>
          </div>
          <span class="bar done"></span>
          <div class="circle done">
            <span class="label"><i class="fa fa-check"></i></span>
-           <span class="title"><?=Yii::t('cart','>Completed'); ?></span>
+           <span class="title"><?=Yii::t('common','>Completed'); ?></span>
          </div>
        </div> 
     </div>
     <div class="container" id="aftercheckout">
         <div class="checkout-header">
             <h3>
-                <?=Yii::t('cart','Delivery ID'); ?>:
+                <?=Yii::t('common','Delivery ID'); ?>:
             <?= $order['Delivery_ID']; ?>
             </h3>
         </div>
@@ -37,7 +37,7 @@ CheckoutAsset::register($this);
             <div class="col-md-6 checkout-detail" >
                 <table class="table table-hover" style="font-size: 1.2em; font-family: 'Times New Roman', Times, serif;">
                     <tr id="no-border">
-                        <td style="width: 40%;"><?=Yii::t('cart','Delivery ID'); ?>:</td>
+                        <td style="width: 40%;"><?=Yii::t('common','Delivery ID'); ?>:</td>
                         <td colspan="2"><?= $order['Delivery_ID']; ?></td>
                     </tr>
                         <td><?=Yii::t('cart','Order ID'); ?>:</td>
@@ -61,7 +61,7 @@ CheckoutAsset::register($this);
                         <td colspan="2"><?= $order['address']['name']; ?></td>
                     </tr>
                     <tr>
-                        <td><?=Yii::t('cart','Contact No'); ?>:</td>
+                        <td><?=Yii::t('common','Contact No'); ?>:</td>
                         <td colspan="2"><?= $order['address']['contactno']; ?></td>
                     </tr>
                 </table>
@@ -69,12 +69,12 @@ CheckoutAsset::register($this);
                 <table class="table table-hover" style="font-size: 1.2em; font-family: 'Times New Roman', Times, serif;">
                         <tr>
                             <td></td>
-                            <td class="text-right" style="text-align: right"><?=Yii::t('cart','Subtotal'); ?>:</td>
+                            <td class="text-right" style="text-align: right"><?=Yii::t('common','Subtotal'); ?>:</td>
                             <td class="text-right">RM <?= number_format($order['Orders_Subtotal'],2); ?></td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td class="text-right" style="text-align: right"><?=Yii::t('cart','Delivery Charge'); ?>:</td>
+                            <td class="text-right" style="text-align: right"><?=Yii::t('common','Delivery Charge'); ?>:</td>
                             <td class="text-right">RM <?= number_format($order['Orders_DeliveryCharge'],2); ?></td>
                         </tr>
                         <?php if($order['Orders_DiscountEarlyAmount'] > 0 ) : ?>

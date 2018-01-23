@@ -11,10 +11,10 @@ UserAsset::register($this);
 <?php 
   //user report modal
   Modal::begin([
-      'header' => '<h2 class="modal-title">'.Yii::t('user','Report').'</h2>',
+      'header' => '<h2 class="modal-title">'.Yii::t('common','Report').'</h2>',
       'id'     => 'modal',
       'size'   => 'modal-sm',
-      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('user','Close').'</a>',
+      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
   ]);
   Modal::end();
     //new address modal
@@ -49,8 +49,8 @@ UserAsset::register($this);
               ?>
             
               <?php echo Html::img($picpath,['class'=>"userprofile-image"])?>
-              <?= Html::a(Yii::t('user','Edit'), ['/user/userdetails'], ['class'=>'raised-btn btn-default userprofile-editbutton']) ?>
-              <?= Html::a(Yii::t('user','Logout'), ['/site/logout'], ['class'=>'raised-btn btn-danger userprofile-logoutbutton','data-method'=>'post']) ?>
+              <?= Html::a(Yii::t('common','Edit'), ['/user/userdetails'], ['class'=>'raised-btn btn-default userprofile-editbutton']) ?>
+              <?= Html::a(Yii::t('common','Logout'), ['/site/logout'], ['class'=>'raised-btn btn-danger userprofile-logoutbutton','data-method'=>'post']) ?>
           </div>
         </div>
         <div class="col-sm-9 userprofile-right">
@@ -69,11 +69,11 @@ UserAsset::register($this);
                 </div>
                 </div>
 				 <div class="row outer-row">
-                <div class="userprofile-label"><?= Yii::t('user','Contact')?>:</div>
+                <div class="userprofile-label"><?= Yii::t('common','Contact')?>:</div>
                 <div class="userprofile-text"><?php echo empty($user->userdetails->User_ContactNo) ? "not set" :$user->userdetails->User_ContactNo ?></div>
               </div>
               <div class="row outer-row">
-                <div class="userprofile-label"><?= Yii::t('user','Balance')?>(RM): </div>
+                <div class="userprofile-label"><?= Yii::t('common','Balance')?>(RM): </div>
                 <div class="userprofile-text"><?php echo $user->balance->User_Balance?></div>
               </div>
           </div>

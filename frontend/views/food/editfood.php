@@ -23,13 +23,13 @@ AddFoodAsset::register($this);
     <div class="content">
        <div class="col-sm-2">
             <ul id="add-food-nav" class="nav nav-pills nav-stacked">
-                <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i>".Yii::t('food','back'),['food/menu','rid' => $food->Restaurant_ID,'page'=>'menu'])?></li>
+                <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i>".Yii::t('common','back'),['food/menu','rid' => $food->Restaurant_ID,'page'=>'menu'])?></li>
             </ul>
        </div>
        <div class="col-sm-10 food-content">
             <?php $form = ActiveForm::begin(['id' => 'dynamic-form','action' => ['/food/postedit','id'=>$food->Food_ID]]); ?>
           
-                <?= $form->field($food, 'Name')->textInput()->label(Yii::t('food','Name')) ?>
+                <?= $form->field($food, 'Name')->textInput()->label(Yii::t('common','Name')) ?>
 
                 <?= $form->field($food, 'Nickname')->textInput() ?>
 
@@ -120,7 +120,7 @@ AddFoodAsset::register($this);
                 <?php DynamicFormWidget::end(); ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton(Yii::t('food','Save'), ['class' => 'raised-btn main-btn', 'name' => 'insert-button']) ?>
+                    <?= Html::submitButton(Yii::t('common','Save'), ['class' => 'raised-btn main-btn', 'name' => 'insert-button']) ?>
                 </div>
             
             <?php ActiveForm::end(); ?> 

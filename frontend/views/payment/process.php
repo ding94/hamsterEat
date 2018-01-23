@@ -11,17 +11,17 @@ PaymentAsset::register($this);
        <div class="checkout-progress-bar">
          <div class="circle done">
            <span class="label"><i class="fa fa-check"></i></span>
-           <span class="title"><?= Yii::t('payment','Cart') ?></span>
+           <span class="title"><?= Yii::t('common','Cart') ?></span>
          </div>
          <span class="bar done"></span>
          <div class="circle done">
            <span class="label"><i class="fa fa-check"></i></span>
-           <span class="title"><?= Yii::t('payment','Checkout') ?></span>
+           <span class="title"><?= Yii::t('common','Checkout') ?></span>
          </div>
          <span class="bar done"></span>
          <div class="circle active">
            <span class="label"><i class="fa fa-credit-card"></i></span>
-           <span class="title"><?= Yii::t('payment','Payment') ?></span>
+           <span class="title"><?= Yii::t('common','Payment') ?></span>
          </div>
        </div> 
     </div>
@@ -50,7 +50,7 @@ PaymentAsset::register($this);
 		</ul>
 		<?php echo Html::hiddenInput('did', $order->Delivery_ID);?>
 		<div class="button-div">
-			<?php echo Html::submitButton(Yii::t('payment','Submit'), ['class' => 'raised-btn main-btn payment-button']);?>
+			<?php echo Html::submitButton(Yii::t('common','Submit'), ['class' => 'raised-btn main-btn payment-button']);?>
 		</div>
 		<?php ActiveForm::end(); ?>
 	</div>

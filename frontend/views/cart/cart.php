@@ -34,17 +34,17 @@ CartAsset::register($this);
    <div class="checkout-progress-bar">
      <div class="circle active">
        <span class="label"><i class="fa fa-shopping-cart"></i></span>
-       <span class="title"><?=Yii::t('cart','Cart');?></span>
+       <span class="title"><?=Yii::t('common','Cart');?></span>
      </div>
      <span class="bar"></span>
      <div class="circle deactive">
        <span class="label"><i class="fa fa-cart-arrow-down"></i></span>
-       <span class="title"><?=Yii::t('cart','Checkout');?></span>
+       <span class="title"><?=Yii::t('common','Checkout');?></span>
      </div>
      <span class="bar"></span>
      <div class="circle deactive">
        <span class="label"><i class="fa fa-credit-card"></i></span>
-       <span class="title"><?=Yii::t('cart','Payment');?></span>
+       <span class="title"><?=Yii::t('common','Payment');?></span>
      </div>
    </div> 
   </div>
@@ -54,7 +54,7 @@ CartAsset::register($this);
     <div class="htitleline"></div>
     <div class="hometitlefp">
       <h1 style="text-shadow: 1.5px 1.5px #ffda00;">
-        <center><?=Yii::t('cart','Cart');?></center>
+        <center><?=Yii::t('common','Cart');?></center>
       </h1>
     </div>
     <div class="htitlemarginbottom"> 
@@ -72,7 +72,7 @@ CartAsset::register($this);
 					  <a class="remove">
               <img src=<?php echo $single->food->singleImg ?> alt="" class="img-responsive"> 
               <h3> 
-                <a class="remove delete" href="#"><?=Yii::t('cart','Remove');?></a>
+                <a class="remove delete" href="#"><?=Yii::t('common','Remove');?></a>
   				    </h3>
 				    </a>
 				</header> 
@@ -112,7 +112,7 @@ CartAsset::register($this);
   <div class="container">
         <?php echo Html::hiddenInput('area', $index);?>
         <?php echo Html::hiddenInput('code', '');?>
-        <?php echo Html::submitButton(Yii::t('cart','Checkout'), ['class' => 'raised-btn main-btn checkout-btn']);?>
+        <?php echo Html::submitButton(Yii::t('common','Checkout'), ['class' => 'raised-btn main-btn checkout-btn']);?>
      
   </div>
   <?php endforeach ;?>

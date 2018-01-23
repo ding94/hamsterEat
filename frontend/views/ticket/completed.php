@@ -43,7 +43,7 @@ UserAsset::register($this);
             </div>
             <div class="nav-url">
                 <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation"><?php echo Html::a(Yii::t('ticket','All'),['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation"><?php echo Html::a(Yii::t('common','All'),['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                     <li role="presentation"><?php echo Html::a(Yii::t('ticket','Submit Ticket'),['/ticket/submit-ticket'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                     <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('ticket','Completed Ticket') ?></a></li>
                 </ul>
@@ -56,10 +56,10 @@ UserAsset::register($this);
         <table class="table table-inverse">
             <tr >
                 <th><?= Yii::t('ticket','Serial No.') ?></th>
-                <th><?= Yii::t('ticket','Category') ?></th> 
+                <th><?= Yii::t('common','Category') ?></th> 
                 <th><?= Yii::t('ticket','Subject') ?></th>
-                <th><?= Yii::t('ticket','Status') ?></th>
-                <th><?= Yii::t('ticket','Date') ?></th>
+                <th><?= Yii::t('common','Status') ?></th>
+                <th><?= Yii::t('common','Date') ?></th>
                 <th><?= Yii::t('ticket','Chat') ?></th>
             </tr>
 
@@ -78,7 +78,7 @@ UserAsset::register($this);
                         </td>
                         <td data-th="Status">
                              <?php if ($model['Ticket_Status'] == 3) {
-                                    echo Yii::t('ticket','Completed');
+                                    echo Yii::t('common','Completed');
                                 }
                                  else {
                                     echo Yii::t('common','error');

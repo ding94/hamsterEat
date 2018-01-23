@@ -171,7 +171,7 @@ if (empty($language)) {
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
         if (Deliveryman::find()->where('User_id=:id',[':id'=>Yii::$app->user->identity->id])->one()){
-                $menuItems[end($keys)]['items'][] =['label' => 'Delivery Orders', 'url' => ['/order/deliveryman-orders']];
+                $menuItems[end($keys)]['items'][] =['label' => 'Delivery Orders', 'url' => ['/Delivery/deliveryorder/order']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
         /*if ($company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one()) {

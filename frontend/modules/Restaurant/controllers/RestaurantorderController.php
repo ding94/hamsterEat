@@ -91,7 +91,7 @@ class RestaurantorderController extends CommonController
         }
 
         $searchModel = new OrderHistorySearch;
-        $query = $searchModel->search(Yii::$app->request->queryParams,$rid);
+        $query = $searchModel->search(Yii::$app->request->queryParams,$rid,2);
 
         $countQuery = clone $query;
 

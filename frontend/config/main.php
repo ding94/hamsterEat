@@ -53,8 +53,7 @@ return [
                 'm-restaurant' => ['class' => 'common\translation\DbSentencesTranslate',],
                 'm-userpackage' => ['class' => 'common\translation\DbSentencesTranslate',],
                 'faq' => ['class' => 'common\translation\DbSentencesTranslate',],
-
-                //'food' => ['class' => 'common\translation\DbFoodSource',],
+                'food' => ['class' => 'common\translation\DbSentencesTranslate',],
                 //'food-sel' => ['class' => 'common\translation\DbFoodSelSource',],
 
             ],

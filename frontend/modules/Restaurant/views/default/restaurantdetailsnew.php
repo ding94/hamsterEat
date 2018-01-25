@@ -14,53 +14,6 @@ RestaurantDetailsAsset::register($this);
 
 date_default_timezone_set("Asia/Kuala_Lumpur");
 ?>
-<style>
-    #category-bar{
-        border-top: 1px solid #E0E0E0;
-        border-bottom: 1px solid #E0E0E0;
-        display: flex;
-        justify-content: center;
-        overflow-x: auto;
-    }
-
-    #category-bar::-webkit-scrollbar
-    {
-      height: 10px;
-      background-color: transparent;
-    }
-
-    #category-bar::-webkit-scrollbar-thumb:horizontal
-    {
-      border-radius: 10px;
-      background-color: #C0C0C0;
-    }
-
-    #category-bar ul{
-        font-size: 18px;
-    }
-
-    #category-bar a{
-        cursor: pointer;
-    }
-
-    #category-bar a:hover{
-        text-decoration: none;
-    }
-
-    #category-bar li:hover{
-        background-color: #F2F2F2;
-        color: #FFCC00;
-    }
-
-    .foodtype-name{
-        margin: 30px 0;
-    }
-
-    .active-link{
-        background-color: #F2F2F2;
-        color: #FFCC00;
-    }
-</style>
 <?php Modal::begin([
             'id'     => 'foodDetail',
             'size'   => 'modal-lg',
@@ -117,13 +70,13 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
     <br>
 <!--     <hr class="restaurantdetails-hr"> -->
     <div id="category-bar">
-        <ul class="container" style="list-style: none;display: flex; flex-direction:row; margin:10px;">
+        <ul class="container">
         <?php
         $count=0; 
         foreach($allfoodtype as $foodtype):
             $count+=1;
         ?>
-            <a src="#" class="scroll-link" data-id="section<?php echo $count ?>"><li style="padding: 15px;"><?php echo $foodtype['name']; ?></li></a>
+            <a src="#" class="scroll-link" data-id="section<?php echo $count ?>"><li><?php echo $foodtype['name']; ?></li></a>
         <?php endforeach; ?>
         </ul>
     </div>
@@ -175,10 +128,4 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
         </div>
     </div>
     <?php endforeach; ?>
-
-    <div class="container">
-    <?php echo \yii\widgets\LinkPager::widget([
-      'pagination' => $pagination,
-    ]); ?>
-    </div>
 </div>

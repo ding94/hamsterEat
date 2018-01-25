@@ -223,7 +223,7 @@ class DefaultController extends CommonController
         $objPHPExcel = \PHPExcel_IOFactory::load(Yii::$app->params['langExcel'].$line['file_location']);
         $sheetData = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);*/
 
-        return $this->render('restaurantdetailstest',['id'=>$id, 'rowfood'=>$rowfood,'pagination'=>$pagination, 'rid'=>$rid,'allfoodtype'=>$allfoodtype]);
+        return $this->render('restaurantdetailsnew',['id'=>$id, 'rowfood'=>$rowfood,'pagination'=>$pagination, 'rid'=>$rid,'allfoodtype'=>$allfoodtype]);
     }
 
 //--This function loads the Food Details according to the FoodController

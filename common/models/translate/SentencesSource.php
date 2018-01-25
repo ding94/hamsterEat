@@ -3,6 +3,7 @@
 namespace common\models\translate;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "sentences_source".
@@ -46,11 +47,50 @@ class SentencesSource extends \yii\db\ActiveRecord
         ];
     }
 
+    public function search($params,$case=1)
+    {
+        
+        $query = self::find()->orderBy('category ASC')->joinWith('sentences');
+        switch ($case) {
+            case 1:
+                $dataProvider = new ActiveDataProvider([
+                    'query' => $query,
+                    'pagination' => [ 'pageSize' => 40 ],
+                ]);
+                break;
+                
+            case 2:
+                $dataProvider = new ActiveDataProvider([
+                    'query' => $query,
+                    'pagination' => [ 'pageSize' => 500 ],
+                ]);
+            break;
+            
+            default:
+                # code...
+                break;
+        }
+        
+
+        $this->load($params);
+        return $dataProvider;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getSentences()
     {
         return $this->hasMany(Sentences::className(), ['id' => 'id']);
+    }
+
+    public function getEn()
+    {
+        return $this->hasOne(Sentences::className(), ['id' => 'id'])->where('language = :l',[':l'=>'en']);
+    }
+
+    public function getZh()
+    {
+        return $this->hasOne(Sentences::className(), ['id' => 'id'])->where('language = :l',[':l'=>'zh']);
     }
 }

@@ -114,6 +114,14 @@
 
                     ],
                     [
+                        'label' => 'Translate Controller' ,'icon' => 'cutlery' ,   'url' => '#',
+                        'items' => [
+                                        ['label' => 'Tanslate' , 'icon' => 'circle-o' , 'url' => ['/translate/index']],
+                                   ],
+                        'options' => ['class' => 'active'],
+
+                    ],
+                    [
                         'label' => 'Company Controller' ,'icon' => 'cutlery' ,   'url' => '#',
                         'items' => [
                                         ['label' => 'Company List' , 'icon' => 'circle-o' , 'url' => ['/company/index']],

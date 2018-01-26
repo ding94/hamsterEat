@@ -61,4 +61,16 @@ class Foodstatus extends \yii\db\ActiveRecord
         return $dataProvider;
 
     }
+
+    public function getSelection()
+    {
+        return $this->hasMany(Foodselection::className(),['Food_ID'=> 'Food_ID']);
+    }
+
+    public function getName()
+    {
+        $data = Food::findOne($this->Food_ID);
+        return $data->Name;
+    }
+
 }

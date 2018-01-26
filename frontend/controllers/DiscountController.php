@@ -161,7 +161,7 @@ class DiscountController extends Controller
 					return $data;
             	}
             	//save voucher status
-            	VouchersController::endvoucher($code);
+            	
                 $order['Orders_DiscountEarlyAmount'] = 0 ;
 			}
 		}

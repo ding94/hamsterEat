@@ -47,12 +47,17 @@ class Orders extends \yii\db\ActiveRecord
 
     public function afterSave($insert, $changedAttributes)
     {
+      
         switch ($this->Orders_Status) {
             case 2:
-                $status = new Ordersstatuschange;
-                $status->Delivery_ID =  $this->Delivery_ID;
-                $status->OChange_PendingDateTime = time();
-                $status->save();
+                $status = Ordersstatuschange::findOne($this->Delivery_ID);
+                if(empty($status))
+                {
+                    $status = new Ordersstatuschange;
+                    $status->Delivery_ID =  $this->Delivery_ID;
+                    $status->OChange_PendingDateTime = time();
+                    $status->save();
+                }
                 break;
             case 3:
                 $status = Ordersstatuschange::findOne($this->Delivery_ID);

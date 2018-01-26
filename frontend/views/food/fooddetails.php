@@ -60,7 +60,8 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
               <?php  
                 $ftids = "";
                 foreach($foodtype as $k=> $foodtype) : 
-                  $selection = Foodselection::find()->where('Type_ID = :ftid',[':ftid' => $foodtype['ID']])->orderBy(['Price' => SORT_ASC])->all();
+                  $selection = Foodselection::find()->where('Type_ID = :ftid and status = 1',[':ftid' => $foodtype['ID']])->orderBy(['Price' => SORT_ASC])->all();
+
                   $data = ArrayHelper::map($selection,'ID','typeprice');
                   $checkboxdata = ArrayHelper::map($selection,'ID','checkboxtypeprice');
                   if ($foodtype['Min'] == 1 && $foodtype ['Max'] < 2 ) {

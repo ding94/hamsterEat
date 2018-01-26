@@ -21,7 +21,7 @@ OrderDetailsAsset::register($this);
     <div class="content">
         <div class="col-sm-2">
             <ul id="order-details-nav" class="nav nav-pills nav-stacked">
-                <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i>"Yii::t('common','Back'),['order/my-orders'],['class'=>'btn-block'])?></li>
+                <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i>".Yii::t('common','Back'),['order/my-orders'],['class'=>'btn-block'])?></li>
             </ul>
         </div>
         <div id="order-details-content" class="col-sm-10">
@@ -34,7 +34,8 @@ OrderDetailsAsset::register($this);
                 <th><center><?= Yii::t('order','Approximate Receiving Time') ?></th>
                 <td><?php $date = strtotime($order['Orders_Date'].' '.$order['Orders_Time']); echo date('d M Y h:i:s A',$date);?> </td>
                 <th><center><?= Yii::t('common','Status') ?></th>
-                <td> <?= $label[$order->Orders_Status]['label']; ?> </td>
+                
+                <td> <?= $label[$order->Orders_Status]; ?> </td>
             </tr>
             <tr>
                 <th><center><?= Yii::t('common','Payment Method') ?></th>
@@ -57,7 +58,7 @@ OrderDetailsAsset::register($this);
                 <tr>
                     <td><?= Yii::t('order','Food Name') ?>:</td>
                     <td><?php echo $food['Name']; ?></td>
-                    <td>RM <?php echo $food['Price']; ?></td>
+                  
                 </tr>
                 <tr>
                     <td><?= Yii::t('order','Selections') ?>:</td>
@@ -83,7 +84,7 @@ OrderDetailsAsset::register($this);
                 </tr>
                 <tr>
                     <td><?= Yii::t('order','Line Total') ?>:</td>
-                    <td colspan="2">RM <?php echo number_format($detail['OrderItem_LineTotal'] * $detail['OrderItem_Quantity']); ?></td>
+                    <td colspan="2">RM <?php echo number_format($detail['OrderItem_LineTotal'] * $detail['OrderItem_Quantity'],2); ?></td>
                 </tr>
                 <tr>
                     <td><?= Yii::t('common','Remarks') ?>:</td>

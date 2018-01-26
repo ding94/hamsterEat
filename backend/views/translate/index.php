@@ -30,7 +30,7 @@ Modal::end();
 
             [
                 'attribute' => 'message',
-                'headerOptions' => ['style' => 'width:12%'],
+                'headerOptions' => ['style' => 'width:40%'],
             ],
 
             [

@@ -50,4 +50,9 @@ class Orderitemselection extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Foodselection::className(),['ID' => 'Selection_ID']); 
     }
+
+    public function getItem()
+    {
+        return $this->hasOne(Orderitem::className(),['Order_ID'=>'Order_ID']);
+    }
 }

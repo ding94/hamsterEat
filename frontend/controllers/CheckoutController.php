@@ -9,6 +9,7 @@ use yii\helpers\Url;
 use yii\filters\AccessControl;
 use frontend\controllers\CommonController;
 use frontend\controllers\CartController;
+use frontend\controllers\VouchersController;
 use frontend\controllers\PaymentController;
 use common\models\Cart\Cart;
 use common\models\Order\Orders;
@@ -24,6 +25,7 @@ use common\models\Area;
 use common\models\User;
 use common\models\user\Userdetails;
 use frontend\models\Deliveryman;
+
 
 class CheckoutController extends CommonController
 {
@@ -197,6 +199,11 @@ class CheckoutController extends CommonController
 				$order->save();
 				$did = $order->Delivery_ID;
 				$address->delivery_id = $did;
+				if (!empty($cartData['code'])) {
+					
+					$isValid = VouchersController::endvoucher($cartData['code'],$order->Delivery_ID) && $isValid;
+				}
+				
 				foreach($allorderitem as $orderitem)
 				{
 

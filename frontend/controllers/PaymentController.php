@@ -163,6 +163,18 @@ class PaymentController extends CommonController
         return false;
     }
 
+    public static function refund($refund,$name,$did,$type)
+    {
+         $acc = Accountbalance::find()->where('User_Username=:us',[':us'=>$name])->one();
+        $acc->type = $type;
+        $acc->deliveryid = $did;
+        $acc->defaultAmount = $refund;
+
+        $acc['User_Balance'] += $refund;
+        $acc['AB_minus'] -= $refund;
+        return $acc;
+    }
+
     public static function findOrder($id)
     {
         if (($model = Orders::findOne($id)) !== null) {

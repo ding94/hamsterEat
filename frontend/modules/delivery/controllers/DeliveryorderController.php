@@ -265,8 +265,7 @@ class DeliveryorderController extends CommonController
             } 
         }
 
-        $allitem = OrderItem::find()->where('Delivery_ID =:did and OrderItem_Status != 10',[':did' => $orderitem->Delivery_ID])->all();
-        
+        $allitem = OrderItem::find()->where('Delivery_ID =:did and OrderItem_Status != 10 and OrderItem_Status != 8 and OrderItem_Status != 9',[':did' => $orderitem->Delivery_ID])->all();
 
         if(empty($allitem))
         {

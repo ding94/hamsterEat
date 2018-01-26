@@ -50,12 +50,12 @@ class SentencesSource extends \yii\db\ActiveRecord
     public function search($params,$case=1)
     {
         
-        $query = self::find()->orderBy('category ASC')->joinWith('sentences');
+        $query = self::find()->orderBy('category ASC')->joinWith('sentences')->andWhere(['!=','category','faq']);
         switch ($case) {
             case 1:
                 $dataProvider = new ActiveDataProvider([
                     'query' => $query,
-                    'pagination' => [ 'pageSize' => 40 ],
+                    'pagination' => [ 'pageSize' => 10 ],
                 ]);
                 break;
                 
@@ -65,6 +65,14 @@ class SentencesSource extends \yii\db\ActiveRecord
                     'pagination' => [ 'pageSize' => 500 ],
                 ]);
             break;
+
+            case 3:
+                $query = self::find()->orderBy('category ASC')->joinWith('sentences')->where('category =:c',[':c'=>'faq']);
+                $dataProvider = new ActiveDataProvider([
+                    'query' => $query,
+                    'pagination' => [ 'pageSize' => 500 ],
+                ]);
+                break;
             
             default:
                 # code...

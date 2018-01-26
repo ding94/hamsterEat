@@ -14,16 +14,13 @@ Class TranslateController extends Controller
 	{
 		$searchModel = new SentencesSource();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$case);
-        if (Yii::$app->request->post()) {
-        	var_dump(Yii::$app->request->post());exit;
-        }
- 
-        return $this->render('index',['dataProvider' => $dataProvider , 'searchModel' => $searchModel]);
+
+        return $this->render('index',['dataProvider' => $dataProvider , 'searchModel' => $searchModel,'case'=>$case]);
 	}
 
 	public function actionAddtranslation($id,$language)
 	{
-		$sen = Sentences::find()->where('id=:id AND language=:l',[':id'=>$id,':l'=>$language])->one();
+		$sen = Sentences::find()->where('sentences.id=:id AND language=:l',[':id'=>$id,':l'=>$language])->joinWith('id0')->one();
 		if (empty($sen)) {
 			$sen = new Sentences;
 			$sen['id'] = $id;
@@ -34,10 +31,11 @@ Class TranslateController extends Controller
 			$sen->load($post);
 			if ($sen->validate()) {
 				$sen->save();
-				Yii::$app->session->setFlash('success','Success!');
+				//Yii::$app->session->setFlash('success','Success!');
 				return $this->redirect(Yii::$app->request->referrer);
 			}
 		}
+		
 		return $this->renderAjax('translation',['sen'=>$sen]);
 	}
 
@@ -45,10 +43,7 @@ Class TranslateController extends Controller
 	{
 		$searchModel = new SentencesSource();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,3);
-        if (Yii::$app->request->post()) {
-        	var_dump(Yii::$app->request->post());exit;
-        }
- 
+
         return $this->render('index',['dataProvider' => $dataProvider , 'searchModel' => $searchModel]);
 	}
 }

@@ -39,7 +39,7 @@ UserAsset::register($this);
             <div class="nav-url">
                 <ul class="nav nav-pills nav-stacked">
                     <li role="presentation" ><?php echo Html::a(Yii::t('user','Edit User Profile'),['/user/userdetails'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"<?= Yii::t('user','>Change password') ?></a></li>
+                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('user','Change password') ?></a></li>
                 </ul>
             </div>
         </div>

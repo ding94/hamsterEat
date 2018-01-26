@@ -17,8 +17,10 @@ Modal::end();
 
 ?>
 <div style="margin: 10px">
+    <?php if($case != 3) : ?>
         <?= Html::a('Show With Page', ['/translate/index','case'=>1],['class' => 'btn btn-primary']); ?>
         <?= Html::a('Show All', ['/translate/index','case'=>2],['class' => 'btn btn-primary']); ?>
+    <?php endif; ?>
 </div>
 
 <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
@@ -27,7 +29,7 @@ Modal::end();
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn',],
-
+            'category',
             [
                 'attribute' => 'message',
                 'headerOptions' => ['style' => 'width:40%'],
@@ -48,8 +50,10 @@ Modal::end();
                 'class' => 'yii\grid\ActionColumn',
                 'template' =>'{submit}',
                 'buttons' => [
-                    'submit' => function($url, $model, $key) {
-                        return Html::a('EN', ['/translate/addtranslation','id'=>$model['id'],'language'=>'en'],['data-toggle'=>'modal','data-target'=>'#add-modal','class' => 'btn btn-primary', 'name' => 'Reply-button']);
+                    'submit' => function($url, $model, $key)use($case) {
+                        if ($case == 3) {
+                            return Html::a('EN', ['/translate/addtranslation','id'=>$model['id'],'language'=>'en'],['data-toggle'=>'modal','data-target'=>'#add-modal','class' => 'btn btn-primary', 'name' => 'Reply-button']);
+                        }
                     }
 
                 ],

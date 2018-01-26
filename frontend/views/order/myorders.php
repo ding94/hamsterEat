@@ -5,7 +5,7 @@ use yii\widgets\LinkPager;
 use kartik\widgets\Select2;
 use frontend\assets\MyOrdersAsset;
 
-$this->title = Yii::t('order','My Orders')." : ". $status;
+$this->title = Yii::t('order','My Orders')." : ". Yii::t('common',$status);
 
 
 MyOrdersAsset::register($this);

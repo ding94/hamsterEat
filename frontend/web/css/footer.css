@@ -4,9 +4,24 @@
   margin-top:10%;
 }
 
+#Box4{
+  display: none;
+}
+
 @media(max-width: 767px){
   #Footer .container-fluid{
     margin-bottom: 70px;
+  }
+
+  #Box4{
+    display: flex;
+    flex-direction: column;
+  }
+
+  #Box4 a{
+    display: block;
+    width: 100%;
+    margin: 10px;
   }
 }
 
@@ -17,7 +32,7 @@
   padding-bottom:3%;
 }
 
-#Box1,#Box2,#Box3,{
+#Box1,#Box2,#Box3,#Box4{
   padding:30px;
 
 }

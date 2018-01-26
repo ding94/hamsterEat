@@ -48,26 +48,26 @@ NotificationAsset::register($this);
     	</div>
     </div>
 
-    <div class="col-sm-10 notifcation-right">
+    <div class="col-sm-10 notification-right">
 
 		<?php if(empty($notification)) : ?>
-			<h4><?= Yii::t('notifcation','You have not receive any notifcaiton yet') ?></h4>
+			<h4><?= Yii::t('notification','You have not receive any notifcaiton yet') ?></h4>
 		<?php else :?>
 			<?php foreach($notification as $i=> $notic) :?>
 				<?php $ago = Yii::$app->formatter->asRelativeTime($notic['created_at']);?>
 				<div class="col-md-12 notic">
 					<?php if($notic['type'] == 2 || $notic['type'] == 4):?>
 						<?php echo Html::a($notic['description'],['/order/order-details','did'=>$notic['rid']],['class'=> 'a-notic'])?>
-						<span class="pull-right"><?= Yii::t('notifcation','From') ?> <?php echo $ago?></span>	
+						<span class="pull-right"><?= Yii::t('notification','From') ?> <?php echo $ago?></span>	
 					<?php elseif($notic['type'] == 1) :?>
 						<?php echo Html::a($notic['description'],["/order/restaurant-orders",'rid' => $notic['rid']],['class'=> 'a-notic'])?>
 						
-						<span class="pull-right"><?= Yii::t('notifcation','From') ?> <?php echo $ago?></span>	
+						<span class="pull-right"><?= Yii::t('notification','From') ?> <?php echo $ago?></span>	
 					
 					<?php else :?>
 						<?php echo Html::a($notic['description'],["/order/deliveryman-orders"],['class'=> 'a-notic'])?>
 						
-						<span class="pull-right"><?= Yii::t('notifcation','From') ?> <?php echo $ago?></span>	
+						<span class="pull-right"><?= Yii::t('notification','From') ?> <?php echo $ago?></span>	
 					
 					<?php endif;?>
 				</div>

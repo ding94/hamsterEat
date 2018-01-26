@@ -291,6 +291,10 @@ NotificationAsset::register($this);
         <div class="container-fluid">
         <!--Footer First Row-->
 <!--        <div class="row"> -->
+            <div id="Box4" class="col-sm-3 col-xs-12">
+                <?php echo Html::a('English',['/site/changelanguage','lang'=>'en'],['class'=>'btn raised-btn main-btn']); ?>
+                <?php echo Html::a('中文',['/site/changelanguage','lang'=>'zh'],['class'=>'btn raised-btn main-btn']); ?>
+            </div>
             <div id="Box1" class = "col-sm-3 col-xs-12">
                 <h3 id="footertitle">HamsterEat</h3>
                 <hr>
@@ -306,7 +310,6 @@ NotificationAsset::register($this);
                     }
                     ?>
                 </ul>
-                
             </div>
 
             <div id="Box2" class = "col-sm-3 col-xs-12">

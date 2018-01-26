@@ -120,7 +120,7 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 		<div class="container">
 			<div class="operatingtime-content">
 				<div class="text">
-					<p><?= Yii::t('site','MONDAY – FRIDAY'); ?></p>
+					<p><?= Yii::t('site','MONDAY - FRIDAY'); ?></p>
 					<p class="s-text"><?= Yii::t('site','Order before 11am,'); ?></p>
 					<p class="s-text"><?= Yii::t('site','Get Lunch by 1pm.'); ?></p>
 				</div>

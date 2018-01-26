@@ -77,7 +77,7 @@ CartAsset::register($this);
 		
  <div style="margin-right: 5%;" id="pcs">
 	  <div id="pc"><?= Yii::t('cart','Have a') ?> <font style="font-weight:bold;"><?= Yii::t('cart','promo code') ?></font>? 
-			<?= Yii::t('cart','Enter it') ?><a href="javascript:showDiv()" id="showDiv" style="color:#3C3CFF;text-decoration:underline;"><?= Yii::t('cart','here') ?></a>
+			<?= Yii::t('cart','Enter it') ?> <a href="javascript:showDiv()" id="showDiv" style="color:#3C3CFF;text-decoration:underline;"><?= Yii::t('cart','here') ?></a>
     </div>
 	  <div id="cs" style="display:none;">
         <div id="dis" style=""><input id="codes">

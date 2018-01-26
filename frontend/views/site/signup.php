@@ -13,7 +13,7 @@ $this->title = Yii::t('site','User Signup');
      <div class="col-lg-6 col-lg-offset-3" style="text-align:center">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p><?= Yii::t('site','Please fill out the following fields to sign') ?>:</p>
+    <p><?= Yii::t('site','Please fill out the following fields to signup') ?>:</p>
   </div>
     <div class="container">
    <div class="col-lg-6 col-lg-offset-3">

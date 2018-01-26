@@ -65,7 +65,7 @@ TopupIndexAsset::register($this);
 					<?= $form->field($model, 'acc_name')->textInput() ?>				   
 					
                 <div class="form-group">
-                    <?= Html::submitButton(''Yii::t('common','Withdraw'), ['class' => 'raised-btn main-btn']) ?>
+                    <?= Html::submitButton(Yii::t('common','Withdraw'), ['class' => 'raised-btn main-btn']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

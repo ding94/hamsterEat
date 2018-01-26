@@ -6,7 +6,7 @@ use kartik\widgets\ActiveForm;
 	//$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Voucher List'), 'url' => ['index']];
 	//$this->params['breadcrumbs'][] = $this->title;
 ?>
-
+	<h2><?= $sen['id0']['message'] ?></h2>
 	<?php $form = ActiveForm::begin();?>
     <?= $form->field($sen ,'translation')->textArea()?>
     	<div class="form-group">

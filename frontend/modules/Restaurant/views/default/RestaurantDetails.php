@@ -120,9 +120,4 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
         <?php endforeach; ?>
     </div>
     </div>
-    <div class="container">
-    <?php echo \yii\widgets\LinkPager::widget([
-      'pagination' => $pagination,
-    ]); ?>
-    </div>
 </div>

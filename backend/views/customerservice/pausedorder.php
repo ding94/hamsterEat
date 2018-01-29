@@ -30,23 +30,37 @@ Modal::begin([
 Modal::end();
 ?>
 
-<?= GridView::widget([
+<?php echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pjax'=>true,
+        'striped'=>true,
+        'hover'=>true,
+        'panel'=>[
+            'layout'=>'{export} {toggleData}',
+        ],                
         'columns' => [
 
-            'Delivery_ID',
-
             [
-                'attribute' => 'Order_ID',
+                'attribute' =>'Delivery_ID',
+                'group'=>true,  
                 'headerOptions' => ['style' => 'width:9%'],
             ],
-
-            'order.address.name',
-
+           
             [
+                'attribute' => 'Order_ID',
+                
+            ],
+            [
+                'attribute' => 'name',
+                'value' =>'order.address.name',
+                'headerOptions' => ['style' => 'width:12%'],
+            ],
+            [
+                'header'=> 'Contact Number',
                 'attribute' => 'contactno',
                 'value' =>'order.address.contactno',
+                'mergeHeader'=>'true',
                 'headerOptions' => ['style' => 'width:12%'],
             ],
 
@@ -54,30 +68,44 @@ Modal::end();
                 'attribute' => 'reasons',
                 'value' => function($model){return ProblemStatus::find()->where('id=:id',[':id'=>$model['reason']])->one()->description;},
                 'filter' => array("1"=>"Lack of ingredients","2"=>"Closing food","3"=>"Closing restaurant","4"=>"Others"),
+                'filterType' => GridView::FILTER_SELECT2,
+                'filterWidgetOptions' => [
+                    'pluginOptions' => ['allowClear' => true],
+                ],
+                'filterInputOptions' => ['placeholder' => 'Any Reason'],
                 'headerOptions' => ['style' => 'width:10%'],
             ],
 
             'description',
             [
+
                 'attribute'=>'status',
                 'value' => function($model)
                 {
-                   
+
                     $status = StatusType::findOne($model->order->Orders_Status);
                     return $status->type;
                 },
                 'contentOptions' => function ($model, $key, $index, $column) { return ['style'=>'font: bold 12px/30px Georgia'];},
+                'filter' => array("8"=>"Canceled","9"=>"Canceled and Refunded"),
+                'filterType' => GridView::FILTER_SELECT2,
+                'filterWidgetOptions' => [
+                    'pluginOptions' => ['allowClear' => true],
+                ],
+                'filterInputOptions' => ['placeholder' => 'Any Status'],
             ], 
             
 
             [
                 'attribute' => 'foodName',
                 'value' => 'order_item.food.Name',
+                'mergeHeader'=>'true',
             ],
 
             [
                 'attribute' => 'foodSelect',
                 'value' => 'order_item_select.food_selection.Name',
+                'mergeHeader'=>'true',
             ],
 
             ['class' => 'yii\grid\ActionColumn' ,

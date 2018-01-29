@@ -137,7 +137,7 @@ class OrderController extends CommonController
             Yii::$app->session->setFlash('error', 'Something Went Wrong!!.');
             return $this->redirect(['/order/my-orders']);
         }
-        $orderitems = Orderitem::find()->where('Delivery_ID = :did and      OrderItem_Status != 8 and OrderItem_Status != 9', [':did'=>$did])->all();
+        $orderitems = Orderitem::find()->where('Delivery_ID = :did ', [':did'=>$did])->all();
         $label = StatusType::find()->asArray()->all();
         $label = ArrayHelper::map($label,'id','label');
         date_default_timezone_set("Asia/Kuala_Lumpur");

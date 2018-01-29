@@ -49,14 +49,22 @@ class DeliveryorderController extends CommonController
     */
     public function actionOrder()
     {
-        $dman = Orders::find()->where('deliveryman = :dman and Orders_Status != 6 and Orders_Status != 7 and Orders_Status !=8 and Orders_Status != 9', [':dman'=>Yii::$app->user->identity->id])->orderBy(['Delivery_ID'=>SORT_ASC])->joinWith(['address'])->all();
+        $query = Orderitem::find()->where('deliveryman = :dman and OrderItem_Status != 1 and OrderItem_Status != 2 and OrderItem_Status !=8 and OrderItem_Status != 9 and OrderItem_Status != 10',[':dman'=>Yii::$app->user->identity->id])->joinWith(['address','order']);
+        foreach($query->each() as $key => $data)
+        {
+           $dman[$data->Delivery_ID]['order'] = $data->order;
+           unset($data->order);
+           $dman[$data->Delivery_ID]['address'] = $data->address;
+           unset($data->address);
+           $dman[$data->Delivery_ID]['item'][] = $data;
+        }
+      
+        //$dman = Orders::find()->where('deliveryman = :dman and Orders_Status != 6 and Orders_Status != 7 and Orders_Status !=8 and Orders_Status != 9', [':dman'=>Yii::$app->user->identity->id])->orderBy(['Delivery_ID'=>SORT_ASC])->joinWith(['address'])->all();
         $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
         $record = DailySignInController::getDailyData(1);
         $link = CommonController::createUrlLink(5);
 
-		$orderitem = Orderitem::find()->where('deliveryman = :u',[':u'=> Yii::$app->user->identity->id])->joinWith(['address','order','food.restaurant'])->all();
-
-        return $this->render('order', ['dman'=>$dman,'record'=>$record,'link'=>$link,'orderitem'=>$orderitem,'statusid'=>$statusid]);
+        return $this->render('order', ['dman'=>$dman,'record'=>$record,'link'=>$link,'statusid'=>$statusid]);
     }
 
     /*

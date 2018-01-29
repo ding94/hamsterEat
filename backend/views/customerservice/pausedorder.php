@@ -3,13 +3,14 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\problem\ProblemStatus;
+use common\models\Order\StatusType;
 use yii\bootstrap\Modal;
 
 if ($page=='solved') {
@@ -41,11 +42,11 @@ Modal::end();
                 'headerOptions' => ['style' => 'width:9%'],
             ],
 
-            'order.User_fullname',
+            'order.address.name',
 
             [
                 'attribute' => 'contactno',
-                'value' =>'order.User_contactno',
+                'value' =>'order.address.contactno',
                 'headerOptions' => ['style' => 'width:12%'],
             ],
 
@@ -58,7 +59,13 @@ Modal::end();
 
             'description',
             [
-                'attribute'=>'order_item.OrderItem_Status',
+                'attribute'=>'status',
+                'value' => function($model)
+                {
+                   
+                    $status = StatusType::findOne($model->order->Orders_Status);
+                    return $status->type;
+                },
                 'contentOptions' => function ($model, $key, $index, $column) { return ['style'=>'font: bold 12px/30px Georgia'];},
             ], 
             

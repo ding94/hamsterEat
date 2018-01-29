@@ -94,7 +94,7 @@ class Orderitem extends \yii\db\ActiveRecord
             'OrderItem_Remark' => 'Remark',
         ];
     }
-
+    
     public function getFood()
     {
          return $this->hasOne(Food::className(),['Food_ID'=>'Food_ID']);

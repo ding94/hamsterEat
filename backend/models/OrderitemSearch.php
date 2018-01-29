@@ -29,15 +29,14 @@ Class OrderitemSearch extends Orders
 	{
 		switch ($case) {
 			case 1:
-				$query = ProblemOrder::find()->where('status=:s',[':s'=>'1'])->andWhere('datetime > '.strtotime(date('Y-m-d')))->orderby('Order_ID ASC');
+				$query = ProblemOrder::find()->where('status=:s',[':s'=>'1'])->orderby('Order_ID ASC');
 				$query->joinWith(['order_item']);
-				$query->joinWith(['order']);
+				
 				break;
 
 				case 2:
 				$query = ProblemOrder::find()->where('status=:s',[':s'=>'0'])->orderby('Order_ID ASC');
-				$query->joinWith(['order_item']);
-				$query->joinWith(['order']);
+				
 				break;
 
 			default:
@@ -45,6 +44,8 @@ Class OrderitemSearch extends Orders
 				break;
 		}
 		
+		$query->joinWith(['order']);
+		$query->joinWith(['address']);
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

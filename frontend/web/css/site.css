@@ -4,7 +4,7 @@
 html,
 body {
   height: 100%;
-  font-family: 'Open Sans', "Hiragino Sans GB", sans-serif;
+  font-family: 'Open Sans', "Hiragino Sans GB",冬青黑体,"SimHei",黑体, sans-serif;
 }
 
 body{
@@ -28,7 +28,7 @@ div::-webkit-scrollbar{
 html::-webkit-scrollbar-thumb,
 div::-webkit-scrollbar-thumb{
   border-radius: 10px;
-  background-color: #C0C0C0;
+  background-color: #E8C700;
 }
 
 .page-wrap{
@@ -151,7 +151,6 @@ div::-webkit-scrollbar-thumb{
   max-height: 500px;
   overflow-x: hidden;
 }
-
 
 /*
 * navbar drop down design end
@@ -359,7 +358,7 @@ div.dotted {
   transition: height 1s ease-in-out;
 }
 
-  // THOUGHTS
+  //THOUGHTS
   .thoughts {
    
   
@@ -426,7 +425,6 @@ div.dotted {
 
 .ficon p{
 	font-size:20px;
-	font-family:  cursive;
 }
 
 .menu-title {
@@ -544,7 +542,6 @@ div.dotted {
   list-style-type:none;
 }
 
-
 @media(max-width: 991px){
   .form{
     width: 80%;
@@ -559,6 +556,7 @@ div.dotted {
 .mySlides{
   width: 100%;
   height: 480px;
+  object-fit: cover;
 }
 
 @media(max-width: 500px){
@@ -578,6 +576,7 @@ div.dotted {
 	 margin-top:10px; 
   }
 }
+
 /* Login css */
 #login-modal .modal-content{  
   margin-top: 100px;       
@@ -586,10 +585,10 @@ div.dotted {
 span.badge{
   background-color:#404040;
   margin-left: 2px;
-  margin-bottom:5px;
+  margin-bottom: 5px;
 }
 
-#feedback-modal .modal-content{
+#feedback-modal .modal-content{ 
   margin-top: 5%; 
 }
 
@@ -599,7 +598,6 @@ span.badge{
       margin-left: 5%;
   }
 }
-
 
 @media(max-width: 480px)
 {
@@ -641,24 +639,34 @@ span.badge{
 }
 
 #SSCrow4 img{
-  transform: scale(0.8);
+  transform: scale(0.9);
+  -webkit-box-shadow: 0px 0px 50px -10px rgba(0,0,0,0.75); 
+  -moz-box-shadow: 0px 0px 50px -10px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 50px -10px rgba(0,0,0,0.75);
 }
 
 .textcontainer{
-  margin-left: 30px;
+  margin-left: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 1;
 }
 
 .textcontainer p{
   width: 320px;
-  font-size: 45px;
+  font-size: 42px;
   line-height: 1.2;
+  color: #FFF;
 }
 
 .index-content button{
-  margin-left: 100px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  bottom: 73px;
 }
 
 #box1,#box2,#box3{
@@ -672,6 +680,119 @@ span.badge{
 
 #box3{
   transform: translateX(200%);
+}
+
+.gradient-div{
+  height: 300px;
+  width: 80%;
+  position: absolute;
+  background-image: -webkit-linear-gradient(right, #f9d423 0%, #ff4e50 100%);
+  background-image: -o-linear-gradient(right, #f9d423 0%, #ff4e50 100%);
+  background-image: linear-gradient(to left, #f9d423 0%, #ff4e50 100%);
+}
+
+@media(max-width: 1199px){
+  .textcontainer{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .index-content button{
+    margin-left: 0;
+  }
+}
+
+@media(max-width: 991px){
+  .gradient-div{
+    width: 98%;
+  }
+}
+
+@media(max-width: 767px){
+  #SSCrow4{
+    flex-direction: column;
+    height: 100%;
+  }
+
+  #SSCrow4 .container{
+    flex-direction: column;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .index-content button{
+    display: none;
+  }
+
+  .index-content{
+    position: initial;
+  }
+
+  #box1,#box2,#box3{
+    height: 400px;
+    transform: initial;
+  }
+
+  #box2{
+    flex-direction: row-reverse;
+  }
+
+  .textcontainer p{
+    width: 100%;
+    font-size: 24px;
+  }
+
+  #SSCrow4 img{
+    height: 320px;
+  }
+
+  .gradient-div{
+    height: 150px;
+  }
+
+  .operatingtime-content{
+    flex-direction: column-reverse;
+  }
+
+  #SSCrow5 .text{
+    margin-right: 0px !important;
+  }
+
+  .promo-content{
+    flex-direction: column;
+  }
+
+  #SSCrow6 .text{
+    margin-left: 0px !important;
+  }
+}
+
+@media(max-width: 500px){
+  .gradient-div{
+    height: 150px;
+  }
+
+  #SSCrow4 img{
+    height: 220px;
+  }
+
+  .textcontainer{
+    margin-left: 0;
+  }
+
+  .textcontainer p{
+    font-size: 22px;
+  }
+
+  #box1,#box2,#box3{
+    height: 300px;
+    transform: initial;
+  }
+
+  #SSCrow5 .graphic,
+  #SSCrow6 .graphic{
+    display: none;
+  }
 }
 
 /* SSCrow5 Operating Time Section */

@@ -47,12 +47,21 @@ class Orders extends \yii\db\ActiveRecord
 
     public function afterSave($insert, $changedAttributes)
     {
+        if(!empty($changedAttributes['Orders_TotalPrice']))
+        {
+            $this->priceLog($changedAttributes);
+        }
+       
         switch ($this->Orders_Status) {
             case 2:
-                $status = new Ordersstatuschange;
-                $status->Delivery_ID =  $this->Delivery_ID;
-                $status->OChange_PendingDateTime = time();
-                $status->save();
+                $status = Ordersstatuschange::findOne($this->Delivery_ID);
+                if(empty($status))
+                {
+                    $status = new Ordersstatuschange;
+                    $status->Delivery_ID =  $this->Delivery_ID;
+                    $status->OChange_PendingDateTime = time();
+                    $status->save();
+                }
                 break;
             case 3:
                 $status = Ordersstatuschange::findOne($this->Delivery_ID);
@@ -78,6 +87,35 @@ class Orders extends \yii\db\ActiveRecord
                 # code...
                 break;
         }
+    }
+
+    public function priceLog($changedAttributes)
+    {
+        $price = new Orderpricehistory;
+        $price->did = $this->Delivery_ID;
+        $price->time = time();
+        $price->total = $changedAttributes['Orders_TotalPrice'];
+        $price->subtotal = $changedAttributes['Orders_Subtotal'];
+
+        if(!empty($changedAttributes['Orders_DeliveryCharge']))
+        {
+            $price->deliveryCharge = $changedAttributes['Orders_DeliveryCharge'];
+        }
+        else
+        {
+            $price->deliveryCharge = $this->Orders_DeliveryCharge; 
+        }
+
+        if(!empty($changedAttributes['Orders_DiscountEarlyAmount']))
+        {
+            $price->earlydiscount = $changedAttributes['Orders_DiscountEarlyAmount'];
+        }
+
+        if(!empty($changedAttributes['Orders_DiscountTotalAmount']))
+        {
+            $price->voucherdiscount = $changedAttributes['Orders_DiscountTotalAmount'];
+        }
+        $price->save();
     }
 
     public function rules()

@@ -16,12 +16,14 @@ Class OrderitemSearch extends Orders
     public $foodName;
     public $foodSelect;
     public $description;
+    public $name;
+    public $status;
 
 	public function rules()
     {
         return [
             //[['userfullname','usercontact','food','order_selection'],'safe'],
-            [['Order_ID','Delivery_ID','reasons'],'safe'],
+            [['Order_ID','Delivery_ID','reasons','name','status'],'safe'],
         ];
     }
 
@@ -29,25 +31,31 @@ Class OrderitemSearch extends Orders
 	{
 		switch ($case) {
 			case 1:
-				$query = ProblemOrder::find()->where('status=:s',[':s'=>'1'])->andWhere('datetime > '.strtotime(date('Y-m-d')))->orderby('Order_ID ASC');
+				$query = ProblemOrder::find()->where('status=:s',[':s'=>'1']);
 				$query->joinWith(['order_item']);
-				$query->joinWith(['order']);
+				
 				break;
 
 				case 2:
-				$query = ProblemOrder::find()->where('status=:s',[':s'=>'0'])->orderby('Order_ID ASC');
-				$query->joinWith(['order_item']);
-				$query->joinWith(['order']);
+				$query = ProblemOrder::find()->where('status=:s',[':s'=>'0']);
+				
 				break;
 
 			default:
 				$query = ProblemOrder::find()->all();
 				break;
 		}
-		
+
+		$query->joinWith(['order']);
+		$query->joinWith(['address']);
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['Delivery_ID'] = [
+	        'asc' => ['Delivery_ID' => SORT_ASC],
+	        'desc' => ['Delivery_ID' => SORT_DESC],
+	    ];
 
         $dataProvider->sort->attributes['Order_ID'] = [
 	        'asc' => ['Order_ID' => SORT_ASC],
@@ -66,9 +74,14 @@ Class OrderitemSearch extends Orders
 
         $this->load($params);
 
+        $query->andFilterWhere([
+           'problem_order.Delivery_ID' => $this->Delivery_ID,
+           'Orders_Status' => $this->status,
+           'reason' => $this->reasons,
+           	
+        ]);
         $query->andFilterWhere(['like','Order_ID',$this->Order_ID]);
-        $query->andFilterWhere(['like','problem_order.Delivery_ID',$this->Delivery_ID]);
-        $query->andFilterWhere(['like','reason',$this->reasons]);
+        $query->andFilterWhere(['like','name',$this->name]);
 
         return $dataProvider;
 	}

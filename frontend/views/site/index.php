@@ -76,43 +76,46 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 	<div id="SSCrow4">
 		<div class="container">
 			<div id="box1" class="index-content">
+				<div class="gradient-div"></div>
 				<div class="graphic">
-					<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index-1.jpg" alt="">
+					<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index-1.png" alt="">
 				</div>	
 				<div class="textcontainer">
 					<p><?= Yii::t('site','Find food from your favourite restaurants around Bukit Indah.'); ?></p>
+					<button class="raised-btn main-btn" onclick="moveToBox2()">
+			        	<svg viewBox="0 0 64 64" width="24px" height="24px">
+			        		<path fill-rule="evenodd" clip-rule="evenodd" d="M59.927 31.985l.073.076-16.233 17.072-3.247-3.593L51.324 34H4v-4h47.394L40.52 18.407l3.247-3.494L60 31.946l-.073.039z"></path>
+			        	</svg>
+			      	</button>
 				</div>
-				<button class="raised-btn main-btn" onclick="moveToBox2()">
-		        	<svg viewBox="0 0 64 64" width="24px" height="24px">
-		        		<path fill-rule="evenodd" clip-rule="evenodd" d="M59.927 31.985l.073.076-16.233 17.072-3.247-3.593L51.324 34H4v-4h47.394L40.52 18.407l3.247-3.494L60 31.946l-.073.039z"></path>
-		        	</svg>
-		      	</button>
 			</div>
 			<div id="box2" class="index-content">
+				<div class="gradient-div"></div>
 				<div class="graphic">
-					<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index-2.jpg" alt="">
+					<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index-2.png" alt="">
 				</div>	
 				<div class="textcontainer">
 					<p><?= Yii::t('site','Add food to cart, enter delivery details and place order.'); ?></p>
+					<button class="raised-btn main-btn" onclick="moveToBox3()">
+			        	<svg viewBox="0 0 64 64" width="24px" height="24px">
+			        		<path fill-rule="evenodd" clip-rule="evenodd" d="M59.927 31.985l.073.076-16.233 17.072-3.247-3.593L51.324 34H4v-4h47.394L40.52 18.407l3.247-3.494L60 31.946l-.073.039z"></path>
+			        	</svg>
+			      	</button>
 				</div>
-				<button class="raised-btn main-btn" onclick="moveToBox3()">
-		        	<svg viewBox="0 0 64 64" width="24px" height="24px">
-		        		<path fill-rule="evenodd" clip-rule="evenodd" d="M59.927 31.985l.073.076-16.233 17.072-3.247-3.593L51.324 34H4v-4h47.394L40.52 18.407l3.247-3.494L60 31.946l-.073.039z"></path>
-		        	</svg>
-		      	</button>
 			</div>
 			<div id="box3" class="index-content">
+				<div class="gradient-div"></div>
 				<div class="graphic">
-					<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index-3.jpg" alt="">
+					<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index-2.png" alt="">
 				</div>	
 				<div class="textcontainer">
 					<p><?= Yii::t('site','Food is prepared and delivered to you during lunch time.'); ?></p>
+					<button class="raised-btn main-btn" onclick="moveToBox1()">
+			        	<svg viewBox="0 0 64 64" width="24px" height="24px">
+			        		<path fill-rule="evenodd" clip-rule="evenodd" d="M59.927 31.985l.073.076-16.233 17.072-3.247-3.593L51.324 34H4v-4h47.394L40.52 18.407l3.247-3.494L60 31.946l-.073.039z"></path>
+			        	</svg>
+			      	</button>
 				</div>
-				<button class="raised-btn main-btn" onclick="moveToBox1()">
-		        	<svg viewBox="0 0 64 64" width="24px" height="24px">
-		        		<path fill-rule="evenodd" clip-rule="evenodd" d="M59.927 31.985l.073.076-16.233 17.072-3.247-3.593L51.324 34H4v-4h47.394L40.52 18.407l3.247-3.494L60 31.946l-.073.039z"></path>
-		        	</svg>
-		      	</button>
 			</div>
 		</div>
 	</div>

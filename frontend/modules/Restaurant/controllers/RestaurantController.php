@@ -4,16 +4,18 @@ namespace frontend\modules\Restaurant\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\base\Model;
 use common\models\Restaurant;
 use common\models\Rmanager;
 use common\models\Rmanagerlevel;
 use common\models\Order\Orders;
 use common\models\Order\Orderitem;
-use common\models\Account\Accountbalance;
+use common\models\Order\Orderitemselection;
 use common\models\problem\ProblemOrder;
 use common\models\problem\ProblemStatus;
 use common\models\Company\Company;
 use common\models\food\Food;
+use common\models\food\Foodselection;
 use common\models\food\Foodstatus;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
@@ -21,6 +23,9 @@ use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use frontend\controllers\CommonController;
+use frontend\controllers\PaymentController;
+use frontend\modules\Restaurant\controllers\FoodselectionController;
+use frontend\modules\Restaurant\controllers\CancelController;
 
 class RestaurantController extends CommonController
 {
@@ -31,7 +36,7 @@ class RestaurantController extends CommonController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['restaurant-service','food-service','providereason','active','deactive','pauserestaurant','resume-restaurant','cooking-detail','phonecooking','orderlist'],
+                        'actions' => ['restaurant-service','food-service','providereason','active','deactive','pauserestaurant','resume-restaurant','cooking-detail','phonecooking','orderlist','food-on-off','selectionactive'],
                         'allow' => true,
                         'roles' => ['restaurant manager'],
                     ]
@@ -86,13 +91,15 @@ class RestaurantController extends CommonController
         $foods = Food::find()->JoinWith(['foodStatus'])->where('Restaurant_ID=:id',[':id'=>$restaurant['Restaurant_ID']])->andWhere('Status >= 0')->all();
 
         foreach ($foods as $k => $food) {
-            $valid = self::CancelOrder($food['Food_ID']);
+            $valid = CancelController::CancelOrder($food['Food_ID']);
             $status = Foodstatus::find()->where('Food_ID=:id',[':id'=>$food['Food_ID']])->one();
             $status['Status'] = 0;
-            $status->save();
+            
             if ($valid == false) {
                 Yii::$app->session->setFlash('error', "Operation Paused! Error Food ID = ".$food['Food_ID']);
+                break;
             }
+            $status->save();
         }
         if ($valid == true) {
             $restaurant->save();
@@ -104,15 +111,26 @@ class RestaurantController extends CommonController
     public function actionProvidereason($id,$rid,$item)
     {
         CommonController::restaurantPermission($rid);
+
         $reason = new ProblemOrder;
         $list = ArrayHelper::map(ProblemStatus::find()->all(),'id','description');
 
         if (Yii::$app->request->post()) {
-            $valid = self::CancelOrder($id);
+
+            if($item == 3)
+            {
+                $valid = self::CancelSelection($id);
+            }
+            else
+            {
+
+                $valid = CancelController::CancelOrder($id);
+            }
+            
             if ($valid == true) {
                 self::actionDeactive($id,$item);
                 Yii::$app->session->setFlash('warning', "Status changed! Please inform customer service.");
-                return $this->redirect(['/food/menu','rid'=>$rid,'page'=>'menu']);
+                return $this->redirect(Yii::$app->request->referrer); 
             }
         }
             
@@ -120,50 +138,57 @@ class RestaurantController extends CommonController
 
     }
 
-    protected function CancelOrder($id)
+    public function actionFoodOnOff($id,$rid)
     {
-        $orderitem = Orderitem::find()->where('Food_ID=:id AND OrderItem_Status=:s',[':id'=>$id, ':s'=>2])->all();
+        $model = Foodstatus::find()->where('foodstatus.Food_ID = :id',[':id'=>$id])->one();
+        return $this->render("onoff",['model'=>$model,'rid'=>$rid]);
+    }
 
-        if (!empty($orderitem)) 
+    
+
+    protected static function CancelSelection($id)
+    {
+        $post = Yii::$app->request->post();
+        if(empty($post['ProblemOrder']))
         {
-            foreach ($orderitem as $k => $value) 
-            {
-                $order = Orders::find()->where('Delivery_ID=:id',[':id'=>$value['Delivery_ID']])->one();
-                if ($order['Orders_DateTimeMade'] > strtotime(date('Y-m-d'))) 
-                {
-                    $reason = new ProblemOrder; // set new value to db, away from covering value
-                    $reason['reason'] = 3;
-                    $reason->load(Yii::$app->request->post());
-                    $reason['Order_ID'] = $value['Order_ID'];
-                    $reason['Delivery_ID'] = $value['Delivery_ID'];
-                    $reason['status'] = 1;
-                    $reason['datetime'] = time();
-                    $value['OrderItem_Status'] = 8;
-                    $order['Orders_Status'] = 8;
+            return false;
+        }
 
-                    //check did user use balance to pay
-                    if ($order['Orders_PaymentMethod'] == 'Account Balance') {
-                        $reason['refund'] = $order['Orders_TotalPrice'];
-                        $acc = Accountbalance::find()->where('User_Username=:us',[':us'=>$order['User_Username']])->one();
-                        $acc['User_Balance'] += $order['Orders_TotalPrice'];
-                        $acc['AB_minus'] -= $order['Orders_TotalPrice'];
-                        if ($acc->validate()) {
-                                $acc->save();
-                                $order['Orders_Status'] = 9;
-                                $value['OrderItem_Status'] = 9;
-                        }
-                    }
-                    if ($reason->validate() && $value->validate() && $order->validate()) {
-                        $reason->save();
-                        $value->save();
-                        $order->save();
-                    }
+        $itemselection = Orderitemselection::find()->where('Selection_ID = :id and OrderItem_Status = 2',[':id'=>$id])->joinWith(['item'])->all();
+       
+        if(empty($itemselection))
+        {
+            return true;
+        }
+      
+        foreach($itemselection as $selection)
+        {
+            $did = $selection->item->Delivery_ID;
+            //$did = $itemselection[5]->item->Delivery_ID;
+           
+            $allitem = Orderitem::find()->where('Delivery_ID = :id',[':id'=>$did])->all();
+
+            $count = count($allitem);
+
+            if($count <= 1)
+            {
+                $isvalid = CancelController::deliveryCancel($selection->item);
+               
+                if(!$isvalid)
+                {
+                    break;
                 }
             }
-            //use this formular for most accurate data protect
-            //if (count($orderitem) == ($k+1) ) {}
+            else
+            {
+                //self::selectionCancel($selection->item);
+               $isvalid=  CancelController::orderCancel($selection->item);
+            }
+            
         }
-        return true;
+        
+        return $isvalid;
+       
     }
 
     public function actionResumeRestaurant($id)
@@ -208,46 +233,54 @@ class RestaurantController extends CommonController
         }
         
           
+         return $this->redirect(Yii::$app->request->referrer); 
+    }
 
-        return $this->redirect(['/food/menu','rid'=>$rid,'page'=>'menu']);
+    public function actionSelectionactive($id)
+    {
+        $model = Foodselection::findOne($id);
+        $model->Status = 1;
+        $sucess = $model->save();
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionDeactive($id,$item)
     {
+        $sucess = false;
         switch ($item) {
             case 1:
                 $model = self::findModel($id);
                 $model->Restaurant_Status = "Closed";
-                if($model->validate())
-                {
-                    $model->save();
-                    Yii::$app->session->setFlash('warning', "Status change to closed.");
-                }
-                else
-                {
-                    Yii::$app->session->setFlash('error', "Change status failed.");
-                }
+                $sucess = $model->save();
                 break;
 
             case 2:
                 $model = Foodstatus::find()->where('Food_ID=:id',[':id'=>$id])->one();
                 $model->Status = 0;
-                if($model->validate())
-                {
-                    $model->save();
-                    Yii::$app->session->setFlash('warning', "Status change to paused.");
-                }
-                else
-                {
-                    Yii::$app->session->setFlash('error', "Change status failed.");
-                }
+                $sucess = $model->save();
+                return $sucess;
                 break;
-            
+            case 3:
+                $model = Foodselection::findOne($id);
+                $model->Status = 0;
+                $sucess = $model->save();
+                return $sucess;
+            break;
             default:
                 # code...
                 break;
         }
         
+        if($sucess)
+        {
+                 
+            Yii::$app->session->setFlash('warning', "Status change to paused.");
+        }
+        else
+        {
+            Yii::$app->session->setFlash('error', "Change status failed.");
+        }
+
         return $this->redirect(Yii::$app->request->referrer);
     }
 

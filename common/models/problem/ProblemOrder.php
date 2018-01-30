@@ -4,6 +4,7 @@ namespace common\models\problem;
 
 use Yii;
 use common\models\Order\Orders;
+use common\models\Order\DeliveryAddress;
 use common\models\Order\Orderitem;
 use common\models\Order\Orderitemselection;
 /**
@@ -60,6 +61,11 @@ class ProblemOrder extends \yii\db\ActiveRecord
     public function getOrder_item()
     {
         return $this->hasOne(Orderitem::className(),['Order_ID' => 'Order_ID']); 
+    }
+
+     public function getAddress()
+    {
+        return $this->hasOne(DeliveryAddress::className(),['delivery_id' => 'Delivery_ID']); 
     }
 
     public function getOrder_item_select()

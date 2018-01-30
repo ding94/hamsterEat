@@ -7,10 +7,11 @@ use Yii;
 /**
  * This is the model class for table "vouchers_used".
  *
- * @property integer $id
- * @property integer $vid
- * @property integer $uid
- * @property integer $usedDate
+ * @property int $id
+ * @property int $vid
+ * @property int $uid
+ * @property int $did
+ * @property int $usedDate
  */
 class VouchersUsed extends \yii\db\ActiveRecord
 {
@@ -28,8 +29,8 @@ class VouchersUsed extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['vid', 'uid', 'usedDate'], 'required'],
-            [['vid', 'uid', 'usedDate'], 'integer'],
+            [['vid', 'uid', 'did', 'usedDate'], 'required'],
+            [['vid', 'uid', 'did', 'usedDate'], 'integer'],
         ];
     }
 
@@ -42,6 +43,7 @@ class VouchersUsed extends \yii\db\ActiveRecord
             'id' => 'ID',
             'vid' => 'Vid',
             'uid' => 'Uid',
+            'did' => 'Did',
             'usedDate' => 'Used Date',
         ];
     }

@@ -65,10 +65,20 @@ class Accountbalance extends \yii\db\ActiveRecord
                 $history->type = 1;
                 $history->system_type = "Withdraw Fail";
                 break;
-            case 5;
+            case 5:
                 $history->description = "Placed An Order, id ".$this->deliveryid. " with total " .$this->defaultAmount;
                 $history->type = 0;
                 $history->system_type = "Order";
+                break;
+            case 6:
+                $history->description = "Delivery Id " . $this->deliveryid . "has Cancel. Refund with total " . $this->defaultAmount;
+                $history->type = 1;
+                $history->system_type = "Cancel Order";
+                break;
+            case 7:
+                $history->description = "Order Id " . $this->deliveryid . "has Cancel. Refund with total " . $this->defaultAmount;
+                $history->type = 1;
+                $history->system_type = "Cancel Order";
                 break;
             default:
                 # code...

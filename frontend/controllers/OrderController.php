@@ -39,7 +39,7 @@ class OrderController extends CommonController
     public function actionMyOrders($status = "")
     {    
         $countOrder = $this->getTotalOrder();
-        $query = Orders::find()->where('User_Username = :uname and Orders_Status != "Not Placed" ', [':uname'=>Yii::$app->user->identity->username])->orderBy(['Delivery_ID'=>SORT_DESC]);
+        $query = Orders::find()->where('User_Username = :uname ', [':uname'=>Yii::$app->user->identity->username])->orderBy(['Delivery_ID'=>SORT_DESC]);
         $statusid = ArrayHelper::map(StatusType::find()->all(),'type','id');
         $label = ArrayHelper::map(StatusType::find()->all(),'id','label');
 
@@ -131,10 +131,15 @@ class OrderController extends CommonController
 //--This function loads the specific user's order details
     public function actionOrderDetails($did)
     {
-        $order = Orders::find()->where("orders.Delivery_ID = :id",[':id'=>$did])->joinWith(['address'])->one();
-        $orderitems = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
+        $order = Orders::find()->where("orders.Delivery_ID = :id and User_Username = :u",[':id'=>$did,':u'=>Yii::$app->user->identity->username])->joinWith(['address'])->one();
+        if(empty($order))
+        {
+            Yii::$app->session->setFlash('error', 'Something Went Wrong!!.');
+            return $this->redirect(['/order/my-orders']);
+        }
+        $orderitems = Orderitem::find()->where('Delivery_ID = :did ', [':did'=>$did])->all();
         $label = StatusType::find()->asArray()->all();
-
+        $label = ArrayHelper::map($label,'id','label');
         date_default_timezone_set("Asia/Kuala_Lumpur");
        
         $order['Orders_Subtotal'] = number_format($order['Orders_Subtotal'],2);
@@ -156,7 +161,7 @@ class OrderController extends CommonController
             Yii::$app->session->setFlash('error', 'Something Went Wrong!!.');
             return $this->redirect(['/order/my-orders']);
         }
-        $orderitem = Orderitem::find()->where('Delivery_ID = :did', [':did'=>$did])->all();
+        $orderitem = Orderitem::find()->where('Delivery_ID = :did and OrderItem_Status != 8 and OrderItem_Status != 9', [':did'=>$did])->all();
         $address = DeliveryAddress::find()->where('delivery_id=:did',[':did'=>$did])->one();
         
         $pdf = new Pdf([

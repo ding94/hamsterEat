@@ -59,7 +59,7 @@ class ProfitController extends CommonController
 	{
 		$isValid = true;
 		$data = [];
-		$item = Orderitem::find()->where('Delivery_ID = :did',[':did' => $did])->joinWith(['food'])->all();
+		$item = Orderitem::find()->where('Delivery_ID = :did and OrderItem_Status != 8 and OrderItem_Status != 9',[':did' => $did])->joinWith(['food'])->all();
 
 		foreach ($item as $key => $value) {
 			$empty = json_encode(['empty'=>'N/A']);

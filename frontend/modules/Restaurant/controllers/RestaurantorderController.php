@@ -208,7 +208,7 @@ class RestaurantorderController extends CommonController
         	return false;
         }
 
-        $allitem = OrderItem::find()->where('Delivery_ID =:did',[':did' => $orderitem->Delivery_ID])->all();
+        $allitem = OrderItem::find()->where('Delivery_ID =:did and OrderItem_Status != 8 and OrderItem_Status != 9',[':did' => $orderitem->Delivery_ID])->all();
 
         foreach ($allitem as $item) {
             $updateOrder = $item->OrderItem_Status == 3 ? true : false && $updateOrder;

@@ -97,7 +97,7 @@ class FoodController extends CommonController
         }
 
         $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id' => $id])->orderBy(['ID' => SORT_ASC])->all();
-        
+          
         $cartSelection = new CartSelection;
         $cart = new Cart;
         

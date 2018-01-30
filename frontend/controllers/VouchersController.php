@@ -136,9 +136,10 @@ class VouchersController extends CommonController
 		return $uservoucher;
 	}
 
-	public static function endvoucher($code)
+	public static function endvoucher($code,$did)
 	{
 		$voucher = Vouchers::find()->where('code=:c',[':c'=>$code])->all();
+		$isValid = false;
 		if (!empty($voucher)) {
 			foreach ($voucher as $k => $vou) {
 				if ($vou['discount_type'] != 100) {
@@ -152,10 +153,20 @@ class VouchersController extends CommonController
 					$use['vid'] = $vou['id'];
 					$use['uid'] = Yii::$app->user->identity->id;
 					$use['usedDate'] = time();
-					$vou->save();
-					$use->save();
+					$use['did'] = $did;
+					if($vou->save()&& $use->save())
+					{
+						$isValid = true;
+					}
+					
+				}
+				else
+				{
+					$isValid = false;
+					break;
 				}
 			}
 		}
+		return $isValid;
 	}	
 }

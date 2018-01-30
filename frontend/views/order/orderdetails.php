@@ -105,13 +105,13 @@ OrderDetailsAsset::register($this);
                         </tr>
                         <?php if ($order['Orders_DiscountEarlyAmount'] >0): ?>
                             <tr>
-                                <th><?= Yii::t('order','Early Discount') ?>:</th>
+                                <th><?= Yii::t('common','Early Discount') ?>:</th>
                                 <td style="color: red;">- <?= $order['Orders_DiscountEarlyAmount']; ?></td>
                             </tr>
                         <?php endif ?>
                         <?php if ($order['Orders_DiscountTotalAmount'] >0): ?>
                             <tr>
-                                <th><?= Yii::t('order','Discount') ?>:</th>
+                                <th><?= Yii::t('common','Discount') ?>:</th>
                                 <td style="color: red;">- <?= $order['Orders_DiscountTotalAmount']; ?></td>
                             </tr>
                         <?php endif ?>

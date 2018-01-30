@@ -28,13 +28,6 @@ Modal::end();
 <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn',],
-            'category',
-            [
-                'attribute' => 'message',
-                'headerOptions' => ['style' => 'width:40%'],
-            ],
-
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' =>'{submit}',
@@ -45,6 +38,14 @@ Modal::end();
 
                 ],
             ],
+            ['class' => 'yii\grid\SerialColumn',],
+            'category',
+            [
+                'attribute' => 'message',
+                'headerOptions' => ['style' => 'width:12%'],
+            ],
+
+            
 
             [
                 'class' => 'yii\grid\ActionColumn',

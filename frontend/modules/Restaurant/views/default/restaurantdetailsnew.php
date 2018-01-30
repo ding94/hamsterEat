@@ -101,7 +101,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
         <div class="item">
             <div class="img">
                 <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
-                    <div class="corner-ribbon top-left sticky red shadow">-15%</div>
+                    <div class="corner-ribbon top-left sticky red shadow"><span>-15%</span></div>
                 <?php endif; ?>
                 <img src=<?php echo $newdata->singleImg?> alt="">
             </div>

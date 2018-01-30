@@ -86,7 +86,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
         <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>"  class ="food-link" data-toggle="modal" data-target="#foodDetail" data-img= <?php echo json_encode($imgdata) ?>>
         <div class="item">
             <div class="img">
-                <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
+                <?php if (time() > strtotime(date("Y/m/d 11:0:0"))):?>
                     <div class="corner-ribbon top-left sticky red shadow">-15%</div>
                 <?php endif; ?>
                 <img  src=<?php echo $data->singleImg?> alt="">

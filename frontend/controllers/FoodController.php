@@ -44,7 +44,7 @@ class FoodController extends CommonController
                 //'only' => ['foodDetails', 'insertFood','menu','delete','editFood','postedit','recycleBin','deletePermanent','viewComments'],
                 'rules' => [
                     [
-                        'actions' => [ 'insert-food','menu','delete','edit-food','postedit','recycle-bin','delete-permanent'],
+                        'actions' => [ 'insert-food','menu','delete','edit-food','postedit','recycle-bin','delete-permanent','selection-delete'],
 
                         'allow' => true,
                         'roles' => ['restaurant manager'],
@@ -238,6 +238,42 @@ class FoodController extends CommonController
             Yii::$app->session->setFlash('error','You are not allowed to perform this action.');
         }
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionSelectionDelete($id)
+    {
+        $selection = Foodselection::findOne($id);
+        if(empty($selection))
+        {
+            Yii::$app->session->setFlash('error','Something Went Wrong!');
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        $food = Food::find()->where('Food_ID = :fid',[':fid'=>$selection->Food_ID])->joinWith('restaurant')->one();
+        if ($food['restaurant']['Restaurant_Manager'] == Yii::$app->user->identity->username){
+            if($selection->Status == 0)
+            {
+                $selection->Status = -1;
+               
+                if($selection->save())
+                {
+                    Yii::$app->session->setFlash('success','Item Deleted.');
+                }
+                else
+                {
+                    Yii::$app->session->setFlash('error','You need to pause the item first.');
+                }
+            }
+            else
+            {
+                Yii::$app->session->setFlash('error','You need to pause the item first.');
+            }
+        }
+        else
+        {
+            Yii::$app->session->setFlash('error','You are not allowed to perform this action.'); 
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+       
     }
 
 //--This function runs when a food's details are edited

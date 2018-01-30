@@ -1,0 +1,88 @@
+.container{
+	background-color: white;
+}
+
+.food-service-title{
+  font-size: 1.6em;
+  font-weight: 500;
+  line-height: 2.4em;
+}
+
+.food-service-header{
+  box-sizing: border-box;
+  border-bottom: 1px solid #efefef;
+}
+
+#food-onoff-nav > li > a {
+  border-bottom: 1px solid #efefef;
+}
+
+.food-onoff-content{
+  border-left: 1px solid #efefef;
+  padding-top :15px;
+}
+
+.width-10{
+	width: 10%;
+}
+
+.width-30{
+	width: 30%;
+}
+
+.right{
+	float:right;
+}
+
+@media (max-width: 767px){
+  .food-onoff-content{
+    border-left: 0px;
+  }
+}
+
+@media(max-width: 540px){
+  	.food-onoff-content{
+  		border:1px solid black;
+  		padding-left: 0px;
+  		padding-right: 0px;
+  	}
+  	.food-onoff-content > table, thead, tbody, th, td, tr { 
+    	display: inline-grid; 
+
+  	}
+  	.none{
+  		display: none;
+  	}
+  	.width-10 {
+		width: 100%;
+  	}
+  	.width-30{
+  		width: 100%;
+  	}
+
+  	.center{
+  		text-align: center;
+
+  	}
+  	.right{
+  		float:none;
+  	}
+
+  	.name:before{
+  	
+ 		content : attr(data-th) ": ";  
+  	}
+
+  	.name{
+  		 grid-template-columns: repeat(2,120px);
+  		
+  		 align-content: space-between;
+  	}
+
+  	.border{
+  		border-bottom:1px solid black;
+  		border-top:1px solid black;
+  	}
+}
+
+

@@ -13,7 +13,7 @@ RestaurantDefaultIndex2Asset::register($this);
     <div class="item" data-id=<?php echo $fooddata->Food_ID ?>>
        
         <?php if (Yii::$app->formatter->asTime(time()) < date("11:0:0")):?>
-            <div class="corner-ribbon top-left sticky red shadow">-15%</div>
+            <div class="corner-ribbon top-left sticky red shadow"><span>-15%</span></div>
         <?php endif; ?>
             <div class="page-img">
                 <img class="img" src=<?php echo $fooddata->singleImg?> alt="">

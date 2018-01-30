@@ -93,17 +93,10 @@ Modal::end();
                   </div>
                 </div>
                   <?php
-                  echo Html::a('', ['/food/edit-food','id'=>$menu['Food_ID']], ['class'=>'raised-btn btn-lg main-btn fa fa-pencil edit-button']); 
-                  if (!empty($status)) :
-                      if ($status['Status'] == 0) :
-                        echo Html::a(Yii::t('food','Resume Food Service'), Url::to(['/Restaurant/restaurant/active', 'id'=>$menu['Food_ID'],'item'=>2]), ['id'=>'res','data-confirm'=>Yii::t('food','Do you want to Resume Operate?'),'class'=>'raised-btn btn-success']);?>
-                        <?= Html::a(Yii::t('food','Delete').'<i class="fa fa-times" aria-hidden="true"></i>',['/food/delete','fid'=>$menu['Food_ID']],['class' => 'raised-btn delete-btn btn-danger',
-                          'data' => ['confirm' => Yii::t('food','Are you sure you want to permenant delete this item?'),'method' => 'post',],]) ?>
-                    <?php 
-                      elseif ($status['Status'] == 1) :
-                        echo Html::a(Yii::t('food','Pause Food Service'), Url::to(['/Restaurant/restaurant/providereason', 'id'=>$menu['Food_ID'],'rid'=>$rid,'item'=>2]), ['id'=>'res','class'=>'raised-btn btn-danger','data-toggle'=>'modal','data-target'=>'#add-modal']);
-                      endif;
-                  endif;?>
+                    echo Html::a('', ['/food/edit-food','id'=>$menu['Food_ID']], ['class'=>'raised-btn btn-lg main-btn fa fa-pencil edit-button']); 
+                    echo Html::a('Food Service',['/Restaurant/restaurant/food-on-off','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID']],['class' => 'raised-btn delete-btn btn-danger pull-right']);
+                    
+                  ;?>
 
                 <?php
                   

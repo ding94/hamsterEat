@@ -10,7 +10,7 @@ use kartik\widgets\Select2;
 		<?php $form = ActiveForm::begin(); ?>
 		<?= $form->field($report, 'Report_Category')->widget(Select2::classname(), [
 		    'data' => $categoryArray,
-		    'options' => ['placeholder' => 'Select a category ...'],
+		    'options' => ['placeholder' => Yii::t('common','Select a category ...')],
 		    'pluginOptions' => [
 		        'allowClear' => true
 		    ],

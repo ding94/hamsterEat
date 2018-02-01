@@ -180,7 +180,7 @@ if (empty($language)) {
             $menuItems[end($keys)]['items'][] =['label' => 'Company', 'url' => ['/company/index']];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }*/
-        $menuItems[end($keys)]['items'][] = ['label' => Yii::t('layouts','Logout'), 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
+        $menuItems[end($keys)]['items'][] = ['label' => Yii::t('common','Logout'), 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
         // $menuItems[] = ['label' => '<i class="fa fa-globe"></i><span class="language"> Language </span>', 'items' => [
         //                 ['label' => 'English', 'url' => Url::to(['/site/changelanguage','lang'=>'en'])],
         //                 '<li class="divider"></li>',
@@ -293,13 +293,13 @@ if (empty($language)) {
 				<hr>
 				<ul id="linklist" class="list-unstyled">
                     <li><?php echo Html::a(Yii::t('layouts','Feedback'), Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal']) ?></li>
-					<li><?php echo Html::a(Yii::t('layouts','About Us'),['site/about']) ?></li>
-                    <li><?php echo Html::a(Yii::t('layouts','Guide'),['site/faq']) ?></li>
-					<li><a href="../HomeCookedDelicacies/Help.php">Help</a></li>
+					<li><?php echo Html::a(Yii::t('common','About Us'),['site/about']) ?></li>
+                    <li><?php echo Html::a(Yii::t('common','Guide'),['site/faq']) ?></li>
+					<li><a href="../HomeCookedDelicacies/Help.php"><?= Yii::t('common','Help') ?></a></li>
                     <?php if (Yii::$app->user->isGuest)
                     { ?>
-                        <li><?php echo Html::a(Yii::t('layouts','Login'),['site/login-popup'], ['data-toggle'=>'modal','data-target'=>'#login-modal']) ?></li>
-                        <li><?php echo Html::a(Yii::t('layouts','Signup'),['site/ruser']) ?></li> <?php
+                        <li><?php echo Html::a(Yii::t('common','Login'),['site/login-popup'], ['data-toggle'=>'modal','data-target'=>'#login-modal']) ?></li>
+                        <li><?php echo Html::a(Yii::t('common','Signup'),['site/ruser']) ?></li> <?php
                     }
                     ?>
 				</ul>
@@ -307,20 +307,20 @@ if (empty($language)) {
 			</div>
 
 			<div id="Box2" class = "col-sm-3 col-xs-12">
-				<h3>Contact Us</h3>
+				<h3><?= Yii::t('site','Contact Us')?></h3>
 				<hr>
                 <ul id="linklist" class="list-unstyled">
-                    <li> <?php echo Html::a(Yii::t('layouts','Contact'),['site/contact']) ?></li>
+                    <li> <?php echo Html::a(Yii::t('common','Contact'),['site/contact']) ?></li>
                 </ul>
-				<p>Tel. 1700-818-315</p>
+				<p><?= Yii::t('site','Tel')?>. 1700-818-315</p>
 
-				<p>Email. support@hamsterEat.my</p>
-				<a href="mailto:support@hamsterEat.my" target="_blank" class="raised-btn main-btn">Email Us</a>
+				<p><?= Yii::t('common','Email')?>. support@hamsterEat.my</p>
+				<a href="mailto:support@hamsterEat.my" target="_blank" class="raised-btn main-btn"><?= Yii::t('layouts','Email Us')?></a>
 
 			</div>
 			
 			<div id="Box3" class = "col-sm-3 col-xs-12">
-				<h3>Follow | Get in Touch</h3>
+				<h3><?= Yii::t('common','Follow')?> | <?= Yii::t('common','Get in Touch')?></h3>
 				<hr>
 				 <center>
 				 <a target="_blank" href="https://www.facebook.com" class="btn btn-social-icon btn-facebook"><span class="fa fa-facebook"></span></a>

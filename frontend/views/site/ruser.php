@@ -38,7 +38,7 @@ $this->title = Yii::t('common','Signup');
                         <i class="fa fa-circle fa-stack-2x text-primary" style="color:orange;"></i>
                          <i class="fa fa-motorcycle fa-stack-1x fa-inverse"></i>
                     </span>
-                    <h4 class="service-heading"><?= Yii::t('site','Delivery man') ?></h4> 
+                    <h4 class="service-heading"><?= Yii::t('site','Delivery Man') ?></h4> 
                <p><?= Html::a(Yii::t('site','Sign Up').' &raquo;', ['site/deliveryman'],['class' => "raised-btn btn-default"]) ?> </p>
             </div>
         </div>

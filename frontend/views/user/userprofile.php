@@ -54,7 +54,7 @@ UserAsset::register($this);
           </div>
         </div>
         <div class="col-sm-9 userprofile-right">
-          <h4><b>Details</b></h4>
+          <h4><b><?= Yii::t('common','Details') ?></b></h4>
           <div class="userprofile-input">
               <div class="row outer-row">
                 <div class="inner-row">
@@ -70,7 +70,7 @@ UserAsset::register($this);
                 </div>
 				 <div class="row outer-row">
                 <div class="userprofile-label"><?= Yii::t('common','Contact')?>:</div>
-                <div class="userprofile-text"><?php echo empty($user->userdetails->User_ContactNo) ? "not set" :$user->userdetails->User_ContactNo ?></div>
+                <div class="userprofile-text"><?php echo empty($user->userdetails->User_ContactNo) ? Yii::t('common',"not set") :$user->userdetails->User_ContactNo ?></div>
               </div>
               <div class="row outer-row">
                 <div class="userprofile-label"><?= Yii::t('common','Balance')?>(RM): </div>

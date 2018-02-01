@@ -9,28 +9,28 @@ use yii\bootstrap\ActiveForm;
 use kartik\widgets\Select2;
 use frontend\assets\NewRestaurantAsset;
 
-$this->title = 'New Restaurant';
+$this->title = Yii::t('m-restaurant','New Restaurant');
 NewRestaurantAsset::register($this);
 ?>
 <div class="site-signup">
     <div class="col-lg-8 col-lg-offset-4">
         <h1><?= Html::encode($this->title) ?></h1>
 
-        <p>Please enter the details of your Restaurant:</p>
+        <p><?= Yii::t('m-restaurant','Please enter the details of your Restaurant')?>:</p>
     </div>
     <div class="container">
         <div class="col-lg-6 col-lg-offset-3">
             <?php $form = ActiveForm::begin(['id' => 'form-newrestaurant']); ?>
                 
-            <?= $form->field($restaurant, 'Restaurant_Name')->textInput(['autofocus' => true]) ?>
+            <?= $form->field($restaurant, 'Restaurant_Name')->textInput(['autofocus' => true])->label(Yii::t('m-restaurant','Restaurant Name')) ?>
 
-            <?= $form->field($restaurant, 'Restaurant_UnitNo') ?>
+            <?= $form->field($restaurant, 'Restaurant_UnitNo')->label(Yii::t('m-restaurant','Restaurant Unit No')) ?>
 
-            <?= $form->field($restaurant, 'Restaurant_Street') ?> <br>
+            <?= $form->field($restaurant, 'Restaurant_Street')->label(Yii::t('m-restaurant','Restaurant Street')) ?> <br>
 
-            <?php echo "<strong>"."Restaurant Area"; ?> </strong> <br> <?php echo $area; ?> <br> <br>
+            <?php echo "<strong>".Yii::t('m-restaurant',"Restaurant Area"); ?> </strong> <br> <?php echo $area; ?> <br> <br>
 
-            <?= $form->field($foodjunction, 'Type_ID')->inline(true)->radioList(["22"=>'Halal',"23"=>'Non-Halal'])->label('<strong>Type</strong>') ?>
+            <?= $form->field($foodjunction, 'Type_ID')->inline(true)->radioList(["22"=>'Halal',"23"=>'Non-Halal'])->label('<strong>'.Yii::t('common','Type').'</strong>') ?>
 
             <div class="five">
                 <?php 
@@ -38,7 +38,7 @@ NewRestaurantAsset::register($this);
                             'name' => 'Type_ID',
                             'data' => $type,
                             'showToggleAll' => false,
-                            'options' => ['placeholder' => 'Select another two types ...', 'multiple' => true],
+                            'options' => ['placeholder' => Yii::t('m-restaurant','Select another two types ...'), 'multiple' => true],
                             'pluginOptions' => [
                                 'tags' => true,
                                 'maximumInputLength' => 10,
@@ -50,16 +50,16 @@ NewRestaurantAsset::register($this);
                 <br>
             </div>
             <?= $form->field($restaurant, 'Restaurant_Pricing')->inline(true)->radioList([
-            "1"=>'Less than RM 10',
-            "2"=>'More than RM 10', 
-            "3"=>'More Than RM 100'])->label('Average Food Prices') ?>
+            "1"=>Yii::t('m-restaurant','Less than').' RM 10',
+            "2"=>Yii::t('m-restaurant','More than').' RM 10', 
+            "3"=>Yii::t('m-restaurant','More than').' RM 100'])->label(Yii::t('m-restaurant','Average Food Prices')) ?>
 
-            <?= $form->field($restaurant, 'Restaurant_LicenseNo') ?>
+            <?= $form->field($restaurant, 'Restaurant_LicenseNo')->label(Yii::t('m-restaurant','Restaurant License No')) ?>
 
-            <?= $form->field($restaurant, 'Restaurant_RestaurantPicPath')->fileInput()->label('Restaurant Picture') ?>
+            <?= $form->field($restaurant, 'Restaurant_RestaurantPicPath')->fileInput()->label(Yii::t('m-restaurant','Restaurant Picture')) ?>
             
             <div class="form-group">
-                <?= Html::submitButton('Create Restaurant', ['class' => 'raised-btn main-btn', 'name' => 'newrestaurant-button']) ?>                
+                <?= Html::submitButton(Yii::t('m-restaurant','Create Restaurant'), ['class' => 'raised-btn main-btn', 'name' => 'newrestaurant-button']) ?>                
             </div>
             <?php ActiveForm::end(); ?>
         </div>

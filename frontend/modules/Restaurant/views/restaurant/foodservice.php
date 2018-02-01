@@ -11,16 +11,16 @@ StarsAsset::register($this);
 FoodServiceAsset::register($this);
 
 Modal::begin([
-      'header' => '<h2 class="modal-title">Please choose delivery place</h2>',
+      'header' => '<h2 class="modal-title">'.Yii::t('m-restaurant','Please choose delivery place').'</h2>',
       'id'     => 'add-session-modal',
       'size'   => 'modal-md',
-      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
+      'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
 ]);
 Modal::end();
 ?>
 <body>
-<div class ="container" ><h1>Manage Foods</h1>
-  <div style="padding:10px 0px 20px 0px;"><?=Html::a('Back to Restaurants', Url::to(['/Restaurant/default/restaurant-details','rid'=>$rid]), ['class'=>'raised-btn secondary-btn'])?></div>
+<div class ="container" ><h1><?= Yii::t('m-restaurant','Manage Foods')?></h1>
+  <div style="padding:10px 0px 20px 0px;"><?=Html::a(Yii::t('m-restaurant','Back to Restaurants'), Url::to(['/Restaurant/default/restaurant-details','rid'=>$rid]), ['class'=>'raised-btn secondary-btn'])?></div>
  <div class="outer-container" id="outer" >
     <div class="menu-container" id="menucon">
       <?php foreach($foods as $k => $food ){?>

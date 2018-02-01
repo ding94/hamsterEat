@@ -90,7 +90,7 @@ CartAsset::register($this);
             <?php endforeach;?></span></i>&nbsp; 
           </div>
       		<?php if(!empty($single['remark'])): ?>
-            <div class="relative upper-trash" style="color:#fc7171;"><?=Yii::t('cart','Remark');?>
+            <div class="relative upper-trash" style="color:#fc7171;"><?=Yii::t('common','Remarks');?>
       				<i class="fa fa-info-circle"> <span class="i-detail i-selection" ><?php echo $single['remark'];?><span >  </i>
             </div>
       			<?php endif; ?>

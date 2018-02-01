@@ -11,7 +11,7 @@ use frontend\assets\EditRestaurantDetailsAsset;
 use yii\bootstrap\Modal;
 use kartik\widgets\FileInput;
 
-$this->title = "Edit ".$restaurantdetails['Restaurant_Name']."'s Details";
+$this->title = Yii::t('common','Edit')." ".$restaurantdetails['Restaurant_Name']."'s ".Yii::t('common','Details');
 EditRestaurantDetailsAsset::register($this); ?>
 
 <div id="edit-restaurant-details-container" class="container">
@@ -27,7 +27,7 @@ EditRestaurantDetailsAsset::register($this); ?>
                         'hideSearch' => true,
                         'data' => $link,
                         'options' => [
-                            'placeholder' => 'Go To ...',
+                            'placeholder' => Yii::t('common','Go To ...'),
                             'multiple' => false,
 
                         ],
@@ -50,18 +50,18 @@ EditRestaurantDetailsAsset::register($this); ?>
             </div>
         </div>
         <div id="edit-restaurant-details-content" class="col-sm-10">
-            <strong>Restaurant Name</strong><br><?php echo $restaurantdetails['Restaurant_Name']; ?><br><br>
-            <strong>Restaurant License No</strong><br><?php echo $restaurantdetails['Restaurant_LicenseNo']; ?><br><br>
-            <strong>Restaurant Area</strong><br><?php echo $restaurantdetails['Restaurant_Area']; ?><br><br>
+            <strong><?= Yii::t('m-restaurant','Restaurant Name') ?></strong><br><?php echo $restaurantdetails['Restaurant_Name']; ?><br><br>
+            <strong><?= Yii::t('m-restaurant','Restaurant License No')?></strong><br><?php echo $restaurantdetails['Restaurant_LicenseNo']; ?><br><br>
+            <strong><?= Yii::t('m-restaurant','Restaurant Area')?></strong><br><?php echo $restaurantdetails['Restaurant_Area']; ?><br><br>
 
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-            <?= $form->field($foodjunction, 'Type_ID')->inline(true)->radioList([$halal['ID']=>$halal['Type_Name'],$nonhalal['ID']=>$nonhalal['Type_Name']])->label('<strong>Type</strong>') ?>
+            <?= $form->field($foodjunction, 'Type_ID')->inline(true)->radioList([$halal['ID']=>$halal['Type_Name'],$nonhalal['ID']=>$nonhalal['Type_Name']])->label('<strong>'.Yii::t('common','Type').'</strong>') ?>
                 <?php echo Select2::widget([
                             'name' => 'Type_ID',
                             'value' => $chosen,
                             'data' => $type,
                             'showToggleAll' => false,
-                            'options' => ['placeholder' => 'Select a type ...', 'multiple' => true],
+                            'options' => ['placeholder' => Yii::t('m-restaurant','Select a type ...'), 'multiple' => true],
                             'pluginOptions' => [
                                 'tags' => true,
                                 'maximumInputLength' => 10,
@@ -71,20 +71,20 @@ EditRestaurantDetailsAsset::register($this); ?>
                 ?>
                 <br>
 
-                <?= $form->field($restaurantdetails, 'Restaurant_Pricing')->radioList(["1"=>'Less than RM 10',"2"=>'More than RM 10', "3"=>'More Than RM 100'])->label('Average Food Prices') ?>
+                <?= $form->field($restaurantdetails, 'Restaurant_Pricing')->radioList(["1"=>Yii::t('m-restaurant','Less than').' RM 10',"2"=>Yii::t('m-restaurant','More than').' RM 10', "3"=>Yii::t('m-restaurant','More than').' RM 100'])->label(Yii::t('m-restaurant','Average Food Prices')) ?>
                 
                 <?php 
                     echo $form->field($upload, 'imageFile')->widget(FileInput::classname(), [
                         'options' => ['accept' => 'image/*'],
                        
-                    ]);
+                    ])->label(Yii::t('common','Upload Image'));
                 ?>
               
 
                 <div class="form-group">
-                    <?= Html::submitButton('Save', ['class' => 'raised-btn main-btn', 'name' => 'save-button']) ?>
+                    <?= Html::submitButton(Yii::t('common','Save'), ['class' => 'raised-btn main-btn', 'name' => 'save-button']) ?>
                 </div>
-                <p style="color: red;">* To change other restaurant details, please contact customer service.</p>
+                <p style="color: red;"><?= Yii::t('m-restaurant','res-edit-info')?></p>
             <?php ActiveForm::end(); ?>
         </div>
     </div>

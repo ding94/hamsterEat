@@ -31,7 +31,7 @@ UserAsset::register($this);
                         'hideSearch' => true,
                         'data' => $link,
                         'options' => [
-                            'placeholder' => 'Go To ...',
+                            'placeholder' => Yii::t('common','Go To ...'),
                             'multiple' => false,
 
                         ],
@@ -80,13 +80,13 @@ UserAsset::register($this);
                         </td>
                         <td data-th="Status">
                              <?php if ($model['Ticket_Status'] == 1) {
-                                    echo "Submitted";
+                                    echo Yii::t('ticket',"Submitted");
                                 }
                                 elseif ($model['Ticket_Status'] == 2) {
                                     echo Yii::t('ticket','Replied');
                                 }
                                 else {
-                                    echo Yii::t('ticket','error');
+                                    echo Yii::t('common','error');
                                 } 
                             ?>
                         </td>

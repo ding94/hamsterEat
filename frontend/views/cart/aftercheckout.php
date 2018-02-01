@@ -40,7 +40,7 @@ CheckoutAsset::register($this);
                         <td style="width: 40%;"><?=Yii::t('common','Delivery ID'); ?>:</td>
                         <td colspan="2"><?= $order['Delivery_ID']; ?></td>
                     </tr>
-                        <td><?=Yii::t('cart','Order ID'); ?>:</td>
+                        <td><?=Yii::t('order','Order ID'); ?>:</td>
                         
                         <?php $orders=""; ?>
                         <?php foreach ($orderitem as $key => $oid): ?>
@@ -93,7 +93,7 @@ CheckoutAsset::register($this);
                         <?php endif; ?>
                         <tr style="background-color: #d9d9d9">
                             <td></td>
-                            <td class="text-right" style="text-align: right;"><?=Yii::t('cart','Total'); ?>:</td>
+                            <td class="text-right" style="text-align: right;"><?=Yii::t('common','Total'); ?>:</td>
                             <td class="text-right">RM <?= number_format($order['Orders_TotalPrice'],2); ?></td>
                         </tr>
                 </table>

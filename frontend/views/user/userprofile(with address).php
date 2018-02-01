@@ -49,7 +49,7 @@ UserAsset::register($this);
           </div>
         </div>
         <div class="col-sm-9 userprofile-right">
-          <h4><b><?= Yii::t('user','Details')?></b></h4>
+          <h4><b><?= Yii::t('common','Details')?></b></h4>
           <div class="userprofile-input">
               <div class="row outer-row">
                 <div class="inner-row">

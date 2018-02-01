@@ -4,7 +4,7 @@ use common\models\user\Userdetails;
 use frontend\assets\ManageStaffAsset;
 use kartik\widgets\Select2;
 
-$this->title = "Manage ".$id['Restaurant_Name']."'s Staff";
+$this->title = Yii::t('m-restaurant',"Manage").' '. $id['Restaurant_Name']."'s ".Yii::t('m-restaurant','Staff');
 ManageStaffAsset::register($this);
 ?>
 <div id="manage-staff-container" class = "container">
@@ -20,7 +20,7 @@ ManageStaffAsset::register($this);
                         'hideSearch' => true,
                         'data' => $link,
                         'options' => [
-                            'placeholder' => 'Go To ...',
+                            'placeholder' => Yii::t('common','Go To ...'),
                             'multiple' => false,
 
                         ],
@@ -44,15 +44,15 @@ ManageStaffAsset::register($this);
         </div>
         <div class="col-sm-10" id="manage-staff-content">
 <div>
-    <?php echo Html::a('Add Staffs', ['all-rmanagers', 'rid'=>$id['Restaurant_ID']], ['class'=>'raised-btn main-btn']) ?>
+    <?php echo Html::a(Yii::t('m-restaurant','Add Staff'), ['all-rmanagers', 'rid'=>$id['Restaurant_ID']], ['class'=>'raised-btn main-btn']) ?>
 </div>
 <br>
     <table class = "table table-restaurant-staff">
         <thead>
             <tr>
-                <th colspan = 2> Username </th>
-                <th> Position </th>
-                <th colspan = 2> Date Time Added </th>
+                <th colspan = 2> <?=Yii::t('common','Username')?> </th>
+                <th> <?= Yii::t('m-restaurant','Position')?> </th>
+                <th colspan = 2> <?= Yii::t('m-restaurant','Date Time Added')?> </th>
             </tr>
         </thead>
         <?php 
@@ -69,43 +69,37 @@ ManageStaffAsset::register($this);
                 {
                     $picpath = $pic['User_PicPath'];
                 }
+                $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
+                $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
 
-                if ($data['User_Username'] == $id['Restaurant_Manager'])
-                {
-                    echo "<tr>";
-                        echo "<td>".Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])."</td>";
-                        echo "<td data-th='Username'>".$data['User_Username']."</td>";
-                        echo "<td data-th='Position'>".$data['RmanagerLevel_Level']."</td>";
-                        $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
-                        $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
-                        echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                    echo "</tr>";
-                }
-                elseif ($data['User_Username'] == Yii::$app->user->identity->username)
-                {
-                    echo "<tr>";
-                        echo "<td>".Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])."</td>";
-                        echo "<td data-th='Username'>".$data['User_Username']."</td>";
-                        echo "<td data-th='Position'>".$data['RmanagerLevel_Level']."</td>";
-                        $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
-                        $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
-                        echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td>".Html::a('Leave', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn'])."</td>";
-                    echo "</tr>";
-                }
-                else
-                {
-                    echo "<tr>";
-                        echo "<td>".Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])."</td>";
-                        echo "<td data-th='Username'>".$data['User_Username']."</td>";
-                        echo "<td data-th='Position'>".$data['RmanagerLevel_Level']."</td>";
-                        $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
-                        $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
-                        echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn','data-confirm'=>'Are you sure you want to remove?'])."</td>";
-                    echo "</tr>";
-                }
-            }
+                if ($data['User_Username'] == $id['Restaurant_Manager']):?> 
+                    <tr>
+                        <td><?= Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;']) ?></td>
+                        <td data-th='Username'><?= $data['User_Username'] ?></td>
+                        <td data-th='Position'><?= $data['RmanagerLevel_Level'] ?></td>
+                        <td data-th='Date Time Added'><?= $dt->format('d-m-Y H:i:s') ?></td>
+                   </tr>
+
+                <?php elseif ($data['User_Username'] == Yii::$app->user->identity->username): ?>
+
+                    <tr>
+                        <td><?= Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])?></td>
+                        <td data-th='Username'><?= $data['User_Username'] ?></td>
+                        <td data-th='Position'><?= $data['RmanagerLevel_Level']?></td>
+                        <td data-th='Date Time Added'><?= $dt->format('d-m-Y H:i:s')?></td>
+                        <td><?= Html::a(Yii::t('common','Leave'), ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn'])?></td>
+                    </tr>
+                
+                <?php else :?>
+                    <tr>
+                        <td><?= Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;'])?></td>
+                        <td data-th='Username'><?= $data['User_Username']?></td>
+                        <td data-th='Position'><?= $data['RmanagerLevel_Level']?></td>
+                        <td data-th='Date Time Added'><?= $dt->format('d-m-Y H:i:s')?></td>
+                        <td><?= Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn','data-confirm'=>Yii::t('m-restaurant','Are you sure you want to remove?')])?></td>
+                    </tr>
+                
+            <?php endif; }
         }
         elseif ($me['RmanagerLevel_Level'] == 'Owner')
         {
@@ -130,7 +124,7 @@ ManageStaffAsset::register($this);
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
                         echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td>".Html::a('Leave', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn'])."</td>";
+                        echo "<td>".Html::a(Yii::t('common','Leave'), ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn'])."</td>";
                     echo "</tr>";
                 }
                 elseif ($data['User_Username'] == $id['Restaurant_Manager'] || $data['RmanagerLevel_Level'] == 'Owner')
@@ -153,7 +147,7 @@ ManageStaffAsset::register($this);
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
                         echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn','data-confirm'=>'Are you sure you want to remove?'])."</td>";
+                        echo "<td>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn','data-confirm'=>Yii::t('m-restaurant','Are you sure you want to remove?')])."</td>";
                     echo "</tr>";
                 }
             }
@@ -182,7 +176,7 @@ ManageStaffAsset::register($this);
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
                         echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td>".Html::a('Leave', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn'])."</td>";
+                        echo "<td>".Html::a(Yii::t('common','Leave'), ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn'])."</td>";
                     echo "</tr>";
                 }
                 elseif ($data['RmanagerLevel_Level'] == 'Owner' || $data['RmanagerLevel_Level'] == 'Manager')
@@ -205,7 +199,7 @@ ManageStaffAsset::register($this);
                         $dt = new DateTime('@'.$data['Rmanager_DateTimeAdded']);
                         $dt->setTimeZone(new DateTimeZone('Asia/Kuala_Lumpur'));
                         echo "<td data-th='Date Time Added'>".$dt->format('d-m-Y H:i:s')."</td>"; //Returns IST
-                        echo "<td>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn','data-confirm'=>'Are you sure you want to remove?'])."</td>";
+                        echo "<td>".Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn','data-confirm'=>Yii::t('m-restaurant','Are you sure you want to remove?')])."</td>";
                     echo "</tr>";
                 }
             }

@@ -1,3 +1,32 @@
+/*.corner-ribbon{
+  width: 200px;
+  background: #e43;
+  top: 25px;
+  left: -50px;
+  text-align: center;
+  line-height: 50px;
+  letter-spacing: 1px;
+  color: #f0f0f0;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.corner-ribbon.sticky{
+  position: fixed;
+}
+
+.corner-ribbon.shadow{
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+.corner-ribbon.top-left{
+  top: 25px;
+  left: -50px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  position: absolute;
+  overflow: hidden;
+}*/
+
 .corner-ribbon{
   width: 200px;
   background: #e43;
@@ -27,4 +56,8 @@
   -webkit-transform: rotate(-45deg);
   position: absolute;
   overflow: hidden;
+   background: linear-gradient(#F70505 0%, #8F0808 100%);
+   box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+   
 }
+

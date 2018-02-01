@@ -23,6 +23,14 @@ class Foodstatus extends \yii\db\ActiveRecord
         return 'foodstatus';
     }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+        if($this->Status == 0 || $this->Status == 1)
+        {
+            Foodselection::updateAll(['Status' => $this->Status], "Food_ID = :fid",[':fid'=>$this->Food_ID]);
+        }
+    }
+
     /**
      * @inheritdoc
      */

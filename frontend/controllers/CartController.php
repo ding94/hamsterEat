@@ -670,7 +670,7 @@ class CartController extends CommonController
         $data = [];
         $data['value'] = 1;
         $data['message'] ="";
-        $foodselection = Foodselectiontype::find()->where("Food_ID = :id",[':id' => $id])->all();
+        $foodselection = Foodselectiontype::find()->where("Food_ID = :id ",[':id' => $id])->all();
 
         if(empty($post['CartSelection']) && empty($foodselection))
         {

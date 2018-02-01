@@ -16,6 +16,7 @@ use common\models\problem\ProblemStatus;
 use common\models\Company\Company;
 use common\models\food\Food;
 use common\models\food\Foodselection;
+use common\models\food\Foodselectiontype;
 use common\models\food\Foodstatus;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
@@ -119,7 +120,13 @@ class RestaurantController extends CommonController
 
             if($item == 3)
             {
-                $valid = self::CancelSelection($id);
+                $true = FoodselectionController::enableOff($id);
+                $valid = $true;
+                if($true)
+                {
+                    $valid = self::CancelSelection($id);
+                }
+                
             }
             else
             {
@@ -132,6 +139,10 @@ class RestaurantController extends CommonController
                 Yii::$app->session->setFlash('warning', "Status changed! Please inform customer service.");
                 return $this->redirect(Yii::$app->request->referrer); 
             }
+            else
+            {
+                 return $this->redirect(Yii::$app->request->referrer); 
+            }
         }
             
         return $this->renderAjax('reason',['reason'=>$reason,'list'=>$list]);
@@ -140,11 +151,26 @@ class RestaurantController extends CommonController
 
     public function actionFoodOnOff($id,$rid)
     {
-        $model = Foodstatus::find()->where('foodstatus.Food_ID = :id',[':id'=>$id])->one();
-        return $this->render("onoff",['model'=>$model,'rid'=>$rid]);
+        CommonController::restaurantPermission($rid);
+        $selectiondata = [];
+        $model = Foodstatus::find()->where('foodstatus.Food_ID = :id and foodstatus.Status != -1 ',[':id'=>$id])->joinWith(['selection'])->one();
+      
+        if(empty($model))
+        {
+            Yii::$app->session->setFlash('warning', "Food Already Deleted");
+            return $this->redirect(['/food/menu','rid'=>$rid,'page'=>'menu']); 
+        }
+        foreach($model->selection as $selection)
+        {
+            if($selection->Status != -1)
+            {
+                $food = Foodselectiontype::findOne($selection->Type_ID);
+                $selectiondata[$food->TypeName][] = $selection;
+            }
+        }
+        
+        return $this->render("onoff",['model'=>$model,'rid'=>$rid,'selectiondata'=>$selectiondata]);
     }
-
-    
 
     protected static function CancelSelection($id)
     {
@@ -239,8 +265,29 @@ class RestaurantController extends CommonController
     public function actionSelectionactive($id)
     {
         $model = Foodselection::findOne($id);
-        $model->Status = 1;
-        $sucess = $model->save();
+        if(!empty($model))
+        {
+            $foodStatus = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$model->Food_ID])->one();
+          
+            if($foodStatus->Status == 1)
+            {
+                 $model->Status = 1;
+                if(!$model->save())
+                {
+                    Yii::$app->session->setFlash('warning', "Change status failed."); 
+                }
+            }
+            else
+            {
+                 Yii::$app->session->setFlash('warning', "Please Turn Off Food to Turn Off Food Selection");
+            }     
+            
+        }
+        else
+        {
+            Yii::$app->session->setFlash('warning', "Change status failed.");
+        }
+      
         return $this->redirect(Yii::$app->request->referrer);
     }
 

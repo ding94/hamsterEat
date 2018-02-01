@@ -61,7 +61,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                 $ftids = "";
                 foreach($foodtype as $k=> $foodtype) : 
                   $selection = Foodselection::find()->where('Type_ID = :ftid and status = 1',[':ftid' => $foodtype['ID']])->orderBy(['Price' => SORT_ASC])->all();
-
+                  if(!empty($selection)):
                   $data = ArrayHelper::map($selection,'ID','typeprice');
                   $checkboxdata = ArrayHelper::map($selection,'ID','checkboxtypeprice');
                   if ($foodtype['Min'] == 1 && $foodtype ['Max'] < 2 ) {
@@ -132,8 +132,13 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                                   }
                               ])->label(false);?>
                    
-                  
-                <?php } endforeach; ?>
+                    
+                <?php }
+                  else:
+                      echo $form->field($cartSelection,'selectionid['.$foodtype['ID'].']', ['enableClientValidation' => false])->hiddenInput()->label(false);
+                  endif;
+                  endforeach; 
+                ?>
                  </div>
              
                  <?= $form->field($cart, 'remark',['enableClientValidation' => false])->label(Yii::t('common','Remarks')); ?>

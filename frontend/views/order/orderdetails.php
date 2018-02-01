@@ -53,12 +53,11 @@ OrderDetailsAsset::register($this);
                    <th colspan="3" id="cell-border"><?php echo $detail['Order_ID']; ?></th>
                 </tr>
                 <tr>
-                    <td rowspan="6" class="vertical-center"><?php echo Html::img($food->singleImg, ['style'=>'height:100px; width:100px;']); ?></td>
+                    <td rowspan="7" class="vertical-center"><?php echo Html::img($food->singleImg, ['style'=>'height:100px; width:100px;']); ?></td>
                 </tr>
                 <tr>
                     <td><?= Yii::t('order','Food Name') ?>:</td>
                     <td><?php echo $food['Name']; ?></td>
-                  
                 </tr>
                 <tr>
                     <td><?= Yii::t('order','Selections') ?>:</td>
@@ -89,6 +88,10 @@ OrderDetailsAsset::register($this);
                 <tr>
                     <td><?= Yii::t('common','Remarks') ?>:</td>
                     <td colspan="2"><?php echo $detail['OrderItem_Remark']; ?></td>
+                </tr>
+                <tr>
+                    <td><?= Yii::t('common','Status') ?>:</td>
+                    <td><?php echo $label[$detail->OrderItem_Status]; ?></td>
                 </tr>
             </table>
             <?php endforeach; ?>

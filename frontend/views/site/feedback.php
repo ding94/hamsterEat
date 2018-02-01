@@ -23,7 +23,7 @@ FeedbackAsset::register($this);
     </div>
 
     <div id="feedback_message">               
-        <?= $form->field($feedback, 'Feedback_Message')->textArea(['placeholder' => "Enter your feedback here..."])->label(Yii::t('site','Message')); ?>
+        <?= $form->field($feedback, 'Feedback_Message')->textArea(['placeholder' => Yii::t('common',"Enter your feedback here...")])->label(Yii::t('site','Message')); ?>
     </div>
 
     <?= $form->field($feedback, 'Feedback_PicPath')->fileInput()->label(Yii::t('site','Provide a Screenshot')) ?>

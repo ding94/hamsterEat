@@ -23,10 +23,10 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
     Modal::end() ?>
    
   <?php Modal::begin([
-            'header' => '<h2 class="modal-title">Report</h2>',
+            'header' => '<h2 class="modal-title">'.Yii::t('common','Report').'</h2>',
             'id'     => 'report-modal',
             'size'   => 'modal-sm',
-            'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">Close</a>',
+            'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
     ]);
     
     Modal::end() ?>
@@ -36,13 +36,13 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 <a href="#top" class="scrollToTop"></a>
   <div class="restaurant-info-container">
         <div class="restaurant-img-div">
-        <?php echo Html::a("Back" ,Yii::$app->request->referrer,['class'=>'raised-btn secondary-btn','id'=>'back'])?>
+        <?php echo Html::a(Yii::t('common',"Back") ,Yii::$app->request->referrer,['class'=>'raised-btn secondary-btn','id'=>'back'])?>
         <?php echo Html::img($id->img, ['class' => 'restaurant-img']) ?>
         </div> 
         <div class="restaurant-info-inner">
         <div class="restaurant-name-div"><h1 class="restaurant-name"><?php echo $id['Restaurant_Name']; ?></h1>
         <?php if(!Yii::$app->user->isGuest):?>
-        <span class="report-button"><?php echo Html::a('Report', Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#report-modal']) ?>
+        <span class="report-button"><?php echo Html::a(Yii::t('common','Report'), Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#report-modal']) ?>
         <?php endif ;?>
         </span>
     </div>

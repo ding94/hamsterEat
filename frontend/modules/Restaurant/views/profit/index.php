@@ -9,7 +9,7 @@ use kartik\widgets\Select2;
 use frontend\assets\CookingAsset;
 use frontend\assets\RestaurantEarningsAsset;
 
-$this->title = "Restaurant Profit";
+$this->title = Yii::t('m-restaurant',"Restaurant Profit");
 CookingAsset::register($this);
 RestaurantEarningsAsset::register($this);
 ?>
@@ -27,7 +27,7 @@ RestaurantEarningsAsset::register($this);
 	                        'hideSearch' => true,
 	                        'data' => $link,
 	                        'options' => [
-	                            'placeholder' => 'Go To ...',
+	                            'placeholder' => Yii::t('common','Go To ...'),
 	                            'multiple' => false,
 
 	                        ],
@@ -43,7 +43,7 @@ RestaurantEarningsAsset::register($this);
 	                 <ul id="restaurant-earnings-nav" class="nav nav-pills nav-stacked">
 	                   <?php foreach($link as $url=>$name):?>
 	                   		<li role="presentation" class=<?php echo $name=="Views Earnings" ? "active" :"" ?>>
-	                   			<a class="btn-block" href=<?php echo $url?>><?php echo $name?></a>
+	                   			<a class="btn-block" href=<?php echo $url?>><?php echo Yii::t('m-restaurant',$name)?></a>
 	                   		</li>	
 	                   <?php endforeach ;?>
 	                </ul>
@@ -53,7 +53,7 @@ RestaurantEarningsAsset::register($this);
 	    </div>
 	    <div id="restaurant-earnings-content" class = "col-sm-10">
 			<?php $form = ActiveForm::begin(['method' => 'get','action'=>['index','rid'=>$rid]]); ?>
-			<label class="control-label">Select Date</label>
+			<label class="control-label"><?= Yii::t('m-restaurant','Select Date') ?></label>
 			<div class="row">
 				<div class="col-md-9 date-picker">
 					<?php
@@ -71,7 +71,7 @@ RestaurantEarningsAsset::register($this);
 					?>
 				</div>
 				<div class="col-md-3">
-					<?= Html::submitButton('Filter', ['class' => 'btn-block raised-btn main-btn']) ?>
+					<?= Html::submitButton(Yii::t('m-restaurant','Filter'), ['class' => 'btn-block raised-btn main-btn']) ?>
 				</div>
 			</div>
 			<?php ActiveForm::end(); ?>
@@ -79,9 +79,9 @@ RestaurantEarningsAsset::register($this);
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th>Total Cost For The Duration</th>
-						<th>Total Mark Up For The Duration</th>
-						<th>Total Selling Price For The Duration</th>
+						<th><?= Yii::t('m-restaurant','Total Cost For The Duration')?></th>
+						<th><?= Yii::t('m-restaurant','Total Mark Up For The Duration')?></th>
+						<th><?= Yii::t('m-restaurant','Total Selling Price For The Duration')?></th>
 					</tr>
 				</thead>
 				<tbody>

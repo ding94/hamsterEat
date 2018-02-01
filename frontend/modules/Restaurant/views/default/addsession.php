@@ -10,11 +10,11 @@ use kartik\widgets\Select2;
 		    
 		    'name' => 'area',
 		    'data' => $postcodeArray,
-		    'options' => ['placeholder' => 'Select an Area ...'],
+		    'options' => ['placeholder' => Yii::t('m-restaurant','Select an Area ...')],
 		    'pluginOptions' => [
 		        'allowClear' => true,
 		    ],
 		]); ?>
 		<br>
-    <?= Html::submitButton('Continue', ['class' => 'raised-btn main-btn', 'name' => 'insert-button']) ?>
+    <?= Html::submitButton(Yii::t('common','Continue'), ['class' => 'raised-btn main-btn', 'name' => 'insert-button']) ?>
 <?php ActiveForm::end(); ?>

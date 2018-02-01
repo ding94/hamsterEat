@@ -10,7 +10,7 @@ use kartik\widgets\Select2;
 use frontend\assets\RestaurantDefaultIndex2Asset;
 
 
-$this->title = "Available Food";
+$this->title = Yii::t('m-restaurant',"Available Food");
 
 StarsAsset::register($this);
 RestaurantDefaultIndex2Asset::register($this);
@@ -21,14 +21,14 @@ Modal::begin([
         'id' => 'add-modal',
         'tabindex' => false // important for Select2 to work properly
     ],
-    'header' => '<h2 class="modal-title">Please choose delivery place</h2>',
+    'header' => '<h2 class="modal-title">'.Yii::t('m-restaurant','Please choose delivery place').'</h2>',
     'id'     => 'add-modal',
     'size'   => 'modal-md',
 ]);
 echo Select2::widget([
     'name' => 'state_40',
     'data' => [1=>1],
-    'options' => ['placeholder' => 'Select a state ...'],
+    'options' => ['placeholder' => Yii::t('m-restaurant','Select a state ...')],
     'pluginOptions' => [
         'allowClear' => true
     ],
@@ -45,20 +45,20 @@ Modal::end();
 ?>
 
 <div class="container" id="group-area-index2">
-    <h1 style="padding-top:10px;">Order Food for Delivery </h1>
+    <h1 style="padding-top:10px;"><?= Yii::t('m-restaurant','Order Food for Delivery') ?> </h1>
 
   
-        <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index'], ['class'=>'raised-btn']);?>
-        <?php echo Html::a('<i class="fa fa-thumbs-up"> Food</i>', ['show-by-food'], ['class'=>'raised-btn','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>       
+        <?php echo Html::a('<i class="fa fa-home">'.Yii::t('m-restaurant','Restaurant').'</i>', ['index'], ['class'=>'raised-btn']);?>
+        <?php echo Html::a('<i class="fa fa-thumbs-up"> '.Yii::t('m-restaurant','Food').'</i>', ['show-by-food'], ['class'=>'raised-btn','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>       
         <?php  $cookies = Yii::$app->request->cookies;
                $halal = $cookies->getValue('halal');
                $session = Yii::$app->session;   
                            
        ?>    
  
-     <?php echo Html::a("Change to: ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0],['class'=>'hl','style'=>'float:right;color:red;font-style: italic;'])?>
+     <?php echo Html::a(Yii::t('m-restaurant','Change to').": ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0],['class'=>'hl','style'=>'float:right;color:red;font-style: italic;'])?>
         <span class="s" style="float:right;padding-left:10px;padding-right:10px;">|</span>
-        <?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['id'=>'cp','data-toggle'=>'modal','data-target'=>'#add-modal','style'=>'color:red;font-size:14px;float:right;font-style: italic;']); ?>  
+        <?php echo Html::a(Yii::t('m-restaurant','Change Place'), ['/Restaurant/default/addsession','page'=>'index2'], ['id'=>'cp','data-toggle'=>'modal','data-target'=>'#add-modal','style'=>'color:red;font-size:14px;float:right;font-style: italic;']); ?>  
              <span class="area" style="float:right;padding-right:8px;"> <?php echo $session['area'] ?></span>       
      <input type="checkbox" id="sidebartoggler" name="" value="">
   
@@ -66,13 +66,13 @@ Modal::end();
        <div class="tm">
             <div id="menu">
               <ul>
-                <li> <a class="toggle">Filter</a></li>
-                <li><?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['data-toggle'=>'modal','data-target'=>'#add-modal']); ?></li>
+                <li> <a class="toggle"><?= Yii::t('m-restaurant','Filter')?></a></li>
+                <li><?php echo Html::a(Yii::t('m-restaurant','Change Place'), ['/Restaurant/default/addsession','page'=>'index2'], ['data-toggle'=>'modal','data-target'=>'#add-modal']); ?></li>
                 <li>
                   <?php  $cookies = Yii::$app->request->cookies;
                         $halal = $cookies->getValue('halal');
                   ?>           
-                  <?php echo Html::a("Change to: ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0])?>
+                  <?php echo Html::a(Yii::t('m-restaurant','Change to').": ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0])?>
                 </li>
                 <li><?php echo Html::a('<span class="glyphicon glyphicon-log-out"> Logout',['/site/logout'],['data-method'=>'post']);?></li>
               </ul>

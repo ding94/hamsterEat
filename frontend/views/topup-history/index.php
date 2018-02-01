@@ -74,7 +74,7 @@ TopupWithdrawMpHistoryAsset::register($this);
 		                'attribute' => 'Account_TopUpAmount',
 		                'filterInputOptions' => [
 		                    'class'       => 'form-control',
-		                    'placeholder' => 'Search Amount',
+		                    'placeholder' => Yii::t('user','Search Amount'),
 		                ],
 		                'contentOptions' => ['data-th' => 'Amount'],
 		            ],
@@ -82,9 +82,10 @@ TopupWithdrawMpHistoryAsset::register($this);
 		                'attribute' => 'bank.Bank_Name',	
 		                'filterInputOptions' => [
 		                    'class'       => 'form-control',
-		                    'placeholder' => 'Search Bank Name',
+		                    'placeholder' => Yii::t('user','Search Bank Name'),
 		                ],
-		                'contentOptions' => ['data-th' => 'Bank Name'],		
+		                'contentOptions' => ['data-th' => 'Bank Name'],	
+                        'label' => Yii::t('user','Bank Name'),	
 		            ],
 					[
 						'label' => Yii::t('common','Status'),
@@ -102,9 +103,10 @@ TopupWithdrawMpHistoryAsset::register($this);
 			            'attribute' => 'Account_RejectReason',
 			            'filterInputOptions' => [
 			                'class'       => 'form-control',
-			                'placeholder' => 'Search Reason',
+			                'placeholder' => Yii::t('user','Search Reason'),
 			            ],
 			            'contentOptions' => ['data-th' => 'Reason'],
+                        'label' => Yii::t('user','Reject Reason'),
 		            ],
 				],])?>
             </div>

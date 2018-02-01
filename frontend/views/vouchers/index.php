@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 use backend\models\Admin;
 use frontend\assets\MyVouchersAsset;
 
-$this->title = 'My Vouchers'Yii::t('voucher','');
+$this->title = Yii::t('vouchers','My Vouchers');
 MyVouchersAsset::register($this);
 ?>
 <div class="voucher">
@@ -23,7 +23,7 @@ MyVouchersAsset::register($this);
         <div class="content">
             <div class="col-sm-2">
                 <ul id="voucher-nav" class="nav nav-pills nav-stacked">
-                    <li role="presentation"><?php echo Html::a("My Vouchers"Yii::t('voucher',''),['index'],['class'=>'btn-block active'])?></li>
+                    <li role="presentation"><?php echo Html::a(Yii::t('vouchers','My Vouchers'),['index'],['class'=>'btn-block active'])?></li>
                 </ul>
             </div>
             <div class="col-sm-10 my-vouchers-table" id="voucher-content">
@@ -32,11 +32,11 @@ MyVouchersAsset::register($this);
                     <table class="table table-inverse">
                         <thead>
                             <tr>
-                                <th>Serial No<?= Yii::t('voucher','')?>.</th>
-                                <th>Code<?= Yii::t('voucher','')?></th> 
-                                <th>Discount<?= Yii::t('voucher','')?></th>
+                                <th><?= Yii::t('ticket','Serial No')?>.</th>
+                                <th><?= Yii::t('vouchers','Code')?></th> 
+                                <th><?= Yii::t('common','Discount')?></th>
                                 <th></th>
-                                <th>Last Available Date<?= Yii::t('voucher','')?></th>
+                                <th><?= Yii::t('vouchers','Last Available Date')?></th>
                             </tr>
                         </thead>
                   <?php foreach ($uservoucher as $k => $uservou) { ?>
@@ -60,7 +60,7 @@ MyVouchersAsset::register($this);
                     <?php  } ?>
                     </table>
                     <?php } elseif (empty($model)) { ?>
-                <h3>Seems like you don't have any vouchers yet..<?= Yii::t('voucher','non-voucher')?></h3>
+                <h3><?= Yii::t('vouchers','non-voucher')?></h3>
                 <?php }  ?>
             </div>
         </div>

@@ -19,7 +19,7 @@ $this->title = Yii::t('common','Login');
                 
                 <?= $form->field($model, 'password')->passwordInput()->label(Yii::t('common','Password')) ?>
 
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                <?= $form->field($model, 'rememberMe')->checkbox()->label(Yii::t('common','Remember Me')) ?>
 
                 <div id="form-group" class="form-group">
                     <?= Html::submitButton(Yii::t('common','Login'), ['class' => 'raised-btn main-btn', 'name' => 'login-button']) ?>

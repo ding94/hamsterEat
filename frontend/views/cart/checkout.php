@@ -10,7 +10,7 @@ CheckoutAsset::register($this);
 
 //new address modal
 Modal::begin([
-      'header' => '<h2 class="modal-title">'.Yii::t('cart','Edit address').'</h2>',
+      'header' => '<h2 class="modal-title">'.Yii::t('user','Edit Address').'</h2>',
       'id'     => 'address-modal',
       'size'   => 'modal-md',
       'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('common','Close');.'</a>',
@@ -18,7 +18,7 @@ Modal::begin([
 Modal::end();
 //edit address modal
 Modal::begin([
-      'header' => '<h2 class="modal-title">'.Yii::t('cart','Edit address').'</h2>',
+      'header' => '<h2 class="modal-title">'.Yii::t('user','Edit Address').'</h2>',
       'id'     => 'edit-address-modal',
       'size'   => 'modal-md',
       'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('common','Close');.'</a>',
@@ -31,7 +31,7 @@ Modal::end();
         <br>
         <table class="table table-user-info">
             <tr>
-                <th colspan = "2"> <h3><?= Yii::t('cart','Receiver');?></h3></th>
+                <th colspan = "2"> <h3><?= Yii::t('checkout','Receiver');?></h3></th>
             </tr>
             <?php $form = ActiveForm::begin(['id' => 'checkout']); ?>
 

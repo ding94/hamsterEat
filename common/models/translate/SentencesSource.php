@@ -50,7 +50,7 @@ class SentencesSource extends \yii\db\ActiveRecord
     public function search($params,$case=1)
     {
         
-        $query = self::find()->orderBy('category ASC')->joinWith('sentences')->andWhere(['!=','category','faq']);
+        $query = self::find()->orderBy('id DESC')->joinWith('sentences')->andWhere(['!=','category','faq']);
         switch ($case) {
             case 1:
                 $dataProvider = new ActiveDataProvider([

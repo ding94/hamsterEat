@@ -175,7 +175,7 @@ if (empty($language)) {
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }*/
 
-        $menuItems[end($keys)]['items'][] = ['label' => 'Logout ', 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
+        $menuItems[end($keys)]['items'][] = ['label' => Yii::t('common','Logout'), 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
         // $menuItems[] = ['label' => '<i class="fa fa-globe"></i><span class="language"> Language </span>', 'items' => [
         //                 ['label' => 'English', 'url' => Url::to(['/site/changelanguage','lang'=>'en'])],
         //                 '<li class="divider"></li>',
@@ -281,20 +281,20 @@ if (empty($language)) {
             </div>
 
             <div id="Box2" class = "col-sm-3 col-xs-12">
-                <h3>Contact Us</h3>
+                <h3><?= Yii::t('site','Contact Us') ?></h3>
                 <hr>
                 <ul id="linklist" class="list-unstyled">
                     <li> <?php echo Html::a(Yii::t('common','Contact'),['site/contact']) ?></li>
                 </ul>
-                <p>Tel. 1700-818-315</p>
+                <p><?= Yii::t('site','Tel') ?>. 1700-818-315</p>
 
-                <p>Email. support@hamsterEat.my</p>
-                <a href="mailto:support@hamsterEat.my" target="_blank" class="raised-btn main-btn">Email Us</a>
+                <p><?= Yii::t('common','Email') ?>. support@hamsterEat.my</p>
+                <a href="mailto:support@hamsterEat.my" target="_blank" class="raised-btn main-btn"><?= Yii::t('layouts','Email Us')?></a>
 
             </div>
             
             <div id="Box3" class = "col-sm-3 col-xs-12">
-                <h3>Follow | Get in Touch</h3>
+                <h3><?= Yii::t('common','Follow') ?> | <?= Yii::t('common','Get in Touch') ?></h3>
                 <hr>
                  <center>
                  <a target="_blank" href="https://www.facebook.com" class="btn btn-social-icon btn-facebook" title="Facebook"><span class="fa fa-facebook"></span></a>

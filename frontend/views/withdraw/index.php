@@ -59,10 +59,10 @@ TopupIndexAsset::register($this);
 				<?php $form = ActiveForm::begin(); ?>
 
              
-					<?= $form->field($model, 'withdraw_amount')->textInput() ?>
-					<?= $form->field($model, 'bank_name')->dropDownList($bank)?>
-				    <?= $form->field($model, 'to_bank')->textInput() ?>		
-					<?= $form->field($model, 'acc_name')->textInput() ?>				   
+					<?= $form->field($model, 'withdraw_amount')->textInput()->label(Yii::t('withdraw','Withdraw Amount').'(RM)') ?>
+					<?= $form->field($model, 'bank_name')->dropDownList($bank)->label(Yii::t('user','Bank Name'))?>
+				    <?= $form->field($model, 'to_bank')->textInput()->label(Yii::t('topup','Bank Account Number')) ?>		
+					<?= $form->field($model, 'acc_name')->textInput()->label(Yii::t('withdraw','Account Name')) ?>				   
 					
                 <div class="form-group">
                     <?= Html::submitButton(Yii::t('common','Withdraw'), ['class' => 'raised-btn main-btn']) ?>

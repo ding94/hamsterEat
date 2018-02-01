@@ -117,7 +117,7 @@ OrderDetailsAsset::register($this);
                             </tr>
                         <?php endif ?>
                         <tr>
-                            <th><?= Yii::t('order','Total') ?>:</th>
+                            <th><?= Yii::t('common','Total') ?>:</th>
                             <td><?= $order['Orders_TotalPrice']; ?></td>
                         </tr>
                     </table>

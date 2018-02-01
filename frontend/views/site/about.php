@@ -51,7 +51,7 @@ $this->title = Yii::t('common','About Us').' | HamsterEat.my';
   </section>
   <section class="col-md-5">
     <h3>
-      Contact Us
+      <?= Yii::t('site','Contact Us')?>
     </h3>
     <p>
       <span class="secondary-header"><?= Yii::t('site','Customer Support Hotline') ?>:</span>

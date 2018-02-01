@@ -55,7 +55,7 @@ AddFoodAsset::register($this);
                     ]);
                 ?>
                 
-                <?= $form->field($food, 'Description')->textInput()->label(Yii::t('food','Description')) ?>
+                <?= $form->field($food, 'Description')->textInput()->label(Yii::t('common','Description')) ?>
                 
                 <?php DynamicFormWidget::begin([
                     'widgetContainer' => 'dynamicform_wrapper',

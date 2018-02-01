@@ -98,7 +98,7 @@ $this->title = "Food ".$model->name." Service";
 								<?php 
 								if($selection->Status == 1):
 								 	echo Html::a('Turn Off Selection',['providereason','id'=>$selection->ID,'item'=>3,'rid'=>$rid] , ['class'=>'resize-btn raised-btn btn-danger right','data-toggle'=>'modal','data-target'=>'#add-modal']);
-								 else :
+								 elseif($model->Status == 1) :
 									echo Html::a('Turn On Selection',['selectionactive','id'=>$selection->ID] , ['class'=>'resize-btn raised-btn btn-success right']);
 								endif; 
 								;?>

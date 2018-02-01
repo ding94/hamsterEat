@@ -22,7 +22,7 @@ class SelectionTypeController extends Controller
 		$data['value'] = 1;
 		$data['message'] = "";
 		$selection = array_filter($selection);
-		
+
 		foreach ($foodselection as $key => $value) {
 
 			if(empty($selection[$value->ID]))

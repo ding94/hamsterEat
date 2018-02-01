@@ -7,6 +7,7 @@ use yii\web\Controller;
 use yii\helpers\ArrayHelper;
 use frontend\controllers\CartController;
 use common\models\food\Foodselection;
+use common\models\food\Foodselectiontype;
 use common\models\food\Food;
 
 class FoodselectionController extends Controller
@@ -77,6 +78,24 @@ class FoodselectionController extends Controller
             default:
                 return false;
                 break;
+        }
+       
+    }
+
+    public static function enableOff($id)
+    {
+        $selection = Foodselection::findOne($id);
+        $type = Foodselectiontype::findOne($selection->Type_ID);
+        $currentOn = Foodselection::find()->where('Type_ID = :tid and Status = 1',[':tid'=>$type->ID])->count();
+       
+        if($type->Min >= $currentOn)
+        {
+              Yii::$app->session->setFlash('danger', "Food Selection Type : ".$type->TypeName." require as least ".$type->Min. " to be active.");
+            return false;
+        }
+        else
+        {
+            return true;
         }
        
     }

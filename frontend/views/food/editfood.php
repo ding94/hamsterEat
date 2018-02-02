@@ -23,7 +23,7 @@ AddFoodAsset::register($this);
     <div class="content">
        <div class="col-sm-2">
             <ul id="add-food-nav" class="nav nav-pills nav-stacked">
-                <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i>".Yii::t('common','back'),['food/menu','rid' => $food->Restaurant_ID,'page'=>'menu'])?></li>
+                <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i>".Yii::t('common','Back'),['food/menu','rid' => $food->Restaurant_ID,'page'=>'menu'])?></li>
             </ul>
        </div>
        <div class="col-sm-10 food-content">
@@ -58,7 +58,7 @@ AddFoodAsset::register($this);
                         ]);
                 ?>
                 
-                <?= $form->field($food, 'Description')->textInput()->label(Yii::t('food','Description')) ?>
+                <?= $form->field($food, 'Description')->textInput()->label(Yii::t('common','Description')) ?>
 
                 <?php DynamicFormWidget::begin([
                     'widgetContainer' => 'dynamicform_wrapper',

@@ -24,14 +24,14 @@ TopupIndexAsset::register($this);
                         'name' => 'url-redirect',
                         'hideSearch' => true,
                         'data' => $link,
-                        'options' => [
-                            'placeholder' => 'Go To ...',
+                        'options' =>    [
+                            'placeholder' => Yii::t('common','Go To ...'),
                             'multiple' => false,
 
                         ],
                         'pluginEvents' => [
                              "change" => 'function (e){
-                                location.href =this.value;
+                                location.href =this.value;  
                             }',
                         ]
                     ])
@@ -62,12 +62,12 @@ TopupIndexAsset::register($this);
 				
 				</div>
 
-				<?= $form->field($model,'Account_ChosenBank')->dropDownList($banklist)?>
+				<?= $form->field($model,'Account_ChosenBank')->dropDownList($banklist)->label(Yii::t('user','Chosen Bank')) ?>
 
 			
-				<?= $form->field($model, 'Account_TopUpAmount') ?>
+				<?= $form->field($model, 'Account_TopUpAmount')->label(Yii::t('user','Total Top Up Amount').'(RM)') ?>
 										
-		        <?= $form->field($upload, 'imageFile')->fileInput() ?>
+		        <?= $form->field($upload, 'imageFile')->fileInput()->label(Yii::t('common','Upload Image')) ?>
 		        <div class="form-group">
 		            <?= Html::submitButton(Yii::t('common','Submit'), ['class' => 'raised-btn main-btn']) ?>
 		        </div>

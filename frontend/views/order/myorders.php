@@ -5,7 +5,7 @@ use yii\widgets\LinkPager;
 use kartik\widgets\Select2;
 use frontend\assets\MyOrdersAsset;
 
-$this->title = Yii::t('order','My Orders')." : ". Yii::t('common',$status);
+$this->title = Yii::t('order','My Orders')." : ". Yii::t('order',$status);
 
 
 MyOrdersAsset::register($this);
@@ -23,8 +23,8 @@ MyOrdersAsset::register($this);
               'hideSearch' => true,
               'data' => $link,
               'options' => [
-                  'placeholder' => 'Go To ...',
-                  'multiple' => false,
+                  'placeholder' => Yii::t('common','Go To ...'),
+                  'multiple' => false,  
                 ],
               'pluginEvents' => [
                     "change" => 'function (e){
@@ -37,7 +37,7 @@ MyOrdersAsset::register($this);
           <ul id="my-orders-nav" class="nav nav-pills nav-stacked">
             <li><?php echo Html::a(Yii::t('common','All'),['/order/my-orders'])?></li>
             <?php foreach($countOrder as $i=> $count): ?>
-              <li><?php echo Html::a($i.'<span class="badge">'.$count['total'].'</span>',['/order/my-orders','status'=>$statusid[$i]])?></li>
+              <li><?php echo Html::a(Yii::t('order',$i).'<span class="badge">'.$count['total'].'</span>',['/order/my-orders','status'=>$statusid[$i]])?></li>
             <?php endforeach ;?>
         </ul>
       </div>
@@ -53,7 +53,7 @@ MyOrdersAsset::register($this);
         <table class="table table-user-info orderTable">
           <thead>
             <tr>
-              <th colspan="2"><center><?= Yii::t('order','More') ?></th>
+              <th colspan="2"><center><?= Yii::t('common','More') ?></th>
               <th><center><?= Yii::t('common','Delivery ID') ?></th>
               <th><center><?= Yii::t('order','Date and Time Placed') ?></th>
             </tr>
@@ -79,8 +79,6 @@ MyOrdersAsset::register($this);
 
             <?php if ($data['Orders_Status'] == 1) : ?>
               <td> <?= Html::a(Yii::t('order','Go payment page'), ['payment/process-payment','did'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td> ?>
-            <?php elseif ($data['Orders_Status'] == 7) : ?>
-              <td><center> Rating Done </td>
             <?php else: ?>
               <td><?= $label[$data['Orders_Status']]; ?></td>
             <?php endif;?>

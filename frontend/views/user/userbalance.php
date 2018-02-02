@@ -15,7 +15,7 @@ TopupWithdrawMpHistoryAsset::register($this);
 <div class="balance">
 <div id="userprofile" class="row">
    <div class="userprofile-header">
-        <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
+        <div class="userprofile-header-title"><?php echo Html::encode(Yii::t('common',$this->title))?></div>
     </div>
     <div class="topup-detail">
         <div class="col-sm-2" style="padding-bottom:20px;">
@@ -50,7 +50,7 @@ TopupWithdrawMpHistoryAsset::register($this);
             <div  id="account-history" class="history-container">
               <table class="table table-user-information" id="display">
                 <tr>
-                    <td id="right" class="history-font"><?php echo Html::encode($this->title)?></td> 
+                    <td id="right" class="history-font"><?php echo Html::encode(Yii::t('common',$this->title))?></td> 
                     <td id="middle" class="link history-font"><?php echo Html::a(Yii::t('common','Top Up History'),['/topup-history/index'],['class'=>'btn-block remove-all'])?></td>
                     <td id="left" class="link history-font"><?php echo Html::a(Yii::t('common','Withdraw History'),['/withdraw-history/index'],['class'=>'btn-block remove-all'])?></td>
                 </tr>  
@@ -68,7 +68,7 @@ TopupWithdrawMpHistoryAsset::register($this);
 						[	
 							'label' => Yii::t('common','Date'),
 							'value' => 'created_at',
-							'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'created_at', 'dateFormat' => 'yyyy-MM-dd','options'=>['class'=>'form-control','placeholder'=>'Search Date']]),
+							'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'created_at', 'dateFormat' => 'yyyy-MM-dd','options'=>['class'=>'form-control','placeholder'=>Yii::t('user','Search Date')]]),
 							'format' => 'html',
 							'contentOptions' => [
 								'data-th' => 'Time',
@@ -78,18 +78,20 @@ TopupWithdrawMpHistoryAsset::register($this);
 		                    'attribute' => 'description',
 		                    'filterInputOptions' => [
 		                            'class'       => 'form-control',
-		                            'placeholder' => 'Search Description',
+		                            'placeholder' => Yii::t('user','Search Description'),
 		                    ],
 		                    'contentOptions' => ['data-th' => 'Description'],
+		                    'header' => Yii::t('common','Description'),
 								
 		                ],
 		                [
 		                	'attribute' => 'system_type',
 		                	'filterInputOptions' => [
 		                			'class'       => 'form-control',
-		                            'placeholder' => 'Search Type',
+		                            'placeholder' => Yii::t('user','Search Type'),
 		                	],
 		                	'contentOptions' => ['data-th' => 'Type'],
+		                	'header' => Yii::t('user','Type'),
 		                ],
 						[
 						'label' => Yii::t('common','Amount').'(RM)',
@@ -100,7 +102,7 @@ TopupWithdrawMpHistoryAsset::register($this);
 		                },
 		                'filterInputOptions' => [
 		                    'class'       => 'form-control',
-		                    'placeholder' => 'Search Amount',
+		                    'placeholder' => Yii::t('user','Search Amount'),
 		                ],
 		                'contentOptions' => ['data-th' => 'Amount'],
 		            ],

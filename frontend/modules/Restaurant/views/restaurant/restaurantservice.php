@@ -4,12 +4,12 @@ use yii\helpers\Html;
 use common\models\Restaurant;
 use frontend\assets\StarsAsset;
 use frontend\assets\RestaurantServiceAsset;
-$this->title = "Owned/Manage Restaurants";
+$this->title = Yii::t('m-restaurant',"Owned/Manage Restaurants");
 
 StarsAsset::register($this);
 RestaurantServiceAsset::register($this);
 ?>
-<div class ="container" ><h1>Manage Owned Restaurants <?= Html::a('Add Restaurant', ['/Restaurant/default/new-restaurant-location'], ['class'=>'raised-btn main-btn']) ?></h1> 
+<div class ="container" ><h1><?= Yii::t('m-restaurant','Manage Owned Restaurants')?> <?= Html::a(Yii::t('m-restaurant','Add Restaurant'), ['/Restaurant/default/new-restaurant-location'], ['class'=>'raised-btn main-btn']) ?></h1> 
  <div class="outer-container" id="outer" >
     <div class="menu-container" id="menucon">
       <?php if(!empty($restaurants)): ?>
@@ -31,7 +31,7 @@ RestaurantServiceAsset::register($this);
             </div>  	
           </div>
     		</a>
-        <?= Html::a('Placed Orders',['/Restaurant/restaurant/cooking-detail','rid'=>$restaurant['Restaurant_ID']],['class'=>'raised-btn btn-success success-btn placed-orders-btn']);?>
+        <?= Html::a(Yii::t('m-restaurant','Placed Orders'),['/Restaurant/restaurant/cooking-detail','rid'=>$restaurant['Restaurant_ID']],['class'=>'raised-btn btn-success success-btn placed-orders-btn']);?>
       </div>
       <?php } ?>
     <?php else : ?>

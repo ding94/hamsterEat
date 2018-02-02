@@ -1,4 +1,4 @@
-<?php
+  <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
 use frontend\controllers\CartController;
@@ -87,8 +87,10 @@ Modal::end();
                   </div>
                   <div class="inner-item">
                     <div class="foodName-div"><span class="foodName"><?php echo $menu['Name']; ?></span><span class="small-text stars" alt="<?php echo $menu['Rating']; ?>"><?php echo $menu['Rating']; ?></span></div>
+
                     <div class="foodDesc-div"><p class="foodDesc">Status : <?php echo $status->Status == 1 ? " On" : "Off"?></p></div>
                     <div class="foodDesc-div"><p class="foodDesc"><?= Yii::t('food','Description') ?>: <?php echo $menu['Description']; ?></p></div>
+
                     <!--<div class="ingredient-div"><p>Ingredients: <?php echo $menu['Ingredient']?></p></div> -->
                     <div class="nickname-div"><p>Nick Name: <?php echo $menu['Nickname']?></p></div>
                   </div>

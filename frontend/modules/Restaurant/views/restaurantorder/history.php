@@ -27,7 +27,7 @@ RestaurantOrdersHistoryAsset::register($this);
                         'hideSearch' => true,
                         'data' => $link,
                         'options' => [
-                            'placeholder' => 'Go To ...',
+                            'placeholder' => Yii::t('common','Go To ...'),
                             'multiple' => false,
 
                         ],
@@ -43,7 +43,7 @@ RestaurantOrdersHistoryAsset::register($this);
                 <ul id="restaurant-orders-history-nav" class="nav nav-pills nav-stacked">
                     <?php foreach($link as $url=>$name):?>
                         <li role="presentation" class=<?php echo $name=="Restaurant Orders History" ? "active" :"" ?>>
-                            <a class="btn-block" href=<?php echo $url?>><?php echo $name?></a>
+                            <a class="btn-block" href=<?php echo $url?>><?php echo Yii::t('m-restaurant',$name) ?></a>
                         </li>   
                     <?php endforeach ;?>
                 </ul>
@@ -52,7 +52,7 @@ RestaurantOrdersHistoryAsset::register($this);
         <div id="restaurant-orders-history-content" class="col-sm-10">
             <?php $form = ActiveForm::begin(['method' => 'get','action'=>['history','rid'=>$rid]]); ?>
                     <div class="border">
-                        <label class="control-label">Search Data</label>
+                        <label class="control-label"><?= Yii::t('m-restaurant','Search Data')?></label>
                         <div class="row margin-bottom">
                             <div class="col-sm-6">
                                 <?php echo $form->field($searchModel, 'keyWordStatus')->widget(Select2::classname(), [
@@ -61,17 +61,17 @@ RestaurantOrdersHistoryAsset::register($this);
                                             'pluginOptions' => [
                                                 'allowClear' => true
                                             ],
-                                        ]);
+                                        ])->label(Yii::t('m-restaurant','Key Word').' '.Yii::t('common','Status'));
                                 ?>
                             </div>
                             <div class="col-sm-6">
-                                <?php echo $form->field($searchModel, 'keyWord');?>
+                                <?php echo $form->field($searchModel, 'keyWord')->label(Yii::t('m-restaurant','Key Word'));?>
                             </div>
                         </div>
                         <div class="row margin-bottom">
                             <div class="col-sm-6">
                                 <?php echo $form->field($searchModel, 'statusType')->widget(Select2::classname(), [
-                                            'data' => [1=>'Find Delivery Status',2=>'Find Order Status'],
+                                            'data' => [1=>Yii::t('m-restaurant','Find Delivery Status'),2=>Yii::t('m-restaurant','Find Order Status')],
                                             'hideSearch' => true,
                                         ])->label(false);
                                 ?>
@@ -105,17 +105,17 @@ RestaurantOrdersHistoryAsset::register($this);
                         </div>
                         <div class="row margin-bottom">
                             <div class="col-md-6">
-                                <?= Html::submitButton('Search', ['class' => 'btn-block raised-btn main-btn']) ?>
+                                <?= Html::submitButton(Yii::t('common','Search'), ['class' => 'btn-block raised-btn main-btn']) ?>
                             </div>
                             <div class="col-md-6">
-                                 <?= Html::a('Reset', ['history','rid'=>$rid],['class' => 'btn-block raised-btn ']) ?>
+                                 <?= Html::a(Yii::t('common','Reset'), ['history','rid'=>$rid],['class' => 'btn-block raised-btn ']) ?>
                             </div>
                         </div>
                     </div>
                 <?php ActiveForm::end(); ?>
                  <br>
             <?php if(empty($result)) :?>
-                 <h2>There are no orders currently...</h2>
+                 <h2><?= Yii::t('m-restaurant','There are no orders currently')?>...</h2>
             <?php else :?>
                 <?php foreach ($result as $did =>$delivery) : 
                         $deliveryData = array_shift($delivery);
@@ -124,23 +124,23 @@ RestaurantOrdersHistoryAsset::register($this);
                     <thead id="thead-needed">
                         <tr>
                             <th colspan = '2' data-th="Delivery_ID">
-                                <center>Delivery ID: <?= $did?> 
+                                <center><?= Yii::t('common','Delivery ID')?>: <?= $did?> 
                             </th>
                             <th colspan= '2' data-th="Delivery Status">
                                 <center> <?= $deliveryData['DateTime'] ?>
                             </th>
                             <th colspan= '1' data-th="Delivery Status">
-                                <center>Status: <?= $statusid[$deliveryData['status']] ?>
+                                <center><?= Yii::t('common','Status')?>: <?= $statusid[$deliveryData['status']] ?>
                             </th> 
                         </tr>
                     </thead>
                     <thead>
                         <tr>
-                            <th width="10%">Order ID</th>
-                            <th width="30%">Food Name </th>
+                            <th width="10%"><?= Yii::t('order','Order ID')?></th>
+                            <th width="30%"><?= Yii::t('order','Food Name')?> </th>
                             <th>Selection </th>
-                            <th width="10%" class="center">Quantity </th>
-                            <th width="15%" class="center">Status </th>
+                            <th width="10%" class="center"><?= Yii::t('order','Quantity')?> </th>
+                            <th width="15%" class="center"><?= Yii::t('common','Status')?> </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -151,7 +151,7 @@ RestaurantOrdersHistoryAsset::register($this);
                             <?php 
                                 $selectionName = Json::decode($order->trim_selection);
                                 if(empty($selectionName)):
-                                    $name = "empty";
+                                    $name = Yii::t('common',"empty");
                                 else :
                                     $name ="";
                                     foreach($selectionName as $i=> $selection) :

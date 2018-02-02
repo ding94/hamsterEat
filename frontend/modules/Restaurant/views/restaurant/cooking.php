@@ -8,7 +8,7 @@ CookingAsset::register($this);
 ?>
 
 <div class="container">
-	<?php echo Html::button('View Nicknames', ['class'=>'raised-btn btn-default fa fa-exchange swap-button pull-right switch name'])?>
+	<?php echo Html::button(Yii::t('m-restaurant','View Nicknames'), ['class'=>'raised-btn btn-default fa fa-exchange swap-button pull-right switch name'])?>
 	<div class="panel">
 		<div class="panel-heading">
 			<ul class="nav nav-tabs">
@@ -31,12 +31,12 @@ CookingAsset::register($this);
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th>Food Name</th>
-								<th>Food Selection</th>
-								<th>Quantity</th>
-								<th>Order Id</th>
-								<th>Order Quantity</th>
-								<th>Remark</th> 
+								<th><?= Yii::t('order','Food Name')?></th>
+								<th><?= Yii::t('cart','Food Selection')?></th>
+								<th><?= Yii::t('order','Quantity')?></th>
+								<th><?= Yii::t('m-restaurant','Order Id')?></th>
+								<th><?= Yii::t('m-restaurant','Order Quantity')?></th>
+								<th><?= Yii::t('common','Remarks')?></th> 
 							</tr>
 						</thead>
 						<tbody>

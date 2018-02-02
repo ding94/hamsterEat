@@ -10,7 +10,7 @@ use frontend\assets\CartAsset;
 use yii\bootstrap\Modal;
 use kartik\widgets\Select2;
 
-$this->title = "Available Restaurants";
+$this->title = Yii::t('m-restaurant',"Available Restaurants");
 StarsAsset::register($this);
 RestaurantDefaultIndexAsset::register($this);
 
@@ -19,7 +19,7 @@ Modal::begin([
         'id' => 'add-modal',
         'tabindex' => false // important for Select2 to work properly
       ],
-      'header' => '<h2 class="modal-title">Please choose delivery place</h2>',
+      'header' => '<h2 class="modal-title">'.Yii::t('m-restaurant','Please choose delivery place').'</h2>',
       'size'   => 'modal-md',
 ]);
 
@@ -29,7 +29,7 @@ Modal::begin([
 echo Select2::widget([
     'name' => 'state_40',
     'data' => [1=>1],
-    'options' => ['placeholder' => 'Select a state ...'],
+    'options' => ['placeholder' => Yii::t('m-restaurant','Select a state ...')],
     'pluginOptions' => [
         'allowClear' => true
     ],
@@ -37,10 +37,10 @@ echo Select2::widget([
 Modal::end();
 
     Modal::begin([
-            'header' => '<h2 class="modal-title">Placed Orders</h2>',
+            'header' => '<h2 class="modal-title">'.Yii::t('layouts','Placed Orders').'</h2>',
             'id'     => 'add-modal2',
             'size'   => 'modal-lg',
-            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
     ]);
     
     Modal::end()
@@ -48,18 +48,18 @@ Modal::end();
 ?>
 
 <div class="container" id="group-area-index">
-    <h1>Order Food for Delivery </h1>
-    <?php echo Html::a('<i class="fa fa-home"> Restaurant</i>', ['index'], ['class'=>'raised-btn','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>
-	   <?php echo Html::a('<i class="fa fa-thumbs-up"> Food</i>', ['show-by-food'], ['class'=>'raised-btn']); ?>
+    <h1><?= Yii::t('m-restaurant','Order Food for Delivery')?></h1>
+    <?php echo Html::a('<i class="fa fa-home">'.Yii::t('m-restaurant','Restaurant').'</i>', ['index'], ['class'=>'raised-btn','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>
+	   <?php echo Html::a('<i class="fa fa-thumbs-up">'.Yii::t('m-restaurant','Food').'</i>', ['show-by-food'], ['class'=>'raised-btn']); ?>
    
 	 <?php  $cookies = Yii::$app->request->cookies;
             $halal = $cookies->getValue('halal');
 			$session = Yii::$app->session;
      ?>          
 	  
-     <?php echo Html::a("Change to: ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0],['class'=>'hl','style'=>'float:right;color:red;font-style: italic;'])?>
+     <?php echo Html::a(Yii::t('m-restaurant','Change to').": ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0],['class'=>'hl','font-style'=>'float:right;color:red;font-style: italic;'])?>
         <span class="s" style="float:right;padding-left:10px;padding-right:10px;">|</span>
-		<?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['id'=>'cp','data-toggle'=>'modal','data-target'=>'#add-modal','style'=>'color:red;font-size:14px;float:right;font-style: italic;']); ?>  
+		<?php echo Html::a(Yii::t('m-restaurant','Change Place'), ['/Restaurant/default/addsession','page'=>'index2'], ['id'=>'cp','data-toggle'=>'modal','data-target'=>'#add-modal','style'=>'color:red;font-size:14px;float:right;font-style: italic;']); ?>  
 			 <span class="area" style="float:right;padding-right:8px;"> <?php echo $session['area'] ?></span>
       
 	<input type="checkbox" id="sidebartoggler" name="" value="">
@@ -68,13 +68,13 @@ Modal::end();
 	  <div class="tm">
       <div id="menu">
         <ul>
-          <li> <a class="toggle">Filter</a></li>
-				  <li><?php echo Html::a('Change Place', ['/Restaurant/default/addsession','page'=>'index2'], ['data-toggle'=>'modal','data-target'=>'#add-modal']); ?></li>
+          <li> <a class="toggle"><?= Yii::t('m-restaurant','Filter')?></a></li>
+				  <li><?php echo Html::a(Yii::t('m-restaurant','Cahnge Place'), ['/Restaurant/default/addsession','page'=>'index2'], ['data-toggle'=>'modal','data-target'=>'#add-modal']); ?></li>
           <li>
             <?php $cookies = Yii::$app->request->cookies;
                   $halal = $cookies->getValue('halal');
             ?>           
-            <?php echo Html::a("Change to: ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0])?>
+            <?php echo Html::a(Yii::t('m-restaurant','Change to').": ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0])?>
           </li>
          
         </ul>
@@ -93,10 +93,10 @@ Modal::end();
             <?php ActiveForm::end(); ?>
           </div>
           <div class ="filter-name">
-            <p><i class="fa fa-sliders"> Filter By</i></p>
+            <p><i class="fa fa-sliders"><?= Yii::t('m-restaurant','Filter By')?></i></p>
           </div>
           <ul class ="filter-list">
-          <?php echo Html::a('<li>All</li>', ['index'])."&nbsp;&nbsp;"; ?>
+          <?php echo Html::a('<li>'.Yii::t('common','All').'</li>', ['index'])."&nbsp;&nbsp;"; ?>
             <?php foreach ($allrestauranttype as $i=> $data) : ?>
               <?php if(empty($filter)) :?>
                 <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/index' ,'type'=>$i])."&nbsp;&nbsp;"; ?>

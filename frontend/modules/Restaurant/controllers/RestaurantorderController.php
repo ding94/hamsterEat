@@ -107,7 +107,7 @@ class RestaurantorderController extends CommonController
             $result[$value->Delivery_ID][] = $value;   
         }
         
-        $title = $restaurant->Restaurant_Name ."'s Orders History";
+        $title = $restaurant->Restaurant_Name .Yii::t('m-restaurant',"'s Orders History");
 
         $status = ArrayHelper::map(StatusType::find()->all(),'id','type');
         $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');

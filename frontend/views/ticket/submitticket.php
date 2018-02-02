@@ -57,16 +57,12 @@ UserAsset::register($this);
         <?= Yii::t('ticket','If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.') ?>
     </p><br>
             <?php $form = ActiveForm::begin(); ?>
-                <?= $form->field($model, 'Ticket_Subject')->textInput(['autofocus' => true]) ?>
-                <?= $form->field($model, 'Ticket_Category')->dropDownList($data) ?>
+                <?= $form->field($model, 'Ticket_Subject')->textInput(['autofocus' => true])->label(Yii::t('ticket','Subject Title')) ?>
+                <?= $form->field($model, 'Ticket_Category')->dropDownList($data)->label(Yii::t('ticket','Ticket Category')) ?>
 
-                <?= $form->field($model, 'Ticket_Content')->textarea(['rows' => 6]) ?>
+                <?= $form->field($model, 'Ticket_Content')->textarea(['rows' => 6])->label(Yii::t('ticket','Content')) ?>
 
-                <?php 
-                    echo $form->field($upload, 'imageFile')->widget(FileInput::classname(), [
-                        'options' => ['accept' => 'image/*'],
-                    ]);
-                ?>
+                <?php echo $form->field($upload, 'imageFile')->widget(FileInput::classname(), ['options' => ['accept' => 'image/*'],])->label(Yii::t('common','Upload Image'));?>
 
                 <div class="form-group" id="submit-ticket">
                     <?= Html::submitButton(Yii::t('common','Submit'), ['class' => 'raised-btn main-btn submit-resize-btn', 'name' => 'contact-button']) ?>

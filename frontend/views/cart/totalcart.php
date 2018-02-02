@@ -13,7 +13,7 @@ CartAsset::register($this);
       <?php if (!empty($voucher)): ?>
         <?php $form = ActiveForm::begin(); ?>
         <div>
-            <?= $form->field($ren,'type')->dropDownList($voucher,['onchange' => 'js:return discount();','prompt' => ' -- Select Voucher --'])->label(Yii::t('cart','Voucher'))?>
+            <?= $form->field($ren,'type')->dropDownList($voucher,['onchange' => 'js:return discount();','prompt' => ' -- Select Voucher --'])->label(Yii::t('vouchers','Voucher'))?>
         </div>
         <?php ActiveForm::end(); ?>
       <?php elseif (empty($voucher)) : ?>
@@ -46,7 +46,7 @@ CartAsset::register($this);
       <?php if($time['early'] <= $time['now'] && $time['late'] >= $time['now']):?>
       <tr id="earlytd" class="relative">
         <?php $earlyDiscount = CartController::actionRoundoff1decimal($total *0.15)?>
-        <td><?= Yii::t('cart','Early Discount') ?><i class="fa fa-question-circle" aria-hidden="true">
+        <td><?= Yii::t('common','Early Discount') ?><i class="fa fa-question-circle" aria-hidden="true">
           <span class="i-detail i-information"> 
             <?= Yii::t('cart','early-promo') ?>
           </span></i>
@@ -69,7 +69,7 @@ CartAsset::register($this);
 
         <tr style="font-size:20px;">
           <?php $finalPrice = $total - $earlyDiscount + $charge ;?>
-          <td><b><?= Yii::t('cart','TOTAL') ?></td>
+          <td><b><?= Yii::t('common','Total') ?></td>
           <td class="text-xs-right" ><b>RM <font id="total"><?php echo CartController::actionRoundoff1decimal($finalPrice); ?></font></td>
         </tr>
       </table>

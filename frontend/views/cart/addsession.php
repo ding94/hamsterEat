@@ -12,7 +12,7 @@ UserAsset::register($this);
 <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model, 'Area_Postcode')->widget(Select2::classname(), [
 	    'data' => $postcodeArray,
-	    'options' => ['placeholder' => 'Select a postcode ...','id'=>'postcode-select']])->label(Yii::t('cart','Postcode'));
+	    'options' => ['placeholder' => 'Select a postcode ...','id'=>'postcode-select']])->label(Yii::t('common','Postcode'));
     ?>
 
     <?= $form->field($model,'Area_Area')->widget(DepDrop::classname(), [

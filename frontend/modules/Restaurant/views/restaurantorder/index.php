@@ -148,7 +148,7 @@ RestaurantOrdersAsset::register($this);
 		                        					elseif($data['OrderItem_Status'] == 3):
 		                        						echo Html::a(Yii::t('order','Ready for Pickup'), ['readyforpickup', 'oid'=>$data['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn']); 
 		                        					elseif($data['OrderItem_Status'] == 4):?>
-		                        						<span class='label label-warning'> Waiting for Pick Up </span>
+		                        						<span class='label label-warning'> <?= Yii::t('order','Waiting for Pick Up')?> </span>
 		                        					<?php else :?>
 		                        						<span></span>
 		                        				<?php endif; ?>

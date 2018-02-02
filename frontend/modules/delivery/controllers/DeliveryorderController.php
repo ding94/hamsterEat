@@ -50,6 +50,7 @@ class DeliveryorderController extends CommonController
     public function actionOrder()
     {
         $query = Orderitem::find()->where('deliveryman = :dman and OrderItem_Status != 1 and OrderItem_Status != 2 and OrderItem_Status !=8 and OrderItem_Status != 9 and OrderItem_Status != 10',[':dman'=>Yii::$app->user->identity->id])->joinWith(['address','order']);
+        $dman = "";
         foreach($query->each() as $key => $data)
         {
            $dman[$data->Delivery_ID]['order'] = $data->order;

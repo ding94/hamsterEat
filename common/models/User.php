@@ -9,7 +9,7 @@ use yii\web\IdentityInterface;
 use common\models\user\Useraddress;
 use common\models\user\Userdetails;
 use backend\models\auth\AuthAssignment;
-use frontend\models\Deliveryman;
+use common\models\Deliveryman;
 use common\models\DeliveryAttendence;
 use common\models\Rmanager;
 use common\models\Account\Accountbalance;  
@@ -240,7 +240,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getManager()
     {
-        return $this->hasOne(Rmanager::className(),['User_Username' => 'username']);
+        return $this->hasOne(Rmanager::className(),['uid' => 'id']);
     }
 
     public function getBalance()

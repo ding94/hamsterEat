@@ -10,7 +10,7 @@ use common\models\Area;
 use common\models\User;
 use common\models\Company\Company;
 use common\models\Company\CompanyEmployees;
-use frontend\models\Deliveryman;
+use common\models\Deliveryman;
 use common\models\DeliverymanCompany;
 use yii\web\UploadedFile;
 use common\models\Object;

@@ -17,7 +17,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         'header' => '<h4 class="modal-title">...</h4>',
         'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
-    Modal::begin()
+  
     Modal::end();
     $this->registerJs("
         $('#userDetail').on('show.bs.modal', function (event) {
@@ -74,7 +74,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 
             ['class' => 'yii\grid\ActionColumn' , 
              'template'=>'{update}',
-             ],
+            ],
 			['class' => 'yii\grid\ActionColumn' , 
              'template'=>'{active} ',
 			 'header' => "Action",

@@ -4,7 +4,7 @@ namespace common\models;
 
 use Yii;
 use common\models\User;
-use frontend\models\Deliveryman;
+use common\models\Deliveryman;
 use yii\helpers\Json;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;

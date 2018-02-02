@@ -9,6 +9,8 @@ use yii\helpers\ArrayHelper;
 use Yii;
 use backend\models\UserSearch;
 use common\models\User;
+use common\models\Deliveryman;
+use common\models\Rmanager;
 
 Class UserController extends Controller
 {
@@ -57,51 +59,153 @@ Class UserController extends Controller
 
 	public function actionUpdate($id)
 	{
-		$model = self::findModel($id);
+		$model = User::find()->where('id = :id',[':id'=>$id])->one();
+		$deliveryMan = DeliveryMan::findOne($id);
+		$deliveryMan = empty($deliveryMan) ? new Deliveryman : $deliveryMan;
+		$manager = Rmanager::findOne($id);
+		$manager = empty($manager) ? new Rmanager : $manager;
+
 		$list = self::getRole($id);
 		$model->scenario ="changeAdmin";
-		if($model->load(Yii::$app->request->post()) && $model->save())
+		if(Yii::$app->request->post())
 		{
-			$post = Yii::$app->request->post('User');
+			$post = Yii::$app->request->post();
+			$model->load(Yii::$app->request->post());
+			$post = Yii::$app->request->post();
+			$validate = true;
+		
+			$dmOrRm = self::deliveryOrRestaurant($deliveryMan,$manager);
+			
+			if($dmOrRm['value'] == 0)
+			{
+				return $this->redirect(Yii::$app->request->referrer);
+			}
 
-			$validate = self::permission($post['role'],$id);
+			$data = $dmOrRm['data'];
+
+			if($post['type'] == 1)
+			{	
+				$validate = self::permission($post['User']['role'],$id);
+			}
+			
+			$validate  = $validate && $model->validate();
 
 			if($validate == true)
 	        {
+	        	$model->save();
+	        	$data->save();
+	        	
 	        	Yii::$app->session->setFlash('success', "Update completed");
+	        	return $this->redirect(['index']);
 	        }
-	        else
-	        {
-	        	Yii::$app->session->setFlash('warning', "Fail Update");
-	        }
-		
-    		return $this->redirect(['index']);
 		}
-		return $this->render('update',['model' => $model ,'list' => $list]);
+		return $this->render('update',['model' => $model,'deliveryMan' => $deliveryMan ,'manager'=>$manager,'list' => $list]);
 	}
 
 	protected static function permission($role,$id)
 	{
 		$auth = \Yii::$app->frontendAuthManager;
 		$item = $auth->getRole($role);
-		$item = $item ? : $auth->getPermission($role);
-		$auth->revoke($item,$id);
+
+		$userRole=  $auth->getRolesByUser($id);
 
 		$authorRole = $auth->getRole($role);
-        if($auth->assign($authorRole, $id))
-        {
-        	return true;
-        }
-        return false;
-
+		
+		if(empty($userRole))
+		{
+			if($auth->assign($authorRole, $id))
+			{
+				return true;
+			}
+		}
+		else
+		{
+			Yii::$app->session->setFlash('warning', "Cannot Change Role Base!");
+			return false;
+		}
+		return false;
 	}
 
 	protected function getRole($id)
 	{
 		$auth = \Yii::$app->frontendAuthManager;
+		$list['value'] = 1;
+		if(empty($auth->getRolesByUser($id)))
+		{
+			$list['value'] = 0;
+		}
+		
 		$data = array_merge($auth->getRolesByUser($id),$auth->getRoles());
-		$list = ArrayHelper::map($data,'name','name');
+
+		unset($data['Manager']);
+		unset($data['Owner']);
+		unset($data['Operator']);
+		$list['data'] = ArrayHelper::map($data,'name','name');
+
+		if(!empty($auth->getRolesByUser($id)))
+		{
+			$list['value'] = key($list['data']);
+		}
+		
 		return $list;
+	}
+
+	protected static function deliveryOrRestaurant($deliveryman,$manager)
+	{
+		$data['value'] = 0;
+		$data['data'] ="";
+		$post = Yii::$app->request->post();
+		$role = $post['User']['role'];
+		
+		switch ($role) {
+			case 'restaurant manager':
+				$manager->load(Yii::$app->request->post());
+				
+				if($manager->isNewRecord)
+				{
+					$manager->Rmanager_DateTimeApplied = time();
+					$manager->Rmanager_DateTimeApproved = time();
+					
+				}
+				$value = $manager;
+				$data['value'] = 2;
+				# code...
+				break;
+			case 'rider':
+				$deliveryman->load(Yii::$app->request->post());
+				if($deliveryman->isNewRecord)
+				{
+					$deliveryman->DeliveryMan_DateTimeApplied = time();
+					$deliveryman->DeliveryMan_DateTimeApproved = time();
+					$deliveryman->DeliveryMan_AreaGroup = 1;
+				}
+				$value = $deliveryman;
+				$data['value'] = 3	;
+				break;
+			default:
+				# code...
+				break;
+		}
+		
+		if(!$value->validate())
+		{
+			$data['value'] = 0;
+			$message ="";
+			foreach($value->getErrors() as $erros)
+			{
+				foreach($erros as $error)
+				{
+					$message .= $error."<br>";
+				}
+			}
+			Yii::$app->session->setFlash('warning', $message);
+		}
+		else
+		{
+			$data['data'] = $value;
+		}
+		return $data;
+		
 	}
 
 	protected function findModel($id)

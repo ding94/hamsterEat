@@ -6,7 +6,7 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 use Yii;
 use yii\helpers\ArrayHelper;
-use frontend\models\Deliveryman;
+use common\models\Deliveryman;
 use common\models\DeliveryAttendence;
 use frontend\controllers\CommonController;
 use common\models\Area;

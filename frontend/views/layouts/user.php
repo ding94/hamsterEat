@@ -15,7 +15,7 @@ use kartik\widgets\SideNav;
 use yii\helpers\Url;
 use common\models\Rmanager;
 use common\models\Rmanagerlevel;
-use frontend\models\Deliveryman;
+use common\models\Deliveryman;
 use common\models\Restaurant;
 use frontend\assets\NotificationAsset;
 use frontend\assets\UserAsset;

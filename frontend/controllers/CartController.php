@@ -21,7 +21,7 @@ use common\models\Restaurant;
 use common\models\Account\Accountbalance;
 use common\models\Cart\Cart;
 use common\models\Cart\CartSelection;
-use frontend\models\Deliveryman;
+use common\models\Deliveryman;
 use frontend\controllers\PaymentController;
 use frontend\controllers\MemberpointController;
 use frontend\controllers\NotificationController;

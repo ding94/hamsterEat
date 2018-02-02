@@ -24,7 +24,7 @@ use common\models\DeliverymanCompany;
 use common\models\Area;
 use common\models\User;
 use common\models\user\Userdetails;
-use frontend\models\Deliveryman;
+use common\models\Deliveryman;
 
 
 class CheckoutController extends CommonController

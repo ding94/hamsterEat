@@ -15,7 +15,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 use yii\helpers\Json;
 use common\models\Rmanager;
 use common\models\Rmanagerlevel;
-use frontend\models\Deliveryman;
+use common\models\Deliveryman;
 use common\models\Restaurant;
 use yii\bootstrap\Modal;
 use frontend\assets\NotificationAsset;

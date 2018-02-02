@@ -27,7 +27,7 @@ RestaurantOrdersAsset::register($this);
                         'hideSearch' => true,
                         'data' => $link,
                         'options' => [
-                            'placeholder' => 'Go To ...',
+                            'placeholder' => Yii::t('common','Go To ...'),
                             'multiple' => false,
 
                         ],
@@ -41,33 +41,33 @@ RestaurantOrdersAsset::register($this);
             </div>
             <div class="nav-url">
                 <ul id="restaurant-orders-nav" class="nav nav-pills nav-stacked">
-                 	 <li><?php echo Html::a("<i class='fa fa-chevron-left'></i> Back",['history', 'rid'=>$rid])?></li>
-                    <li><?php echo Html::a("All",['index', 'rid'=>$rid])?></li>
+                 	 <li><?php echo Html::a("<i class='fa fa-chevron-left'></i> ".Yii::t('common','Back'),['history', 'rid'=>$rid])?></li>
+                    <li><?php echo Html::a(Yii::t('common',"All"),['index', 'rid'=>$rid])?></li>
                     <?php 
                     	foreach($count as $i=> $single):
                     	 	$total = $single == 0 ? "" : $single;
                     ?>
-                      <li><?php echo Html::a($i.'<span class="badge">'.$total.'</span>',['/Restaurant/restaurantorder/index','status'=>$allstatus[$i],'rid'=>$rid])?></li>
+                      <li><?php echo Html::a(Yii::t('order',$i).'<span class="badge">'.$total.'</span>',['/Restaurant/restaurantorder/index','status'=>$allstatus[$i],'rid'=>$rid])?></li>
                     <?php endforeach ;?>
                 </ul>
             </div>
         </div>
         <div id="restaurant-orders-content" class="col-sm-10">
             <?php 
-            	echo Html::a('Cooking Detail',['/Restaurant/restaurant/cooking-detail','rid'=>$rid],['class'=>'btn btn-default','style'=>'margin-bottom:20px;','target'=>'_blank']);
+            	echo Html::a(Yii::t('m-restaurant','Cooking Detail'),['/Restaurant/restaurant/cooking-detail','rid'=>$rid],['class'=>'btn btn-default','style'=>'margin-bottom:20px;','target'=>'_blank']);
              	if (empty($item)) :
             ?>		
-            	<h2><?= Html::encode('There are no orders currently...');?></h2>
+            	<h2><?= Html::encode(Yii::t('m-restaurant','There are no orders currently').'...');?></h2>
         	<?php else :?>
         		 <div class = "switchbutton"> 
 	                <?php
 	                    if ($mode == 1)
 	                    {
-	                        echo Html::a('View Nicknames', ['index', 'rid'=>$rid, 'status'=>$status, 'mode'=>2], ['class'=>'raised-btn btn-default fa fa-exchange swap-button']);
+	                        echo Html::a(Yii::t('m-restaurant','View Nicknames'), ['index', 'rid'=>$rid, 'status'=>$status, 'mode'=>2], ['class'=>'raised-btn btn-default fa fa-exchange swap-button']);
 	                    }
 	                    else
 	                    {
-	                        echo Html::a('View Food Names', ['index', 'rid'=>$rid, 'status'=>$status, 'mode'=>1], ['class'=>'raised-btn btn-default fa fa-exchange swap-button']);
+	                        echo Html::a(Yii::t('m-restaurant','View Food Names'), ['index', 'rid'=>$rid, 'status'=>$status, 'mode'=>1], ['class'=>'raised-btn btn-default fa fa-exchange swap-button']);
 	                    } 
 	                ?>
 	            </div> 
@@ -88,7 +88,7 @@ RestaurantOrdersAsset::register($this);
                                 if($status == 2 || $status == 3): 
 	                                $statusname = $status == 2 ? 'Preparing' : 'Ready Pick Up';
 	                            ?>
-                                	<h2><center><?= Html::submitButton($statusname, ['class' => 'raised-btn main-btn']) ?></center></h2>
+                                	<h2><center><?= Html::submitButton(Yii::t('order',$statusname), ['class' => 'raised-btn main-btn']) ?></center></h2>
                                 <?php endif ;?>
 	                        </div>
         				</div>
@@ -96,17 +96,17 @@ RestaurantOrdersAsset::register($this);
 	        				<?php foreach($delivery as $id => $deliveryitem) :?>
 	        					<thead>
 		                            <tr>
-		                                <th colspan = '6' data-th="Delivery_ID" style="background-color:#fffced;"><center>Delivery ID: <?= $id; ?> </th>
+		                                <th colspan = '6' data-th="Delivery_ID" style="background-color:#fffced;"><center><?= Yii::t('common','Delivery ID')?>: <?= $id; ?> </th>
 		                            </tr>
 		                        </thead>
 		                        <thead class='none'>
 		                            <tr>
-		                                <th>Order ID</th>
-		                                <th><?php echo $mode == 1 ? 'Food Name' : 'Nick Name' ?></th>
-		                                <th> Selections </th>
-		                                <th> Quantity </th>
+		                                <th><?= Yii::t('order','Order ID')?></th>
+		                                <th><?php echo $mode == 1 ? Yii::t('order','Food Name') : Yii::t('food','Nickname') ?></th>
+		                                <th><?= Yii::t('order','Selections')?> </th>
+		                                <th><?= Yii::t('order','Quantity')?> </th>
 		                            <!--    <th> Remarks </th>-->
-		                                <th> Update Status </th>
+		                                <th><?= Yii::t('m-restaurant','Update Status')?> </th>
 		                            </tr>
 		                        </thead>
 		                        <tbody>
@@ -144,9 +144,9 @@ RestaurantOrdersAsset::register($this);
 		                        			</td>
 		                        			<td data-th="Update Status">
 		                        				<?php if ($data['OrderItem_Status'] == 2): 
-		                        						echo Html::a('Preparing', ['preparing', 'oid'=>$data['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn']);
+		                        						echo Html::a(Yii::t('order','Preparing'), ['preparing', 'oid'=>$data['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn']);
 		                        					elseif($data['OrderItem_Status'] == 3):
-		                        						echo Html::a('Ready for Pick Up', ['readyforpickup', 'oid'=>$data['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn']); 
+		                        						echo Html::a(Yii::t('order','Ready for Pickup'), ['readyforpickup', 'oid'=>$data['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn']); 
 		                        					elseif($data['OrderItem_Status'] == 4):?>
 		                        						<span class='label label-warning'> Waiting for Pick Up </span>
 		                        					<?php else :?>

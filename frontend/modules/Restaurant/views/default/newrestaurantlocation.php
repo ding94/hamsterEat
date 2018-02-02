@@ -17,7 +17,7 @@ $this->title = 'New Restaurant Location';
 
         <?= $form->field($postcode, 'Area_Area')->widget(Select2::classname(), [
         'data' => $postcodeArray,
-        'options' => ['placeholder' => Yii::t('m-restaurant','Select an area ...')]])->label(Yii::t('common','Area'));
+        'options' => ['placeholder' => Yii::t('m-restaurant','Select an area ...')]])->label(Yii::t('cart','Area'));
         ?>
 
         <?= Html::submitButton(Yii::t('rating','Proceed'), ['class' => 'button-three']) ?>

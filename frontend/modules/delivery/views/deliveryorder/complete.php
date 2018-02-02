@@ -7,7 +7,7 @@ use frontend\assets\DeliverymanOrdersAsset;
 use kartik\widgets\Select2;
 use kartik\widgets\ActiveForm;
 
-$this->title = Yii::t('m-delivery',"Collect Orders");
+$this->title = "Collect Orders";
 DeliverymanOrdersAsset::register($this);
 ?>
 <style>
@@ -34,7 +34,7 @@ DeliverymanOrdersAsset::register($this);
                         'hideSearch' => true,
                         'data' => $link,
                         'options' => [
-                            'placeholder' => Yii::t('common','Go To ...'),
+                            'placeholder' => 'Go To ...',
                             'multiple' => false,
 
                         ],
@@ -50,7 +50,7 @@ DeliverymanOrdersAsset::register($this);
                 <ul id="deliveryman-orders-nav" class="nav nav-pills nav-stacked">
                 	<?php foreach($link as $url=>$name):?>
                     	<li role="presentation" class=<?php echo $name=="Complete Orders" ? "active" :"" ?>>
-                    		<a class="btn-block" href=<?php echo $url?>><?php echo Yii::t('m-delivery',$name) ?></a>
+                    		<a class="btn-block" href=<?php echo $url?>><?php echo $name?></a>
                     	</li>
                 	<?php endforeach ;?>
                    
@@ -68,20 +68,20 @@ DeliverymanOrdersAsset::register($this);
 			<?php $form = ActiveForm::begin(['action'=>['deliveryorder/mutiple-complete']]);?>
 			<div id="parent1" style="padding-top:5px;">
 				<div class="blocka left1"><div class="inner-rows" style=" display:flex;">
-				<?= Yii::t('m-delivery','Total Collect')?>(RM): <p style="color:red;"><?= $company['collectprice']; ?></p></div>
+				Total Collect(RM): <p style="color:red;"><?= $company['collectprice']; ?></p></div>
 				</div>
 				<div class="blocka center1">
-				<?php echo Html::a(Yii::t('m-delivery','Show Location'),$company['address'] ,['class'=>'raised-btn secondary-btn','target'=>'_blank']);?>
+				<?php echo Html::a('Show Location',$company['address'] ,['class'=>'raised-btn secondary-btn','target'=>'_blank']);?>
 				</div>
 				<div class="blocka right1">
-				<?= Html::submitButton(Yii::t('common','Complete'), ['class' => 'raised-btn main-btn']) ?>
+				<?= Html::submitButton('Complete', ['class' => 'raised-btn main-btn']) ?>
 				</div>
 			</div>
 				<table class="table table-hover" style="border:0px solid black;">
 					<thead class='none'>
 						<tr>
-							<th><div class="inner-row"><?php echo Html::checkbox('null',false ,['class'=>'check-all','id'=>'delivery']) ?><?= Yii::t('common','Delivery ID')?></th>
-							<th><?= Yii::t('m-delivery','Collect Price')?></th>
+							<th><div class="inner-row"><?php echo Html::checkbox('null',false ,['class'=>'check-all','id'=>'delivery']) ?>Delivery ID</th>
+							<th>Collect Price</th>
 						</tr>
 					</thead>
 					<tbody>

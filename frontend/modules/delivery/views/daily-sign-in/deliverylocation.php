@@ -7,7 +7,7 @@ use kartik\widgets\Select2;
 use common\models\Area;
 use frontend\assets\DeliveryLocationAsset;
 
-$this->title = Yii::t('m-delivery','Set Up Your Delivery Location');
+$this->title = 'Set Up Your Delivery Location';
 DeliveryLocationAsset::register($this);
 ?>
 <div class="container" id="delivery-location-container">
@@ -23,7 +23,7 @@ DeliveryLocationAsset::register($this);
                         'hideSearch' => true,
                         'data' => $link,
                         'options' => [
-                            'placeholder' => Yii::t('common','Go To ...'),
+                            'placeholder' => 'Go To ...',
                             'multiple' => false,
 
                         ],
@@ -39,7 +39,7 @@ DeliveryLocationAsset::register($this);
                <ul id="deliveryman-orders-nav" class="nav nav-pills nav-stacked">
                     <?php foreach($link as $url=>$name):?>
                         <li role="presentation" class=<?php echo $name=="Delivery Location" ? "active" :"" ?>>
-                            <a class="btn-block" href=<?php echo $url?>><?php echo Yii::t('m-delivery',$name) ?></a>
+                            <a class="btn-block" href=<?php echo $url?>><?php echo $name?></a>
                         </li>
                     <?php endforeach ;?>
                 </ul>
@@ -49,10 +49,10 @@ DeliveryLocationAsset::register($this);
             <table class="table table-user-info delivery-location-table">
               <thead>
                 <tr>
-                  <th><?= Yii::t('m-delivery','Area Group')?></th>
-                  <th><?= Yii::t('common','Area')?></th>
-                  <th><?= Yii::t('common','Postcode')?></th>
-                  <th><?= Yii::t('common','State')?></th>
+                  <th>Area Group</th>
+                  <th>Area</th>
+                  <th>Postcode</th>
+                  <th>State</th>
                 </tr>
               </thead>
               <?php
@@ -87,9 +87,9 @@ DeliveryLocationAsset::register($this);
             <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
             <?= $form->field($find, 'DeliveryMan_AreaGroup')->widget(Select2::classname(), [
               'data' => $postcodeArray,
-              'options' => ['placeholder' => Yii::t('m-delivery','Select area group ...'),'id'=>'postcode-select']])->label(Yii::t('m-delivery','Select Your Delivery Location')); 
+              'options' => ['placeholder' => 'Select area group ...','id'=>'postcode-select']])->label('Select Your Delivery Location'); 
             ?>
-            <?= Html::submitButton(Yii::t('common','Confirm'), ['class' => 'raised-btn main-btn', 'name' => 'insert-button']) ?>
+            <?= Html::submitButton('Confirm', ['class' => 'raised-btn main-btn', 'name' => 'insert-button']) ?>
             <?php ActiveForm::end(); ?>
         </div>
     </div>

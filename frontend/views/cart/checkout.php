@@ -74,13 +74,13 @@ Modal::end();
                 <td><?php if(!empty($address)){ echo Html::a(Yii::t('common','Edit'),['/cart/editaddress'],['class' => 'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#edit-address-modal','style'=>'float:right']); } ?></td>
             </tr>
             <tr>
-                <th><?= Yii::t('common','Area');?>:</th>
+                <th><?= Yii::t('cart','Area');?>:</th>
                 <td> <?= $session['area']; ?></td>
                 <td></td>
             </tr>
 
             <tr>
-                <th><?= Yii::t('common','Postcode');?>:</th>
+                <th><?= Yii::t('cart','Postcode');?>:</th>
                 <td> <?= $session['postcode']; ?></td>
                 <td></td>
             </tr>

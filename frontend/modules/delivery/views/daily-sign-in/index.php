@@ -8,7 +8,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\grid\ActionColumn;
 
-$this->title = Yii::t('m-delivery','Delivery Sign In');
+$this->title = 'Delivery Sign In';
 ?>
 
 <div class="col-md-2">

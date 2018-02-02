@@ -106,7 +106,7 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 			<div id="box3" class="index-content">
 				<div class="gradient-div"></div>
 				<div class="graphic">
-					<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index-2.png" alt="">
+					<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index-3.png" alt="">
 				</div>	
 				<div class="textcontainer">
 					<p><?= Yii::t('site','Food is prepared and delivered to you during lunch time.'); ?></p>
@@ -120,6 +120,9 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 		</div>
 	</div>
 	<div id="SSCrow5">
+		<div class="graphic">
+			<img src="<?php echo Yii::$app->params['baseUrl'] ?>/SSCrow5-test1.jpg" alt="">
+		</div>
 		<div class="container">
 			<div class="operatingtime-content">
 				<div class="text">
@@ -127,21 +130,18 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 					<p class="s-text"><?= Yii::t('site','Order before 11am,'); ?></p>
 					<p class="s-text"><?= Yii::t('site','Get Lunch by 1pm.'); ?></p>
 				</div>
-				<div class="graphic">
-					Graphic
-				</div>
 			</div>
 		</div>
 	</div>
 	<div id="SSCrow6">
+		<div class="graphic">
+			<img src="<?php echo Yii::$app->params['baseUrl'] ?>/SSCrow6.png" alt="">
+		</div>
 		<div class="container">
 			<div class="promo-content">
-				<div class="graphic">
-					Graphic
-				</div>
 				<div class="text">
 					<p><?= Yii::t('site','Early Bird Promo'); ?></p>
-					<p class="s-text"><?= Yii::t('site','Get 15% off Food!'); ?></p>
+					<p class="s-text"><?= Yii::t('site',' <span>15%</span> off Food!'); ?></p>
 					<p class="s-text"><?= Yii::t('site','All Orders Included.'); ?></p>
 				</div>
 			</div>

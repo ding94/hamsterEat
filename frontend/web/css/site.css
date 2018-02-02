@@ -693,7 +693,10 @@ span.badge{
 
 @media(max-width: 1480px){
   #SSCrow6 .promo-content{
-    padding-bottom: 15vw;
+    position: absolute;
+    bottom: 10px;
+    padding-bottom: 20vw;
+    z-index: 1;
   }
 }
 
@@ -706,11 +709,24 @@ span.badge{
   .index-content button{
     margin-left: 0;
   }
+
+  #SSCrow6{
+    overflow: hidden;
+    justify-content: center;
+  }
+
+  #SSCrow6 .graphic img{
+    width: 1300px !important;
+  }
 }
 
 @media(max-width: 991px){
   .gradient-div{
     width: 98%;
+  }
+
+  #SSCrow6 .promo-content{
+    padding-bottom: 25vw;
   }
 }
 
@@ -737,7 +753,6 @@ span.badge{
   #box1,#box2,#box3{
     height: 400px;
     transform: initial;
-    margin: 100px 0px;
   }
 
   #box2{
@@ -779,12 +794,16 @@ span.badge{
     flex-direction: column;
   }
 
-  #SSCrow6 .text{
-    margin-left: 0px !important;
+  #SSCrow6 .promo-content{
+    padding-bottom: 40vw;
   }
 }
 
 @media(max-width: 500px){
+  #SSCrow4{
+    height: 1000px;
+  }
+
   .gradient-div{
     height: 150px;
   }
@@ -806,8 +825,24 @@ span.badge{
     transform: initial;
   }
 
-  #SSCrow6 .graphic{
-    display: none;
+  #SSCrow6{
+    height: 600px !important;
+  }
+
+  #SSCrow6 .promo-content{
+    line-height: 60px;
+  }
+
+  #SSCrow6 .graphic img{
+    width: 800px !important;
+  }
+
+  #SSCrow6 .text{
+    font-size: 32px !important;
+  }
+
+  #SSCrow6 .text span{
+    font-size: 62px !important;
   }
 }
 
@@ -880,6 +915,7 @@ span.badge{
   color: #FFF;
   position: absolute;
   bottom: 0;
+  z-index: 2;
 }
 
 #SSCrow6 .graphic img{
@@ -917,17 +953,15 @@ span.badge{
 #SSCrow6 .text{
   font-size: 44px;
   text-align: center;
-  z-index: 1;
+  z-index: 3;
 }
 
 #SSCrow6 .text span{
   font-size: 102px;
   font-family: 'Roboto Slab', serif;
-  /* font-style: italic; */
   color: #ff4e50;
   font-weight: bold;
-  text-shadow: -5px 5px 0px #F98722,
-                -10px 10px 0px #f9d423;
+  text-shadow: -5px 5px 0px #F98722, -10px 10px 0px #f9d423;
 }
 
 #about-container,h1{

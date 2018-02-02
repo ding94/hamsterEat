@@ -9,7 +9,7 @@ use yii\widgets\LinkPager;
 use kartik\date\DatePicker;
 use kartik\widgets\ActiveForm;
 
-$this->title = "Deliveryman Order's History";
+$this->title = Yii::t('m-delivery',"Deliveryman Order's History");
 DeliverymanOrdersHistoryAsset::register($this);
 ?>
 <div class="container" id="deliveryman-orders-history-container">
@@ -25,7 +25,7 @@ DeliverymanOrdersHistoryAsset::register($this);
                         'hideSearch' => true,
                         'data' => $link,
                         'options' => [
-                            'placeholder' => 'Go To ...',
+                            'placeholder' => Yii::t('common','Go To ...'),
                             'multiple' => false,
 
                         ],
@@ -41,7 +41,7 @@ DeliverymanOrdersHistoryAsset::register($this);
                 <ul id="deliveryman-orders-nav" class="nav nav-pills nav-stacked">
                     <?php foreach($link as $url=>$name):?>
                         <li role="presentation" class=<?php echo $name=="Deliveryman Orders History" ? "active" :"" ?>>
-                            <a class="btn-block" href=<?php echo $url?>><?php echo $name?></a>
+                            <a class="btn-block" href=<?php echo $url?>><?php echo Yii::t('m-delivery',$name) ?></a>
                         </li>
                     <?php endforeach ;?>
                 </ul>
@@ -50,26 +50,26 @@ DeliverymanOrdersHistoryAsset::register($this);
         <div id="deliveryman-orders-history-content" class="col-sm-10">
             <?php $form = ActiveForm::begin(['method' => 'get','action'=>['history']]); ?>
                 <div class="search-border">
-                    <label class="control-label">Search Data</label>
+                    <label class="control-label"><?= Yii::t('m-restaurant','Search Data')?></label>
                     <div class="row">
                         <div class="col-sm-6">
                             <?php echo $form->field($searchModel, 'keyWordStatus')->widget(Select2::classname(), [
                                         'data' => $searchModel->keyWordArray,
-                                        'options' => [ 'placeholder' => 'Select Delivery ID',],
+                                        'options' => [ 'placeholder' => Yii::t('m-restaurant','Select Delivery ID'),],
                                         'pluginOptions' => [
                                                 'allowClear' => true
                                     ],
-                                ]);
+                                ])->label(Yii::t('m-restaurant','Key Word').' '.Yii::t('common','Status'));
                             ?>
                         </div>
                         <div class="col-sm-6">
-                             <?php echo $form->field($searchModel, 'keyWord');?>
+                             <?php echo $form->field($searchModel, 'keyWord')->label(Yii::t('m-restaurant','Key Word'));?>
                         </div>
                     </div>
                     <div class="row">
                          <div class="col-sm-6">
                             <?php echo $form->field($searchModel, 'statusType')->widget(Select2::classname(), [
-                                    'data' => [1=>'Find Delivery Status',2=>'Find Order Status'],
+                                    'data' => [1=>Yii::t('m-restaurant','Find Delivery Status'),2=>Yii::t('m-restaurant','Find Order Status')],
                                             'hideSearch' => true,
                                     ])->label(false);
                                 ?>
@@ -103,17 +103,17 @@ DeliverymanOrdersHistoryAsset::register($this);
                     </div>
                     <div class="row margin-bottom">
                         <div class="col-md-6">
-                                <?= Html::submitButton('Search', ['class' => 'btn-block raised-btn main-btn']) ?>
+                                <?= Html::submitButton(Yii::t('common','Search'), ['class' => 'btn-block raised-btn main-btn']) ?>
                             </div>
                             <div class="col-md-6">
-                                 <?= Html::a('Reset', ['history'],['class' => 'btn-block raised-btn ']) ?>
+                                 <?= Html::a(Yii::t('common','Reset'), ['history'],['class' => 'btn-block raised-btn ']) ?>
                             </div>
                     </div>
                 </div>
             <?php ActiveForm::end(); ?>
             <br>
             <?php if(empty($dman)) :?>
-                 <h2>There are no orders currently...</h2>
+                 <h2>T<?= Yii::t('m-restaurant','There are no orders currently')?>...</h2>
             <?php else :
                 foreach ($dman as $did => $data) : 
                     $order = $data['order'];
@@ -122,22 +122,22 @@ DeliverymanOrdersHistoryAsset::register($this);
             <table class="table table-user-info deliveryman-orders-history-table">
                 <thead class="needed">
                     <tr>
-                        <th class="center" colspan="6" data-th="Delivery ID">Delivery ID : <?= $order['Delivery_ID']?></th>
+                        <th class="center" colspan="6" data-th="Delivery ID"><?= Yii::t('common','Delivery ID')?> : <?= $order['Delivery_ID']?></th>
                        
                     </tr>
                     <tr >
                         <th class="mobile-same-col" colspan="2" data-th="User Name">User Name : <?= $order['User_Username']?></th>
                         <th class="mobile-same-col" colspan="2" data-th="Price">Price : RM<?= $order['Orders_TotalPrice']?></th>
-                        <th class="mobile-same-col" colspan="2" data-th="Delivery Status">Status : <?= $statusid[$order['Orders_Status']]?></th>
+                        <th class="mobile-same-col" colspan="2" data-th="Delivery Status"><?= Yii::t('common','Status')?> : <?= $statusid[$order['Orders_Status']]?></th>
                     </tr>
                 </thead>
                 <thead>
                     <tr>
-                        <th>Restaurant Name</th>
-                        <th>Restaurant Address</th>
-                        <th>Order ID</th>
-                        <th>Quantity</th>
-                        <th>Status</th>
+                        <th><?= Yii::t('m-restaurant','Restaurant Name')?></th>
+                        <th><?= Yii::t('m-restaurant','Restaurant Address')?></th>
+                        <th><?= Yii::t('order','Order ID')?></th>
+                        <th><?= Yii::t('order','Quantity')?></th>
+                        <th><?= Yii::t('common','Status')?></th>
                     </tr>
                 </thead>
                 <tbody>

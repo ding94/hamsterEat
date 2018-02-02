@@ -81,7 +81,7 @@ TopupWithdrawMpHistoryAsset::register($this);
 		                            'placeholder' => Yii::t('user','Search Description'),
 		                    ],
 		                    'contentOptions' => ['data-th' => 'Description'],
-		                    'header' => Yii::t('common','Description'),
+		                    'header' => Yii::t('user','Description'),
 								
 		                ],
 		                [

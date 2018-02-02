@@ -189,7 +189,7 @@ class CheckoutController extends CommonController
 		$delivery = $this->addDeliveryAssignment($deliveryman);
 	
 		$isValid = $delivery->validate() && $address->validate() ;
-			
+		
 		if($isValid)
 		{
 			$transaction = Yii::$app->db->beginTransaction();

@@ -57,7 +57,7 @@ RestaurantOrdersHistoryAsset::register($this);
                             <div class="col-sm-6">
                                 <?php echo $form->field($searchModel, 'keyWordStatus')->widget(Select2::classname(), [
                                             'data' => $searchModel->keyWordArray,
-                                            'options' => [ 'placeholder' => 'Select Delivery ID',],
+                                            'options' => [ 'placeholder' => Yii::t('m-restaurant','Select Delivery ID'),],
                                             'pluginOptions' => [
                                                 'allowClear' => true
                                             ],

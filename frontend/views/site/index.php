@@ -141,7 +141,7 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 			<div class="promo-content">
 				<div class="text">
 					<p><?= Yii::t('site','Early Bird Promo'); ?></p>
-					<p class="s-text"><?= Yii::t('site',' <span>15%</span> off Food!'); ?></p>
+					<p class="s-text"><?= Yii::t('site','<span>15%</span> off Food!'); ?></p>
 					<p class="s-text"><?= Yii::t('site','All Orders Included.'); ?></p>
 				</div>
 			</div>

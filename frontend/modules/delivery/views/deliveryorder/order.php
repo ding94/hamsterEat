@@ -6,7 +6,7 @@ use yii\helpers\Html;
 use frontend\assets\DeliverymanOrdersAsset;
 use kartik\widgets\Select2;
 
-$this->title = "Delivery Orders";
+$this->title = Yii::t('layouts',"Delivery Orders");
 DeliverymanOrdersAsset::register($this);
 ?>
 <div class="container" id="deliveryman-orders-container">
@@ -22,7 +22,7 @@ DeliverymanOrdersAsset::register($this);
                         'hideSearch' => true,
                         'data' => $link,
                         'options' => [
-                            'placeholder' => 'Go To ...',
+                            'placeholder' => Yii::t('common','Go To ...'),
                             'multiple' => false,
 
                         ],
@@ -38,7 +38,7 @@ DeliverymanOrdersAsset::register($this);
                 <ul id="deliveryman-orders-nav" class="nav nav-pills nav-stacked">
                     <?php foreach($link as $url=>$name):?>
                         <li role="presentation" class=<?php echo $name=="Deliveryman Orders" ? "active" :"" ?>>
-                            <a class="btn-block" href=<?php echo $url?>><?php echo $name?></a>
+                            <a class="btn-block" href=<?php echo $url?>><?php echo Yii::t('m-delivery',$name) ?></a>
                         </li>
                     <?php endforeach ;?>
                 </ul>
@@ -47,15 +47,15 @@ DeliverymanOrdersAsset::register($this);
         <div id="deliveryman-orders-content" class="col-sm-10">
             <?php if($record->result == 1):?>
                 <h3>You can receive delivery orders for today!</h3>
-              <?=Html::a('Already Sign In',['/Delivery/daily-sign-in/signin'],['class' => 'raised-btn alternative-btn btn-lg btn-signin', 'disabled' =>"true"]);?>
+              <?=Html::a(Yii::t('m-delivery','Already Sign In'),['/Delivery/daily-sign-in/signin'],['class' => 'raised-btn alternative-btn btn-lg btn-signin', 'disabled' =>"true"]);?>
             <?php else :?>
                 <h3>Sign in to receive delivery orders!</h3>
-              <?=Html::a('Sign In',['/Delivery/daily-sign-in/signin'],['class' => 'raised-btn main-btn btn-lg btn-signin']);?>
+              <?=Html::a(Yii::t('common','Sign In'),['/Delivery/daily-sign-in/signin'],['class' => 'raised-btn main-btn btn-lg btn-signin']);?>
             <?php endif ;?>
             <?php 
                 if (empty($dman)){
             ?>
-                <h3>You have no orders to deliver at the moment.</h3>
+                <h3><?= Yii::t('m-delivery','You have no orders to deliver at the moment.')?></h3>
             <?php
                 } else {
                 foreach ($dman as $did => $orderdetails) : 
@@ -63,11 +63,11 @@ DeliverymanOrdersAsset::register($this);
             <table class="table table-user-info deliveryman-orders-table">
                 <thead>
                     <tr>
-                        <th>Delivery ID</th>
-                        <th>Order Address</th>
-                        <th>Order Postcode</th>
-                        <th>Collect (RM)</th>
-                        <th>View Map</th>
+                        <th><?= Yii::t('common','Delivery ID')?></th>
+                        <th><?= Yii::t('m-delivery','Order Address')?></th>
+                        <th><?= Yii::t('m-delivery','Order Postcode')?></th>
+                        <th><?= Yii::t('m-delivery','Collect')?> (RM)</th>
+                        <th><?= Yii::t('m-delivery','View Map')?></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -88,15 +88,15 @@ DeliverymanOrdersAsset::register($this);
                     { ?>
                         <td data-th="Collect (RM)"><?php echo $order['Orders_TotalPrice']; ?></td>
                     <?php } ?>
-                    <td data-th="View Map"><a class='raised-btn secondary-btn' target='_blank' href='http://maps.google.com/maps?daddr=<?php echo $address['location']; ?>,+<?php echo $address['postcode']; ?>,+Malaysia&amp;ll='>Show Location</a></td>
+                    <td data-th="View Map"><a class='raised-btn secondary-btn' target='_blank' href='http://maps.google.com/maps?daddr=<?php echo $address['location']; ?>,+<?php echo $address['postcode']; ?>,+Malaysia&amp;ll='><?= Yii::t('m-delivery','Show Location')?></a></td>
                 </tr>
                 <thead>
                     <tr>
-                        <th>Restaurant Name</th>
-                        <th colspan="2">Area</th>
-                        <th>Quantity</th>
-                        <th>Current Status</th>
-                        <th>Update Status</th>
+                        <th><?= Yii::t('m-restaurant','Restaurant Name')?></th>
+                        <th colspan="2"><?= Yii::t('common','Area')?></th>
+                        <th><?= Yii::t('common','Quantity')?></th>
+                        <th><?= Yii::t('m-delivery','Current Status')?></th>
+                        <th><?= Yii::t('m-restaurant','Update Status')?></th>
                     </tr>
                 </thead>
                 <?php
@@ -115,14 +115,12 @@ DeliverymanOrdersAsset::register($this);
                         
                         <td><?= $statusid[$orderitemdetails['OrderItem_Status']];?></td>
                         
-                        <?php if ($orderitemdetails['OrderItem_Status'] == 2): ?>
-                            <td data-th="Current Status"><span class='label label-warning'> Wait for Food to be Prepared </span></td>
-                        <?php elseif($orderitemdetails['OrderItem_Status']== 3): ?>
-                            <td data-th="Current Status"><span class='label label-warning'> Wait for Food to be Prepared </span></td>
+                        <?php if ($orderitemdetails['OrderItem_Status'] == 2 || $orderitemdetails['OrderItem_Status']== 3): ?>
+                            <td data-th="Current Status"><span class='label label-warning'><?= Yii::t('m-delivery','Wait for Food to be Prepared')?> </span></td>
                         <?php elseif($orderitemdetails['OrderItem_Status']== 4): ?>
-                            <td data-th="Update Status"><?php echo Html::a('Picked Up', ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$did], ['class'=>'raised-btn main-btn']); ?></td>
+                            <td data-th="Update Status"><?php echo Html::a(Yii::t('order','Picked Up'), ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$did], ['class'=>'raised-btn main-btn']); ?></td>
                         <?php elseif ($orderdetails['Orders_Status'] == 5): ?>
-                            <td data-th="Update Status"><?php echo Html::a('Completed', ['update-completed', 'did'=>$did], ['class'=>'raised-btn main-btn']); ?></td>
+                            <td data-th="Update Status"><?php echo Html::a(Yii::t('order','Completed'), ['update-completed', 'did'=>$did], ['class'=>'raised-btn main-btn']); ?></td>
                         <?php endif;?>
                     </tr>
                 <?php endforeach; ?>

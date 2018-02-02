@@ -6,7 +6,7 @@ use frontend\assets\DeliverymanOrdersAsset;
 use kartik\widgets\Select2;
 use kartik\widgets\ActiveForm;
 
-$this->title = "Pick Up Orders";
+$this->title = Yii::t('m-delivery',"Pick Up Orders");
 DeliverymanOrdersAsset::register($this);
 ?>
 <div class="container" id="deliveryman-orders-container">
@@ -22,7 +22,7 @@ DeliverymanOrdersAsset::register($this);
                         'hideSearch' => true,
                         'data' => $link,
                         'options' => [
-                            'placeholder' => 'Go To ...',
+                            'placeholder' => Yii::t('common','Go To ...'),
                             'multiple' => false,
 
                         ],
@@ -38,7 +38,7 @@ DeliverymanOrdersAsset::register($this);
                 <ul id="deliveryman-orders-nav" class="nav nav-pills nav-stacked">
                 	<?php foreach($link as $url=>$name):?>
                     	<li role="presentation" class=<?php echo $name=="Pick Up Orders" ? "active" :"" ?>>
-                    		<a class="btn-block" href=<?php echo $url?>><?php echo $name?></a>
+                    		<a class="btn-block" href=<?php echo $url?>><?php echo Yii::t('m-delivery',$name) ?></a>
                     	</li>
                 	<?php endforeach ;?>
                    
@@ -50,7 +50,7 @@ DeliverymanOrdersAsset::register($this);
         		$companyCount = 0;
         	?>
             <?php if (empty($data)): ?>
-                <h3>You have no orders to deliver at the moment.</h3>
+                <h3><?= Yii::t('m-delivery','You have no orders to deliver at the moment.')?></h3>
             <?php else :?>
                	<?php foreach ($data as $rname => $restaurant) : ?>
 				<?php  
@@ -60,7 +60,7 @@ DeliverymanOrdersAsset::register($this);
 					
 					<div class="inner-row"><h4><b><?php echo $rname; ?></b></h4>
 						<div style="padding-left:20px;">
-							<?php echo Html::a('Show Location',"$address" ,['class'=>'raised-btn secondary-btn','target'=>'_blank']);?>
+							<?php echo Html::a(Yii::t('m-delivery','Show Location'),"$address" ,['class'=>'raised-btn secondary-btn','target'=>'_blank']);?>
 						</div>
 					</div>
 				<?php foreach($restaurant as $sname=> $order): ?>
@@ -74,9 +74,9 @@ DeliverymanOrdersAsset::register($this);
 					    <div class="block left">
 							<a data-toggle="collapse" data-target="#<?php echo $companyCount; ?>"><i class="fa fa-plus-circle fa-lg" aria-hidden="true" style="color:#ffda00;padding-right:10px;"></i></a><?php echo $sname; ?>
 						</div>
-					    <div  class="block center">Quantity: <?php echo $totalOrders; ?></div>
+					    <div  class="block center"><?= Yii::t('order','Quantity')?>: <?php echo $totalOrders; ?></div>
 				    	<div class="block right">
-					 		<?= Html::submitButton('Picked Up', ['class' => 'raised-btn main-btn']) ?>
+					 		<?= Html::submitButton(Yii::t('order','Picked Up'), ['class' => 'raised-btn main-btn']) ?>
 					 	</div>
 						<div id=<?= $companyCount; ?>  class="collapse">
 							Order ID: 

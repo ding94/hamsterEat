@@ -34,8 +34,8 @@ class Deliveryman extends \yii\db\ActiveRecord
     {
         return [
             [['User_id', 'DeliveryMan_CarPlate', 'DeliveryMan_LicenseNo', 'DeliveryMan_AreaGroup', 'DeliveryMan_VehicleType', 'DeliveryMan_DateTimeApplied'], 'required'],
-            [['DeliveryMan_LicenseNo', 'DeliveryMan_Approval', 'DeliveryMan_Assignment', 'DeliveryMan_AreaGroup', 'DeliveryMan_DateTimeApplied', 'DeliveryMan_DateTimeApproved'], 'integer'],
-            [['User_id', 'DeliveryMan_CarPlate', 'DeliveryMan_VehicleType'], 'string', 'max' => 255],
+            [['User_id','DeliveryMan_LicenseNo', 'DeliveryMan_Approval', 'DeliveryMan_Assignment', 'DeliveryMan_AreaGroup', 'DeliveryMan_DateTimeApplied', 'DeliveryMan_DateTimeApproved'], 'integer'],
+            [['DeliveryMan_CarPlate', 'DeliveryMan_VehicleType'], 'string', 'max' => 255],
             [['User_id'], 'unique'],
         ];
     }

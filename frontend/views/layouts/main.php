@@ -214,9 +214,8 @@ NotificationAsset::register($this);
             <div>
                 <ul>
                     <?php if(Yii::$app->user->isGuest){ ?>
-                    <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['countCart'].'</span></span>',['/cart/view-cart']);?></li>
-                    <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->params['countNotic'].'</span>',['/notification/index']);?></li>
-                    <li><?php echo Html::a('<span class="glyphicon glyphicon-log-in"></span>',['/site/login-popup'],['data-toggle'=>'modal','data-target'=>'#login-modal']);?></li>
+                    <li><?php echo Html::a('<i class="fa fa-user-plus"></i><span> Sign Up</span>',['/site/ruser']);?></li>
+                    <li><?php echo Html::a('<span class="glyphicon glyphicon-log-in"></span><span> Sign In</span>',['/site/login-popup'],['data-toggle'=>'modal','data-target'=>'#login-modal']);?></li>
                     <?php } elseif(Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) { ?>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['countCart'].'</span></span>',['/cart/view-cart']);?></li>
                     <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->params['countNotic'].'</span>',['/notification/index']);?></li>
@@ -295,7 +294,7 @@ NotificationAsset::register($this);
                 <?php echo Html::a('English',['/site/changelanguage','lang'=>'en'],['class'=>'btn raised-btn main-btn']); ?>
                 <?php echo Html::a('中文',['/site/changelanguage','lang'=>'zh'],['class'=>'btn raised-btn main-btn']); ?>
             </div>
-            <div id="Box1" class = "col-sm-3 col-xs-12">
+            <div id="Box1" class = "col-sm-5 col-xs-12">
                 <h3 id="footertitle">HamsterEat</h3>
                 <hr>
                 <ul id="linklist" class="list-unstyled">
@@ -312,7 +311,7 @@ NotificationAsset::register($this);
                 </ul>
             </div>
 
-            <div id="Box2" class = "col-sm-3 col-xs-12">
+            <div id="Box2" class = "col-sm-5 col-xs-12">
                 <h3><?= Yii::t('site','Contact Us') ?></h3>
                 <hr>
                 <ul id="linklist" class="list-unstyled">
@@ -325,15 +324,15 @@ NotificationAsset::register($this);
 
             </div>
             
-            <div id="Box3" class = "col-sm-3 col-xs-12">
-                <h3><?= Yii::t('common','Follow') ?> | <?= Yii::t('common','Get in Touch') ?></h3>
+            <!-- <div id="Box3" class = "col-sm-3 col-xs-12">
+                <h3> Yii::t('common','Follow')  |  Yii::t('common','Get in Touch') </h3>
                 <hr>
                  <center>
                  <a target="_blank" href="https://www.facebook.com" class="btn btn-social-icon btn-facebook"><span class="fa fa-facebook"></span></a>
                  <a target="_blank" href="https://plus.google.com" class="btn btn-social-icon btn-google"><span class="fa fa-google"></span></a>
                  <a target="_blank" href="https://www.instagram.com" class="btn btn-social-icon btn-instagram"><span class="fa fa-instagram"></span></a>
                  </center>               
-            </div>
+            </div> -->
 
         <!-- </div> -->
 </div>

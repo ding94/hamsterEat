@@ -147,22 +147,22 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 			</div>
 		</div>
 	</div>
-<div id="SSCrow3">
+<!-- <div id="SSCrow3">
    <div class="container">
 		
 			<div class="boxs">				
 				<div class="col-md-4">
 					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
 						<div class="align-center">
-							<h4><?= Yii::t('common','About Us'); ?></h4>					
+							<h4> Yii::t('common','About Us'); </h4>					
 							<div class="icon">
 								<i class="fa fa-cutlery fa-3x"></i>
 							</div>
 							<p>
-								<?= Yii::t('site',"Let's explore with HamsterEat! Wanna know more? Click below!"); ?>
+								Yii::t('site',"Let's explore with HamsterEat! Wanna know more? Click below!"); 
 							</p>
 							<div class="ficon">
-								<p><?= Html::a(Yii::t('site','View'), ['site/about'],['class' => "button-one"]) ?> </p>
+								<p> //Html::a(Yii::t('site','View'), ['site/about'],['class' => "button-one"]) </p>
 							</div>
 						</div>
 					</div>
@@ -170,15 +170,15 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 				<div class="col-md-4">
 					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
 						<div class="align-center">
-							<h4><?= Yii::t('common','Guide'); ?></h4>				
+							<h4> //Yii::t('common','Guide'); </h4>				
 							<div class="icon">
 								<i class="fa fa-question fa-3x" aria-hidden="true" ></i>
 							</div>
 							<p>
-								<?= Yii::t('site','Not sure what to do? No worry! Kindly view more for details!'); ?>
+								 //Yii::t('site','Not sure what to do? No worry! Kindly view more for details!'); 
 							</p>
 							<div class="ficon">
-								<p><?= Html::a(Yii::t('site','View'), ['/site/faq'],['class' => "button-one"]) ?> </p>
+								<p> //Html::a(Yii::t('site','View'), ['/site/faq'],['class' => "button-one"]) </p>
 							</div>
 						</div>
 					</div>
@@ -186,15 +186,15 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 				<div class="col-md-4">
 					<div class="wow bounceIn" data-wow-offset="0" data-wow-delay="1.3s">
 						<div class="align-center">
-							<h4><?= Yii::t('common','Help'); ?></h4>					
+							<h4> //Yii::t('common','Help'); </h4>					
 							<div class="icon">
 								<i class="fa fa-thumbs-o-up fa-3x"></i>
 							</div>
 							<p>
-							 	<?= Yii::t('site','Need help? We provide you the best services!'); ?>
+							 	 //Yii::t('site','Need help? We provide you the best services!'); 
 							</p>
 							<div class="ficon">
-								<p><?= Html::a(Yii::t('site','View'), ['site/about'],['class' => "button-one"]) ?> </p>
+								<p> //Html::a(Yii::t('site','View'), ['site/about'],['class' => "button-one"]) </p>
 							</div>
 						</div>
 					</div>
@@ -202,4 +202,4 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 				
 			</div>
 		</div>
-	</div>
+	</div> -->

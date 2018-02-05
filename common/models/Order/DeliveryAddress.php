@@ -40,6 +40,7 @@ class DeliveryAddress extends \yii\db\ActiveRecord
         return [
             [[ 'name', 'contactno', 'deliveryman', 'type', 'cid'], 'required'],
             [['delivery_id', 'deliveryman', 'type', 'postcode'], 'integer'],
+            ['contactno','match','pattern'=>'/^[0]{1}[1-9]{1}[0-9]{7,9}$/'],
             [['name', 'contactno', 'location', 'area'], 'string', 'max' => 255],
             [['location', 'postcode', 'area' ],'required','when'=>function($model){
                 return  $model->cid == 0;

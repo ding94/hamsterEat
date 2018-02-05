@@ -57,9 +57,9 @@ Modal::end();
 			$session = Yii::$app->session;
      ?>          
 	  
-     <?php echo Html::a(Yii::t('m-restaurant','Change to').": ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0],['class'=>'hl','font-style'=>'float:right;color:red;font-style: italic;'])?>
+     <?php echo Html::a(Yii::t('m-restaurant','Change to').": ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0],['class'=>'hl a-change'])?>
         <span class="s" style="float:right;padding-left:10px;padding-right:10px;">|</span>
-		<?php echo Html::a(Yii::t('m-restaurant','Change Place'), ['/Restaurant/default/addsession','page'=>'index2'], ['id'=>'cp','data-toggle'=>'modal','data-target'=>'#add-modal','style'=>'color:red;font-size:14px;float:right;font-style: italic;']); ?>  
+		<?php echo Html::a(Yii::t('m-restaurant','Change Place'), ['/Restaurant/default/addsession','page'=>'index2'], ['id'=>'cp','class'=>'a-change','data-toggle'=>'modal','data-target'=>'#add-modal ','style'=>'font-size:14px']); ?>  
 			 <span class="area" style="float:right;padding-right:8px;"> <?php echo $session['area'] ?></span>
       
 	<input type="checkbox" id="sidebartoggler" name="" value="">

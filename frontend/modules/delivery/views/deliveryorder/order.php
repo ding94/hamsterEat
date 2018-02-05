@@ -68,7 +68,7 @@ DeliverymanOrdersAsset::register($this);
                         <th><?= Yii::t('m-delivery','Order Postcode')?></th>
                         <th><?= Yii::t('m-delivery','Collect')?> (RM)</th>
                         <th><?= Yii::t('m-delivery','View Map')?></th>
-                        <th></th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <?php
@@ -88,7 +88,17 @@ DeliverymanOrdersAsset::register($this);
                     { ?>
                         <td data-th="Collect (RM)"><?php echo $order['Orders_TotalPrice']; ?></td>
                     <?php } ?>
-                    <td data-th="View Map"><a class='raised-btn secondary-btn' target='_blank' href='http://maps.google.com/maps?daddr=<?php echo $address['location']; ?>,+<?php echo $address['postcode']; ?>,+Malaysia&amp;ll='><?= Yii::t('m-delivery','Show Location')?></a></td>
+                    <td data-th="View Map">
+                        <a class='raised-btn secondary-btn' target='_blank' href='http://maps.google.com/maps?daddr=<?php echo $address['location']; ?>,+<?php echo $address['postcode']; ?>,+Malaysia&amp;ll='><?= Yii::t('m-delivery','Show Location')?></a>
+                    </td>
+                    <td data-th="Status">
+                        <?php 
+                            if($order->Orders_Status == 5):
+                                echo Html::a(Yii::t('order','Completed'), ['update-completed', 'did'=>$did], ['class'=>'raised-btn main-btn']); 
+                            else : 
+                                echo $statusid[$order->Orders_Status];
+                        endif;?>
+                    </td>
                 </tr>
                 <thead>
                     <tr>
@@ -119,8 +129,6 @@ DeliverymanOrdersAsset::register($this);
                             <td data-th="Current Status"><span class='label label-warning'><?= Yii::t('m-delivery','Wait for Food to be Prepared')?> </span></td>
                         <?php elseif($orderitemdetails['OrderItem_Status']== 4): ?>
                             <td data-th="Update Status"><?php echo Html::a(Yii::t('order','Picked Up'), ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$did], ['class'=>'raised-btn main-btn']); ?></td>
-                        <?php elseif ($orderdetails['Orders_Status'] == 5): ?>
-                            <td data-th="Update Status"><?php echo Html::a(Yii::t('order','Completed'), ['update-completed', 'did'=>$did], ['class'=>'raised-btn main-btn']); ?></td>
                         <?php endif;?>
                     </tr>
                 <?php endforeach; ?>

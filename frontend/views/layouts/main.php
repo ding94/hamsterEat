@@ -214,23 +214,21 @@ NotificationAsset::register($this);
             <div>
                 <ul>
                     <?php if(Yii::$app->user->isGuest){ ?>
-                    <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['countCart'].'</span></span>',['/cart/view-cart']);?></li>
-                    <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->params['countNotic'].'</span>',['/notification/index']);?></li>
-                    <li><?php echo Html::a('<span class="glyphicon glyphicon-log-in"></span>',['/site/login-popup'],['data-toggle'=>'modal','data-target'=>'#login-modal']);?></li>
+                   
+                    <li><?php echo Html::a('<i class="fa fa-registered"></i> Sign Up',['/site/ruser']);?></li>
+                    <li><?php echo Html::a('<span class="glyphicon glyphicon-log-in"></span> Login In',['/site/login-popup'],['data-toggle'=>'modal','data-target'=>'#login-modal']);?></li>
                     <?php } elseif(Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) { ?>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['countCart'].'</span></span>',['/cart/view-cart']);?></li>
                     <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->params['countNotic'].'</span>',['/notification/index']);?></li>
 
-                    <?php if (!empty($rmanager)): ?>
-                        <?php 
-                            $count = 0;
-                            foreach ($lvl as $k => $level) {
-                                $orderitem = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$level['Restaurant_ID'],':s'=>2])->joinwith(['food'])->count();
+                    <?php if (!empty($rmanager)): 
+                        $count = 0;
+                        foreach ($lvl as $k => $level) {
+                            $orderitem = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$level['Restaurant_ID'],':s'=>2])->joinwith(['food'])->count();
                                 $count += $orderitem;
-                            }
-                            echo Html::a('<span class="glyphicon glyphicon-list-alt"></span><span class="badge">('.$count.')</span>',['/Restaurant/restaurant/phonecooking'],['data-toggle'=>'modal','data-target'=>'#add-modal']);
-                        ?>
-                    <?php endif;?>
+                        }
+                        echo Html::a('<span class="glyphicon glyphicon-list-alt"></span><span class="badge">('.$count.')</span>',['/Restaurant/restaurant/phonecooking'],['data-toggle'=>'modal','data-target'=>'#add-modal']);
+                    endif;?>
 
                     <li><?php echo Html::a('<i class="fa fa-cutlery"></i>',['/Restaurant/restaurant/restaurant-service']);?></li>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-user">',['/user/user-profile']);?></li>

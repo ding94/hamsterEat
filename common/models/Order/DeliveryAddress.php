@@ -2,6 +2,8 @@
 
 namespace common\models\Order;
 
+use common\models\User;
+use common\models\Company\Company;
 use Yii;
 
 /**
@@ -78,5 +80,24 @@ class DeliveryAddress extends \yii\db\ActiveRecord
 	public function getCompany()
     {
         return $this->hasOne(Company::className(),['id' => 'cid']);
+    }
+
+    public function getDeliveryName()
+    {
+        $model = User::findOne($this->deliveryman);
+        return $model->username;
+    }
+
+    public function getCompanyName()
+    {
+        if($this->type == 1)
+        {
+            $model = Company::findOne($this->cid);
+            return $model->name;
+        }
+        else
+        {
+            return "";
+        }
     }
 }

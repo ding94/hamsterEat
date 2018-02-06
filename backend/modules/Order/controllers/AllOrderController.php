@@ -10,6 +10,7 @@ use common\models\Order\StatusType;
 use common\models\Order\Orders;
 use common\models\Order\Orderitemstatuschange;
 use common\models\Order\Ordersstatuschange;
+use common\models\Order\DeliveryAddress;
 use backend\models\OrderSearch;
 use backend\models\ItemSearch;
 
@@ -37,6 +38,12 @@ class AllOrderController extends Controller
 	{
 		$model = Ordersstatuschange::findOne($id);
 		return $this->renderAjax('_ordertime',['model'=>$model]);
+	}
+
+	public function actionAddress($id)
+	{
+		$model = DeliveryAddress::findOne($id);
+		return $this->renderAjax('_address',['model'=>$model]);
 	}
 
 	public function actionItem($id=0)

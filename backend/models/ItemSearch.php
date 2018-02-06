@@ -6,6 +6,15 @@ use yii\data\ActiveDataProvider;
 
 Class ItemSearch extends Orderitem
 {
+	public $foodName;
+
+	public function rules()
+	{
+		return[
+			[['foodName'],'safe'],
+		];
+	}
+
 	public function search($params,$id)
 	{
 		$query = Orderitem::find()->joinWith(['order_selection','food']);
@@ -23,6 +32,11 @@ Class ItemSearch extends Orderitem
 	        'desc' => ['Order_ID' => SORT_DESC],
 	    ];
 
+	    $dataProvider->sort->attributes['foodName'] = [
+	        'asc' => ['food.Name' => SORT_ASC],
+	        'desc' => ['food.Name' => SORT_DESC],
+	    ];
+
         $this->load($params);
      
         $query->andFilterWhere([
@@ -33,6 +47,7 @@ Class ItemSearch extends Orderitem
         ]);
 
         $query->andFilterWhere(['like','OrderItem_Remark',$this->OrderItem_Remark]);
+        $query->andFilterWhere(['like','food.Name',$this->foodName]);
 
         return $dataProvider;
 	}

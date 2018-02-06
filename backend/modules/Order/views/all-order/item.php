@@ -86,6 +86,11 @@ $this->params['breadcrumbs'][] = $this->title;
         	 ],
         	'Order_ID',
         	'OrderItem_Quantity',
+            [
+                'label' => 'Food Name',
+                'attribute' => 'foodName',
+                'value' => 'food.Name',
+            ],
         	'OrderItem_LineTotal',
         	[
         		'attribute' =>'Orders_Status',

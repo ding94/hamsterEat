@@ -20,6 +20,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
     Modal::end();
+      Modal::begin([
+        'id' => 'addressDetail',
+        'header' => '<h4 class="modal-title">...</h4>',
+        'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    Modal::end();
     $this->registerJs("
         $('#orderDetail').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
@@ -35,6 +41,19 @@ $this->params['breadcrumbs'][] = $this->title;
         });
 
          $('#orderSpeed').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var modal = $(this)
+            var title = button.data('title') 
+            var href = button.attr('href') 
+            modal.find('.modal-title').html(title)
+            modal.find('.modal-body').html('<i class=\"fa fa-spinner fa-spin\"></i>')
+            $.post(href)
+                .done(function( data ) {
+                    modal.find('.modal-body').html(data)
+            });
+        });
+        
+        $('#addressDetail').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
             var modal = $(this)
             var title = button.data('title') 
@@ -74,6 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'width' => '15px',
 			],
 			[
+                'label'=>'Username',
 				'attribute' => 'User_Username',
 				'filter' => $arrayData['user'],
 				'filterType' => GridView::FILTER_SELECT2,
@@ -84,6 +104,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			    'format' => 'raw'
 			],
 			[
+                'label'=>'Payment Method',
 				'attribute' => 'Orders_PaymentMethod',
 				'filter' => ['Account Balance'=>'Account Balance','Cash on Delivery'=>'Cash on Delivery'],
 				'filterType' => GridView::FILTER_SELECT2,
@@ -106,7 +127,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			    }
 			],
 			[
-			
 				'attribute' => 'Orders_DateTimeMade',
 				'format' => 'datetime',
 				'filterType' => GridView::FILTER_DATE_RANGE,
@@ -120,6 +140,20 @@ $this->params['breadcrumbs'][] = $this->title;
 			    ],
 			    'filterInputOptions' => ['placeholder' => 'Select Between Two Dates'],
 			],
+            [
+                'label'=>'Full Name',
+                'attribute' => 'name',
+                'format' => 'raw',
+                'value' => function($model)
+                {
+                    $html = "<div class='row'><div class='col-xs-6'>";
+                    $html .= $model->address->name;
+                    $html .="</div><div class='col-xs-6'>";
+                    $html .=  Html::a("View Address Detail",['address' ,'id'=>$model->Delivery_ID],['data-toggle'=>"modal",'data-target'=>"#addressDetail",'data-title'=>"Address Detail",]);
+                    $html .= "</div></div>";
+                    return $html;
+                },
+            ],
 			[
 				'attribute' => 'Orders_TotalPrice',
 				'format' => 'raw',
@@ -131,7 +165,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 	$html = "<div class='row'><div class='col-xs-6'>";
                 	$html .= number_format($model->Orders_TotalPrice, 2, '.', '');
                 	$html .="</div><div class='col-xs-6'>";
-                	$html .=  Html::a("View All Price",['price' ,'id'=>$model->Delivery_ID],['data-toggle'=>"modal",'data-target'=>"#orderDetail",'data-title'=>"Price Detail",]);
+                	$html .=  Html::a("View Price Detail",['price' ,'id'=>$model->Delivery_ID],['data-toggle'=>"modal",'data-target'=>"#orderDetail",'data-title'=>"Price Detail",]);
                 	$html .= "</div></div>";
                     return $html;
                 },

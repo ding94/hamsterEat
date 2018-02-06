@@ -10,11 +10,11 @@ use common\models\Order\Orderitemselection;
 
 Class OrderSearch extends Orders
 {
-
+	public $name;
 	public function rules()
 	{
 		return [
-			[['Delivery_ID','User_Username','Orders_PaymentMethod','Orders_DateTimeMade','Orders_Status'],'safe'],
+			[['Delivery_ID','User_Username','Orders_PaymentMethod','Orders_DateTimeMade','Orders_Status','name'],'safe'],
 		];
 	}
 
@@ -40,6 +40,7 @@ Class OrderSearch extends Orders
 				break;
 			case 4:
 				$query = Orders::find()->orderBy('orders.Delivery_ID DESC');
+				$query->joinWith(['address']);
 				//$query->joinWith(['order_item']);
 				//$query->joinWith(['order_status']);
 				break;
@@ -57,16 +58,23 @@ Class OrderSearch extends Orders
 	        'desc' => ['Delivery_ID' => SORT_DESC],
 	    ];
 
+	    $dataProvider->sort->attributes['name'] = [
+	        'asc' => ['delivery_address.name' => SORT_ASC],
+	        'desc' => ['delivery_address.name' => SORT_DESC],
+	    ];
+
         $this->load($params);
+
      	$query->andFilterWhere([
            'orders.Delivery_ID' => $this->Delivery_ID,
            'User_Username' => $this->User_Username,
            'Orders_PaymentMethod' => $this->Orders_PaymentMethod,
            'Orders_Status' => $this->Orders_Status,
         ]);
-     
+     	
         //$query->andFilterWhere(['like','Orders_Time',$this->Orders_Time]);
         $query->andFilterWhere(['like','Orders_Status',$this->Orders_Status]);
+        $query->andFilterWhere(['like','delivery_address.name',$this->name]);
 
         if(!empty($this->Orders_DateTimeMade))
         {

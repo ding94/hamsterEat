@@ -4,6 +4,12 @@
   justify-content:center;
 }
 
+.a-change{
+  float:right;
+  color:red;
+  font-style: italic;
+}
+
 .restaurant-name{
   display: -webkit-box;
   display: -webkit-flex;

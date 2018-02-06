@@ -69,7 +69,7 @@ function countGrid()
 	{
 	    limit =2;
 	}
-	return limit+limit;
+	return limit;
 }
 
 function allitemID()

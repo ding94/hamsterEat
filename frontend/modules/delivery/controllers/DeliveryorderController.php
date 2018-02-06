@@ -49,7 +49,7 @@ class DeliveryorderController extends CommonController
     */
     public function actionOrder()
     {
-        $query = Orderitem::find()->where('deliveryman = :dman and OrderItem_Status != 1 and OrderItem_Status != 2 and OrderItem_Status !=8 and OrderItem_Status != 9 and OrderItem_Status != 10',[':dman'=>Yii::$app->user->identity->id])->joinWith(['address','order']);
+        $query = Orderitem::find()->where('deliveryman = :dman ',[':dman'=>Yii::$app->user->identity->id])->andWhere(['Orders_Status' => [2,3,4,5]])->joinWith(['address','order']);
         $dman = "";
         foreach($query->each() as $key => $data)
         {
@@ -59,7 +59,7 @@ class DeliveryorderController extends CommonController
            unset($data->address);
            $dman[$data->Delivery_ID]['item'][] = $data;
         }
-      
+       
         //$dman = Orders::find()->where('deliveryman = :dman and Orders_Status != 6 and Orders_Status != 7 and Orders_Status !=8 and Orders_Status != 9', [':dman'=>Yii::$app->user->identity->id])->orderBy(['Delivery_ID'=>SORT_ASC])->joinWith(['address'])->all();
         $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
         $record = DailySignInController::getDailyData(1);

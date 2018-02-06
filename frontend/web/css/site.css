@@ -462,9 +462,14 @@ div.dotted {
 
 .button-three {
   position: relative;
-  background-color: #FFDA00;
+  color: #FFF;
+  font-size: 24px;
+  /* background-color: #FFDA00; */
+  background-image: -webkit-linear-gradient(left, #ff4e50 0%, #f9d423 100%);
+  background-image: -o-linear-gradient(left, #ff4e50 0%, #f9d423 100%);
+  background-image: linear-gradient(to right, #ff4e50 0%, #f9d423 100%);
   border: none;
-  padding: 10px;
+  padding: 20px;
   text-align: center;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
@@ -557,14 +562,19 @@ div.dotted {
 
 .mySlides{
   width: 100%;
-  height: 480px;
+  height: 640px;
   object-fit: cover;
 }
 
 @media(max-width: 500px){
-  .mySlides{
-    height: 360px;
+  #SSCrow2{
+    top: 100px !important; 
   }
+
+  .mySlides{
+    height: 640px;
+  }
+
   .button-three{
 	 margin-top:10px; 
   }
@@ -572,7 +582,7 @@ div.dotted {
 
 @media(max-width: 400px){
   .mySlides{
-    height: 300px;
+    height: 640px;
   }
   .button-three{
 	 margin-top:10px; 
@@ -796,6 +806,18 @@ span.badge{
 
   #SSCrow6 .promo-content{
     padding-bottom: 40vw;
+  }
+
+  #SSCrow2 .form h1{
+    font-size: 38px !important;
+  }
+
+  #SSCrow2 .form h4{
+    font-size: 18px !important;
+  }
+
+  #SSCrow2 .button-three{
+    font-size: 18px !important;
   }
 }
 
@@ -1030,3 +1052,54 @@ span.badge{
 #SSCrow3{
   padding-top: 150px;
 }
+
+/* Front Page section 1 */
+.intro-header {
+  text-align: center;
+  position: relative;
+}
+
+#frontpage-container{
+  position: relative; 
+  padding: 0;
+  margin-top: -15px;
+}
+
+#SSCrow2{
+  position:absolute;
+  top: 150px;
+  right: 0px;
+}
+
+#SSCrow2 .form{
+  border-radius: 5px;
+  background-color:rgb(255, 255, 255);
+  padding:50px;
+  margin: auto;
+  width:70%;
+  -webkit-box-shadow: 0px 0px 25px -2px rgba(0,0,0,0.75); 
+  -moz-box-shadow: 0px 0px 25px -2px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 25px -2px rgba(0,0,0,0.75);
+}
+
+#SSCrow2 .form h1{
+  font-size: 50px;
+}
+
+#SSCrow2 .form h4{
+  font-size: 24px;
+}
+
+/* #SSCrow2 .form{
+  border-radius: 15px;
+  background-image: -webkit-linear-gradient(right, #ff4e50 0%, #f9d423 100%);
+  background-image: -o-linear-gradient(right, #ff4e50 0%, #f9d423 100%);
+  background-image: linear-gradient(to left, #ff4e50 0%, #f9d423 100%);
+  color: #FFF;
+  padding:50px;
+  margin: auto;
+  width:70%;
+  -webkit-box-shadow: 0px 0px 25px -2px rgba(0,0,0,0.75); 
+  -moz-box-shadow: 0px 0px 25px -2px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 25px -2px rgba(0,0,0,0.75);
+} */

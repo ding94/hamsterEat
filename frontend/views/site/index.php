@@ -9,7 +9,7 @@ use yii\helpers\Url;
 use yii\bootstrap\Modal;
 use frontend\assets\PhotoSliderAsset;
 
-PhotoSliderAsset::register($this);
+// PhotoSliderAsset::register($this);
 $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 ?>
 
@@ -25,26 +25,26 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 <body>
 <!--<div class="site-index">--> 
 <header class="intro-header">
-
-<div id="SlideShowContainer" class="container-fluid">
-		<div id="SSCrow1" class="row">
+<!-- <div id="SlideShowContainer" class="container-fluid">
+	<div id="SSCrow1" class="row">
 			<?php
-			  foreach ($banner as $k => $banners) {
+			  //foreach ($banner as $k => $banners) {
 			  ?>
-			    <a href="<?php echo $banners['redirectUrl'] ?>" target="_blank"><?= Html::img('@web/'.$banners['name'], ['class'=>'mySlides', 'title' => $banners['title']]);?></a>
+			    <a href="<?php //echo $banners['redirectUrl'] ?>" target="_blank"> //Html::img('@web/'.$banners['name'], ['class'=>'mySlides', 'title' => $banners['title']]);</a>
 			  <?php
-			    }
+			    //}
 			  ?>
-			<div class="dotContainer w3-display-bottommiddle" >
-			<?php foreach ($banner as $k => $banners) {
-			    $k += 1;
+		<div class="dotContainer w3-display-bottommiddle" >
+			<?php //foreach ($banner as $k => $banners) {
+			    //$k += 1;
 			?>
-			<span id="dot<?php echo $k ?>" class="dot" onclick="currentSlide('<?php echo $k ?>')"></span>
-			<?php } ?>
+			<span id="dot<?php //echo $k ?>" class="dot" onclick="currentSlide('<?php //echo $k ?>')"></span>
+			<?php //} ?>
 		</div> 
     </div>
-</div>
-</header>
+</div> -->
+<div id="frontpage-container" class="container-fluid">
+	<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index.jpg" alt="" class="mySlides">
 	<div id="SSCrow2" class="container">
         <div class="form">
 	<!--	<h1>Light up your taste buds!</h1><br>-->
@@ -72,6 +72,8 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 		<?php ActiveForm::end(); ?>
 	   	</div>
 	</div>
+</div>
+</header>
 <!--<div id="DescContainer" class="container">-->
 	<div id="SSCrow4">
 		<div class="container">

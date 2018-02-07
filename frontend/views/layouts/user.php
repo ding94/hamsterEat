@@ -198,13 +198,8 @@ if (empty($language)) {
             <div>
                 <ul>
                     <?php if(Yii::$app->user->isGuest){ ?>
-<<<<<<< HEAD
-                    <li><?php echo Html::a('<i class="fa fa-registered"></i> Sign Up',['/site/ruser']);?></li>
-                    <li><?php echo Html::a('<span class="glyphicon glyphicon-log-in"></span> Login In',['/site/login-popup'],['data-toggle'=>'modal','data-target'=>'#login-modal']);?></li>
-=======
-                    <li><?php echo Html::a('<i class="fa fa-user-plus"></i><span> Sign Up</span>',['/site/ruser']);?></li>
+                    <li><?php echo Html::a('<i class="fa fa-user-plus"></i><span>'.Yii::t('layouts','Sign Up').'</span>',['/site/ruser']);?></li>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-log-in"></span><span> Sign In</span>',['/site/login-popup'],['data-toggle'=>'modal','data-target'=>'#login-modal']);?></li>
->>>>>>> 780d2d84f59946d0a8ec79afdcc986b04b322ecc
                     <?php } elseif(Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) { ?>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['countCart'].'</span></span>',['/cart/view-cart']);?></li>
                     <li><?php echo Html::a('<span class=""><i class="fa fa-bell"></i>'.Yii::$app->params['countNotic'].'</span>',['/notification/index']);?></li>

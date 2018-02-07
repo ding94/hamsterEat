@@ -915,8 +915,16 @@ span.badge{
     font-size: 62px !important;
   }
 
+  #frontpage-container{
+    height: 500px !important;
+  }
+
+  #frontpage-container img{
+    height: 300px;
+  }
+
   #SSCrow2{
-    top: 120px !important;
+    top: 80px !important;
   }
 }
 

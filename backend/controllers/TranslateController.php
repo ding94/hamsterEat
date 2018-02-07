@@ -39,11 +39,11 @@ Class TranslateController extends Controller
 		return $this->renderAjax('translation',['sen'=>$sen]);
 	}
 
-	public function actionFaq()
+	public function actionFaq($case=3)
 	{
 		$searchModel = new SentencesSource();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,3);
 
-        return $this->render('index',['dataProvider' => $dataProvider , 'searchModel' => $searchModel]);
+        return $this->render('index',['dataProvider' => $dataProvider , 'searchModel' => $searchModel,'case'=>$case]);
 	}
 }

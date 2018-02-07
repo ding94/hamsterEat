@@ -97,7 +97,7 @@
         </div>
 
         <div id="faq" class="tab-pane fade">
-            <h1><strong>Frequently Asked Questions<?= Yii::t('faq','Frequently Asked Questions') ?></strong></h1>
+            <h1><strong><?= Yii::t('faq','Frequently Asked Questions') ?></strong></h1>
             <br>
             <ul>
                 <li><strong><?= Yii::t('faq','Q') ?>:</strong> <?= Yii::t('faq','faq-1-q') ?></li>

@@ -86,7 +86,7 @@ class RestaurantorderController extends CommonController
         $restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
 
         if ($restaurant['approval'] != 1) {
-            Yii::$app->session->setFlash('warning','Restaurant was waiting admin to approve.');
+            Yii::$app->session->setFlash('warning',Yii::t('m-restaurant','Restaurant was waiting admin to approve.'));
             return $this->redirect(['/Restaurant/restaurant/restaurant-service']);
         }
 
@@ -107,7 +107,7 @@ class RestaurantorderController extends CommonController
             $result[$value->Delivery_ID][] = $value;   
         }
         
-        $title = $restaurant->Restaurant_Name .Yii::t('m-restaurant',"'s Orders History");
+        $title = $restaurant->Restaurant_Name .Yii::t('m-restaurant',Yii::t('m-restaurant',"'s Orders History"));
 
         $status = ArrayHelper::map(StatusType::find()->all(),'id','type');
         $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
@@ -137,7 +137,7 @@ class RestaurantorderController extends CommonController
     	
     	if(empty($post['oid']))
     	{
-    		Yii::$app->session->setFlash('danger', "Please Select One!!");
+    		Yii::$app->session->setFlash('danger', Yii::t('m-delivery',"Please Select One!"));
             return $this->redirect(Yii::$app->request->referrer);
     	}
 
@@ -147,7 +147,7 @@ class RestaurantorderController extends CommonController
     		$isValid = self::detectStatus($status,$rid,$oid);
     		if(!$isValid)
     		{
-    			 $message .= "Order ID ".$oid. " fail<br>";
+    			 $message .= Yii::t('order',"Order ID")." ".$oid. " ".Yii::t('common',"fail")."<br>";
     		}
     	}
 

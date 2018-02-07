@@ -90,7 +90,7 @@ class FoodselectionController extends Controller
        
         if($type->Min >= $currentOn)
         {
-              Yii::$app->session->setFlash('danger', "Food Selection Type : ".$type->TypeName." require as least ".$type->Min. " to be active.");
+              Yii::$app->session->setFlash('danger', Yii::t('m-restaurant',"Food Selection Type")." : ".$type->TypeName." ".Yii::t('m-restaurant','require at least')." ".$type->Min. " ".Yii::t('m-restaurant',"to be active."));
             return false;
         }
         else

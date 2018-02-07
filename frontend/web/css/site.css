@@ -855,6 +855,14 @@ span.badge{
     transform: initial;
   }
 
+  #SSCrow5 .text{
+    font-size: 38px !important;
+  }
+
+  #SSCrow5 .s-text{
+    font-size: 24px !important;
+  }
+
   #SSCrow6{
     height: 600px !important;
   }

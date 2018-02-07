@@ -628,7 +628,7 @@ span.badge{
 
 /* SSCrow4 How It Works Section */
 #SSCrow4{
-  height: 800px;
+  height: 600px;
   background-color: #FFF;
   display: flex;
   font-family: 'Lato', sans-serif;
@@ -638,7 +638,7 @@ span.badge{
   display: flex;
   justify-content: center;
   align-items: center;
-  height:800px;
+  height:600px;
   overflow:hidden;
   position:relative;
 }
@@ -701,6 +701,30 @@ span.badge{
   background-image: linear-gradient(to left, #ff4e50 0%, #f9d423 100%);
 }
 
+.progress-dots{
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 110px;
+  left: 600px;
+}
+
+.dot{
+  background-color: #E0E0E0;
+  height: 8px;
+  width: 8px;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+#SSCrow4 .active{
+  background-color: transparent;
+  height: 12px;
+  width: 12px;
+  border-radius: 6px;
+  border: 2px solid #ff4e50;
+}
+
 @media(max-width: 1480px){
   #SSCrow6 .promo-content{
     position: absolute;
@@ -752,7 +776,7 @@ span.badge{
     overflow: visible;
   }
 
-  .index-content button{
+  .index-content button, .progress-dots{
     display: none;
   }
 
@@ -812,8 +836,12 @@ span.badge{
     height: 480px;
   }
 
+  #SSCrow2 .form{
+    padding:25px !important;
+  }
+
   #SSCrow2{
-    top: 250px !important;
+    top: 300px !important;
   }
 
   #SSCrow2 .form h1{
@@ -884,7 +912,7 @@ span.badge{
   }
 
   #SSCrow2{
-    top: 200px !important;
+    top: 300px !important;
   }
 }
 

@@ -86,7 +86,7 @@ RestaurantOrdersAsset::register($this);
 	                        <div clas="col-md-4">
 	                        	<?php 
                                 if($status == 2 || $status == 3): 
-	                                $statusname = $status == 2 ? 'Preparing' : 'Ready Pick Up';
+	                                $statusname = $status == 2 ? 'Preparing' : 'Ready for Pickup';
 	                            ?>
                                 	<h2><center><?= Html::submitButton(Yii::t('order',$statusname), ['class' => 'raised-btn main-btn']) ?></center></h2>
                                 <?php endif ;?>

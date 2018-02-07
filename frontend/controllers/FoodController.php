@@ -78,21 +78,21 @@ class FoodController extends CommonController
         $valid = ValidController::RestaurantValid($rid);
         if ($valid == true) {
             if (empty($rmanager)) {
-                Yii::$app->session->setFlash('error', 'This restaurant was not valid now.');
+                Yii::$app->session->setFlash('error', Yii::t('food','This restaurant was not valid now.'));
                 return $this->redirect(Yii::$app->request->referrer);
             }
         }
         
         $valid = ValidController::FoodValid($id);
         if ($valid == false) {
-            Yii::$app->session->setFlash('error', 'This food was not valid now.');
+            Yii::$app->session->setFlash('error', Yii::t('food','This food was not valid now.'));
             return $this->redirect(Yii::$app->request->referrer);
         }
         
         $fooddata = Food::find()->where('Food_ID = :id' ,[':id' => $id])->one();
         if(empty($fooddata))
         {
-            Yii::$app->session->setFlash('error', 'Something Went Wrong. Please Try Again Later!');
+            Yii::$app->session->setFlash('error', Yii::t('food','Something Went Wrong. Please Try Again Later!'));
             return $this->redirect(Yii::$app->request->referrer);
         }
 
@@ -163,7 +163,7 @@ class FoodController extends CommonController
                             $transaction->commit();
                             $status = DefaultController::updateRestaurant($rid);
 
-                            Yii::$app->session->setFlash('success','Success!');
+                            Yii::$app->session->setFlash('success',Yii::t('cart','Success!'));
                             return $this->redirect(['food/menu', 'rid' => $rid , 'page' => 'menu']);
                         } 
                         else {
@@ -224,18 +224,18 @@ class FoodController extends CommonController
                 $status['Status'] = -1;
                 if ($status->validate()) {
                     $status->save();
-                    Yii::$app->session->setFlash('success','Item Deleted.');
+                    Yii::$app->session->setFlash('success',Yii::t('food','Item Deleted.'));
                     return $this->redirect(Yii::$app->request->referrer);
                 }
             }
             else
             {
-                Yii::$app->session->setFlash('error','You need to pause the item first.');
+                Yii::$app->session->setFlash('error',Yii::t('food','You need to pause the item first.'));
             }
         }
         else
         {
-            Yii::$app->session->setFlash('error','You are not allowed to perform this action.');
+            Yii::$app->session->setFlash('error',Yii::t('common','You are not allow to perfrom this action!'));
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -245,7 +245,7 @@ class FoodController extends CommonController
         $selection = Foodselection::findOne($id);
         if(empty($selection))
         {
-            Yii::$app->session->setFlash('error','Something Went Wrong!');
+            Yii::$app->session->setFlash('error',Yii::t('cart','Something Went Wrong!'));
             return $this->redirect(Yii::$app->request->referrer);
         }
         $food = Food::find()->where('Food_ID = :fid',[':fid'=>$selection->Food_ID])->joinWith('restaurant')->one();
@@ -256,21 +256,21 @@ class FoodController extends CommonController
                
                 if($selection->save())
                 {
-                    Yii::$app->session->setFlash('success','Item Deleted.');
+                    Yii::$app->session->setFlash('success',Yii::t('food','Item Deleted.'));
                 }
                 else
                 {
-                    Yii::$app->session->setFlash('error','You need to pause the item first.');
+                    Yii::$app->session->setFlash('error',Yii::t('food','You need to pause the item first.'));
                 }
             }
             else
             {
-                Yii::$app->session->setFlash('error','You need to pause the item first.');
+                Yii::$app->session->setFlash('error',Yii::t('food','You need to pause the item first.'));
             }
         }
         else
         {
-            Yii::$app->session->setFlash('error','You are not allowed to perform this action.'); 
+            Yii::$app->session->setFlash('error',Yii::t('common','You are not allow to perfrom this action!')); 
         }
         return $this->redirect(Yii::$app->request->referrer);
        
@@ -331,7 +331,7 @@ class FoodController extends CommonController
             if(!is_numeric($foodtypemodel->Type_Desc)){
                 $foodtypemodel->save();    
             } else {
-                Yii::$app->session->setFlash('danger', "Invalid Food Type");
+                Yii::$app->session->setFlash('danger', Yii::t('food',"Invalid Food Type"));
                 return $this->redirect(Yii::$app->request->referrer);
             }
 
@@ -451,14 +451,14 @@ class FoodController extends CommonController
                     if($flag)
                     {
                         $transaction->commit();
-                        Yii::$app->session->setFlash('success', "Success edit");
+                        Yii::$app->session->setFlash('success',Yii::t('food',"Success edited"));
                         return $this->redirect(Yii::$app->request->referrer);
 
                     }
                     else
                     {
                         $transaction->rollBack();
-                        Yii::$app->session->setFlash('warning', "Fail edit");
+                        Yii::$app->session->setFlash('warning', Yii::t('cart',"Failed to edit!"));
                         return $this->redirect(Yii::$app->request->referrer);
                     }
                 }
@@ -467,12 +467,12 @@ class FoodController extends CommonController
             {
                 $transaction->rollBack();
             }
-            Yii::$app->session->setFlash('warning', "Fail edit");
+            Yii::$app->session->setFlash('warning', Yii::t('cart',"Failed to edit!"));
             return $this->redirect(Yii::$app->request->referrer);
         }
         else
         {
-            Yii::$app->session->setFlash('warning', "Fail edit");
+            Yii::$app->session->setFlash('warning', Yii::t('cart',"Failed to edit!"));
             return $this->redirect(Yii::$app->request->referrer);
         }
     }

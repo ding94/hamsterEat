@@ -87,12 +87,12 @@ class UserController extends CommonController
 			$isValid = $detail->validate();
             if($isValid){
                 $detail->save();
-                Yii::$app->session->setFlash('success', "Update completed");
+                Yii::$app->session->setFlash('success', Yii::t('common',"Update completed"));
                 return $this->redirect(['user/user-profile']);
                 
             }
             else{
-                Yii::$app->session->setFlash('warning', "Fail Update");
+                Yii::$app->session->setFlash('warning', Yii::t('common',"Update Failed"));
             }
 		}
 	
@@ -125,12 +125,12 @@ class UserController extends CommonController
 
 	    if($model->load(Yii::$app->request->post()) ){
 	 		if ($model->check()) {
-	 			 Yii::$app->session->setFlash('success', 'Successfully changed password');
+	 			 Yii::$app->session->setFlash('success', Yii::t('user','Successfully changed password'));
 	 			    return $this->redirect(['user/changepassword']);
 	 		}
 	        
 	        else {
-	         	Yii::$app->session->setFlash('warning', 'changed password failed');
+	         	Yii::$app->session->setFlash('warning', Yii::t('user','changed password failed'));
 	        }
 	      
 	    }
@@ -150,11 +150,11 @@ class UserController extends CommonController
         $model->level = 1;
         if($model->save())
         {
-            Yii::$app->session->setFlash('success', 'Address changed to Primary');
+            Yii::$app->session->setFlash('success', Yii::t('user','Address changed to Primary'));
         }
         else
         {
-            Yii::$app->session->setFlash('error', 'Fail to change Primary Address');
+            Yii::$app->session->setFlash('error', Yii::t('user','Fail to change Primary Address'));
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -171,7 +171,7 @@ class UserController extends CommonController
         $count = Useraddress::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->count();
         if($count >= 3)
         {
-             Yii::$app->session->setFlash('danger', ' Reach Max Limit 3');
+             Yii::$app->session->setFlash('danger', Yii::t('cart','Reach Max Limit 3'));
               return $this->redirect(Yii::$app->request->referrer);
         }
 
@@ -190,11 +190,11 @@ class UserController extends CommonController
                 {
                     Useraddress::updateAll(['level' => 0],'uid = :uid AND id != :id',[':uid' => Yii::$app->user->identity->id,':id'=> $model->id]);
                 }
-                     Yii::$app->session->setFlash('success', 'Successfully create new address');
+                     Yii::$app->session->setFlash('success', Yii::t('cart','Successfully create new address'));
             }
             else
             {
-                ii::$app->session->setFlash('danger', ' Address Add Fail');
+                ii::$app->session->setFlash('danger', Yii::t('user','Address Add Fail'));
             }
             return $this->redirect(Yii::$app->request->referrer);
         }
@@ -216,16 +216,16 @@ class UserController extends CommonController
                     {
                         Useraddress::updateAll(['level' => 0],'uid = :uid AND id != :id',[':uid' => Yii::$app->user->identity->id,':id'=> $model->id]);
                     }
-                    Yii::$app->session->setFlash('success', 'Successfully  update address');
+                    Yii::$app->session->setFlash('success', Yii::t('user','Successfully update address'));
                 }
                 else
                 {
-                    ii::$app->session->setFlash('danger', ' Address Update Fail');
+                    ii::$app->session->setFlash('danger', Yii::t('user','Address Update Fail'));
                 }
             }
             else
             {
-                Yii::$app->session->setFlash('danger', 'You are not the right person');
+                Yii::$app->session->setFlash('danger', Yii::t('common','You are not the right person'));
             }
             return $this->redirect(Yii::$app->request->referrer);
         }
@@ -239,11 +239,11 @@ class UserController extends CommonController
         if(!empty($model))
         {
             $model->delete();
-            Yii::$app->session->setFlash('success', 'Delete Successfully');
+            Yii::$app->session->setFlash('success', Yii::t('common','Delete Successfully'));
         }
         else
         {
-            Yii::$app->session->setFlash('warning', 'Fail Delete ');
+            Yii::$app->session->setFlash('warning', Yii::t('common','Delete Fail'));
         }
         return $this->redirect(Yii::$app->request->referrer);
     }

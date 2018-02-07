@@ -1,23 +1,4 @@
-function checkempty()
-    {
-        if (document.getElementsByName("Orders[Orders_PaymentMethod]")[1].checked) 
-        {
-            var aler = "Are you sure to pay with Account Balance?";
-        }
-        else if (document.getElementsByName("Orders[Orders_PaymentMethod]")[2].checked)
-        {
-            var aler = "Are you sure to pay cash on delivery?";
-        }
-        else
-        {
-            alert('Please select a payment method!');
-            return false;
-        }
 
-        var con = confirm(aler);
-        if (con == true) { return true;}
-        else {return false;}
-    }
 
 $(function(){
     $('#address-modal').on('show.bs.modal', function (event) {

@@ -13,6 +13,28 @@ $this->title = Yii::t('checkout','Check Out');
 CheckoutAsset::register($this);
 
 ?>
+<script type="text/javascript">
+  function checkempty()
+    {
+        if (document.getElementsByName("Orders[Orders_PaymentMethod]")[1].checked) 
+        {
+            var aler = "<?php echo Yii::t('checkout','Are you sure to pay with Account Balance?'); ?>";
+        }
+        else if (document.getElementsByName("Orders[Orders_PaymentMethod]")[2].checked)
+        {
+            var aler = "<?php echo Yii::t('checkout','Are you sure to pay cash on delivery?'); ?>";
+        }
+        else
+        {
+            alert("<?php echo Yii::t('checkout','Please select a payment method!'); ?>");
+            return false;
+        }
+
+        var con = confirm(aler);
+        if (con == true) { return true;}
+        else {return false;}
+    }
+</script>
         <div class="container">
        <div class="checkout-progress-bar">
          <div class="circle done">

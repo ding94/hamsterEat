@@ -61,7 +61,7 @@ class OrderController extends CommonController
             $status = StatusType::find()->where(['id'=>$status])->one();
             if(empty($status) || is_null($status))
             {
-                Yii::$app->session->setFlash('error', 'Something Went Wrong!!.');
+                Yii::$app->session->setFlash('error', Yii::t('cart','Something Went Wrong!'));
                 return $this->redirect(['/order/my-orders']);
             }
             $status = $status->type;
@@ -134,7 +134,7 @@ class OrderController extends CommonController
         $order = Orders::find()->where("orders.Delivery_ID = :id and User_Username = :u",[':id'=>$did,':u'=>Yii::$app->user->identity->username])->joinWith(['address'])->one();
         if(empty($order))
         {
-            Yii::$app->session->setFlash('error', 'Something Went Wrong!!.');
+            Yii::$app->session->setFlash('error', Yii::t('cart','Something Went Wrong!'));
             return $this->redirect(['/order/my-orders']);
         }
         $orderitems = Orderitem::find()->where('Delivery_ID = :did ', [':did'=>$did])->all();
@@ -158,7 +158,7 @@ class OrderController extends CommonController
         $order = Orders::find()->where('Delivery_ID = :did and User_Username = :name', [':did'=>$did,':name'=> Yii::$app->user->identity->username])->one();
         if(empty($order))
         {
-            Yii::$app->session->setFlash('error', 'Something Went Wrong!!.');
+            Yii::$app->session->setFlash('error', Yii::t('cart','Something Went Wrong!'));
             return $this->redirect(['/order/my-orders']);
         }
         $orderitem = Orderitem::find()->where('Delivery_ID = :did and OrderItem_Status != 8 and OrderItem_Status != 9', [':did'=>$did])->all();

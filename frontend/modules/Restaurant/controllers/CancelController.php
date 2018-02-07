@@ -35,7 +35,7 @@ class CancelController extends CommonController
             //use this formular for most accurate data protect
             //if (count($orderitem) == ($k+1) ) {}
         }
-        Yii::$app->session->setFlash('Success', "Status changed! Please inform customer service.");
+        Yii::$app->session->setFlash('Success', Yii::t('m-restaurant',"Status changed! Please inform customer service."));
         return true;
     }
 
@@ -179,7 +179,7 @@ class CancelController extends CommonController
                     $value['OrderItem_Status'] = 9;
                 }
                 else{
-                    Yii::$app->session->setFlash('Warning', "Something Went Wrong");
+                    Yii::$app->session->setFlash('Warning', Yii::t('cart',"Something Went Wrong!"));
                             return false;
                     }
                 }
@@ -197,7 +197,7 @@ class CancelController extends CommonController
                 }
                 else
                 {
-                    Yii::$app->session->setFlash('Warning', "Something Went Wrong");
+                    Yii::$app->session->setFlash('Warning', Yii::t('cart',"Something Went Wrong!"));
                     return false;
                 }
            

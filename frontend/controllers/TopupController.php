@@ -64,11 +64,11 @@ class TopupController extends CommonController
 			// var_dump($model->validate());exit;
 			 if ($model->validate()){
         		$model->save();
-    			Yii::$app->session->setFlash('success', 'Top Up Successful Please Wait for approve');
+    			Yii::$app->session->setFlash('success', Yii::t('topup','Top Up Successful Please Wait for approve'));
                 return $this->redirect(['user/userbalance']);
 			}
 			else{
-				Yii::$app->session->setFlash('error', 'Upload Failed');
+				Yii::$app->session->setFlash('error', Yii::t('common','Upload Failed'));
 			}
     	}
 		$model->Account_TopUpAmount ="";

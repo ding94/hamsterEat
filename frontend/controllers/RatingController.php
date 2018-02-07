@@ -71,7 +71,7 @@ Class RatingController extends CommonController
 		}
 		else
 		{
-			Yii::$app->session->setFlash('warning', "Fail");
+			Yii::$app->session->setFlash('warning', Yii::t('common',"Failed"));
 		}
 		return $this->redirect(['order/my-orders','status'=>6]);
 	}
@@ -88,21 +88,21 @@ Class RatingController extends CommonController
 		$completed = Orders::find()->where('Delivery_ID = :did and User_Username = :name',[':did' => $id , ':name' =>Yii::$app->user->identity->username])->one();
 		if(is_null($completed))
 		{
-			Yii::$app->session->setFlash('warning', "Not the right person");
+			Yii::$app->session->setFlash('warning', Yii::t('rating',"Not the right person"));
 			return true;
 		}
 		else
 		{
 			switch ($completed->Orders_Status) {
 				case 7:
-					Yii::$app->session->setFlash('warning', "You Already take part in");
+					Yii::$app->session->setFlash('warning', Yii::t('rating',"You Already take part in"));
 					return true;
 					break;
 				case 6:
 					return false;
 					break;
 				default:
-					Yii::$app->session->setFlash('warning', "Food is In Process");
+					Yii::$app->session->setFlash('warning', Yii::t('rating',"Food is In Process"));
 					return true;
 					break;
 			}
@@ -135,11 +135,11 @@ Class RatingController extends CommonController
 			if(!$validate)
 			{
 				Foodrating::deleteAll('delivery_id = :id',[':id' => $id]);
-				Yii::$app->session->setFlash('warning', "Food Rating Fail");
+				Yii::$app->session->setFlash('warning', Yii::t('rating',"Food Rating Fail"));
 				return false;
 			}
 		}
-		Yii::$app->session->setFlash('success', "Thank You for your feedback.");
+		Yii::$app->session->setFlash('success', Yii::t('rating',"Thank You for your feedback."));
 		return true;
 	}
 

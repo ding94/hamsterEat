@@ -129,7 +129,7 @@ class DefaultController extends CommonController
             $post = Yii::$app->request->post();
           
             if (is_null($post['area'])) {
-                Yii::$app->session->setFlash('error', 'Please select area to continue.');
+                Yii::$app->session->setFlash('error', Yii::t('m-restaurant','Please select area to continue.'));
                 return $this->refresh();
             }
 
@@ -168,7 +168,7 @@ class DefaultController extends CommonController
         if (empty($rmanager)) {
             $valid = Restaurant::find()->where('Restaurant_ID=:id AND Restaurant_Status=:s',[':id'=>$rid,':s'=>"Operating"])->one();
             if (empty($valid)) {
-                Yii::$app->session->setFlash('error', 'This restaurant was not valid now.');
+                Yii::$app->session->setFlash('error', Yii::t('m-restaurant','This restaurant was not valid now.'));
                
             }
         }
@@ -177,7 +177,7 @@ class DefaultController extends CommonController
 
         if(empty($id))
         {
-            Yii::$app->session->setFlash('error', 'This restaurant cannot be found.');
+            Yii::$app->session->setFlash('error', Yii::t('m-restaurant','This restaurant cannot be found.'));
              return $this->redirect(['/site/index']);
         }
 
@@ -298,7 +298,7 @@ class DefaultController extends CommonController
                     
                     if ($rmanagerlevel->validate()) {
                         $rmanagerlevel->save();
-                        Yii::$app->session->setFlash('success', 'Registered! Please wait admin to confirm restaurant information!');
+                        Yii::$app->session->setFlash('success', Yii::t('m-restaurant','Registered! Please wait admin to confirm restaurant information!'));
                         return $this->redirect(['/Restaurant/restaurant/restaurant-service']);       
                     }
                     else
@@ -308,7 +308,7 @@ class DefaultController extends CommonController
                     }
                 }
 
-                Yii::$app->session->setFlash('warning', 'Register Failed!');
+                Yii::$app->session->setFlash('warning', Yii::t('m-restaurant','Register Failed!'));
                 return $this->redirect(['/Restaurant/restaurant/restaurant-service']);  
             }
         return $this->render('newrestaurant', ['restaurant' => $restaurant, 'type'=>$type,'area'=>$areachosen,'foodjunction'=>$foodjunction]);
@@ -387,7 +387,7 @@ class DefaultController extends CommonController
 
                     $transaction->commit();
 
-                    Yii::$app->session->setFlash('success', "Update completed");
+                    Yii::$app->session->setFlash('success', Yii::t('common',"Update completed"));
                     return $this->redirect(['/Restaurant/default/edit-restaurant-details', 'rid'=>$rid]);
                 }
 
@@ -395,11 +395,11 @@ class DefaultController extends CommonController
                     $transaction->rollBack();
                 }
 
-                Yii::$app->session->setFlash('warning', "Fail edit");
+                Yii::$app->session->setFlash('warning', Yii::t('common',"Edit failed"));
                 return $this->redirect(Yii::$app->request->referrer);
             }
             else{
-                Yii::$app->session->setFlash('warning', "Fail edit");
+                Yii::$app->session->setFlash('warning', Yii::t('common',"Edit failed"));
                 return $this->redirect(Yii::$app->request->referrer);
             }
         }
@@ -415,7 +415,7 @@ class DefaultController extends CommonController
         foreach ($restaurant['food'] as $one => $foods) {
             foreach ($foods['junction'] as $two => $types) {
                 if ($types['Type_ID'] == $nonhalal['ID']) {
-                    Yii::$app->session->setFlash('error','Your menu having non-halal food, therefore restaurant cannot change to halal-restaurant.');
+                    Yii::$app->session->setFlash('error',Yii::t('m-restaurant','Your menu having non-halal food, therefore restaurant cannot change to halal-restaurant.'));
                     return false;
                 }
             }
@@ -485,7 +485,7 @@ class DefaultController extends CommonController
 
         if(empty($num) || $num < 1 || $num > 4)
         {
-            Yii::$app->session->setFlash('error', 'Something Went Wrong!');
+            Yii::$app->session->setFlash('error', Yii::t('cart','Something Went Wrong!'));
             return $this->redirect(Yii::$app->request->referrer);
         }
         switch ($num) {
@@ -506,7 +506,7 @@ class DefaultController extends CommonController
         $sql = Rmanagerlevel::find()->where('User_Username = :u and Restaurant_ID = :r and      RmanagerLevel_Level = :l',[':u' => $uname , ':r' => $rid , ':l' => $name])->one();
         if(!empty($sql))
         {
-           Yii::$app->session->setFlash('error', 'Something Went Wrong!');
+           Yii::$app->session->setFlash('error', Yii::t('cart','Something Went Wrong!'));
             return $this->redirect(Yii::$app->request->referrer); 
         }
 
@@ -522,7 +522,7 @@ class DefaultController extends CommonController
         }
         else
         {
-            Yii::$app->session->setFlash('error', 'Something Went Wrong!');
+            Yii::$app->session->setFlash('error', Yii::t('cart','Something Went Wrong!'));
             return $this->redirect(Yii::$app->request->referrer);
         }
     }

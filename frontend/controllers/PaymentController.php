@@ -54,7 +54,7 @@ class PaymentController extends CommonController
         
         if(empty($post['account-balance']))
         {
-            Yii::$app->session->setFlash('warning', 'Please Choose A Method');
+            Yii::$app->session->setFlash('warning', Yii::t('payment','Please Choose A Method'));
             return $this->redirect(Yii::$app->request->referrer);
         }
 
@@ -103,7 +103,7 @@ class PaymentController extends CommonController
                     return true;
                 }
         } 
-        Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
+        Yii::$app->session->setFlash('warning', Yii::t('payment','Payment failed! Insufficient Funds.'));
 		return false;
 	}
 
@@ -125,12 +125,12 @@ class PaymentController extends CommonController
                 if($userbalance->save() &&  $payment->save())
                 {   
                     MemberpointController::addMemberpoint($price,1);
-                    Yii::$app->session->setFlash('success', 'Payment Successful');
+                    Yii::$app->session->setFlash('success', Yii::t('payment','Payment Successful'));
                     return true;
                 }
                
             } else {
-                Yii::$app->session->setFlash('warning', 'Payment failed! Insufficient Funds.');
+                Yii::$app->session->setFlash('warning', Yii::t('payment','Payment failed! Insufficient Funds.'));
         }
         return false;
     }

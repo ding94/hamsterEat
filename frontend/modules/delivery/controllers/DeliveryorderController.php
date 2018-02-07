@@ -162,7 +162,7 @@ class DeliveryorderController extends CommonController
         	$valid = $this->singlePickup($order['oid'],$order['did']);
         	if(!$valid){
 
-        		$message .= "Order ID ".$order['oid']. " fail<br>";
+        		$message .= Yii::t('order',"Order ID")." ".$order['oid']." ".Yii::t('common',"fail")."<br>";
         	}
         }
 
@@ -181,7 +181,7 @@ class DeliveryorderController extends CommonController
         $message = "";
         if(empty($post['did']))
         {
-            Yii::$app->session->setFlash('danger', "Please Select One!!");
+            Yii::$app->session->setFlash('danger', Yii::t('m-delivery',"Please Select One!"));
             return $this->redirect(Yii::$app->request->referrer);
         }
 
@@ -191,7 +191,7 @@ class DeliveryorderController extends CommonController
             $valid = $this->singleComplete($did);
             if(!$valid)
             {
-                $message .= "Delivery ID ".$did. " fail<br>";
+                $message .= Yii::t('common',"Delivery ID")." ".$order['oid']." ".Yii::t('common',"fail")."<br>";
             }
         }
         if(!empty($message))

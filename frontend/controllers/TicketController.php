@@ -71,12 +71,12 @@ class TicketController extends CommonController
 
             if ($model->validate()) {
                 $model->save();
-                Yii::$app->session->setFlash('success', 'Upload Successful');
+                Yii::$app->session->setFlash('success', Yii::t('common','Upload Successful'));
                 return $this->redirect(['/ticket/index']);
             }
             else
             {
-                Yii::$app->session->setFlash('error', 'Upload failed');
+                Yii::$app->session->setFlash('error', Yii::t('common','Upload failed'));
             }
            
         }
@@ -133,12 +133,12 @@ class TicketController extends CommonController
            if ($reply->validate() && $ticket->validate()) {
                $reply->save();
                $ticket->save();
-               Yii::$app->session->setFlash('success', 'Submitted!');
+               Yii::$app->session->setFlash('success', Yii::t('common','Submitted!'));
                return $this->redirect(['/ticket/chatting','sid'=>$sid,'tid'=>$tid]);
            }
            else
            {
-                Yii::$app->session->setFlash('error', 'Upload Failed, Something went wrong');
+                Yii::$app->session->setFlash('error', Yii::t('common','Upload Failed, Something went wrong'));
            }
         }
         $this->layout = 'user';

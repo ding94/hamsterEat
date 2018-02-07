@@ -103,7 +103,7 @@ class DiscountController extends Controller
                             break;
                                      
                         default:
-                        	Yii::$app->session->setFlash('error', 'error.');
+                        	Yii::$app->session->setFlash('error', Yii::t('common','Error!'));
                             return $data;
                             break;
                     }
@@ -150,14 +150,14 @@ class DiscountController extends Controller
                             break;
                                      
                         default:
-                            Yii::$app->session->setFlash('error', 'error.');
+                            Yii::$app->session->setFlash('error', Yii::t('common','Error!'));
                             return $data;
                             break;
                     }
                 }
             	else
             	{
-            		Yii::$app->session->setFlash('error', 'Coupon was used.');
+            		Yii::$app->session->setFlash('error', Yii::t('discount','Coupon was used.'));
 					return $data;
             	}
             	//save voucher status

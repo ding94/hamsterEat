@@ -68,8 +68,7 @@ class CartController extends CommonController
         //$cartSelection->load(Yii::$app->request->post());
         if(empty($post))
         {
-            //Yii::$app->session->setFlash('error', "");
-            $data['message'] = "Something Went Wrong!";
+            $data['message'] = Yii::t('cart','Something Went Wrong!');
             ;
             return Json::encode($data);
         }
@@ -79,13 +78,13 @@ class CartController extends CommonController
 
         if(empty($food))
         {
-            $data['message'] = "The Food Is Not Available Or Missing";
+            $data['message'] = Yii::t('cart','The Food Is Not Available Or Missing');
             return Json::encode($data);
         }
         
         if(empty($session['group']) || $session['group'] != $food['restaurant']['Restaurant_AreaGroup'])
         {
-            $data['message'] = "This item is in a different area from your area. Please re-enter your area.";
+            $data['message'] = Yii::t('cart','This item is in a different area from your area. Please re-enter your area.');
             return Json::encode($data);
         }
 
@@ -142,9 +141,8 @@ class CartController extends CommonController
                 if($valid)
                 {
                     $transaction->commit();
-                    $data['message'] = 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.';
+                    $data['message'] = Yii::t('cart','Food item has been added to cart.').' '.Html::a('<u>'.Yii::t('cart','Go to my Cart').'</u>', ['/cart/view-cart']).'.';
                     $data['value'] = 1;
-                    //Yii::$app->session->setFlash('success', 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.');
                     return JSON::encode($data);
                 }
                 $transaction->rollBack();
@@ -155,7 +153,7 @@ class CartController extends CommonController
             }
 
         }
-        $data['message'] = 'Fail To Add To Cart Please try later';
+        $data['message'] = Yii::t('cart','Fail To Add To Cart Please try later');
         $data['value'] = 0;
         
         return JSON::encode($data);
@@ -280,7 +278,7 @@ class CartController extends CommonController
         $count = Useraddress::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->count();
         if($count >= 3)
         {
-             Yii::$app->session->setFlash('danger', ' Reach Max Limit 3');
+             Yii::$app->session->setFlash('danger', Yii::t('cart','Reach Max Limit 3'));
               return $this->redirect(Yii::$app->request->referrer);
         }
 
@@ -295,16 +293,16 @@ class CartController extends CommonController
                 {
                     Useraddress::updateAll(['level' => 0],'uid = :uid AND id != :id',[':uid' => Yii::$app->user->identity->id,':id'=> $model->id]);
                 }
-                     Yii::$app->session->setFlash('success', 'Successfully create new address');
+                     Yii::$app->session->setFlash('success', Yii::t('cart','Successfully create new address'));
             }
             else
             {
-                Yii::$app->session->setFlash('danger', ' Address Add Fail');
+                Yii::$app->session->setFlash('danger', Yii::t('cart','Address Add Fail'));
             }
             return $this->redirect(Yii::$app->request->referrer);
         }
         $this->layout = 'user';
-        $this->view->title = 'Add New Address';
+        $this->view->title = Yii::t('cart','Add New Address');
         return $this->renderAjax('newaddress',['model'=>$model]);
     }
 
@@ -325,10 +323,10 @@ class CartController extends CommonController
             
             if ($addr->validate()) {
                 $addr->save();
-                Yii::$app->session->setFlash('success', 'Success!');
+                Yii::$app->session->setFlash('success', Yii::t('cart','Success!'));
             }
             else{
-                Yii::$app->session->setFlash('error', 'Failed to edit!');
+                Yii::$app->session->setFlash('error', Yii::t('cart','Failed to edit!'));
             }
             return $this->redirect(Yii::$app->request->referrer);
         }
@@ -353,7 +351,7 @@ class CartController extends CommonController
 
         if(empty($order))
         {
-            Yii::$app->session->setFlash('danger', 'Wrong Format Enter');
+            Yii::$app->session->setFlash('danger', Yii::t('cart','Wrong Format Enter'));
             return $this->redirect(['/site/index']);
         }
         
@@ -363,7 +361,7 @@ class CartController extends CommonController
         }
         else
         {
-            Yii::$app->session->setFlash('success', 'Order Success');
+            Yii::$app->session->setFlash('success', Yii::t('cart','Order Success'));
             $orderitem = Orderitem::find()->joinWith('food')->where('Delivery_ID=:id',[':id'=>$did])->orderBy('Order_ID ASC')->all();
             return $this->render('aftercheckout', ['did'=>$did, 'order'=>$order,'orderitem'=>$orderitem ]);
         }
@@ -385,7 +383,7 @@ class CartController extends CommonController
         $cart = Cart::find()->where('id=:id and uid = :uid',[':id'=>$cid,':uid' => Yii::$app->user->identity->id])->one();
         if(empty($cart))
         {
-            $data['message'] = "SomeThing Went Wrong!!";
+            $data['message'] = Yii::t('cart',"Something Went Wrong!");
             return Json::encode($data);
         }
        
@@ -402,7 +400,7 @@ class CartController extends CommonController
                 break;
         }
         if ($cart->quantity < 1) {
-            $data['message'] = "Food can't order less than 1.";
+            $data['message'] = Yii::t('cart',"Food can't order less than 1.");
             return Json::encode($data);
         }
 
@@ -414,7 +412,7 @@ class CartController extends CommonController
              
         }
 
-        $data['message'] = "SomeThing Went Wrong!!";
+        $data['message'] = Yii::t('cart',"Something Went Wrong!");
        
         return Json::encode($data);
     }
@@ -612,14 +610,14 @@ class CartController extends CommonController
             $addedCart->quantity += $post['Cart']['quantity'];
             if($cart->save())
             {
-                $data['message'] = 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.';
+                $data['message'] = Yii::t('cart','Food item has been added to cart.').' '.Html::a('<u>'.Yii::t('cart','Go to my Cart').'</u>', ['/cart/view-cart']).'.';
                     $data['value'] = 4;
                     //Yii::$app->session->setFlash('success', 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.');
                    
             }
             else
             {
-                $data['message'] = "Something Went Wrong!";
+                $data['message'] = Yii::t('cart',"Something Went Wrong!");
                 $data['value'] = 0;
               
             }

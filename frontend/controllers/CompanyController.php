@@ -46,7 +46,7 @@ class CompanyController extends CommonController
         $users = $users->offset($pagination->offset)->limit($pagination->limit)->all();
 		
 		if (empty($company)) {
-			Yii::$app->session->setFlash('error','Error!');
+			Yii::$app->session->setFlash('error',Yii::t('common','Error!'));
 			return $this->redirect('/site/index');
 		}
 		if (Yii::$app->request->post()) {
@@ -54,12 +54,12 @@ class CompanyController extends CommonController
 			$emplo->load(Yii::$app->request->post());
 
 			if (empty($emplo['uid'])) {
-				Yii::$app->session->setFlash('error','Input was empty!');
+				Yii::$app->session->setFlash('error',Yii::t('company','Input was empty!'));
 				
 				return $this->redirect(['/company/index']);
 			}
 			if (CompanyEmployees::find()->where('uid=:uid',[':uid'=>$emplo['uid']])->one()) {
-				Yii::$app->session->setFlash('warning','Repeated employee!');
+				Yii::$app->session->setFlash('warning',Yii::t('company','Repeated employee!'));
 				return $this->redirect(['/company/index']);
 			}
 
@@ -68,7 +68,7 @@ class CompanyController extends CommonController
 
 			if ($emplo->validate()) {
 				$emplo->save();
-				Yii::$app->session->setFlash('success','Success!');
+				Yii::$app->session->setFlash('success',Yii::t('cart','Success!'));
 				return $this->redirect(['/company/index']);
 			}
 		}
@@ -97,12 +97,12 @@ class CompanyController extends CommonController
 		$owner = Company::find()->where('owner_id=:oid',[':oid'=>Yii::$app->user->identity->id])->one();
 
 		if (empty($owner) || $employee['uid'] == $employer['uid'] || $employee['cid'] != $employer['cid']) {
-			Yii::$app->session->setFlash('danger','You are not allow to perfrom this action!');
+			Yii::$app->session->setFlash('danger',Yii::t('common','You are not allow to perfrom this action!'));
 			return $this->redirect(['/company/index']);
 		}
 		else{
 			$employee->delete();
-			Yii::$app->session->setFlash('warning','Deleted!');
+			Yii::$app->session->setFlash('warning',Yii::t('company','Deleted!'));
 			return $this->redirect(['/company/index']);
 		}
 		

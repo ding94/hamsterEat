@@ -63,7 +63,7 @@ class CheckoutController extends CommonController
 		
 		if(empty($cookies['cart']))
       	{
-      		Yii::$app->session->setFlash('error', 'You Already Submit The Order');
+      		Yii::$app->session->setFlash('error', Yii::t('checkout','You Already Submit The Order'));
 			return $this->redirect(['order/my-orders']);
       	}
 
@@ -71,7 +71,7 @@ class CheckoutController extends CommonController
 
 		if($early == false)
 		{
-			Yii::$app->session->setFlash('error', 'The allowed time to place order is over. Please place your order in between 8am and 11am daily.');
+			Yii::$app->session->setFlash('error', Yii::t('checkout','The allowed time to place order is over. Please place your order in between 8am and 11am daily.'));
 			  return $this->redirect(Yii::$app->request->referrer);
 		}
         
@@ -101,7 +101,7 @@ class CheckoutController extends CommonController
 
 		if(empty($post['cid']))
       	{
-      		Yii::$app->session->setFlash('error', 'Your Cart is Empty. Please Add item before processing to checkout');
+      		Yii::$app->session->setFlash('error', Yii::t('checkout','Your Cart is Empty. Please Add item before processing to checkout'));
 			return $this->redirect(Yii::$app->request->referrer);
       	}
 
@@ -129,13 +129,13 @@ class CheckoutController extends CommonController
 		
 		if(empty($cookies['cart']))
 		{
-			Yii::$app->session->setFlash('warning', "Order Expeire Aready. Please Try Again");
+			Yii::$app->session->setFlash('warning', Yii::t('checkout',"Order Expeire Aready. Please Try Again"));
 			return $this->redirect(['/cart/view-cart']);
 		}
 	
 		if(empty($post['DeliveryAddress']) || empty($post['Orders']))
 		{
-			Yii::$app->session->setFlash('warning', "Please Fill Out Everything");
+			Yii::$app->session->setFlash('warning', Yii::t('checkout',"Please Fill Out Everything"));
 			return $this->redirect(['/cart/view-cart']);
 		}
 		
@@ -154,7 +154,7 @@ class CheckoutController extends CommonController
 		
 		if(!$avaiableCart)
 		{
-			Yii::$app->session->setFlash('warning', "The Cart Item Does Not Match You Order Item");
+			Yii::$app->session->setFlash('warning', Yii::t('checkout',"The Cart Item Does Not Match You Order Item"));
 			return $this->redirect(['/cart/view-cart']);
 		}
 
@@ -164,7 +164,7 @@ class CheckoutController extends CommonController
 
 		if($deliveyaddress['value'] == -1 || $deliveryman == -1)
 		{
-			Yii::$app->session->setFlash('warning', "Currently Now Delivery Man.");
+			Yii::$app->session->setFlash('warning', Yii::t('checkout',"Currently Now Delivery Man."));
 			return $this->redirect(['/cart/view-cart']);
 		}
 		
@@ -180,7 +180,7 @@ class CheckoutController extends CommonController
 	
 		if($dataorder['value'] == -1 || $dataitem['value'] == -1)
 		{
-			Yii::$app->session->setFlash('warning', "Your order Something Went Wrong");
+			Yii::$app->session->setFlash('warning', Yii::t('checkout',"Your order Something Went Wrong"));
 			return $this->redirect(['/cart/view-cart']);
 		}
 
@@ -303,7 +303,7 @@ class CheckoutController extends CommonController
 			$address = Useraddress::findOne($post['DeliveryAddress']['location']);
 			if(empty($groupArea[$address['postcode']]))
 			{
-				Yii::$app->session->setFlash('error', 'The address does not match your cart area.');
+				Yii::$app->session->setFlash('error', Yii::t('cart','The address does not match your cart area.'));
 				return $data;
 			}
 		}

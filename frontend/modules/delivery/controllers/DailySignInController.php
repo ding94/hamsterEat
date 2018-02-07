@@ -48,16 +48,16 @@ class DailySignInController extends CommonController
     	$record = self::updateSignRecord();
     	switch ($record) {
     		case 1:
-    			Yii::$app->session->setFlash('warning', "Today Already Sign In");
+    			Yii::$app->session->setFlash('warning', Yii::t('m-delivery',"Today Already Sign In"));
     			break;
     		case 2:
-    			Yii::$app->session->setFlash('Success', "Sign In Success");
+    			Yii::$app->session->setFlash('Success', Yii::t('m-delivery',"Sign In Success"));
     			break;
     		case 3:
-    			Yii::$app->session->setFlash('warning', "Sign In Fail");
+    			Yii::$app->session->setFlash('warning', Yii::t('m-delivery',"Sign In Fail"));
     			break;
     		case 4:
-    			Yii::$app->session->setFlash("warning" ,'Today Sign in Time Already Pass!!');
+    			Yii::$app->session->setFlash("warning" ,Yii::t('m-delivery','Today Sign in Time Already Pass!'));
     		default:
     			# code...
     			break;
@@ -226,7 +226,7 @@ class DailySignInController extends CommonController
 			$search = Deliveryman::find()->where('User_id = :id', [':id' => Yii::$app->user->identity->id])->one();
 			$search->DeliveryMan_AreaGroup = $areaa;
 			$search->save();
-			Yii::$app->session->setFlash('success', "Update completed");
+			Yii::$app->session->setFlash('success', Yii::t('common',"Update completed"));
             return $this->redirect(['/user/user-profile']);
 			// $sql="UPDATE deliveryman SET DeliveryMan_AreaGroup = ".$postcodeArray." WHERE User_id =18";
 			//  Yii::$app->db->createCommand($sql)->execute();

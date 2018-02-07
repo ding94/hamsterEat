@@ -55,12 +55,12 @@ class WithdrawController extends CommonController
 				$balance->defaultAmount = ($model->withdraw_amount+2);
 				//var_dump($balance ->User_Balance); exit;
 				self::actionValidation($model,$balance);
-				Yii::$app->session->setFlash('success', 'Upload Successful');
+				Yii::$app->session->setFlash('success', Yii::t('common','Upload Successful'));
 				return $this->redirect(['withdraw/index']);
 			}
 			elseif($model->withdraw_amount > $balance->User_Balance -2)
 			{
-				Yii::$app->session->setFlash('error', 'Withdraw amount exceed balance!');
+				Yii::$app->session->setFlash('error', Yii::t('withdraw','Withdraw amount exceed balance!'));
 			}
     	}
 		$model->acc_name ="";

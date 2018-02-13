@@ -23,7 +23,7 @@ NotificationAsset::register($this);
                         'hideSearch' => true,
                         'data' => $link,
                         'options' => [
-                            'placeholder' => 'Go To ...',
+                            'placeholder' => Yii::t('common','Go To ...'),
                             'multiple' => false,
 
                         ],
@@ -39,7 +39,7 @@ NotificationAsset::register($this);
                 <ul id="deliveryman-orders-nav" class="nav nav-pills nav-stacked">
                 	<?php foreach($link as $url=>$name):?>
                     	<li role="presentation" class=<?php echo $name== $title ? "active" :"" ?>>
-                    		<a class="btn-block" href=<?php echo $url?>><?php echo $name?></a>
+                    		<a class="btn-block" href=<?php echo $url?>><?php echo Yii::t('notification',$name) ?></a>
                     	</li>
                 	<?php endforeach ;?>
                    

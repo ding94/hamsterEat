@@ -26,7 +26,7 @@ class NotificationController extends CommonController
 	public function actionIndex($type = 0)
 	{
 		$this->layout = 'user';
-		$title = "All Notification";
+		$title = Yii::t('notification',"All Notification");
 		self::turnOffNotification();
 		$link = CommonController::createUrlLink(6);
 		$query = Notification::find()->where('uid = :uid',[':uid' =>Yii::$app->user->identity->id ]);
@@ -34,11 +34,11 @@ class NotificationController extends CommonController
 		switch ($type) {
 			case 1:
 				$query->andWhere('view = 0');
-				$title = "Unread";
+				$title = Yii::t('notification',"Unread");
 				break;
 			case 2:
 				$query->andWhere('view = 1');
-				$title = "Read";
+				$title = Yii::t('notification',"Read");
 				break;
 			default:
 				# code...

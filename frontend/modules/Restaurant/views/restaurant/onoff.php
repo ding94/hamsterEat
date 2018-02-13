@@ -34,7 +34,7 @@ $this->title = "Food ".$model->name." Service";
 	                        'hideSearch' => true,
 	                        'data' => [$url=>"Back"] ,
 	                        'options' => [
-	                            'placeholder' => 'Go To ...',
+	                            'placeholder' => Yii::t('common','Go To ...'),
 	                            'multiple' => false,
 
 	                        ],

@@ -77,9 +77,13 @@ class TicketController extends CommonController
             else
             {
                 Yii::$app->session->setFlash('error', Yii::t('common','Upload failed'));
-            }
-           
+            }   
         }
+        
+        foreach ($data as $q => $value) {
+            $data[$q] = Yii::t('ticket',$value);
+        }
+
         $this->layout = 'user';
         return $this->render("submitticket",['model' => $model, 'data' => $data,'upload'=>$upload,'link'=>$link]);
     }

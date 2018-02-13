@@ -43,7 +43,7 @@ EditRestaurantDetailsAsset::register($this); ?>
                 <ul id="edit-restaurant-details-nav" class="nav nav-pills nav-stacked">
                     <?php foreach($link as $url=>$name):?>
                         <li role="presentation" class=<?php echo $name=="Edit Details" ? "active" :"" ?>>
-                            <a class="btn-block" href=<?php echo $url?>><?php echo $name?></a>
+                            <a class="btn-block" href=<?php echo $url?>><?php echo Yii::t('m-restaurant',$name)?></a>
                         </li>   
                     <?php endforeach ;?>
                 </ul>

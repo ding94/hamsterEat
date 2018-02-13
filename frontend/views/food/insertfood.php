@@ -30,7 +30,7 @@ AddFoodAsset::register($this);
             
                 <?= $form->field($food, 'Name')->textInput()->label(Yii::t('common','Name')) ?>
                 
-                <?= $form->field($food, 'Nickname')->textInput() ?>
+                <?= $form->field($food, 'Nickname')->textInput()->label(Yii::t('food','Nickname')) ?>
 
                 <?= $form->field($food, 'roundprice', [
                     'addon' => [
@@ -46,7 +46,7 @@ AddFoodAsset::register($this);
                         'name' => 'Type_ID',
                         'data' => $type,
                         'showToggleAll' => false,
-                        'options' => ['placeholder' => 'Select a type ...', 'multiple' => true],
+                        'options' => ['placeholder' => Yii::t('m-restaurant','Select a type ...'), 'multiple' => true],
                         'pluginOptions' => [
                             'tags' => true,
                             'maximumInputLength' => 10,

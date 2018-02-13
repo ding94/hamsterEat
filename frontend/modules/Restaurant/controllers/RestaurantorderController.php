@@ -72,7 +72,7 @@ class RestaurantorderController extends CommonController
                 $item[$company->name][$data->Delivery_ID][] = $data;
             }
         }
-        $title = Restaurant::findOne($rid)->Restaurant_Name ."'s Order";
+        $title = Restaurant::findOne($rid)->Restaurant_Name .Yii::t('common',"'s")." ".Yii::t('m-restaurant',"Order");
         $allstatus = ArrayHelper::map(StatusType::find()->all(),'type','id');
 
         return $this->render('index',['count'=>$countItem,'item'=>$item ,'title'=>$title,'link'=>$link,'rid'=>$rid,'allstatus'=>$allstatus,'status'=>$status,'mode'=>$mode]);

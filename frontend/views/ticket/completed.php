@@ -29,7 +29,7 @@ UserAsset::register($this);
                         'hideSearch' => true,
                         'data' => $link,
                         'options' => [
-                            'placeholder' => 'Go To ...',
+                            'placeholder' => Yii::t('common','Go To ...'),
                             'multiple' => false,
 
                         ],

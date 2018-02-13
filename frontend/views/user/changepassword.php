@@ -24,7 +24,7 @@ UserAsset::register($this);
                         'hideSearch' => true,
                         'data' => $link,
                         'options' => [
-                            'placeholder' => 'Go To ...',
+                            'placeholder' => Yii::t('common','Go To ...'),
                             'multiple' => false,
 
                         ],
@@ -39,7 +39,7 @@ UserAsset::register($this);
             <div class="nav-url">
                 <ul class="nav nav-pills nav-stacked">
                     <li role="presentation" ><?php echo Html::a(Yii::t('user','Edit User Profile'),['/user/userdetails'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('user','Change password') ?></a></li>
+                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('user','Change Password') ?></a></li>
                 </ul>
             </div>
         </div>
@@ -49,8 +49,8 @@ UserAsset::register($this);
             <?php $form = ActiveForm::begin(); ?>
             
                 <?php $form = ActiveForm::begin();?>
-        <?= $form->field($model, 'old_password')->passwordInput() ?>
-        <?= $form->field($model, 'new_password')->passwordInput() ?>
+        <?= $form->field($model, 'old_password')->passwordInput()->label(Yii::t('user','Old Password')) ?>
+        <?= $form->field($model, 'new_password')->passwordInput()->label(Yii::t('user','New Password')) ?>
         <?= $form->field($model, 'repeat_password')->passwordInput()->label(Yii::t('user','Confirm New Password')) ?>
         <div class="form-group">
             <?= Html::submitButton(Yii::t('user','Update'), ['class' => 'raised-btn main-btn change-password-resize-btn']) ?>

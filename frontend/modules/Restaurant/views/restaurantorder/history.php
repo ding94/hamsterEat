@@ -138,7 +138,7 @@ RestaurantOrdersHistoryAsset::register($this);
                         <tr>
                             <th width="10%"><?= Yii::t('order','Order ID')?></th>
                             <th width="30%"><?= Yii::t('order','Food Name')?> </th>
-                            <th>Selection </th>
+                            <th><?= Yii:: t('order','Selections') ?> </th>
                             <th width="10%" class="center"><?= Yii::t('order','Quantity')?> </th>
                             <th width="15%" class="center"><?= Yii::t('common','Status')?> </th>
                         </tr>

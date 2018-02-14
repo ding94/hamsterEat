@@ -1,3 +1,7 @@
+#outer-cart{
+	margin-bottom: 100px;
+}
+
 .fa-question-circle{
 	color:ffda00;
 	padding-left:2px;
@@ -227,7 +231,7 @@ section.cart:hover {
 }
 
 .product header h3 {
-	background: #afafaf;
+	background: #FFDA00;
 	color: #fff;
 	font-size: 22px;
 	line-height: 49px;
@@ -284,8 +288,8 @@ section.cart:hover {
 }
 
 .product footer .full-price {
-	background: #fff3af;
-	color:#777251;
+	background: #FFDA00;
+	color:#000;
 	float: right;
 	font-size: 18px;
 	font-weight: 300;

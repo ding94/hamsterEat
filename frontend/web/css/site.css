@@ -33,6 +33,7 @@ div::-webkit-scrollbar-thumb{
 
 .page-wrap{
   flex: 1 0 auto;
+  min-height: 100vh;
 }
 
 .wrap {

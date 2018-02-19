@@ -165,7 +165,7 @@ class DbSentencesTranslate extends MessageSource
         }
 
         $messages = $mainQuery->createCommand($this->db)->queryAll();
-
+        
         return ArrayHelper::map($messages, 'message', 'translation');
     }
 

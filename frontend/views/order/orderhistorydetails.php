@@ -3,7 +3,7 @@
 $this->title = "Invoice";
 use common\models\food\Food;
 use common\models\Order\Orderitemselection;
-use common\models\food\Foodselection;
+use common\models\food\FoodSelectionName;
 use common\models\Order\Orders;
 use yii\helpers\Html;
 
@@ -56,16 +56,16 @@ use yii\helpers\Html;
                             $select="";
                             $selections = Orderitemselection::find()->where('Order_ID=:id',[':id'=>$value['Order_ID']])->all(); 
                             foreach ($selections as $l => $sel) {
-                                $foodselect = Foodselection::find()->where('ID=:fid',[':fid'=>$sel['Selection_ID']])->one();
+                                $foodselect = FoodSelectionName::find()->where("id=:id and language = 'en'",[':id'=>$sel['Selection_ID']])->one();
                                 if (!empty($foodselect)) {
-                                    $select = $select.$foodselect['Name'].', ';
+                                    $select = $select.$foodselect['translation'].', ';
                                 }
                             }
                         ?>
                         <tr>
                             <td rowspan="5" style="border: 1px solid black;text-align: center;"><?= $value['Order_ID']; ?></td>
                             <td style="width:15%;font-weight: bold;border-bottom: 1px solid #ddd;">Food</td>
-                            <td style="width:50%;border-bottom: 1px solid #ddd;"><?= $food['Name']; ?></td>
+                            <td style="width:50%;border-bottom: 1px solid #ddd;"><?= $food['originName']; ?></td>
                             <td style="width:10%;border-bottom: 1px solid #ddd;padding-right: 5%;text-align: right;">RM <?=  number_format($food['Price'],2); ?></td>
                         </tr>
                         <tr>

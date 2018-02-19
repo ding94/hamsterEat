@@ -46,7 +46,7 @@ class RestaurantController extends Controller
         $totalProfit = $this->monthyTotalProfit($firstDay,$lastDay,$id);
        
         $searchModel = new ItemProfitSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$firstDay,$lastDay,$id);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$firstDay,$lastDay,$id,1);
         return $this->render('index',['model' => $dataProvider ,'searchModel'=>$searchModel,'first'=>$first,'totalProfit' => $totalProfit,'id'=>$id,'restaurantlist'=>$restaurantlist,'tempmodel'=>$tempmodel]);
     }
 

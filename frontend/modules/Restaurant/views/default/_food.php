@@ -19,7 +19,7 @@ RestaurantDefaultIndex2Asset::register($this);
                 <img class="img" src=<?php echo $fooddata->singleImg?> alt="">
             </div>
             <div class="inner-item">
-                <div class="foodName-div"><span class="foodName"><?php echo $fooddata['Name']; ?></span><span class="small-text stars" alt="<?php echo $fooddata['Rating']; ?>"><?php echo $fooddata['Rating']; ?></span></div>
+                <div class="foodName-div"><span class="foodName"><?php echo $fooddata['cookieName']; ?></span><span class="small-text stars" alt="<?php echo $fooddata['Rating']; ?>"><?php echo $fooddata['Rating']; ?></span></div>
                     <div class="price-div">
                         <?php if (Yii::$app->formatter->asTime(time()) < date("11:0:0")):?>
                             <span class="price">

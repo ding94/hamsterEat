@@ -31,6 +31,10 @@ use common\models\Expansion;
 use common\models\Feedback;
 use common\models\Feedbackcategory;
 use common\models\Upload;
+use common\models\food\Food;
+use common\models\food\FoodName;
+use common\models\food\FoodSelectionName;
+use common\models\food\FoodSelectiontypeName;
 use yii\web\UploadedFile;
 /**
  * Site controller
@@ -468,34 +472,66 @@ class SiteController extends CommonController
         return $data;
     }
 
-    public function actionAllmemberpoint()
+    public function actionConvertFoodname()
     {
-        $user = User::find()->all();
-      
-        foreach($user as $data)
+        $allfood = Food::find()->joinWith(['foodselectiontypes','foodSelection'])->all();
+        $message = "";
+        foreach ($allfood as $key => $food) 
         {
-            if(empty($data['balance']))
+            $foodName = FoodName::findOne($food->Food_ID);
+            $message .="<div style=' border-top: 5px solid black;'>";
+            if(empty($foodName))
             {
-                $balance = new Accountbalance;
-                $balance->User_Username = $data->username;
-                $balance->User_Balance = 0;
-                $balance->AB_topup = 0;
-                $balance->AB_minus = 0;
-                $balance->AB_DateTime = time();
-                $balance->save();
+                $data = new FoodName;
+                $data->language = 'en';
+                $data->translation = $food->Name;
+                $data->id = $food->Food_ID;
+                $data->scenario = "copy";
+                if(!$data->save())
+                {
+                    $message .= "<br>Food  :".$food->Food_ID." Fail";
+                }
             }
-
-            if(empty($data['memberpoint']))
+            if(!empty($food['foodselectiontypes']))
             {
-                $point = new Memberpoint;
-                $point->uid = $data->id;
-                $point->point = 0;
-                $point->positive = 0;
-                $point->negative = 0;
-                $point->save();
+                foreach($food->foodselectiontypes as $type)
+                {
+                    $typeName = FoodSelectiontypeName::findOne($type->ID);
+                    if(empty($typeName))
+                    {
+                        $data = new FoodSelectiontypeName;
+                        $data->language = 'en';
+                        $data->id = $type->ID;
+                        $data->translation = $type->TypeName;
+                        $data->scenario = "copy";
+                        if(!$data->save())
+                        {
+                            $message .= "<br>Selection Type :".$type->ID." Fail";
+                        }
+                    }
+                }
+                foreach ($food->foodSelection as $selection) {
+                    $selectionName = FoodSelectionName::findOne($selection->ID);
+                    if(empty($selectionName))
+                    {
+                        $data =new FoodSelectionName;
+                        $data->language = "en";
+                        $data->id = $selection->ID;
+                        $data->scenario = "copy";
+                        $data->translation = $selection->Name;
+                        if(!$data->save())
+                        {
+                            $message .= "<br>Selection  :".$selection->ID." Fail"; 
+                        }
+                    }
+                }
+               
             }
-
+           $message .= "</div>";
         }
+      
+        echo $message;
+        
     }
 
     /* Function for dependent dropdown in frontend index page. */

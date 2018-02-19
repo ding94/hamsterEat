@@ -111,49 +111,50 @@ RestaurantOrdersAsset::register($this);
 		                        </thead>
 		                        <tbody>
 		                        	<?php foreach($deliveryitem as $key => $data): ?>
-		                        		<tr>
-		                        			<td data-th="Order ID">
-		                        				 <?php 
-			                                        if($status == 2 || $data['OrderItem_Status'] == 3):
-			                                            echo Html::checkbox('oid[]',false ,['label'=>$data['Order_ID'] ,'value'=> $data['Order_ID']]);
-			                                        else :
-			                                            echo $data['Order_ID']; 
-			                                        endif ;
+		                        	<tr>
+		                        		<td data-th="Order ID">
+		                        		<?php 
+			                                if($status == 2 || $data['OrderItem_Status'] == 3):
+			                                    echo Html::checkbox('oid[]',false ,['label'=>$data['Order_ID'] ,'value'=> $data['Order_ID']]);
+			                                else :
+			                                    echo $data['Order_ID']; 
+			                                endif ;
+			                            ?>
+		                        		</td>
+		                        		<td data-th="Food Name">
+		                        			<?php echo $mode == 1 ? $data['food']['originName'] : $data['food']['Nickname'] ?>
+		                        		</td>
+		                        		<td>
+		                        			<?php 
+		                        				$selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$data['Order_ID']])->all(); 
+		                        				foreach ($selections as $selections) :
+				                                    $selectionname = Foodselection::find()->where('ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
+
+				                                    $selectiontype = Foodselectiontype::find()->where('ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
+				                                    if (!is_null($selectionname['ID']))
+				                                    { 
+				                                        $name = $mode == 1 ? $selectionname['originName'] : $selectionname['Nickname'];
+				                                        echo $selectiontype['originName'].': &nbsp;'.$name;
+				                                        echo "<br>";
+				                                    }
+			                                    endforeach; 
 			                                    ?>
-		                        			</td>
-		                        			<td data-th="Food Name">
-		                        				<?php echo $mode == 1 ? $data['food']['Name'] : $data['food']['Nickname'] ?>
-		                        			</td>
-		                        			<td>
-		                        				<?php 
-		                        					$selections = Orderitemselection::find()->where('Order_ID = :oid',[':oid'=>$data['Order_ID']])->all(); 
-		                        				 	foreach ($selections as $selections) :
-				                                        $selectionname = Foodselection::find()->where('ID =:sid',[':sid'=>$selections['Selection_ID']])->one();
-				                                        $selectiontype = Foodselectiontype::find()->where('ID = :fid', [':fid'=>$selections['FoodType_ID']])->one();
-				                                        if (!is_null($selectionname['ID']))
-				                                        { 
-				                                            $name = $mode == 1 ? $selectionname['Name'] : $selectionname['Nickname'];
-				                                            echo $selectiontype['TypeName'].': &nbsp;'.$name;
-				                                            echo "<br>";
-				                                        }
-			                                    	endforeach; 
-			                                    ?>
-		                        			</td>
-		                        			<td data-th="Quantity">
-		                        				<?= $data['OrderItem_Quantity']; ?>
-		                        			</td>
-		                        			<td data-th="Update Status">
-		                        				<?php if ($data['OrderItem_Status'] == 2): 
-		                        						echo Html::a(Yii::t('order','Preparing'), ['preparing', 'oid'=>$data['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn']);
-		                        					elseif($data['OrderItem_Status'] == 3):
-		                        						echo Html::a(Yii::t('order','Ready for Pickup'), ['readyforpickup', 'oid'=>$data['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn']); 
-		                        					elseif($data['OrderItem_Status'] == 4):?>
-		                        						<span class='label label-warning'> <?= Yii::t('order','Waiting for Pick Up')?> </span>
+		                        		</td>
+		                        		<td data-th="Quantity">
+		                        			<?= $data['OrderItem_Quantity']; ?>
+		                        		</td>
+		                        		<td data-th="Update Status">
+		                        			<?php if ($data['OrderItem_Status'] == 2): 
+		                        				echo Html::a(Yii::t('order','Preparing'), ['preparing', 'oid'=>$data['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn']);
+		                        			elseif($data['OrderItem_Status'] == 3):
+		                        				echo Html::a(Yii::t('order','Ready for Pickup'), ['readyforpickup', 'oid'=>$data['Order_ID'], 'rid'=>$rid], ['class'=>'raised-btn main-btn']); 
+		                        			elseif($data['OrderItem_Status'] == 4):?>
+		                        				<span class='label label-warning'><?= Yii::t('order','Waiting for Pick Up')?> </span>
 		                        					<?php else :?>
 		                        						<span></span>
-		                        				<?php endif; ?>
-		                        			</td>
-		                        		</tr>
+		                        			<?php endif; ?>
+		                        		</td>
+		                        	</tr>
 		                        	<?php endforeach; ?>
 		                        </tbody>
 	        				<?php endforeach; ?>

@@ -62,11 +62,10 @@ class Food extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Restaurant_ID', 'Name', 'Description', 'Ingredient'], 'required'],
+            [['Restaurant_ID', 'Description', 'Ingredient'], 'required'],
             [['Restaurant_ID', 'Sales', 'created_at', 'updated_at'], 'integer'],
             [['Rating', 'Price', 'BeforeMarkedUp'], 'number'],
-            [['Name', 'Description', 'Ingredient', 'Nickname'], 'string'],
-
+            [['Description', 'Ingredient', 'Nickname'], 'string'],
             [['enName','zhName'],'string'],
         ];
     }
@@ -81,7 +80,6 @@ class Food extends \yii\db\ActiveRecord
             'Restaurant_ID' => 'Restaurant ID',
             'Rating' => 'Rating',
             'Sales' => 'Sales',
-            'Name' => 'Name',
             'Price' => 'Price',
             'BeforeMarkedUp' => 'Before Marked Up',
             'Description' => 'Description',
@@ -147,6 +145,29 @@ class Food extends \yii\db\ActiveRecord
     public function getRoundprice()
     {
         return CartController::actionRoundoff1decimal($this->BeforeMarkedUp);
+    }
+
+    public function getTransName()
+    {
+        return $this->hasOne(FoodName::className(),['id'=>'Food_ID'])->andOnCondition(['language' => 'en']);
+    }
+
+    public function getOriginName()
+    {
+        $data = FoodName::find()->where("id = :id and language = 'en'",[':id'=>$this->Food_ID])->one();
+        return $data->translation;
+    }
+
+    public function getCookieName()
+    {
+        $cookies = Yii::$app->request->cookies;
+        $language = $cookies->getValue('language', 'value');
+        $data = FoodName::find()->where("id = :id and language = :l",[':id'=>$this->Food_ID,':l'=>$language])->one();
+        if(empty($data))
+        {
+            $data = FoodName::find()->where("id = :id and language = 'en'",[':id'=>$this->Food_ID])->one();
+        }
+        return $data->translation;
     }
 
     /*

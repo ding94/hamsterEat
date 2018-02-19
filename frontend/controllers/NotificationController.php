@@ -152,7 +152,7 @@ class NotificationController extends CommonController
 		$item = Orderitem::find()->joinWith(['order','food'])->where('Order_ID = :oid',[':oid'=> $oid])->one();
 		$data[0]['uid'] = User::find()->where('username = :name',[':name'=>$item['order']['User_Username']])->one()->id;
 		$data[0]['rid'] = $item['order']['Delivery_ID'];
-		$data[0]['foodName'] = $item['food']['Name'];
+		$data[0]['foodName'] = $item['food']['originName'];
 		$status = StatusType::findOne($item['OrderItem_Status']);
 		$data[0]['currentStatus'] = $status->type;
 		//$data[0]['preStatus'] = self::getPreOrderStatus($item['OrderItem_Status']);

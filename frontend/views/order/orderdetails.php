@@ -57,7 +57,7 @@ OrderDetailsAsset::register($this);
                 </tr>
                 <tr>
                     <td><?= Yii::t('order','Food Name') ?>:</td>
-                    <td><?php echo $food['Name']; ?></td>
+                    <td><?php echo $food['cookieName']; ?></td>
                 </tr>
                 <tr>
                     <td><?= Yii::t('order','Selections') ?>:</td>
@@ -70,7 +70,7 @@ OrderDetailsAsset::register($this);
                                 if ($ke != 0) {
                                     $show .=", ";
                                 }
-                                $show .= $sel['Name'];
+                                $show .= $sel['cookieName'];
                             }
                             echo $show;
 

@@ -21,9 +21,26 @@ class Foodselection extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    public $enName;
+
     public static function tableName()
     {
         return 'foodselection';
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+      
+       if(!empty($this->enName))
+       {
+            $model = new FoodSelectionName;
+            $model->id = $this->ID;
+            $model->translation = $this->enName;
+            $model->language = "en";
+             
+            $model->save();
+       }
     }
 
     /**
@@ -32,10 +49,10 @@ class Foodselection extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Name', 'BeforeMarkedUp', 'Nickname'], 'required'],
+            [[ 'BeforeMarkedUp', 'Nickname'], 'required'],
             [['Type_ID', 'Status', 'Food_ID'], 'integer'],
-            [['Name', 'Nickname'], 'string'],
             [['BeforeMarkedUp', 'Price'], 'number'],
+            ['enName','required','on'=>'new'],
         ];
     }
 
@@ -47,12 +64,12 @@ class Foodselection extends \yii\db\ActiveRecord
         return [
             'ID' => 'ID',
             'Type_ID' => 'Type  ID',
-            'Name' => 'Name',
             'BeforeMarkedUp' => 'Before Marked Up',
             'Price' => 'Price',
             'Status' => 'Status',
             'Nickname' => 'Nickname',
             'Food_ID' => 'Food  ID',
+            'enName' => 'Name',
         ];
     }
 
@@ -65,7 +82,8 @@ class Foodselection extends \yii\db\ActiveRecord
                 $this->Price = $this->Price - $discount;
             }
         }
-        return '<span class="foodselection-name">'.$this->Name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($this->Price).'">RM'.CartController::actionRoundoff1decimal($this->Price).'</span><span class="radio-custom-label"></span>';
+        $name = $this->getCookieName();
+        return '<span class="foodselection-name">'.$name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($this->Price).'">RM'.CartController::actionRoundoff1decimal($this->Price).'</span><span class="radio-custom-label"></span>';
     }
 
     public function getCheckboxtypeprice()
@@ -77,7 +95,8 @@ class Foodselection extends \yii\db\ActiveRecord
                 $this->Price = $this->Price - $discount;
             }
         }
-        return '<span class="foodselection-name">'.$this->Name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($this->Price).'">RM'.CartController::actionRoundoff1decimal($this->Price).'</span><span class="checkbox-custom-label"></span>';
+        $name = $this->getCookieName();
+        return '<span class="foodselection-name">'.$name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($this->Price).'">RM'.CartController::actionRoundoff1decimal($this->Price).'</span><span class="checkbox-custom-label"></span>';
     }
 
     public function getSelectedtpye()
@@ -88,5 +107,29 @@ class Foodselection extends \yii\db\ActiveRecord
     public function getFood()
     {
         return $this->hasOne(Food::className(),['Food_ID'=>'Food_ID']);
+    }
+
+    public function getTransName()
+    {
+        return $this->hasOne(FoodSelectionName::className(),['id'=>'ID'])->andOnCondition(['language' => 'en']);
+    }
+
+    public function getCookieName()
+    {
+        $cookies = Yii::$app->request->cookies;
+        $language = $cookies->getValue('language', 'value');
+
+        $data = FoodSelectionName::find()->where("id = :id and language = :l",[':id'=>$this->ID,':l'=>$language])->one();
+        if(empty($data))
+        {
+            $data = FoodSelectionName::find()->where("id = :id and language = 'en'",[':id'=>$this->ID])->one();
+        }
+        return $data->translation;
+    }
+
+    public function getOriginName()
+    {
+        $data = FoodSelectionName::find()->where("id = :id and language = 'en'",[':id'=>$this->ID])->one();
+        return $data->translation;
     }
 }

@@ -7,6 +7,7 @@ use yii\helpers\Json;
 use common\models\Restaurant;
 use common\models\food\Food;
 use common\models\food\Foodselection;
+use common\models\food\FoodSelectionName;
 use common\models\food\Foodselectiontype;
 use common\models\Order\Orderitemstatuschange;
 use common\models\Order\Orderitemselection;
@@ -161,14 +162,17 @@ class Orderitem extends \yii\db\ActiveRecord
 
         foreach($data as $single)
         {
+            
             if(empty($array[$single->FoodType_ID]))
             {
-                $array[$single->FoodType_ID]['name'] = Foodselection::findOne($single->Selection_ID)->Name ;
+                $name = FoodSelectionName::findOne($single->Selection_ID);
+                
+                $array[$single->FoodType_ID]['name'] = FoodSelectionName::findOne($single->Selection_ID)->translation ;
                 $array[$single->FoodType_ID]['nick'] = Foodselection::findOne($single->Selection_ID)->Nickname ;
             }
             else
             {
-                $array[$single->FoodType_ID]['name'] .=  ",".Foodselection::findOne($single->Selection_ID)->Name ;
+                $array[$single->FoodType_ID]['name'] .=  ",".FoodSelectionName::findOne($single->Selection_ID)->translation ;
                 $array[$single->FoodType_ID]['nick'] .=  ",".Foodselection::findOne($single->Selection_ID)->Nickname ;
             }
             

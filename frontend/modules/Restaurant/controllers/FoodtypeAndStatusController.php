@@ -10,15 +10,14 @@ use common\models\food\Foodstatus;
 
 class FoodtypeAndStatusController extends Controller
 {
-	public static function newFoodJuntion($data,$id)
+	public static function newFoodJuntion($typeid,$id)
 	{
-		foreach ($data as $typeid) {
-            $newtype = new Foodtypejunction;
-                               
-            $newtype->Food_ID =$id;
-            $newtype->Type_ID = $typeid;
-            $newtype->save();
-        }
+
+        $newtype = new Foodtypejunction;
+        $newtype->Food_ID =$id;
+        $newtype->Type_ID = $typeid;
+        $newtype->save();
+        return $newtype;
 	}
 
 	public static function newStatus($id)
@@ -42,16 +41,24 @@ class FoodtypeAndStatusController extends Controller
     * 0 => need delete data
     * 1 => new data
     */
-    public static function diffStatus($data,$typeID)
+    public static function diffStatus($prevData,$typeID)
     {
-        $oldFoodTypeId = ArrayHelper::map($data,'Type_ID','Type_ID');
-
-        $deletedFoodTypeId = array_diff($oldFoodTypeId, $typeID);
-
-        $newFoodTypeId = array_diff($typeID,$oldFoodTypeId);
-
-        $data[0] = $deletedFoodTypeId;
-        $data[1] = $newFoodTypeId;
+        $data[0] ="";
+        $data[1] ="";
+        
+        if(empty($prevData))
+        {
+            $data[1] = $typeID;
+        }
+        else
+        {
+            if($prevData[0]->Type_ID != $typeID)
+            {
+                $data[0] = $prevData[0]->Type_ID;
+                $data[1] = $typeID;
+            }
+        }
+        
 
         return $data;
     }

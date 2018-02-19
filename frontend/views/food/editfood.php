@@ -29,7 +29,7 @@ AddFoodAsset::register($this);
        <div class="col-sm-10 food-content">
             <?php $form = ActiveForm::begin(['id' => 'dynamic-form','action' => ['/food/postedit','id'=>$food->Food_ID]]); ?>
           
-                <?= $form->field($food, 'Name')->textInput()->label(Yii::t('common','Name')) ?>
+                <?= $form->field($food->transName, 'translation')->textInput()->label(Yii::t('common','Name')) ?>
 
                 <?= $form->field($food, 'Nickname')->textInput() ?>
 
@@ -48,12 +48,12 @@ AddFoodAsset::register($this);
                             'name' => 'Type_ID',
                             'value' => $chosen,
                             'data' => $type,
-                            'showToggleAll' => false,
-                            'options' => ['placeholder' => 'Select a type ...', 'multiple' => true],
+                          
+                            'options' => ['placeholder' => 'Select a type ...'],
                             'pluginOptions' => [
                                 'tags' => true,
                                 'maximumInputLength' => 10,
-                                'maximumSelectionLength' => 1,
+                                
                             ],
                         ]);
                 ?>
@@ -92,7 +92,7 @@ AddFoodAsset::register($this);
                         </tr>
                     </thead>
                     <tbody class="container-items">
-                    <?php foreach ($foodtype as $i => $foodtype): ?>
+                    <?php foreach ($foodtype as $i => $tpye): ?>
                         <tr class="house-item" >
                             <td class="text-center vcenter" style="width: 90px; verti">
                                 <button type="button" class="remove-house btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span></button>
@@ -100,16 +100,20 @@ AddFoodAsset::register($this);
                             <td class="vcenter">
                                 <?php
                                     // necessary for update action.
-                                    if (! $foodtype->isNewRecord) {
-                                        echo Html::activeHiddenInput($foodtype, "[{$i}]ID");
+                                    if (! $tpye->isNewRecord) {
+                                        echo Html::activeHiddenInput($tpye, "[{$i}]ID");
                                     }
+                                    if(!empty($tpye->transName)):
+                                        echo $form->field($tpye->transName, "[{$i}]translation")->label(Yii::t('food','Type'))->textInput(['maxlength' => true]);
+                                    else:
+                                         echo $form->field($typeName, "[{$i}]translation")->label(Yii::t('food','Type'))->textInput(['maxlength' => true]);
+                                    endif;
+                                    echo $form->field($tpye, "[{$i}]Min")->label(Yii::t('food','Minimum'))->textInput(['maxlength' => true]);
+                                    echo $form->field($tpye, "[{$i}]Max")->label(Yii::t('food','Maximum'))->textInput(['maxlength' => true]); 
                                 ?>
-                                <?= $form->field($foodtype, "[{$i}]TypeName")->label(Yii::t('food','Type'))->textInput(['maxlength' => true]) ?>
-                                <?= $form->field($foodtype, "[{$i}]Min")->label(Yii::t('food','Minimum'))->textInput(['maxlength' => true]) ?>
-                                <?= $form->field($foodtype, "[{$i}]Max")->label(Yii::t('food','Maximum'))->textInput(['maxlength' => true]) ?>
                             </td>
                             <td>      
-                                <?= $this->render('foodselection', [ 'form' => $form,'i' => $i,'foodselection' => $foodselection[$i]]) ?>
+                                <?= $this->render('foodselection', [ 'form' => $form,'i' => $i,'edit'=>1,'foodselection' => $foodselection[$i],'selectionName'=>$selectionName]) ?>
                             </td>   
                         </tr>
                     <?php endforeach; ?>

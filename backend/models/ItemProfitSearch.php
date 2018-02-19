@@ -20,14 +20,14 @@ class ItemProfitSearch extends RestaurantItemProfit
 	* id = delviery id
 	* rid = restaurant id
 	*/
-	public function search($params,$first,$last,$id)
+	public function search($params,$first,$last,$id,$type=0)
 	{
 		
 		$query = RestaurantItemProfit::find()->where(['between','created_at',strtotime($first),strtotime($last)])->orderBy(['created_at'=>SORT_DESC]);
 
 		if($id !=0)
 		{
-			if($params['r'] == 'restaurant/restaurant/profit')
+			if($type == 1)
 			{
 				$query->andWhere('rid = :rid',[':rid'=>$id]);
 			}

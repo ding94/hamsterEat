@@ -79,7 +79,7 @@ CartAsset::register($this);
 	 
         <div class="content">				
       		<h1>
-            <?php echo Html::a(Yii::t('cart',$single['food']['Name']),['Restaurant/default/restaurant-details','rid'=> $single['food']['Restaurant_ID']],['target'=>"_blank"])?>
+            <?php echo Html::a(Yii::t('cart',$single['food']['cookieName']),['Restaurant/default/restaurant-details','rid'=> $single['food']['Restaurant_ID']],['target'=>"_blank"])?>
           </h1>
           <div class="relative">
               <?=Yii::t('cart','Food Selection');?>

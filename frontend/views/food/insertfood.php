@@ -28,7 +28,7 @@ AddFoodAsset::register($this);
        <div class="col-sm-10 food-content">
             <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
             
-                <?= $form->field($food, 'Name')->textInput()->label(Yii::t('common','Name')) ?>
+                <?= $form->field($name, 'translation')->textInput()->label(Yii::t('common','Name')) ?>
                 
                 <?= $form->field($food, 'Nickname')->textInput() ?>
 
@@ -43,14 +43,15 @@ AddFoodAsset::register($this);
                 ])->textInput(['id'=>'price'])->label(Yii::t('food','Money Received'));?>
 
                 <?php echo Select2::widget([
+                       
                         'name' => 'Type_ID',
+                        //'value' => 'red', // initial value
                         'data' => $type,
-                        'showToggleAll' => false,
-                        'options' => ['placeholder' => 'Select a type ...', 'multiple' => true],
+                        'options' => ['placeholder' => 'Select a type ...'],
                         'pluginOptions' => [
                             'tags' => true,
-                            'maximumInputLength' => 10,
-                            'maximumSelectionLength' => 1,
+                           
+                            'maximumInputLength' => 10
                         ],
                     ]);
                 ?>
@@ -70,7 +71,7 @@ AddFoodAsset::register($this);
                     'formFields' => [
                         'ID',
                         'Food_ID',
-                        'TypeName',
+                       
                         'Min',
                         'Max',
                     ],
@@ -89,7 +90,7 @@ AddFoodAsset::register($this);
                         </tr>
                     </thead>
                     <tbody class="container-items">
-                    <?php foreach ($foodtype as $i => $foodtype): ?>
+                    <?php foreach ($foodtype as $i => $data): ?>
                         <tr class="house-item" >
                             <td class="text-center vcenter" style="width: 90px; verti">
                                 <button type="button" class="remove-house btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span></button>
@@ -97,16 +98,16 @@ AddFoodAsset::register($this);
                             <td class="vcenter">
                                 <?php
                                     // necessary for update action.
-                                    if (! $foodtype->isNewRecord) {
-                                        echo Html::activeHiddenInput($foodtype, "[{$i}]ID");
+                                    if (! $data->isNewRecord) {
+                                        echo Html::activeHiddenInput($data, "[{$i}]ID");
                                     }
                                 ?>
-                                <?= $form->field($foodtype, "[{$i}]TypeName")->label('Type')->textInput(['maxlength' => true]) ?>
-                                <?= $form->field($foodtype, "[{$i}]Min")->label('Minimum')->textInput(['maxlength' => true]) ?>
-                                <?= $form->field($foodtype, "[{$i}]Max")->label('Maximum')->textInput(['maxlength' => true]) ?>
-                            </td>
+                                <?= $form->field($data, "[".$i."]enName")->textInput(['maxlength' => true]) ?>
+                                <?= $form->field($data, "[{$i}]Min")->label('Minimum')->textInput(['maxlength' => true]) ?>
+                                <?= $form->field($data, "[{$i}]Max")->label('Maximum')->textInput(['maxlength' => true]) ?>
+                            </td>   
                             <td>      
-                                <?= $this->render('foodselection', [ 'form' => $form,'i' => $i,'foodselection' => $foodselection[$i]]) ?>
+                                <?= $this->render('foodselection', [ 'form' => $form,'i' => $i,'edit'=>0,'foodselection' => $foodselection[$i]]) ?>
                             </td>   
                         </tr>
                     <?php endforeach; ?>

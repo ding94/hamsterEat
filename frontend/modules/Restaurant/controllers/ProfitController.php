@@ -72,7 +72,7 @@ class ProfitController extends CommonController
 			$profit->quantity = $value->OrderItem_Quantity;
 			$profit->finalPrice = $value->OrderItem_LineTotal;
 			$profit->originalPrice =  CartController::actionDisplay2decimal($profit->finalPrice*0.76924);
-			$profit->fid = Json::encode(['id'=>$value->Food_ID,'name'=>$value->food->Name]);
+			$profit->fid = Json::encode(['id'=>$value->Food_ID,'name'=>$value->food->originName]);
 			
 			$profit->sid = $selectionName;
 			$isValid = $profit->validate() && $isValid;

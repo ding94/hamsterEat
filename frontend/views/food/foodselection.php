@@ -38,7 +38,7 @@ AddFoodAsset::register($this);
         </tr>
     </thead>
     <tbody class="container-rooms">
-    <?php foreach ($foodselection as $ix => $foodselection): ?>
+    <?php foreach ($foodselection as $ix => $selection): ?>
         <tr class="room-item" >
              <td class="text-center vcenter" ">
                 <button type="button" class="remove-room btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span></button>
@@ -46,17 +46,25 @@ AddFoodAsset::register($this);
             <td class="vcenter">
                 <?php
                     // necessary for update action.
-                    if (! $foodselection->isNewRecord) {
-                        echo Html::activeHiddenInput($foodselection, "[{$i}][{$ix}]ID");
+                    if (! $selection->isNewRecord) {
+                        echo Html::activeHiddenInput($selection, "[{$i}][{$ix}]ID");
                     }
-                ?>
-                <?= $form->field($foodselection, "[{$i}][{$ix}]Name")->label(false)->textInput(['maxlength' => true]) ?>
-                
+                  
+                    if($edit ==1):
+                        if(!empty($selection->transName)):
+                            echo $form->field($selection->transName, "[{$i}][{$ix}]translation")->label(false)->textInput(['maxlength' => true]);
+                        else:
+                           echo $form->field($selectionName, "[{$i}][{$ix}]translation")->label(false)->textInput(['maxlength' => true]);
+                        endif;
+                    else:
+                        echo $form->field($selection, "[{$i}][{$ix}]enName")->label(false)->textInput(['maxlength' => true]);
+                    endif;
+                ?>        
             </td>
               
-             <td class="vcenter selectionBefore"><?= $form->field($foodselection, "[{$i}][{$ix}]BeforeMarkedUp")->label(false)->textInput(['maxlength' => true ,'onChange' => 'markUp(2)']) ?></td>
-             <td class="vcenter selectionPrice"><?= $form->field($foodselection, "[{$i}][{$ix}]Price")->label(false)->textInput(['maxlength' => true,'onChange' => 'markUp(1)']) ?></td>  
-             <td class="vcenter"><?= $form->field($foodselection, "[{$i}][{$ix}]Nickname")->label(false)->textInput(['maxlength' => true]) ?></td>
+             <td class="vcenter selectionBefore"><?= $form->field($selection, "[{$i}][{$ix}]BeforeMarkedUp")->label(false)->textInput(['maxlength' => true ,'onChange' => 'markUp(2)']) ?></td>
+             <td class="vcenter selectionPrice"><?= $form->field($selection, "[{$i}][{$ix}]Price")->label(false)->textInput(['maxlength' => true,'onChange' => 'markUp(1)']) ?></td>  
+             <td class="vcenter"><?= $form->field($selection, "[{$i}][{$ix}]Nickname")->label(false)->textInput(['maxlength' => true]) ?></td>
         </tr>
      <?php endforeach; ?>
     </tbody>

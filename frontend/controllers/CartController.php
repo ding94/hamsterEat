@@ -179,7 +179,7 @@ class CartController extends CommonController
                         {
                              $groupSelection[$data['selectedtpye']['TypeName']] .= ',';
                         }*/
-                    $groupSelection[$data['selectedtpye']['TypeName']][] = $data['Name'];
+                    $groupSelection[$data['selectedtpye']['cookieName']][] = $data['cookieName'];
                 }
                 
                $cart[$i]->groupselection = $groupSelection;  

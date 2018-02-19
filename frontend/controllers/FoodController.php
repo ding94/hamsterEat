@@ -21,6 +21,9 @@ use common\models\Restauranttypejunction;
 use common\models\food\Foodtype;
 use common\models\food\Foodtypejunction;
 use common\models\food\Foodstatus;
+use common\models\food\FoodName;
+use common\models\food\FoodSelectiontypeName;
+use common\models\food\FoodSelectionName;
 use common\models\Rating\Foodrating;
 use common\models\Cart\Cart;
 use common\models\Cart\CartSelection;
@@ -111,11 +114,15 @@ class FoodController extends CommonController
     public function actionInsertFood($rid)
     {
         CommonController::restaurantPermission($rid);
-        $food = new Food();
-        $foodtype = [new Foodselectiontype()];
-        $foodselection = [[new Foodselection()]];
-        $foodjunction = new Foodtypejunction();
+        $food = new Food;
+        $name = new FoodName;
 
+        $foodtype = [new Foodselectiontype()];
+        $foodtype[0]->scenario = "new";
+        $foodselection = [[new Foodselection()]];
+        $foodselection[0][0]->scenario = "new";
+        $foodjunction = new Foodtypejunction();
+       
         $type = ArrayHelper::map(FoodType::find()->andWhere(['and',['!=','Type_Desc','Halal'],['!=','Type_Desc','Non-Halal']])->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
         $halal = Foodtype::find()->where('Type_Desc=:t',[':t'=>'Halal'])->one();
         $nonhalal = Foodtype::find()->where('Type_Desc=:t',[':t'=>'Non-Halal'])->one();
@@ -124,42 +131,50 @@ class FoodController extends CommonController
        if(Yii::$app->request->isPost)
        {
             $post = Yii::$app->request->post();
-
+            
             $foodtypemodel = Foodtype::find()->where('Type_Desc=:t',[':t'=>$post['Type_ID'][0]])->one();
-            $foodtypeid = Foodtype::find()->where('ID=:id',[':id'=>$post['Type_ID'][0]])->one();
+            $foodtypeid = Foodtype::find()->where('ID=:id',[':id'=>$post['Type_ID']])->one();
+          
             if($foodtypemodel==null && $foodtypeid==null){
                 $foodtypemodel = new Foodtype();
                 $foodtypemodel->Type_Desc = $post['Type_ID'][0];
                 $foodtypemodel->save();
-                $post['Type_ID'][0] = (string)$foodtypemodel->ID;
+                $post['Type_ID'] = (string)$foodtypemodel->ID;
             }
-            
+           
             $food = self::newFood($post,$rid);
-            
+            $name->load($post);
+            $name->language = 'en';
+           
             $foodtype = Model::createMultiple(Foodselectiontype::classname());
 
             Model::loadMultiple($foodtype, Yii::$app->request->post());
-         
-            $valid =  Model::validateMultiple($foodtype) && $food->validate();
-            
-            if (isset($_POST['Foodselection'][0][0])) {
 
-                $foodselection = FoodselectionController::validatefoodselection($post['Foodselection']);
+            $valid =  Model::validateMultiple($foodtype) && $food->validate() && $name->validate();
+           
+            if (isset($post['Foodselection'][0][0])) {
+
+                $selectiondata = FoodselectionController::validatefoodselection() ;
+                $selection = $selectiondata['data'];
+                $valid = $selectiondata['valid'] && $valid;
             }
-
+             
              if ($valid) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
-                        
+                     
                     if ($flag = $food->save()) {
 
-                        FoodtypeAndStatusController::newFoodJuntion($post['Type_ID'],$food->Food_ID);
+                        $status = FoodtypeAndStatusController::newFoodJuntion($post['Type_ID'],$food->Food_ID);
                         
                         $isValid = FoodtypeAndStatusController::newStatus($food->Food_ID);
+                        $name->id = $food->Food_ID;
+                        $isValid = $name->save()  && $isValid;
 
-                        $flag = FoodselectionController::createfoodselection($foodtype,$foodselection,$food->Food_ID) && $isValid;
+                        $flag = FoodselectionController::createfoodselection($foodtype,$selection,$food->Food_ID) && $isValid && $status->validate();
                        
                         if ($flag) {
+                            $status->save();
                             $transaction->commit();
                             $status = DefaultController::updateRestaurant($rid);
 
@@ -175,6 +190,7 @@ class FoodController extends CommonController
                     $transaction->rollBack();
                 }
             }
+
         }
       
         return $this->render('insertfood',
@@ -187,6 +203,7 @@ class FoodController extends CommonController
                 'rid'=>$rid,
                 'halal'=>$halal,
                 'nonhalal'=>$nonhalal,
+                'name' => $name,
             ]);
     }
     
@@ -279,10 +296,11 @@ class FoodController extends CommonController
 //--This function runs when a food's details are edited
     public function actionEditFood($id)
     {
-        $food = Food::find()->where(Food::tableName().'.Food_ID = :id' ,[':id' => $id])->joinWith('foodType')->one();
-        
-        $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$food['Restaurant_ID']])->one();
+        $food = Food::find()->where('Food_ID = :id' ,[':id' => $id])->joinWith('transName')->one();
        
+        $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$food['Restaurant_ID']])->one();
+        $typeName = new FoodSelectiontypeName;
+        $selectionName = new FoodSelectionName;
         CommonController::rmanagerApproval();
         CommonController::restaurantPermission($restaurant->Restaurant_ID);
         $foodjunction = new Foodtypejunction();
@@ -293,9 +311,9 @@ class FoodController extends CommonController
         $chosen = ArrayHelper::map($food['foodType'],'ID','ID');
         $type = ArrayHelper::map(FoodType::find()->andWhere(['and',['!=','Type_Desc','Halal'],['!=','Type_Desc','Non-Halal']])->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
       
-        $foodtype =$food->foodselectiontypes;
+        $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id'=>$food->Food_ID])->joinWith(['transName'])->all();
         $foodselection = [];
-      
+        
         if (!empty($foodtype)) 
         {
             $foodselection = FoodselectionController::oldData($foodtype,1);
@@ -303,15 +321,17 @@ class FoodController extends CommonController
 
         $food->scenario = "edit";
     
-        return $this->render('editfood',['food' => $food,'foodjunction'=>$foodjunction, 'chosen'=> $chosen,'type' => $type,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection ]);
+        return $this->render('editfood',['food' => $food,'foodjunction'=>$foodjunction, 'chosen'=> $chosen,'type' => $type,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection ,'typeName'=>$typeName,'selectionName'=>$selectionName]);
     }
 
     public function actionPostedit($id)
     { 
         $food = Food::findOne($id);
+        $name = FoodName::findOne($id);
         $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$food['Restaurant_ID']])->one();
         CommonController::restaurantPermission($restaurant->Restaurant_ID);
-        $modelSelectionType = $food->foodselectiontypes;
+        $modelSelectionType = Foodselectiontype::find()->where('Food_ID = :id',[':id'=>$food->Food_ID])->joinWith(['transName'])->all();
+
         $modelJunction = $food->junction;
 
         $modelSelect = [];
@@ -319,14 +339,18 @@ class FoodController extends CommonController
         $selectionId = [];
 
         $post = Yii::$app->request->post();
-
-        $foodtypemodel = Foodtype::find()->where('Type_Desc=:t',[':t'=>$post['Type_ID'][0]])->one();
-        $foodtypeid = Foodtype::find()->where('ID=:id',[':id'=>$post['Type_ID'][0]])->one();
-      
+        if(empty($post['Type_ID']))
+        {
+            Yii::$app->session->setFlash('warning', "Please Select A Type");
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+        $foodtypemodel = Foodtype::find()->where('Type_Desc=:t',[':t'=>$post['Type_ID']])->one();
+        $foodtypeid = Foodtype::find()->where('ID=:id',[':id'=>$post['Type_ID']])->one();
+       
         if($foodtypemodel==null && $foodtypeid==null){
            
             $foodtypemodel = new Foodtype();
-            $foodtypemodel->Type_Desc = $post['Type_ID'][0];
+            $foodtypemodel->Type_Desc = $post['Type_ID'];
 
             if(!is_numeric($foodtypemodel->Type_Desc)){
                 $foodtypemodel->save();    
@@ -335,9 +359,9 @@ class FoodController extends CommonController
                 return $this->redirect(Yii::$app->request->referrer);
             }
 
-            $post['Type_ID'][0] = (string)$foodtypemodel->ID;
+            $post['Type_ID'] = (string)$foodtypemodel->ID;
         }
-       
+        
         if (!empty($modelSelectionType)) 
         {
             $oldSelect = FoodselectionController::oldData($modelSelectionType,2);
@@ -346,7 +370,8 @@ class FoodController extends CommonController
         $food->load($post);
         $food->Price = CartController::actionDisplay2decimal($food->Price);
         $food->BeforeMarkedUp =  CartController::actionRoundoff1decimal($food->Price / 1.3);
-    
+        
+        $name->load($post);
 
         $oldSelectionTypeId = ArrayHelper::map($modelSelectionType, 'ID', 'ID');
 
@@ -354,13 +379,35 @@ class FoodController extends CommonController
 
         $modelSelectionType = Model::createMultiple(Foodselectiontype::classname(), $modelSelectionType);
 
+        $valid = 
         \yii\base\Model::loadMultiple($modelSelectionType,Yii::$app->request->post());
 
+        if($valid)
+        {
+            foreach ($modelSelectionType as $key => $type) {
+                $arraytype['FoodSelectiontypeName'] = $post['FoodSelectiontypeName'][$key];
+                if($type->isNewRecord)
+                {
+                    $singleTname = new FoodSelectiontypeName;
+                    $singleTname->language = 'en';
+                }
+                else
+                {
+                    $singleTname = $type->transName;
+                }
+                $singleTname->load($arraytype);
+                $typeName[$key] = $singleTname;
+                $valid = $singleTname->validate() && $valid;
+            }
+        }
+        else
+        {
+            $valid = true;
+        }
+       
         $deletedSelectionTypeId = array_diff($oldSelectionTypeId, array_filter(ArrayHelper::map($modelSelectionType, 'ID', 'ID')));
 
-        $valid = $food->validate();
-
-        $valid = Model::validateMultiple($modelSelectionType) && $valid;
+        $valid = Model::validateMultiple($modelSelectionType) && $food->validate() && $name->validate();
         
         if (isset($post['Foodselection'][0][0]))
         {
@@ -373,14 +420,26 @@ class FoodController extends CommonController
                 {
 
                     $data['Foodselection'] = $selections;
-
+                    $data['FoodSelectionName'] = $post['FoodSelectionName'][$i][$k];
+                   
                     $modelSelects = (isset($selections['ID']) && isset($oldSelect[$selections['ID']])) ? $oldSelect[$selections['ID']] : new Foodselection;
+                    if($modelSelects->isNewRecord)
+                    {
+                        $singleSname = new FoodSelectionName;
+                        $singleSname->language = 'en';
+                    }
+                    else
+                    {
+                        $singleSname = $modelSelects->transName;
+                    }
 
+                    $singleSname->load($data);
                     $modelSelects->load($data);
-
+                  
                     $modelSelect[$i][$k] = $modelSelects;
-
-                    $valid = $modelSelects->validate();
+                    $selectionname[$i][$k] = $singleSname;
+                   
+                    $valid = $modelSelects->validate()&& $valid;
 
                 } 
             }
@@ -396,22 +455,20 @@ class FoodController extends CommonController
             {
                 if($flag = $food->save())
                 {
-                    if(!empty($deletedSelectionTypeId))
+                   /* if(!empty($deletedSelectionTypeId))
                     {
                         Foodselectiontype::deleteAll(['ID' => $deletedSelectionTypeId]);
-                    }
+                        FoodSelectiontypeName::deleteAll(['id'=>$deletedSelectionTypeId]);
+                    }*/
 
                     if(!empty($deletedSelect))
                     {
-                        Foodselection::deleteAll(['ID' => $deletedSelect]);
+                        Foodselection::deleteAll(['Status'=>-1],'ID = :id',[':id' => $deletedSelect]);
                     }
 
                     if(!empty($junctionData[0]))
                     {
-                        foreach($junctionData[0] as $deleteId)
-                        {
-                             Foodtypejunction::deleteAll('Food_ID = :fid and Type_ID = :tid',[':fid' => $food->Food_ID, ':tid' => $deleteId]);
-                        }
+                        Foodtypejunction::deleteAll('Food_ID = :fid and Type_ID = :tid',[':fid' => $food->Food_ID, ':tid' => $junctionData[0]]);
                     }
                    
                     if(!empty($junctionData[1]))
@@ -428,7 +485,15 @@ class FoodController extends CommonController
 
                         $selectionType->Food_ID = $food->Food_ID;
 
-                        if(!($flag = $selectionType->save()))
+                        if(($flag = $selectionType->save()))
+                        {
+                            $typeName[$i]->id = $selectionType->ID;
+                            if(!$typeName[$i]->save())
+                            {
+                                break;
+                            }
+                        }
+                        else
                         {
                             break;
                         }
@@ -441,7 +506,15 @@ class FoodController extends CommonController
                                 $model->Food_ID = $food->Food_ID;
                                 $model->Price = CartController::actionDisplay2decimal($model->Price);
                                 $model->BeforeMarkedUp =  CartController::actionRoundoff1decimal($model->Price / 1.3);
-                                if(!($flag = $model->save()))
+                                if(($flag = $model->save()))
+                                {
+                                   $selectionname[$i][$k]->id = $model->ID;
+                                   if(!$selectionname[$i][$k]->save())
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
                                 {
                                     break;
                                 }
@@ -485,6 +558,7 @@ class FoodController extends CommonController
         $food->BeforeMarkedUp =  CartController::actionRoundoff1decimal($food->Price / 1.3);
         $food->Restaurant_ID = $rid;
         $food->Ingredient = 'xD';
+       
         return $food;
     }
 

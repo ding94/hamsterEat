@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 });
             })
     ");
-
+   
 	echo GridView::widget([
         'dataProvider'=>$model,
         'filterModel'=>$searchModel,
@@ -89,7 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Food Name',
                 'attribute' => 'foodName',
-                'value' => 'food.Name',
+                'value' => 'food.originName',
             ],
         	'OrderItem_LineTotal',
         	[

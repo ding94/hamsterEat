@@ -38,7 +38,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
               <div class="foodname">
                     <!--<td>Food Name:</td>-->
 
-                     <?php echo $fooddata->Name;?>
+                     <?php echo $fooddata->cookieName;?>
             </div>
               <?php $am = time() < strtotime(date("Y/m/d 11:0:0"));?>
           <div class="foodprice" data-price="<?php $discount = CartController::actionRoundoff1decimal($fooddata->Price*0.15);$price = CartController::actionRoundoff1decimal($fooddata->Price);if($am){$price=$price-$discount;} echo $price?>">
@@ -59,16 +59,17 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 
               <?php  
                 $ftids = "";
-                foreach($foodtype as $k=> $foodtype) : 
-                  $selection = Foodselection::find()->where('Type_ID = :ftid and status = 1',[':ftid' => $foodtype['ID']])->orderBy(['Price' => SORT_ASC])->all();
+                foreach($foodtype as $k=> $type) : 
+                  $selection = Foodselection::find()->where('Type_ID = :ftid and status = 1',[':ftid' => $type['ID']])->orderBy(['Price' => SORT_ASC])->all();
+                  
                   if(!empty($selection)):
                   $data = ArrayHelper::map($selection,'ID','typeprice');
                   $checkboxdata = ArrayHelper::map($selection,'ID','checkboxtypeprice');
-                  if ($foodtype['Min'] == 1 && $foodtype ['Max'] < 2 ) {
+                  if ($type['Min'] == 1 && $type ['Max'] < 2 ) {
                     ?>
-                      <span class="selection-name"><?php echo $foodtype['TypeName']; ?></span>
+                      <span class="selection-name"><?php echo $type['cookieName']; ?></span>
                       <span class="selection-warning">*<?= Yii::t('food','Please Select only 1 item.') ?></span>
-                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']', ['enableClientValidation' => false])->radioList($data,[
+                        <?= $form->field($cartSelection,'selectionid['.$type['ID'].']', ['enableClientValidation' => false])->radioList($data,[
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="radio">';
@@ -83,17 +84,17 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                               ])->label(false); ?>
                       
                     
-                <?php } else if ($foodtype['Min'] == 0){ ?>
+                <?php } else if ($type['Min'] == 0){ ?>
                     
                       
-                        <span class="selection-name"><?php echo $foodtype['TypeName']; ?></span>
+                        <span class="selection-name"><?php echo $type['cookieName']; ?></span>
                        
                         <span class="selection-warning">
-                          *Select at most <?php echo $foodtype ['Max']; ?> items.
+                          *Select at most <?php echo $type ['Max']; ?> items.
                         </span>
                       
                      
-                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']', ['enableClientValidation' => false])->checkboxlist($checkboxdata,[
+                        <?= $form->field($cartSelection,'selectionid['.$type['ID'].']', ['enableClientValidation' => false])->checkboxlist($checkboxdata,[
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="checkbox">';
@@ -111,14 +112,14 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                 <?php } else { ?>
                    
                      
-                        <span class="selection-name"><?php echo $foodtype['TypeName']; ?></span>
+                        <span class="selection-name"><?php echo $type['cookieName']; ?></span>
                    
                         <span class="selection-warning">
                           *<?= Yii::t('food','Select') ?> <?= Yii::t('food','at least') ?> <?php echo $foodtype['Min']; ?> <?= Yii::t('food','item') ?> <?= Yii::t('food','and') ?> <?= Yii::t('food','at most') ?> <?php echo $foodtype ['Max']; ?> <?= Yii::t('food','items.') ?>
                         </span>
                      
                     
-                        <?= $form->field($cartSelection,'selectionid['.$foodtype['ID'].']', ['enableClientValidation' => false])->checkboxlist($checkboxdata,[
+                        <?= $form->field($cartSelection,'selectionid['.$type['ID'].']', ['enableClientValidation' => false])->checkboxlist($checkboxdata,[
                                   'item' => function($index, $label, $name, $checked, $value) {
 
                                       $return = '<div class="checkbox">';
@@ -135,15 +136,13 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                     
                 <?php }
                   else:
-                      echo $form->field($cartSelection,'selectionid['.$foodtype['ID'].']', ['enableClientValidation' => false])->hiddenInput()->label(false);
+                      echo $form->field($cartSelection,'selectionid['.$type['ID'].']', ['enableClientValidation' => false])->hiddenInput()->label(false);
                   endif;
                   endforeach; 
                 ?>
                  </div>
              
                  <?= $form->field($cart, 'remark',['enableClientValidation' => false])->label(Yii::t('common','Remarks')); ?>
-          
-
                
                 <?= $form->field($cart, 'quantity',['options'=>['class'=>'quantity']],['enableClientValidation' => false])->widget(TouchSpin::classname(), [
                     'options' => [

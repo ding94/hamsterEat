@@ -6,7 +6,7 @@ use kartik\widgets\Select2;
 use yii\widgets\LinkPager;
 use yii\helpers\Json;
 use kartik\widgets\ActiveForm;
-use common\models\food\Foodselectiontype;
+use common\models\food\FoodSelectiontypeName;
 use kartik\date\DatePicker;
 use frontend\assets\RestaurantOrdersHistoryAsset;
 
@@ -147,7 +147,7 @@ RestaurantOrdersHistoryAsset::register($this);
                         <?php foreach($delivery as $order): ?>
                         <tr>
                             <td data-th="Order ID"><?= $order->Order_ID?></td>
-                            <td data-th="Food Name"><?= $order->food['Name']?></td>
+                            <td data-th="Food Name"><?= $order->food['originName']?></td>
                             <?php 
                                 $selectionName = Json::decode($order->trim_selection);
                                 if(empty($selectionName)):
@@ -155,12 +155,12 @@ RestaurantOrdersHistoryAsset::register($this);
                                 else :
                                     $name ="";
                                     foreach($selectionName as $i=> $selection) :
-                                        $type = Foodselectiontype::findOne($i);
+                                        $type = FoodSelectiontypeName::findOne($i);
 
                                         if(empty($name)):
-                                            $name =$type->TypeName .': '. $selection['name'] . ' ';
+                                            $name =$type->translation .': '. $selection['name'] . ' ';
                                         else :
-                                            $name .= "&nbsp; | ".$type->TypeName .': '.$selection['name'] ;
+                                            $name .= "&nbsp; | ".$type->translation .': '.$selection['name'] ;
                                         endif ;
                                     endforeach ;
                                 endif;

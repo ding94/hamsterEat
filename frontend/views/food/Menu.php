@@ -40,7 +40,7 @@ Modal::end();
                         'hideSearch' => true,
                         'data' => $link,
                         'options' => [
-                            'placeholder' => 'Go To ...',
+                            'placeholder' => Yii::t('common','Go To ...'),
                             'multiple' => false,
 
                         ],
@@ -56,7 +56,7 @@ Modal::end();
               <ul id="food-menu-nav" class="nav nav-pills nav-stacked">
                 <?php foreach($link as $url=>$name):?>
                     <li role="presentation" class=<?php echo $name=="Manage Menu" ? "active" :"" ?>>
-                        <a class="btn-block" href=<?php echo $url?>><?php echo $name?></a>
+                        <a class="btn-block" href=<?php echo $url?>><?php echo Yii::t('m-restaurant',$name)?></a>
                     </li>   
                   <?php endforeach ;?>
               </ul>
@@ -88,16 +88,16 @@ Modal::end();
                   <div class="inner-item">
                     <div class="foodName-div"><span class="foodName"><?php echo $menu['originName']; ?></span><span class="small-text stars" alt="<?php echo $menu['Rating']; ?>"><?php echo $menu['Rating']; ?></span></div>
 
-                    <div class="foodDesc-div"><p class="foodDesc">Status : <?php echo $status->Status == 1 ? " On" : "Off"?></p></div>
-                    <div class="foodDesc-div"><p class="foodDesc"><?= Yii::t('food','Description') ?>: <?php echo $menu['Description']; ?></p></div>
+                    <div class="foodDesc-div"><p class="foodDesc"><?= Yii::t('common','Status')?> : <?php echo $status->Status == 1 ? " On" : "Off"?></p></div>
+                    <div class="foodDesc-div"><p class="foodDesc"><?= Yii::t('common','Description') ?>: <?php echo $menu['Description']; ?></p></div>
 
                     <!--<div class="ingredient-div"><p>Ingredients: <?php echo $menu['Ingredient']?></p></div> -->
-                    <div class="nickname-div"><p>Nick Name: <?php echo $menu['Nickname']?></p></div>
+                    <div class="nickname-div"><p><?= Yii::t('food','Nickname')?>: <?php echo $menu['Nickname']?></p></div>
                   </div>
                 </div>
                   <?php
                     echo Html::a('', ['/food/edit-food','id'=>$menu['Food_ID']], ['class'=>'raised-btn btn-lg main-btn fa fa-pencil edit-button']); 
-                    echo Html::a('Food Service',['/Restaurant/restaurant/food-on-off','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID']],['class' => 'raised-btn delete-btn btn-danger pull-right']);
+                    echo Html::a(Yii::t('food','Food Service'),['/Restaurant/restaurant/food-on-off','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID']],['class' => 'raised-btn delete-btn btn-danger pull-right']);
                     
                   ;?>
 
@@ -106,7 +106,7 @@ Modal::end();
                   Modal::begin([
                     'header'=>'Food Image Uploader',
                     'toggleButton' => [
-                        'label'=>'Show Image/Upload Image', 'class'=>'raised-btn upload-btn'
+                        'label'=>Yii::t('food','Show Image/Upload Image'), 'class'=>'raised-btn upload-btn'
                     ],
                   ]);
                   

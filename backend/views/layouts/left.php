@@ -117,6 +117,7 @@
                         'label' => 'Translate Controller' ,'icon' => 'cutlery' ,   'url' => '#',
                         'items' => [
                                         ['label' => 'Tanslate' , 'icon' => 'circle-o' , 'url' => ['/translate/index']],
+                                        ['label' => 'FAQ' , 'icon' => 'circle-o' , 'url' => ['/translate/faq']],
                                    ],
                         'options' => ['class' => 'active'],
 

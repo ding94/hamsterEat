@@ -4,7 +4,7 @@ use common\models\user\Userdetails;
 use frontend\assets\ManageStaffAsset;
 use kartik\widgets\Select2;
 
-$this->title = Yii::t('m-restaurant',"Manage").' '. $id['Restaurant_Name']."'s ".Yii::t('m-restaurant','Staff');
+$this->title = Yii::t('m-restaurant',"Manage").' '. $id['Restaurant_Name'].Yii::t('common',"'s")." ".Yii::t('m-restaurant','Staff');
 ManageStaffAsset::register($this);
 ?>
 <div id="manage-staff-container" class = "container">
@@ -36,7 +36,7 @@ ManageStaffAsset::register($this);
                 <ul id="manage-staff-nav" class="nav nav-pills nav-stacked">
                     <?php foreach($link as $url=>$name):?>
                         <li role="presentation" class=<?php echo $name=="Manage Staffs" ? "active" :"" ?>>
-                            <a class="btn-block" href=<?php echo $url?>><?php echo $name?></a>
+                            <a class="btn-block" href=<?php echo $url?>><?php echo Yii::t('m-restaurant',$name)?></a>
                         </li>   
                     <?php endforeach ;?>
                 </ul>
@@ -76,7 +76,7 @@ ManageStaffAsset::register($this);
                     <tr>
                         <td><?= Html::img($picpath, ['class' => 'img-responsive', 'style'=>'height:40px; width:55px; margin:auto;']) ?></td>
                         <td data-th='Username'><?= $data['User_Username'] ?></td>
-                        <td data-th='Position'><?= $data['RmanagerLevel_Level'] ?></td>
+                        <td data-th='Position'><?= Yii::t('m-restaurant',$data['RmanagerLevel_Level']) ?></td>
                         <td data-th='Date Time Added'><?= $dt->format('d-m-Y H:i:s') ?></td>
                    </tr>
 

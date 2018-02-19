@@ -62,7 +62,7 @@ class SentencesSource extends \yii\db\ActiveRecord
             case 2:
                 $dataProvider = new ActiveDataProvider([
                     'query' => $query,
-                    'pagination' => [ 'pageSize' => 500 ],
+                    'pagination' => [ 'pageSize' => 1000 ],
                 ]);
             break;
 

@@ -69,7 +69,7 @@
 
 .checkout-progress-bar .circle.active .label {
   color: #FFF;
-  background: #0F8B8D;
+  background: #f9d423;
   box-shadow: inset 0 0 2px rgba(0,0,0,.2);
 }
 .checkout-progress-bar .circle.deactive .label {
@@ -78,7 +78,7 @@
   box-shadow: inset 0 0 2px rgba(0,0,0,.2);
 }
 .checkout-progress-bar .circle.active .title {
-  color: #0F8B8D;
+  color: #000;
 }
 
 .checkout-progress-bar .circle.done .label {

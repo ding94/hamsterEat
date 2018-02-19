@@ -32,7 +32,7 @@ MyVouchersAsset::register($this);
                     <table class="table table-inverse">
                         <thead>
                             <tr>
-                                <th><?= Yii::t('ticket','Serial No')?>.</th>
+                                <th><?= Yii::t('ticket','Serial No.')?></th>
                                 <th><?= Yii::t('vouchers','Code')?></th> 
                                 <th><?= Yii::t('common','Discount')?></th>
                                 <th></th>

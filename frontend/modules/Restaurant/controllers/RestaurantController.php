@@ -62,7 +62,7 @@ class RestaurantController extends CommonController
                 return $this->render('restaurantservice',['restaurants'=>""]);
             }
         }
-        Yii::$app->session->setFlash('warning', "You Are Not The Right Person In This Page!");
+        Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"You Are Not The Right Person In This Page!"));
         return $this->redirect(Yii::$app->request->referrer); 
     }
 
@@ -77,7 +77,7 @@ class RestaurantController extends CommonController
         }
         else
         {
-            Yii::$app->session->setFlash('error', "You are not allow to perfrom this action!");
+            Yii::$app->session->setFlash('error', Yii::t('common',"You are not allow to perfrom this action!"));
                 return $this->redirect(['/site/index']);
         }
     }
@@ -97,14 +97,14 @@ class RestaurantController extends CommonController
             $status['Status'] = 0;
             
             if ($valid == false) {
-                Yii::$app->session->setFlash('error', "Operation Paused! Error Food ID = ".$food['Food_ID']);
+                Yii::$app->session->setFlash('error', Yii::t('m-restaurant',"Operation Paused! Error Food ID")." = ".$food['Food_ID']);
                 break;
             }
             $status->save();
         }
         if ($valid == true) {
             $restaurant->save();
-            Yii::$app->session->setFlash('warning', "Status changed! Please inform customer service.");
+            Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Status changed! Please inform customer service."));
         }
         return $this->redirect(['/food/menu','rid'=>$id,'page'=>'menu']);
     }
@@ -136,7 +136,7 @@ class RestaurantController extends CommonController
             
             if ($valid == true) {
                 self::actionDeactive($id,$item);
-                Yii::$app->session->setFlash('warning', "Status changed! Please inform customer service.");
+                Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Status changed! Please inform customer service."));
                 return $this->redirect(Yii::$app->request->referrer); 
             }
             else
@@ -157,7 +157,7 @@ class RestaurantController extends CommonController
       
         if(empty($model))
         {
-            Yii::$app->session->setFlash('warning', "Food Already Deleted");
+            Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Food Already Deleted"));
             return $this->redirect(['/food/menu','rid'=>$rid,'page'=>'menu']); 
         }
         foreach($model->selection as $selection)
@@ -225,11 +225,11 @@ class RestaurantController extends CommonController
         if($model->validate())
         {
             $model->save();
-            Yii::$app->session->setFlash('success', "Status change to operating.");
+            Yii::$app->session->setFlash('success', Yii::t('m-restaurant',"Status change to operating."));
         }
         else
         {
-            Yii::$app->session->setFlash('warning', "Change status failed.");
+            Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Change status failed."));
         }
 
         return $this->redirect(['/food/menu','rid'=>$id,'page'=>'menu']);
@@ -244,18 +244,18 @@ class RestaurantController extends CommonController
         $rid =  $food['Restaurant_ID'];
          CommonController::restaurantPermission($rid);
         if ($restaurant['Restaurant_Status'] == 'Closed') {
-            Yii::$app->session->setFlash('error', "Restaurant was not opening.");
+            Yii::$app->session->setFlash('error', Yii::t('m-restaurant',"Restaurant was not opening."));
             return $this->redirect(Yii::$app->request->referrer);
         }
         $model->Status = 1;
         if($model->validate())
         {
             $model->save();
-            Yii::$app->session->setFlash('success', "Status change to operating.");
+            Yii::$app->session->setFlash('success', Yii::t('m-restaurant',"Status change to operating."));
         }
         else
         {
-            Yii::$app->session->setFlash('warning', "Change status failed.");
+            Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Change status failed."));
         }
         
           
@@ -274,18 +274,18 @@ class RestaurantController extends CommonController
                  $model->Status = 1;
                 if(!$model->save())
                 {
-                    Yii::$app->session->setFlash('warning', "Change status failed."); 
+                    Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Change status failed.")); 
                 }
             }
             else
             {
-                 Yii::$app->session->setFlash('warning', "Please Turn Off Food to Turn Off Food Selection");
+                 Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Please Turn Off Food to Turn Off Food Selection"));
             }     
             
         }
         else
         {
-            Yii::$app->session->setFlash('warning', "Change status failed.");
+            Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Change status failed."));
         }
       
         return $this->redirect(Yii::$app->request->referrer);
@@ -321,11 +321,11 @@ class RestaurantController extends CommonController
         if($sucess)
         {
                  
-            Yii::$app->session->setFlash('warning', "Status change to paused.");
+            Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Status change to paused."));
         }
         else
         {
-            Yii::$app->session->setFlash('error', "Change status failed.");
+            Yii::$app->session->setFlash('error', Yii::t('m-restaurant',"Change status failed."));
         }
 
         return $this->redirect(Yii::$app->request->referrer);
@@ -347,7 +347,7 @@ class RestaurantController extends CommonController
 
         if(empty($allitem))
         {
-            Yii::$app->session->setFlash('warning', "Empty Order");
+            Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Empty Order"));
             return $this->redirect(Yii::$app->request->referrer);
         }
         
@@ -454,10 +454,10 @@ class RestaurantController extends CommonController
         }
         elseif(empty($staffs))
         {
-            Yii::$app->session->setFlash('warning', "You are not any staff or owner of restaurant.");
+            Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"You are not any staff or owner of restaurant."));
             return $this->redirect(Yii::$app->request->referrer);
         }
-        Yii::$app->session->setFlash('warning', "You Are Not The Right Person In This Page!");
+        Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"You Are Not The Right Person In This Page!"));
         return $this->redirect(Yii::$app->request->referrer);
     }
 

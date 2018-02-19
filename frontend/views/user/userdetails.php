@@ -28,7 +28,7 @@ UserAsset::register($this);
                         'hideSearch' => true,
                         'data' => $link,
                         'options' => [
-                            'placeholder' => 'Go To ...',
+                            'placeholder' => Yii::t('common','Go To ...'),
                             'multiple' => false,
 
                         ],
@@ -54,7 +54,7 @@ UserAsset::register($this);
                 <?php 
                     echo $form->field($upload, 'imageFile')->widget(FileInput::classname(), [
                         'options' => ['accept' => 'image/*'],
-                    ]);
+                    ])->label(Yii::t('common','Upload Image'));
                 ?>
              
                 <div class="row">

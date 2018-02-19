@@ -731,6 +731,10 @@ class SiteController extends CommonController
     {
         $feedback = new Feedback();
         $categoryarray = ArrayHelper::map(Feedbackcategory::find()->all(),'ID','Category');
+        foreach ($categoryarray as $c => $value) {
+            $categoryarray[$c] = Yii::t('report',$value);
+        }
+        
         $upload = new Upload();
         if ($feedback->load(Yii::$app->request->post()))
         {

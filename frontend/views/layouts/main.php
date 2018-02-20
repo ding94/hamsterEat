@@ -159,7 +159,6 @@ NotificationAsset::register($this);
             }
             if ($count <= 0){
                 $menuItems[end($key)]['items'][] = ['label'=>Yii::t('layouts','Empty Orders')];
-                $menuItems[end($key)]['items'][] = '<li class="divider"></li>';
             }
         }
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span><span class="username"> ' . Yii::$app->user->identity->username . '</span>', 'items' => [

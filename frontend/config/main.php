@@ -89,11 +89,12 @@ return [
         ],
         
          /*'urlManager' => [
+
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
-                 'list-of-restaurants' => 'Restaurant/default/index',
+                'list-of-restaurants' => 'Restaurant/default/index',
                 'list-of-food' => 'Restaurant/default/show-by-food',
             ],
         ],*/

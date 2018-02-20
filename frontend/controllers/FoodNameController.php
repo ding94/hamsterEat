@@ -42,7 +42,7 @@ class FoodNameController extends CommonController
 			}
 		}
 
-		return $this->render('change',['name'=>$name,'rid'=>$rid,'arrayData'=>$arrayData]);
+		return $this->render('change',['name'=>$name,'rid'=>$rid,'fid'=>$fid,'arrayData'=>$arrayData]);
 	}
 
 	public static function PostChange($data,$name)

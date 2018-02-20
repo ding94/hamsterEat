@@ -38,7 +38,11 @@ FoodOnOffAsset::register($this);
 					<tr>
 						<td rowspan=<?php echo count($arrayData['selection'][$index])+2?>>
 						<?php foreach($type as $i=>$single):?>
-							<?= $form->field($single,'['.$index.']['.$i.']translation')?>
+							<?php if($single['language'] == 'en'): ?>
+								<?= $form->field($single,'['.$index.']['.$i.']translation')->label(Yii::t('food','En Type Name'))?>
+							<?php elseif($single['language'] == 'zh'): ?>
+								<?= $form->field($single,'['.$index.']['.$i.']translation')->label(Yii::t('food','Zh Type Name'))?>
+							<?php endif; ?>
 							<?= $form->field($single,'['.$index.']['.$i.']language')->hiddenInput()->label(false)?>
 						<?php 	endforeach;?>
 						</td>

@@ -88,12 +88,12 @@ return [
             'errorAction' => 'site/error',
         ],
         
-        'urlManager' => [
+         'urlManager' => [
             'enablePrettyUrl' => true,
-            'showScriptName' => true,
-            'enableStrictParsing' => false,
+            'showScriptName' => false,
+             'enableStrictParsing' => false,
             'rules' => [
-                'list-of-restaurants' => 'Restaurant/default/index',
+                 'list-of-restaurants' => 'Restaurant/default/index',
                 'list-of-food' => 'Restaurant/default/show-by-food',
             ],
         ],

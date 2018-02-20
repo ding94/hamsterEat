@@ -59,6 +59,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 
               <?php  
                 $ftids = "";
+
                 foreach($foodtype as $k=> $type) : 
                   $selection = Foodselection::find()->where('Type_ID = :ftid and status = 1',[':ftid' => $type['ID']])->orderBy(['Price' => SORT_ASC])->all();
                  
@@ -111,11 +112,10 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                   
                 <?php } else { ?>
                    
-                     
                         <span class="selection-name"><?php echo $type['cookieName']; ?></span>
                    
                         <span class="selection-warning">
-                          *<?= Yii::t('food','Select') ?> <?= Yii::t('food','at least') ?> <?php echo $foodtype['Min']; ?> <?= Yii::t('food','item') ?> <?= Yii::t('food','and') ?> <?= Yii::t('food','at most') ?> <?php echo $foodtype ['Max']; ?> <?= Yii::t('food','items.') ?>
+                          *<?= Yii::t('food','Select') ?> <?= Yii::t('food','at least') ?> <?php echo $type['Min']; ?> <?= Yii::t('food','item') ?> <?= Yii::t('food','and') ?> <?= Yii::t('food','at most') ?> <?php echo $type ['Max']; ?> <?= Yii::t('food','items.') ?>
                         </span>
                      
                     

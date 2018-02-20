@@ -32,53 +32,104 @@ class FoodNameController extends CommonController
 		if(Yii::$app->request->isPost)
 		{
 			$isValid = $this->PostChange($arrayData,$name);
+			if($isValid)
+			{
+				Yii::$app->session->setFlash('success',Yii::t('cart','Success!'));
+			}
+			else
+			{
+				 Yii::$app->session->setFlash('error',Yii::t('cart','Something Went Wrong!'));
+			}
 		}
 
-		return $this->render('change',['name'=>$name,'arrayData'=>$arrayData]);
+		return $this->render('change',['name'=>$name,'rid'=>$rid,'arrayData'=>$arrayData]);
 	}
 
 	public static function PostChange($data,$name)
 	{
-		$selection = $data['selection'];
-		$type = $data['type'];
-
+		if(!empty($data))
+		{
+			$selection = $data['selection'];
+			$type = $data['type'];
+		}
+		$post= Yii::$app->request->post();  
 		Model::loadMultiple($name, Yii::$app->request->post());
 		$isValid = Model::validateMultiple($name);
 
-		if($isValid)
+		if(!empty($data))
 		{
-			//$data = FoodselectionController::mutipleTypeSelection(1,$type);
-			//$isValid = $isValid && $data['valid'];
-			//$selectionData = $data['data'];
-
-			foreach($type as $i => $value)
+			$data = FoodselectionController::mutipleTypeSelection(1,$type);
+			$isValid = $isValid && $data['valid'];
+			$typeData = $data['data'];
+				
+			if($isValid)
 			{
-				$data = FoodselectionController::mutipleTypeSelection(2,$selection,$i);
-				var_dump($data);exit;
-			}
-			var_dump($selectionData);exit;
-			foreach ($post['FoodSelectiontypeName'] as $i => $postType) 
-			{
-
-				$postData['FoodSelectiontypeName'] = $postType;
-				Model::loadMultiple($type[$i], $postData);
-				$isValid = Model::validateMultiple($type[$i])&& $isValid;
-				if(!$isValid)
+				foreach($type as $i => $value)
 				{
-					break;
-				}
-				foreach($post['FoodSelectionName'][$i] as $k => $postSelection)
-				{
-					$postData['FoodSelectionName'] = $postSelection;
-					Model::loadMultiple($selection[$i][$k],$postData);
-					$isValid = Model::validateMultiple($selection[$i][$k]) && $isValid;
-					var_dump($isValid);exit;
+					$data = FoodselectionController::mutipleTypeSelection(2,$selection,$i);
+					$isValid = $isValid && $data['valid'];
+					$selectionData = $data['data'];
 				}
 			}
 		}
-		return $isValid;
+
+		if($isValid)
+		{
+			$transaction = Yii::$app->db->beginTransaction();
+			try
+			{
+				foreach($name as $single)
+				{
+					if(!$single->save())
+					{
+						$isValid = false;
+						break;
+					}
+				}
+				if(!empty($typeData))
+				{
+					foreach($typeData as $index=>$data)
+					{
+						foreach($data as $single)
+						{
+							if(!$single->save())
+							{
+								$isValid = false;
+								break;
+							}
+						}
+						foreach($selectionData[$index] as $k => $data)
+						{
+							foreach($data as $single)
+							{
+								if(!$single->save())
+								{
+									$isValid = false;
+									break;
+								}
+							}
+						}
+							
+					}
+				}
+
+				if($isValid)
+				{
+					$transaction->commit();
+				}
+				else
+				{
+					$transaction->rollBack();
+				}
+			}
+			catch (Exception $e) {
+				$transaction->rollBack();
+			}
+				
+		}
 		
-		var_dump($selection[0][0]);exit;
+
+		return $isValid;
 	}
 
 	public static function createName($allname,$type)

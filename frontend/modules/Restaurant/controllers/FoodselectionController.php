@@ -129,38 +129,42 @@ class FoodselectionController extends Controller
 
     public static function mutipleTypeSelection($type,$data,$i=0)
     {
-        $arrayData = self::detectTypes($type);
+        $post= Yii::$app->request->post();
+        $arrayData = self::detectTypes($type,$i,$data);
         $name = $arrayData['name'];
         $index = $arrayData['index'];
+        $convertData = $arrayData['data'];
+       
         $isValid = true;
        
-        foreach ($data[$i] as $key => $value) 
+        foreach ($convertData as $key => $value) 
         {
-
+            $postData[$name] = $index[$key];
            
-            $postData[$name] = $value;
-
-            Model::loadMultiple($data[$i][$key], $postData);
-           
-            $isValid = Model::validateMultiple($data[$i][$key]) && $isValid;
+            Model::loadMultiple($value, $postData);
+            
+            $isValid = Model::validateMultiple($value) && $isValid;
         }
+        
         $return['valid'] = $isValid;
         $return['data'] = $data;
         return $return;
     }
 
-    public static function detectTypes($type,$i=0)
+    public static function detectTypes($type,$i=0,$value)
     {
-        $post= Yii::$app->request->post();
+        $post= Yii::$app->request->post();  
         $data="";
         switch ($type) {
             case 1:
                 $name ="FoodSelectiontypeName";
                 $index = $post[$name];
+                $value = $value;
                 break;
             case 2:
                 $name ="FoodSelectionName";
                 $index = $post[$name][$i];
+                $value = $value[$i];
                 break;
             default:
                 # code...
@@ -169,6 +173,7 @@ class FoodselectionController extends Controller
 
         $data['name']=$name;
         $data['index'] = $index;
+        $data['data'] = $value;
         return $data;
     }
 }

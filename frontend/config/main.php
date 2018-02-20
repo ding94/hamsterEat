@@ -87,14 +87,17 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+        
         'urlManager' => [
             'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            'showScriptName' => true,
+            'enableStrictParsing' => false,
             'rules' => [
+                'list-of-restaurants' => 'Restaurant/default/index',
+                'list-of-food' => 'Restaurant/default/show-by-food',
             ],
         ],
-        */
+        
     ],
     'params' => $params,
 ];

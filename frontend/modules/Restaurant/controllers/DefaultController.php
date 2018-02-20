@@ -194,7 +194,7 @@ class DefaultController extends CommonController
         $countQuery = clone $model;
         $pagination = new Pagination(['totalCount'=>$countQuery->count(),'pageSize'=>12]);
         $rowfood = $model->offset($pagination->offset)
-        ->limit($pagination->limit)->orderBy(['Name'=>SORT_ASC])
+        ->limit($pagination->limit)
         ->all();
 
         foreach ($rowfood as $k => $v) {

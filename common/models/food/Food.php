@@ -165,7 +165,7 @@ class Food extends \yii\db\ActiveRecord
         $data = FoodName::find()->where("id = :id and language = :l",[':id'=>$this->Food_ID,':l'=>$language])->one();
         if(empty($data))
         {
-            $data = FoodName::find()->where("id = :id and language = 'en'",[':id'=>$this->Food_ID])->one();
+           return $this->getOriginName();
         }
         return $data->translation;
     }

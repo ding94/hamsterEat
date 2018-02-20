@@ -77,8 +77,8 @@ class Foodstatus extends \yii\db\ActiveRecord
 
     public function getName()
     {
-        $data = Food::findOne($this->Food_ID);
-        return $data->Name;
+        $data = FoodName::findOne($this->Food_ID);
+        return $data->translation;
     }
 
 }

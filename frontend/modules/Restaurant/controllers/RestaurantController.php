@@ -165,7 +165,7 @@ class RestaurantController extends CommonController
             if($selection->Status != -1)
             {
                 $food = Foodselectiontype::findOne($selection->Type_ID);
-                $selectiondata[$food->TypeName][] = $selection;
+                $selectiondata[$food->originName][] = $selection;
             }
         }
         

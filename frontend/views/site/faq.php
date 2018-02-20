@@ -19,75 +19,75 @@
                     <h1><strong><?= Yii::t('site','General') ?></strong></h1>
                     <br>
                     <p><strong>HamsterEat</strong></p>
-                    <p align = "justify"><?= Yii::t('site','general-1') ?></p>
+                    <p align = "justify"><?= Yii::t('guide','general-1') ?></p>
                     <table class= table table-user-info>
                         <tr>
                             <th><?= Yii::t('site','Member') ?></th>
-                            <td><?= Yii::t('site','general-1-1') ?></td>
+                            <td><?= Yii::t('guide','general-1-1') ?></td>
                         </tr>
                         <tr>
                             <th><?= Yii::t('site','Restaurant Manager') ?></th>
-                            <td><?= Yii::t('site','general-1-2') ?></td>
+                            <td><?= Yii::t('guide','general-1-2') ?></td>
                         </tr>
                         <tr>
                             <th> <?= Yii::t('site','Delivery Man') ?></th>
-                            <td><?= Yii::t('site','general-1-3') ?></td>
+                            <td><?= Yii::t('guide','general-1-3') ?></td>
                         </tr>
                     </table>
                     <br>
                     <br>
                     <br>
                     <p><strong><?= Yii::t('site','Placing an Order') ?></strong></p>
-                    <p align = "justify"><?= Yii::t('site','general-2') ?></p>
+                    <p align = "justify"><?= Yii::t('guide','general-2') ?></p>
                     <br>
                     <br>
                     <p><strong><?= Yii::t('common','Payment') ?></strong></p>
-                    <p align = "justify"><?= Yii::t('faq','general-3') ?></p>
+                    <p align = "justify"><?= Yii::t('guide','general-3') ?></p>
                     <table class= table table-user-info>
                         <tr>
                             <th> <?= Yii::t('site','Account Balance') ?></th>
-                            <td><?= Yii::t('site','general-3-1') ?></td>
+                            <td><?= Yii::t('guide','general-3-1') ?></td>
                         </tr>
                         <tr>
                             <th><?= Yii::t('site','Cash on Delivery') ?></th>
-                            <td><?= Yii::t('site','general-3-2') ?></td>
+                            <td><?= Yii::t('guide','general-3-2') ?></td>
                         </tr>
                     </table>
                     <br>
                     <br>
                     <br>
                     <p><strong><?= Yii::t('site','Account Upgrade') ?></strong></p>
-                    <p align = "justify"><?= Yii::t('site','general-4') ?></p>
+                    <p align = "justify"><?= Yii::t('guide','general-4') ?></p>
                 </div>
 
                 <div id="restaurantmanager" class="tab-pane fade">
                     <h1><strong><?= Yii::t('site','Restaurant Manager') ?></strong></h1>
                     <br>
                     <p><strong><?= Yii::t('site','Incoming Orders') ?></strong></p>
-                    <p align = "justify"><?= Yii::t('site','rmanager-1') ?></p>
+                    <p align = "justify"><?= Yii::t('guide','rmanager-1') ?></p>
                     <br>
                     <br>
                     <p><strong><?= Yii::t('site','Setting Up a Restaurant') ?></strong></p>
-                    <p align = "justify"><?= Yii::t('site','rmanager-2') ?></p>
+                    <p align = "justify"><?= Yii::t('guide','rmanager-2') ?></p>
                     <br>
                     <br>
                     <p><strong><?= Yii::t('site','Sold Out') ?> / <?= Yii::t('site','Unavailable Item') ?></strong></p>
-                    <p align = "justify"><?= Yii::t('site','rmanager-3') ?></p>
+                    <p align = "justify"><?= Yii::t('guide','rmanager-3') ?></p>
                     <br>
                     <br>
                     <p><strong><?= Yii::t('site','Close Restaurant') ?></strong></p>
-                    <p align = "justify"><?= Yii::t('site','rmanager-4') ?></p>
+                    <p align = "justify"><?= Yii::t('guide','rmanager-4') ?></p>
                 </div>
 
                 <div id="deliveryman" class="tab-pane fade">
                     <h1><strong><?= Yii::t('site','Delivery Man') ?></strong></h1>
                     <br>
                     <p><strong><?= Yii::t('site','Daily Sign In') ?></strong></p>
-                    <p align = "justify"><?= Yii::t('site','dman-1') ?></p>
+                    <p align = "justify"><?= Yii::t('guide','dman-1') ?></p>
                     <br>
                     <br>
                     <p><strong><?= Yii::t('site','Incoming Deliveries') ?></strong></p>
-                    <p align = "justify"><?= Yii::t('site','dman-2') ?></p>
+                    <p align = "justify"><?= Yii::t('guide','dman-2') ?></p>
                     <br>
                     <br>
 

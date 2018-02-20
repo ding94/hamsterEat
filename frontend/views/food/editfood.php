@@ -24,6 +24,7 @@ AddFoodAsset::register($this);
        <div class="col-sm-2">
             <ul id="add-food-nav" class="nav nav-pills nav-stacked">
                 <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i>".Yii::t('common','Back'),['food/menu','rid' => $food->Restaurant_ID,'page'=>'menu'])?></li>
+                <li role="presentation"><?php echo Html::a(Yii::t('food','Name Edit'),['food-name/change','rid' => $food->Restaurant_ID,'fid'=>$food->Food_ID])?></li>
             </ul>
        </div>
        <div class="col-sm-10 food-content">

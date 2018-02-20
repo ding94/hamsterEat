@@ -33,6 +33,7 @@ return [
                 'checkout' => ['class' => 'common\translation\DbSentencesTranslate',],
                 'company' => ['class' => 'common\translation\DbSentencesTranslate',],
                 'discount' => ['class' => 'common\translation\DbSentencesTranslate',],
+                'guide' => ['class' => 'common\translation\DbSentencesTranslate',],
                 'layouts' => ['class' => 'common\translation\DbSentencesTranslate',],
                 'memberpoint-h' => ['class' => 'common\translation\DbSentencesTranslate',],
                 'news' => ['class' => 'common\translation\DbSentencesTranslate',],

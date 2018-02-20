@@ -106,7 +106,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                 <img src=<?php echo $newdata->singleImg?> alt="">
             </div>
             <div class="inner-item">
-            <div class="foodName-div"><span class="foodName"><?php echo $newdata['Name']; ?></span><span class="small-text stars" alt="<?php echo $newdata['Rating']; ?>"><?php echo $newdata['Rating']; ?></span></div>
+            <div class="foodName-div"><span class="foodName"><?php echo $newdata['cookieName']; ?></span><span class="small-text stars" alt="<?php echo $newdata['Rating']; ?>"><?php echo $newdata['Rating']; ?></span></div>
             <!-- <div class="stars-div"></div> -->
             <div class="price-div">
                 <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>

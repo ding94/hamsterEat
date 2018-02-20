@@ -5,8 +5,11 @@ namespace frontend\modules\Restaurant\controllers;
 use yii;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
+use yii\base\Model;
 use frontend\controllers\CartController;
+use frontend\controllers\FoodNameController;
 use common\models\food\Foodselection;
+use common\models\food\FoodSelectionName;
 use common\models\food\Foodselectiontype;
 use common\models\food\Food;
 
@@ -111,5 +114,61 @@ class FoodselectionController extends Controller
             return true;
         }
        
+    }
+
+    public static function allSelection($id)
+    {
+        $query = Foodselection::find()->where('Type_ID = :tid',['tid'=>$id])->joinWith(['allName']);
+        foreach ($query->each() as $key => $value) 
+        {
+            $selection[] = FoodNameController::createName($value->allName,2);
+        }
+       
+        return $selection;
+    }
+
+    public static function mutipleTypeSelection($type,$data,$i=0)
+    {
+        $arrayData = self::detectTypes($type);
+        $name = $arrayData['name'];
+        $index = $arrayData['index'];
+        $isValid = true;
+       
+        foreach ($data[$i] as $key => $value) 
+        {
+
+           
+            $postData[$name] = $value;
+
+            Model::loadMultiple($data[$i][$key], $postData);
+           
+            $isValid = Model::validateMultiple($data[$i][$key]) && $isValid;
+        }
+        $return['valid'] = $isValid;
+        $return['data'] = $data;
+        return $return;
+    }
+
+    public static function detectTypes($type,$i=0)
+    {
+        $post= Yii::$app->request->post();
+        $data="";
+        switch ($type) {
+            case 1:
+                $name ="FoodSelectiontypeName";
+                $index = $post[$name];
+                break;
+            case 2:
+                $name ="FoodSelectionName";
+                $index = $post[$name][$i];
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        $data['name']=$name;
+        $data['index'] = $index;
+        return $data;
     }
 }

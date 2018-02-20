@@ -75,11 +75,16 @@ class Foodselectiontype extends \yii\db\ActiveRecord
         return $this->hasOne(FoodSelectiontypeName::className(),['id'=>'ID'])->andOnCondition(['language' => 'en']);
     }
 
+    public function getAllName()
+    {
+        return $this->hasMany(FoodSelectiontypeName::className(),['id'=>'ID']);
+    }
+
     public function getCookieName()
     {
         $cookies = Yii::$app->request->cookies;
         $language = $cookies->getValue('language', 'value');
-
+       
         $data = FoodSelectiontypeName::find()->where("id = :id and language = :l",[':id'=>$this->ID,':l'=>$language])->one();
         if(empty($data))
         {

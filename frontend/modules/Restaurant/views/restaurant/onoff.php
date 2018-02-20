@@ -17,6 +17,7 @@ Modal::begin([
       'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
 ]);
 Modal::end();
+
 $this->title = "Food ".$model->name." Service";
 ?>
 
@@ -58,7 +59,7 @@ $this->title = "Food ".$model->name." Service";
 			<table class="table">
 				<thead>
 					<tr>
-						<th colspan="4" class="center">Food Name : <?= $model->name?></th>
+						<th colspan="4" class="center">Food Name : <?= $model->Name?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -86,7 +87,7 @@ $this->title = "Food ".$model->name." Service";
 					</tr>
 					<?php foreach($type as $selection) :?>
 						<tr>
-							<td class="width-10 name" data-th="Selection Name"><?= $selection->Name ?></td>
+							<td class="width-10 name" data-th="Selection Name"><?= $selection->originName ?></td>
 							<td colspan=<?php echo $selection->Status == 0 ? 1 : 2?>>Current Status : <?= $status[$selection->Status] ?></td>
 							<?php if($selection->Status == 0) : ?>
 							<td>

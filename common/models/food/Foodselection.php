@@ -83,6 +83,7 @@ class Foodselection extends \yii\db\ActiveRecord
             }
         }
         $name = $this->getCookieName();
+      
         return '<span class="foodselection-name">'.$name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($this->Price).'">RM'.CartController::actionRoundoff1decimal($this->Price).'</span><span class="radio-custom-label"></span>';
     }
 
@@ -114,6 +115,11 @@ class Foodselection extends \yii\db\ActiveRecord
         return $this->hasOne(FoodSelectionName::className(),['id'=>'ID'])->andOnCondition(['language' => 'en']);
     }
 
+    public function getAllName()
+    {
+        return $this->hasMany(FoodSelectionName::className(),['id'=>'ID']);
+    }
+
     public function getCookieName()
     {
         $cookies = Yii::$app->request->cookies;
@@ -122,7 +128,7 @@ class Foodselection extends \yii\db\ActiveRecord
         $data = FoodSelectionName::find()->where("id = :id and language = :l",[':id'=>$this->ID,':l'=>$language])->one();
         if(empty($data))
         {
-            $data = FoodSelectionName::find()->where("id = :id and language = 'en'",[':id'=>$this->ID])->one();
+            return $this->getOriginName();
         }
         return $data->translation;
     }

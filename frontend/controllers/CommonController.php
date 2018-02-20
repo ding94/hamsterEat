@@ -93,50 +93,50 @@ class CommonController extends Controller
         switch ($type) {
             case 1:
                 $data = [   
-                            Url::to(['/user/userdetails']) => 'Edit User Details',
-                            Url::to(['/user/changepassword']) => 'Change Password'
+                            Url::to(['/user/userdetails']) => Yii::t('common','Edit User Details'),
+                            Url::to(['/user/changepassword']) => Yii::t('user','Change Password'),
                         ];
                 break;
             case 2:
                 $data = [   
-                            Url::to(['/user/userbalance']) => 'Balance History',
-                            Url::to(['/topup/index']) => 'Top Up',
-                            Url::to(['/withdraw/index']) => 'Withdraw',
+                            Url::to(['/user/userbalance']) => Yii::t('common','Balance history'),
+                            Url::to(['/topup/index']) => Yii::t('common','Top Up'),
+                            Url::to(['/withdraw/index']) => Yii::t('common','Withdraw'),
                         ];
                 break;
             case 3:
                 $data = [
-                            Url::to(['/order/my-orders']) => 'All',
-                            Url::to(['/order/my-orders','status'=>1]) => 'Not Paid',
-                            Url::to(['/order/my-orders','status'=>2]) => 'Pending',
-                            Url::to(['/order/my-orders','status'=>8]) => 'Canceled',
-                            Url::to(['/order/my-orders','status'=>3]) => 'Preparing',
-                            Url::to(['/order/my-orders','status'=>11]) => 'Pick Up In Process',
-                            Url::to(['/order/my-orders','status'=>5]) => 'On The Way',
-                            Url::to(['/order/my-orders','status'=>6]) => 'Completed',
+                            Url::to(['/order/my-orders']) => Yii::t('common','All'),
+                            Url::to(['/order/my-orders','status'=>1]) => Yii::t('order','Not Paid'),
+                            Url::to(['/order/my-orders','status'=>2]) => Yii::t('order','Pending'),
+                            Url::to(['/order/my-orders','status'=>8]) => Yii::t('order','Canceled'),
+                            Url::to(['/order/my-orders','status'=>3]) => Yii::t('order','Preparing'),
+                            Url::to(['/order/my-orders','status'=>11]) => Yii::t('order','Pick Up in Process'),
+                            Url::to(['/order/my-orders','status'=>5]) => Yii::t('order','On The Way'),
+                            Url::to(['/order/my-orders','status'=>6]) => Yii::t('order','Completed'),
                         ];
                 break;
             case 4:
                 $data = [
-                            Url::to(['/ticket/index']) => 'All',
-                            Url::to(['/ticket/submit-ticket']) => 'Submit Ticket',
-                            Url::to(['/ticket/completed']) => 'Completed Ticket',
+                            Url::to(['/ticket/index']) => Yii::t('common','All'),
+                            Url::to(['/ticket/submit-ticket']) => Yii::t('ticket','Submit Ticket'),
+                            Url::to(['/ticket/completed']) => Yii::t('ticket','Completed Ticket'),
                        ];
                 break;
             case 5:
                 $data = [
-                            Url::to(['/Delivery/deliveryorder/order']) => 'Deliveryman Orders',
-                            Url::to(['/Delivery/deliveryorder/pickup']) => 'Pick Up Orders',
-                            Url::to(['/Delivery/deliveryorder/complete']) => 'Complete Orders',
-                            Url::to(['/Delivery/deliveryorder/history']) => 'Deliveryman Orders History',
-                            Url::to(['/Delivery/daily-sign-in/delivery-location']) => 'Delivery Location',
+                            Url::to(['/Delivery/deliveryorder/order']) => Yii::t('m-delivery','Deliveryman Orders'),
+                            Url::to(['/Delivery/deliveryorder/pickup']) => Yii::t('m-delivery','Pick Up Orders'),
+                            Url::to(['/Delivery/deliveryorder/complete']) => Yii::t('m-delivery','Complete Orders'),
+                            Url::to(['/Delivery/deliveryorder/history']) => Yii::t('m-delivery','Deliveryman Orders History'),
+                            Url::to(['/Delivery/daily-sign-in/delivery-location']) => Yii::t('m-delivery','Delivery Location'),
                         ];
                 break;
             case 6:
                 $data = [
-                           Url::to(['/notification/index']) => 'All Notification',  
-                           Url::to(['/notification/index','type'=>1]) => 'Unread',  
-                           Url::to(['/notification/index','type'=>2]) => 'Read',  
+                           Url::to(['/notification/index']) => Yii::t('notification','All Notification'),  
+                           Url::to(['/notification/index','type'=>1]) => Yii::t('notification','Unread'),  
+                           Url::to(['/notification/index','type'=>2]) => Yii::t('notification','Read'),  
                        ];
                 break;
             default:

@@ -7,7 +7,7 @@ use yii\grid\ActionColumn;
 use kartik\widgets\Select2;
 use common\models\Bank;
 use frontend\assets\TopupIndexAsset;
-$this->title = Yii::t('common','Top up');	
+$this->title = Yii::t('common','Top Up');	
 TopupIndexAsset::register($this);
 ?>
 

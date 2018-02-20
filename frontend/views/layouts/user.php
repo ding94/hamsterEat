@@ -151,7 +151,7 @@ if (empty($language)) {
                 $count += $orderitem;
             }
             if ($count <= 0){
-                $menuItems[end($key)]['items'][] = ['label'=>Yii::t('layouts','Empty Orders')];
+                $menuItems[end($key)]['items'][] = ['label'=>'<h5>'.Yii::t('layouts','Empty Orders').'</h5>'];
             }
         }
 

@@ -676,6 +676,13 @@ class CartController extends CommonController
         }
         else
         {
+            foreach ($foodselection as $key => $value) {
+                $avaialbe = foodSelection::find()->where('Type_ID = :tid and Status != -1',[':tid'=>$value->ID])->one();
+                if(empty($avaialbe))
+                {
+                    unset($foodselection[$key]);
+                }
+            }
             $isValid = SelectionTypeController::detectMinMaxSelecttion($post['CartSelection']['selectionid'],$foodselection);
             if($isValid['value'] == 1)
             {

@@ -59,8 +59,8 @@ AddFoodAsset::register($this);
                         ]);
                 ?>
                 
-                <?= $form->field($food, 'Description')->textInput()->label(Yii::t('common','Description')) ?>
-
+                <?= $form->field($food, 'Description')->textInput()->label(Yii::t('common','Description'));?>
+             
                 <?php DynamicFormWidget::begin([
                     'widgetContainer' => 'dynamicform_wrapper',
                     'widgetBody' => '.container-items',
@@ -69,7 +69,7 @@ AddFoodAsset::register($this);
                     'min' => 0,
                     'insertButton' => '.add-house',
                     'deleteButton' => '.remove-house',
-                    'model' => $foodtype[0],
+                    'model' => current($foodtype),
                     'formId' => 'dynamic-form',
                     'formFields' => [
                         'ID',

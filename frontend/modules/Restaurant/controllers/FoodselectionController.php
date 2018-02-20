@@ -78,13 +78,11 @@ class FoodselectionController extends Controller
 
         foreach ($data as $i => $select) 
         {
-            $foodSelection = Foodselection::find()->where('Type_ID = :tid',[':tid'=>$select->ID])->joinWith(['transName'])->all();
-            $foodSelection = $select->foodSelection;
+            $foodSelection = Foodselection::find()->where('Type_ID = :tid and Status != -1',[':tid'=>$select->ID])->joinWith(['transName'])->all();
             $modelSelect[$i] = $foodSelection;
-
             $oldSelect = ArrayHelper::merge(ArrayHelper::index($foodSelection, 'ID'), $oldSelect);
         }
-       
+        
         switch ($type) {
             case 1:
                 return $modelSelect;

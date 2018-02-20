@@ -38,7 +38,7 @@ class SelectionTypeController extends Controller
 			{
 				//Yii::$app->session->setFlash('danger', 'Please select at least '.$value->Min.' items and most '.$value->Max.' items in '.$value->TypeName);
 				
-				$data['message'] = "Please select at least $value->Min items and most $value->Max items in $value->TypeName";
+				$data['message'] = "Please select at least $value->Min items and most $value->Max items in $value->cookieName";
 				$data['value'] =2;
 				return $data;
 			}

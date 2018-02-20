@@ -9,11 +9,12 @@ class FoodSearch extends Food
 	public $status;
 	public $foodType;
 	public $restaurant;
+	public $name;
 
 	public function rules()
 	{
 		return [
-			[['Name','BeforeMarkedUp','Price','Description','status','foodType'] ,'safe'],
+			[['name','BeforeMarkedUp','Price','Description','status','foodType'] ,'safe'],
 		];
 	}
 
@@ -30,7 +31,7 @@ class FoodSearch extends Food
 
 		$query->innerJoinWith('foodType',true);
 
-		$query->joinWith(['foodStatus']);
+		$query->joinWith(['foodStatus','transName']);
 
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,7 +58,7 @@ class FoodSearch extends Food
            'Status' => $this->status,
         ]);
 
-       	$query->andFilterWhere(['like','Name' ,$this->Name]);
+       	$query->andFilterWhere(['like','translation' ,$this->name]);
        	$query->andFilterWhere(['like','BeforeMarkedUp' ,$this->BeforeMarkedUp]);
        	$query->andFilterWhere(['like','Price' ,$this->Price]);
        	$query->andFilterWhere(['like','Description' ,$this->Description]);

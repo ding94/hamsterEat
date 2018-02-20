@@ -142,7 +142,7 @@ Class FoodController extends Controller
 
         $food = Food::find()->where('Food_ID=:fid',[':fid'=>$fid])->one();
 
-        $food_array = ['id'=>(int)$food['Food_ID'],'name'=>$food['Name']];
+        $food_array = ['id'=>(int)$food['Food_ID'],'name'=>$food['transName']];
         $json_food = Json::encode($food_array);
 
         $model = RestaurantItemProfit::find()->where('fid = :fid',[':fid'=>$json_food])->andWhere(['between','created_at',strtotime($first),strtotime($last)])->select(['created_at','quantity'])->asArray()->all();

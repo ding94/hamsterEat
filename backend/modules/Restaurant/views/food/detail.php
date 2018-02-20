@@ -23,7 +23,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     'attribute' => 'typeName',
                     'value' => function($model)
                     {
-                        return $model->selectedtpye->TypeName;
+                        return $model->selectedtpye->originName;
                     },
                     'group'=>true,
                 ],
@@ -43,10 +43,11 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     },
                     'group'=>true,
                 ],
-                'Name',
+                'transName.translation',
                 'Nickname',
                 'BeforeMarkedUp',
                 'Price',
+                'Status',
                 /*[
                     'attribute' => 'tpyeStatus',
                     'format' => 'raw',

@@ -88,7 +88,7 @@ return [
             'errorAction' => 'site/error',
         ],
         
-         'urlManager' => [
+         /*'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,
@@ -96,7 +96,7 @@ return [
                  'list-of-restaurants' => 'Restaurant/default/index',
                 'list-of-food' => 'Restaurant/default/show-by-food',
             ],
-        ],
+        ],*/
         
     ],
     'params' => $params,

@@ -100,7 +100,7 @@ class FoodController extends CommonController
         }
 
         $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id' => $id])->orderBy(['ID' => SORT_ASC])->all();
-          
+      
         $cartSelection = new CartSelection;
         $cart = new Cart;
         
@@ -312,13 +312,22 @@ class FoodController extends CommonController
         $type = ArrayHelper::map(FoodType::find()->andWhere(['and',['!=','Type_Desc','Halal'],['!=','Type_Desc','Non-Halal']])->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
       
         $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id'=>$food->Food_ID])->joinWith(['transName'])->all();
+
         $foodselection = [];
         
         if (!empty($foodtype)) 
         {
             $foodselection = FoodselectionController::oldData($foodtype,1);
-        }
+            foreach ($foodselection as $key => $value) {
+                if(empty($value))
+                {
+                    unset($foodtype[$key]);
+                    unset($foodselection[$key]);
+                }
+            }
 
+        }
+       
         $food->scenario = "edit";
     
         return $this->render('editfood',['food' => $food,'foodjunction'=>$foodjunction, 'chosen'=> $chosen,'type' => $type,'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection ,'typeName'=>$typeName,'selectionName'=>$selectionName]);
@@ -455,15 +464,13 @@ class FoodController extends CommonController
             {
                 if($flag = $food->save())
                 {
-                   /* if(!empty($deletedSelectionTypeId))
-                    {
-                        Foodselectiontype::deleteAll(['ID' => $deletedSelectionTypeId]);
-                        FoodSelectiontypeName::deleteAll(['id'=>$deletedSelectionTypeId]);
-                    }*/
-
                     if(!empty($deletedSelect))
                     {
-                        Foodselection::deleteAll(['Status'=>-1],'ID = :id',[':id' => $deletedSelect]);
+                        foreach($deletedSelect as $value)
+                        {
+                            Foodselection::updateAll(['Status'=>'-1'],'ID = :id',[':id' => $value]);
+                        }
+                        
                     }
 
                     if(!empty($junctionData[0]))

@@ -43,7 +43,10 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 'headerOptions'=>['class'=>'kartik-sheet-style'] ,
                 'expandOneOnly'=>true,
             ],
-            'Name',
+            [
+                'attribute' => 'name',
+                'value' => 'transName.translation',
+            ],
             'BeforeMarkedUp',
             'Price',
             'Description',

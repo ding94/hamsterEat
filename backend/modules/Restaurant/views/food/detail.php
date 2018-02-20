@@ -12,6 +12,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
     <h4><?= Html::encode("Food Selection") ?></h4>
     <?php if(!empty($model)) : ?>
         <?php 
+            $array = ['-1'=>'Deleted','0'=>'Close','1'=>'Open'];
             $dataProvider = new ArrayDataProvider([
                 'allModels' => $model,
             ]);
@@ -47,7 +48,14 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 'Nickname',
                 'BeforeMarkedUp',
                 'Price',
-                'Status',
+                [
+                    'attribute' => 'Status',
+                    'value' => function($model)use($array)
+                    {
+                        return $array[$model->Status];
+                    }
+                ],
+                
                 /*[
                     'attribute' => 'tpyeStatus',
                     'format' => 'raw',

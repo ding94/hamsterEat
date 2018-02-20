@@ -22,7 +22,7 @@ FoodOnOffAsset::register($this);
     	</div>
 	    <div class="col-sm-10 food-onoff-content">
 	    	<?php $form = ActiveForm::begin(); ?>
-	    	<table class="table">
+	    	<table class="table table-bordered">
 	    		<thead>
 					<tr><th colspan="3" class="center">Food Name Edit</th></tr>
 				</thead>
@@ -35,6 +35,8 @@ FoodOnOffAsset::register($this);
 					</tr>
 					<?php if(!empty($arrayData)):?>
 					<?php foreach($arrayData['type'] as $index=>$type):?>
+						
+						<?php if(!empty($arrayData['selection'][$index])):?>
 					<tr>
 						<td rowspan=<?php echo count($arrayData['selection'][$index])+1?>>
 						<?php foreach($type as $i=>$single):?>
@@ -54,6 +56,7 @@ FoodOnOffAsset::register($this);
 							<?php endforeach;?>
 						</tr>	
 						<?php endforeach;?>
+						<?php endif;?>
 					<?php endforeach;?>
 					<?php endif;?>
 				</tbody>

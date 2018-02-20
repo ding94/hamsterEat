@@ -116,12 +116,14 @@ class FoodselectionController extends Controller
 
     public static function allSelection($id)
     {
-        $query = Foodselection::find()->where('Type_ID = :tid',['tid'=>$id])->joinWith(['allName']);
+        $selection =[];
+        $query = Foodselection::find()->where('Type_ID = :tid and Status != -1',['tid'=>$id])->joinWith(['allName']);
+     
         foreach ($query->each() as $key => $value) 
-        {
-            $selection[] = FoodNameController::createName($value->allName,2);
+        { 
+            $selection[$key] = FoodNameController::createName($value->allName,2);
         }
-       
+        
         return $selection;
     }
 

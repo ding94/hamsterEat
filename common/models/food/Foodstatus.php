@@ -27,7 +27,7 @@ class Foodstatus extends \yii\db\ActiveRecord
     {
         if($this->Status == 0 || $this->Status == 1)
         {
-            Foodselection::updateAll(['Status' => $this->Status], "Food_ID = :fid",[':fid'=>$this->Food_ID]);
+            Foodselection::updateAll(['Status' => $this->Status], "Food_ID = :fid and Status != -1",[':fid'=>$this->Food_ID]);
         }
     }
 

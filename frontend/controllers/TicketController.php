@@ -91,8 +91,9 @@ class TicketController extends CommonController
 
     public function actionChatting($sid,$tid)
     {
+        date_default_timezone_set("Asia/Kuala_Lumpur");
         $ticket = Ticket::find()->where('Ticket_ID = :id ', [':id'=>$tid])->one();
-         $link = CommonController::createUrlLink(4);
+        $link = CommonController::createUrlLink(4);
         $check = ValidController::checkUserValid($ticket['User_id']);
         if ($check == false) {
             return $this->redirect(['site/index']);

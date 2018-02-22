@@ -29,7 +29,8 @@ class Replies extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Replies_ReplyContent', 'Replies_ReplyPerson'], 'required'],
+            [['Replies_ReplyPerson'], 'required'],
+            [['Replies_ReplyContent'],'required','message'=>Yii::t('ticket','Reply Content').Yii::t('common',' cannot be blank.')],
             [['Ticket_ID', 'Replies_ReplyPerson','Replies_DateTime'], 'integer'],
             [['Replies_ReplyContent',  'Replies_PicPath'], 'string', 'max' => 255],
         ];

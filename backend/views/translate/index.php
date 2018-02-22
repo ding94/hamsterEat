@@ -50,7 +50,7 @@ Modal::end();
                 'template' =>'{submit}',
                 'buttons' => [
                     'submit' => function($url, $model, $key)use($case) {
-                        if ($case != 1 || $case != 2) {
+                        if ($case == 3 || $case == 4) {
                             return Html::a('EN', ['/translate/addtranslation','id'=>$model['id'],'language'=>'en'],['data-toggle'=>'modal','data-target'=>'#add-modal','class' => 'btn btn-primary', 'name' => 'Reply-button']);
                         }
                     }

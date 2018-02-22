@@ -52,6 +52,9 @@ class ReportController extends CommonController
 	{
 		$report = new Report();
 		$categoryArray = ArrayHelper::map(ReportCategoryRestaurantStatus::find()->all(),'title','title');
+		foreach ($categoryArray as $k => $value) {
+			$categoryArray[$k] = Yii::t('report',$value);
+		}
 		if ($report->load(Yii::$app->request->post())) {
 			$report->User_Username = Yii::$app->user->identity->username;
 			$report->Report_DateTime = date('Y-m-d H:i:s');

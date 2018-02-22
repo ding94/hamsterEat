@@ -73,7 +73,7 @@ UserAsset::register($this);
                             <?php $k+=1; echo $k; ?>
                         </td>
                         <td data-th="Category">
-                            <?php echo $model['Ticket_Category']; ?>
+                            <?php echo Yii::t('ticket',$model['Ticket_Category']); ?>
                         </td>
                         <td data-th="Subject">
                             <?php echo $model['Ticket_Subject']; ?>

@@ -31,7 +31,8 @@ class Report extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Report_Category','Report_Reason','Report_PersonReported'],'required'],
+            [['Report_Category','Report_PersonReported'],'required'],
+            [['Report_Reason'],'required','message'=>Yii::t('common','Reason').Yii::t('common',' cannot be blank.')],
             [['User_Username', 'Report_Category', 'Report_Reason', 'Report_PersonReported'], 'string', 'max' => 255],
         ];
     }

@@ -62,7 +62,9 @@ class Food extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Restaurant_ID', 'Description', 'Ingredient'], 'required'],
+            [['Restaurant_ID'], 'required'],
+            [['Description'],'required','message'=>Yii::t('common','description').Yii::t('common',' cannot be blank.')],
+            [['Ingredient'],'required','message'=>Yii::t('common','description').Yii::t('common',' cannot be blank.')],
             [['Restaurant_ID', 'Sales', 'created_at', 'updated_at'], 'integer'],
             [['Rating', 'Price', 'BeforeMarkedUp'], 'number'],
             [['Description', 'Ingredient', 'Nickname'], 'string'],

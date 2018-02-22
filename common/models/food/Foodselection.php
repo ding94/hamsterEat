@@ -49,7 +49,8 @@ class Foodselection extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [[ 'BeforeMarkedUp', 'Nickname'], 'required'],
+            [['Nickname'], 'required','message'=>Yii::t('food','Nickname').Yii::t('common',' cannot be blank.')],
+            [['BeforeMarkedUp'],'required','message'=>Yii::t('food','Before Marked Up').Yii::t('common',' cannot be blank.')],
             [['Type_ID', 'Status', 'Food_ID'], 'integer'],
             [['BeforeMarkedUp', 'Price'], 'number'],
             ['enName','required','on'=>'new'],

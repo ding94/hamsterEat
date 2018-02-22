@@ -45,7 +45,9 @@ class Foodselectiontype extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [[ 'Min', 'Max'], 'required'],
+            [['Min'], 'required','message'=>Yii::t('food','Min Choice').Yii::t('common',' cannot be blank.')],
+            [['Max'],'required','message'=>Yii::t('food','Max Choice').Yii::t('common',' cannot be blank.')],
+
             [['ID','Food_ID', 'Min', 'Max'], 'integer'],
             ['enName','required','on'=>'new'],
         ];

@@ -48,7 +48,7 @@ UserAsset::register($this);
                 <ul class="nav nav-pills nav-stacked">
                     <li role="presentation"><?php echo Html::a(Yii::t('common','All'),['/ticket/index'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                     <li role="presentation"><?php echo Html::a(Yii::t('ticket','Submit Ticket'),['/ticket/submit-ticket'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('ticket','Completed Ticket') ?></a></li>
+                    <li role="presentation"><?php echo Html::a(Yii::t('ticket','Completed Ticket'),['/ticket/completed'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                 </ul>
             </div>
         </div>
@@ -58,15 +58,10 @@ UserAsset::register($this);
   <div class="ticket-history">
       <table class="table table-inverse">
           <tr>
-              <th>
-                  <?php echo $name; ?> 
-              </th>
-              <th>
-                   <?php echo $ticket->Ticket_Content; ?>
-              </th>
-              <th>
-                  <?php echo date('d/M/Y h:i:s',($ticket->Ticket_DateTime)); ?>
-              </th>
+              <th><?= Yii::t('common','Title')?>:</th>
+              <th><?php echo $name; ?></th>
+              <th><?php echo $ticket->Ticket_Content; ?></th>
+              <th><?php echo date('d/M/Y h:i:s',($ticket->Ticket_DateTime)); ?></th>
 
               <!-- picture error was normal to localhostm, path set for server -->
               <th><?php if(!empty($ticket->Ticket_PicPath)){ echo Html::a(Yii::t('ticket','View Picture'),[Yii::$app->params['submitticket-pic'].$ticket->Ticket_PicPath],['target'=>'_blank']); }?></th>
@@ -74,19 +69,13 @@ UserAsset::register($this);
 
         <?php foreach ($model as $k => $modell)  { ?> 
           <tr>
-              <td data-th="Name">
-                  <?php echo $modell->Replies_ReplyPerson;?> </td>
-              </td>
-        <td data-th="Enquiry">
-        <?php echo $modell->Replies_ReplyContent; ?>
-              <td data-th="Date">
-                  <?php echo date('d/M/Y h:i:s',($modell->Replies_DateTime)); ?>
-              </td>
-              <td data-th="Refrences">
-                
+            <td></td>
+            <td data-th="Name"><?php echo $modell->Replies_ReplyPerson;?> </td>
+            <td data-th="Enquiry"><?php echo $modell->Replies_ReplyContent; ?></td>
+            <td data-th="Date"><?php echo date('d/M/Y h:i:s',($modell->Replies_DateTime)); ?></td>
+            <td data-th="Refrences">
               <?php if(!empty($modell->Replies_PicPath)){ echo Html::a(Yii::t('ticket','View Picture'),[Yii::$app->params['replyticket-pic'].$modell->Replies_PicPath],['target'=>'_blank']); }?>
-                
-              </td>
+            </td>
           </tr>
         <?php } ?>
 
@@ -94,10 +83,10 @@ UserAsset::register($this);
 
       <?php if ($ticket->Ticket_Status <3): ?>
         <?php $form = ActiveForm::begin(); ?>
-        <?= $form->field($reply, 'Replies_ReplyContent')->textarea(['rows' => 6]) ?>
+        <?= $form->field($reply, 'Replies_ReplyContent')->textarea(['rows' => 6])->label(Yii::t('ticket','Reply Content')) ?>
         <?php echo $form->field($upload, 'imageFile')->widget(FileInput::classname(), [
               'options' => ['accept' => 'image/*'],
-            ]);
+            ])->label(Yii::t('common','Upload Image'));
         ?>
 
         <div class="form-group" id="chat-ticket">

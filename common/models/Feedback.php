@@ -33,7 +33,8 @@ class Feedback extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['User_Username', 'Feedback_Category', 'Feedback_Message', 'Feedback_DateTime', 'Feedback_Link'], 'required'],
+            [['User_Username', 'Feedback_Category', 'Feedback_DateTime', 'Feedback_Link'], 'required'],
+            [['Feedback_Message'],'required','message'=>Yii::t('site','Message').Yii::t('common',' cannot be blank.')],
             [['Feedback_Category', 'Feedback_DateTime'], 'integer'],
             [['Feedback_Message'], 'string'],
             [['Feedback_PicPath', 'Feedback_Link'], 'string', 'max' => 255],

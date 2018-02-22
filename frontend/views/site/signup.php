@@ -19,11 +19,11 @@ $this->title = Yii::t('site','User Signup');
    <div class="col-lg-6 col-lg-offset-3">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                <?= $form->field($model, 'username')->textInput(['autofocus' => true])->label(Yii::t('common','Username')) ?>
 
-                <?= $form->field($model, 'email') ?>
+                <?= $form->field($model, 'email')->label(Yii::t('common','Email')) ?>
 
-                <?= $form->field($model, 'password')->passwordInput() ?>
+                <?= $form->field($model, 'password')->passwordInput()->label(Yii::t('common','Password')) ?>
 
                 <div class="form-group">
                     <?= Html::submitButton(Yii::t('common','Signup'), ['class' => 'raised-btn main-btn', 'name' => 'signup-button']) ?> <br><br>

@@ -50,7 +50,9 @@ class Ticket extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['User_id','Ticket_Subject','Ticket_Content','Ticket_Category'], 'required'],
+            [['User_id','Ticket_Category'], 'required'],
+            [['Ticket_Subject'],'required','message'=>Yii::t('ticket','Subject Title').Yii::t('common',' cannot be blank.')],
+            [['Ticket_Content'],'required','message'=>Yii::t('ticket','Content').Yii::t('common',' cannot be blank.')],
             [['User_id','Ticket_Status','Ticket_DateTime'], 'integer'],
             [['Ticket_Subject', 'Ticket_Content', 'Ticket_Category',  'Ticket_PicPath'], 'string', 'max' => 255],
             [['ticket_status.description','Ticket_ID'], 'safe'],

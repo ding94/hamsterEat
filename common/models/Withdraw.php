@@ -54,7 +54,10 @@ class Withdraw extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['uid', 'withdraw_amount', 'acc_name', 'to_bank'], 'required'],
+            [['uid'], 'required'],
+            [['withdraw_amount'],'required','message'=>Yii::t('withdraw','Withdraw Amount').Yii::t('common',' cannot be blank.')],
+            [['acc_name'],'required','message'=>Yii::t('withdraw','Account Name').Yii::t('common',' cannot be blank.')],
+            [['to_bank'],'required','message'=>Yii::t('topup','Bank Account Number').Yii::t('common',' cannot be blank.')],
             [['reason','accounttopup_status.title', 'inCharge'], 'string'],
             [['created_at','updated_at','uid', 'action','to_bank'], 'integer'],
             [['withdraw_amount'], 'number','min'=>1],

@@ -40,7 +40,10 @@ class DeliveryAddress extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [[ 'name', 'contactno', 'deliveryman', 'type', 'cid'], 'required'],
+            [['deliveryman', 'type'], 'required'],
+            [['cid'],'required','message'=>Yii::t('checkout','Selection').Yii::t('common',' cannot be blank.')],
+            [['name'],'required','message'=>Yii::t('common','name').Yii::t('common',' cannot be blank.')],
+            [['contactno'],'required','message'=>Yii::t('common','Contact No').Yii::t('common',' cannot be blank.')],
             [['delivery_id', 'deliveryman', 'type', 'postcode'], 'integer'],
             ['contactno','match','pattern'=>'/^[0]{1}[1-9]{1}[0-9]{7,9}$/'],
             [['name', 'contactno', 'location', 'area'], 'string', 'max' => 255],

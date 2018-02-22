@@ -33,20 +33,19 @@ FoodOnOffAsset::register($this);
 						<?= $form->field($single,'['.$i.']language')->hiddenInput()->label(false)?></td>
 						<?php endforeach;?>
 					</tr>
-					<?php if(!empty($arrayData)):?>
-					<?php foreach($arrayData['type'] as $index=>$type):?>
-						
-						<?php if(!empty($arrayData['selection'][$index])):?>
+					<?php if(!empty($arrayData)):
+					 		foreach($arrayData['type'] as $index=>$type):
+					 		if(!empty($arrayData['selection'][$index])):?>
 					<tr>
 						<td rowspan=<?php echo count($arrayData['selection'][$index])+2?>>
-						<?php foreach($type as $i=>$single):?>
-							<?php if($single['language'] == 'en'): ?>
-								<?= $form->field($single,'['.$index.']['.$i.']translation')->label(Yii::t('food','En Type Name'))?>
-							<?php elseif($single['language'] == 'zh'): ?>
-								<?= $form->field($single,'['.$index.']['.$i.']translation')->label(Yii::t('food','Zh Type Name'))?>
-							<?php endif; ?>
-							<?= $form->field($single,'['.$index.']['.$i.']language')->hiddenInput()->label(false)?>
-						<?php 	endforeach;?>
+						<?php 	foreach($type as $i=>$single):
+								if($single['language'] == 'en'): 
+								echo $form->field($single,'['.$index.']['.$i.']translation')->label(Yii::t('food','En Type Name'));
+							 	elseif($single['language'] == 'zh'):
+								echo $form->field($single,'['.$index.']['.$i.']translation')->label(Yii::t('food','Zh Type Name'));
+							 	endif; 
+							 	echo $form->field($single,'['.$index.']['.$i.']language')->hiddenInput()->label(false);
+						 		endforeach;?>
 						</td>
 					</tr>
 					<tr>
@@ -61,9 +60,12 @@ FoodOnOffAsset::register($this);
 								<?= $form->field($single,'['.$index.']['.$k.']['.$s.']language')->hiddenInput()->label(false)?>	
 							</td>
 						<?php endforeach;?>
-						<?php endif;?>
-					<?php endforeach;?>
-					<?php endif;?>
+					</tr>
+					<?php   
+						endforeach;
+					 	endif;
+					 	endforeach;
+					 	endif;?>
 				</tbody>
 
 	    	</table>

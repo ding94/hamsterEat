@@ -12,7 +12,7 @@ use common\models\Order\Orderitem;
 use common\models\problem\ProblemOrder;
 use backend\models\OrderitemSearch;
 
-class CustomerserviceController extends Controller
+class CustomerserviceController extends CommonController
 {
 	public function actionPausedorder()
 	{

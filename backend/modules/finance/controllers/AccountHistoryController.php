@@ -17,6 +17,8 @@ class AccountHistoryController extends Controller
 		$history->description = $reason;
 		$history->abid = $abid;
 		$history->system_type = "System processing";
+		$expression =  new \yii\db\Expression('NOW()');
+        $history->created_at =  (new \yii\db\Query)->select($expression)->scalar();
 		$history->save();
 	}
 }

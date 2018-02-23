@@ -356,7 +356,7 @@ class RestaurantController extends CommonController
             if($single->address->type == 1 && $single->address->cid > 0)
             {
                 $companyName = Company::findOne($single->address->cid)->name;
-                $foodName = $single->food->Name;
+                $foodName = $single->food->originName;
                 $empty = json_encode(['empty'=>['name'=>'N/A','nick'=>'N/A']]);
 
                 $selectionName = empty(Json::decode($single->trim_selection)) ? $empty : $single->trim_selection;
@@ -369,7 +369,7 @@ class RestaurantController extends CommonController
                 //$companyData[$companyName][$selectionName]['selection'] = $selectionName;
                 //$companyData[$companyName][$selectionName]['count'] = $count;
                 
-                if(!array_key_exists('quantity',$companyData[$companyName][$single->food->Name][$selectionName]))
+                if(!array_key_exists('quantity',$companyData[$companyName][$single->food->originName][$selectionName]))
                 {
                     $companyData[$companyName][$foodName][$selectionName]['quantity'] = 0;
                 }

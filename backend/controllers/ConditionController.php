@@ -10,7 +10,7 @@ use common\models\vouchers\Vouchers;
 use common\models\vouchers\VouchersConditions;
 use common\models\vouchers\VouchersSetCondition;
 
-class ConditionController extends Controller
+class ConditionController extends CommonController
 {
 	public function actionIndex()
 	{

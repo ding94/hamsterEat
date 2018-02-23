@@ -15,7 +15,7 @@ use common\models\DeliverymanCompany;
 use yii\web\UploadedFile;
 use common\models\Object;
 
-class CompanyController extends Controller
+class CompanyController extends CommonController
 {
 
 	public function actionIndex()

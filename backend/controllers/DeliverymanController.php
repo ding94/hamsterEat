@@ -11,7 +11,7 @@ use Yii;
 use backend\models\DeliverySearch;
 use common\models\DeliveryAttendence;
 
-class DeliverymanController extends Controller
+class DeliverymanController extends CommonController
 {
 	public function actionDailySignin($month,$day)
 	{

@@ -7,7 +7,7 @@ use yii\helpers\ArrayHelper;
 use Yii;
 use common\models\Report\Report;
 
-Class ReportController extends Controller
+Class ReportController extends CommonController
 {
 	public function actionIndex()
 	{

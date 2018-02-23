@@ -39,11 +39,51 @@ class Accountbalance extends \yii\db\ActiveRecord
     */
     public function afterSave($insert, $changedAttributes) 
     {
+        if(!empty($this->type))
+        {
+            $this->generateHis();
+        }
+       
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['AB_ID','AB_DateTime'], 'integer'],
+            [['AB_topup', 'AB_minus','User_Balance'],'number'],
+            [['User_Username'], 'string', 'max' => 255],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'AB_ID' => 'ID',
+            'User_Username' => 'User  Username',
+            'AB_topup' => 'Total Topup',
+            'AB_minus' => 'Total Used',
+            'AB_DateTime' => 'Ab  Date Time',
+        ];
+    }
+
+    public function getHistory()
+    {
+        return $this->hasMany(AccountbalanceHistory::className(),['abid'=>'AB_ID']);
+    }
+
+    public function generateHis()
+    {
         $history= new AccountbalanceHistory;
         $history->abid = $this->AB_ID;
         $history->amount = $this->defaultAmount;
-        $history->created_at =  new \yii\db\Expression('NOW()');
-
+        $expression =  new \yii\db\Expression('NOW()');
+        $history->created_at =  (new \yii\db\Query)->select($expression)->scalar();
         switch ($this->type) {
             case 1:
                 $history->description = "Top Up RM ".$this->defaultAmount;
@@ -86,36 +126,5 @@ class Accountbalance extends \yii\db\ActiveRecord
         }
         
         $history->save();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['AB_ID','AB_DateTime'], 'integer'],
-            [['AB_topup', 'AB_minus','User_Balance'],'number'],
-            [['User_Username'], 'string', 'max' => 255],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'AB_ID' => 'ID',
-            'User_Username' => 'User  Username',
-            'AB_topup' => 'Total Topup',
-            'AB_minus' => 'Total Used',
-            'AB_DateTime' => 'Ab  Date Time',
-        ];
-    }
-
-    public function getHistory()
-    {
-        return $this->hasMany(AccountbalanceHistory::className(),['abid'=>'AB_ID']);
     }
 }

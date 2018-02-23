@@ -10,7 +10,7 @@ use common\models\Rating\Foodrating;
 use common\models\food\Food;
 use backend\controllers\CommonController;
 
-Class RatingController extends Controller
+Class RatingController extends CommonController
 {
 	public function actionIndex()
 	{

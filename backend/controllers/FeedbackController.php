@@ -10,7 +10,7 @@ use yii\data\ActiveDataProvider;
 use Yii;
 use common\models\Feedback;
 
-class FeedbackController extends Controller
+class FeedbackController extends CommonController
 {
 	public function actionIndex()
 	{

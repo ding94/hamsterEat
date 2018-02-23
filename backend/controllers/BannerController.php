@@ -9,7 +9,7 @@ use yii\web\UploadedFile;
 use yii\helpers\Url;
 use yii\web\Controller;
 
-Class BannerController extends Controller
+Class BannerController extends CommonController
 {
 	public function actionIndex()
 	{

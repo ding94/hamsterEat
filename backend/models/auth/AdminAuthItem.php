@@ -31,6 +31,8 @@ class AdminAuthItem extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+  
+
     public static function tableName()
     {
         return 'admin_auth_item';
@@ -47,6 +49,7 @@ class AdminAuthItem extends \yii\db\ActiveRecord
             [['description', 'data'], 'string'],
             [['name', 'rule_name'], 'string', 'max' => 64],
             [['rule_name'], 'exist', 'skipOnError' => true, 'targetClass' => AdminAuthRule::className(), 'targetAttribute' => ['rule_name' => 'name']],
+            
         ];
     }
 
@@ -68,14 +71,20 @@ class AdminAuthItem extends \yii\db\ActiveRecord
 
     public function search($params,$type)
     {
-       $query = self::find()->where(['type' => $type]);
-       
-       $dataProvider = new ActiveDataProvider([
+        $query = self::find()->where(['type' => $type]);
+        $query->orderBy(['data'=>SORT_ASC]);
+        $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
         $this->load($params);
-
+        if(!empty($this->data))
+        {
+           $query->andFilterWhere([
+               'data' => serialize($this->data),
+            ]); 
+        }
+        
         $query->andFilterWhere(['like','name' , $this->name]);
 
         return $dataProvider;

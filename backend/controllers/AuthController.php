@@ -26,10 +26,10 @@ Class AuthController extends Controller
 	public function actionPermission()
 	{
 		$searchModel = new AdminAuthItem();
-	
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams ,2);
 		
-		return $this->render('permission' , ['model' => $dataProvider , 'searchModel' => $searchModel]);
+		$list =ArrayHelper::map(Controllerlist::find()->all(),'id','name');
+		return $this->render('permission' , ['model' => $dataProvider , 'searchModel' => $searchModel,'list'=>$list]);
 	}
 
 	public function actionView($id)
@@ -55,6 +55,36 @@ Class AuthController extends Controller
 		$listOfControl = ArrayHelper::map(ControllerList::find()->all(),'id','name');
 		
 		return $this->render('view' ,['model' => $model ,'listAvailabe' => $listAvailabe , 'listAll' => $notAvailable , 'controlList'=>$listOfControl,'id' => $id]);
+	}
+
+	public function actionUpdate($id)
+	{
+		$model = AdminAuthItem::findOne($id);
+
+		$model->data = unserialize($model->data);
+		if(Yii::$app->request->isPost)
+		{
+			$post = Yii::$app->request->post();
+			
+			$auth = \Yii::$app->authManager;
+			$permission = $auth->getPermission($id);
+			$permission->name = $post['AdminAuthItem']['name'];
+			$permission->description = $post['AdminAuthItem']['description'];
+			$permission->data = $post['AdminAuthItem']['data'];
+			
+			if($auth->update($id,$permission))
+			{
+				Yii::$app->session->setFlash('success', "Change Completed");
+				return $this->redirect(['permission']);
+			}
+			else
+			{
+				Yii::$app->session->setFlash('warning', "Fail Change");
+			}
+		}
+		$list =ArrayHelper::map(Controllerlist::find()->all(),'id','name');
+		return $this->render('update',['model'=>$model,'list'=>$list]);
+		
 	}
 
 	public function actionDelete($id)

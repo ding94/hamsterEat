@@ -2,18 +2,31 @@
 
 /* @var $this yii\web\View */
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\grid\ActionColumn;
 
     $this->title =  'Auth Permission';
     $this->params['breadcrumbs'][] = $this->title;
-?>
 
-    <?= GridView::widget([
+
+    echo GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute' => 'data',
+                'value'=>function($model)use($list)
+                { 
+                    return $list[unserialize($model->data)];
+                },
+                'group'=>true, 
+                'filter' => $list,
+                'filterType'=>GridView::FILTER_SELECT2,
+                'filterInputOptions'=>['placeholder'=>'Any List'],
+                'filterWidgetOptions'=>[
+                    'pluginOptions'=>['allowClear'=>true],
+                ],
+            ],
             [
                 'attribute' => 'name',
                 'filterInputOptions' => [
@@ -31,7 +44,7 @@ use yii\grid\ActionColumn;
             'updated_at:datetime',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{delete}',
+                'template' => '{update}{delete}',
             ],
         ],
     ]); ?>

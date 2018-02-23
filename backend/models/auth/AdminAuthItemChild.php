@@ -29,7 +29,7 @@ class AdminAuthItemChild extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent', 'child'], 'required'],
+            [['parent'], 'required'],
             [['parent', 'child'], 'string', 'max' => 64],
             [['parent'], 'exist', 'skipOnError' => true, 'targetClass' => AdminAuthItem::className(), 'targetAttribute' => ['parent' => 'name']],
             [['child'], 'exist', 'skipOnError' => true, 'targetClass' => AdminAuthItem::className(), 'targetAttribute' => ['child' => 'name']],

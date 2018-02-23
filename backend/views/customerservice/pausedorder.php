@@ -98,13 +98,13 @@ Modal::end();
 
             [
                 'attribute' => 'foodName',
-                'value' => 'order_item.food.Name',
+                'value' => 'order_item.food.originName',
                 'mergeHeader'=>'true',
             ],
 
             [
                 'attribute' => 'foodSelect',
-                'value' => 'order_item_select.food_selection.Name',
+                'value' => 'order_item_select.food_selection.originName',
                 'mergeHeader'=>'true',
             ],
 

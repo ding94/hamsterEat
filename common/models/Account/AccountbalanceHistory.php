@@ -28,8 +28,6 @@ class AccountbalanceHistory extends \yii\db\ActiveRecord
         return 'accountbalance_history';
     }
 
-  
-
     /**
      * @inheritdoc
      */

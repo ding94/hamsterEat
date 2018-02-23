@@ -11,38 +11,16 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
   $this->title = $searchModel->restaurant;
   $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Restuarant Detail '), 'url' => ['default/index']];
   $this->params['breadcrumbs'][] = $this->title;
-
+  $array = ['-1'=>'Deleted','0'=>'Close','1'=>'Open'];
   echo GridView::widget([
         'dataProvider'=>$model,
         'filterModel'=>$searchModel,
         //'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
         'headerRowOptions'=>['class'=>'kartik-sheet-style'],
         'filterRowOptions'=>['class'=>'kartik-sheet-style'],
-        'pjax'=>true, // pjax is set to always true for this demo
+        'pjax'=>false, // pjax is set to always true for this demo
         //'panel'=>['type'=>'primary', 'heading'=>'Rating List'],
         'columns'=>[
-            [
-                'class'=>'kartik\grid\ExpandRowColumn',
-                'width'=>'50px',
-                'value'=>function ($model, $key, $index, $column) {
-                    if(empty($model['foodSelection']))
-                    {
-                        GridView::ROW_NONE;
-                        return "";
-                    }
-                    else
-                    {
-                        return GridView::ROW_COLLAPSED;
-                    }
-                  
-                },
-                'detail'=>function ($model, $key, $index, $column) {
-                    return Yii::$app->controller->renderPartial('detail', ['model'=>$model->foodSelection]);
-                
-                },
-                'headerOptions'=>['class'=>'kartik-sheet-style'] ,
-                'expandOneOnly'=>true,
-            ],
             [
                 'attribute' => 'name',
                 'value' => 'transName.translation',
@@ -69,23 +47,53 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             ],
             [
                 'attribute' => 'status',
-                'format' => 'raw',
-                'value' => function($model)
+                'format'=>'raw',
+                'value' => function($model)use($array)
                 {
-                    if($model->foodStatus['Status'] == 0)
+
+                    if($model->foodStatus['Status'] == -1)
                     {
-                        $url =Url::to(['food/food-control','id' =>$model->Food_ID ,'status' => 1]);
+                        $url =Url::to(['food-recover','id' =>$model->Food_ID ]);
+                        $name = "Recover";
                     }
                     else
                     {
-                        $url =Url::to(['food/food-control','id' =>$model->Food_ID ,'status' => 0]);
+                        if($model->foodStatus['Status'] == 0)
+                        {
+                            $status = 1;
+                            $name = "Turn On";
+                        }
+                        else
+                        {
+                            $status = 0;
+                            $name = "Turn Off";
+                        }
+                        $url =Url::to(['food-control','id' =>$model->Food_ID ,'status' => $status]);
+                       
                     }
-                    return $model->foodStatus['Status'] == 0 ?  Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'ON']) :  Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'OFF']);
+                    $html = "<div class='row'><div class='col-xs-6'>";
+                    $html .= $array[$model->foodStatus->Status];
+                    $html .="</div><div class='col-xs-6'>";
+                    $html .=  Html::a($name,$url);
+                    $html .= "</div></div>";
+                    return $html;
                 },
-                'filter' =>  array( 0=>"Close",1=>"Open"),
+                 'filter' => $array,
             ],
             [
-                'class' => 'yii\grid\ActionColumn',
+                'class' => 'kartik\grid\ActionColumn',
+                'template' => '{detail}',
+                'header' => 'Detail',
+                'buttons'=>[
+                    'detail' => function($url,$model)
+                    {
+                        return Html::a('view',['type/index','id'=>$model->Food_ID]);
+                    } 
+                ],
+                'hAlign'=>'center', 
+            ],
+            [
+                'class' => 'kartik\grid\ActionColumn',
                 'template' => '{foodrating}',
                 'header' => "Food Rating",
                 'buttons' => [
@@ -96,9 +104,10 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                         return Html::a('View' , $url , ['class' => 'text-underline','title' => 'Food Rating'])   ;
                     },
                 ],
+                'hAlign'=>'center', 
             ],
             [
-                'class' => 'yii\grid\ActionColumn',
+                'class' => 'kartik\grid\ActionColumn',
                 'template' => '{foodsold}',
                 'header' => "Food Sold",
                 'buttons' => [
@@ -109,6 +118,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                         return Html::a('View' , $url , ['class' => 'text-underline','title' => 'Food Sold'])   ;
                     },
                 ],
+                'hAlign'=>'center', 
             ],
             'created_at:datetime',
             'updated_at:datetime',

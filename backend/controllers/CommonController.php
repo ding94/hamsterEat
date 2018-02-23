@@ -83,4 +83,14 @@ Class CommonController extends Controller
         }
         return $data;
     }
+
+    public static function roundoff1decimal($price)
+    {
+         return self::display2decimal(number_format((float)$price,1,'.',''));
+    }
+
+    public static function display2decimal($price)
+    {
+        return number_format((float)$price,2,'.','');
+    }
 }

@@ -9,11 +9,12 @@ use common\models\Area;
 use common\models\User;
 use common\models\Rmanager;
 use common\models\Restaurant;
+use backend\controllers\CommonController;
 use yii\web\NotFoundHttpException;
 /**
  * Default controller for the `Restaurant` module
  */
-class DefaultController extends Controller
+class DefaultController extends CommonController
 {
     /**
      * Renders the index view for the module

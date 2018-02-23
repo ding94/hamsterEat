@@ -7,6 +7,7 @@ use common\models\User;
 use common\models\Bank;
 use common\models\Account\AccounttopupOperate;
 use common\models\Account\AccounttopupStatus;
+use backend\controllers\CommonController;
 use backend\modules\finance\controllers\AccounttopupstatusController;
 use backend\modules\finance\controllers\AccounttopupoperateController;
 use yii\data\ActiveDataProvider;
@@ -14,7 +15,7 @@ use yii\helpers\ArrayHelper;
 
 use Yii;
 
-class TopupController extends \yii\web\Controller
+class TopupController extends CommonController
 {
     public function actionIndex()
     {

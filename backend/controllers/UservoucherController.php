@@ -13,7 +13,7 @@ use common\models\User;
 use backend\models\Admin;
 use common\models\vouchers\UserVoucher;
 
-class UservoucherController extends Controller
+class UservoucherController extends CommonController
 {
 	public function actionIndex()
 	{

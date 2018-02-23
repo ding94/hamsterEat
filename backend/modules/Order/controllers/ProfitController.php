@@ -4,8 +4,9 @@ namespace backend\modules\Order\controllers;
 use yii;
 use yii\web\Controller;
 use backend\models\ItemProfitSearch;
+use backend\controllers\CommonController;
 
-class ProfitController extends Controller
+class ProfitController extends CommonController
 {
 	public function actionIndex($first = 0,$last = 0,$id =0)
 	{

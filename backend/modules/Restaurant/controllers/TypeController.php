@@ -9,9 +9,10 @@ use yii\data\ActiveDataProvider;
 use common\models\food\Foodselection;
 use common\models\Order\Orderitemselection;
 use common\models\Order\Orderitem;
+use backend\controllers\CommonController;
 use backend\modules\Restaurant\controllers\FoodController;
 
-class TypeController extends Controller
+class TypeController extends CommonController
 {
 	public function actionIndex($id)
 	{

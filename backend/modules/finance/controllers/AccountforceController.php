@@ -10,9 +10,10 @@ use app\modules\finance\controllers\AccountHistoryController;
 use common\models\Account\AccountForce;
 use common\models\User;
 use common\models\Account\AccountForceSearch;
+use backend\controllers\CommonController;
 
 
-class AccountforceController extends Controller
+class AccountforceController extends CommonController
 {
 	public function actionIndex()
 	{

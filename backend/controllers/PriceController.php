@@ -8,7 +8,7 @@ use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use common\models\PriceConfig;
 use common\models\ActiveDataPrivider;
-class PriceController extends Controller
+class PriceController extends CommonController
 {
 	public function actionIndex()
 	{

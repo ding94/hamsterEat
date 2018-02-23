@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\UploadedFile;
 use yii\helpers\Url;
 
-class BankController extends \yii\web\Controller
+class BankController extends CommonController
 {
     public function actionIndex()
     {

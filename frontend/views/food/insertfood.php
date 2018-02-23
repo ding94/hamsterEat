@@ -104,9 +104,9 @@ AddFoodAsset::register($this);
                                         echo Html::activeHiddenInput($data, "[{$i}]ID");
                                     }
                                 ?>
-                                <?= $form->field($data, "[".$i."]enName")->textInput(['maxlength' => true]) ?>
-                                <?= $form->field($data, "[{$i}]Min")->label('Minimum')->textInput(['maxlength' => true]) ?>
-                                <?= $form->field($data, "[{$i}]Max")->label('Maximum')->textInput(['maxlength' => true]) ?>
+                                <?= $form->field($data, "[".$i."]enName")->textInput(['maxlength' => true])->label(Yii::t('common','Name')) ?>
+                                <?= $form->field($data, "[{$i}]Min")->label('Minimum')->textInput(['maxlength' => true])->label(Yii::t('food','Minimum')) ?>
+                                <?= $form->field($data, "[{$i}]Max")->label('Maximum')->textInput(['maxlength' => true])->label(Yii::t('food','Maximum')) ?>
                             </td>   
                             <td>      
                                 <?= $this->render('foodselection', [ 'form' => $form,'i' => $i,'edit'=>0,'foodselection' => $foodselection[$i]]) ?>

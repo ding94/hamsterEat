@@ -14,7 +14,7 @@ use yii\web\UploadedFile;
 /**
  * Site controller
  */
-class TicketController extends Controller
+class TicketController extends CommonController
 {
 
 	public function actionIndex()

@@ -12,7 +12,7 @@ use common\models\User;
 use common\models\Deliveryman;
 use common\models\Rmanager;
 
-Class UserController extends Controller
+Class UserController extends CommonController
 {
 	public function actionIndex()
 	{

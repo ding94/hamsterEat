@@ -8,7 +8,7 @@ use yii\web\Controller;
 use common\models\translate\Sentences;
 use common\models\translate\SentencesSource;
 
-Class TranslateController extends Controller
+Class TranslateController extends CommonController
 {
 	public function actionIndex($case=1)
 	{

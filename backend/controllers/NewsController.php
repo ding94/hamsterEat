@@ -9,7 +9,7 @@ use common\models\Upload;
 use yii\web\UploadedFile;
 use yii\helpers\Url;
 
-Class NewsController extends Controller
+Class NewsController extends CommonController
 {
 	public function actionIndex()
 	{

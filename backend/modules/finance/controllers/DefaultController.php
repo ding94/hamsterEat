@@ -5,11 +5,11 @@ namespace app\modules\finance\controllers;
 use yii\web\Controller;
 use common\models\Account\Accountbalance;
 use common\models\User;
-
+use backend\controllers\CommonController;
 /**
  * Default controller for the `finance` module
  */
-class DefaultController extends Controller
+class DefaultController extends CommonController
 {
     /**
      * Renders the index view for the module

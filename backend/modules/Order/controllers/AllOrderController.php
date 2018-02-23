@@ -11,10 +11,11 @@ use common\models\Order\Orders;
 use common\models\Order\Orderitemstatuschange;
 use common\models\Order\Ordersstatuschange;
 use common\models\Order\DeliveryAddress;
+use backend\controllers\CommonController;
 use backend\models\OrderSearch;
 use backend\models\ItemSearch;
 
-class AllOrderController extends Controller
+class AllOrderController extends CommonController
 {
 	public function actionIndex($did=0)
 	{

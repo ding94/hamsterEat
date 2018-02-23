@@ -13,7 +13,7 @@ use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
 use backend\controllers\CommonController;
 
-class RestaurantController extends Controller
+class RestaurantController extends CommonController
 {
     public function actionProfit($id,$first =0)
     {

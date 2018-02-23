@@ -17,7 +17,7 @@ use common\models\Order\Orderitem;
 use common\models\Order\Orders;
 use common\models\Profit\RestaurantItemProfit;
 
-Class FoodController extends Controller
+Class FoodController extends CommonController
 {
 	public function actionIndex($id)
 	{

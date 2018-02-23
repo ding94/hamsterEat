@@ -48,10 +48,7 @@ Modal::end();
 ?>
 
 <div class="container" id="group-area-index">
-    <h1><?= Yii::t('m-restaurant','Order Food for Delivery')?></h1>
-    <?php echo Html::a('<i class="fa fa-home">'.Yii::t('m-restaurant','Restaurant').'</i>', ['index'], ['class'=>'raised-btn','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>
-	   <?php echo Html::a('<i class="fa fa-thumbs-up">'.Yii::t('m-restaurant','Food').'</i>', ['show-by-food'], ['class'=>'raised-btn']); ?>
-   
+    <h1><?= Yii::t('m-restaurant','Order Food for Delivery')?></h1>   
 	 <?php  $cookies = Yii::$app->request->cookies;
             $halal = $cookies->getValue('halal');
 			$session = Yii::$app->session;
@@ -82,43 +79,68 @@ Modal::end();
 	  </div>
 	  <a href="#top" class="scrollToTop"></a>
       <div class="filter">
-        <div class="filter-container">
+        <div id="restaurant-food-switch" class="btn-group btn-group-justified" role="group">
+          <div class="btn-group" role="group">
+            <?php echo Html::a('<i class="fa fa-home">'.Yii::t('m-restaurant','Restaurant').'</i>', ['index'], ['type'=>'button','class'=>'btn btn-default','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>
+          </div>
+          <div class="btn-group" role="group">
+            <?php echo Html::a('<i class="fa fa-thumbs-up">'.Yii::t('m-restaurant','Food').'</i>', ['show-by-food'], ['type'=>'button','class'=>'btn btn-default']); ?>
+          </div>
+        </div>
+
+        <?php $form = ActiveForm::begin(['id' => 'form-searchrestaurant','method' => 'get']) ?>
           <div class="input-group">
-            <?php $form = ActiveForm::begin(['id' => 'form-searchrestaurant','method' => 'get']) ?>
-              <div class="input-group">
-                <input id="food-nickname" class="form-control" name="filter" placeholder="Search Restaurant" type="text"><span class="input-group-btn"><button type="submit" class="btn btn-default icon-button"><i class="fa fa-search"></i>
-                </button></span>
+            <input id="food-nickname" class="form-control" name="filter" placeholder="Search Restaurant" type="text"><span class="input-group-btn"><button type="submit" class="btn btn-default icon-button"><i class="fa fa-search"></i>
+            </button></span>
+          </div>
+        <?php ActiveForm::end(); ?>
+
+        <div id="accordion">
+          <div class="panel panel-default">
+            <div class="panel-heading" id="headingOne">
+              <a class="btn" data-toggle="collapse" data-target="#filter-box" aria-expanded="true" aria-controls="filter-box">
+                <?php echo Yii::t('m-restaurant','Filter') ?>
+                <i class="fa fa-plus"></i>
+              </a>
+            </div>
+            <div id="filter-box" class="collapse" data-parent="#accordion">
+              <div class="panel-body">
+                
+                <div class ="filter-name">
+                  <p><i class="fa fa-sliders"><?= Yii::t('m-restaurant','Filter By')?></i></p>
+                </div>
+                <ul class ="filter-list">
+                <?php echo Html::a('<li>'.Yii::t('common','All').'</li>', ['index'])."&nbsp;&nbsp;"; ?>
+                  <?php foreach ($allrestauranttype as $i=> $data) : ?>
+                    <?php if(empty($filter)) :?>
+                      <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/index' ,'type'=>$i])."&nbsp;&nbsp;"; ?>
+                    <?php else :?>
+                       <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/index','type'=>$i ,'filter'=>$filter])."&nbsp;&nbsp;"; ?>
+                    <?php endif ;?>
+                  <?php endforeach; ?>
+                </ul>
               </div>
-           
-            <?php ActiveForm::end(); ?>
+            </div>
           </div>
-          <div class ="filter-name">
-            <p><i class="fa fa-sliders"><?= Yii::t('m-restaurant','Filter By')?></i></p>
-          </div>
-          <ul class ="filter-list">
-          <?php echo Html::a('<li>'.Yii::t('common','All').'</li>', ['index'])."&nbsp;&nbsp;"; ?>
-            <?php foreach ($allrestauranttype as $i=> $data) : ?>
-              <?php if(empty($filter)) :?>
-                <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/index' ,'type'=>$i])."&nbsp;&nbsp;"; ?>
-              <?php else :?>
-                 <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/index','type'=>$i ,'filter'=>$filter])."&nbsp;&nbsp;"; ?>
-              <?php endif ;?>
-            <?php endforeach; ?>
-          </ul>
         </div>
       </div>
     </div>
-<br>
-
+  <br>
+  
   <?php if(!empty($filter) && !empty($type)) : ?>
-
-        <h3>Showing results similar to <?php echo $filter ?> with filter <?php echo $allrestauranttype[$type]?></h3>
+      <div class="filter-info-text">
+        <span>Showing results similar to <?php echo $filter ?> with filter <?php echo $allrestauranttype[$type]?></span>
+      </div>
     <?php elseif(!empty($type)) : ?>
-        <h3>Filter By <?php echo $allrestauranttype[$type]?></h3>
+      <div class="filter-info-text">
+        <span>Filter By <?php echo $allrestauranttype[$type]?></span>
+      </div>
     <?php elseif(!empty($filter)) :?>
-        <h3>Showing results similar to <?php echo $filter ?></h3>
+      <div class="filter-info-text">
+        <span>Showing results similar to <?php echo $filter ?></span>
+      </div>
     <?php endif ;?>
-
+  
     <div class="outer-container">
       <div class="menu-container">
         <?php foreach($restaurant as $data) :?>

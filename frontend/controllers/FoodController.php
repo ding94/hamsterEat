@@ -456,7 +456,7 @@ class FoodController extends CommonController
         
         $oldSelectIds = ArrayHelper::getColumn($oldSelect,'ID');
         $deletedSelect = array_diff($oldSelectIds,$selectionId);
-       
+        
         if($valid)
         {
             $transaction = Yii::$app->db->beginTransaction();

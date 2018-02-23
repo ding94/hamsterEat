@@ -10,6 +10,7 @@ use common\models\Restaurant;
 use common\models\Rmanagerlevel;
 use common\models\Order\Orderitem;
 use yii\helpers\Url;
+// use common\models\food\FoodChangeLog;
 
 /**
  * This is the model class for table "food".
@@ -52,7 +53,7 @@ class Food extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at','updated_at'],
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ],
-            ], 
+            ],
         ];
     }
 
@@ -264,4 +265,22 @@ class Food extends \yii\db\ActiveRecord
         return $data; 
         
     }
+
+    // public function afterSave($insert,$changedAttributes)
+    // {
+    //     $fid = $this->Food_ID;
+    //     $rid = $this->Restaurant_ID;
+
+    //     foreach ($changedAttributes as $name => $value) {
+    //         if($name != 'updated_at'){
+    //             $log = new FoodChangeLog;
+    //             $log->fid = $fid;
+    //             $log->rid = $rid;
+    //             $log->created_at = new \yii\db\Expression('NOW()');
+    //             $log->description = $name .' changed from ' . $value . ' to ' . $this->$name;
+    //             $log->save();
+    //         }
+
+    //     }
+    // }
 }

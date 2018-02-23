@@ -32,7 +32,7 @@ AddFoodAsset::register($this);
           
                 <?= $form->field($food->transName, 'translation')->textInput()->label(Yii::t('common','Name')) ?>
 
-                <?= $form->field($food, 'Nickname')->textInput() ?>
+                <?= $form->field($food, 'Nickname')->textInput()->label(Yii::t('food','Nickname')) ?>
 
                 <?= $form->field($food, 'roundprice', [
                     'addon' => [

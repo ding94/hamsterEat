@@ -27,7 +27,7 @@ class FoodSelectiontypeName extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['translation'], 'required'],
+            [['translation'], 'required','message'=>Yii::t('food','Type Name').Yii::t('common',' cannot be blank.')],
             [['id'], 'integer'],
             ['language','default','value'=>'en'],
             [['translation'], 'string'],

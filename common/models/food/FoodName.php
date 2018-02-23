@@ -27,7 +27,8 @@ class FoodName extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [[ 'language','translation'], 'required'],
+            [['language'], 'required'],
+            ['translation','required','message'=>Yii::t('common','Name').Yii::t('common',' cannot be blank.')],
             [['id'], 'integer'],
             [['translation'], 'string'],
             [['language'], 'string', 'max' => 16],

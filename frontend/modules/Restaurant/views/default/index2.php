@@ -46,10 +46,10 @@ Modal::end();
 
 <div class="container" id="group-area-index2">
     <h1 style="padding-top:10px;"><?= Yii::t('m-restaurant','Order Food for Delivery') ?> </h1>
-
-  
-        <?php echo Html::a('<i class="fa fa-home">'.Yii::t('m-restaurant','Restaurant').'</i>', ['index'], ['class'=>'raised-btn']);?>
-        <?php echo Html::a('<i class="fa fa-thumbs-up"> '.Yii::t('m-restaurant','Food').'</i>', ['show-by-food'], ['class'=>'raised-btn','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>       
+        <div id="restaurant-food-switch" class="btn-group" role="group">
+            <?php echo Html::a('<i class="fa fa-home">'.Yii::t('m-restaurant','Restaurant').'</i>', ['index'], ['type'=>'button','class'=>'btn btn-default']); ?>
+            <?php echo Html::a('<i class="fa fa-thumbs-up">'.Yii::t('m-restaurant','Food').'</i>', ['show-by-food'], ['type'=>'button','class'=>'btn btn-default','style'=>'background-color:#FFDA00;pointer-events: none;']); ?>
+        </div>
         <?php  $cookies = Yii::$app->request->cookies;
                $halal = $cookies->getValue('halal');
                $session = Yii::$app->session;   

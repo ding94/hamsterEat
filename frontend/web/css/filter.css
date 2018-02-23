@@ -9,17 +9,13 @@
 }
 
 .filter{
-    height:auto;
-    width:230px;
-    float:left;
-   margin-left:-10px;
+  height:auto;
+  width:230px;
+  float:left;
+  margin-left:-10px;
+  margin-top: 20px;
 }
-.filter-container{
-    border: 1px solid #e5e5e5;
-    padding: 20px;
-    margin-top:26px;
-    margin-right: 10px; 
-}
+
 .filter-list{
     list-style: none;
     font-size:13px;
@@ -49,6 +45,36 @@
 }*/
 .tm{
   display:none;
+}
+
+#restaurant-food-switch,
+#form-searchrestaurant{
+  margin-bottom: 10px;
+}
+
+#accordion .btn{
+  display: block;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+#accordion .btn:hover{
+  border-bottom: 3px inset #FFDA00;
+}
+
+#headingOne{
+  background-color: #FFF;
+}
+
+.filter-info-text{
+  display: inline-block;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.filter-info-text span{
+  font-size: 24px;
 }
 
 @media(max-width: 767px)

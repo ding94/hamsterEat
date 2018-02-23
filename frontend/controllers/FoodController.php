@@ -360,7 +360,7 @@ class FoodController extends CommonController
            
             $foodtypemodel = new Foodtype();
             $foodtypemodel->Type_Desc = $post['Type_ID'];
-
+            
             if(!is_numeric($foodtypemodel->Type_Desc)){
                 $foodtypemodel->save();    
             } else {

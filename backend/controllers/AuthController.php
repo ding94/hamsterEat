@@ -11,7 +11,7 @@ use backend\models\auth\AdminAuthItemChild;
 use backend\models\Controllerlist;
 use Yii;
 
-Class AuthController extends Controller
+Class AuthController extends CommonController
 {
 
 	public function actionIndex()

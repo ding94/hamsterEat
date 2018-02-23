@@ -72,9 +72,10 @@ class AdminAuthItem extends \yii\db\ActiveRecord
     public function search($params,$type)
     {
         $query = self::find()->where(['type' => $type]);
-        $query->orderBy(['data'=>SORT_ASC]);
+        $query->orderBy(['Name'=>SORT_ASC]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => ['pageSize' => 50],
         ]);
 
         $this->load($params);

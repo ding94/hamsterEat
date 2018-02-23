@@ -270,19 +270,32 @@ class Food extends \yii\db\ActiveRecord
 
     // public function afterSave($insert,$changedAttributes)
     // {
-    //     $fid = $this->Food_ID;
-    //     $rid = $this->Restaurant_ID;
+    //     if($insert == false){
+    //         $fid = $this->Food_ID;
+    //         $rid = $this->Restaurant_ID;
 
-    //     foreach ($changedAttributes as $name => $value) {
-    //         if($name != 'updated_at'){
-    //             $log = new FoodChangeLog;
-    //             $log->fid = $fid;
-    //             $log->rid = $rid;
-    //             $log->created_at = new \yii\db\Expression('NOW()');
-    //             $log->description = $name .' changed from ' . $value . ' to ' . $this->$name;
-    //             $log->save();
+    //         foreach ($changedAttributes as $name => $value) {
+    //             if($name != 'updated_at'){
+    //                 if($name == 'Price' || $name == 'BeforeMarkedUp'){
+    //                     if($value != $this->$name){
+    //                         $log = new FoodChangeLog;
+    //                         $log->fid = $fid;
+    //                         $log->rid = $rid;
+    //                         $log->created_at = new \yii\db\Expression('NOW()');
+    //                         $log->description = $name .' changed from ' . $value . ' to ' . $this->$name;
+    //                         $log->save();
+    //                     }
+    //                 } else {
+    //                     $log = new FoodChangeLog;
+    //                     $log->fid = $fid;
+    //                     $log->rid = $rid;
+    //                     $log->created_at = new \yii\db\Expression('NOW()');
+    //                     $log->description = $name .' changed from ' . $value . ' to ' . $this->$name;
+    //                     $log->save();
+    //                 }
+    //             }
+
     //         }
-
     //     }
     // }
 }

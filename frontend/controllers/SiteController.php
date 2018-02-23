@@ -472,68 +472,6 @@ class SiteController extends CommonController
         return $data;
     }
 
-    public function actionConvertFoodname()
-    {
-        $allfood = Food::find()->joinWith(['foodselectiontypes','foodSelection'])->all();
-        $message = "";
-        foreach ($allfood as $key => $food) 
-        {
-            $foodName = FoodName::findOne($food->Food_ID);
-            $message .="<div style=' border-top: 5px solid black;'>";
-            if(empty($foodName))
-            {
-                $data = new FoodName;
-                $data->language = 'en';
-                $data->translation = $food->Name;
-                $data->id = $food->Food_ID;
-                $data->scenario = "copy";
-                if(!$data->save())
-                {
-                    $message .= "<br>Food  :".$food->Food_ID." Fail";
-                }
-            }
-            if(!empty($food['foodselectiontypes']))
-            {
-                foreach($food->foodselectiontypes as $type)
-                {
-                    $typeName = FoodSelectiontypeName::findOne($type->ID);
-                    if(empty($typeName))
-                    {
-                        $data = new FoodSelectiontypeName;
-                        $data->language = 'en';
-                        $data->id = $type->ID;
-                        $data->translation = $type->TypeName;
-                        $data->scenario = "copy";
-                        if(!$data->save())
-                        {
-                            $message .= "<br>Selection Type :".$type->ID." Fail";
-                        }
-                    }
-                }
-                foreach ($food->foodSelection as $selection) {
-                    $selectionName = FoodSelectionName::findOne($selection->ID);
-                    if(empty($selectionName))
-                    {
-                        $data =new FoodSelectionName;
-                        $data->language = "en";
-                        $data->id = $selection->ID;
-                        $data->scenario = "copy";
-                        $data->translation = $selection->Name;
-                        if(!$data->save())
-                        {
-                            $message .= "<br>Selection  :".$selection->ID." Fail"; 
-                        }
-                    }
-                }
-               
-            }
-           $message .= "</div>";
-        }
-      
-        echo $message;
-        
-    }
-
     /* Function for dependent dropdown in frontend index page. */
     public function actionGetArea()
     {

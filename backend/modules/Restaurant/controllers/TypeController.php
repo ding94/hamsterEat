@@ -23,6 +23,12 @@ class TypeController extends CommonController
        return $this->render('index',['dataProvider'=>$dataProvider]);
 	}
 
+	public function actionUpdate($id)
+	{
+		$model = Foodselection::find()->where('foodselection.ID = :id',[':id'=>$id])->joinWith(['selectedtpye','allName'])->one();
+		return $this->render('update',['model'=>$model]);
+	}
+
 	public function actionControl($id,$status)
 	{
 		$model = $this->findSelection($id);

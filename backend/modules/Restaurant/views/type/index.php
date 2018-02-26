@@ -54,7 +54,7 @@ $array = ['-1'=>'Deleted','0'=>'Close','1'=>'Open'];
                 
             [
                 'class' => 'kartik\grid\ActionColumn',
-                'template' => '{onOff} {edit}',
+                'template' => '{onOff} {update}',
                 'buttons' => [
                     'onOff' => function($url , $model)
                     {
@@ -80,10 +80,7 @@ $array = ['-1'=>'Deleted','0'=>'Close','1'=>'Open'];
                         
                         return Html::a($name,$url,['data'=>['confirm'=>'Are you show you want to '.$name]]);
                     },
-                    'edit'=>function($url,$model)
-                    {
-                        return Html::a("Edit","");
-                    }
+                    
                 ],
             ],
         ],

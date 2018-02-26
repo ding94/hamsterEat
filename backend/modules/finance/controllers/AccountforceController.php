@@ -54,11 +54,11 @@ class AccountforceController extends CommonController
 		$amount = $data['amount'];
 		$minusOrplus = substr(strval($amount), 0, 1);
 
-		if($minusOrplus == '-' )
+		if($minusOrplus == '+' )
 		{
 			if(Yii::$app->user->can('admin'))
 			{
-				$force->reduceOrPlus = 0;
+				$force->reduceOrPlus = 1;
 				$force->amount = (double)$amount;
 			}
 			else
@@ -70,7 +70,7 @@ class AccountforceController extends CommonController
 		}
 		else
 		{
-			$force->reduceOrPlus = 1;
+			$force->reduceOrPlus = 0;
 			$force->amount = (double)$amount;
 		}
 

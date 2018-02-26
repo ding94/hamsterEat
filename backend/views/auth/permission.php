@@ -27,6 +27,12 @@ use yii\grid\ActionColumn;
                     'pluginOptions'=>['allowClear'=>true],
                 ],
             ],
+
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update}',
+            ],
+
             [
                 'attribute' => 'name',
                 'filterInputOptions' => [
@@ -44,7 +50,7 @@ use yii\grid\ActionColumn;
             'updated_at:datetime',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update}{delete}',
+                'template' => '{delete}',
             ],
         ],
     ]); ?>

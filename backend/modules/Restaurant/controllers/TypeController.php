@@ -7,6 +7,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use common\models\food\Foodselection;
+use common\models\food\Foodselectiontype;
 use common\models\Order\Orderitemselection;
 use common\models\Order\Orderitem;
 use backend\controllers\CommonController;
@@ -25,8 +26,10 @@ class TypeController extends CommonController
 
 	public function actionUpdate($id)
 	{
-		$model = Foodselection::find()->where('foodselection.ID = :id',[':id'=>$id])->joinWith(['selectedtpye','allName'])->one();
-		return $this->render('update',['model'=>$model]);
+		$selection = Foodselection::find()->where('foodselection.ID = :id',[':id'=>$id])->joinWith(['allName'])->one();
+		$type = Foodselectiontype::find()->where('foodselectiontype.ID = :id',[':id'=>$selection->Type_ID])->joinWith(['allName'])->one();
+		
+		return $this->render('update',['selection'=>$selection,'type'=>$type]);
 	}
 
 	public function actionControl($id,$status)

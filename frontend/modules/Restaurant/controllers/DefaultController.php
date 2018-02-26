@@ -191,13 +191,19 @@ class DefaultController extends CommonController
        
         //$countmodel = "SELECT DISTINCT food.Food_ID FROM food INNER JOIN foodstatus ON foodstatus.Food_ID = food.Food_ID WHERE food.Restaurant_ID = ".$rid." AND foodstatus.Status = ".true."";
         //$resultcountmodel = Yii::$app->db->createCommand($countmodel)->execute();
-        $countQuery = clone $model;
-        $pagination = new Pagination(['totalCount'=>$countQuery->count(),'pageSize'=>12]);
-        $rowfood = $model->offset($pagination->offset)
-        ->limit($pagination->limit)
-        ->all();
+       
+        $rowfood = $model->all();
 
-        foreach ($rowfood as $k => $v) {
+        foreach ($rowfood as $key => $data) {
+            # code...
+            $foodtypejunction = Foodtypejunction::find()->where('Food_ID=:fid',[':fid'=>$data->Food_ID])->one();
+            $type = Foodtype::find()->where('ID=:id',[':id'=>$foodtypejunction->Type_ID])->one();
+            
+            $allfoodtype[$foodtypejunction->Type_ID] = $type->Type_Desc;
+            $allfood[$foodtypejunction->Type_ID][] = $data;
+        }
+       // var_dump($allfood,$allfoodtype);exit;
+       /* foreach ($rowfood as $k => $v) {
             $restaurantfood[] = $v['Food_ID'];
         }
         $allfoodtype = [];
@@ -217,13 +223,13 @@ class DefaultController extends CommonController
             $findfoodtypeid = Foodtype::find()->where('Type_Desc=:td',[':td'=>$onefoodtype])->one();
             $allfoodtype[$onekey]=['name'=>$onefoodtype,'id'=>$findfoodtypeid->ID];
         }
-        
+       */
         $language = Yii::$app->request->cookies->getValue('language');
         /*$line = LanguageLine::find()->where('id=:id',[':id'=>$language])->one();
         $objPHPExcel = \PHPExcel_IOFactory::load(Yii::$app->params['langExcel'].$line['file_location']);
         $sheetData = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);*/
 
-        return $this->render('restaurantdetailsnew',['id'=>$id, 'rowfood'=>$rowfood,'pagination'=>$pagination, 'rid'=>$rid,'allfoodtype'=>$allfoodtype]);
+        return $this->render('restaurantdetailsnew',['id'=>$id, 'allfood'=>$allfood, 'rid'=>$rid,'allfoodtype'=>$allfoodtype]);
     }
 
 //--This function loads the Food Details according to the FoodController

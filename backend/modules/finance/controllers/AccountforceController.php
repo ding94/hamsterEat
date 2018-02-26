@@ -54,25 +54,15 @@ class AccountforceController extends CommonController
 		$amount = $data['amount'];
 		$minusOrplus = substr(strval($amount), 0, 1);
 
-		if($minusOrplus == '+' )
-		{
-			if(Yii::$app->user->can('admin'))
-			{
-				$force->reduceOrPlus = 1;
-				$force->amount = (double)$amount;
-			}
-			else
-			{
-				Yii::$app->session->setFlash('warning', "Permission Denied");
-				return false;
-			}
-			
+		$valid = self::permission();
+
+		if($minusOrplus == '-' ){
+			$force->reduceOrPlus = 1;
 		}
-		else
-		{
+		else{
 			$force->reduceOrPlus = 0;
-			$force->amount = (double)$amount;
 		}
+		$force->amount = (double)$amount;
 
 		$userAccount = DefaultController::getAccountBalance($data['uid'],$force->reduceOrPlus,$force->amount);
 
@@ -92,6 +82,26 @@ class AccountforceController extends CommonController
 			Yii::$app->session->setFlash('warning', "Fail Operate");
 			return false;
 		}
+	}
+
+	protected static function permission()
+	{
+		$controller = Yii::$app->controller->id;
+	    $action = 'force-acc-balance';
+        $module = Yii::$app->controller->module->id;
+
+        if($module != 'app-backend'){
+            $permissionName = $module.'/'.$controller.'/'.$action;
+        }
+        else{
+             $permissionName =$controller.'/'.$action;
+        }
+
+	    if(!\Yii::$app->user->can($permissionName) && Yii::$app->getErrorHandler()->exception === null){
+	        throw new \yii\web\UnauthorizedHttpException('Sorry, You do not have permission');
+	    }
+
+		return true;
 	}
 
 }

@@ -35,6 +35,12 @@ return [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
+        'i18n' => [
+            'translations' => [
+                'common' => ['class' => 'common\translation\DbSentencesTranslate',],
+                'food' => ['class' => 'common\translation\DbSentencesTranslate',],
+            ],
+        ],
         'frontendAuthManager' => [
             'class' => 'yii\rbac\DbManager',
             'cache' => 'cache',

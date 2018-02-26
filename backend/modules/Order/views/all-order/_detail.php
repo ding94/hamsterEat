@@ -25,7 +25,15 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     'value' => function($model)
                     {
                         $data = Foodselectiontype::findOne($model->FoodType_ID);
-                        return $data->originName;
+                        if(empty($data))
+                        {
+                            return "";
+                        }
+                        else
+                        {
+                           return $data->originName; 
+                        }
+                        
                     },
                     'group'=>true, 
                 ],
@@ -35,7 +43,14 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     {
                         $data = Foodselection::findOne($model->Selection_ID);
                         
-                        return $data->originName;
+                         if(empty($data))
+                        {
+                            return "";
+                        }
+                        else
+                        {
+                           return $data->originName; 
+                        }
                     },
                 ]
                 

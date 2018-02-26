@@ -6,6 +6,8 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use backend\assets\AuthAsset;
+AuthAsset::register($this);
 
 	$this->title = "Add Or Remove Permission";
 	$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Role'), 'url' => ['index']];
@@ -17,7 +19,8 @@ use yii\bootstrap\ActiveForm;
 			<div class="btn btn-primary btn-lg btn-block">Current Permission</div>
 			<?php $form = ActiveForm::begin(['action' =>['auth/remove-role', 'id' => $id], 'method' => 'post',]);?>
 				<?php foreach($listAvailabe as $i=>$value):?>
-		    		<?= $form->field($model, 'child['.$i.']')->inline(true)->checkboxList($value)->label($controlList[$i]) ?>
+					<?php echo Html::checkbox('null',false ,['class'=>'check-all pull-left','id'=>'current-'.$i]) ?>
+		    		<?= $form->field($model, 'child['.$i.']')->inline(true)->checkboxList($value,['class'=>'current-'.$i])->label($controlList[$i]) ?>
 		    	<?php endforeach;?>
 		    	<div class="form-group">
 			        <?= Html::submitButton(Yii::t('app', 'Remove Permission') ,['class' =>  'btn btn-danger']) ?>
@@ -29,7 +32,8 @@ use yii\bootstrap\ActiveForm;
 			<?php $form = ActiveForm::begin(['action' =>['auth/add-role', 'id' => $id], 'method' => 'post',]);?>
 		
 				<?php foreach($listAll as $k=>$data):?>
-				    <?= $form->field($model, 'child['.$k.']')->inline(true)->checkboxList($data)->label($controlList[$k]); ?>
+					<?php echo Html::checkbox('null',false ,['class'=>'check-all pull-left','id'=>'other-'.$k]) ?>
+				    <?= $form->field($model, 'child['.$k.']')->inline(true)->checkboxList($data,['class'=>'other-'.$k])->label($controlList[$k]); ?>
 				<?php endforeach;?>
 			    <div class="form-group">
 				    <?= Html::submitButton(Yii::t('app', 'Add Permission') ,['class' =>  'btn btn-warning']) ?>

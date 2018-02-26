@@ -42,10 +42,33 @@ class TypeController extends CommonController
 		}
 		else
 		{
-			Yii::$app->session->setFlash('warning', "Food Selection Fail");
+			Yii::$app->session->setFlash('warning', "Food Selection Change Fail");
 		}
 		return $this->redirect(Yii::$app->request->referrer);
 		
+	}
+
+	public function actionRecover($id)
+	{
+		$data = $this->findSelection($id);
+		if($data->Status == -1)
+		{
+			$data->Status = 1;
+			if($data->save())
+			{
+				Yii::$app->session->setFlash('success', "Food Selection Data Recover Back");
+
+			}
+			else
+			{
+				Yii::$app->session->setFlash('warning', "Fail");
+			}
+		}
+		else
+		{
+			Yii::$app->session->setFlash('warning', "Fail");
+		}
+		return $this->redirect(Yii::$app->request->referrer);
 	}
 
 	public static function CancelSelection($id)

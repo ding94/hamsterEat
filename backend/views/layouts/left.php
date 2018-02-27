@@ -2,17 +2,18 @@
 
     <section class="sidebar">
 
-        <!-- Sidebar user panel -->
-        <div class="user-panel">
-            <div class="pull-left image">
-                <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
-            </div>
-            <div class="pull-left info">
-                <p><?php echo Yii::$app->user->identity->adminname?></p>
+        <!-- Sidebar user panel
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                </div>
+                <div class="pull-left info">
+                    <p><?php echo Yii::$app->user->identity->adminname?></p>
 
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
             </div>
-        </div>
+        -->
 
         <!-- search form -->
         <form action="#" method="get" class="sidebar-form">
@@ -31,7 +32,9 @@
                 'options' => ['class' => 'sidebar-menu'],
                 'items' => [
                     ['label' => 'Control Page', 'options' => ['class' => 'header']],
-                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
+                    //['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
+                    ['label' => 'Change Password', 'icon' => 'fas fa-cog', 'url' => ['/site/change-password']],
+                    ['label' => 'Logout', 'icon' => 'fas fa-sign-out', 'url' => ['/site/logout'],'template' => '<a href="{url}" data-method="post">{label}</a>',],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [   'label' => 'Admin Controller' , 'url' => '#', 'icon' => 'lock',
                         'items' =>  [

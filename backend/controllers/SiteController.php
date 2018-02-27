@@ -10,6 +10,7 @@ use backend\models\AdminLogin;
 use backend\controllers\CommonController;
 use common\models\Profit\RestaurantProfit;
 use common\models\Profit\RestaurantItemProfit;
+use backend\models\AdminChangepassword;
 /**
  * Site controller
  */
@@ -29,7 +30,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'index','change-password'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -130,6 +131,23 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function actionChangePassword()
+    {
+        $model = new AdminChangepassword;
+        if($model->load(Yii::$app->request->post()) ){
+            if ($model->check()) {
+                 Yii::$app->session->setFlash('success', 'Successfully changed password');
+                    return $this->redirect(['/site/change-password']);
+            }
+            
+            else {
+                Yii::$app->session->setFlash('warning', 'changed password failed');
+            }
+          
+        }
+        return $this->render('changepassword',['model'=>$model]);
     }
 
     protected static function countTotal($array,$first,$last)

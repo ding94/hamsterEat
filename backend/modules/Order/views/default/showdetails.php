@@ -16,7 +16,7 @@ use yii\widgets\DetailView;
 		    'attributes' => [
 		    	'food.restaurant.Restaurant_Name', // food.restaurant.Restaurant_Name = (Current Model get).(First get Model inside that Model get).(attribute)
 		    	[
-		    		'attribute' => 'food.Name',
+		    		'attribute' => 'food.originName',
 		    		'label' => 'Food Name',
 		    		'contentOptions' => ['style' => 'width:75%;'],
 		    	],

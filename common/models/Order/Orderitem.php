@@ -123,7 +123,7 @@ class Orderitem extends \yii\db\ActiveRecord
         foreach ($itemselection as $k => $value) {
             $selection = Foodselection::find()->where('ID=:id',[':id'=>$value['Selection_ID']])->one();
             if (!empty($selection)) {
-                $data .= $selection['Name'].', ';
+                $data .= $selection['originName'].', ';
             }
         }
         return $data;

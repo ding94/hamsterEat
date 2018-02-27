@@ -33,14 +33,14 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             'order.Delivery_ID',
             'order.User_Username',
             'order.Orders_PaymentMethod',
-            'food.Name',
+            'food.originName',
             [
               'attribute' =>'selection',
               'value'=>function($model){
                 if (!empty($model['order_selection'])) {
                   $string = "";
                   foreach ($model['order_selection'] as $k => $value) {
-                    $string .= $value['food_selection']['Name'].', ';
+                    $string .= $value['food_selection']['originName'].', ';
                   }
                   return $string;
                 }

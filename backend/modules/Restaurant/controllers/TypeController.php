@@ -8,6 +8,8 @@ use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use common\models\food\Foodselection;
 use common\models\food\Foodselectiontype;
+use common\models\food\FoodSelectionName;
+use common\models\food\FoodSelectiontypeName;
 use common\models\Order\Orderitemselection;
 use common\models\Order\Orderitem;
 use backend\controllers\CommonController;
@@ -24,12 +26,39 @@ class TypeController extends CommonController
        return $this->render('index',['dataProvider'=>$dataProvider]);
 	}
 
+	public function actionUpdateType($id)
+	{
+		$allname = FoodController::createName($this->findName($id,2),2);
+		$type = Foodselectiontype::findOne($id);
+		if(Yii::$app->request->isPost)
+		{
+			$isvalid = FoodController::saveData($type,$allname);
+			if($isvalid)
+			{
+				Yii::$app->session->setFlash('success', "Food Selection Change completed");
+				return $this->redirect(['index','id'=>$type->Food_ID]);
+			}
+			Yii::$app->session->setFlash('warning', "Food Selection Change Fail");
+		}
+		return $this->render('updatetype',['allname'=>$allname,'type'=>$type]);
+	}
+
 	public function actionUpdate($id)
 	{
-		$selection = Foodselection::find()->where('foodselection.ID = :id',[':id'=>$id])->joinWith(['allName'])->one();
-		$type = Foodselectiontype::find()->where('foodselectiontype.ID = :id',[':id'=>$selection->Type_ID])->joinWith(['allName'])->one();
-		
-		return $this->render('update',['selection'=>$selection,'type'=>$type]);
+		$selection = $this->findSelection($id);
+		$allname = FoodController::createName($this->findName($selection->ID,1),1);
+		if(Yii::$app->request->isPost)
+		{
+			
+			$isvalid =  FoodController::saveData($selection,$allname);
+			if($isvalid)
+			{
+				Yii::$app->session->setFlash('success', "Food Selection Change completed");
+				return $this->redirect(['index','id'=>$selection->Food_ID]);
+			}
+			Yii::$app->session->setFlash('success', "Food Selection Change Fail");
+		}
+		return $this->render('update',['selection'=>$selection,'allname'=>$allname]);
 	}
 
 	public function actionControl($id,$status)
@@ -115,5 +144,29 @@ class TypeController extends CommonController
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+	}
+
+	public static function findName($id,$type)
+	{
+		switch ($type) {
+			case 1:
+				$query =  FoodSelectionName::find();
+				break;
+			case 2:
+				$query = FoodSelectiontypeName::find();
+				break;
+			default:
+				# code...
+				break;
+		}
+		$query->where('id = :id',[':id'=>$id]);
+		if(empty($query->all()))
+		{
+			throw new NotFoundHttpException('The requested page does not exist.');
+		}
+		else
+		{
+			return $query->all();
+		}
 	}
 }

@@ -9,18 +9,18 @@ $this->title = "Food Type And Selection";
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Food Detail '), 'url' => ['/restaurant/food','id'=>0]];
 $this->params['breadcrumbs'][] = $this->title;
 
-$array = ['-1'=>'Deleted','0'=>'Close','1'=>'Open'];
-           
+$array = ['-1'=>'Deleted','0'=>'Close','1'=>'Open'];        
      
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'panel'=>['type'=>'success'],
         'columns' => [
             [
-                'attribute' => 'typeName',
-                'value' => function($model)
+                'format' => 'raw',
+                'attribute' => 'originName',
+                'value' => function($model, $widget)
                 {
-                    return $model->selectedtpye->originName;
+                    return Html::a($model->selectedtpye->originName,['update-type' ,'id'=>$model->Type_ID]);
                 },
                 'group'=>true,
             ],

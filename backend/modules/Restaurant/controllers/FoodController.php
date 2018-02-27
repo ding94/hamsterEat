@@ -7,11 +7,15 @@ use yii\web\Controller;
 use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
 use yii\data\ActiveDataProvider;
+use yii\base\Model;
 use backend\models\FoodSearch;
 use backend\controllers\CommonController;
 use common\models\food\Food;
+use common\models\food\FoodName;
 use common\models\food\Foodstatus;
 use common\models\food\Foodselection;
+use common\models\food\FoodselectionName;
+use common\models\food\FoodSelectiontypeName;
 use common\models\food\Foodtype;
 use common\models\Order\Orderitem;
 use common\models\Order\Orders;
@@ -37,6 +41,24 @@ Class FoodController extends CommonController
 
 		return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel,'typeList' => $typeList]);
 	}
+
+    public function actionUpdate($id)
+    {
+        $food = Food::findOne($id);
+        $query = FoodName::find()->where("id = :id",[':id'=>$id]);
+        $allname = $this->createName($query->all(),3);
+        if(Yii::$app->request->isPost)
+        {
+            $isvalid = $this->saveData($food,$allname);
+            if($isvalid)
+            {
+                Yii::$app->session->setFlash('success', "Food Change completed");
+                return $this->redirect(['index','id'=>0]);
+            }
+            Yii::$app->session->setFlash('warning', "Food Change Fail");
+        }
+        return $this->render('update',['food'=>$food,'allname'=>$allname]);
+    }
 
 	public function actionFoodControl($id,$status)
 	{
@@ -223,6 +245,58 @@ Class FoodController extends CommonController
         }
         arsort($data);
         return $data;
+    }
+
+    public static function createName($allname,$type)
+    {
+        $language = ArrayHelper::map($allname,'language','id');
+        if(empty($language['zh']))
+        {
+            switch ($type) {
+                case 1:
+                    $new = new FoodSelectionName;
+                    break;
+                case 2:
+                    $new = new FoodSelectiontypeName;
+                    break;
+                case 3:
+                    $new = new FoodName;
+                default:
+                    # code...
+                    break;
+            }
+            $new->id = $allname[0]['id'];
+            $new->language = 'zh';
+            $allname[count($allname)] = $new;
+        }
+        foreach ($allname as $key => $value) {
+            $value->scenario = 'copy';
+        }
+       
+        return $allname;
+    }
+
+    public static function saveData($data,$all)
+    {
+        $data->load(Yii::$app->request->post());
+        Model::loadMultiple($all, Yii::$app->request->post());
+
+        foreach ($all as $key => $value) {
+            if($value->language == 'zh' && empty($value->translation))
+            {
+                unset($all[$key]);
+            }
+        }
+
+        $isvalid = Model::validateMultiple($all) && $data->validate();
+        if($isvalid)
+        {
+            $data->save();
+            foreach ($all as $key => $value) {
+                $value->save();
+            }
+        }
+        return $isvalid;
     }
 }
 

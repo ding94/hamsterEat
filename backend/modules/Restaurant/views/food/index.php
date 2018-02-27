@@ -120,6 +120,10 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 ],
                 'hAlign'=>'center', 
             ],
+            [
+                'class' => 'kartik\grid\ActionColumn',
+                'template' => '{update}',
+            ],
             'created_at:datetime',
             'updated_at:datetime',
         ],

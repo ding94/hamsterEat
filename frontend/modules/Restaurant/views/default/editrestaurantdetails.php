@@ -12,7 +12,8 @@ use yii\bootstrap\Modal;
 use kartik\widgets\FileInput;
 
 $this->title = Yii::t('common','Edit')." ".$restaurantdetails['Restaurant_Name']."'s ".Yii::t('common','Details');
-EditRestaurantDetailsAsset::register($this); ?>
+EditRestaurantDetailsAsset::register($this); 
+?>
 
 <div id="edit-restaurant-details-container" class="container">
     <div class="edit-restaurant-details-header">

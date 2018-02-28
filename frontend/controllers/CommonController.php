@@ -184,7 +184,7 @@ class CommonController extends Controller
     {
         $staff = Rmanagerlevel::find()->where('rmanagerlevel.Restaurant_ID = :rid and rmanagerlevel.User_Username = :u and  Rmanager_Approval = 1',[':rid'=>$rid,':u' => Yii::$app->user->identity->username])->joinWith(['manager','restaurant'])->one();
        ;
-       
+
         if(empty($staff))
         {
             throw new HttpException('403','Permission Denied!');
@@ -196,7 +196,7 @@ class CommonController extends Controller
         $auth = \Yii::$app->authManager;
        
         $verify = $auth->getChildren($staff->RmanagerLevel_Level);
-        
+
         if(empty($verify[$permissionName]))
         {
            throw new HttpException('403','Permission Denied!');
@@ -227,7 +227,8 @@ class CommonController extends Controller
                 ];
         switch ($staff) {
             case 'Owner':
-                $data[ Url::to(['/Restaurant/profit/index','rid'=>$rid])] = 'Views Earnings';
+                $data[Url::to(['/Restaurant/profit/index','rid'=>$rid])] = 'Views Earnings';
+                $data[Url::to(['/Restaurant/statistics/index','rid'=>$rid])] = 'View Statistics';
                 $data[Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid])] = 'Edit Details';
                 $data[Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid])] = 'Manage Staffs';
                 $data[Url::to(['/food/menu','rid'=>$rid,'page'=>'menu'])] = 'Manage Menu';

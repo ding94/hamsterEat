@@ -52,7 +52,7 @@ Modal::end();
 	 <?php  $cookies = Yii::$app->request->cookies;
             $halal = $cookies->getValue('halal');
 			$session = Yii::$app->session;
-     ?>          
+     ?>      
 	  
      <?php echo Html::a(Yii::t('m-restaurant','Change to').": ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0],['class'=>'hl a-change'])?>
         <span class="s" style="float:right;padding-left:10px;padding-right:10px;">|</span>

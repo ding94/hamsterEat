@@ -1,0 +1,29 @@
+.restaurant-statistics-header-title{
+  font-size: 1.6em;
+  font-weight: 500;
+  line-height: 2.4em;
+}
+
+.restaurant-statistics-header{
+  box-sizing: border-box;
+  border-bottom: 1px solid #efefef;
+}
+
+#restaurant-statistics-container{
+	background-color: white;
+}
+
+#restaurant-statistics-nav > li > a {
+  border-bottom: 1px solid #efefef;
+}
+
+#restaurant-statistics-content{
+  border-left: 1px solid #efefef;
+  margin-top: 15px;
+}
+
+@media(max-width: 767px){
+	.raised-btn{
+		width: 100%;
+	}
+}

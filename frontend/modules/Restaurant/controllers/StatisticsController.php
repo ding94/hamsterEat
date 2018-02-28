@@ -6,12 +6,9 @@ use yii\web\Controller;
 use yii\helpers\Json;
 use yii\data\Pagination;
 use yii\data\ArrayDataProvider;
-use frontend\controllers\CartController;
 use frontend\controllers\CommonController;
-use common\models\Profit\RestaurantItemProfit;
-use common\models\Profit\RestaurantProfit;
+use common\models\Profit\{RestaurantItemProfit};
 use common\models\food\Food;
-use common\models\Order\DeliveryAddress;
 
 
 class StatisticsController extends CommonController

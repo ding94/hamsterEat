@@ -3,9 +3,8 @@
 /* @var $this yii\web\View */
 // use dosamigos\chartjs\ChartJs;
 use kartik\date\DatePicker;
-use kartik\widgets\Select2;
+use kartik\widgets\{Select2,ActiveForm};
 use yii\grid\GridView;
-use kartik\widgets\ActiveForm;
 use yii\helpers\Html;
 use frontend\assets\RestaurantStatisticsAsset;
 

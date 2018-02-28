@@ -7,6 +7,9 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use backend\models\AdminLogin;
+use backend\models\ControllersLink;
+use backend\models\auth\AdminAuthAssignment;
+use backend\models\auth\AdminAuthItemChild;
 use backend\controllers\CommonController;
 use common\models\Profit\RestaurantProfit;
 use common\models\Profit\RestaurantItemProfit;
@@ -30,7 +33,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index','change-password'],
+                        'actions' => ['logout', 'index','change-password','controllers'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -131,6 +134,24 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function actionControllers()
+    {
+        $auth = AdminAuthAssignment::find()->where('user_id=:id',[':id'=>Yii::$app->user->identity->id])->one()->item_name;
+        $available = AdminAuthItemChild::find()->where('parent=:p',[':p'=>$auth])->all();
+        $controller = ControllersLink::find()->orderby('controller ASC')->all();
+        $count = 0;
+        foreach ($controller as $k => $value) {
+            foreach ($available as $k2 => $value2) {
+                if ($value['link']==$value2['child']) {
+                    $link[$count] = $value;
+                    $count+=1;
+                }
+            }
+        }
+
+        return $this->render('controllers',['link'=>$link]);
     }
 
     public function actionChangePassword()

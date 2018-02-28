@@ -47,3 +47,8 @@ phpunit.phar
 
 frontend/web/language/food-zh.xlsx
 frontend/web/language/food-en.xlsx
+composer.lock
+composer.lock
+composer.lock
+*.lock
+composer.lock

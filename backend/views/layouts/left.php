@@ -33,7 +33,8 @@
                 'items' => [
                     ['label' => 'Control Page', 'options' => ['class' => 'header']],
                     //['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
-                    ['label' => 'Change Password', 'icon' => 'fas fa-cog', 'url' => ['/site/change-password']],
+                    ['label' => 'Available Controllers', 'icon' => 'fas fa-cog', 'url' => ['/site/controllers'],],
+                    ['label' => 'Change Password', 'icon' => 'fas fa-cog', 'url' => ['/site/change-password'],],
                     ['label' => 'Logout', 'icon' => 'fas fa-sign-out', 'url' => ['/site/logout'],'template' => '<a href="{url}" data-method="post">{label}</a>',],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [   'label' => 'Admin Controller' , 'url' => '#', 'icon' => 'lock',
@@ -43,6 +44,7 @@
                                         [ 'label' => 'Restaurant Approve', 'icon' => 'circle-o', 'url' => ['/restaurant/default/restaurant_approval']],
                                     ],
                         'options' => ['class' => 'active'],
+                        'visible'=> Yii::$app->user->can('admin/index'),
                     ],
 					[   'label' => 'Bank Controller', 'icon' => 'bank', 'url' => "#",
                         'items' =>  [

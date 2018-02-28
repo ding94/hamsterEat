@@ -18,25 +18,10 @@ class Foodselectiontype extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public $enName;
 
     public static function tableName()
     {
         return 'foodselectiontype';
-    }
-
-    public function afterSave($insert, $changedAttributes)
-    {
-
-       if(!empty($this->enName))
-       {
-            $model = new FoodSelectiontypeName;
-            $model->id = $this->ID;
-            $model->translation = $this->enName;
-            $model->language = "en";
-            $model->save();
-       }
-      
     }
 
     /**
@@ -48,8 +33,6 @@ class Foodselectiontype extends \yii\db\ActiveRecord
             [['Min'], 'required','message'=>Yii::t('food','Min Choice').Yii::t('common',' cannot be blank.')],
             [['Max'],'required','message'=>Yii::t('food','Max Choice').Yii::t('common',' cannot be blank.')],
             [['ID','Food_ID', 'Min', 'Max'], 'integer'],
-            ['enName','required','on'=>'new','message'=>Yii::t('common','Name').Yii::t('common',' cannot be blank.')],
-            ['Min','compare','compareValue'=>'Max','operator'=> '<'],
         ];
     }
 
@@ -66,6 +49,8 @@ class Foodselectiontype extends \yii\db\ActiveRecord
             'enName' => 'Name',
         ];
     }
+
+
 
     public function getFoodSelection()
     {

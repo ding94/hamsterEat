@@ -158,6 +158,7 @@ class Food extends \yii\db\ActiveRecord
     public function getOriginName()
     {
         $data = FoodName::find()->where("id = :id and language = 'en'",[':id'=>$this->Food_ID])->one();
+        
         return $data->translation;
     }
 

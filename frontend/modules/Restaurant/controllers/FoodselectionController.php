@@ -18,29 +18,37 @@ class FoodselectionController extends Controller
 	public static function validatefoodselection()
 	{
         $post = Yii::$app->request->post();
-     
+        
         $valid = true;
 		foreach ($post['Foodselection'] as $i => $foodtypes) {
             foreach ($foodtypes as $ix => $foodselections) {
                 $sel['Foodselection'] = $foodselections;
+                $sel['FoodSelectionName'] = $post['FoodSelectionName'][$i][$ix];
+                
                 $modelfoodselection = new Foodselection;
+                $selectionname = new FoodSelectionName;
 
                 $modelfoodselection->load($sel);
-
+                $selectionname->load($sel);
+                $selectionname->language = 'en';
+              
                 $selection[$i][$ix] = $modelfoodselection;
-                $valid = $modelfoodselection->validate() && $valid;
+                $name[$i][$ix] = $selectionname;
+                $valid = $modelfoodselection->validate() && $selectionname->validate() && $valid ;
             }
         }
 
         $data['valid'] = $valid;
-        $data['data'] =$selection ;  
+        $data['data']['selection'] =$selection ;  
+        $data['data']['name'] =$name ;  
            
         return $data;
 	}
 
-	public static function createfoodselection($foodtype,$foodselection,$id)
+	public static function createfoodselection($foodtype,$typename,$selection,$id)
 	{
-        
+        $foodselection = $selection['selection'];
+        $name = $selection['name'];
 		foreach ($foodtype as $i => $modelfoodtype) {
 
             $modelfoodtype->Food_ID = $id;
@@ -49,19 +57,23 @@ class FoodselectionController extends Controller
                                     
                 return false;
             }
+           
+            $typename[$i]->id = $modelfoodtype->ID;
+            $typename[$i]->save();
 
             if (isset($foodselection[$i]) && is_array($foodselection[$i])) 
             {
                 foreach ($foodselection[$i] as $ix => $modelfoodselection) {
                     $modelfoodselection->Type_ID = $modelfoodtype->ID;
                     $modelfoodselection->Food_ID = $id;
-                    $modelfoodselection->Name = "aaa";
                     $modelfoodselection->Price = CartController::actionDisplay2decimal($modelfoodselection->Price);
                     $modelfoodselection->BeforeMarkedUp =  CartController::actionRoundoff1decimal($modelfoodselection->Price / 1.3);;
                    
                     if (!($flag = $modelfoodselection->save())) {
                         return false;
                     }
+                    $name[$i][$ix]->id = $modelfoodselection->ID;
+                    $name[$i][$ix]->save();
                 }
             }
         }

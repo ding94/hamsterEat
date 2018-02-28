@@ -32,13 +32,12 @@ class TypeController extends CommonController
 		$type = Foodselectiontype::findOne($id);
 		if(Yii::$app->request->isPost)
 		{
-			$isvalid = FoodController::saveData($type,$allname);
+			$isvalid = FoodController::saveData($type,$allname,1);
 			if($isvalid)
 			{
 				Yii::$app->session->setFlash('success', "Food Selection Change completed");
 				return $this->redirect(['index','id'=>$type->Food_ID]);
 			}
-			Yii::$app->session->setFlash('warning', "Food Selection Change Fail");
 		}
 		return $this->render('updatetype',['allname'=>$allname,'type'=>$type]);
 	}
@@ -56,7 +55,6 @@ class TypeController extends CommonController
 				Yii::$app->session->setFlash('success', "Food Selection Change completed");
 				return $this->redirect(['index','id'=>$selection->Food_ID]);
 			}
-			Yii::$app->session->setFlash('success', "Food Selection Change Fail");
 		}
 		return $this->render('update',['selection'=>$selection,'allname'=>$allname]);
 	}
@@ -134,6 +132,20 @@ class TypeController extends CommonController
 			
 		}
 		return $isvalid;
+	}
+
+	public static function detectMinMax($data)
+	{
+		$count = Foodselection::find()->where('Food_ID = :id',[':id'=>$data->Food_ID])->count();
+
+		if($data->Min > $count || $data->Min > $data->Max)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	public static function findSelection($id)

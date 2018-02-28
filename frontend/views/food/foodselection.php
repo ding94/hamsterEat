@@ -50,15 +50,13 @@ AddFoodAsset::register($this);
                         echo Html::activeHiddenInput($selection, "[{$i}][{$ix}]ID");
                     }
                   
-                    if($edit ==1):
+                    
                         if(!empty($selection->transName)):
                             echo $form->field($selection->transName, "[{$i}][{$ix}]translation")->label(false)->textInput(['maxlength' => true]);
                         else:
                            echo $form->field($selectionName, "[{$i}][{$ix}]translation")->label(false)->textInput(['maxlength' => true]);
                         endif;
-                    else:
-                        echo $form->field($selection, "[{$i}][{$ix}]enName")->label(false)->textInput(['maxlength' => true]);
-                    endif;
+                   
                 ?>        
             </td>
               

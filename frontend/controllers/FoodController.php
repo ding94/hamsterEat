@@ -116,11 +116,10 @@ class FoodController extends CommonController
         CommonController::restaurantPermission($rid);
         $food = new Food;
         $name = new FoodName;
-
+        $selectionname = new FoodSelectionName;
+        $typename = new FoodSelectiontypeName;
         $foodtype = [new Foodselectiontype()];
-        $foodtype[0]->scenario = "new";
         $foodselection = [[new Foodselection()]];
-        $foodselection[0][0]->scenario = "new";
         $foodjunction = new Foodtypejunction();
        
         $type = ArrayHelper::map(FoodType::find()->andWhere(['and',['!=','Type_Desc','Halal'],['!=','Type_Desc','Non-Halal']])->orderBy(['(Type_Desc)' => SORT_ASC])->all(),'ID','Type_Desc');
@@ -131,10 +130,19 @@ class FoodController extends CommonController
        if(Yii::$app->request->isPost)
        {
             $post = Yii::$app->request->post();
-            
+              
             $foodtypemodel = Foodtype::find()->where('Type_Desc=:t',[':t'=>$post['Type_ID'][0]])->one();
             $foodtypeid = Foodtype::find()->where('ID=:id',[':id'=>$post['Type_ID']])->one();
-          
+
+            if(isset($post['Foodselectiontype']) && isset($post['Foodselection']))
+            {
+                $true = FoodtypeAndStatusController::detectMinMax($post['Foodselectiontype'],$post['Foodselection']);
+                if($true)
+                {
+                    return $this->redirect(Yii::$app->request->referrer); 
+                }
+            }
+
             if($foodtypemodel==null && $foodtypeid==null){
                 $foodtypemodel = new Foodtype();
                 $foodtypemodel->Type_Desc = $post['Type_ID'][0];
@@ -147,18 +155,21 @@ class FoodController extends CommonController
             $name->language = 'en';
            
             $foodtype = Model::createMultiple(Foodselectiontype::classname());
+            $foodtypename = Model::createMultiple(FoodSelectiontypeName::classname());
 
             Model::loadMultiple($foodtype, Yii::$app->request->post());
+            Model::loadMultiple($foodtypename,Yii::$app->request->post());
 
-            $valid =  Model::validateMultiple($foodtype) && $food->validate() && $name->validate();
-           
+            
+            $valid =  Model::validateMultiple($foodtype) && Model::validateMultiple($foodtypename) && $food->validate() && $name->validate();
+         
             if (isset($post['Foodselection'][0][0])) {
 
                 $selectiondata = FoodselectionController::validatefoodselection() ;
                 $selection = $selectiondata['data'];
                 $valid = $selectiondata['valid'] && $valid;
             }
-             
+          
              if ($valid) {
                 $transaction = Yii::$app->db->beginTransaction();
                 try {
@@ -171,7 +182,7 @@ class FoodController extends CommonController
                         $name->id = $food->Food_ID;
                         $isValid = $name->save()  && $isValid;
 
-                        $flag = FoodselectionController::createfoodselection($foodtype,$selection,$food->Food_ID) && $isValid && $status->validate();
+                        $flag = FoodselectionController::createfoodselection($foodtype,$foodtypename,$selection,$food->Food_ID) && $isValid && $status->validate();
                        
                         if ($flag) {
                             $status->save();
@@ -197,13 +208,15 @@ class FoodController extends CommonController
             [
                 'food' => $food,
                 'foodjunction'=>$foodjunction,
-                'foodtype' => (empty($foodtype)) ? [new Foodselectiontype] : $foodtype,
-                'foodselection' => (empty($foodselection)) ? [[new Foodselection]] : $foodselection,
+                'foodtype' =>  $foodtype,
+                'foodselection' =>  $foodselection,
                 'type' => $type,
                 'rid'=>$rid,
                 'halal'=>$halal,
                 'nonhalal'=>$nonhalal,
                 'name' => $name,
+                'typename' => $typename,
+                'selectionname' => $selectionname,
             ]);
     }
     
@@ -353,6 +366,15 @@ class FoodController extends CommonController
             Yii::$app->session->setFlash('warning', "Please Select A Type");
             return $this->redirect(Yii::$app->request->referrer);
         }
+        if(isset($post['Foodselectiontype']) && isset($post['Foodselection']))
+        {
+            $true = FoodtypeAndStatusController::detectMinMax($post['Foodselectiontype'],$post['Foodselection']);
+            if($true)
+            {
+                return $this->redirect(Yii::$app->request->referrer); 
+            }
+        }
+      
         $foodtypemodel = Foodtype::find()->where('Type_Desc=:t',[':t'=>$post['Type_ID']])->one();
         $foodtypeid = Foodtype::find()->where('ID=:id',[':id'=>$post['Type_ID']])->one();
        

@@ -22,25 +22,9 @@ class Foodselection extends \yii\db\ActiveRecord
      * @inheritdoc
      */
 
-    public $enName;
-
     public static function tableName()
     {
         return 'foodselection';
-    }
-
-    public function afterSave($insert, $changedAttributes)
-    {
-      
-       if(!empty($this->enName))
-       {
-            $model = new FoodSelectionName;
-            $model->id = $this->ID;
-            $model->translation = $this->enName;
-            $model->language = "en";
-             
-            $model->save();
-       }
     }
 
     /**
@@ -53,7 +37,6 @@ class Foodselection extends \yii\db\ActiveRecord
             [['BeforeMarkedUp'],'required','message'=>Yii::t('food','Before Marked Up').Yii::t('common',' cannot be blank.')],
             [['Type_ID', 'Status', 'Food_ID'], 'integer'],
             [['BeforeMarkedUp', 'Price'], 'number'],
-            ['enName','required','on'=>'new','message'=>Yii::t('common','Name').Yii::t('common',' cannot be blank.')],
         ];
     }
 

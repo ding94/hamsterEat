@@ -77,4 +77,31 @@ class FoodtypeAndStatusController extends Controller
         }
         return false;
     }
+
+    /*
+    * detect max and min choice
+    */
+    public static function detectMinMax($type,$selection)
+    {
+        $valid = false;
+        foreach ($type as $key => $value) {
+
+            $count = count($selection[$key]);
+             
+            if($value['Min'] > $count )
+            {
+                Yii::$app->session->setFlash('warning', "Minumun Choice Cannot more Then Food Selection");
+                $valid = true;
+                break;
+            }
+
+            if($value['Min'] > $value['Max'])
+            {
+                Yii::$app->session->setFlash('warning', "Minumun Choice Cannot more Then Maximun Choice");
+                $valid = true;
+                break;
+            }
+        }
+        return $valid;
+    }
 }

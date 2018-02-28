@@ -10,6 +10,7 @@ use yii\data\ActiveDataProvider;
 use yii\base\Model;
 use backend\models\FoodSearch;
 use backend\controllers\CommonController;
+use backend\modules\Restaurant\controllers\TypeController;
 use common\models\food\Food;
 use common\models\food\FoodName;
 use common\models\food\Foodstatus;
@@ -55,7 +56,6 @@ Class FoodController extends CommonController
                 Yii::$app->session->setFlash('success', "Food Change completed");
                 return $this->redirect(['index','id'=>0]);
             }
-            Yii::$app->session->setFlash('warning', "Food Change Fail");
         }
         return $this->render('update',['food'=>$food,'allname'=>$allname]);
     }
@@ -276,11 +276,19 @@ Class FoodController extends CommonController
         return $allname;
     }
 
-    public static function saveData($data,$all)
+    public static function saveData($data,$all,$type = 0)
     {
         $data->load(Yii::$app->request->post());
         Model::loadMultiple($all, Yii::$app->request->post());
-
+        if($type == 1)
+        {
+            $isvalid = TypeController::detectMinMax($data);
+            if(!$isvalid)
+            {
+                Yii::$app->session->setFlash('warning', "Min Cannot Greater Than Number Of Food Selection");
+                return false;
+            }
+        }
         foreach ($all as $key => $value) {
             if($value->language == 'zh' && empty($value->translation))
             {
@@ -295,6 +303,10 @@ Class FoodController extends CommonController
             foreach ($all as $key => $value) {
                 $value->save();
             }
+        }
+        if(!isvalid)
+        {
+            Yii::$app->session->setFlash('warning', "Fail");
         }
         return $isvalid;
     }

@@ -35,10 +35,7 @@
 }
 
 .footer{
-  padding-left:10%;
-  padding-right:10%;
-  padding-top: 3%;
-  padding-bottom:3%;
+  padding: 0 10%;
 }
 
 #Box1,#Box2,#Box3,#Box4{

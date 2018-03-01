@@ -44,7 +44,7 @@ AddFoodAsset::register($this);
                     ]
                 ])->textInput(['id'=>'price'])->label(Yii::t('food','Money Received'));?>
                 
-
+                <label class="control-label"><?= Yii::t('common','Type') ?></label>
                 <?php  echo Select2::widget([
                             'name' => 'Type_ID',
                             'value' => $chosen,

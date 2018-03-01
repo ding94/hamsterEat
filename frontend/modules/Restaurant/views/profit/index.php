@@ -98,10 +98,10 @@ RestaurantEarningsAsset::register($this);
 			    'options' => [
 			    ],
 			    'data' => [
-			        'labels' => ['Cost','Selling Price'],
+			        'labels' => [Yii::t('m-restaurant','Total Cost For The Duration'),Yii::t('m-restaurant','Total Selling Price For The Duration')],
 			        'datasets' => [
 			            [
-			                'label' => ['Cost','Selling Price'],
+			                'label' => [Yii::t('m-restaurant','Total Cost For The Duration'),Yii::t('m-restaurant','Total Selling Price For The Duration')],
 			                'backgroundColor' => ["#f45b69","#ffda00"],
 			                'data' => [$total['totalcost'],$total['totalsellprice']]
 			            ],

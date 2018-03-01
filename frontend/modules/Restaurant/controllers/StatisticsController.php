@@ -39,8 +39,10 @@ class StatisticsController extends CommonController
             $modelcount = 0;
             if(empty($model)){
                 $modelcount = 0;
+
                 $data[$key]['Food Name'] = $value['originName'];
                 $data[$key]['Quantity Sold'] = $modelcount;
+
             } else {
                 foreach ($model as $k => $v) {
                     $modelcount+= $v['quantity'];
@@ -57,12 +59,12 @@ class StatisticsController extends CommonController
 	        ],
 	        'sort' => [
 	        	'defaultOrder' => [
-				    'Quantity Sold' => SORT_DESC,
+				    Yii::t('m-restaurant','Quantity Sold') => SORT_DESC,
 				],
 				'attributes' => [
-					'Quantity Sold'=>[
-						'asc'=>['Quantity Sold'=> SORT_ASC],
-						'desc'=>['Quantity Sold'=> SORT_DESC],
+					Yii::t('m-restaurant','Quantity Sold')=>[
+						'asc'=>[Yii::t('m-restaurant','Quantity Sold')=> SORT_ASC],
+						'desc'=>[Yii::t('m-restaurant','Quantity Sold')=> SORT_DESC],
 					],
 				],
 			],

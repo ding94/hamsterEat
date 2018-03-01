@@ -8,6 +8,7 @@ use yii\widgets\LinkPager;
 use kartik\widgets\Select2;
 use frontend\assets\CookingAsset;
 use frontend\assets\RestaurantEarningsAsset;
+use dosamigos\chartjs\ChartJs;
 
 $this->title = Yii::t('m-restaurant',"Restaurant Profit");
 CookingAsset::register($this);
@@ -92,6 +93,23 @@ RestaurantEarningsAsset::register($this);
 					</tr>
 				</tbody>
 			</table>
+			<?= ChartJs::widget([
+			    'type' => 'doughnut',
+			    'options' => [
+			    ],
+			    'data' => [
+			        'labels' => [Yii::t('m-restaurant','Total Cost For The Duration'),Yii::t('m-restaurant','Total Selling Price For The Duration')],
+			        'datasets' => [
+			            [
+			                'label' => [Yii::t('m-restaurant','Total Cost For The Duration'),Yii::t('m-restaurant','Total Selling Price For The Duration')],
+			                'backgroundColor' => ["#f45b69","#ffda00"],
+			                'data' => [$total['totalcost'],$total['totalsellprice']]
+			            ],
+			        ]
+			    ]
+			]);
+			?>
+			<br>
 			<?php 
 				$totalsumprice = 0;
 				$totalmarkupprice = 0;

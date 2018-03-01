@@ -21,7 +21,6 @@ $(document).ready(function() {
   {
       $("#type-modal").modal('show');
   }
-  
 });
 
 //effect for text changing
@@ -48,16 +47,17 @@ function fadeText() {
 fadeText();
 
 $(".halal").children('a').click(function(){
-   passType(1);
+  passType(1,$(this).attr('data-url'));
 })
 
 $(".non-halal").children('a').click(function(){
-  passType(0);
+  passType(0,$(this).attr('data-url'));
 })
 
-function passType(type){
+function passType(type,url){
+  console.log(url);
   $.ajax({
-      url :"index.php?r=site/selectiontype",
+      url :url,
       type: "post",
       data :{
         type :type,
@@ -66,7 +66,7 @@ function passType(type){
       $("#type-modal").modal('hide');
     },
     error: function (request, status, error) {
-      //alert(request.responseText);
+      //console.log(request.responseText);
     }
 
   });

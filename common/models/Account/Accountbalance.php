@@ -111,12 +111,12 @@ class Accountbalance extends \yii\db\ActiveRecord
                 $history->system_type = "Order";
                 break;
             case 6:
-                $history->description = "Delivery Id " . $this->deliveryid . "has Cancel. Refund with total " . $this->defaultAmount;
+                $history->description = "Delivery Id " . $this->deliveryid . " has Cancel. Refund with total " . $this->defaultAmount;
                 $history->type = 1;
                 $history->system_type = "Cancel Order";
                 break;
             case 7:
-                $history->description = "Order Id " . $this->deliveryid . "has Cancel. Refund with total " . $this->defaultAmount;
+                $history->description = "Order Id " . $this->deliveryid . " has Cancel. Refund with total " . $this->defaultAmount;
                 $history->type = 1;
                 $history->system_type = "Cancel Order";
                 break;

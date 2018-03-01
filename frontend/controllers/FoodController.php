@@ -307,8 +307,9 @@ class FoodController extends CommonController
     }
 
 //--This function runs when a food's details are edited
-    public function actionEditFood($id)
+    public function actionEditFood($id,$rid)
     {
+        CommonController::restaurantPermission($rid);
         $food = Food::find()->where('Food_ID = :id' ,[':id' => $id])->joinWith('transName')->one();
        
         $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$food['Restaurant_ID']])->one();

@@ -196,7 +196,7 @@ class CommonController extends Controller
         $auth = \Yii::$app->authManager;
        
         $verify = $auth->getChildren($staff->RmanagerLevel_Level);
-
+         
         if(empty($verify[$permissionName]))
         {
            throw new HttpException('403','Permission Denied!');

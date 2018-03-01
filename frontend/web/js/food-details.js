@@ -3,10 +3,9 @@ $('body').on('submit','#a2cart',function(e){
 	e.stopImmediatePropagation();
 	$('.addtocart-btn').attr("disabled", true);
 	var form = $(this);
-	id = $(this).children("input[name='id']").val();
 	$.ajax({
 			async: true,
-            url    : 'index.php?r=cart/addto-cart&id='+id,
+            url    : $("input[name=url]").val(),
             type   : 'POST',
             data   : form.serialize(),
             success: function (data) 

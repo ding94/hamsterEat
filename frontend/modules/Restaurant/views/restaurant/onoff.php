@@ -87,7 +87,7 @@ $this->title = "Food ".$model->name." Service";
 					</tr>
 					<?php foreach($type as $selection) :?>
 						<tr>
-							<td class="width-10 name" data-th="Selection Name"><?= $selection->originName ?></td>
+							<td class="width name" data-th="Selection Name"><?= $selection->originName ?></td>
 							<td colspan=<?php echo $selection->Status == 0 ? 1 : 2?>>Current Status : <?= $status[$selection->Status] ?></td>
 							<?php if($selection->Status == 0) : ?>
 							<td>

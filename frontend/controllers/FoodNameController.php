@@ -16,6 +16,7 @@ class FoodNameController extends CommonController
 {
 	public function actionChange($rid,$fid)
 	{
+		CommonController::restaurantPermission($rid);
 		$name = $this->createName(FoodName::find()->where('id = :id',[':id'=>$fid])->all(),1);
 		$type = Foodselectiontype::find()->where('Food_ID = :id',[':id'=>$fid])->joinWith(['allName'])->all();
 		$arrayData = [];

@@ -24,10 +24,11 @@ function detectEmptyCart()
 $('.delete').on('click',function(event){
     if(confirm('Are you sure you want to remove from cart?')){
         cart = $(this).parentsUntil('.cart');
+        url = $(this).attr('data-url');
         cid = cart.children("input[name=id]").val();
         $('.delete').attr("disabled",true);
         $.ajax({
-          url: 'index.php?r=cart/delete',
+          url: url,
           type: 'GET',
           dataType: 'json',
           data: {id: cid},
@@ -52,13 +53,15 @@ $('.delete').on('click',function(event){
 
 $('footer.content').on('click', '.plusMinus', function(event) {
   event.preventDefault();
+  url = $(this).attr('data-url');
+  
   $(this).attr("disabled", true);
   cart = $(this).parentsUntil('.cart');
   parent = $(this).parent();
   cid = cart.children("input[name=id]").val();
   plusMinus = $(this).text();
   value = plusMinus == '+' ? 'plus' : 'minus';
-  quantity(value,cid)
+  quantity(value,cid,url)
   .done(function(data){
     //var obj = JSON.parse(data);
       if (data.value == 0) {
@@ -80,10 +83,10 @@ $('footer.content').on('click', '.plusMinus', function(event) {
 });
 
 
-function quantity(up,cid)
+function quantity(up,cid,url)
 {
   return $.ajax({
-    url: "index.php?r=cart/quantity",
+    url: url,
     type: "get",
     data: {
       update: up,
@@ -99,7 +102,7 @@ function quantity(up,cid)
   {   
  /* alert(document.getElementById("subtotal").innerHTML);*/
     $.ajax({
-    url :"index.php?r=cart/getdiscount",
+    url : $("input[name=dis-url]").val(),
     type: "get",
     data :{
       dis: document.getElementById("voucherstype-type").value.replace(/\s+/g, ''),

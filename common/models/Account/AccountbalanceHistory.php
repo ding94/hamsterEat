@@ -64,7 +64,7 @@ class AccountbalanceHistory extends \yii\db\ActiveRecord
             
 			//  $query = self::find()->where('uid = :uid' ,[':uid' => Yii::$app->user->identity->id]); //自己就是table,找一找资料
 		$account = Accountbalance::find()->where('User_Username = :name',[':name' => Yii::$app->user->identity->username])->one();
-		$query = self::find()->where('abid = :aid',[':aid' => $account->AB_ID]);
+		$query = self::find()->where('abid = :aid',[':aid' => $account->AB_ID])->orderBy(['created_at'=>SORT_DESC]);
        
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -72,7 +72,7 @@ CartAsset::register($this);
 					  <a class="remove">
               <img src=<?php echo $single->food->singleImg ?> alt="" class="img-responsive"> 
               <h3> 
-                <a class="remove delete" href="#"><?=Yii::t('common','Remove');?></a>
+                <a class="remove delete" href="#" data-url=<?echo Url::to['cart/delete']?>><?=Yii::t('common','Remove');?></a>
   				    </h3>
 				    </a>
 				</header> 
@@ -94,12 +94,13 @@ CartAsset::register($this);
       				<i class="fa fa-info-circle"> <span class="i-detail i-selection" ><?php echo $single['remark'];?><span >  </i>
             </div>
       			<?php endif; ?>
-          <a id="d" class="fa fa-trash delete" href="#"></a>
+          <a id="d" class="fa fa-trash delete" href="#" data-url=<?php echo Url::to(['cart/delete'])?>></a>
       	</div>	
       	<footer class="content">
-      		<span class="qt-minus plusMinus">-</span>
+          <?php $url = Url::to(['cart/quantity'])?>
+      		<span class="qt-minus plusMinus" data-url=<?php echo $url?>>-</span>
       		<span class="qt" id="qt"> <?php echo $single['quantity'];?></span>
-      		<span class="qt-plus plusMinus">+</span>
+      		<span class="qt-plus plusMinus" data-url=<?php echo $url?>>+</span>
           <h2 class="full-price">RM
       			<?php echo  CartController::actionRoundoff1decimal($single['price'] * $single['quantity']);?>
       		</h2>

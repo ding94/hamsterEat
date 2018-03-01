@@ -96,7 +96,7 @@ Modal::end();
                   </div>
                 </div>
                   <?php
-                    echo Html::a('', ['/food/edit-food','id'=>$menu['Food_ID']], ['class'=>'raised-btn btn-lg main-btn fa fa-pencil edit-button']); 
+                    echo Html::a('', ['/food/edit-food','id'=>$menu['Food_ID'],'rid'=>$menu->Restaurant_ID], ['class'=>'raised-btn btn-lg main-btn fa fa-pencil edit-button']); 
                     echo Html::a(Yii::t('food','Food Service'),['/Restaurant/restaurant/food-on-off','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID']],['class' => 'raised-btn delete-btn btn-danger pull-right']);
                     
                   ;?>

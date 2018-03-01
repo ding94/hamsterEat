@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use frontend\controllers\CartController;
+use yii\helpers\Url;
 use frontend\assets\CartAsset;
 
 CartAsset::register($this);
@@ -9,7 +10,10 @@ CartAsset::register($this);
 <div class="container" >
 
 
-    <div class="col-md-3 col-md-offset-2" id='voucher'>			   
+    <div class="col-md-3 col-md-offset-2" id='voucher'>
+      <?php $url = Url::to(['cart/getdiscount']);
+            echo Html::hiddenInput('dis-url',$url);
+      ?>			   
       <?php if (!empty($voucher)): ?>
         <?php $form = ActiveForm::begin(); ?>
         <div>

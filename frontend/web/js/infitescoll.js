@@ -29,12 +29,12 @@ $(document).ready(function(){
 			setTimeout(function(){
 				
 				$.ajax({
-					url: 'index.php?r=Restaurant/default/load-more-food',
+					url: $("input[name=infinite-url]").val(),
 					dataType: 'json',
 					data: { id: dataID,limit:limit},
 				})
 				.done(function(data) {
-					console.log(data);
+					//console.log(data);
 					if(data.value == 2 || data.value == 4)
 					{
 						ignoreScroll = false;

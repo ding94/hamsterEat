@@ -197,11 +197,13 @@ class DefaultController extends CommonController
         foreach ($rowfood as $key => $data) {
             # code...
             $foodtypejunction = Foodtypejunction::find()->where('Food_ID=:fid',[':fid'=>$data->Food_ID])->one();
+
             $type = Foodtype::find()->where('ID=:id',[':id'=>$foodtypejunction->Type_ID])->one();
             
             $allfoodtype[$foodtypejunction->Type_ID] = $type->Type_Desc;
             $allfood[$foodtypejunction->Type_ID][] = $data;
         }
+      
        // var_dump($allfood,$allfoodtype);exit;
        /* foreach ($rowfood as $k => $v) {
             $restaurantfood[] = $v['Food_ID'];

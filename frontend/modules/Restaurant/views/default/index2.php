@@ -81,6 +81,7 @@ Modal::end();
     
     <br>
     <?php echo Html::hiddenInput('moreFood', $moreFood);?>
+    <?php echo Html::hiddenInput('infinite-url', Url::to(['/Restaurant/default/load-more-food']));?>
     <div class="outer-container">
         <div class="menu-container">
         <?php 

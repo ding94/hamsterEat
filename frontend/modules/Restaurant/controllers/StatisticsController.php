@@ -27,10 +27,11 @@ class StatisticsController extends CommonController
 		$ts_first = strtotime($first);
 		$ts_last = strtotime($last);
 
-		$food = Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->asArray()->all();
+		$food = Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->all();
 
 		foreach ($food as $key => $value) {
-			$food_array = ['id'=>(int)$value['Food_ID'],'name'=>$value['Name']];
+			
+			$food_array = ['id'=>(int)$value['Food_ID'],'name'=>$value['originName']];
             $json_food = Json::encode($food_array);
 
 			$model = RestaurantItemProfit::find()->where('fid = :fid',[':fid'=>$json_food])->andWhere(['between','created_at',$ts_first,$ts_last])->asArray()->all();
@@ -38,13 +39,13 @@ class StatisticsController extends CommonController
             $modelcount = 0;
             if(empty($model)){
                 $modelcount = 0;
-                $data[$key]['Food Name'] = $value['Name'];
+                $data[$key]['Food Name'] = $value['originName'];
                 $data[$key]['Quantity Sold'] = $modelcount;
             } else {
                 foreach ($model as $k => $v) {
                     $modelcount+= $v['quantity'];
                 }
-                $data[$key]['Food Name'] = $value['Name'];
+                $data[$key]['Food Name'] = $value['originName'];
                 $data[$key]['Quantity Sold'] = $modelcount;
             }
 		}

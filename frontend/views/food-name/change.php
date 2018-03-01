@@ -15,7 +15,7 @@ FoodOnOffAsset::register($this);
     <div class="content">
     	<div class="col-sm-2">
     		<ul id="food-onoff-nav" class="nav nav-pills nav-stacked">
-	            <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i>".Yii::t('common','Back'),['food/edit-food','id' => $fid,'page'=>'menu'])?>
+	            <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i>".Yii::t('common','Back'),['food/edit-food','id' => $fid,'rid'=>$rid])?>
 	            	
 	            </li>
 	        </ul>

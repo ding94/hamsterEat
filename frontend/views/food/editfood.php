@@ -49,7 +49,6 @@ AddFoodAsset::register($this);
                             'name' => 'Type_ID',
                             'value' => $chosen,
                             'data' => $type,
-                          
                             'options' => ['placeholder' => 'Select a type ...'],
                             'pluginOptions' => [
                                 'tags' => true,

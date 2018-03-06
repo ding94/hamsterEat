@@ -15,7 +15,7 @@ TopupWithdrawMpHistoryAsset::register($this);
 <div class="balance">
 <div id="userprofile" class="row">
    <div class="userprofile-header">
-        <div class="userprofile-header-title"><?php echo Html::encode(Yii::t('common',$this->title))?></div>
+        <div class="userprofile-header-title"><?php echo Html::encode($this->title)?></div>
     </div>
     <div class="topup-detail">
         <div class="col-sm-2" style="padding-bottom:20px;">

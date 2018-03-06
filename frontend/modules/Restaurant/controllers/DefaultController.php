@@ -271,7 +271,11 @@ class DefaultController extends CommonController
                         $resname['rid'] = $restaurant['Restaurant_ID'];
                         $resname['language'] = $lan;
                         $resname['translation'] = $val;
+                        if (empty($resname['translation'])) {
+                            $resname['translation'] = $lastname;
+                        }
                         $resname->save(false);
+                        $lastname = $resname['translation'];
                     }
                     $post['Type_ID'][] = $post['Restauranttypejunction']['Type_ID'];
                     RestauranttypeController::newRestaurantJunction($post['Type_ID'],$restaurant->Restaurant_ID);

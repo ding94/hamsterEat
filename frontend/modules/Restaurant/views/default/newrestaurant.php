@@ -29,7 +29,7 @@ NewRestaurantAsset::register($this);
                     <?= $form->field($resname, 'zh_name')->textInput(['autofocus' => true])->label(Yii::t('common','Mandarin Name')) ?>
                 </div>
             </div>
-            
+            <div style="margin:5px"><font style="color:red;">*note: If your doen't have mandarin restaurnat name, leave it blank.</font></div>
             <?= $form->field($restaurant, 'Restaurant_UnitNo')->label(Yii::t('m-restaurant','Restaurant Unit No')) ?>
 
             <?= $form->field($restaurant, 'Restaurant_Street')->label(Yii::t('m-restaurant','Restaurant Street')) ?> <br>

@@ -17,7 +17,7 @@ RestaurantServiceAsset::register($this);
         <font style='text-align: center; font-size:1.5em;font-family: "Times New Roman", Times, serif;'>
           <a href=" <?php echo yii\helpers\Url::to(['/Restaurant/restaurant/cooking-detail','rid'=>$restaurant['Restaurant_ID']]); ?> ">
             <div style="height: 50px;">
-                <?php echo $restaurant['Restaurant_Name']; ?>(<?= $restaurant['Restaurant_Orders']; ?>)
+                <?php echo $resname[$k]; ?>(<?= $restaurant['Restaurant_Orders']; ?>)
             </div>
       		</a>
         </font>

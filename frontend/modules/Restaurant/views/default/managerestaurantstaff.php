@@ -4,7 +4,7 @@ use common\models\user\Userdetails;
 use frontend\assets\ManageStaffAsset;
 use kartik\widgets\Select2;
 
-$this->title = Yii::t('m-restaurant',"Manage").' '. $id['Restaurant_Name'].Yii::t('common',"'s")." ".Yii::t('m-restaurant','Staff');
+$this->title = Yii::t('m-restaurant',"Manage").' '. $resname.Yii::t('common',"'s")." ".Yii::t('m-restaurant','Staff');
 ManageStaffAsset::register($this);
 ?>
 <div id="manage-staff-container" class = "container">

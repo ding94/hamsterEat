@@ -20,6 +20,7 @@ Modal::end();
     <?php if($case == 1 || $case == 2) : ?>
         <?= Html::a('Show With Page', ['/translate/index','case'=>1],['class' => 'btn btn-primary']); ?>
         <?= Html::a('Show All', ['/translate/index','case'=>2],['class' => 'btn btn-primary']); ?>
+         <?= Html::a('Add Source', ['/translate/add-source'],['class' => 'btn btn-success']); ?>
     <?php endif; ?>
 </div>
 

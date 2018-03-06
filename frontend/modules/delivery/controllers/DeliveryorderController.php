@@ -6,6 +6,7 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\data\Pagination;
+use common\models\RestaurantName;
 use Yii;
 use frontend\controllers\OrderController;
 use frontend\controllers\CommonController;
@@ -64,8 +65,8 @@ class DeliveryorderController extends CommonController
         $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
         $record = DailySignInController::getDailyData(1);
         $link = CommonController::createUrlLink(5);
-
-        return $this->render('order', ['dman'=>$dman,'record'=>$record,'link'=>$link,'statusid'=>$statusid]);
+        
+        return $this->render('order', ['dman'=>$dman,'record'=>$record,'link'=>$link,'statusid'=>$statusid,'resname'=>$resname]);
     }
 
     /*

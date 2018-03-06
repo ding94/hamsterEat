@@ -8,6 +8,7 @@ use yii\base\Model;
 use common\models\Restaurant;
 use common\models\Rmanager;
 use common\models\Rmanagerlevel;
+use common\models\RestaurantName;
 use common\models\Order\Orders;
 use common\models\Order\Orderitem;
 use common\models\Order\Orderitemselection;
@@ -37,7 +38,7 @@ class RestaurantController extends CommonController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['restaurant-service','food-service','providereason','active','deactive','pauserestaurant','resume-restaurant','cooking-detail','phonecooking','orderlist','food-on-off','selectionactive'],
+                        'actions' => ['restaurant-service','food-service','providereason','active','deactive','pauserestaurant','resume-restaurant','cooking-detail','phonecooking','orderlist','food-on-off','selectionactive','record-restaurant-name'],
                         'allow' => true,
                         'roles' => ['restaurant manager'],
                     ]
@@ -53,13 +54,15 @@ class RestaurantController extends CommonController
         if ($staffs) {
             foreach ($staffs as $k => $staff) {
                 $restaurants[$k] = Restaurant::find()->where('Restaurant_ID=:r',[':r' => $staff['Restaurant_ID']])->one();
+                $resname[$k] = CommonController::getRestaurantName($staff['Restaurant_ID']);
+
             }
-            return $this->render('restaurantservice',['restaurants'=>$restaurants]);
+            return $this->render('restaurantservice',['restaurants'=>$restaurants,'resname'=>$resname]);
         }
         elseif(empty($staffs))
         {
             if ($rmanager) {
-                return $this->render('restaurantservice',['restaurants'=>""]);
+                return $this->render('restaurantservice',['restaurants'=>"",'resname'=>'']);
             }
         }
         Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"You Are Not The Right Person In This Page!"));
@@ -431,13 +434,13 @@ class RestaurantController extends CommonController
         $data= Orderitem::find()->where('Restaurant_ID = :id',['id'=>$rid])->joinWith(['item_status'=>function($query){
             $query->where(['>=','Change_PendingDateTime',strtotime(date('Y-m-d'))]);},
             'food','order_selection'=>function($query){ $query->orderby('Selection_ID ASC');} ])->all();
-
+        $resname = CommonController::getRestaurantName($rid);
         foreach($data as $item)
         {
             $allData[$item['food']['Food_ID']][] = $item;
         }
         
-        return $this->render('orderlistpdf', ['rid'=>$rid,'allData'=>$allData,'restaurant'=>$restaurant]);
+        return $this->render('orderlistpdf', ['rid'=>$rid,'resname'=>$resname,'allData'=>$allData,'restaurant'=>$restaurant]);
     }
 
     public function actionPhonecooking()
@@ -448,9 +451,10 @@ class RestaurantController extends CommonController
             foreach ($staffs as $k => $staff) {
                 $restaurants[$k] = Restaurant::find()->where('Restaurant_ID=:r',[':r' => $staff['Restaurant_ID']])->asArray()->one();
                 $restaurants[$k]['Restaurant_Orders'] = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$staff['Restaurant_ID'],':s'=>2])->joinwith(['food'])->count();
+                $resname[$k] = CommonController::getRestaurantName($staff['Restaurant_ID']);
                 $count += $restaurants[$k]['Restaurant_Orders'];
             }
-            return $this->renderAjax('phonecooking',['restaurants'=>$restaurants,'count'=>$count]);
+            return $this->renderAjax('phonecooking',['restaurants'=>$restaurants,'resname'=>$resname,'count'=>$count]);
         }
         elseif(empty($staffs))
         {
@@ -468,6 +472,25 @@ class RestaurantController extends CommonController
             return $model;
         } else {
             throw new NotFoundHttpException('The requested restaurant does not exist.');
+        }
+    }
+
+    public function actionRecordRestaurantName()
+    {
+        $restaurants = Restaurant::find()->all();
+        foreach ($restaurants as $k => $restaurant) {
+            $valid = RestaurantName::find()->where('rid=:rid',[':rid'=>$restaurant['Restaurant_ID']])->andWhere(['=','language','en'])->one();
+            if (empty($valid)) {
+                $res = new RestaurantName();
+                $res['rid'] = $restaurant['Restaurant_ID'];
+                $res['language'] = 'en';
+                $res['translation'] = $restaurant['Restaurant_Name'];
+                $res->save(false);
+                var_dump($res['rid']);
+            }
+            else{
+                var_dump('fail');
+            }
         }
     }
 }

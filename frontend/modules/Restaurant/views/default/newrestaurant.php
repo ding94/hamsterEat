@@ -21,9 +21,15 @@ NewRestaurantAsset::register($this);
     <div class="container">
         <div class="col-lg-6 col-lg-offset-3">
             <?php $form = ActiveForm::begin(['id' => 'form-newrestaurant']); ?>
-                
-            <?= $form->field($restaurant, 'Restaurant_Name')->textInput(['autofocus' => true])->label(Yii::t('m-restaurant','Restaurant Name')) ?>
-
+            <div class="row">
+                <div class="col-md-6">
+                    <?= $form->field($resname, 'en_name')->textInput(['autofocus' => true])->label(Yii::t('common','English Name')) ?>
+                </div>
+                <div class="col-md-6">
+                    <?= $form->field($resname, 'zh_name')->textInput(['autofocus' => true])->label(Yii::t('common','Mandarin Name')) ?>
+                </div>
+            </div>
+            
             <?= $form->field($restaurant, 'Restaurant_UnitNo')->label(Yii::t('m-restaurant','Restaurant Unit No')) ?>
 
             <?= $form->field($restaurant, 'Restaurant_Street')->label(Yii::t('m-restaurant','Restaurant Street')) ?> <br>

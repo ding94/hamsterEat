@@ -7,7 +7,7 @@ use frontend\assets\StarsAsset;
 use frontend\assets\RestaurantDetailsAsset;
 use frontend\controllers\CartController;
 
-$this->title = $id['Restaurant_Name'];
+$this->title = $resname;
 
 StarsAsset::register($this);
 RestaurantDetailsAsset::register($this);
@@ -41,9 +41,9 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
         <?php echo Html::img($id->img, ['class' => 'restaurant-img']) ?>
         </div> 
         <div class="restaurant-info-inner">
-        <div class="restaurant-name-div"><h1 class="restaurant-name"><?php echo $id['Restaurant_Name']; ?></h1>
+        <div class="restaurant-name-div"><h1 class="restaurant-name"><?php echo $resname; ?></h1>
         <?php if(!Yii::$app->user->isGuest):?>
-        <span class="report-button"><?php echo Html::a(Yii::t('common','Report'), Url::to(['/report/report-restaurant' ,'name'=>$id['Restaurant_Name']]), ['class'=>'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#report-modal']) ?>
+        <span class="report-button"><?php echo Html::a(Yii::t('common','Report'), Url::to(['/report/report-restaurant' ,'name'=>$resname]), ['class'=>'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#report-modal']) ?>
         <?php endif ;?>
         </span>
     </div>

@@ -9,6 +9,7 @@ use frontend\assets\RestaurantDefaultIndexAsset;
 use frontend\assets\CartAsset;
 use yii\bootstrap\Modal;
 use kartik\widgets\Select2;
+use frontend\controllers\CommonController;
 
 $this->title = Yii::t('m-restaurant',"Available Restaurants");
 StarsAsset::register($this);
@@ -182,7 +183,7 @@ Modal::end();
               <div class="inner-item">
                 <div class="restaurant-name">
                   <span class="name">
-                    <?php echo $data['Restaurant_Name']; ?>
+                    <?php echo CommonController::getRestaurantName($data['Restaurant_ID']); ?>
                   </span>
                   <span class="small-text stars">
                     <?php echo $data['Restaurant_Rating']; ?>

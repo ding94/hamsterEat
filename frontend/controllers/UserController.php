@@ -114,7 +114,7 @@ class UserController extends CommonController
         $historypage = $query->offset($historypagination->offset)->limit($historypagination->limit)->orderBy(['created_at'=> SORT_DESC])->all();
         $link = CommonController::createUrlLink(2);
  		$this->layout = 'user';
-        $this->view->title = 'User Balance History';
+        $this->view->title = Yii::t('common','User Balance History');
 		return $this->render('userbalance', ['model'=>$dataProvider,'historypage' => $historypage ,'historypagination' => $historypagination, 'searchModel' => $searchModel,'link'=>$link]);
  	}
     

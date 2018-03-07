@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-$this->title = "Orders List for ". $restaurant['Restaurant_Name'];
+$this->title = "Orders List for ". $resname;
 use common\models\food\Food;
 use common\models\Order\Orderitemselection;
 use common\models\Order\Orderitem;

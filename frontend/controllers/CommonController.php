@@ -13,6 +13,7 @@ use common\models\NotificationSetting;
 use common\models\Cart\Cart;
 use common\models\Rmanager;
 use common\models\Rmanagerlevel;
+use common\models\RestaurantName;
 use yii\web\HttpException;
 
 class CommonController extends Controller
@@ -214,6 +215,29 @@ class CommonController extends Controller
             }
         }
         throw new HttpException('403','Permission Denied!');
+    }
+
+    public static function getRestaurantName($rid)
+    {
+        //cookies->reponse was cookies that ready to saved as cookies, but not available in current cookies
+        //cookies->request was cookies that available in current cookies
+        //$cookies = Yii::$app->response->cookies;
+        $cookies = Yii::$app->request->cookies;
+        if (empty($cookies['language'])) {
+            $cookies = self::getLanguage();
+        }
+        else{
+            $cookies = Yii::$app->request->cookies['language']->value;
+        }
+        $resname = ArrayHelper::map(RestaurantName::find()->where('rid=:rid',[':rid'=>$rid])->all(),'language','translation');
+        if (!empty($resname[$cookies])) {
+            $resname = $resname[$cookies];
+        }
+        else{
+            $resname = $resname['en'];
+        }
+
+        return $resname;
     }
 
     public static function getRestaurantUrl($staff,$rid)

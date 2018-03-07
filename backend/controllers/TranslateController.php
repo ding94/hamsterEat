@@ -38,4 +38,19 @@ Class TranslateController extends CommonController
 		
 		return $this->renderAjax('translation',['sen'=>$sen]);
 	}
+
+	public function actionAddSource()
+	{
+		$sen = new SentencesSource();
+
+		if ($sen->load(Yii::$app->request->post())) {
+			if ($sen->validate()) {
+				$sen->save();
+			}
+			return $this->redirect(['/translate/index']);
+			
+		}
+
+		return $this->render('addsource',['sen'=>$sen]);
+	}
 }

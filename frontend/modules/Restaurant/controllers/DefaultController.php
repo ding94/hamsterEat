@@ -15,6 +15,7 @@ use common\models\Rmanagerlevel;
 use common\models\Order\Orderitem;
 use yii\filters\AccessControl;
 use common\models\User;
+use common\models\RestaurantName;
 use common\models\AuthAssignment;
 use common\models\user\Userdetails;
 use common\models\user\UserLanguage;
@@ -169,7 +170,6 @@ class DefaultController extends CommonController
             $valid = Restaurant::find()->where('Restaurant_ID=:id AND Restaurant_Status=:s',[':id'=>$rid,':s'=>"Operating"])->one();
             if (empty($valid)) {
                 Yii::$app->session->setFlash('error', Yii::t('m-restaurant','This restaurant was not valid now.'));
-               
             }
         }
 
@@ -181,21 +181,12 @@ class DefaultController extends CommonController
              return $this->redirect(['/site/index']);
         }
 
-        //$model = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=> 1])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
         $model = food::find()->where('Restaurant_ID=:id',[':id' => $rid])->joinWith(['foodStatus'=>function($query){
             $query->where('Status = 1');
         }])->joinWith('junction');
-        // if (!empty($rmanager)) {
-        //    $model = food::find()->where('Restaurant_ID=:id', [':id' => $rid])->andWhere(["!=","Status",'-1'])->andWhere(["!=","foodtypejunction.Type_ID",5])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true);
-        // }
-       
-        //$countmodel = "SELECT DISTINCT food.Food_ID FROM food INNER JOIN foodstatus ON foodstatus.Food_ID = food.Food_ID WHERE food.Restaurant_ID = ".$rid." AND foodstatus.Status = ".true."";
-        //$resultcountmodel = Yii::$app->db->createCommand($countmodel)->execute();
-       
         $rowfood = $model->all();
 
         foreach ($rowfood as $key => $data) {
-            # code...
             $foodtypejunction = Foodtypejunction::find()->where('Food_ID=:fid',[':fid'=>$data->Food_ID])->one();
 
             $type = Foodtype::find()->where('ID=:id',[':id'=>$foodtypejunction->Type_ID])->one();
@@ -203,35 +194,10 @@ class DefaultController extends CommonController
             $allfoodtype[$foodtypejunction->Type_ID] = $type->Type_Desc;
             $allfood[$foodtypejunction->Type_ID][] = $data;
         }
-      
-       // var_dump($allfood,$allfoodtype);exit;
-       /* foreach ($rowfood as $k => $v) {
-            $restaurantfood[] = $v['Food_ID'];
-        }
-        $allfoodtype = [];
-        foreach ($restaurantfood as $food => $foodvalue) {
-            $foodtypejunction = Foodtypejunction::find()->where('Food_ID=:fid',[':fid'=>$foodvalue])->all();
-            foreach ($foodtypejunction as $i => $type) {
-                $foodtype[] = $type->Type_ID;
-                foreach ($foodtype as $f => $foodtypeid) {
-                    $foodtypename = Foodtype::find()->where('ID=:id',[':id'=>$foodtypeid])->one()->Type_Desc;
-                    if (((in_array($foodtypename, $allfoodtype))==false)&&$foodtypename != 'Halal'&&$foodtypename != 'Non-Halal') {
-                        $allfoodtype[]= $foodtypename;
-                    }
-                }
-            }
-        }
-        foreach($allfoodtype as $onekey => $onefoodtype){
-            $findfoodtypeid = Foodtype::find()->where('Type_Desc=:td',[':td'=>$onefoodtype])->one();
-            $allfoodtype[$onekey]=['name'=>$onefoodtype,'id'=>$findfoodtypeid->ID];
-        }
-       */
+        $resname = CommonController::getRestaurantName($rid);
         $language = Yii::$app->request->cookies->getValue('language');
-        /*$line = LanguageLine::find()->where('id=:id',[':id'=>$language])->one();
-        $objPHPExcel = \PHPExcel_IOFactory::load(Yii::$app->params['langExcel'].$line['file_location']);
-        $sheetData = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);*/
 
-        return $this->render('restaurantdetailsnew',['id'=>$id, 'allfood'=>$allfood, 'rid'=>$rid,'allfoodtype'=>$allfoodtype]);
+        return $this->render('restaurantdetailsnew',['id'=>$id,'resname'=>$resname, 'allfood'=>$allfood, 'rid'=>$rid,'allfoodtype'=>$allfoodtype]);
     }
 
 //--This function loads the Food Details according to the FoodController
@@ -267,7 +233,7 @@ class DefaultController extends CommonController
     {
         CommonController::rmanagerApproval();
         $restaurant = new Restaurant();
-
+        $resname = new RestaurantName();
         $upload = new Upload();
         //$path = Yii::$app->request->baseUrl.'/imageLocation/';
         $foodjunction = new Restauranttypejunction();
@@ -276,6 +242,7 @@ class DefaultController extends CommonController
         if ($restaurant->load(Yii::$app->request->post()))
             {
                 $post = Yii::$app->request->post();
+                $restaurant['Restaurant_Name'] = $post['RestaurantName']['en_name'];
                 $upload->imageFile =  UploadedFile::getInstance($restaurant, 'Restaurant_RestaurantPicPath');
                 $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
 
@@ -293,7 +260,23 @@ class DefaultController extends CommonController
 
                 if ($restaurant->validate()) {
                     $restaurant->save();
-
+                    foreach ($post['RestaurantName'] as $l => $val) {
+                        $resname = new RestaurantName;
+                        if ($l == "zh_name") {
+                           $lan = "zh";
+                        }
+                        else{
+                            $lan = "en";
+                        }
+                        $resname['rid'] = $restaurant['Restaurant_ID'];
+                        $resname['language'] = $lan;
+                        $resname['translation'] = $val;
+                        if (empty($resname['translation'])) {
+                            $resname['translation'] = $lastname;
+                        }
+                        $resname->save(false);
+                        $lastname = $resname['translation'];
+                    }
                     $post['Type_ID'][] = $post['Restauranttypejunction']['Type_ID'];
                     RestauranttypeController::newRestaurantJunction($post['Type_ID'],$restaurant->Restaurant_ID);
                     
@@ -303,7 +286,7 @@ class DefaultController extends CommonController
                     $rmanagerlevel->Restaurant_ID =  $restaurant['Restaurant_ID'];
                     $rmanagerlevel->RmanagerLevel_Level = 'Owner';
                     $rmanagerlevel->Rmanager_DateTimeAdded = time();
-                    
+
                     if ($rmanagerlevel->validate()) {
                         $rmanagerlevel->save();
                         Yii::$app->session->setFlash('success', Yii::t('m-restaurant','Registered! Please wait admin to confirm restaurant information!'));
@@ -319,7 +302,7 @@ class DefaultController extends CommonController
                 Yii::$app->session->setFlash('warning', Yii::t('m-restaurant','Register Failed!'));
                 return $this->redirect(['/Restaurant/restaurant/restaurant-service']);  
             }
-        return $this->render('newrestaurant', ['restaurant' => $restaurant, 'type'=>$type,'area'=>$areachosen,'foodjunction'=>$foodjunction]);
+        return $this->render('newrestaurant', ['restaurant' => $restaurant, 'resname'=>$resname,'type'=>$type,'area'=>$areachosen,'foodjunction'=>$foodjunction]);
     }
 
 //--This saves the edited restaurant details
@@ -331,8 +314,12 @@ class DefaultController extends CommonController
         $link = CommonController::getRestaurantUrl($linkData,$rid);
 
         $restaurantdetails = restaurant::find()->where('Restaurant_ID = :rid',[':rid' => $rid])->one();
-      
-
+        $resname = ArrayHelper::map(RestaurantName::find()->where('rid=:rid',[':rid'=>$rid])->all(),'language','translation');
+        $cookies = Yii::$app->request->cookies['language']->value;
+        $lan = "en";
+        if (RestaurantName::find()->where('rid=:rid',[':rid'=>$rid])->andWhere(['=','language',$cookies])->one()) {
+            $lan = $cookies;
+        }
         $restaurant = Restaurant::find()->where(Restaurant::tableName().'.Restaurant_ID = :id' ,[':id' => $rid])->innerJoinWith('restaurantType',true)->one();
         $chosen = ArrayHelper::map($restaurant['restaurantType'],'ID','ID');
         $type = ArrayHelper::map(RestaurantType::find()->andWhere(['and',['!=','Type_Name','Halal'],['!=','Type_Name','Non-Halal']])->orderBy(['(Type_Name)' => SORT_ASC])->all(),'ID','Type_Name');
@@ -411,7 +398,7 @@ class DefaultController extends CommonController
                 return $this->redirect(Yii::$app->request->referrer);
             }
         }
-        return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails,'chosen'=>$chosen, 'type'=>$type,'halal'=>$halal,'nonhalal'=>$nonhalal,'link'=>$link,'foodjunction'=>$foodjunction,'upload'=>$upload]);
+        return $this->render('editrestaurantdetails', ['restaurantdetails'=>$restaurantdetails,'resname'=>$resname,'chosen'=>$chosen,'lan'=>$lan, 'type'=>$type,'halal'=>$halal,'nonhalal'=>$nonhalal,'link'=>$link,'foodjunction'=>$foodjunction,'upload'=>$upload]);
     }
 
     protected function checkHalal($rid)
@@ -444,8 +431,8 @@ class DefaultController extends CommonController
         
         $linkData = CommonController::restaurantPermission($rid);
         $link = CommonController::getRestaurantUrl($linkData,$rid);
-
-        return $this->render('managerestaurantstaff',['rid'=>$rid, 'rstaff'=>$rstaff, 'id'=>$id, 'me'=>$me ,'link'=>$link]);
+        $resname = CommonController::getRestaurantName($rid);
+        return $this->render('managerestaurantstaff',['rid'=>$rid,'resname'=>$resname, 'rstaff'=>$rstaff, 'id'=>$id, 'me'=>$me ,'link'=>$link]);
     }
 
 //--This function deletes a staff from a specific restaurant

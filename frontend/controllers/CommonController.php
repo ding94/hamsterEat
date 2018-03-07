@@ -219,10 +219,19 @@ class CommonController extends Controller
 
     public static function getRestaurantName($rid)
     {
-        $cookies = Yii::$app->request->cookies['language']->value;
+        //cookies->reponse was cookies that ready to saved as cookies, but not available in current cookies
+        //cookies->request was cookies that available in current cookies
+        //$cookies = Yii::$app->response->cookies;
+        $cookies = Yii::$app->request->cookies;
+        if (empty($cookies['language'])) {
+            $cookies = self::getLanguage();
+        }
+        else{
+            $cookies = Yii::$app->request->cookies['language']->value;
+        }
         $resname = ArrayHelper::map(RestaurantName::find()->where('rid=:rid',[':rid'=>$rid])->all(),'language','translation');
         if (!empty($resname[$cookies])) {
-            $resname = $resname['translation'];
+            $resname = $resname[$cookies];
         }
         else{
             $resname = $resname['en'];

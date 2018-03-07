@@ -11,10 +11,16 @@ use kartik\widgets\ActiveForm;
 ?>
 
 <?php $form = ActiveForm::begin();?>
-    
-    <?= $form->field($model, 'en_name')->textInput(['value'=>$value['en']])?>
-    <?= $form->field($model, 'zh_name')->textInput(['value'=>$value['zh']]) ?>
+    <div class="row">
+    	<div class="col-md-4">
+    		<?= $form->field($model, 'en_name')->textInput(['value'=>$value['en']])?>
+    	</div>
+    	<div class="col-md-4">
+    		<?= $form->field($model, 'zh_name')->textInput(['value'=>$value['zh']])?>
+    	</div>
+    </div>
     <div class="form-group">
-        <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('Update', ['class' => 'btn btn-success']) ?> 
+        <?= Html::a('Back',['/restaurant/default/index'],['class'=>'btn btn-primary']) ?>
     </div>
 <?php ActiveForm::end();?>

@@ -66,7 +66,7 @@ class DeliveryorderController extends CommonController
         $record = DailySignInController::getDailyData(1);
         $link = CommonController::createUrlLink(5);
         
-        return $this->render('order', ['dman'=>$dman,'record'=>$record,'link'=>$link,'statusid'=>$statusid,'resname'=>$resname]);
+        return $this->render('order', ['dman'=>$dman,'record'=>$record,'link'=>$link,'statusid'=>$statusid]);
     }
 
     /*

@@ -8,6 +8,7 @@ use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use yii\bootstrap\Modal;
+use common\models\RestaurantName;
 
   $this->title = 'Restaurant Detail';
   $this->params['breadcrumbs'][] = $this->title;
@@ -40,6 +41,18 @@ use yii\bootstrap\Modal;
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
+            ['class' => 'yii\grid\ActionColumn' , 
+             'template'=>'{edit} ',
+             'header' => "Edit",
+             'buttons' => [
+                'edit' => function($url , $model)
+                {
+                   $url = Url::to(['/restaurant/default/edit-restaurant-details','rid'=>$model['Restaurant_ID']]);
+                    
+                   return $model ? Html::a(FA::icon('pencil lg') , $url , ['title' => 'Edit Details']) : "";
+                },
+              ]
+            ],
             [
                 'attribute' => 'Restaurant_ID',
                 'headerOptions' => ['width' => "15px"],
@@ -55,6 +68,9 @@ use yii\bootstrap\Modal;
             ],
             [
                 'attribute' => 'Restaurant_Name',
+                'value' => function ($model){
+                    return RestaurantName::find()->where('rid=:rid',[':rid'=>$model['Restaurant_ID']])->andWhere(['=','language','en'])->one()->translation;
+                }
             ],
             [
                 'attribute' => 'Restaurant_Status',

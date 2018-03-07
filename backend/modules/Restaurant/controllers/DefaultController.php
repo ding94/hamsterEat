@@ -4,11 +4,13 @@ namespace backend\modules\Restaurant\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\helpers\ArrayHelper;
 use backend\models\RestaurantSearch;
 use common\models\Area;
 use common\models\User;
 use common\models\Rmanager;
 use common\models\Restaurant;
+use common\models\RestaurantName;
 use backend\controllers\CommonController;
 use yii\web\NotFoundHttpException;
 /**
@@ -52,6 +54,45 @@ class DefaultController extends CommonController
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('rmanager-approval',['model' => $dataProvider , 'searchModel' => $searchModel]);
+    }
+
+    public function actionEditRestaurantDetails($rid)
+    {
+        $model = new RestaurantName();
+        $resname['en'] ='en';
+        $resname['zh'] ='zh';
+        $value = '';
+        foreach ($resname as $lan => $name) {
+            $data = RestaurantName::find()->where('rid=:rid',[':rid'=>$rid])->andWhere(['=','language',$name])->one();
+            if (!empty($data)) {
+                $value[$name] = $data['translation'];
+            }
+            else{
+                $value[$name] = '';
+            }
+        }
+
+        if (Yii::$app->request->post()) {
+            foreach ($resname as $lan => $name) {
+                if ($model = RestaurantName::find()->where('rid=:rid',[':rid'=>$rid])->andWhere(['=','language',$name])->one()) {
+                    $model;
+                }else{
+                    $model = new RestaurantName();
+                }
+                $model['rid'] = $rid;
+                $model['language'] = $lan;
+                if ($name == 'zh') {
+                    $model['translation'] = Yii::$app->request->post('RestaurantName')['zh_name'];
+                }
+                else{
+                    $model['translation'] = Yii::$app->request->post('RestaurantName')['en_name'];
+                }
+                $model->save(false);
+            }
+            Yii::$app->session->setFlash('success','success');
+            return $this->redirect(['/restaurant/default/index']);
+        }
+        return $this->render('edit-restaurant-details',['value'=>$value,'model'=>$model]);
     }
 
     public function actionRmanagerOperate($id,$case)

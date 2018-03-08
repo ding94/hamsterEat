@@ -19,6 +19,10 @@ use kartik\widgets\ActiveForm;
     		<?= $form->field($model, 'zh_name')->textInput(['value'=>$value['zh']])?>
     	</div>
     </div>
+
+    <?= $form->field($restaurant, 'Restaurant_LicenseNo')->textInput()?>
+    <?= $form->field($restaurant, 'Restaurant_Street')->textInput()?>
+
     <div class="form-group">
         <?= Html::submitButton('Update', ['class' => 'btn btn-success']) ?> 
         <?= Html::a('Back',['/restaurant/default/index'],['class'=>'btn btn-primary']) ?>

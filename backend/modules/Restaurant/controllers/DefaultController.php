@@ -72,27 +72,69 @@ class DefaultController extends CommonController
             }
         }
 
+        $restaurant = Restaurant::find()->where('Restaurant_ID=:id',[':id'=>$rid])->one();
+
         if (Yii::$app->request->post()) {
-            foreach ($resname as $lan => $name) {
-                if ($model = RestaurantName::find()->where('rid=:rid',[':rid'=>$rid])->andWhere(['=','language',$name])->one()) {
-                    $model;
-                }else{
-                    $model = new RestaurantName();
-                }
-                $model['rid'] = $rid;
-                $model['language'] = $lan;
-                if ($name == 'zh') {
-                    $model['translation'] = Yii::$app->request->post('RestaurantName')['zh_name'];
+            if (Yii::$app->request->post('RestaurantName')) {
+                $valid = self::restaurantNameChange($resname,$rid,Yii::$app->request->post('RestaurantName'));
+                if ($valid) {
+                    Yii::$app->session->setFlash('success','success');
                 }
                 else{
-                    $model['translation'] = Yii::$app->request->post('RestaurantName')['en_name'];
+                    Yii::$app->session->setFlash('warning','Restaurant name failed');
                 }
-                $model->save(false);
             }
-            Yii::$app->session->setFlash('success','success');
+            if (Yii::$app->request->post('Restaurant')) {
+                $valid2 = self::restaurantEdit($rid,Yii::$app->request->post('Restaurant'));
+                if ($valid2) {
+                    Yii::$app->session->setFlash('success','success');
+                }
+                else{
+                    Yii::$app->session->setFlash('warning','Edit restaurant details failed');
+                }
+            }
+            if ($valid == false && $valid2 == false) {
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
             return $this->redirect(['/restaurant/default/index']);
         }
-        return $this->render('edit-restaurant-details',['value'=>$value,'model'=>$model]);
+        return $this->render('edit-restaurant-details',['value'=>$value,'model'=>$model,'restaurant'=>$restaurant]);
+    }
+
+    protected function restaurantNameChange($resname,$rid,$post)
+    {
+        foreach ($resname as $lan => $name) {
+            if ($model = RestaurantName::find()->where('rid=:rid',[':rid'=>$rid])->andWhere(['=','language',$name])->one()) {
+                $model;
+            }else{
+                $model = new RestaurantName();
+            }
+            $model['rid'] = $rid;
+            $model['language'] = $lan;
+            if ($name == 'zh') {
+                $model['translation'] = $post['zh_name'];
+            }
+            else{
+                $model['translation'] = $post['en_name'];
+            }
+            $model->save(false);
+        }
+        return true;
+    }
+
+    protected function restaurantEdit($rid,$post)
+    {
+        $restaurant = Restaurant::find()->where('Restaurant_ID=:id',[':id'=>$rid])->one();
+        $restaurant['Restaurant_LicenseNo'] = $post['Restaurant_LicenseNo'];
+        $restaurant['Restaurant_Street'] = $post['Restaurant_Street'];
+        if ($restaurant->validate()) {
+            $restaurant->save();
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public function actionRmanagerOperate($id,$case)

@@ -34,11 +34,21 @@ class DefaultController extends CommonController
         return $this->render('menu',['menu'=>$menu, 'restaurant'=>$restaurant, 'pagination'=>$pagination,'link'=>$link]);
     }
 
+    public function actionViewComments($id)
+    {
+        $comments = Foodrating::find()->where('Food_ID = :id', [':id'=>$id])->all();
+
+        $food= Food::find()->where('Food_ID=:id',[':id'=>$id])->one();
+        $foodname=$food['cookiename'];
+        
+        return $this->render('comment', ['fid'=>$id, 'comments'=>$comments,'foodname'=>$foodname]);
+    }
+
     public function actionDetail($id,$rid)
     {
-       /* if(!Yii::$app->request->isAjax){
+        if(!Yii::$app->request->isAjax){
             return $this->redirect(Yii::$app->request->referrer);
-        }*/
+        }
         $valid = ValidController::RestaurantValid($rid);
 
         if($valid)

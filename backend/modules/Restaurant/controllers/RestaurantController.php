@@ -56,7 +56,7 @@ class RestaurantController extends CommonController
             $month = date('Y-n',strtotime('this year'));
         }
         $explodemonth = explode("-",$month);
-        $restaurant = Restaurant::find()->asArray()->all();
+        $restaurant = Restaurant::find()->asArray()->joinWith('restaurantEnName')->all();
         $months = CommonController::getYear($explodemonth[0]);
         $startend = CommonController::getStartEnd($explodemonth[0]);
         foreach ($startend as $i => $date) {
@@ -65,12 +65,12 @@ class RestaurantController extends CommonController
                 $modelcount = 0;
                 if(empty($model)){
                     $modelcount = 0;
-                    $data[$i][$value['Restaurant_Name']] = $modelcount;
+                    $data[$i][$value['restaurantEnName']['translation']] = $modelcount;
                 } else {
                     foreach ($model as $k => $v) {
                         $modelcount+= $v['quantity'];
                     }
-                    $data[$i][$value['Restaurant_Name']] = $modelcount;
+                    $data[$i][$value['restaurantEnName']['translation']] = $modelcount;
                 }
             }
             arsort($data[$i]);   
@@ -164,7 +164,7 @@ class RestaurantController extends CommonController
 
     public function actionSpeedrating($rid)
     {
-        $restaurant = Restaurant::find()->where('restaurant.Restaurant_ID=:rid',[':rid'=>$rid])->joinWith(['food'])->one();
+        $restaurant = Restaurant::find()->where('restaurant.Restaurant_ID=:rid',[':rid'=>$rid])->joinWith(['food','restaurantEnName'])->one();
         $foodname = Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->asArray()->all();
         $foodname = ArrayHelper::map($foodname, 'Food_ID', 'Name');
 

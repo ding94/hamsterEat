@@ -13,7 +13,7 @@ use kartik\widgets\DatePicker;
 ?>
 
 <head>
-	<h3>Restaurant: <strong><?= $restaurant['Restaurant_Name']; ?></strong></h3>
+	<h3>Restaurant: <strong><?= $restaurant['restaurantEnName']['translation']; ?></strong></h3>
 </head>
 
 <body>

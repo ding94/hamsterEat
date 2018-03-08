@@ -108,6 +108,16 @@ class Restaurant extends \yii\db\ActiveRecord
         return $this->hasMany(Food::className(),['Restaurant_ID' => 'Restaurant_ID']);
     }
 
+    public function getRestaurantEnName()
+    {
+        return $this->hasOne(RestaurantName::className(),['rid' => 'Restaurant_ID'])->where('language=:l',[':l'=>'en']);
+    }
+
+    public function getRestaurantZhName()
+    {
+        return $this->hasOne(RestaurantName::className(),['rid' => 'Restaurant_ID'])->where('language=:l',[':l'=>'zh']);
+    }
+
     public function getImg()
     {
         $image = $this->Restaurant_RestaurantPicPath;

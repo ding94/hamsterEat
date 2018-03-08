@@ -126,7 +126,6 @@ AddFoodAsset::register($this);
                 <div class="form-group">
                     <?= Html::submitButton(Yii::t('common','Save'), ['class' => 'raised-btn main-btn', 'name' => 'insert-button']) ?>
                 </div>
-            
             <?php ActiveForm::end(); ?> 
        </div>
     </div>

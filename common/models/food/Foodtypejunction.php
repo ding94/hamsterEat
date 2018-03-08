@@ -28,8 +28,10 @@ class Foodtypejunction extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Food_ID', 'Type_ID'], 'required'],
-            [['Food_ID', 'Type_ID'], 'integer'],
+            ['Type_ID', 'required'],
+            ['Type_ID','integer','on'=>'new'],
+            [['Food_ID', 'Type_ID'], 'integer','on'=>'edit'],
+            ['Food_ID','required','on'=>'edit'],
         ];
     }
 

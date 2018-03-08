@@ -41,7 +41,8 @@ class Foodstatus extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Food_ID', 'Status'], 'required'],
+            ['Status', 'required'],
+            ['food_limit','default','value'=>'50'],
             [['Food_ID', 'Status', 'StartTime', 'StopTime'], 'integer'],
         ];
     }
@@ -55,6 +56,7 @@ class Foodstatus extends \yii\db\ActiveRecord
             'ID' => 'ID',
             'Food_ID' => 'Food  ID',
             'Status' => 'Status',
+            'food_limit' => 'limit',
             'StartTime' => 'Start Time',
             'StopTime' => 'Stop Time',
         ];

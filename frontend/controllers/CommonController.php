@@ -180,6 +180,22 @@ class CommonController extends Controller
         return $data;
     }
 
+    public static function getRestaurantEditUrl($id,$rid,$type)
+    {
+        $data = [];
+        $data = [
+                  Url::to(['/food/menu','rid'=>$rid,'page'=>'menu']) => 'Back',
+                ];
+        if($type == 1)
+        {
+            $data[Url::to(['/Food/default/create-edit-food','id'=>$id,'rid'=>$rid])] = 'Edit Food';
+            $data[ Url::to(['/Food/selection/create-edit','id'=>$id,'rid'=>$rid])] = 'Edit Food Selection';
+            $data[Url::to(['/Food/name/change','id'=>$id,'rid'=>$rid])]="Edit Name";
+        }
+      
+        return $data;
+    }
+
     public static function restaurantPermission($rid)
     {
         $staff = Rmanagerlevel::find()->where('rmanagerlevel.Restaurant_ID = :rid and rmanagerlevel.User_Username = :u and  Rmanager_Approval = 1',[':rid'=>$rid,':u' => Yii::$app->user->identity->username])->joinWith(['manager','restaurant'])->one();
@@ -196,7 +212,7 @@ class CommonController extends Controller
         $auth = \Yii::$app->authManager;
        
         $verify = $auth->getChildren($staff->RmanagerLevel_Level);
-         
+      
         if(empty($verify[$permissionName]))
         {
            throw new HttpException('403','Permission Denied!');
@@ -264,4 +280,5 @@ class CommonController extends Controller
         }
         return array_filter($final);
     }
+    
 }

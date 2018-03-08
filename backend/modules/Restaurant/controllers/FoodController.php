@@ -304,7 +304,7 @@ Class FoodController extends CommonController
                 $value->save();
             }
         }
-        if(!isvalid)
+        if(!$isvalid)
         {
             Yii::$app->session->setFlash('warning', "Fail");
         }

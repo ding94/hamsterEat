@@ -23,6 +23,9 @@ return [
         'UserPackage' => [
             'class' => 'frontend\modules\UserPackage\Package',
         ],
+        'Food' => [
+            'class' => 'frontend\modules\Food\food',
+        ],
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
@@ -59,6 +62,11 @@ return [
 
             ],
         ],
+        /*'assetManager' => [
+            'appendTimestamp' => true,
+            'bundles' => require(__DIR__   .'/assets-prod.php'), 
+
+        ],*/
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],

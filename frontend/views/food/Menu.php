@@ -65,7 +65,7 @@ Modal::end();
 		<a href="#top" class="scrollToTop"></a>
         <div id="food-menu-content" class="col-sm-10">
           <div class="top-button-div">
-            <span><?php echo Html::a(Yii::t('food','Insert Food'), ['/food/insert-food','rid'=>$rid], ['class'=>'raised-btn main-btn']); ?></span>
+            <span><?php echo Html::a(Yii::t('food','Insert Food'), ['/Food/default/create-edit-food','rid'=>$rid], ['class'=>'raised-btn main-btn']); ?></span>
             <span> 
               <?php if ($restaurant['Restaurant_Status'] == "Closed"): ?>
               <?=Html::a('Resume Resturant Operate', Url::to(['/Restaurant/restaurant/resume-restaurant', 'id'=>$restaurant['Restaurant_ID']]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'resize-btn raised-btn btn-success'])?>
@@ -96,7 +96,7 @@ Modal::end();
                   </div>
                 </div>
                   <?php
-                    echo Html::a('', ['/food/edit-food','id'=>$menu['Food_ID'],'rid'=>$menu->Restaurant_ID], ['class'=>'raised-btn btn-lg main-btn fa fa-pencil edit-button']); 
+                    echo Html::a('', ['/Food/default/create-edit-food','id'=>$menu['Food_ID'],'rid'=>$menu->Restaurant_ID], ['class'=>'raised-btn btn-lg main-btn fa fa-pencil edit-button']); 
                     echo Html::a(Yii::t('food','Food Service'),['/Restaurant/restaurant/food-on-off','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID']],['class' => 'raised-btn delete-btn btn-danger pull-right']);
                     
                   ;?>

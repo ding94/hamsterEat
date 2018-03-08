@@ -27,11 +27,11 @@ class FoodSelectionName extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['language'], 'required'],
             [['translation'],'required','message'=>Yii::t('food','Selection Name').Yii::t('common',' cannot be blank.')],
             [['id'], 'integer'],
-            ['id','required','on'=>'copy'],
+            [['id','language'],'required','on'=>'copy'],
             [['translation'], 'string'],
+            ['language','default','value'=>'en'],
             [['language'], 'string', 'max' => 16],
             [['id', 'language'], 'unique', 'targetAttribute' => ['id', 'language']],
         ];

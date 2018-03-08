@@ -32,7 +32,7 @@ td.vcenter div.form-group{
 }
 
 #add-food-nav > li > a {
-  font-size: large;
+  /*font-size: large;*/
   border-bottom: 1px solid #efefef;
 }
 

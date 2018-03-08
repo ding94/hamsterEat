@@ -12,7 +12,6 @@ class FoodtypeAndStatusController extends Controller
 {
 	public static function newFoodJuntion($typeid,$id)
 	{
-
         $newtype = new Foodtypejunction;
         $newtype->Food_ID =$id;
         $newtype->Type_ID = $typeid;

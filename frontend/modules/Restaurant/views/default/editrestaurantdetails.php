@@ -11,7 +11,7 @@ use frontend\assets\EditRestaurantDetailsAsset;
 use yii\bootstrap\Modal;
 use kartik\widgets\FileInput;
 
-$this->title = Yii::t('common','Edit')." ".$restaurantdetails['Restaurant_Name']."'s ".Yii::t('common','Details');
+$this->title = Yii::t('common','Edit')." ".$resname[$lan].' '.Yii::t('common',"'s ").Yii::t('common','Details');
 EditRestaurantDetailsAsset::register($this); 
 ?>
 
@@ -51,7 +51,22 @@ EditRestaurantDetailsAsset::register($this);
             </div>
         </div>
         <div id="edit-restaurant-details-content" class="col-sm-10">
-            <strong><?= Yii::t('m-restaurant','Restaurant Name') ?></strong><br><?php echo $restaurantdetails['Restaurant_Name']; ?><br><br>
+            <strong><?= Yii::t('m-restaurant','Restaurant Name') ?></strong><br>
+            <div class="row">
+                <?php foreach ($resname as $k => $value): ?>
+                    <div class="col-md-5">
+                        <?php if($k!='en') : ?>
+                            <?php echo Yii::t('common','Mandarin'); ?> 
+                        <?php else : ?>
+                            <?php echo Yii::t('common','English'); ?> 
+                        <?php endif;?>
+                         : <?php echo $value; ?>
+                    </div>
+                <?php endforeach;?>
+            </div>
+            
+
+            <br><br>
             <strong><?= Yii::t('m-restaurant','Restaurant License No')?></strong><br><?php echo $restaurantdetails['Restaurant_LicenseNo']; ?><br><br>
             <strong><?= Yii::t('m-restaurant','Restaurant Area')?></strong><br><?php echo $restaurantdetails['Restaurant_Area']; ?><br><br>
 

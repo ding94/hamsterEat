@@ -150,7 +150,7 @@ if (empty($language)) {
                 $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$level['Restaurant_ID']])->one();
                  $orderitem = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$level['Restaurant_ID'],':s'=>2])->joinwith(['food'])->count();
                 if ($orderitem > 0) {
-                    $menuItems[end($key)]['items'][] = ['label'=>$restaurant['Restaurant_Name'].'('.$orderitem.')','url'=>['/Restaurant/restaurant/cooking-detail','rid'=>$level['Restaurant_ID']]];
+                    $menuItems[end($key)]['items'][] = ['label'=>CommonController::getRestaurantName($level['Restaurant_ID']).'('.$orderitem.')','url'=>['/Restaurant/restaurant/cooking-detail','rid'=>$level['Restaurant_ID']]];
                     $menuItems[end($key)]['items'][] = '<li class="divider"></li>'; 
                 }
                 $count += $orderitem;

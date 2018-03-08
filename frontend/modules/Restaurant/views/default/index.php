@@ -9,6 +9,7 @@ use frontend\assets\RestaurantDefaultIndexAsset;
 use frontend\assets\CartAsset;
 use yii\bootstrap\Modal;
 use kartik\widgets\Select2;
+use frontend\controllers\CommonController;
 
 $this->title = Yii::t('m-restaurant',"Available Restaurants");
 StarsAsset::register($this);
@@ -113,9 +114,19 @@ Modal::end();
                 <?php echo Html::a('<li>'.Yii::t('common','All').'</li>', ['index'])."&nbsp;&nbsp;"; ?>
                   <?php foreach ($allrestauranttype as $i=> $data) : ?>
                     <?php if(empty($filter)) :?>
-                      <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/index' ,'type'=>$i])."&nbsp;&nbsp;"; ?>
+                    <li>
+                      <div class="checkbox">
+                        <input id="<?php echo $data ?>" type="checkbox" name="<?php echo $data ?>" value="<?php echo $data ?>" class="checkbox-custom type">
+                        <label for="<?php echo $data ?>" class="type-label"><span class="checkbox-custom-label"></span><span><?php echo $data ?></span></label>
+                      </div>
+                    </li>
                     <?php else :?>
-                       <?php echo Html::a('<li>'.$data.'</li>', ['/Restaurant/default/index','type'=>$i ,'filter'=>$filter])."&nbsp;&nbsp;"; ?>
+                    <li>
+                      <div class="checkbox">
+                        <input id="<?php echo $data ?>" type="checkbox" name="<?php echo $data ?>" value="<?php echo $data ?>" class="checkbox-custom type">
+                        <label for="<?php echo $data ?>" class="type-label"><span class="checkbox-custom-label"></span><span><?php echo $data ?></span></label>
+                      </div>
+                    </li>
                     <?php endif ;?>
                   <?php endforeach; ?>
                 </ul>
@@ -143,16 +154,36 @@ Modal::end();
   
     <div class="outer-container">
       <div class="menu-container">
+          <a href="<?php echo yii\helpers\Url::to(['#']); ?>">
+            <div class="list" data-type="loren,ipsum,">
+              <div class="page-img">
+                  <?php echo Html::img(Yii::getAlias('@web').'/'.Yii::$app->params['defaultRestaurantImg'], ['class' => 'img'])?>
+              </div>
+              <div class="inner-item">
+                <div class="restaurant-name">
+                  <span class="name">
+                    ???
+                  </span>
+                </div>
+              </div>        
+            </div>
+          </a>
         <?php foreach($restaurant as $data) :?>
+          <?php 
+          $string = '';
+          foreach($data['restaurantType'] as $k):
+            $string .= $k['Type_Name'].',';
+          endforeach;
+           ?>
           <a href="<?php echo yii\helpers\Url::to(['restaurant-details','rid'=>$data['Restaurant_ID']]); ?>">
-            <div class="list">
+            <div class="list" data-type="<?php echo $string; ?>">
               <div class="page-img">
                   <?php echo Html::img($data->img, ['class' => 'img'])?>
               </div>
               <div class="inner-item">
                 <div class="restaurant-name">
                   <span class="name">
-                    <?php echo $data['Restaurant_Name']; ?>
+                    <?php echo CommonController::getRestaurantName($data['Restaurant_ID']); ?>
                   </span>
                   <span class="small-text stars">
                     <?php echo $data['Restaurant_Rating']; ?>

@@ -79,8 +79,14 @@ RestaurantStatisticsAsset::register($this);
 		<?php echo GridView::widget([
 		        'dataProvider'=>$provider,
 		        'columns'=>[
-		            Yii::t('order','Food Name'),
-		            Yii::t('m-restaurant','Quantity Sold'),
+                    [
+                        'label'=>Yii::t('order','Food Name'),
+                        'attribute'=>'Food Name',
+                    ],
+                    [
+                        'label'=>Yii::t('m-restaurant','Quantity Sold'),
+                        'attribute'=>'Quantity Sold',
+                    ],
 		        ],
 		        'layout' => '{items}{summary}{pager}',
 				'emptyText' => '-',

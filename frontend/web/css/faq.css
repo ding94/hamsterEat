@@ -1,0 +1,30 @@
+.container{
+	background-color: #FFF;
+}
+
+.container ul{
+	padding: 10px 0;
+	border-bottom: 1px solid #ddd;
+}
+
+ul .active{
+	border-bottom: 4px solid #FFDA00;
+}
+
+.nav-pills > li.active > a{
+	/* color: #DDD !important; */
+}
+
+.container .nav > li > a:hover{
+	background-color: transparent;
+	border-bottom: 4px solid yellow;
+}
+
+.container .nav > li.active > a:hover{
+	background-color: transparent;
+	border-bottom: none;
+}
+
+.tab-content{
+	padding: 15px;
+}

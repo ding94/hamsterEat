@@ -1,6 +1,5 @@
 <?php
 /* @var $this yii\web\View */
-$this->title = "Orders List for ". $restaurant['Restaurant_Name'];
 use common\models\food\Food;
 use common\models\Order\Orderitemselection;
 use common\models\Order\Orderitem;
@@ -8,7 +7,11 @@ use common\models\food\Foodselection;
 use common\models\Order\Orders;
 use common\models\Order\DeliveryAddress;
 use yii\helpers\Html;
+use common\models\RestaurantName;
+$cookies = Yii::$app->request->cookies;
 
+$resname = RestaurantName::find()->where('rid=:rid',[':rid'=>$level['Restaurant_ID']])->andWhere(['=','language',$cookies['language']->value])->one();
+$this->title = "Orders List for ". $resname['translation'];
 ?>
 
 <body>

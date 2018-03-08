@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 use common\models\food\Food;
 use common\models\Restaurant;
+use common\models\RestaurantName;
 use yii\helpers\Html;
 use frontend\assets\DeliverymanOrdersAsset;
 use kartik\widgets\Select2;
@@ -116,10 +117,12 @@ DeliverymanOrdersAsset::register($this);
                 ?>
                     <tr>
                         <?php
-                             $foodname = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitemdetails['Food_ID']])->one();
+                            $foodname = Food::find()->where('Food_ID = :fid', [':fid'=>$orderitemdetails['Food_ID']])->one();
                             $restname = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$foodname['Restaurant_ID']])->one();
+                            $cookies = Yii::$app->request->cookies;
+                            $resname = RestaurantName::find()->where('rid=:rid',[':rid'=>$restname['Restaurant_ID']])->andWhere(['=','language',$cookies['language']->value])->one();
                         ?>
-                        <td data-th="Restaurant Name"><?php echo $restname['Restaurant_Name']; ?></td>
+                        <td data-th="Restaurant Name"><?php echo $resname['translation']; ?></td>
                         <td colspan="2" data-th="Area"><?php echo $restname['Restaurant_Area']; ?></td>
                         <td data-th="Quantity"><?php echo $orderitemdetails['OrderItem_Quantity']; ?></td>
                         

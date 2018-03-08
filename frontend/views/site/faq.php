@@ -1,4 +1,10 @@
-<?php $this->title = Yii::t('common','Guide'); ?>
+<?php 
+
+use frontend\assets\FaqAsset;
+
+$this->title = Yii::t('common','Guide'); 
+FaqAsset::register($this);
+?>
 
 <div class = "container guide">
     <ul class="nav nav-pills ul-center">
@@ -20,7 +26,7 @@
                     <br>
                     <p><strong>HamsterEat</strong></p>
                     <p align = "justify"><?= Yii::t('guide','general-1') ?></p>
-                    <table class= table table-user-info>
+                    <table class='table table-bordered table-striped table-user-info'>
                         <tr>
                             <th><?= Yii::t('site','Member') ?></th>
                             <td><?= Yii::t('guide','general-1-1') ?></td>
@@ -43,7 +49,7 @@
                     <br>
                     <p><strong><?= Yii::t('common','Payment') ?></strong></p>
                     <p align = "justify"><?= Yii::t('guide','general-3') ?></p>
-                    <table class= table table-user-info>
+                    <table class='table table-bordered table-striped table-user-info'>
                         <tr>
                             <th> <?= Yii::t('site','Account Balance') ?></th>
                             <td><?= Yii::t('guide','general-3-1') ?></td>

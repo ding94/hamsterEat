@@ -24,7 +24,7 @@ RestaurantServiceAsset::register($this);
            </div>
             <div class="inner-item">
               <div class="restaurant-name-div">
-                <span class="restaurant-name"><?php echo $restaurant['Restaurant_Name']; ?></span>
+                <span class="restaurant-name"><?php echo $resname[$k]; ?></span>
                 <span class="small-text pull-right stars" alt="<?php echo $restaurant['Restaurant_Rating']; ?>"><?php echo $restaurant['Restaurant_Rating']; ?></span>
               </div>
               <span><p><?php echo $restaurant['Restaurant_UnitNo'].','.$restaurant['Restaurant_Street'].','.$restaurant['Restaurant_Area'].', '.$restaurant['Restaurant_Postcode'] ?></p></span>

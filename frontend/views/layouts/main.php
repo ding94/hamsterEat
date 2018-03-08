@@ -14,6 +14,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 use yii\helpers\Json;
 use common\models\Rmanagerlevel;
 use common\models\Rmanager;
+use common\models\RestaurantName;
 use common\models\Deliveryman;
 use common\models\Restaurant;
 use common\models\Order\Orderitem;
@@ -149,10 +150,11 @@ NotificationAsset::register($this);
             $lvl = Rmanagerlevel::find()->where('User_Username=:u',[':u'=>$rmanager['User_Username']])->all();
             $count = 0;
             foreach ($lvl as $k => $level) {
-                $restaurant = Restaurant::find()->where('Restaurant_ID=:rid',[':rid'=>$level['Restaurant_ID']])->one();
+                $cookies = Yii::$app->request->cookies;
+                $resname = RestaurantName::find()->where('rid=:rid',[':rid'=>$level['Restaurant_ID']])->andWhere(['=','language',$cookies['language']->value])->one();
                 $orderitem = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$level['Restaurant_ID'],':s'=>2])->joinwith(['food'])->count();
                 if ($orderitem > 0) {
-                    $menuItems[end($key)]['items'][] = ['label'=>$restaurant['Restaurant_Name'].'('.$orderitem.')','url'=>['/Restaurant/restaurant/cooking-detail','rid'=>$level['Restaurant_ID']]];
+                    $menuItems[end($key)]['items'][] = ['label'=>$resname['translation'].'('.$orderitem.')','url'=>['/Restaurant/restaurant/cooking-detail','rid'=>$level['Restaurant_ID']]];
                     $menuItems[end($key)]['items'][] = '<li class="divider"></li>';
                 }
                 $count += $orderitem;

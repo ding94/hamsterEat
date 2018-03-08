@@ -90,7 +90,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
             foreach($typename as $food):
                 $imgdata =  $food->multipleImg
         ?>
-        <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$food['Food_ID'],'rid'=>$rid]); ?>"  class ="food-link" data-toggle="modal" data-target="#foodDetail" data-img= <?php echo json_encode($imgdata) ?>>
+        <a href="<?php echo yii\helpers\Url::to(['/Food/default/detail','id'=>$food['Food_ID'],'rid'=>$rid]); ?>"  class ="food-link" data-toggle="modal" data-target="#foodDetail" data-img= <?php echo json_encode($imgdata) ?>>
         <div class="item">
             <div class="img">
                 <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>

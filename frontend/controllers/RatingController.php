@@ -10,6 +10,7 @@ use common\models\Rating\Foodrating;
 use common\models\Rating\Servicerating;
 use common\models\Rating\RatingStatus;
 use common\models\food\Food;
+use common\models\Restaurant;
 use yii\helpers\ArrayHelper;
 use frontend\controllers\CartController;
 use frontend\controllers\CommonController;
@@ -43,7 +44,8 @@ Class RatingController extends CommonController
 		{
 			 return $this->redirect(['site/index']);
 		}
-		$orderitem = Orderitem::find()->where('Delivery_id = :id' ,[':id' => $id])->joinWith('food')->select('food.Food_ID')->distinct()->all();
+		$orderitem = Orderitem::find()->where('Delivery_id = :id and OrderItem_Status = 10' ,[':id' => $id])->joinWith('food')->select('food.Food_ID')->all();
+		
 		$foodrating = new Foodrating;
 		$servicerating = new Servicerating;
 		$ratingLevel = ArrayHelper::map($label, 'id', 'labelName');
@@ -54,25 +56,28 @@ Class RatingController extends CommonController
 	public function actionRatingData($id)
 	{
 		$post= Yii::$app->request->post();
-		
-		$servicerating = self::serviceRating($post,$id);
-		if($servicerating == true)
+		if(!empty($post))
 		{
-			$foodvalidate = self::allFoodRating($post['Foodrating'],$id);
-			
-			if($foodvalidate == true)
+			$servicerating = self::serviceRating($post,$id);
+			if($servicerating == true)
 			{
-				self::changeStatus($id);
+				$foodvalidate = self::allFoodRating($post['Foodrating'],$id);
+				
+				if($foodvalidate == true)
+				{
+					self::changeStatus($id);
+				}
+				else
+				{
+					Servicerating::deleteAll('delivery_id = :id',[':id' => $id]);
+				}
 			}
 			else
 			{
-				Servicerating::deleteAll('delivery_id = :id',[':id' => $id]);
+				Yii::$app->session->setFlash('warning', Yii::t('common',"Failed"));
 			}
 		}
-		else
-		{
-			Yii::$app->session->setFlash('warning', Yii::t('common',"Failed"));
-		}
+		
 		return $this->redirect(['order/my-orders','status'=>6]);
 	}
 
@@ -115,14 +120,15 @@ Class RatingController extends CommonController
 		$servicerating->load($post);
 		$servicerating->delivery_id = $id;
 		$servicerating->User_Id = Yii::$app->user->identity->id;
-		if($servicerating->save())
+		return true;
+		/*if($servicerating->save())
 		{
 			return true;
 		}
 		else
 		{
 			return false;
-		}
+		}*/
 	}
 
 	protected static function allFoodRating($post,$id)
@@ -153,29 +159,38 @@ Class RatingController extends CommonController
 		$foodrating->delivery_id = $id;
 		$foodrating->User_Id = Yii::$app->user->identity->id;
 		//var_dump($foodrating->validate());exit;
-		if($foodrating->save())
+		
+		$food = self::countFoodRate($foodrating->Food_ID,$foodrating->FoodRating_Rating);
+		
+		$restaurant = self::countResRate($food->Restaurant_ID,$food->Rating);
+		
+		
+		$isvalid = $food->validate() && $foodrating->validate() && $restaurant->validate();
+	
+		if($isvalid)
 		{
-			$sql = "SELECT id FROM foodrating WHERE Food_ID = ".$foodrating->Food_ID."";
-			$result = Yii::$app->db->createCommand($sql)->execute();
-
-			$ratings = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$foodrating->Food_ID])->all();
-			$rating = 0;
-			foreach ($ratings as $ratings) :
-				$rating = $ratings['FoodRating_Rating'] + $rating;
-			endforeach;
-
-			$averagerating = $rating / $result;
-
-			$averagerating = CartController::actionDisplay2decimal($averagerating);
-			$sql1 = "UPDATE food SET Rating = ".$averagerating." WHERE Food_ID = ".$foodrating->Food_ID."";
-			$result = Yii::$app->db->createCommand($sql1)->execute();
-
-			return true;
-		}
-		else
-		{
+			if($food->save() && $foodrating->save() && $restaurant->save())
+			{
+				return true;
+			}
 			return false;
 		}
+		return $isvalid;
+		
+	}
+
+	protected static function countFoodRate($fid,$number)
+	{
+		$food = Food::findOne($fid);
+		$food->Rating =  CartController::actionDisplay2decimal(($food->Rating+$number)/2);
+		return $food;
+	}
+
+	protected static function countResRate($rid,$number)
+	{
+		$restaurant = Restaurant::findOne($rid);
+		$restaurant->Restaurant_Rating = CartController::actionDisplay2decimal(($restaurant->Restaurant_Rating+$number)/2);
+		return $restaurant;
 	}
 
 }

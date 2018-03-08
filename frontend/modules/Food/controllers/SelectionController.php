@@ -196,5 +196,23 @@ class SelectionController extends CommonController
         
         return $selection;
     }
+
+    public static function enableOff($id)
+    {
+        $selection = Foodselection::findOne($id);
+        $type = Foodselectiontype::findOne($selection->Type_ID);
+        $currentOn = Foodselection::find()->where('Type_ID = :tid and Status = 1',[':tid'=>$type->ID])->count();
+       
+        if($type->Min >= $currentOn)
+        {
+              Yii::$app->session->setFlash('danger', Yii::t('m-restaurant',"Food Selection Type")." : ".$type->TypeName." ".Yii::t('m-restaurant','require at least')." ".$type->Min. " ".Yii::t('m-restaurant',"to be active."));
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+       
+    }
 }
 

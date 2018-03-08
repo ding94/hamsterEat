@@ -35,7 +35,7 @@ AddFoodAsset::register($this);
             </div>
             <div class="nav-url">
               <ul id="food-menu-nav" class="nav nav-pills nav-stacked">
-                <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i>".Yii::t('common','Back'),['/food/menu','rid' => $food->Restaurant_ID,'page'=>'menu'])?></li>
+                <li role="presentation"><?php echo Html::a("<i class='fa fa-chevron-left'></i>".Yii::t('common','Back'),['/Food/default/menu','rid' => $food->Restaurant_ID])?></li>
                 <?php $link = array_splice($link, 1);?>
                 <?php foreach($link as $url=>$urlname):?>
                     <li role="presentation" class=<?php echo $urlname=="Edit Food" ? "active" :"" ?>>

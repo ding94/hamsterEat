@@ -13,7 +13,8 @@ use yii\widgets\LinkPager;
 use kartik\widgets\FileInput;
 use yii\widgets\ActiveForm;
 
-$this->title = $rname."'s".' '.Yii::t('food','Menu');
+$this->title = $restaurant->originName."'s".' '.Yii::t('food','Menu');
+
 FoodMenuAsset::register($this);
 StarsAsset::register($this);
 FoodServiceAsset::register($this);
@@ -30,7 +31,7 @@ Modal::end();
     <div class="food-menu-header">
         <div class="food-menu-header-title"><?= Html::encode($this->title) ?></div>
     </div>
-	
+	 
     <div class="content">
         <div class="col-sm-2">
             <div class="dropdown-url">
@@ -65,7 +66,7 @@ Modal::end();
 		<a href="#top" class="scrollToTop"></a>
         <div id="food-menu-content" class="col-sm-10">
           <div class="top-button-div">
-            <span><?php echo Html::a(Yii::t('food','Insert Food'), ['/Food/default/create-edit-food','rid'=>$rid], ['class'=>'raised-btn main-btn']); ?></span>
+            <span><?php echo Html::a(Yii::t('food','Insert Food'), ['/Food/default/create-edit-food','rid'=>$restaurant->Restaurant_ID], ['class'=>'raised-btn main-btn']); ?></span>
             <span> 
               <?php if ($restaurant['Restaurant_Status'] == "Closed"): ?>
               <?=Html::a('Resume Resturant Operate', Url::to(['/Restaurant/restaurant/resume-restaurant', 'id'=>$restaurant['Restaurant_ID']]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'resize-btn raised-btn btn-success'])?>
@@ -97,7 +98,7 @@ Modal::end();
                 </div>
                   <?php
                     echo Html::a('', ['/Food/default/create-edit-food','id'=>$menu['Food_ID'],'rid'=>$menu->Restaurant_ID], ['class'=>'raised-btn btn-lg main-btn fa fa-pencil edit-button']); 
-                    echo Html::a(Yii::t('food','Food Service'),['/Restaurant/restaurant/food-on-off','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID']],['class' => 'raised-btn delete-btn btn-danger pull-right']);
+                    echo Html::a(Yii::t('food','Food Service'),['/Food/service/on-off','id'=>$menu['Food_ID'],'rid'=>$menu['Restaurant_ID']],['class' => 'raised-btn delete-btn btn-danger pull-right']);
                     
                   ;?>
 

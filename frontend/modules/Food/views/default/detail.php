@@ -33,7 +33,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
       <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
           
   		<!--<table class="table-user-information" style="width:60%; margin:auto;">-->  
-            <?php echo Html::hiddenInput('url',Url::to(['cart/addto-cart','id'=>$fooddata->Food_ID]));?>       
+            <?php echo Html::hiddenInput('url',Url::to(['/cart/addto-cart','id'=>$fooddata->Food_ID]));?>       
              <br>
               <div class="foodname">
                     <!--<td>Food Name:</td>-->

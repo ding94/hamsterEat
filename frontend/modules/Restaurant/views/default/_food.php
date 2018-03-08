@@ -8,7 +8,7 @@ RestaurantDefaultIndex2Asset::register($this);
 
  $imgdata =  $fooddata->multipleImg;
 ?>
-<a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-backdrop-limit="1" data-toggle="modal" data-target="#foodDetail"  data-img=<?php echo json_encode($imgdata)?> class="food-modal">
+<a href="<?php echo yii\helpers\Url::to(['/Food/default/detail','id'=>$fooddata['Food_ID'],'rid'=>$fooddata['Restaurant_ID']]); ?>" data-backdrop-limit="1" data-toggle="modal" data-target="#foodDetail"  data-img=<?php echo json_encode($imgdata)?> class="food-modal">
      
     <div class="item" data-id=<?php echo $fooddata->Food_ID ?>>
        

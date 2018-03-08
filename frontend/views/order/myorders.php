@@ -61,9 +61,12 @@ MyOrdersAsset::register($this);
           <?php foreach ($order as $data) :?>
           <tr class="orderRow">
             <td colspan="2" class="block">
-              <?php if($data['Orders_Status'] == 6 || $data['Orders_Status'] == 7): ?>
-                 <?php echo Html::a(Yii::t('order','Invoice Detail'),['invoice-pdf','did'=>$data['Delivery_ID']], ['target'=>'_blank' ,'class'=>'raised-btn main-btn btn-block']); ?>
-              <?php else :?>
+              <?php if($data['Orders_Status'] == 6 || $data['Orders_Status'] == 7): 
+                  echo Html::a(Yii::t('order','Invoice Detail'),['invoice-pdf','did'=>$data['Delivery_ID']], ['target'=>'_blank' ,'class'=>'raised-btn main-btn btn-block']); 
+                  if($data['Orders_Status'] == 6):
+                    echo Html::a(Yii::t('order','Rating'),['/rating/index','id'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn btn-block']);
+                  endif;
+              else :?>
                 <a class="raised-btn main-btn btn-block" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$data['Delivery_ID']]); ?>">
                   <i class="fa fa-info-circle"></i>
                 </a>

@@ -1,48 +1,25 @@
 <?php
-namespace frontend\controllers;
+
+namespace frontend\modules\Food\controllers;
 
 use Yii;
 use yii\web\Controller;
-use common\models\food\FoodImg;
-use frontend\controllers\CommonController;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Json;
 use yii\helpers\Url;
-use common\models\Upload;
+use frontend\controllers\CommonController;
+use common\models\food\FoodImg;
 
-class FoodImgController extends CommonController
+class ImageController extends CommonController
 {
-
-	public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                //'only' => ['foodDetails', 'insertFood','menu','delete','editFood','postedit','recycleBin','deletePermanent','viewComments'],
-                'rules' => [
-                    [
-                        'actions' => [ 'upload','delete'],
-
-                        'allow' => true,
-                        'roles' => ['restaurant manager'],
-                    ],
-                ],
-            ],
-        ];
-    }
 	public function actionUpload()
-    {
-        //$post = Yii::$app->requst->post();
-        if (empty($_FILES['foodimg'])) {
+	{
+		if (empty($_FILES['foodimg'])) {
             echo json_encode(['error'=>'No files found for upload.']); 
             // or you can throw an exception 
             return; // terminate
         }
         
         $post = Yii::$app->request->post();	
-  		
+
         $validate = self::imgName($post['id'],$_FILES['foodimg']);
         $image = $_FILES['foodimg'];
 
@@ -51,23 +28,18 @@ class FoodImgController extends CommonController
         	echo json_encode(['error'=>$validate['message']]);
         	return  ; 
         }
+
         $filename = $validate['message'];
        
         $target = Yii::$app->params['foodImg'] . $filename;
         $source = $image['tmp_name'];
-       	 
-        if(move_uploaded_file($source, $target))
-        {
-            $success = true;
-        }
-        else
-        {
-            $success = false;
-        }
+      
+      	$success =move_uploaded_file($source, $target);
+       
        	$output[] ="";
         if ($success === true) 
         {
-            $id = self::save($post['id'], $filename);
+           $id = self::save($post['id'], $filename);
            $output['initialPreview'] =  Yii::getAlias('@web').'/'.Yii::$app->params['foodImg'].$filename;
            $output['initialPreviewConfig'][0]['caption'] = $filename;
            $output['initialPreviewConfig'][0]['url'] = Url::to(['/food-img/delete','id'=>$id]);
@@ -83,10 +55,9 @@ class FoodImgController extends CommonController
             $output = ['error'=>'No files were processed.'];
         }
         echo json_encode($output);
-        return;
-    }
+	}
 
-    public function actionDelete($id)
+	public function actionDelete($id)
     {
         $data = FoodImg::findOne($id);
 
@@ -114,7 +85,8 @@ class FoodImgController extends CommonController
         return ;
     }
 
-    protected static function imgName($id,$image)
+
+	protected static function imgName($id,$image)
    	{
    		$data['value'] = '0';
    		$data['message'] = 'Maximun Upload.';
@@ -158,8 +130,7 @@ class FoodImgController extends CommonController
         return $data;
    	}
 
-
-    protected static function save($fid,$filename)
+   	protected static function save($fid,$filename)
     {
         $img = new FoodImg;
         $img->fid = $fid;

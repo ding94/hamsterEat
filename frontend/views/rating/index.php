@@ -83,7 +83,7 @@ RatingIndexAsset::register($this);
 
 			                                return $return;
 			                            }
-                            		])->label($data['food']['Name'])	?>
+                            		])->label($data['food']['cookiename'])	?>
 							
 									<?= $form->field($foodrating,'['.$k.']Food_ID')->hiddenInput(['value' => $data['Food_ID']])->label(false) ?>
 					                <?= $form->field($foodrating,'['.$k.']Comment')->textInput()->label(Yii::t('rating','Leave a Comment')) ?>

@@ -238,7 +238,7 @@ class FoodController extends CommonController
         // var_dump($menu);exit;
       
         $restaurant = Restaurant::find()->where('Restaurant_ID = :id', [':id'=>$rid])->one();
-        $rname = $restaurant['Restaurant_Name'];
+        $rname = CommonController::getRestaurantName($rid);
         $staff = Rmanagerlevel::find()->where('User_Username = :uname and Restaurant_ID = :id', [':uname'=>Yii::$app->user->identity->username, ':id'=>$rid])->one();
         
         return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'rname'=>$rname, 'restaurant'=>$restaurant,'staff'=>$staff, 'pagination'=>$pagination,'link'=>$link]);

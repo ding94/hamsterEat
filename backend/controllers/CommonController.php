@@ -25,7 +25,7 @@ Class CommonController extends Controller
 	    $auth = \Yii::$app->authManager;
         $role = $auth->getPermissionsByUser(Yii::$app->user->identity->id);
       
-        if(!$role[$permissionName] && Yii::$app->getErrorHandler()->exception === null){
+        if(empty($role[$permissionName]) && Yii::$app->getErrorHandler()->exception === null){
             throw new \yii\web\UnauthorizedHttpException('Sorry, You do not have permission');
         }
 	    return true;

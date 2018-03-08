@@ -465,7 +465,7 @@ class RestaurantController extends CommonController
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-    protected function findModel($id)
+    public function findModel($id)
     {
         $model = Restaurant::find()->where('Restaurant_ID = :id',[':id' =>$id])->one();
         if ($model !== null) {

@@ -185,7 +185,7 @@ class CommonController extends Controller
     {
         $data = [];
         $data = [
-                  Url::to(['/food/menu','rid'=>$rid,'page'=>'menu']) => 'Back',
+                  Url::to(['Food/default/menu','rid'=>$rid]) => 'Back',
                 ];
         if($type == 1)
         {
@@ -271,12 +271,12 @@ class CommonController extends Controller
                 $data[Url::to(['/Restaurant/statistics/index','rid'=>$rid])] = 'View Statistics';
                 $data[Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid])] = 'Edit Details';
                 $data[Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid])] = 'Manage Staffs';
-                $data[Url::to(['/food/menu','rid'=>$rid,'page'=>'menu'])] = 'Manage Menu';
+                $data[Url::to(['/Food/default/menu','rid'=>$rid])] = 'Manage Menu';
                 break;
             case 'Manager':
                 $data[Url::to(['/Restaurant/default/edit-restaurant-details','rid'=>$rid])] = 'Edit Details';
                 $data[Url::to(['/Restaurant/default/manage-restaurant-staff','rid'=>$rid])] = 'Manage Staffs';
-                 $data[Url::to(['/food/menu','rid'=>$rid,'page'=>'menu'])] = 'Manage Menu';
+                $data[Url::to(['/Food/default/menu','rid'=>$rid])] = 'Manage Menu';
                 break;
             default:
                 # code...

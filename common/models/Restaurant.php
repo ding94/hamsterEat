@@ -46,7 +46,9 @@ class Restaurant extends \yii\db\ActiveRecord
     {
         return [
             [['Restaurant_Name', 'Restaurant_Street', 'Restaurant_UnitNo', 'Restaurant_Pricing', 'Restaurant_LicenseNo','Restaurant_AreaGroup','approval'], 'required'],
-            [['Restaurant_Postcode', 'Restaurant_Pricing', 'Restaurant_Rating', 'Restaurant_DateTimeCreated', 'Restaurant_AreaGroup','approval'], 'integer'],
+            [['Restaurant_Postcode', 'Restaurant_Pricing', 'Restaurant_DateTimeCreated', 'Restaurant_AreaGroup','approval'], 'integer'],
+            ['Restaurant_Rating','default','value'=>0],
+            ['Restaurant_Rating','number'],
             [['Restaurant_Manager', 'Restaurant_Name', 'Restaurant_RestaurantPicPath', 'Restaurant_Status', 'Restaurant_LicenseNo'], 'string', 'max' => 255],
             [['Restaurant_Area', 'Restaurant_Street', 'Restaurant_UnitNo'], 'string', 'max' => 50],
             [['timestart','timeend'],'date'],
@@ -125,5 +127,11 @@ class Restaurant extends \yii\db\ActiveRecord
 
             return Yii::getAlias('@web').'/'.Yii::$app->params['restaurant'].$image;
         }
+    }
+
+    public function getOriginName()
+    {
+        $data = RestaurantName::find()->where("rid = :id and language ='en'",[':id'=>$this->Restaurant_ID])->one();
+        return $data->translation;
     }
 }

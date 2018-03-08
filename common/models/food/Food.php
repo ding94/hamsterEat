@@ -212,7 +212,7 @@ class Food extends \yii\db\ActiveRecord
             foreach($images as $i=>$image)
             {
                 $data['data'][$i]['caption'] =  $image->img;
-                $data['data'][$i]['url'] = Url::to(['/food-img/delete','id'=>$image->id]);
+                $data['data'][$i]['url'] = Url::to(['/Food/image/delete','id'=>$image->id]);
                 $data['data'][$i]['key'] = $image->id;
 
             }

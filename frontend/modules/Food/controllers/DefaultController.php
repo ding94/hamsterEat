@@ -5,18 +5,72 @@ namespace frontend\modules\Food\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
-use frontend\controllers\CommonController;
-use common\models\food\{Foodtypejunction,Foodtype,Food,FoodName,Foodstatus};
+use yii\data\Pagination;
+use frontend\controllers\{CommonController,ValidController};
+use common\models\Restaurant;
+use common\models\Rating\Foodrating;
+use common\models\Cart\{Cart,CartSelection};
+use common\models\food\{Foodtypejunction,Foodtype,Food,FoodName,Foodstatus,Foodselectiontype};
 
 /**
  * Default controller for the `food` module
  */
 class DefaultController extends CommonController
 {
-    /**
-     * Renders the index view for the module
-     * @return string
-     */
+    public function actionMenu($rid)
+    {
+    	$linkData = CommonController::restaurantPermission($rid);
+        $link = CommonController::getRestaurantUrl($linkData,$rid);
+        $query = Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid]);
+        $countQuery = clone $query;
+        $pagination = new Pagination(['totalCount' => $countQuery->count()]);
+   
+        $menu = $query->offset($pagination->offset)
+        ->limit($pagination->limit)
+        ->all();
+      
+        $restaurant = Restaurant::find()->where('Restaurant_ID = :id', [':id'=>$rid])->one();
+        
+        return $this->render('menu',['menu'=>$menu, 'restaurant'=>$restaurant, 'pagination'=>$pagination,'link'=>$link]);
+    }
+
+    public function actionDetail($id,$rid)
+    {
+       /* if(!Yii::$app->request->isAjax){
+            return $this->redirect(Yii::$app->request->referrer);
+        }*/
+        $valid = ValidController::RestaurantValid($rid);
+
+        if($valid)
+        {
+            Yii::$app->session->setFlash('error', Yii::t('food','This restaurant was not valid now.'));
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+
+        $valid = ValidController::FoodValid($id);
+        if (!$valid) {
+            Yii::$app->session->setFlash('error', Yii::t('food','This food was not valid now.'));
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+
+        $fooddata = Food::find()->where('Food_ID = :id' ,[':id' => $id])->one();
+
+        if(empty($fooddata))
+        {
+            Yii::$app->session->setFlash('error', Yii::t('food','Something Went Wrong. Please Try Again Later!'));
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+
+        $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id' => $id])->orderBy(['ID' => SORT_ASC])->all();
+      
+        $cartSelection = new CartSelection;
+        $cart = new Cart;
+        
+        $comments = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$id])->orderBy(['created_at' => SORT_DESC])->all();
+        
+        return $this->renderAjax('detail',['fooddata' => $fooddata,'foodtype' => $foodtype, 'cart'=>$cart ,'cartSelection' => $cartSelection, 'comments'=>$comments]);
+    }
+
     public function actionCreateEditFood($rid,$id=0)
     {
         CommonController::restaurantPermission($rid);
@@ -68,6 +122,24 @@ class DefaultController extends CommonController
     	
     }
 
+    public function actionDelete($id)
+    {
+    	$food = Food::find()->where("food.Food_ID = :fid and Status =0",[':fid'=>$id])->joinWith(['restaurant','foodStatus'])->one();
+    	$rid = $food['restaurant']['Restaurant_ID'];
+    	if(!empty($food) && $food['restaurant']['Restaurant_Manager'] == Yii::$app->user->identity->username)
+    	{
+    		$status = $food->foodStatus;
+    		
+    		$status->Status = -1;
+            if ($status->save()) {
+                Yii::$app->session->setFlash('success',Yii::t('food','Item Deleted.'));
+                return $this->redirect(['menu','rid'=>$rid]);
+        	}
+        }
+    	Yii::$app->session->setFlash('error',Yii::t('food','Somethign Went Wrong'));
+    	return $this->redirect(Yii::$app->request->referrer);	
+    }
+
     protected static function save($food,$name,$junction)
     {
     	$arrayJ = TypeAndStatusController::detectJunction($junction);
@@ -76,7 +148,6 @@ class DefaultController extends CommonController
     		return false;
     	}
 
-    	
     	$junction = $arrayJ['value'];
 
     	$array = TypeAndStatusController::createStatus($food);

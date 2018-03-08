@@ -225,6 +225,21 @@ Class FoodController extends CommonController
         return $this->render('ranking',['month'=>$month,'textmonth'=>$textmonth,'data'=>$data]);
     }
 
+    public function actionFoodRecover($id)
+    {
+        $food = Foodstatus::find()->where('Food_ID = :id',[':id'=>$id])->one();
+        $food->Status = 0;
+        if($food->save())
+        {
+            Yii::$app->session->setFlash('success','Food Revocer Success');
+        }
+        else
+        {
+            Yii::$app->session->setFlash('danger','Food Revocer Fail');
+        }
+        return $this->redirect(Yii::$app->request->referrer);   
+    }
+
     public static function countFoodSold($food,$start,$end)
     {
         foreach ($food as $key => $value) {

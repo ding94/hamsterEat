@@ -8,8 +8,10 @@ use yii\helpers\Url;
 
 $this->title = Yii::t('cart','My Cart');
 CartAsset::register($this);
+$deleteurl = Url::to(['cart/delete']);
+$quantityurl = Url::to(['cart/quantity']);
+$cart_status = 0;
 
-$url = Url::to(['cart/delete']);
 ?>
 
 <?php if(empty($groupCart)): ?>
@@ -63,10 +65,11 @@ $url = Url::to(['cart/delete']);
 	<div class="container">
     <?php foreach($cart as$i=> $single) :
       $disable = $single->status == 0 ? true:false;
+      $cart_status += $single->status;
     ?> 
-			<section class="cart <?php echo $disable ? "disable-cart" : ""?>" data-status=<?php echo $single->status?>>
+			<section id="cart-<?php echo $i?>" class="cart <?php echo $disable ? "disable-cart" : ""?>" data-status=<?php echo $single->status?>>
         <?php if($disable):?>
-        <div class="disable-overlay"><div>Not Available<a class="fa fa-trash delete" href="#" data-id=<?php echo $i?> data-url=<?php echo $url?> ></a></div></div>
+        <div class="disable-overlay"><div>Not Available<a class="fa fa-trash delete" href="#" data-id=<?php echo $i?> data-url=<?php echo $deleteurl?> ></a></div></div>
         <article class="product disable-opacity">
         <?php else : ?>
 			  <article class="product">
@@ -79,7 +82,7 @@ $url = Url::to(['cart/delete']);
 					  <a class="remove">
               <img src=<?php echo $single->food->singleImg ?> alt="" class="img-responsive"> 
               <h3> 
-                <a class="remove delete" href="#" data-id=<?php echo $i?> data-url=<?echo $url><?=Yii::t('common','Remove');?></a>
+                <a class="remove delete" href="#" data-id=<?php echo $i?> data-url=<?echo $deleteurl><?=Yii::t('common','Remove');?></a>
   				    </h3>
 				    </a>
 				</header> 
@@ -101,13 +104,12 @@ $url = Url::to(['cart/delete']);
       				<i class="fa fa-info-circle"> <span class="i-detail i-selection" ><?php echo $single['remark'];?><span >  </i>
             </div>
       			<?php endif; ?>
-          <a id="d" class="fa fa-trash delete" href="#" data-id=<?php echo $i?> data-url=<?php echo $url;?>></a>
+          <a id="d" class="fa fa-trash delete" href="#" data-id=<?php echo $i?> data-url=<?php echo $deleteurl;?>></a>
       	</div>	
       	<footer class="content">
-          <?php $url = Url::to(['cart/quantity'])?>
-      		<span class="qt-minus plusMinus" data-id=<?php echo $i?> data-url=<?php echo $url?>>-</span>
+      		<span class="qt-minus plusMinus" data-id=<?php echo $i?> data-url=<?php echo $quantityurl?>>-</span>
       		<span class="qt" id="qt"> <?php echo $single['quantity'];?></span>
-      		<span class="qt-plus plusMinus" data-id=<?php echo $i?> data-url=<?php echo $url?>>+</span>
+      		<span class="qt-plus plusMinus" data-id=<?php echo $i?> data-url=<?php echo $quantityurl?>>+</span>
           <h2 class="full-price">RM
       			<?php echo  CartController::actionRoundoff1decimal($single['price'] * $single['quantity']);?>
       		</h2>
@@ -120,7 +122,11 @@ $url = Url::to(['cart/delete']);
   <div class="container">
         <?php echo Html::hiddenInput('area', $index);?>
         <?php echo Html::hiddenInput('code', '');?>
+        <?php if($cart_status >= 1){ ?>
         <?php echo Html::submitButton(Yii::t('common','Checkout'), ['class' => 'raised-btn main-btn checkout-btn']);?>
+        <?php } else { ?>
+        <div class="raised-btn main-btn checkout-btn disable-btn"><?php echo Yii::t('common','Checkout') ?></div>
+        <?php } ?>
      
   </div>
   <?php endforeach ;?>

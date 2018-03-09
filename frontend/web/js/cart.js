@@ -23,11 +23,13 @@ function detectEmptyCart()
 
 $('.delete').on('click',function(event){
     if(confirm('Are you sure you want to remove from cart?')){
-       cart = $(this).parentsUntil('.cart');
+       
         url = $(this).attr('data-url');
         id = $(this).attr('data-id');
-        cid = $("."+id+"-id").val();
+        cart = $("#cart-"+id);
         
+        cid = $("."+id+"-id").val();
+        console.log(cid);
         $('.delete').attr("disabled",true);
         $.ajax({
           url: url,

@@ -184,9 +184,9 @@ class DefaultController extends CommonController
         $model = food::find()->where('Restaurant_ID=:id',[':id' => $rid])->joinWith(['foodStatus'=>function($query){
             $query->where('Status = 1');
         }])->joinWith('junction');
-        //$model->andWhere(['>','food_limit',0]);
+        $model->andWhere(['>','food_limit',0]);
         $rowfood = $model->all();
-
+        
         $allfood = array();
         $allfoodtype = array();
         foreach ($rowfood as $key => $data) {
@@ -525,7 +525,7 @@ class DefaultController extends CommonController
       
         $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus','restaurant.rJunction']);
 
-        //$query->andWhere(['>','food_limit','0']);
+        $query->andWhere(['>','food_limit','0']);
         if(!empty($halal) || $halal == 1)
         {
             $query->andWhere('restauranttypejunction.Type_ID =  23');

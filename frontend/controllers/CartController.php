@@ -234,7 +234,7 @@ class CartController extends CommonController
             return;
         }
     }
-    echo json_encode(['output'=>'', 'selected'=>'']);
+        echo json_encode(['output'=>'', 'selected'=>'']);
     }
 
     public static function getAreaList($postcode)

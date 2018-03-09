@@ -110,8 +110,8 @@ CartAsset::register($this);
     <section class="cart disable-cart" data-status=<?php echo $single->status?>>
         <div class="disable-overlay"><div>Not Available<a class="fa fa-trash delete" href="#" data-url=<?php echo Url::to(['cart/delete'])?>></a></div></div>
         <article class="product disable-opacity">
-          <?php echo Html::hiddenInput('id',$single['id'])?> 
-          <?php echo Html::hiddenInput('cid[]',$single['id'])?> 
+            <?php echo Html::hiddenInput('id',$single['id'])?> 
+            <?php echo Html::hiddenInput('cid[]',$single['id'],['disabled'=>$single->status == 0 ? true : false])?> 
           <header>
             <a class="remove">
               <img src=<?php echo $single->food->singleImg ?> alt="" class="img-responsive"> 

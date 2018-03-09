@@ -100,18 +100,15 @@ Modal::end();
           <div class="panel panel-default">
             <div class="panel-heading" id="headingOne">
               <a class="btn" data-toggle="collapse" data-target="#filter-box" aria-expanded="true" aria-controls="filter-box">
+                <i class="fa fa-sliders"></i>
                 <?php echo Yii::t('m-restaurant','Filter') ?>
                 <i class="fa fa-plus"></i>
               </a>
             </div>
             <div id="filter-box" class="collapse" data-parent="#accordion">
               <div class="panel-body">
-                
-                <div class ="filter-name">
-                  <p><i class="fa fa-sliders"><?= Yii::t('m-restaurant','Filter By')?></i></p>
-                </div>
                 <ul class ="filter-list">
-                <?php echo Html::a('<li>'.Yii::t('common','All').'</li>', ['index'])."&nbsp;&nbsp;"; ?>
+                <div class="btn main-btn" onclick="uncheckAll()"><?php echo Yii::t('common','Clear Filter') ?></div>
                   <?php foreach ($allrestauranttype as $i=> $data) : ?>
                     <?php if(empty($filter)) :?>
                     <li>
@@ -153,6 +150,7 @@ Modal::end();
     <?php endif ;?>
   
     <div class="outer-container">
+      <div class="item-na-container hideItem"><span style="text-align: center;">No Restaurant Available For This Category ....</span></div>
       <div class="menu-container">
           <a href="<?php echo yii\helpers\Url::to(['#']); ?>">
             <div class="list" data-type="loren,ipsum,">

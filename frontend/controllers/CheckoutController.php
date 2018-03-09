@@ -98,7 +98,7 @@ class CheckoutController extends CommonController
 	public function actionProcess()
 	{
 		$post = Yii::$app->request->post();
-
+		
 		if(empty($post['cid']))
       	{
       		Yii::$app->session->setFlash('error', Yii::t('checkout','Your Cart is Empty. Please Add item before processing to checkout'));

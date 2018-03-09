@@ -341,7 +341,7 @@ class DefaultController extends CommonController
 
             if (!is_null($upload->imageFile)){
                 
-                $upload->imageFile->name = $rid.'-'.str_replace (' ', '-', $restaurantdetails->Restaurant_Name).'.'.$upload->imageFile->extension;
+                $upload->imageFile->name = $rid.'-'.str_replace (' ', '-', CommonController::getRestaurantName($restaurantdetails->Restaurant_ID)).'.'.$upload->imageFile->extension;
                 if(!empty($restaurantdetails->Restaurant_RestaurantPicPath))
                 {
                     $upload->upload(Yii::$app->params['restaurant'],Yii::$app->params['restaurant'].$restaurantdetails->Restaurant_RestaurantPicPath);

@@ -80,7 +80,7 @@ class DeliveryorderController extends CommonController
 		$data = [];
 		foreach($orderitem as $item)
 		{
-			$restaurantName = $item->food->restaurant->Restaurant_Name;
+			$restaurantName = CommonController::getRestaurantName($item->food->restaurant->Restaurant_ID);
 			$companyName = Company::findOne($item->address->cid)->name;
 			$data[$restaurantName]['address'] = "http://maps.google.com/maps?daddr=".$item->food->restaurant->Restaurant_Street.",".$item->food->restaurant->Restaurant_Area.",".$item->food->restaurant->Restaurant_Postcode.",Malaysia&amp;ll=";
 			$data[$restaurantName][$companyName][] = $item->Order_ID.','.$item->Delivery_ID;

@@ -76,13 +76,13 @@ $cart_status = 0;
         <?php 
           endif ;
           echo Html::hiddenInput('id',$single['id'],['class'=>$i."-id"]);
-          echo Html::hiddenInput('cid[]',$single['id'],['disabled'=>$disable == 0 ? true : false])
+          echo Html::hiddenInput('cid[]',$single['id'],['disabled'=>$disable]);
           ?> 
 				  <header>
 					  <a class="remove">
               <img src=<?php echo $single->food->singleImg ?> alt="" class="img-responsive"> 
               <h3> 
-                <a class="remove delete" href="#" data-id=<?php echo $i?> data-url=<?echo $deleteurl><?=Yii::t('common','Remove');?></a>
+                <a class="remove delete" href="#" data-id=<?php echo $i?> data-url=<?php echo $deleteurl?><?=Yii::t('common','Remove');?></a>
   				    </h3>
 				    </a>
 				</header> 

@@ -32,7 +32,7 @@ use frontend\controllers\CommonController;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
-use common\models\Object;
+use common\models\SelfObject;
 use yii\web\Session;
 
 class CartController extends CommonController
@@ -242,7 +242,7 @@ class CartController extends CommonController
         $area = Area::find()->where(['like','Area_Postcode' , $postcode])->select(['Area_ID', 'Area_Area'])->all();
         $areaArray = [];
         foreach ($area as $area) {
-            $object = new Object();
+            $object = new SelfObject();
             $object->id = $area['Area_Area'];
             $object->name = $area['Area_Area'];
 

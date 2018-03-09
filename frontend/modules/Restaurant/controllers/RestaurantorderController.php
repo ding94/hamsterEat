@@ -58,7 +58,7 @@ class RestaurantorderController extends CommonController
         {
             $query->andWhere('OrderItem_Status = :s',[':s' => $status]);
         }
-
+        $item = array();
         foreach ($query->each() as $key => $data) 
         {
             $company = Company::findOne($data->address->cid);
@@ -106,6 +106,7 @@ class RestaurantorderController extends CommonController
             $result[$value->Delivery_ID][0]['DateTime'] = Yii::$app->formatter->asDateTime($value->order->Orders_DateTimeMade);
             $result[$value->Delivery_ID][] = $value;   
         }
+        
         
         $title = CommonController::getRestaurantName($restaurant['Restaurant_ID']).Yii::t('m-restaurant',Yii::t('m-restaurant',"'s Orders History"));
 

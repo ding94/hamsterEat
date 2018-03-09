@@ -21,7 +21,7 @@ use common\models\user\Useraddress;
 use common\models\Account\Accountbalance;
 use common\models\Area;
 use common\models\Account\Memberpoint;
-use common\models\Object;
+use common\models\SelfObject;
 use common\models\Referral;
 use yii\helpers\ArrayHelper;
 use yii\web\Session;
@@ -492,7 +492,7 @@ class SiteController extends CommonController
         $area = Area::find()->where(['like','Area_Postcode' , $postcode])->select(['Area_ID', 'Area_Area'])->all();
         $areaArray = [];
         foreach ($area as $area) {
-            $object = new Object();
+            $object = new SelfObject();
             $object->id = $area['Area_Area'];
             $object->name = $area['Area_Area'];
 

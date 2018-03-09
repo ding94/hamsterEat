@@ -4,7 +4,7 @@ namespace common\models;
 
 use Yii;
 
-class Object extends \yii\base\Object
+class SelfObject extends \yii\base\Object
 {
 	public $id;
 	public $name;

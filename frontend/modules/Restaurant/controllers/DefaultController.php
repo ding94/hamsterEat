@@ -603,6 +603,7 @@ class DefaultController extends CommonController
         
         foreach($query->each() as $fooddata)
         {
+            var_dump($fooddata);exit;
             $data[] = Yii::$app->controller->renderPartial('_food',['fooddata'=>$fooddata]);
             //$data[] = $fooddata->Food_ID;
         }

@@ -8,6 +8,7 @@ use kartik\widgets\Select2;
 use yii\widgets\LinkPager;
 use kartik\date\DatePicker;
 use kartik\widgets\ActiveForm;
+use frontend\controllers\CommonController;
 
 $this->title = Yii::t('m-delivery',"Deliveryman Order's History");
 DeliverymanOrdersHistoryAsset::register($this);
@@ -149,7 +150,7 @@ DeliverymanOrdersHistoryAsset::register($this);
                     ?>
                         <tr>
                             <?php if($i == 0) :?>
-                                <td data-th="Restaurant Name" rowspan=<?= $rowspan ?>><?= $res->Restaurant_Name ?></td>
+                                <td data-th="Restaurant Name" rowspan=<?= $rowspan ?>><?= CommonController::getRestaurantName($res->Restaurant_ID) ?></td>
                                 <td data-th="Restaurant Address" rowspan=<?= $rowspan ?>><?= $res->fulladdress ?></td>
                             <?php endif?>
                             <td class="border" data-th="Order ID" ><?= $item['Order_ID']?></td>

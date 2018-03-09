@@ -606,7 +606,7 @@ class FoodController extends CommonController
         }
 
         $menu = food::find()->where('Restaurant_ID=:id and Status = :status', [':id' => $rid, ':status'=>0])->innerJoinWith('foodType',true)->innerJoinWith('foodStatus',true)->all();
-        $rname = restaurant::find()->where('Restaurant_ID=:id',[':id' => $rid])->one()->Restaurant_Name;
+        $rname = CommonController::getRestaurantName($rid);
 
         return $this->render('Menu',['menu'=>$menu, 'rid'=>$rid, 'page'=>'recyclebin', 'rname'=>$rname, 'restaurant'=>$restaurant]);
     }

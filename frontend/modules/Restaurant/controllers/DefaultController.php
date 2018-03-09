@@ -56,7 +56,7 @@ class DefaultController extends CommonController
  
                      ],
                     [
-                        'actions' => ['index','show-by-food', 'food-filter', 'restaurant-filter','food-details','restaurant-details','addsession','changecookie','load-more-food'],
+                        'actions' => ['index','show-by-food', 'food-filter', 'restaurant-filter','restaurant-details','addsession','changecookie','load-more-food'],
                         'allow' => true,
                         'roles' => ['@','?'],
 
@@ -184,8 +184,11 @@ class DefaultController extends CommonController
         $model = food::find()->where('Restaurant_ID=:id',[':id' => $rid])->joinWith(['foodStatus'=>function($query){
             $query->where('Status = 1');
         }])->joinWith('junction');
+        //$model->andWhere(['>','food_limit',0]);
         $rowfood = $model->all();
 
+        $allfood = array();
+        $allfoodtype = array();
         foreach ($rowfood as $key => $data) {
             $foodtypejunction = Foodtypejunction::find()->where('Food_ID=:fid',[':fid'=>$data->Food_ID])->one();
 
@@ -198,15 +201,6 @@ class DefaultController extends CommonController
         $language = Yii::$app->request->cookies->getValue('language');
 
         return $this->render('restaurantdetailsnew',['id'=>$id,'resname'=>$resname, 'allfood'=>$allfood, 'rid'=>$rid,'allfoodtype'=>$allfoodtype]);
-    }
-
-//--This function loads the Food Details according to the FoodController
-    public function actionFoodDetails($fid)
-    {
-        $fooddata = food::find()->where('Food_ID=:id',[':id'=>$fid])->one();
-        $foodid = $fooddata['Food_ID'];
-
-        return $this->redirect(['/food/food-details', 'id'=>$foodid]);
     }
 
 //--This function captures the new restaurant's area group based on the entered postcode and area
@@ -531,39 +525,20 @@ class DefaultController extends CommonController
       
         $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus','restaurant.rJunction']);
 
+        //$query->andWhere(['>','food_limit','0']);
         if(!empty($halal) || $halal == 1)
         {
             $query->andWhere('restauranttypejunction.Type_ID =  23');
         }
         
-        /*$countQuery = clone $query;
-        $pages = new Pagination(['totalCount' => $countQuery->count(),'pageSize'=>5]);
-        $food = $query->offset($pages->offset)
-        ->limit($pages->limit)
-        ->all();*/
-        
         $food = $query->limit(12)->all();
 
         $moreFood = $query->limit(13)->count() > 12 ? 1 :0 ;
       
-        //$food = food::find()->where('restaurant.Restaurant_AreaGroup = :group',[':group' => $groupArea])->joinWith(['restaurant' ,'junction'])->all();
-        
         $foodquery = Foodtype::find()->andWhere('ID != 3 and ID != 4')->orderBy(['Type_Desc'=>SORT_ASC]);
         
         $allfoodtype = ArrayHelper::map($foodquery->all(),'ID','Type_Desc');
-        
-/*        $mode = 1;
 
-        $search = new Food();
-        if ($search->load(Yii::$app->request->post()))
-        {
-            $mode = 3;
-            $keyword = $search->Nickname;
-
-            return $this->render('index2',['restaurant'=>$restaurant, 'groupArea'=>$groupArea, 'types'=>$types, 'mode'=>$mode, 'search'=>$search, 'keyword'=>$keyword]);
-        }*/
-
-        //var_dump($types);exit;
         $this->layout = 'main3';
         return $this->render('index2',['food'=>$food, 'allfoodtype'=>$allfoodtype,'moreFood'=>$moreFood]);
     }
@@ -587,7 +562,7 @@ class DefaultController extends CommonController
         $halal = $cookies->getValue('halal');
         
         $query = food::find()->distinct()->where('Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','foodStatus','restaurant.rJunction']);
-
+        $query->andWhere(['>','food_limit','0']);
         foreach($id as $value)
         {
             $query->andWhere(['!=','food.Food_ID',$value]);
@@ -603,7 +578,6 @@ class DefaultController extends CommonController
         
         foreach($query->each() as $fooddata)
         {
-            var_dump($fooddata);exit;
             $data[] = Yii::$app->controller->renderPartial('_food',['fooddata'=>$fooddata]);
             //$data[] = $fooddata->Food_ID;
         }

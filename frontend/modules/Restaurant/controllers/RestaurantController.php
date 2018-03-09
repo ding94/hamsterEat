@@ -119,7 +119,7 @@ class RestaurantController extends CommonController
         if($model->validate())
         {
             $model->save();
-            Yii::$app->session->setFlash('success', Yii::t('m-restaurant',"Status change to operating."));
+            Yii::$app->session->setFlash('success', Yii::t('m-restaurant',"Status change to operating.")."<br>Please Turn On Food For Display Food");
         }
         else
         {

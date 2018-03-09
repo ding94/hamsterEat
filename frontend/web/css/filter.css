@@ -3,9 +3,9 @@
 }
 
 .input-group{
-    position: relative;
-    display: table;
-    border-collapse: separate;
+  position: relative;
+  display: table;
+  border-collapse: separate;
 }
 
 .filter{
@@ -17,19 +17,19 @@
 }
 
 .filter-list{
-    list-style: none;
-    font-size:13px;
-    letter-spacing: .5px;
-    line-height:80%;
-    padding-left:20px;
+  list-style: none;
+  font-size:13px;
+  letter-spacing: .5px;
+  line-height:80%;
+  padding-left:0px;
 }
 .filter-name p{
-    margin-left:11px;
-    letter-spacing: .5px;
-    font-size:15px;
+  margin-left:11px;
+  letter-spacing: .5px;
+  font-size:15px;
 }
 .filter.list a:hover{
-     text-decoration:none;
+  text-decoration:none;
 }
 
 .he-skinny-banner img{
@@ -52,15 +52,27 @@
   margin-bottom: 10px;
 }
 
-#accordion .btn{
+#accordion a.btn{
+  display: block;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  border-bottom: 3px inset transparent;
+}
+
+#accordion .btn:hover{
+  border-bottom: 3px inset #FFDA00;
+}
+
+#accordion ul div.btn{
   display: block;
   text-decoration: none;
   font-size: 16px;
   font-weight: 600;
 }
 
-#accordion .btn:hover{
-  border-bottom: 3px inset #FFDA00;
+#accordion ul div.btn:hover{
+  border-bottom: 1px inset transparent;
 }
 
 #headingOne{
@@ -80,27 +92,32 @@
 @media(max-width: 767px)
 {
   .s{
-  display:none
-}
+    display:none
+  }
+
   .hl{
     display:none;
   }
+
   .area{
     display:none;
   }
+
   #cp{
     display:none;
   }
+
   .tm{
-     display: block;
-    }
+    display: block;
+  }
+
   .button {
     position:fixed;
     bottom:0;
     right:30%;
     background-color:grey;
     padding:4px;
-}
+  }
   
   .filter{
     position: fixed;
@@ -412,4 +429,60 @@ display:inline;
 	#menu:after{
 		bottom:9%;
 	}
+}
+
+.checkbox label{
+  padding: 0px;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-custom {
+    opacity: 0;
+    position: absolute;   
+}
+
+.checkbox-custom, .checkbox-custom-label, {
+    display: inline-block; 
+    vertical-align: middle;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.checkbox-custom + label span.checkbox-custom-label:after {
+    content: '';
+    background: #fff;
+    border: 2px solid #ddd;
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.checkbox-custom:checked + label span.checkbox-custom-label:after {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    content: "\f00d";
+    font-family: 'FontAwesome';
+    background: #FFDA00;
+    color: #fff;
+}
+
+label span.checkbox-custom-label{
+  float: right;
+}
+
+.checkbox-custom-label {
+  position: relative;
+}
+
+.checkbox-custom:focus + label span.checkbox-custom-label{
+  outline: 1px solid #ddd; /* focus style */
+}
+
+.type-label{
+  width: 100%;
 }

@@ -1,8 +1,5 @@
 <?php
 use yii\helpers\Html;
-use common\models\food\Food;
-use common\models\food\Foodselectiontype;
-Use common\models\food\Foodselection;
 use yii\bootstrap\ActiveForm;
 use frontend\controllers\CartController;
 use frontend\assets\CartAsset;
@@ -11,7 +8,7 @@ use yii\helpers\Url;
 
 $this->title = Yii::t('cart','My Cart');
 CartAsset::register($this);
-
+$cart_status = 0;
 ?>
 
 <?php if(empty($groupCart)): ?>
@@ -63,16 +60,19 @@ CartAsset::register($this);
 	</div>
    <?php $form = ActiveForm::begin(['action' =>['checkout/process'],'method' => 'post']); ?>
 	<div class="container">
-    <?php foreach($cart as $single) :?> 
-			<section class="cart">
+    <?php foreach($cart as $single) :
+      $cart_status += $single->status;
+      if ($single->status == 1) {
+    ?> 
+			<section class="cart" data-status=<?php echo $single->status?>>
 			  <article class="product">
           <?php echo Html::hiddenInput('id',$single['id'])?> 
-          <?php echo Html::hiddenInput('cid[]',$single['id'])?> 
+          <?php echo Html::hiddenInput('cid[]',$single['id'],['disabled'=>$single->status == 0 ? true : false])?> 
 				  <header>
 					  <a class="remove">
               <img src=<?php echo $single->food->singleImg ?> alt="" class="img-responsive"> 
               <h3> 
-                <a class="remove delete" href="#" data-url=<?echo Url::to['cart/delete']?>><?=Yii::t('common','Remove');?></a>
+                <a class="remove delete" href="#" data-url=<?echo Url::to['cart/delete']?><?=Yii::t('common','Remove');?></a>
   				    </h3>
 				    </a>
 				</header> 
@@ -107,13 +107,64 @@ CartAsset::register($this);
       	</footer>
 			</article>  
     </section> 
-    <?php endforeach ;?>
+    <?php } else { ?>
+    <section class="cart disable-cart" data-status=<?php echo $single->status?>>
+        <div class="disable-overlay"><div>Not Available<a class="fa fa-trash delete" href="#" data-url=<?php echo Url::to(['cart/delete'])?>></a></div></div>
+        <article class="product disable-opacity">
+            <?php echo Html::hiddenInput('id',$single['id'])?> 
+            <?php echo Html::hiddenInput('cid[]',$single['id'],['disabled'=>$single->status == 0 ? true : false])?> 
+          <header>
+            <a class="remove">
+              <img src=<?php echo $single->food->singleImg ?> alt="" class="img-responsive"> 
+              <h3> 
+                <a class="remove delete" href="#" data-url=<?echo Url::to['cart/delete']?><?=Yii::t('common','Remove');?></a>
+              </h3>
+            </a>
+        </header> 
+   
+        <div class="content">       
+          <h1>
+            <?php echo Html::a(Yii::t('cart',$single['food']['cookieName']),['Restaurant/default/restaurant-details','rid'=> $single['food']['Restaurant_ID']],['target'=>"_blank"])?>
+          </h1>
+          <div class="relative">
+              <?=Yii::t('cart','Food Selection');?>
+            <i class="fa fa-info-circle"> <span class="i-detail i-selection" > 
+            <?php foreach($single['groupselection'] as $name=>$selection):?>
+              <?php $text = implode( ", ", $selection );?>
+                 <?php echo $text?>
+            <?php endforeach;?></span></i>&nbsp; 
+          </div>
+          <?php if(!empty($single['remark'])): ?>
+            <div class="relative upper-trash" style="color:#fc7171;"><?=Yii::t('common','Remarks');?>
+              <i class="fa fa-info-circle"> <span class="i-detail i-selection" ><?php echo $single['remark'];?><span >  </i>
+            </div>
+            <?php endif; ?>
+        </div>  
+        <footer class="content">
+          <?php $url = Url::to(['cart/quantity'])?>
+          <span class="qt-minus plusMinus" data-url=<?php echo $url?>>-</span>
+          <span class="qt" id="qt"> <?php echo $single['quantity'];?></span>
+          <span class="qt-plus plusMinus" data-url=<?php echo $url?>>+</span>
+          <h2 class="full-price">RM
+            <?php echo  CartController::actionRoundoff1decimal($single['price'] * $single['quantity']);?>
+          </h2>
+        </footer>
+      </article>  
+    </section>
+    <?php 
+    }
+    endforeach ;
+    ?>
   </div> 
   <iframe id="iframe" src=<?php echo Url::toRoute(['cart/totalcart','area'=>$index])?>></iframe>
   <div class="container">
         <?php echo Html::hiddenInput('area', $index);?>
         <?php echo Html::hiddenInput('code', '');?>
+        <?php if($cart_status >= 1){ ?>
         <?php echo Html::submitButton(Yii::t('common','Checkout'), ['class' => 'raised-btn main-btn checkout-btn']);?>
+        <?php } else { ?>
+        <div class="raised-btn main-btn checkout-btn disable-btn"><?php echo Yii::t('common','Checkout') ?></div>
+        <?php } ?>
      
   </div>
   <?php endforeach ;?>

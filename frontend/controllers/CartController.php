@@ -74,7 +74,7 @@ class CartController extends CommonController
         }
 
         $session = Yii::$app->session;
-        $food = food::find()->where('food.Food_ID = :id and foodstatus.Status = 1',[':id'=> $id])->joinWith(['restaurant','foodSelection','foodStatus'])->one();
+        $food = food::find()->where('food.Food_ID = :id and foodstatus.Status = 1',[':id'=> $id])->joinWith(['restaurant','foodSelection','foodStatus'])->andWhere(['>','food_limit','0'])->one();
 
         if(empty($food))
         {
@@ -165,7 +165,7 @@ class CartController extends CommonController
         $groupCart = [];
         
         $cart = Cart::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->joinWith(['food','selection'])->all();
-
+        
         foreach($cart as $i=> $single)
         {
             if(!empty($single['selection']))
@@ -173,12 +173,6 @@ class CartController extends CommonController
                 foreach($single['selection'] as $selection)
                 {
                     $data = foodSelection::find()->where('foodselection.ID = :id',[':id' => $selection->selectionid])->joinWith('selectedtpye')->one();
-
-                        //$count = count($groupSelection);
-                        /*if($count > 0)
-                        {
-                             $groupSelection[$data['selectedtpye']['TypeName']] .= ',';
-                        }*/
                     $groupSelection[$data['selectedtpye']['cookieName']][] = $data['cookieName'];
                 }
                 
@@ -192,7 +186,7 @@ class CartController extends CommonController
         {
             $groupCart[$single['area']][] = $single;
         }
-
+          //var_dump($groupCart[1][0]);exit;
 
         return $this->render('cart',['groupCart' => $groupCart]);
     }
@@ -200,16 +194,20 @@ class CartController extends CommonController
     public function actionTotalcart($area)
     {
         $time['now'] = Yii::$app->formatter->asTime(time());
-        $query =  Cart::find()->where('uid = :uid and area = :area',[':uid' => Yii::$app->user->identity->id ,':area'=>$area]);
-       
-        $price['total'] = $query->sum('price*quantity');
-        $query = $query->joinWith(['food'])->all();
-        foreach($query as $cart)
+        $query =  Cart::find()->where('uid = :uid and area = :area',[':uid' => Yii::$app->user->identity->id ,':area'=>$area])->joinWith(['food']);
+
+        $price['total'] = 0;
+
+        foreach($query->each() as $value)
         {
-            $countDelivery[$cart->food->Restaurant_ID] = 0;
+            if($value->status == 1)
+            {
+                $price['total'] += $value->price * $value->quantity;
+                $countDelivery[$value->food->Restaurant_ID] = 0;
+            }
         }
-        
-        $deliveryCharge = count($countDelivery) * Yii::$app->params['deliveryCharge'];
+      
+        $deliveryCharge = empty($countDelivery)? 0 : count($countDelivery) * Yii::$app->params['deliveryCharge'];
         $price['delivery'] = $deliveryCharge;
 
         $time['early'] = date('08:00:00');
@@ -224,26 +222,6 @@ class CartController extends CommonController
         return $this->render('totalcart',['price'=>$price ,'time' => $time,'voucher'=>$voucher,'ren'=>$ren,'area'=>$area]);
     }
 
-    public function actionAddsession()
-    {
-        $model = new Area;
-        $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Postcode','Area_Postcode');
-        $this->layout = 'content';
-        if (Yii::$app->request->post()) 
-        {
-            $model->load(Yii::$app->request->post());
-            $groupArea = Area::find()->where('Area_Postcode = :p and Area_Area = :a',[':p'=> $model['Area_Postcode'] , ':a'=>$model['Area_Area']])->one()->Area_Group;
-            $session = new Session;
-            $session->open();
-            $session['postcode'] = $model['Area_Postcode'];
-            $session['area'] = $model['Area_Area'];
-            $session['group'] = $groupArea;
-
-            return $this->redirect(['/cart/view-cart']);
-        }
-        return $this->render('addsession',['model'=>$model,'postcodeArray'=>$postcodeArray]);
-    }
-
     /* Function for dependent dropdown in frontend index page. */
     public function actionGetArea()
     {
@@ -256,7 +234,7 @@ class CartController extends CommonController
             return;
         }
     }
-    echo json_encode(['output'=>'', 'selected'=>'']);
+        echo json_encode(['output'=>'', 'selected'=>'']);
     }
 
     public static function getAreaList($postcode)

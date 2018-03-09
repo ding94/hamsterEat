@@ -68,7 +68,9 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
          </div>
     </div>
     <br>
-<!--     <hr class="restaurantdetails-hr"> -->
+    <?php if(empty($allfoodtype) && empty($foodtype)):?>
+        <h1><?= Html::encode('Food Current Not Available');?></h1>
+    <?php else : ?>
     <div id="category-bar">
         <ul class="container">
         <?php
@@ -119,4 +121,5 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
         </div>
     </div>
     <?php endforeach; ?>
+    <?php endif;?>
 </div>

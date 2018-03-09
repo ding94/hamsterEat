@@ -5,7 +5,7 @@ namespace common\models\Cart;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use Yii;
-use common\models\food\Food;
+use common\models\food\{Food,Foodstatus};
 use common\models\Cart\CartSelection;
 
 /**
@@ -29,6 +29,7 @@ class Cart extends \yii\db\ActiveRecord
      */
     public $groupselection = [];
     private $idCache;
+
     public static function tableName()
     {
         return 'cart';
@@ -107,5 +108,11 @@ class Cart extends \yii\db\ActiveRecord
     public function getSelection()
     {
         return $this->hasMany(CartSelection::className(),['cid' => 'id']);
+    }
+
+    public function getStatus()
+    {
+        $data = Foodstatus::find()->where('Food_ID = :fid and Status = 1',[':fid'=>$this->fid])->andWhere(['>','food_limit','0'])->one();
+        return empty($data) ? 0 :1;
     }
 }

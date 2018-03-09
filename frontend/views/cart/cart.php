@@ -1,8 +1,5 @@
 <?php
 use yii\helpers\Html;
-use common\models\food\Food;
-use common\models\food\Foodselectiontype;
-Use common\models\food\Foodselection;
 use yii\bootstrap\ActiveForm;
 use frontend\controllers\CartController;
 use frontend\assets\CartAsset;
@@ -64,7 +61,7 @@ CartAsset::register($this);
    <?php $form = ActiveForm::begin(['action' =>['checkout/process'],'method' => 'post']); ?>
 	<div class="container">
     <?php foreach($cart as $single) :?> 
-			<section class="cart">
+			<section class="cart" data-status=<?php echo $single->status?>>
 			  <article class="product">
           <?php echo Html::hiddenInput('id',$single['id'])?> 
           <?php echo Html::hiddenInput('cid[]',$single['id'])?> 
@@ -72,7 +69,7 @@ CartAsset::register($this);
 					  <a class="remove">
               <img src=<?php echo $single->food->singleImg ?> alt="" class="img-responsive"> 
               <h3> 
-                <a class="remove delete" href="#" data-url=<?echo Url::to['cart/delete']?>><?=Yii::t('common','Remove');?></a>
+                <a class="remove delete" href="#" data-url=<?echo Url::to['cart/delete']?><?=Yii::t('common','Remove');?></a>
   				    </h3>
 				    </a>
 				</header> 

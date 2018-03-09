@@ -61,7 +61,7 @@ class CommonController extends Controller
             Yii::$app->params['listOfNotic'] = ArrayHelper::index(NotificationSetting::find()->asArray()->all(), 'id');
             $query = Notification::find()->where('uid = :uid and view = :v',[':uid' => Yii::$app->user->identity->id,':v'=>0])->asArray()->orderBy(['created_at'=>SORT_DESC]);
             $count = $query->count();
-            Yii::$app->params['countNotic'] = $count == 0 ? "" : " (".$count.")";
+            Yii::$app->params['countNotic'] = $count == 0 ? "" : " <span class='badge'>".$count."</span>";
             $notication = $query->limit(20)->all();
             foreach($notication as $single)
             {

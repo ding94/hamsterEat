@@ -26,7 +26,6 @@ use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
 use frontend\controllers\CommonController;
 use frontend\controllers\PaymentController;
-use frontend\modules\Restaurant\controllers\FoodselectionController;
 use frontend\modules\Restaurant\controllers\CancelController;
 
 class RestaurantController extends CommonController
@@ -109,115 +108,7 @@ class RestaurantController extends CommonController
             $restaurant->save();
             Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Status changed! Please inform customer service."));
         }
-        return $this->redirect(['/food/menu','rid'=>$id,'page'=>'menu']);
-    }
-
-    public function actionProvidereason($id,$rid,$item)
-    {
-        CommonController::restaurantPermission($rid);
-
-        $reason = new ProblemOrder;
-        $list = ArrayHelper::map(ProblemStatus::find()->all(),'id','description');
-
-        if (Yii::$app->request->post()) {
-
-            if($item == 3)
-            {
-                $true = FoodselectionController::enableOff($id);
-                $valid = $true;
-                if($true)
-                {
-                    $valid = self::CancelSelection($id);
-                }
-                
-            }
-            else
-            {
-
-                $valid = CancelController::CancelOrder($id);
-            }
-            
-            if ($valid == true) {
-                self::actionDeactive($id,$item);
-                Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Status changed! Please inform customer service."));
-                return $this->redirect(Yii::$app->request->referrer); 
-            }
-            else
-            {
-                 return $this->redirect(Yii::$app->request->referrer); 
-            }
-        }
-            
-        return $this->renderAjax('reason',['reason'=>$reason,'list'=>$list]);
-
-    }
-
-    public function actionFoodOnOff($id,$rid)
-    {
-        CommonController::restaurantPermission($rid);
-        $selectiondata = [];
-        $model = Foodstatus::find()->where('foodstatus.Food_ID = :id and foodstatus.Status != -1 ',[':id'=>$id])->joinWith(['selection'])->one();
-      
-        if(empty($model))
-        {
-            Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Food Already Deleted"));
-            return $this->redirect(['/food/menu','rid'=>$rid,'page'=>'menu']); 
-        }
-        foreach($model->selection as $selection)
-        {
-            if($selection->Status != -1)
-            {
-                $food = Foodselectiontype::findOne($selection->Type_ID);
-                $selectiondata[$food->originName][] = $selection;
-            }
-        }
-        
-        return $this->render("onoff",['model'=>$model,'rid'=>$rid,'selectiondata'=>$selectiondata]);
-    }
-
-    protected static function CancelSelection($id)
-    {
-        $post = Yii::$app->request->post();
-        if(empty($post['ProblemOrder']))
-        {
-            return false;
-        }
-
-        $itemselection = Orderitemselection::find()->where('Selection_ID = :id and OrderItem_Status = 2',[':id'=>$id])->joinWith(['item'])->all();
-       
-        if(empty($itemselection))
-        {
-            return true;
-        }
-      
-        foreach($itemselection as $selection)
-        {
-            $did = $selection->item->Delivery_ID;
-            //$did = $itemselection[5]->item->Delivery_ID;
-           
-            $allitem = Orderitem::find()->where('Delivery_ID = :id',[':id'=>$did])->all();
-
-            $count = count($allitem);
-
-            if($count <= 1)
-            {
-                $isvalid = CancelController::deliveryCancel($selection->item);
-               
-                if(!$isvalid)
-                {
-                    break;
-                }
-            }
-            else
-            {
-                //self::selectionCancel($selection->item);
-               $isvalid=  CancelController::orderCancel($selection->item);
-            }
-            
-        }
-        
-        return $isvalid;
-       
+        return $this->redirect(['/Food/default/menu','rid'=>$id]);
     }
 
     public function actionResumeRestaurant($id)
@@ -235,103 +126,7 @@ class RestaurantController extends CommonController
             Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Change status failed."));
         }
 
-        return $this->redirect(['/food/menu','rid'=>$id,'page'=>'menu']);
-    }
-
-    public function actionActive($id)
-    {
-       
-        $model = Foodstatus::find()->where('Food_ID=:id',[':id'=>$id])->one();
-        $food = Food::find()->where('Food_ID=:id',[':id'=>$model['Food_ID']])->one();
-        $restaurant = self::findModel($food['Restaurant_ID']);
-        $rid =  $food['Restaurant_ID'];
-         CommonController::restaurantPermission($rid);
-        if ($restaurant['Restaurant_Status'] == 'Closed') {
-            Yii::$app->session->setFlash('error', Yii::t('m-restaurant',"Restaurant was not opening."));
-            return $this->redirect(Yii::$app->request->referrer);
-        }
-        $model->Status = 1;
-        if($model->validate())
-        {
-            $model->save();
-            Yii::$app->session->setFlash('success', Yii::t('m-restaurant',"Status change to operating."));
-        }
-        else
-        {
-            Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Change status failed."));
-        }
-        
-          
-         return $this->redirect(Yii::$app->request->referrer); 
-    }
-
-    public function actionSelectionactive($id)
-    {
-        $model = Foodselection::findOne($id);
-        if(!empty($model))
-        {
-            $foodStatus = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$model->Food_ID])->one();
-          
-            if($foodStatus->Status == 1)
-            {
-                 $model->Status = 1;
-                if(!$model->save())
-                {
-                    Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Change status failed.")); 
-                }
-            }
-            else
-            {
-                 Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Please Turn Off Food to Turn Off Food Selection"));
-            }     
-            
-        }
-        else
-        {
-            Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Change status failed."));
-        }
-      
-        return $this->redirect(Yii::$app->request->referrer);
-    }
-
-    public function actionDeactive($id,$item)
-    {
-        $sucess = false;
-        switch ($item) {
-            case 1:
-                $model = self::findModel($id);
-                $model->Restaurant_Status = "Closed";
-                $sucess = $model->save();
-                break;
-
-            case 2:
-                $model = Foodstatus::find()->where('Food_ID=:id',[':id'=>$id])->one();
-                $model->Status = 0;
-                $sucess = $model->save();
-                return $sucess;
-                break;
-            case 3:
-                $model = Foodselection::findOne($id);
-                $model->Status = 0;
-                $sucess = $model->save();
-                return $sucess;
-            break;
-            default:
-                # code...
-                break;
-        }
-        
-        if($sucess)
-        {
-                 
-            Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Status change to paused."));
-        }
-        else
-        {
-            Yii::$app->session->setFlash('error', Yii::t('m-restaurant',"Change status failed."));
-        }
-
-        return $this->redirect(Yii::$app->request->referrer);
+        return $this->redirect(['/Food/default/menu','rid'=>$id]);
     }
 
     /*
@@ -364,14 +159,10 @@ class RestaurantController extends CommonController
 
                 $selectionName = empty(Json::decode($single->trim_selection)) ? $empty : $single->trim_selection;
                
-                //$companyData[$companyName][$selectionName][] = $single;
-                //if(empty($companyData[$companyname][$single->trim_selection]['quantity']))
                 $companyData[$companyName][$foodName]['rowspan'] = 0;
                 $companyData[$companyName][$foodName]['nickname'] = $single->food->Nickname;
                 $companyData[$companyName][$foodName][$selectionName]['orderid'][$single->Order_ID]['remark'] = "";
-                //$companyData[$companyName][$selectionName]['selection'] = $selectionName;
-                //$companyData[$companyName][$selectionName]['count'] = $count;
-                
+            
                 if(!array_key_exists('quantity',$companyData[$companyName][$single->food->originName][$selectionName]))
                 {
                     $companyData[$companyName][$foodName][$selectionName]['quantity'] = 0;
@@ -401,7 +192,6 @@ class RestaurantController extends CommonController
             }
         }
 
-        //var_dump($companyData['SGshop Malaysia']);exit;
         foreach ($companyData as $k => $company) 
         {
             foreach($company as $i => $food)
@@ -416,8 +206,6 @@ class RestaurantController extends CommonController
                         $companyData[$k][$i][$a]['selection'] = Json::decode($key);
                     }
                    
-                    //$companyData[$k][$i]['rowspan'] += count($companyData[$k][$i][$key]['orderid']);
-                  
                     unset($companyData[$k][$i][$key]);
                 }
             }

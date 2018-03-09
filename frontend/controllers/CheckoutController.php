@@ -409,7 +409,7 @@ class CheckoutController extends CommonController
 	{
 		$isValid = true;
 		$data['value'] = -1;
-		$data['data'] = "";
+		$data['data'] = array();
 		foreach($allCid as $i=>$cid)
 		{
 			$cart = Cart::find()->where('cart.id = :id',[':id'=>$cid])->joinWith(['selection'])->one();

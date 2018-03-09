@@ -58,7 +58,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                 <div class="selection">
 
               <?php  
-                $ftids = "";
+                $ftids = array();
 
                 foreach($foodtype as $k=> $type) : 
                   $selection = Foodselection::find()->where('Type_ID = :ftid and status = 1',[':ftid' => $type['ID']])->orderBy(['Price' => SORT_ASC])->all();

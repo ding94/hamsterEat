@@ -621,3 +621,15 @@ section.cart:hover {
 	font-size: 56px;
 	margin-left: 30px;
 }
+
+.disable-btn{
+	/* pointer-events: none; */
+	cursor: not-allowed!important; 
+	opacity: .5;
+}
+
+.disable-btn:hover{
+	  box-shadow: 0 3px 5px 0 rgba(0,0,0,.26)!important;
+	background-color: #FFDA00!important;
+	border-color: #FFDA00!important;
+}

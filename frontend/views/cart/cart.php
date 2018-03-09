@@ -8,7 +8,7 @@ use yii\helpers\Url;
 
 $this->title = Yii::t('cart','My Cart');
 CartAsset::register($this);
-
+$cart_status = 0;
 ?>
 
 <?php if(empty($groupCart)): ?>
@@ -61,6 +61,7 @@ CartAsset::register($this);
    <?php $form = ActiveForm::begin(['action' =>['checkout/process'],'method' => 'post']); ?>
 	<div class="container">
     <?php foreach($cart as $single) :
+      $cart_status += $single->status;
       if ($single->status == 1) {
     ?> 
 			<section class="cart" data-status=<?php echo $single->status?>>
@@ -159,7 +160,11 @@ CartAsset::register($this);
   <div class="container">
         <?php echo Html::hiddenInput('area', $index);?>
         <?php echo Html::hiddenInput('code', '');?>
+        <?php if($cart_status >= 1){ ?>
         <?php echo Html::submitButton(Yii::t('common','Checkout'), ['class' => 'raised-btn main-btn checkout-btn']);?>
+        <?php } else { ?>
+        <div class="raised-btn main-btn checkout-btn disable-btn"><?php echo Yii::t('common','Checkout') ?></div>
+        <?php } ?>
      
   </div>
   <?php endforeach ;?>

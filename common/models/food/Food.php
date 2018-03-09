@@ -179,7 +179,7 @@ class Food extends \yii\db\ActiveRecord
     */
     public function getImg()
     {
-        $data = "";
+        $data = array();
         $images = FoodImg::find()->where('fid = :id',[':id'=>$this->Food_ID])->all();
         foreach($images as $image)
         {
@@ -197,7 +197,7 @@ class Food extends \yii\db\ActiveRecord
     */
     public function getCaptionImg()
     {
-        $data = "";
+        $data = array();
         $images = FoodImg::find()->where('fid = :id',[':id'=>$this->Food_ID])->all();
 
         if(empty($images))

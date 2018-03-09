@@ -253,6 +253,45 @@ class RestaurantController extends CommonController
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    public function actionDeactive($id,$item)
+    {
+        $sucess = false;
+        switch ($item) {
+            case 1:
+                $model = self::findModel($id);
+                $model->Restaurant_Status = "Closed";
+                $sucess = $model->save();
+                break;
+            case 2:
+                $model = Foodstatus::find()->where('Food_ID=:id',[':id'=>$id])->one();
+                $model->Status = 0;
+                $sucess = $model->save();
+                return $sucess;
+                break;
+            case 3:
+                $model = Foodselection::findOne($id);
+                $model->Status = 0;
+                $sucess = $model->save();
+                return $sucess;
+            break;
+            default:
+                # code...
+                break;
+        }
+        
+        if($sucess)
+        {
+                 
+            Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Status change to paused."));
+        }
+        else
+        {
+            Yii::$app->session->setFlash('error', Yii::t('m-restaurant',"Change status failed."));
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+
     public function findModel($id)
     {
         $model = Restaurant::find()->where('Restaurant_ID = :id',[':id' =>$id])->one();

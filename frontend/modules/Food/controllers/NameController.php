@@ -71,10 +71,10 @@ class NameController extends CommonController
 		
 		$array = self::detectNullTranName(Yii::$app->request->post('FoodName'),$name);
 		$name = $array['data'];
-		
-		Model::loadMultiple($name, $array['post']);
+		$postData['FoodName'] = $array['post'];
+		Model::loadMultiple($name, $postData);
 		$isValid = Model::validateMultiple($name);
-		
+	
 		if(!empty($data))
 		{
 			$data = Self::mutipleTypeSelection(1,$type);
@@ -130,7 +130,7 @@ class NameController extends CommonController
     public static function detectTypes($type,$i=0,$value)
     {
         $post= Yii::$app->request->post();  
-        $data="";
+        $data = array();
         switch ($type) {
             case 1:
                 $name ="FoodSelectiontypeName";

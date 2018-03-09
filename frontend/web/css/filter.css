@@ -92,27 +92,32 @@
 @media(max-width: 767px)
 {
   .s{
-  display:none
-}
+    display:none
+  }
+
   .hl{
     display:none;
   }
+
   .area{
     display:none;
   }
+
   #cp{
     display:none;
   }
+
   .tm{
-     display: block;
-    }
+    display: block;
+  }
+
   .button {
     position:fixed;
     bottom:0;
     right:30%;
     background-color:grey;
     padding:4px;
-}
+  }
   
   .filter{
     position: fixed;

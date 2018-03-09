@@ -142,6 +142,7 @@ class CheckoutController extends CommonController
 		$cartData = $cookies->getValue('cart');
 		
 		$avaiableCart = true;
+		$foodOn = true;
 		foreach($cartData['cid'] as $id)
 		{
 			$query = Cart::find()->where('id = :id and uid = :uid and area = :area',[':id'=>$id ,':uid'=>Yii::$app->user->identity->id,':area'=>$cartData['area']])->one();
@@ -150,11 +151,22 @@ class CheckoutController extends CommonController
 				$avaiableCart = false;
 				break;
 			}
+
+			if($query->status != 1)
+			{
+				$foodOn = false;
+			}
 		}
 		
 		if(!$avaiableCart)
 		{
 			Yii::$app->session->setFlash('warning', Yii::t('checkout',"The Cart Item Does Not Match You Order Item"));
+			return $this->redirect(['/cart/view-cart']);
+		}
+
+		if(!$foodOn)
+		{
+			Yii::$app->session->setFlash('warning', Yii::t('checkout',"One Of The Cart Item Already Finish"));
 			return $this->redirect(['/cart/view-cart']);
 		}
 
@@ -206,7 +218,6 @@ class CheckoutController extends CommonController
 				
 				foreach($allorderitem as $orderitem)
 				{
-
 					$orderitem->Delivery_ID = $did;
 					if(!($isValid == $orderitem->save()))
 					{

@@ -42,7 +42,7 @@ class Foodstatus extends \yii\db\ActiveRecord
     {
         return [
             ['Status', 'required'],
-            ['food_limit','default','value'=>'50'],
+            [['food_limit','default_limit'],'default','value'=>'50'],
             [['Food_ID', 'Status', 'StartTime', 'StopTime'], 'integer'],
         ];
     }

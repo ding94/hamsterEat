@@ -194,16 +194,20 @@ class CartController extends CommonController
     public function actionTotalcart($area)
     {
         $time['now'] = Yii::$app->formatter->asTime(time());
-        $query =  Cart::find()->where('uid = :uid and area = :area',[':uid' => Yii::$app->user->identity->id ,':area'=>$area]);
-       
-        $price['total'] = $query->sum('price*quantity');
-        $query = $query->joinWith(['food'])->all();
-        foreach($query as $cart)
+        $query =  Cart::find()->where('uid = :uid and area = :area',[':uid' => Yii::$app->user->identity->id ,':area'=>$area])->joinWith(['food']);
+
+        $price['total'] = 0;
+
+        foreach($query->each() as $value)
         {
-            $countDelivery[$cart->food->Restaurant_ID] = 0;
+            if($value->status == 1)
+            {
+                $price['total'] += $value->price * $value->quantity;
+                $countDelivery[$value->food->Restaurant_ID] = 0;
+            }
         }
-        
-        $deliveryCharge = count($countDelivery) * Yii::$app->params['deliveryCharge'];
+      
+        $deliveryCharge = empty($countDelivery)? 0 : count($countDelivery) * Yii::$app->params['deliveryCharge'];
         $price['delivery'] = $deliveryCharge;
 
         $time['early'] = date('08:00:00');

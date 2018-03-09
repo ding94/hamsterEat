@@ -64,7 +64,7 @@ CartAsset::register($this);
 			<section class="cart" data-status=<?php echo $single->status?>>
 			  <article class="product">
           <?php echo Html::hiddenInput('id',$single['id'])?> 
-          <?php echo Html::hiddenInput('cid[]',$single['id'])?> 
+          <?php echo Html::hiddenInput('cid[]',$single['id'],['disabled'=>$single->status == 0 ? true : false])?> 
 				  <header>
 					  <a class="remove">
               <img src=<?php echo $single->food->singleImg ?> alt="" class="img-responsive"> 

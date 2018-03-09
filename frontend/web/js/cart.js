@@ -23,9 +23,11 @@ function detectEmptyCart()
 
 $('.delete').on('click',function(event){
     if(confirm('Are you sure you want to remove from cart?')){
-        cart = $(this).parentsUntil('.cart');
+       cart = $(this).parentsUntil('.cart');
         url = $(this).attr('data-url');
-        cid = cart.children("input[name=id]").val();
+        id = $(this).attr('data-id');
+        cid = $("."+id+"-id").val();
+        
         $('.delete').attr("disabled",true);
         $.ajax({
           url: url,
@@ -56,9 +58,9 @@ $('footer.content').on('click', '.plusMinus', function(event) {
   url = $(this).attr('data-url');
   
   $(this).attr("disabled", true);
-  cart = $(this).parentsUntil('.cart');
+  id = $(this).attr('data-id');
   parent = $(this).parent();
-  cid = cart.children("input[name=id]").val();
+  cid = $("."+id+"-id").val();
   plusMinus = $(this).text();
   value = plusMinus == '+' ? 'plus' : 'minus';
   quantity(value,cid,url)

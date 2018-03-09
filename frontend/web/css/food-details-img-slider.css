@@ -72,3 +72,7 @@
 .w3-white{
   background:#FFF;
 }
+
+.modal-header .mySlides{
+  height: 380px;
+}

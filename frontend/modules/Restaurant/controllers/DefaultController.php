@@ -623,9 +623,6 @@ class DefaultController extends CommonController
         {
             $result['value'] =3;
         }
-      
-        
-        
         return json_encode($result);
     }
 

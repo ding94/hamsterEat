@@ -153,7 +153,7 @@ RestaurantOrdersHistoryAsset::register($this);
                                 if(empty($selectionName)):
                                     $name = Yii::t('common',"empty");
                                 else :
-                                    $name ="";
+                                    $name = array();
                                     foreach($selectionName as $i=> $selection) :
                                         $type = FoodSelectiontypeName::findOne($i);
 

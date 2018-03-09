@@ -100,7 +100,7 @@ class RestaurantorderController extends CommonController
         $data = $query->offset($pages->offset)
         ->limit($pages->limit)
         ->all();
-        $result ="";
+        $result = array();
         foreach ($data as $key => $value) { 
             $result[$value->Delivery_ID][0]['status'] = $value->order->Orders_Status;
             $result[$value->Delivery_ID][0]['DateTime'] = Yii::$app->formatter->asDateTime($value->order->Orders_DateTimeMade);

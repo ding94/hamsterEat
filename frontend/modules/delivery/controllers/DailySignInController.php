@@ -123,7 +123,7 @@ class DailySignInController extends CommonController
 
     protected static function createSignInRecord($today)
     {
-    	$data = "";
+    	$data = array();
     	$month = date('t');
     	for($i = 1; $i<=$month ; $i++)
     	{

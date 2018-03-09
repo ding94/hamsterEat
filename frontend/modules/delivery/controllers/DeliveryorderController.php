@@ -51,7 +51,7 @@ class DeliveryorderController extends CommonController
     public function actionOrder()
     {
         $query = Orderitem::find()->where('deliveryman = :dman ',[':dman'=>Yii::$app->user->identity->id])->andWhere(['Orders_Status' => [2,3,4,5]])->joinWith(['address','order']);
-        $dman = "";
+        $dman = array();
         foreach($query->each() as $key => $data)
         {
            $dman[$data->Delivery_ID]['order'] = $data->order;
@@ -139,7 +139,7 @@ class DeliveryorderController extends CommonController
         ->limit($pages->limit)
         ->all(); 
 
-        $dman ="";
+        $dman =array();
         foreach($data as $value)
         {
             $dman[$value->Delivery_ID]['order'] = $value->order;
@@ -157,7 +157,7 @@ class DeliveryorderController extends CommonController
 	{
 		$post = Yii::$app->request->post();
 
-		$message = "";
+		$message = array();
         foreach($post['order'] as $order)
         {
         	$valid = $this->singlePickup($order['oid'],$order['did']);

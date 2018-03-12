@@ -126,13 +126,13 @@ class CheckoutController extends CommonController
 	{
 		$post = Yii::$app->request->post();
 		$cookies = Yii::$app->request->cookies;
-		
+
 		if(empty($cookies['cart']))
 		{
 			Yii::$app->session->setFlash('warning', Yii::t('checkout',"Order Expeire Aready. Please Try Again"));
 			return $this->redirect(['/cart/view-cart']);
 		}
-	
+
 		if(empty($post['DeliveryAddress']) || empty($post['Orders']))
 		{
 			Yii::$app->session->setFlash('warning', Yii::t('checkout',"Please Fill Out Everything"));
@@ -140,7 +140,7 @@ class CheckoutController extends CommonController
 		}
 		
 		$cartData = $cookies->getValue('cart');
-		
+				
 		$avaiableCart = true;
 		$foodOn = true;
 		foreach($cartData['cid'] as $id)
@@ -199,9 +199,9 @@ class CheckoutController extends CommonController
 		$order = $dataorder['data'];
 		$allorderitem = $dataitem['data'];
 		$delivery = $this->addDeliveryAssignment($deliveryman);
-	
+
 		$isValid = $delivery->validate() && $address->validate() ;
-		
+
 		if($isValid)
 		{
 			$transaction = Yii::$app->db->beginTransaction();

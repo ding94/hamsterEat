@@ -1,5 +1,4 @@
 #mydetails{
-	/* margin-left:20%; */
 	padding: 15px;
 	background-color: white;
 }
@@ -18,10 +17,7 @@
 
 .checkout-header{
 	text-align: center;
-
 }
-
-
 
 .cart-detail{
 	width: 75%;
@@ -46,10 +42,11 @@
 }
 
 .checkout-cash{
-	font-family: 'Times New Roman', Times, serif;
 	background-color: white;
-	
-	padding-top: 7%;" 
+	height: 440px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .more-detail{
@@ -72,6 +69,11 @@
 	.raised-btn{
 		width: 100%;
 		margin-bottom: 10px !important;
+	}
+
+	.checkout-cash{
+		padding-top: 7%;
+		height: auto;
 	}
 }
 

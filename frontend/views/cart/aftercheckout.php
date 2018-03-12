@@ -28,10 +28,10 @@ CheckoutAsset::register($this);
     </div>
     <div class="container" id="aftercheckout">
         <div class="checkout-header">
-            <h3>
+            <h2>
                 <?=Yii::t('common','Delivery ID'); ?>:
-            <?= $order['Delivery_ID']; ?>
-            </h3>
+                <?= $order['Delivery_ID']; ?>
+            </h2>
         </div>
         <div class="row">
             <div class="col-md-6 checkout-detail" >

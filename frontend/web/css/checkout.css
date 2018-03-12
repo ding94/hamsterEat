@@ -17,6 +17,16 @@
 
 .checkout-header{
 	text-align: center;
+	background-color: #FFF;
+	padding: 10px 0;
+}
+
+#aftercheckout .row{
+	margin-top: 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 50vh;
 }
 
 .cart-detail{
@@ -39,11 +49,15 @@
 .checkout-detail{
 	background-color: white;
 	margin-right: 10px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .checkout-cash{
 	background-color: white;
-	height: 440px;
+	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -71,9 +85,20 @@
 		margin-bottom: 10px !important;
 	}
 
+	#aftercheckout .row{
+		flex-direction: column;
+		height: auto;
+	}
+
 	.checkout-cash{
+		margin-top: 10px;
 		padding-top: 7%;
 		height: auto;
+		width: 100%;
+	}
+
+	.checkout-detail{
+		margin-right: 0;
 	}
 }
 

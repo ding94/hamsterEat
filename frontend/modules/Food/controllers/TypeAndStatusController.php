@@ -25,6 +25,7 @@ class TypeAndStatusController extends Controller
 	    	$status->Status = 1;
 	    	
 		}
+        $status->food_limt = $status->default_limit;
 	    $data['status'] = $status;
 	    return $data;
 	}

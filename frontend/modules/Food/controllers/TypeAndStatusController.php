@@ -11,19 +11,21 @@ use common\models\food\{Foodtypejunction,Foodtype,Foodstatus,Foodselectiontype,F
 
 class TypeAndStatusController extends Controller
 {
-	public function createStatus($food)
+	public static function createStatus($food,$status)
 	{
+      
 		$food->Ingredient = "empty";
 		$food->Price = CartController::actionDisplay2decimal($food->Price);
         $food->BeforeMarkedUp =  CartController::actionRoundoff1decimal($food->Price / 1.3);
 		$data['food']  = $food;
-		if($food->isNewRecord)
+
+		if($status->isNewRecord)
 		{
-			$foodstatus = new Foodstatus;
-	    	$foodstatus->Status = 1;
-	    	$data['status'] = $foodstatus;
+			$status = new Foodstatus;
+	    	$status->Status = 1;
+	    	
 		}
-	
+	    $data['status'] = $status;
 	    return $data;
 	}
 

@@ -50,7 +50,7 @@ AddFoodAsset::register($this);
        		 	echo $form->field($name, 'translation')->textInput()->label(Yii::t('common','Name'));
                 
                 echo $form->field($food, 'Nickname')->textInput()->label(Yii::t('food','Nickname'));
-
+                echo $form->field($status,'default_limit')->dropDownList($array['status']);
                 echo $form->field($food, 'roundprice', [
                     'addon' => [
                     'append' => [
@@ -62,7 +62,7 @@ AddFoodAsset::register($this);
                 ])->textInput(['id'=>'price'])->label(Yii::t('food','Money Received')); 
 
                  echo $form->field($junction, 'Type_ID')->widget(Select2::classname(), [
-				    'data' => $foodtype,
+				    'data' => $array['type'],
 				    
 				    'options' => ['placeholder' => 'Select a type ...'],
 				    'pluginOptions' => [

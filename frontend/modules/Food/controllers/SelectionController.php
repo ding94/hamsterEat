@@ -12,10 +12,13 @@ use common\models\food\{Food,FoodSelectionName,FoodSelectiontypeName,Foodselecti
 
 class SelectionController extends CommonController
 {
-	public function actionCreateEdit($id,$rid)
+	public function actionCreateEdit($id,$rid,$status = 0)
 	{
 		CommonController::restaurantPermission($rid);
-
+        if($status == 1)
+        {
+            var_dump('a');exit;
+        }
 		$type = Foodselectiontype::find()->where('Food_ID = :id',[':id'=>$id])->joinWith(['transName'])->all();
 		$food = Food::findOne($id);
 		$new = empty($food) ? 0 :1;

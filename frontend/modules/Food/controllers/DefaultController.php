@@ -84,17 +84,19 @@ class DefaultController extends CommonController
     public function actionCreateEditFood($rid,$id=0)
     {
         CommonController::restaurantPermission($rid);
-        $food = Food::findOne($id);
+        $food = Food::find()->where('food.Food_ID = :id',[':id'=>$id])->joinWith(['foodStatus','transName'])->one();
         if(empty($food))
         {
         	$food = new Food;
     		$food->Restaurant_ID =$rid;
     		$name = new FoodName;
     		$junction = new Foodtypejunction;
+            $status = new Foodstatus;
         }
         else
         {
         	$name = $food->transName;
+            $status = $food->foodStatus;
         	$junction = Foodtypejunction::find()->where('Food_ID = :fid',[':fid'=>$id])->one();
         	if(empty($junction))
         	{
@@ -104,18 +106,18 @@ class DefaultController extends CommonController
         $new = $food->isNewRecord ? 0 :1;
     	$link = CommonController::getRestaurantEditUrl($id,$rid,$new);
 
-    	$foodtype = ArrayHelper::map(Foodtype::find()->all(),'ID','Type_Desc');
-    	
+    	$array['type'] = ArrayHelper::map(Foodtype::find()->all(),'ID','Type_Desc');
+    	$array['status'] = [10=>10,20=>20,30=>30,40=>40,50=>50];
 
-    	if($food->load(Yii::$app->request->post()) && $name->load(Yii::$app->request->post()))
+    	if($food->load(Yii::$app->request->post()) && $name->load(Yii::$app->request->post()) && $status->load(Yii::$app->request->post()))
     	{
-    		$data = $this->save($food,$name,$junction);
+    		$data = $this->save($food,$name,$junction,$status);
     		if($data['valid'])
     		{
     			Yii::$app->session->setFlash('success',Yii::t('cart','Success!'));
     			if($food->isNewRecord)
     			{
-    				return $this->redirect(['/Food/selection/create-edit','id'=>$data['id'],'rid'=>$rid]);
+    				return $this->redirect(['/Food/selection/create-edit','id'=>$data['id'],'rid'=>$rid,'status'=>1]);
     			}
     			else
     			{
@@ -128,7 +130,7 @@ class DefaultController extends CommonController
     		Yii::$app->session->setFlash('error',Yii::t('cart','Something Went Wrong!'));
     	}
 
-    	return $this->render('crfood',['food'=>$food,'name'=>$name,'foodtype'=>$foodtype,'junction'=>$junction,'link'=>$link]);
+    	return $this->render('crfood',['food'=>$food,'name'=>$name,'array'=>$array,'junction'=>$junction,'status'=>$status,'link'=>$link]);
     	
     }
 
@@ -150,7 +152,7 @@ class DefaultController extends CommonController
     	return $this->redirect(Yii::$app->request->referrer);	
     }
 
-    protected static function save($food,$name,$junction)
+    protected static function save($food,$name,$junction,$status)
     {
     	$arrayJ = TypeAndStatusController::detectJunction($junction);
     	if($arrayJ['message'] == 0)
@@ -160,24 +162,14 @@ class DefaultController extends CommonController
 
     	$junction = $arrayJ['value'];
 
-    	$array = TypeAndStatusController::createStatus($food);
+    	$array = TypeAndStatusController::createStatus($food,$status);
 
     	$food = $array['food'];
-    	
-    	if(!empty($array['status']))
-    	{
-
-    		$status = $array['status'];
-    		$valid = $status->validate();
-    	}
-    	else
-    	{
-    		$valid = true;
-    	}
-    	
+        $status = $array['status'];
+        var_dump($status);exit;
     	$name->language = "en";
     	
-	    $valid = $junction->validate() && $food->validate() && $name->validate() && $valid;
+	    $valid = $junction->validate() && $food->validate() && $name->validate() && $status->validate();
 	   	$data['id'] = 0;
 
 	    if($valid)
@@ -186,14 +178,12 @@ class DefaultController extends CommonController
 	    	if($food->save())
 	    	{
 	    		$fid = $food->Food_ID;
-	    		if(!empty($status))
-	    		{
-	    			$status->Food_ID = $fid;
-	    		}
-	    		
+
+	    		$status->Food_ID = $fid;
 	    		$name->id = $fid;
 	    		$junction->Food_ID = $fid;
-	    		if($name->save() && $junction->save() && !empty($status)?$status->save() : true)
+
+	    		if($name->save() && $junction->save() && $status->save())
 	    		{
 	    			$data['id'] = $fid;
 	    			$valid = true;

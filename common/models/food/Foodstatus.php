@@ -14,7 +14,7 @@ use Yii;
  * @property integer $StopTime
  */
 class Foodstatus extends \yii\db\ActiveRecord
-{
+{ 
     /**
      * @inheritdoc
      */

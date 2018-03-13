@@ -54,7 +54,10 @@ $(document).ready(function(){
 });
 
 if (parseInt(window.innerWidth)<768) {
-    $(document).on("click", function () {
+    $('.outer-container').on("click", function () {
+        $(".filter").hide();
+    });
+    $('#bottom-navbar').on("click", function () {
         $(".filter").hide();
     });
 }

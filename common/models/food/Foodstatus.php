@@ -41,9 +41,11 @@ class Foodstatus extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            ['Status', 'required'],
-            [['food_limit','default_limit'],'default','value'=>'50'],
-            [['Food_ID', 'Status', 'StartTime', 'StopTime'], 'integer'],
+            [['Status','food_limit','default_limit'], 'required'],
+           
+            [['default_limit'], 'compare', 'compareValue' => 10, 'operator' => '>=', 'type' => 'number'],
+            ['food_limit', 'compare', 'compareValue' => 0, 'operator' => '>=', 'type' => 'number'],
+            [['Food_ID', 'Status', 'StartTime', 'StopTime','food_limit','default_limit'], 'integer'],
         ];
     }
 
@@ -57,6 +59,7 @@ class Foodstatus extends \yii\db\ActiveRecord
             'Food_ID' => 'Food  ID',
             'Status' => 'Status',
             'food_limit' => 'limit',
+            'default_limit' => 'default food limit',
             'StartTime' => 'Start Time',
             'StopTime' => 'Stop Time',
         ];

@@ -18,27 +18,28 @@ class SelectionTypeController extends Controller
 	*/
 	public static function detectMinMaxSelecttion($selection,$foodselection)
 	{
-		$data = [];
+		$data = array();
 		$data['value'] = 1;
 		$data['message'] = "";
 		$selection = array_filter($selection);
-
-		foreach ($foodselection as $key => $value) {
-
-			if(empty($selection[$value->ID]))
+		
+		//return $data;
+		foreach ($foodselection as $key => $value) 
+		{
+			if(is_array($selection[$value->ID]))
 			{
-				$count = 0;
+				$count = count($selection[$value->ID]);
 			}
 			else
 			{
-				$count = count($selection[$value->ID]);
+				$count = 1;
 			}
 			
 			if($count< $value->Min || $count > $value->Max)
 			{
-				//Yii::$app->session->setFlash('danger', 'Please select at least '.$value->Min.' items and most '.$value->Max.' items in '.$value->TypeName);
+				Yii::$app->session->setFlash('danger', 'Please select at least '.$value->Min.' items and most '.$value->Max.' items in '.$value->TypeName);
 				
-				$data['message'] = "Please select at least $value->Min items and most $value->Max items in $value->cookieName";
+				$data['message'] = $value->ID;
 				$data['value'] =2;
 				return $data;
 			}

@@ -62,11 +62,11 @@ return [
 
             ],
         ],
-        /*'assetManager' => [
+        'assetManager' => [
             'appendTimestamp' => true,
-            'bundles' => require(__DIR__   .'/assets-prod.php'), 
+            //'bundles' => require(__DIR__   .'/assets-prod.php'), 
 
-        ],*/
+        ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],

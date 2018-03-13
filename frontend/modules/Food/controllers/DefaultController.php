@@ -64,6 +64,7 @@ class DefaultController extends CommonController
         }
 
         $fooddata = Food::find()->where('Food_ID = :id' ,[':id' => $id])->one();
+        $foodlimit = Foodstatus::find()->where('Food_ID = :id' ,[':id' => $id])->one();
 
         if(empty($fooddata))
         {
@@ -77,8 +78,8 @@ class DefaultController extends CommonController
         $cart = new Cart;
         
         $comments = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$id])->orderBy(['created_at' => SORT_DESC])->all();
-        
-        return $this->renderAjax('detail',['fooddata' => $fooddata,'foodtype' => $foodtype, 'cart'=>$cart ,'cartSelection' => $cartSelection, 'comments'=>$comments]);
+
+        return $this->renderAjax('detail',['fooddata' => $fooddata,'foodlimit' => $foodlimit,'foodtype' => $foodtype, 'cart'=>$cart ,'cartSelection' => $cartSelection, 'comments'=>$comments]);
     }
 
     public function actionCreateEditFood($rid,$id=0)

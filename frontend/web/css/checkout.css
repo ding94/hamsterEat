@@ -1,5 +1,4 @@
 #mydetails{
-	/* margin-left:20%; */
 	padding: 15px;
 	background-color: white;
 }
@@ -18,10 +17,17 @@
 
 .checkout-header{
 	text-align: center;
-
+	background-color: #FFF;
+	padding: 10px 0;
 }
 
-
+#aftercheckout .row{
+	margin-top: 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 50vh;
+}
 
 .cart-detail{
 	width: 75%;
@@ -43,13 +49,18 @@
 .checkout-detail{
 	background-color: white;
 	margin-right: 10px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .checkout-cash{
-	font-family: 'Times New Roman', Times, serif;
 	background-color: white;
-	
-	padding-top: 7%;" 
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .more-detail{
@@ -72,6 +83,22 @@
 	.raised-btn{
 		width: 100%;
 		margin-bottom: 10px !important;
+	}
+
+	#aftercheckout .row{
+		flex-direction: column;
+		height: auto;
+	}
+
+	.checkout-cash{
+		margin-top: 10px;
+		padding-top: 7%;
+		height: auto;
+		width: 100%;
+	}
+
+	.checkout-detail{
+		margin-right: 0;
 	}
 }
 

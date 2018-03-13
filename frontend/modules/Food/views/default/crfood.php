@@ -8,11 +8,32 @@ use frontend\assets\AddFoodAsset;
 $this->title = $food->isNewRecord ? Yii::t('food','New Food Item') : Yii::t('food','Edit Food Item');
 AddFoodAsset::register($this);
 ?>
+<?php if($food->isNewRecord):?>
+<div class="container">
+  <div class="checkout-progress-bar">
+    <div class="circle active">
+      <span class="label"><i class="fa fa-cutlery"></i></span>
+      <span class="title"><?= Yii::t('common','Food') ?></span>
+    </div>
+    <span class="bar"></span>
+    <div class="circle deactive">
+      <span class="label"><i class="fa fa-plus"></i></span>
+      <span class="title"><?= Yii::t('common','Selection') ?></span>
+    </div>
+    <span class="bar"></span>
+    <div class="circle deactive">
+      <span class="label"><i class="fa fa-picture-o"></i></span>
+      <span class="title"><?= Yii::t('common','Image') ?></span>
+    </div>
+  </div> 
+</div>
+<?php endif;?>
 <div class="food-container container">
 	<div class="food-header">
         <div class="food-header-title"><?= Html::encode($this->title) ?></div>
     </div>
     <div class="content">
+      <?php if(!$food->isNewRecord):?>
     	<div class="col-sm-2">
              <div class="dropdown-url">
                 <?php 
@@ -45,12 +66,20 @@ AddFoodAsset::register($this);
               </ul>
             </div>
        </div>
-       <div class="col-sm-10 food-content">
+      <?php endif;
+        $number = $food->isNewRecord ? 12 : 10;
+      ?>
+       <div class="col-sm-<?php echo $number;?> food-content">
        		<?php $form = ActiveForm::begin(); 
        		 	echo $form->field($name, 'translation')->textInput()->label(Yii::t('common','Name'));
                 
                 echo $form->field($food, 'Nickname')->textInput()->label(Yii::t('food','Nickname'));
-                echo $form->field($status,'default_limit')->dropDownList($array['status']);
+                if($status->isNewRecord):
+                  echo $form->field($status,'default_limit')->dropDownList($array['status'],['value'=>30]);
+                else:
+                   echo $form->field($status,'default_limit')->dropDownList($array['status']);
+                endif;
+             
                 echo $form->field($food, 'roundprice', [
                     'addon' => [
                     'append' => [
@@ -62,20 +91,25 @@ AddFoodAsset::register($this);
                 ])->textInput(['id'=>'price'])->label(Yii::t('food','Money Received')); 
 
                  echo $form->field($junction, 'Type_ID')->widget(Select2::classname(), [
-				    'data' => $array['type'],
-				    
-				    'options' => ['placeholder' => 'Select a type ...'],
-				    'pluginOptions' => [
-				        'tags' => true,
-                        'maximumInputLength' => 20,
-				    ],
-				]);
+      				    'data' => $array['type'],
+      				    
+      				    'options' => ['placeholder' => 'Select a type ...'],
+      				    'pluginOptions' => [
+      				        'tags' => true,
+                              'maximumInputLength' => 20,
+      				    ],
+      				]);
                 
-                echo $form->field($food, 'Description')->textInput()->label(Yii::t('common','Description')) ?>
-                <div class="form-group">
-                    <?= Html::submitButton(Yii::t('common','Save'), ['class' => 'raised-btn main-btn', 'name' => 'insert-button']) ?>
-                </div>
-             <?php ActiveForm::end(); ?> 
+              echo $form->field($food, 'Description')->textInput()->label(Yii::t('common','Description'));
+             
+              echo Html::submitButton(Yii::t('common','Save'), ['class' => 'raised-btn main-btn pull-left', 'name' => 'insert-button']) ?>
+                
+             <?php ActiveForm::end();
+              if($number == 12):
+                  echo Html::a(Yii::t('common','Back'),['menu','rid'=>$food->Restaurant_ID], ['class' => 'raised-btn secondary-btn change-password-resize-btn', 'name' => 'insert-button']);
+                       
+                endif;  
+            ?>
        </div>
     </div>
 </div>

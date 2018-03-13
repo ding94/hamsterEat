@@ -93,12 +93,14 @@ class DefaultController extends CommonController
     		$name = new FoodName;
     		$junction = new Foodtypejunction;
             $status = new Foodstatus;
+            $newData = true;
         }
         else
         {
         	$name = $food->transName;
             $status = $food->foodStatus;
         	$junction = Foodtypejunction::find()->where('Food_ID = :fid',[':fid'=>$id])->one();
+            $newData = false;
         	if(empty($junction))
         	{
         		$junction = new Foodtypejunction;
@@ -116,8 +118,10 @@ class DefaultController extends CommonController
     		if($data['valid'])
     		{
     			Yii::$app->session->setFlash('success',Yii::t('cart','Success!'));
-    			if($food->isNewRecord)
+
+    			if($newData)
     			{
+                    
     				return $this->redirect(['/Food/selection/create-edit','id'=>$data['id'],'rid'=>$rid,'status'=>1]);
     			}
     			else
@@ -167,7 +171,7 @@ class DefaultController extends CommonController
 
     	$food = $array['food'];
         $status = $array['status'];
-        var_dump($status);exit;
+        
     	$name->language = "en";
     	
 	    $valid = $junction->validate() && $food->validate() && $name->validate() && $status->validate();

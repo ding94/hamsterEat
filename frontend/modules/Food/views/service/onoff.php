@@ -89,10 +89,7 @@ $this->title = "Food ".$model->name." Service";
 						<td class="width name" data-th="Selection Name"><?= $selection->originName ?></td>
 						<td colspan=<?php echo $selection->Status == 0 ? 1 : 2?>>Current Status : <?= $status[$selection->Status] ?></td>
 						<?php if($selection->Status == 0) : ?>
-						<td>
-							<?= Html::a(Yii::t('food','Delete').'<i class="fa fa-times" aria-hidden="true"></i>',['/food/selection-delete','id'=>$selection->ID],['class' => 'raised-btn delete-btn btn-danger right','data' => ['confirm' => Yii::t('food','Are you sure you want to permenant delete this selection item?'),'method' => 'post']]);?>
-								
-						</td>
+						
 						<?php endif;?>
 						<td class="width-10">
 						<?php 

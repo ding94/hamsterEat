@@ -113,6 +113,12 @@ class Cart extends \yii\db\ActiveRecord
     public function getStatus()
     {
         $data = Foodstatus::find()->where('Food_ID = :fid and Status = 1',[':fid'=>$this->fid])->andWhere(['>','food_limit','0'])->one();
-        return empty($data) ? 0 :1;
+      
+        if(!empty($data) && $data->food_limit - $this->quantity >= 0)
+        {
+            return 1;
+        }
+        
+        return  0 ;
     }
 }

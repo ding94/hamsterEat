@@ -9,12 +9,32 @@ use wbraganca\dynamicform\DynamicFormWidget;
 $this->title = current($type)->isNewRecord ? Yii::t('food','Add Food Selection') : Yii::t('food','Edit Food Selection');;
 AddFoodAsset::register($this);
 ?>
-
+<?php if ($status == 1):?>
+<div class="container">
+    <div class="checkout-progress-bar">
+         <div class="circle done">
+           <span class="label"><i class="fa fa-check"></i></span>
+           <span class="title"><?= Yii::t('common','Food') ?></span>
+        </div>
+         <span class="bar done"></span>
+        <div class="circle active">
+           <span class="label"><i class="fa fa-plus"></i></span>
+           <span class="title"><?= Yii::t('common','Selection') ?></span>
+        </div>
+        <span class="bar"></span>
+        <div class="circle deactive">
+           <span class="label"><i class="fa fa-picture-o"></i></span>
+           <span class="title"><?= Yii::t('common','Image') ?></span>
+        </div>
+    </div> 
+</div>
+<?php endif;?>
 <div class="food-container container">
 	<div class="food-header">
         <div class="food-header-title"><?= Html::encode($this->title) ?></div>
     </div>
     <div class="content">
+        <?php if($status == 0):?>
     	<div class="col-sm-2">
             <div class="dropdown-url">
                 <?php 
@@ -47,7 +67,10 @@ AddFoodAsset::register($this);
                 </ul>
             </div>
     	</div>
-    	<div class="col-sm-10 food-content">
+        <?php endif;
+            $number = $status == 0 ? 10 : 12;
+        ?>
+    	<div class="col-sm-<?php echo $number?> food-content">
     		<?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
     		<div class="form-group">
     			<?php DynamicFormWidget::begin([
@@ -110,7 +133,12 @@ AddFoodAsset::register($this);
                 </div>
                 <?php DynamicFormWidget::end(); ?>
 
-                <?= Html::submitButton(Yii::t('common','Save'), ['class' => 'raised-btn main-btn', 'name' => 'insert-button']) ?>
+                <?php echo Html::submitButton(Yii::t('common','Save'), ['class' => 'raised-btn main-btn', 'name' => 'insert-button']);
+                    if($status == 1):
+                        echo Html::a(Yii::t('common','Skip'),['/image/create','id'=>$id,'rid'=>$rid], ['class' => 'raised-btn change-password-resize-btn', 'name' => 'insert-button']);
+                       
+                    endif;
+                ?>
             </div>
     		<?php ActiveForm::end(); ?>
     	</div>

@@ -15,56 +15,32 @@ class SelectionController extends CommonController
 	public function actionCreateEdit($id,$rid,$status = 0)
 	{
 		CommonController::restaurantPermission($rid);
-        if($status == 1)
-        {
-            var_dump('a');exit;
-        }
+
 		$type = Foodselectiontype::find()->where('Food_ID = :id',[':id'=>$id])->joinWith(['transName'])->all();
 		$food = Food::findOne($id);
 		$new = empty($food) ? 0 :1;
 		$link = CommonController::getRestaurantEditUrl($id,$rid,$new);
-		if (!empty($type)) 
-        {
-            $selection = $this->oldData($type,1);
-            foreach ($selection as $key => $value) {
-                if(empty($value))
-                {
-                    unset($type[$key]);
-                    unset($selection[$key]);
-                }
-               	else
-               	{
-               		$typeName[$key] = $type[$key]->transName;
-               		foreach ($value as $i => $data) {
-               			$selectionName[$key][$i] =$data->transName;            		
-               		}
-               	}
-            }
-           
-        }
-        else
-        {
-        	$type = [new Foodselectiontype];
-        	$selection = [[new Foodselection]];
-        	$typeName = [new FoodSelectiontypeName];
-        	$selectionName = [[new FoodSelectionName]];
-        }
-        $type = array_values($type);
-        $typeName = array_values($typeName);
-        $selection = array_values($selection);
-       	$selectionName = array_values($selectionName);
+        $array = $this->genPassData($type);
+		
+        $type = $array['type'];
+        $typeName = $array['typeName'];
+        $selection = $array['selection'];
+       	$selectionName = $array['selectionName'];
 
         if(Yii::$app->request->post())
         {
-
-        	$array['type'] = $type;
-        	$array['selection'] = $selection;
-        	$array['typeName'] = $typeName;
-        	$array['selectionName'] = $selectionName;
         	$valid = $this->saveData($array,$id);
         	if($valid)
         	{
-        		return $this->redirect(['create-edit','id'=>$id,'rid'=>$rid]);
+                if($status == 1)
+                {
+                    return $this->redirect(['/Food/image/create','id'=>$id,'rid'=>$rid]);
+                }
+                else
+                {
+                    return $this->redirect(['create-edit','id'=>$id,'rid'=>$rid]);
+                }
+        		
         	}
         	
         }
@@ -77,16 +53,71 @@ class SelectionController extends CommonController
 			'id'=>$id,
 			'rid'=>$rid,
 			'link'=>$link,
+            'status'=>$status,
 		]);
 	}
 
+    /*
+    * detect the type and selection is new record
+    * and remove the type base on deleted selection
+    */
+    protected static function genPassData($type)
+    {
+        if (!empty($type)) 
+        {
+            $selection = self::oldData($type,1);
+            foreach ($selection as $key => $value) {
+                if(empty($value))
+                {
+                    unset($type[$key]);
+                    unset($selection[$key]);
+                }
+                else
+                {
+                    $typeName[$key] = $type[$key]->transName;
+                    foreach ($value as $i => $data) {
+                        $selectionName[$key][$i] =$data->transName;                 
+                    }
+                }
+            }
+
+           
+        }
+
+        if(empty($selection))
+        {
+            $type = [new Foodselectiontype];
+            $selection = [[new Foodselection]];
+            $typeName = [new FoodSelectiontypeName];
+            $selectionName = [[new FoodSelectionName]];
+        }
+
+        $array['type'] = $type;
+        $array['selection'] = $selection;
+        $array['typeName'] = $typeName;
+        $array['selectionName'] = $selectionName;
+        return $array;
+    }
+
 	protected static function saveData($data,$id)
-	{
-		$array = self::centerControlData($data,$id);
-		$valid = LargeDataSaveController::selectionSave($array,$id);
+	{      
+        $post = Yii::$app->request->post();
+        if(empty($post['Foodselectiontype']) && empty($post['Foodselection']))
+        {
+           $valid = Foodselection::updateAll(['Status'=> -1],'Food_ID = :id',[':id'=>$id]);
+        }
+        else
+        {
+            $array = self::centerControlData($data,$id);
+            $valid = LargeDataSaveController::selectionSave($array,$id);
+        }
+		
 		return $valid;
 	}
 
+    /*
+    * validate type,selection,typeName and selectionName data
+    */
 	protected static function centerControlData($data,$id)
 	{
 		$post = Yii::$app->request->post();
@@ -94,7 +125,7 @@ class SelectionController extends CommonController
 		$selection = $data['selection'];
 		$typeName = $data['typeName'];
 		$selectionName = $data['selectionName'];
-
+      
 		$true = TypeAndStatusController::detectMinMax($post['Foodselectiontype'],$post['Foodselection']);
         if($true)
         {

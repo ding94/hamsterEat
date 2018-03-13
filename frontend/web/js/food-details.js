@@ -3,10 +3,11 @@ $('body').on('submit','#a2cart',function(e){
 	e.stopImmediatePropagation();
 	$('.addtocart-btn').attr("disabled", true);
 	var form = $(this);
+  
 	$.ajax({
 			async: true,
             url    : $("input[name=url]").val(),
-            type   : 'POST',
+            type   : 'post',
             data   : form.serialize(),
             success: function (data) 
             {  
@@ -37,6 +38,7 @@ $('body').on('submit','#a2cart',function(e){
 	           		$('#system-messages').append("<div id='aa' class='alert alert-danger'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.message+"</div>").fadeIn();
 	           		$('#system-messages').children().delay(3000).fadeTo(500,0).slideUp(500).queue(function() { $('#aa').remove(); });
            			//$('#system-messages').html(data).fadeIn();
+                console.log(obj.message);
            		} 
            		$('.addtocart-btn').attr("disabled", false);   
             },

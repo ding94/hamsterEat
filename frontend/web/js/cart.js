@@ -29,7 +29,6 @@ $('.delete').on('click',function(event){
         cart = $("#cart-"+id);
         
         cid = $("."+id+"-id").val();
-        console.log(cid); 
         $('.delete').attr("disabled",true);
         $.ajax({
           url: url,

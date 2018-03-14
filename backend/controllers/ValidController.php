@@ -25,7 +25,7 @@ class ValidController extends Controller
 					Yii::$app->session->setFlash('error','Discount cannot higher than 100% !');
 					return false;
 				}
-				elseif ($post->discount_type == 4 && $post->discount >=501) 
+				elseif ($post->discount_type == 2 && $post->discount >=501) 
 				{
 					Yii::$app->session->setFlash('error','Discount cannot higher than RM500 !');
 					return false;
@@ -42,7 +42,7 @@ class ValidController extends Controller
 					Yii::$app->session->setFlash('error','Discount cannot higher than 100% !');
 					return false;
 				}
-				elseif ($post->discount_type == 4 && $post->discount >=501) 
+				elseif ($post->discount_type == 2 && $post->discount >=501) 
 				{
 					Yii::$app->session->setFlash('error','Discount cannot higher than RM500 !');
 					return false;
@@ -64,12 +64,12 @@ class ValidController extends Controller
 					Yii::$app->session->setFlash('error','Voucher code repeated!');
 					return false;
 				}
-				if ($post->discount_type == 100 && $post->discount >=101) 
+				if ($post->discount_type == 1 && $post->discount >=101) 
 				{
 					Yii::$app->session->setFlash('error','Discount cannot higher than 100% !');
 					return false;
 				}
-				elseif ($post->discount_type == 101 && $post->discount >=501) 
+				elseif ($post->discount_type == 2 && $post->discount >=501) 
 				{
 					Yii::$app->session->setFlash('error','Discount cannot higher than RM500 !');
 					return false;
@@ -117,7 +117,7 @@ class ValidController extends Controller
 				$check = Vouchers::find()->where('code = :c',[':c' => $model['code']])->one(); // check voucer exist
 				if (!empty($check)) 
 				{
-					if ($check->discount_type!=1 && $check->discount_type !=4) //check voucher status
+					if ($check->status!=1) //check voucher status
 					{
 						Yii::$app->session->setFlash('error','Voucher assigned or used!');
 						return false;
@@ -132,11 +132,11 @@ class ValidController extends Controller
 					}
 					$valid = self::VoucherCheckValid($voucher,2); //check exceed amount
 					if ($valid==false) {
-						if ($voucher->discount_type == 1) {
+						if ($voucher->discount_type == 1 && $voucher->discount >= 101) {
 							Yii::$app->session->setFlash('error','Discount cannot higher than 100% !');
 							return false;
 						}
-						elseif ($voucher->discount_type == 4) {
+						elseif ($voucher->discount_type == 2 && $voucher->discount >= 501) {
 							Yii::$app->session->setFlash('error','Discount cannot higher than RM500 !');
 							return false;
 						}

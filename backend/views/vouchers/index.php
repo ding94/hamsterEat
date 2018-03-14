@@ -64,19 +64,19 @@ use common\models\vouchers\Vouchers;
                 'attribute' => 'discount',
                  'value' => function($model)
                         {
-                            if ($model->discount_type >= 1 && $model->discount_type <=3) {
+                            if ($model->discount_type == 1) {
                                 return $model->discount.' %';
                             }
                             return 'RM '.$model->discount;
                         },
             ],
             [
-                'attribute' => 'voucher_item.description',
-                'filter' => array( "7"=>"Discount from purchase","8"=>"Discount from Service Charge","9"=>"Discount from Total"),
+                'attribute' => 'discount_items.description',
+                'filter' => array( "1"=>"Discount from purchase","2"=>"Discount from delivery charge","4"=>"Discount from Service Charge","3"=>"Discount from Total"),
             ],
             [
-                'attribute' => 'voucher_type.description',
-                'filter' => array( "1"=>"Actived(%)","2"=>"Assigned(%)","3"=>"Used(%)","4"=>"Actived(RM)","5"=>"Assigned(RM)","6"=>"Used(RM)"),
+                'attribute' => 'voucher_status.description',
+                'filter' => array( "1"=>"Activated","2"=>"Assigned","3"=>"Deactivated","4"=>"Expired"),
             ],
             [                  
                  'attribute' => 'startDate',

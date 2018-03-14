@@ -42,7 +42,7 @@ CheckoutAsset::register($this);
                     </tr>
                         <td><?=Yii::t('order','Order ID'); ?>:</td>
                         
-                        <?php $orders= array(); ?>
+                        <?php $orders= ''; ?>
                         <?php foreach ($orderitem as $key => $oid): ?>
                                 <?php if($key == 0 ): ?>
                                     <?php $orders .= $oid['Order_ID']; ?>

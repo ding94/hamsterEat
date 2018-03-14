@@ -166,7 +166,7 @@ class DefaultController extends CommonController
 
     	$food = $array['food'];
         $status = $array['status'];
-        var_dump($status);exit;
+        //var_dump($status);exit;
     	$name->language = "en";
     	
 	    $valid = $junction->validate() && $food->validate() && $name->validate() && $status->validate();

@@ -14,7 +14,7 @@ use common\models\food\Foodselection;
 use common\models\Area;
 use common\models\vouchers\Vouchers;
 use common\models\vouchers\UserVoucher;
-use common\models\vouchers\VouchersType;
+use common\models\vouchers\DiscountItem;
 use common\models\user\Userdetails;
 use common\models\user\Useraddress;
 use common\models\Restaurant;
@@ -25,6 +25,9 @@ use common\models\Deliveryman;
 use frontend\controllers\PaymentController;
 use frontend\controllers\MemberpointController;
 use frontend\controllers\NotificationController;
+use common\models\vouchers\VouchersSetCondition;
+use common\models\vouchers\VouchersConditions;
+
 use yii\helpers\Json;
 use frontend\modules\delivery\controllers\DailySignInController;
 use frontend\modules\UserPackage\controllers\SelectionTypeController;
@@ -216,9 +219,9 @@ class CartController extends CommonController
         $this->layout ="content";
 
         $voucher = ArrayHelper::map(UserVoucher::find()->where('uid=:uid',[':uid'=>Yii::$app->user->identity->id])->andWhere(['>=','user_voucher.endDate',time(date("Y-m-d"))])->joinWith(['voucher'=>function($query){
-                $query->andWhere(['=','discount_type',5])->orWhere(['=','discount_type',2]);
+                $query->andWhere(['=','status',2]);
             }])->all(),'code','code');
-        $ren = new VouchersType;
+        $ren = new DiscountItem;
         return $this->render('totalcart',['price'=>$price ,'time' => $time,'voucher'=>$voucher,'ren'=>$ren,'area'=>$area]);
     }
 
@@ -406,17 +409,28 @@ class CartController extends CommonController
         if (!empty($codes)) {
             $dis= $codes;
         }
+        $special = VouchersSetCondition::find()->where('code=:c',[':c'=>$dis])->one();
+        if (!empty($special)) {
+            $v = Vouchers::find()->where('code=:c',[':c'=>$dis])->all();
+            foreach ($v as $k => $val) {
+                $valid = DiscountController::specialVoucherUse($val,$special);
+                if ($valid == false) {
+                    return Json::encode(20);
+                }
+            }
+            
+        }
         $valid = UserVoucher::find()->where('code = :c',[':c'=>$dis])->one();
         $voucher = Vouchers::find()->where('code = :c',[':c'=>$dis])->one();
-       if ($voucher['discount_type'] == 100 || $voucher['discount_type'] == 101) {
+       if ($voucher['status'] == 5) {
            $valid['endDate'] = date('Y-m-d',strtotime('+1 day'));
        }
        if (!empty($valid)) 
         {
-            if ($voucher['discount_type'] == 2 || $voucher['discount_type'] == 5 || $voucher['discount_type'] == 100 || $voucher['discount_type'] == 101)  
+            if ($voucher['status'] == 2 || $voucher['status'] == 5)  
             {
                 if ($valid['endDate'] > date('Y-m-d')) 
-                {
+                {   
                     $vouchers = Vouchers::find()->where('code = :c',[':c'=>$dis])->all();
                     $value['code'] = $dis;
                     $value['sub'] = $sub;
@@ -425,11 +439,11 @@ class CartController extends CommonController
                     $value['discount'] = 0;
                     foreach ($vouchers as $k => $vou) 
                     {
-                        if ($vou['discount_type'] == 1 || $vou['discount_type'] == 2 || $vou['discount_type'] == 100)  
+                        if ($vou['discount_type'] == 1)  
                         {
                             switch ($vou['discount_item']) 
                             {
-                                case 7:
+                                case 1:
                                     $value['discount'] += ($value['sub']* ($vou['discount'] / 100));
                                     /* this 1 count with early discount for percentage
                                     $value['total'] = $value['total'] - ($value['sub']* ($vou['discount'] / 100));
@@ -438,13 +452,13 @@ class CartController extends CommonController
                                     $value['total'] =  $value['sub'] + $value['deli'];
                                     break;
 
-                                case 8:
+                                case 2:
                                     $value['discount'] += ($value['deli']* ($vou['discount'] / 100));
                                     $value['deli'] = $value['deli']-($value['deli']*($vou['discount'] / 100));
                                     $value['total'] =  $value['sub'] + $value['deli'];
                                     break;
 
-                                case 9:
+                                case 3:
                                     $value['discount'] += ($value['total']* ($vou['discount'] / 100));
                                     $value['total'] = $value['total'] - ($value['total']*($vou['discount'] / 100));
                                     break;
@@ -454,11 +468,11 @@ class CartController extends CommonController
                                     break;
                             }
                         }
-                        elseif ($vou['discount_type'] == 4 || $vou['discount_type'] == 5 || $vou['discount_type'] == 101) 
+                        elseif ($vou['discount_type'] == 2 ) 
                         {
                             switch ($vou['discount_item']) 
                             {
-                                case 7:
+                                case 1:
                                     if (($value['sub']-$vou['discount']) < 0) {
                                         $value['discount'] += $value['sub'];
                                         /*for amount
@@ -475,7 +489,7 @@ class CartController extends CommonController
                                     $value['total'] =  $value['sub'] + $value['deli'];
                                     break;
 
-                                case 8:
+                                case 2:
                                     if (($value['deli']-$vou['discount']) < 0) {
                                         $value['discount'] += $value['deli'];
                                         $value['deli'] = 0;
@@ -487,7 +501,7 @@ class CartController extends CommonController
                                     $value['total'] =  $value['sub'] + $value['deli'];
                                     break;
 
-                                case 9:
+                                case 3:
                                     if (($value['total']-$vou['discount']) < 0) {
                                         $value['discount'] += $value['total'];
                                         $value['total'] = 0;
@@ -525,7 +539,6 @@ class CartController extends CommonController
         $value = 0;
        }
        $value=  Json::encode($value);
-
        return $value;
     }
 

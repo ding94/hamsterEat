@@ -5,7 +5,7 @@ namespace common\models\vouchers;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
-use common\models\vouchers\VouchersType;
+use common\models\vouchers\DiscountItem;
 use common\models\vouchers\UserVoucher;
 /**
  * This is the model class for table "vouchers".
@@ -36,18 +36,24 @@ class Vouchers extends \yii\db\ActiveRecord
 
     public function attributes()
     {
-        return array_merge(parent::attributes(),['voucher_type.description','voucher_item.description','uservoucher','voucher_type.type']);
+        return array_merge(parent::attributes(),['voucher_status.description','discount_items.description','uservoucher']);
     }
 
-    public function getVoucher_type()
+    public function getDiscount_types()
     {
-        return $this->hasOne(VouchersType::className(),['id' => 'discount_type']); 
+        return $this->hasOne(DiscountType::className(),['id' => 'discount_type']); 
     }
 
-    public function getVoucher_item()
+    public function getDiscount_items()
     {
-        return $this->hasOne(VouchersType::className(),['id' => 'discount_item']); 
+        return $this->hasOne(DiscountItem::className(),['id' => 'discount_item']); 
     }
+
+    public function getVoucher_status()
+    {
+        return $this->hasOne(VouchersStatus::className(),['id' => 'status']); 
+    }
+
     public function getUservoucher(){
         return $this->hasOne(UserVoucher::className(),['vid' => 'id']); 
     }
@@ -75,7 +81,7 @@ class Vouchers extends \yii\db\ActiveRecord
             ['amount','integer','min'=> 1,'max'=> 100],
             ['discount','number','min'=> 1],
 
-            [['id','voucher_type.description','voucher_item.description','endDate','voucher_type.type'], 'safe'],
+            [['id','voucher_status.description','discount_items.description','endDate'], 'safe'],
         ];
     }
 
@@ -95,49 +101,33 @@ class Vouchers extends \yii\db\ActiveRecord
             'inCharge' => 'In Charge',
             'startDate' => 'Start Date',
             'endDate' => 'End Date',
-            'voucher_type.description' => 'Status',
-            'voucher_item.description' => 'Discount from',
 
         ];
     }
 
     public function search($params,$action)
     {
-        if ($action == 1) 
-        {
-            $query = self::find()->andWhere('discount_type != 100')->andWhere('discount_type != 101');
+        switch ($action) {
+            case 5:
+                $query = self::find()->andWhere(['=','status',5]);
+                break;
+            
+            default:
+                $query = self::find()->andWhere(['!=','status',5]);
+                break;
         }
-        elseif ($action == 2) 
-        {
-            $query = self::find()->andWhere(['or',['discount_type' => 1],['discount_type' => 4]]);
-        }
-        elseif ($action == 3) 
-        {
-            $query = self::find()->andWhere(['or',['discount_type' => 2],['discount_type' => 5]]);
-        }
-        elseif ($action == 4) 
-        {
-            $query = self::find()->andWhere(['or',['discount_type' => 3],['discount_type' => 6]]);
-        }
-        elseif ($action == 5) 
-        {
-            $query = self::find()->where(['or',['discount_type' => 100],['discount_type' => 101]]);
-        }
-        else
-        {
-            $query = self::find();
-        }
+        
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        $dataProvider->sort->attributes['voucher_type.description'] = [
+        $dataProvider->sort->attributes['voucher_status.description'] = [
             'asc'=>['discount_type'=>SORT_ASC],
             'desc'=>['discount_type'=>SORT_DESC],
         ];
 
-        $dataProvider->sort->attributes['voucher_item.description'] = [
+        $dataProvider->sort->attributes['discount_items.description'] = [
             'asc'=>['discount_item'=>SORT_ASC],
             'desc'=>['discount_item'=>SORT_DESC],
         ];
@@ -148,8 +138,8 @@ class Vouchers extends \yii\db\ActiveRecord
         ->andFilterWhere(['like','id' , $this->getAttribute('id')])
         ->andFilterWhere(['like','code' , $this->getAttribute('code')])
         ->andFilterWhere(['like','discount' , $this->getAttribute('discount')])
-        ->andFilterWhere(['like','discount_type' , $this->getAttribute('voucher_type.description')])
-        ->andFilterWhere(['like','discount_item' , $this->getAttribute('voucher_item.description')])
+        ->andFilterWhere(['like','status' , $this->getAttribute('voucher_status.description')])
+        ->andFilterWhere(['like','discount_item' , $this->getAttribute('discount_items.description')])
         ->andFilterWhere(['like','FROM_UNIXTIME(startDate, "%Y-%m-%d")' , $this->startDate])
         ->andFilterWhere(['like','FROM_UNIXTIME(endDate, "%Y-%m-%d")' , $this->endDate])
         ;
@@ -178,7 +168,7 @@ class Vouchers extends \yii\db\ActiveRecord
             'desc'=>['discount_type'=>SORT_DESC],
         ];
 
-        $dataProvider->sort->attributes['voucher_item.description'] = [
+        $dataProvider->sort->attributes['discount_item.description'] = [
             'asc'=>['discount_item'=>SORT_ASC],
             'desc'=>['discount_item'=>SORT_DESC],
         ];
@@ -189,8 +179,8 @@ class Vouchers extends \yii\db\ActiveRecord
         ->andFilterWhere(['like','id' , $this->getAttribute('id')])
         ->andFilterWhere(['like','code' , $this->getAttribute('code')])
         ->andFilterWhere(['like','discount' , $this->getAttribute('discount')])
-        ->andFilterWhere(['like','discount_type' , $this->getAttribute('voucher_type.description')])
-        ->andFilterWhere(['like','discount_item' , $this->getAttribute('voucher_item.description')])
+        ->andFilterWhere(['like','discount_type' , $this->getAttribute('discount_type.description')])
+        ->andFilterWhere(['like','discount_item' , $this->getAttribute('discount_items.description')])
         ->andFilterWhere(['like','discount_type' , $this->getAttribute('voucher_type.type')])
         ->andFilterWhere(['like','FROM_UNIXTIME(startDate, "%Y-%m-%d")' , $this->startDate])
         ->andFilterWhere(['like','FROM_UNIXTIME(endDate, "%Y-%m-%d")' , $this->endDate])

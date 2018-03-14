@@ -104,12 +104,12 @@ function quantity(up,cid,url)
 
   function discount()
   {   
- /* alert(document.getElementById("subtotal").innerHTML);*/
+    //alert(document.getElementById("codes").value);
     $.ajax({
     url : $("input[name=dis-url]").val(),
     type: "get",
     data :{
-      dis: document.getElementById("voucherstype-type").value.replace(/\s+/g, ''),
+      dis: document.getElementById("discountitem-description").value.replace(/\s+/g, ''),
       codes: document.getElementById("codes").value.replace(/\s+/g, ''),
       sub: parseFloat(document.getElementById("subtotal").innerHTML).toFixed(2),
       deli: parseFloat(document.getElementById("delivery").innerHTML).toFixed(2),
@@ -117,7 +117,9 @@ function quantity(up,cid,url)
     },
     success: function (data) {
       var obj = JSON.parse(data);
+      //alert(obj);
       if (obj == 19) { return false;}
+      if(obj == 20 ){ alert('You already used this coupon.'); return false;}
       if (obj != 0 ) 
       {
         //document.getElementById("disamount").innerHTML = "- "+(parseFloat(obj['discount'])).toFixed(2);

@@ -30,13 +30,13 @@ use kartik\widgets\DatePicker;
             'discount',
             //'voucher_type.description',
             [
-                'attribute' => 'voucher_type.type',
-                'filter' => array( "2"=>"Percentages(%)","5"=>"Amount"),
+                'attribute' => 'discount_types.description',
+                'filter' => array( "1"=>"Percentages(%)","2"=>"Amount"),
             ],
 
             [
-                'attribute' => 'voucher_item.description',
-                'filter' => array( "7"=>"Discount from purchase","8"=>"Discount from Service Charge","9"=>"Discount from Total"),
+                'attribute' => 'discount_items.description',
+                'filter' => array( "1"=>"Discount from purchase","2"=>"Discount from delivery charge","4"=>"Discount from Service Charge","3"=>"Discount from Total"),
             ],
 
             ['class' => 'yii\grid\ActionColumn' ,

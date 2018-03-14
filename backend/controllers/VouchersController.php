@@ -7,10 +7,8 @@ use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use common\models\User;
-use common\models\vouchers\Vouchers;
-use common\models\vouchers\VouchersType;
+use common\models\vouchers\{Vouchers,VouchersStatus,VouchersConditions,VouchersSetCondition,DiscountType,DiscountItem,UserVoucher};
 use backend\models\Admin;
-use common\models\vouchers\UserVoucher;
 
 class VouchersController extends CommonController
 {
@@ -85,8 +83,8 @@ class VouchersController extends CommonController
 		$model = new Vouchers;
 		$model->scenario = 'initial';
 		$model->startDate = date('Y-m-d');
-		$type = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>1],['id'=>4]])->all(),'id','type');
-		$item = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>7],['id'=>8],['id'=>9]])->all(),'id','description');
+		$type = ArrayHelper::map(DiscountType::find()->all(),'id','description');
+		$item = ArrayHelper::map(DiscountItem::find()->all(),'id','description');
 
 		if (Yii::$app->request->post()) {
 
@@ -97,7 +95,7 @@ class VouchersController extends CommonController
 			{
 				
 				$model = self::actionCreate($model);
-				
+				$model['status'] = 1;
 				$valid = ValidController::SaveValidCheck($model,1);
 				if ($valid==true) 
 				{
@@ -115,25 +113,33 @@ class VouchersController extends CommonController
 		$model = new Vouchers;
 		$model->scenario = 'initial';
 		$model->startDate = date('Y-m-d');
-		$type = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>100],['id'=>101]])->all(),'id','type');
-		$item = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>7],['id'=>8],['id'=>9]])->all(),'id','description');
+		$setcon = new VouchersSetCondition();
+		$type = ArrayHelper::map(DiscountType::find()->all(),'id','description');
+		$item = ArrayHelper::map(DiscountItem::find()->all(),'id','description');
+		$con = ArrayHelper::map(VouchersConditions::find()->all(),'id','description');
 
 		if (Yii::$app->request->post()) {
-
+			$setcon->load(Yii::$app->request->post());
 			$model->load(Yii::$app->request->post());
 			$valid = ValidController::VoucherCheckValid($model,4);
 			if ($valid ==true) 
 			{
 				$model = self::actionCreate($model);
-				
-				$valid = ValidController::SaveValidCheck($model,1);
-				if ($valid==true) 
+				$model['status'] = 5;
+				if ($model->validate()) 
 				{
+					$model->save();
+					if (!empty($setcon['condition_id'])) {
+						$setcon['vid'] = $model['id'];
+						$setcon['code'] = $model['code'];
+						$setcon->save();
+					}
+					Yii::$app->session->setFlash('success','Voucher Created!');
 					return $this->redirect(['/vouchers/specific']);
 				}
 			}
 		}
-       	return $this->render('addvoucher',['model' => $model,'type'=>$type,'item'=>$item]);
+       	return $this->render('addspecvoucher',['model' => $model,'type'=>$type,'item'=>$item,'con'=>$con,'setcon'=>$setcon]);
 	}
 
 	//create a voucher
@@ -145,6 +151,7 @@ class VouchersController extends CommonController
 			$model->endDate = time($model->endDate);
 		}
 		$model->usedTimes = 0;
+		$model->status = 1;
 		$model->inCharge = Yii::$app->user->identity->adminname;
 		$model->scenario = 'save';
 
@@ -159,8 +166,8 @@ class VouchersController extends CommonController
 		$model->scenario = 'generate';
 		$model->digit = 16;
 		$model->startDate = date('Y-m-d');
-		$type = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>1],['id'=>4]])->all(),'id','type');
-		$item = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>7],['id'=>8],['id'=>9]])->all(),'id','description');
+		$type = ArrayHelper::map(DiscountType::find()->all(),'id','description');
+		$item = ArrayHelper::map(DiscountItem::find()->all(),'id','description');
 		if (Yii::$app->request->post()) 
 		{
 			$model->load(Yii::$app->request->post());
@@ -224,19 +231,17 @@ class VouchersController extends CommonController
 	public function actionMore($id)
 	{
 		$voucher = Vouchers::find()->where('id = :id',[':id'=>$id])->one();
-		if ($voucher['discount_type'] != 1) {
-			if ($voucher['discount_type'] != 4) {
+		if ($voucher['status'] != 1) {
 				Yii::$app->session->setFlash('error','This coupon was assigned to an user or expired!');
 	    		return $this->redirect(['/vouchers/index']);
-			}
 		}
 		$conflic = Vouchers::find()->where('code = :c',[':c'=>$voucher['code']])->all();
 		$used = 0;
 		foreach ($conflic as $k => $value) {
-			if ($value['discount_item'] == 7) {
+			if ($value['discount_item'] == 1) {
 				$used += 1;
 			}
-			if ($value['discount_item'] == 8) {
+			if ($value['discount_item'] == 2) {
 				$used += 1;
 			}
 		}
@@ -244,8 +249,8 @@ class VouchersController extends CommonController
 			Yii::$app->session->setFlash('warning','Both discount item was usd for this coupon!');
 	    	return $this->redirect(['/vouchers/index']);
 		}
-		$type = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>1],['id'=>4]])->all(),'id','type');
-		$item = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>7],['id'=>8]])->all(),'id','description');
+		$type = ArrayHelper::map(DiscountType::find()->all(),'id','description');
+		$item = ArrayHelper::map(DiscountItem::find()->all(),'id','description');
 		$items = ArrayHelper::remove($item, $voucher['discount_item']);
 		$model = new Vouchers;
 
@@ -262,6 +267,7 @@ class VouchersController extends CommonController
 			$model->inCharge = Yii::$app->user->identity->adminname;
 			$model->startDate = $voucher->startDate;
 			$model->endDate = $voucher->endDate;
+			$model['status'] = 1;
 			$valid = ValidController::SaveValidCheck($model,1);
 			
 			if ($valid) {
@@ -284,19 +290,18 @@ class VouchersController extends CommonController
 	public function actionMorespec($id)
 	{
 		$voucher = Vouchers::find()->where('id = :id',[':id'=>$id])->one();
-		if ($voucher['discount_type'] != 100) {
-			if ($voucher['discount_type'] != 101) {
+		if ($voucher['status'] != 5) {
 				Yii::$app->session->setFlash('error','This voucher was not specialized for employees!');
 	    		return $this->redirect(['/vouchers/specific']);
-			}
 		}
+
 		$conflic = Vouchers::find()->where('code = :c',[':c'=>$voucher['code']])->all();
 		$used = 0;
 		foreach ($conflic as $k => $value) {
-			if ($value['discount_item'] == 7) {
+			if ($value['discount_item'] == 1) {
 				$used += 1;
 			}
-			if ($value['discount_item'] == 8) {
+			if ($value['discount_item'] == 2) {
 				$used += 1;
 			}
 		}
@@ -304,8 +309,8 @@ class VouchersController extends CommonController
 			Yii::$app->session->setFlash('warning','Both discount item was usd for this voucher!');
 	    	return $this->redirect(['/vouchers/specific']);
 		}
-		$type = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>100],['id'=>101]])->all(),'id','type');
-		$item = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>7],['id'=>8]])->all(),'id','description');
+		$type = ArrayHelper::map(DiscountType::find()->all(),'id','description');
+		$item = ArrayHelper::map(DiscountItem::find()->all(),'id','description');
 		$items = ArrayHelper::remove($item, $voucher['discount_item']);
 		$model = new Vouchers;
 
@@ -322,6 +327,7 @@ class VouchersController extends CommonController
 			$model->inCharge = Yii::$app->user->identity->adminname;
 			$model->startDate = $voucher->startDate;
 			$model->endDate = $voucher->endDate;
+			$model->status = 5;
 			$valid = ValidController::SaveValidCheck($model,1);
 			
 			if ($valid) {

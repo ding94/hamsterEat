@@ -16,7 +16,6 @@ use yii\data\ActiveDataProvider;
  */
 class VouchersSetCondition extends \yii\db\ActiveRecord
 {
-    public $code;
     /**
      * @inheritdoc
      */
@@ -31,9 +30,8 @@ class VouchersSetCondition extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['vid', 'condition_id', 'amount'], 'required'],
+            [['vid'], 'required'],
             [['code'],'string'],
-            [['code'],'required','on'=>'set'],
             [['vid', 'condition_id'], 'integer'],
             [['amount'], 'number'],
         ];
@@ -47,6 +45,7 @@ class VouchersSetCondition extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'vid' => 'Vid',
+            'code' => 'Code',
             'condition_id' => 'Condition ID',
             'amount' => 'Amount',
         ];

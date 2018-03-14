@@ -8,7 +8,8 @@ use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use common\models\user\Usersearch;
 use common\models\vouchers\Vouchers;
-use common\models\vouchers\VouchersType;
+use common\models\vouchers\DiscountType;
+use common\models\vouchers\DiscountItem;
 use common\models\User;
 use backend\models\Admin;
 use common\models\vouchers\UserVoucher;
@@ -24,8 +25,8 @@ class UservoucherController extends CommonController
        	$voucher = new Vouchers;
        	$voucher->scenario = 'generate';
 		$voucher->digit = 16;
-       	$type = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>1],['id'=>4]])->all(),'id','type');
-		$item = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>7],['id'=>8],['id'=>9]])->all(),'id','description');
+       	$type = ArrayHelper::map(DiscountType::find()->all(),'id','description');
+		$item = ArrayHelper::map(DiscountItem::find()->all(),'id','description');
 
 		if (Yii::$app->request->post()) {
 			if (Yii::$app->request->post('selection')) {
@@ -71,8 +72,8 @@ class UservoucherController extends CommonController
 				return $this->redirect(Yii::$app->request->Referrer);
 			}
 		$voucher['endDate'] = date('Y-m-d h:i:s', $voucher['endDate']);
-		$type = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>1],['id'=>4]])->all(),'id','type');
-		$item = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>7],['id'=>8],['id'=>9]])->all(),'id','description');
+		$type = ArrayHelper::map(DiscountType::find()->all(),'id','description');
+		$item = ArrayHelper::map(DiscountItem::find()->all(),'id','description');
 
 		if (Yii::$app->request->post()) {
 			$voucher->load(Yii::$app->request->post());
@@ -108,6 +109,7 @@ class UservoucherController extends CommonController
 			$voucher->discount_type +=1;
 			$voucher->code = $code;
 			$voucher->usedTimes = 0;
+			$voucher->status = 2;
 			$voucher->inCharge = Yii::$app->user->identity->adminname;
 			$voucher->startDate = time(date('Y-m-d'));
 			$voucher->endDate = $end;
@@ -143,8 +145,8 @@ class UservoucherController extends CommonController
 		$model->scenario = 'initial';
 		$model->endDate = date('Y-m-d',strtotime('+30 day'));
 		$voucher = new Vouchers;
-		$type = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>1],['id'=>4]])->all(),'id','type');
-		$item = ArrayHelper::map(VouchersType::find()->where(['or',['id'=>7],['id'=>8],['id'=>9]])->all(),'id','description');
+		$type = ArrayHelper::map(DiscountType::find()->all(),'id','description');
+		$item = ArrayHelper::map(DiscountItem::find()->all(),'id','description');
 		$searchModel = new Vouchers();
        	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,2);
 
@@ -186,6 +188,7 @@ class UservoucherController extends CommonController
 		$voucher->discount_type = $voucher->discount_type + 1;
 		$voucher->usedTimes = 0;
 		$voucher->inCharge = Yii::$app->user->identity->adminname;
+		$voucher->status = 2;
 		$voucher->startDate = time();
 		$voucher->endDate = strtotime($model->endDate);
 
@@ -210,7 +213,7 @@ class UservoucherController extends CommonController
 	{
 
 		foreach ($check as $k => $value) {
-			$value->discount_type = $value->discount_type + 1;
+			$value->status = $value->status + 1;
 			$value->startDate = time();
 			$value->endDate = strtotime($model->endDate);
 			$valid = ValidController::SaveValidCheck($value,2);

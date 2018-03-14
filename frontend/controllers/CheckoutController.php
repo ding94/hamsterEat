@@ -129,7 +129,7 @@ class CheckoutController extends CommonController
 		
 		if(empty($cookies['cart']))
 		{
-			Yii::$app->session->setFlash('warning', Yii::t('checkout',"Order Expeire Aready. Please Try Again"));
+			Yii::$app->session->setFlash('warning', Yii::t('checkout',"Order Already Expired. Please Try Again"));
 			return $this->redirect(['/cart/view-cart']);
 		}
 	
@@ -189,10 +189,17 @@ class CheckoutController extends CommonController
 		$dataitem =$this->createOrderitem($cartData['cid'],$post['Orders']['Orders_PaymentMethod']);
 		
 		$dataorder = $this->createOrder($post,$deliveryman,$cartData);
-	
+
 		if($dataorder['value'] == -1 || $dataitem['value'] == -1)
 		{
-			Yii::$app->session->setFlash('warning', Yii::t('checkout',"Your order Something Went Wrong"));
+			if(empty(Yii::$app->session->getAllFlashes())){
+				Yii::$app->session->setFlash('warning', Yii::t('checkout',"Your order Something Went Wrong"));
+			}
+			else{
+				foreach (Yii::$app->session->getAllFlashes() as $key => $value) {}
+				Yii::$app->session->setFlash($key, $value);
+			}
+			
 			return $this->redirect(['/cart/view-cart']);
 		}
 
@@ -389,6 +396,7 @@ class CheckoutController extends CommonController
 			}
 			$order  = $data['data'];
 		}
+
 		if($order->validate())
 		{
 			$data['value'] = 1;

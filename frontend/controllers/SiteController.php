@@ -589,8 +589,8 @@ class SiteController extends CommonController
                 //voucher creation part for 2 users
 
                 $discount = 5; // discount how much
-                $discountitem = 9; // discount item, in db 7 - 10
-                $discounttype = 5; // disocunt type, 2 for %, 5 for amount
+                $discountitem = 3; // discount item, in db: discount_item 1 - 4
+                $discounttype = 2; // disocunt type, 1 for %, 2 for amount
                 $voucher = VouchersController::VoucherCreate($discount,$discountitem,$discounttype);// get voucher for new user
                 if ($voucher->validate()) {
                     $voucher->save();

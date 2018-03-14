@@ -17,12 +17,13 @@ CartAsset::register($this);
       <?php if (!empty($voucher)): ?>
         <?php $form = ActiveForm::begin(); ?>
         <div>
-            <?= $form->field($ren,'type')->dropDownList($voucher,['onchange' => 'js:return discount();','prompt' => ' -- Select Voucher --'])->label(Yii::t('vouchers','Voucher'))?>
+            <?= $form->field($ren,'description')->dropDownList($voucher,['onchange' => 'js:return discount();','prompt' => ' -- Select Voucher --'])->label(Yii::t('vouchers','Voucher'))?>
         </div>
         <?php ActiveForm::end(); ?>
       <?php elseif (empty($voucher)) : ?>
         <div class="col-md-3 col-md-offset-2" ><br>
-          <input id="voucherstype-type" type="hidden" value=" ">
+          <!-- input id == from->field created id -->
+          <input id="discountitem-description" type="hidden" value=" ">
         </div>
       <?php endif ?>
     </div>

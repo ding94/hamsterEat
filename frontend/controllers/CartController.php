@@ -3,33 +3,15 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use common\models\User;
-use common\models\food\Food;
-use common\models\Order\Orders;
-use common\models\Order\Ordersstatuschange;
-use common\models\Order\Orderitemstatuschange;
-use common\models\Order\Orderitemselection;
-use common\models\Order\Orderitem;
-use common\models\food\Foodselectiontype;
-use common\models\food\Foodselection;
+use common\models\food\{Food,Foodselectiontype,Foodselection,Foodstatus};
+use common\models\Order\{Orders,Orderitem};
 use common\models\Area;
-use common\models\vouchers\Vouchers;
-use common\models\vouchers\UserVoucher;
-use common\models\vouchers\DiscountItem;
-use common\models\user\Userdetails;
-use common\models\user\Useraddress;
+use common\models\vouchers\{Vouchers,DiscountItem,UserVoucher,VouchersSetCondition,VouchersConditions};
+use common\models\user\{Userdetails,Useraddress};
 use common\models\Restaurant;
-use common\models\Account\Accountbalance;
 use common\models\Cart\Cart;
 use common\models\Cart\CartSelection;
-use common\models\Deliveryman;
-use frontend\controllers\PaymentController;
-use frontend\controllers\MemberpointController;
-use frontend\controllers\NotificationController;
-use common\models\vouchers\VouchersSetCondition;
-use common\models\vouchers\VouchersConditions;
-
 use yii\helpers\Json;
-use frontend\modules\delivery\controllers\DailySignInController;
 use frontend\modules\UserPackage\controllers\SelectionTypeController;
 use frontend\controllers\CommonController;
 use yii\helpers\ArrayHelper;
@@ -85,6 +67,12 @@ class CartController extends CommonController
             return Json::encode($data);
         }
         
+        if($cart->quantity >= $food->foodStatus->food_limit+1)
+        {
+            $data['message'] = Yii::t('cart','Maximun Amount Of Food Order');
+            return Json::encode($data);
+        }
+
         if(empty($session['group']) || $session['group'] != $food['restaurant']['Restaurant_AreaGroup'])
         {
             $data['message'] = Yii::t('cart','This item is in a different area from your area. Please re-enter your area.');
@@ -362,12 +350,14 @@ class CartController extends CommonController
         $data['value'] = 0;
         $data['message'] = "";
         $cart = Cart::find()->where('id=:id and uid = :uid',[':id'=>$cid,':uid' => Yii::$app->user->identity->id])->one();
+       
         if(empty($cart))
         {
             $data['message'] = Yii::t('cart',"Something Went Wrong!");
             return Json::encode($data);
         }
-       
+
+        $status = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$cart->fid])->one();
         switch ($update) {
             case 'minus':
                 $cart->quantity = $cart->quantity - 1;
@@ -382,6 +372,12 @@ class CartController extends CommonController
         }
         if ($cart->quantity < 1) {
             $data['message'] = Yii::t('cart',"Food can't order less than 1.");
+            return Json::encode($data);
+        }
+
+        if($status->food_limit-$cart->quantity < 0)
+        {
+            $data['message'] =  $data['message'] = Yii::t('cart','Maximun Amount Of Food Order');
             return Json::encode($data);
         }
 

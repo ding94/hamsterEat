@@ -22,7 +22,6 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 }
 
 </style>
-<body>
 <!--<div class="site-index">--> 
 <header class="intro-header">
 <!-- <div id="SlideShowContainer" class="container-fluid">

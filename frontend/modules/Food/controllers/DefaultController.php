@@ -64,6 +64,7 @@ class DefaultController extends CommonController
         }
 
         $fooddata = Food::find()->where('Food_ID = :id' ,[':id' => $id])->one();
+        $foodlimit = Foodstatus::find()->where('Food_ID = :id' ,[':id' => $id])->one();
 
         if(empty($fooddata))
         {
@@ -77,8 +78,8 @@ class DefaultController extends CommonController
         $cart = new Cart;
         
         $comments = Foodrating::find()->where('Food_ID = :fid', [':fid'=>$id])->orderBy(['created_at' => SORT_DESC])->all();
-        
-        return $this->renderAjax('detail',['fooddata' => $fooddata,'foodtype' => $foodtype, 'cart'=>$cart ,'cartSelection' => $cartSelection, 'comments'=>$comments]);
+
+        return $this->renderAjax('detail',['fooddata' => $fooddata,'foodlimit' => $foodlimit,'foodtype' => $foodtype, 'cart'=>$cart ,'cartSelection' => $cartSelection, 'comments'=>$comments]);
     }
 
     public function actionCreateEditFood($rid,$id=0)
@@ -92,12 +93,14 @@ class DefaultController extends CommonController
     		$name = new FoodName;
     		$junction = new Foodtypejunction;
             $status = new Foodstatus;
+            $newData = true;
         }
         else
         {
         	$name = $food->transName;
             $status = $food->foodStatus;
         	$junction = Foodtypejunction::find()->where('Food_ID = :fid',[':fid'=>$id])->one();
+            $newData = false;
         	if(empty($junction))
         	{
         		$junction = new Foodtypejunction;
@@ -115,8 +118,10 @@ class DefaultController extends CommonController
     		if($data['valid'])
     		{
     			Yii::$app->session->setFlash('success',Yii::t('cart','Success!'));
-    			if($food->isNewRecord)
+
+    			if($newData)
     			{
+                    
     				return $this->redirect(['/Food/selection/create-edit','id'=>$data['id'],'rid'=>$rid,'status'=>1]);
     			}
     			else
@@ -166,6 +171,7 @@ class DefaultController extends CommonController
 
     	$food = $array['food'];
         $status = $array['status'];
+        
         //var_dump($status);exit;
     	$name->language = "en";
     	

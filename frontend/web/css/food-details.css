@@ -92,9 +92,17 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #fooddetails .foodname{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   line-height: initial;
   font-size: 2.0em;
   font-weight:700;
+}
+
+#fooddetails span.food-limit-span{
+  font-size: 0.6em;
+  font-weight: normal;
 }
 
 #fooddetails .foodprice{

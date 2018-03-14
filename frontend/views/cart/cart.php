@@ -92,12 +92,19 @@ $cart_status = 0;
             <?php echo Html::a(Yii::t('cart',$single['food']['cookieName']),['Restaurant/default/restaurant-details','rid'=> $single['food']['Restaurant_ID']],['target'=>"_blank"])?>
           </h1>
           <div class="relative">
-              <?=Yii::t('cart','Food Selection');?>
-            <i class="fa fa-info-circle"> <span class="i-detail i-selection" > 
-            <?php foreach($single['groupselection'] as $name=>$selection):?>
-              <?php $text = implode( ", ", $selection );?>
-                 <?php echo $text?>
-            <?php endforeach;?></span></i>&nbsp; 
+            <?php if(!empty($single->groupselection)):?>
+            <?=Yii::t('cart','Food Selection');?>
+            <i class="fa fa-info-circle"> 
+              <span class="i-detail i-selection" > 
+                <?php 
+                    foreach($single->groupselection as $name=>$selection):
+                      $text = implode( ", ", $selection );
+                      echo $name .":  ".$text ."</br>";
+                    endforeach;
+                ?>
+              </span>
+            </i>&nbsp;
+            <?php endif;?>
           </div>
       		<?php if(!empty($single['remark'])): ?>
             <div class="relative upper-trash" style="color:#fc7171;"><?=Yii::t('common','Remarks');?>

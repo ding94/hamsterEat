@@ -6,10 +6,34 @@ use Yii;
 use yii\web\Controller;
 use yii\helpers\Url;
 use frontend\controllers\CommonController;
-use common\models\food\FoodImg;
+use common\models\food\{FoodImg,Food};
 
 class ImageController extends CommonController
 {
+    public function actionCreate($id,$rid)
+    {
+        CommonController::restaurantPermission($rid);
+        $food = Food::findOne($id);
+        if(empty($food))
+        {
+            Yii::$app->session->setFlash('error',Yii::t('cart','Something Went Wrong!'));
+            return $this->redirect(['/Food/default/menu','rid'=>$rid]);
+        }
+        $image = array();
+        $caption = array();
+        $query = FoodImg::find()->where('fid = :fid',[':fid'=>$id]);
+        foreach($query->each() as $i=>$value)
+        {
+            $image[] =  Yii::getAlias('@web').'/'.Yii::$app->params['foodImg'].$value->img;
+            //$caption[$i][''] =
+            $caption[$i]['caption'] =  $value->img;
+            $caption[$i]['url'] = Url::to(['delete','id'=>$value->id]);
+            $caption[$i]['key'] = $value->id; 
+           
+        }
+       
+        return $this->render('create',['image'=>$image,'caption'=>$caption,'id'=>$id,'rid'=>$rid]);
+    }
 	public function actionUpload()
 	{
 		if (empty($_FILES['foodimg'])) {
@@ -42,7 +66,7 @@ class ImageController extends CommonController
            $id = self::save($post['id'], $filename);
            $output['initialPreview'] =  Yii::getAlias('@web').'/'.Yii::$app->params['foodImg'].$filename;
            $output['initialPreviewConfig'][0]['caption'] = $filename;
-           $output['initialPreviewConfig'][0]['url'] = Url::to(['/food-img/delete','id'=>$id]);
+           $output['initialPreviewConfig'][0]['url'] = Url::to(['delete','id'=>$id]);
            $output['initialPreviewConfig'][0]['key'] = $id;
  
         } 

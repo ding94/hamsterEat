@@ -40,8 +40,8 @@ class ValidController extends Controller
 
 	public static function foodValid($id)
 	{
-		$valid = Foodstatus::find()->where('Food_ID=:id AND Status=:s',[':id'=>$id,':s'=>1])->one();
-		if (!empty($valid)) {
+		$valid = Foodstatus::find()->where('Food_ID=:id AND Status=:s',[':id'=>$id,':s'=>1])->andWhere(['>','food_limit','0'])->one();
+		if ($valid) {
 			return true;
 		}
 		else{

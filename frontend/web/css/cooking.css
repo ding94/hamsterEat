@@ -21,6 +21,9 @@
 }
 
 @media(max-width: 767px){
+	.cooking-table td.mobile-hide{
+		display: none ;
+	}
 	.dark{
 		background-color: transparent;
 	}

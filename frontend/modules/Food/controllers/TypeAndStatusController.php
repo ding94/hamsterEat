@@ -21,11 +21,15 @@ class TypeAndStatusController extends Controller
 
 		if($status->isNewRecord)
 		{
-			$status = new Foodstatus;
 	    	$status->Status = 1;
-	    	
+	    	$status->food_limit = $status->default_limit;
 		}
-        $status->food_limit = $status->default_limit;
+        else
+        {
+            $oldAttributes = $status->oldAttributes;
+            $status->food_limit  = $status->default_limit-($oldAttributes['default_limit']-$oldAttributes['food_limit']);
+        }
+        
 	    $data['status'] = $status;
 	    return $data;
 	}

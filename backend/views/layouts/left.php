@@ -121,7 +121,7 @@
                     [
                         'label' => 'Translate Controller' ,'icon' => 'cutlery' ,   'url' => '#',
                         'items' => [
-                                        ['label' => 'Tanslate' , 'icon' => 'circle-o' , 'url' => ['/translate/index']],
+                                        ['label' => 'Translate' , 'icon' => 'circle-o' , 'url' => ['/translate/index']],
                                         ['label' => 'FAQ' , 'icon' => 'circle-o' , 'url' => ['/translate/index','case'=>3]],
                                         ['label' => 'Guide' , 'icon' => 'circle-o' , 'url' => ['/translate/index','case'=>4]],
                                    ],

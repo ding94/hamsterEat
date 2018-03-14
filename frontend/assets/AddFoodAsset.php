@@ -14,6 +14,7 @@ class AddFoodAsset extends AssetBundle
     public $css = [
         'css/add-food.css',
         'css/button.css',
+        'css/progress-bar.css',
          'css/drop-down-mobile.css',
     ];
     public $js = [

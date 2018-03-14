@@ -28,21 +28,20 @@ CheckoutAsset::register($this);
     </div>
     <div class="container" id="aftercheckout">
         <div class="checkout-header">
-            <h3>
+            <h2>
                 <?=Yii::t('common','Delivery ID'); ?>:
-            <?= $order['Delivery_ID']; ?>
-            </h3>
+                <?= $order['Delivery_ID']; ?>
+            </h2>
         </div>
         <div class="row">
             <div class="col-md-6 checkout-detail" >
-                <table class="table table-hover" style="font-size: 1.2em; font-family: 'Times New Roman', Times, serif;">
+                <table class="table table-hover" style="font-size: 1.2em;">
                     <tr id="no-border">
                         <td style="width: 40%;"><?=Yii::t('common','Delivery ID'); ?>:</td>
                         <td colspan="2"><?= $order['Delivery_ID']; ?></td>
                     </tr>
                         <td><?=Yii::t('order','Order ID'); ?>:</td>
-                        
-                        <?php $orders= ''; ?>
+                        <?php $orders= ""; ?>
                         <?php foreach ($orderitem as $key => $oid): ?>
                                 <?php if($key == 0 ): ?>
                                     <?php $orders .= $oid['Order_ID']; ?>
@@ -66,7 +65,7 @@ CheckoutAsset::register($this);
                     </tr>
                 </table>
                 <br>
-                <table class="table table-hover" style="font-size: 1.2em; font-family: 'Times New Roman', Times, serif;">
+                <table class="table table-hover" style="font-size: 1.2em;">
                         <tr>
                             <td></td>
                             <td class="text-right" style="text-align: right"><?=Yii::t('common','Subtotal'); ?>:</td>

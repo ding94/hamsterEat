@@ -17,7 +17,7 @@ use common\models\Order\Orderitem;
 use common\models\Order\Orderstatuschange;
 use common\models\Order\Orderitemselection;
 use common\models\Order\DeliveryAddress;
-use common\models\food\Foodselection;
+use common\models\food\{Foodselection,Foodstatus};
 use common\models\user\Useraddress;
 use common\models\Company\Company;
 use common\models\DeliverymanCompany;
@@ -126,13 +126,13 @@ class CheckoutController extends CommonController
 	{
 		$post = Yii::$app->request->post();
 		$cookies = Yii::$app->request->cookies;
-		
+
 		if(empty($cookies['cart']))
 		{
 			Yii::$app->session->setFlash('warning', Yii::t('checkout',"Order Already Expired. Please Try Again"));
 			return $this->redirect(['/cart/view-cart']);
 		}
-	
+
 		if(empty($post['DeliveryAddress']) || empty($post['Orders']))
 		{
 			Yii::$app->session->setFlash('warning', Yii::t('checkout',"Please Fill Out Everything"));
@@ -140,7 +140,7 @@ class CheckoutController extends CommonController
 		}
 		
 		$cartData = $cookies->getValue('cart');
-		
+				
 		$avaiableCart = true;
 		$foodOn = true;
 		foreach($cartData['cid'] as $id)
@@ -205,10 +205,12 @@ class CheckoutController extends CommonController
 
 		$order = $dataorder['data'];
 		$allorderitem = $dataitem['data'];
-		$delivery = $this->addDeliveryAssignment($deliveryman);
-	
-		$isValid = $delivery->validate() && $address->validate() ;
+		$status = $dataitem['status'];
 		
+		$delivery = $this->addDeliveryAssignment($deliveryman);
+
+		$isValid = $delivery->validate() && $address->validate() ;
+
 		if($isValid)
 		{
 			$transaction = Yii::$app->db->beginTransaction();
@@ -223,10 +225,14 @@ class CheckoutController extends CommonController
 					$isValid = VouchersController::endvoucher($cartData['code'],$order->Delivery_ID) && $isValid;
 				}
 				
-				foreach($allorderitem as $orderitem)
+				foreach($allorderitem as $i=> $orderitem)
 				{
 					$orderitem->Delivery_ID = $did;
 					if(!($isValid == $orderitem->save()))
+					{
+						break;
+					}
+					if(!($isValid == $status[$i]->save()))
 					{
 						break;
 					}
@@ -422,6 +428,8 @@ class CheckoutController extends CommonController
 		{
 			$cart = Cart::find()->where('cart.id = :id',[':id'=>$cid])->joinWith(['selection'])->one();
 			
+			$status[$i] = self::deductFood($cart->quantity,$cart->fid);
+			
 			$orderitem = new Orderitem;
 			//$orderitem->Delivery_ID = $id;
 			$orderitem->Food_ID = $cart->fid;
@@ -431,7 +439,8 @@ class CheckoutController extends CommonController
 			$orderitem->OrderItem_Status = $paymentMethod == "Cash on Delivery" ? 2 : 1;
 			$orderitem->OrderItem_Remark = $cart->remark;
 			
-			$isValid = $orderitem->validate() && $isValid;
+			$isValid = $orderitem->validate() && $status[$i]->validate()&& $isValid;
+
 			$allitem[$i] = $orderitem;
 			if(!empty($cart['selection']))
 			{
@@ -453,9 +462,17 @@ class CheckoutController extends CommonController
 		{
 			$data['value'] = 1;
 			$data['data'] = $allitem;
+			$data['status'] = $status;
 		}
-		//return $allitem;
+
 		return $data;	
+	}
+
+	protected static function deductFood($quantity,$fid)
+	{
+		$status = Foodstatus::find()->where("Food_ID = :fid",[':fid'=>$fid])->one();
+		$status->food_limit -= $quantity;
+		return $status;
 	}
 
 	protected static function addDeliveryAssignment($id)

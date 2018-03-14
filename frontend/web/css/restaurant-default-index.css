@@ -60,6 +60,10 @@
   justify-content:center;
 }
 
+  #filter-btn{
+    display: none;
+  }
+
 @media (min-width: 1200px){
   .menu-container{
     width:775px;
@@ -80,11 +84,17 @@
   }
 }
 
-/* @media(max-width: 767px){
-  .menu-container{
-    grid-template-columns: 1fr 1fr;
+@media(max-width: 767px){
+  #group-area-index h1{
+    text-align: center;
   }
-} */
+
+  #filter-btn{
+    display: block;
+    width: 300px;
+    margin: auto;
+  }
+}
 
 .list{
   font-size: 18px;

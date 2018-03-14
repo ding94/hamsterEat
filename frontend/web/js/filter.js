@@ -43,6 +43,11 @@ var theToggleTest = document.getElementById('toggle-menu-test');
 /* Show Mobile Filter JS */
 $(document).ready(function(){
 
+  $('#filter-btn').click(function(event){
+    event.stopPropagation();
+    $(".filter").slideToggle("slow");
+  });
+
 	 $('.toggle').click(function(event){
         event.stopPropagation();
          $(".filter").slideToggle("slow");
@@ -54,18 +59,21 @@ $(document).ready(function(){
 });
 
 if (parseInt(window.innerWidth)<768) {
-    $('.outer-container').on("click", function () {
-        $(".filter").hide();
+  $(".filter").on("click", function (event) {
+        event.stopPropagation();
     });
-    $('#bottom-navbar').on("click", function () {
-        $(".filter").hide();
+  $("#filter-box").addClass('in');
+    $(document).on("click", function () {
+        $(".filter").slideUp(500);
     });
+    // $('#bottom-navbar').on("click", function () {
+    //     $(".filter").hide();
+    // });
 }
 
 $('#toggle-menu-test').on('click', function(e) {
     $('#menu').toggleClass("on"); //you can list several class names 
     e.preventDefault();
-
 });
 
 /* Filter JS Functions */

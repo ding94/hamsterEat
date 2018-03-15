@@ -53,7 +53,7 @@ use yii\helpers\Html;
                     <?php foreach ($orderitem as $k => $value): ?>
                         <?php $food = Food::find()->where('Food_ID=:id',[':id'=>$value['Food_ID']])->one(); ?>
                         <?php 
-                            $select= array();
+                            $select= '';
                             $selections = Orderitemselection::find()->where('Order_ID=:id',[':id'=>$value['Order_ID']])->all(); 
                             foreach ($selections as $l => $sel) {
                                 $foodselect = FoodSelectionName::find()->where("id=:id and language = 'en'",[':id'=>$sel['Selection_ID']])->one();

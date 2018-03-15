@@ -108,6 +108,9 @@ class Vouchers extends \yii\db\ActiveRecord
     public function search($params,$action)
     {
         switch ($action) {
+            case 2 :
+                $query = self::find()->andWhere(['=','status',1]);
+                break;
             case 5:
                 $query = self::find()->andWhere(['=','status',5]);
                 break;

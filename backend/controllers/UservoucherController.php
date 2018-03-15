@@ -144,11 +144,11 @@ class UservoucherController extends CommonController
 		$voucher = new Vouchers;
 		$type = ArrayHelper::map(DiscountType::find()->all(),'id','description');
 		$item = ArrayHelper::map(DiscountItem::find()->all(),'id','description');
+		
 		$searchModel = new Vouchers();
        	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,2);
 
        	if (Yii::$app->request->post()) {
-
        		$model->load(Yii::$app->request->post());
        		$model->uid = $id;
        		$voucher->load(Yii::$app->request->post());
@@ -182,7 +182,6 @@ class UservoucherController extends CommonController
 	protected function actionCreateVoucher($model,$voucher,$id)
 	{
 		$voucher->code = $model->code;
-		$voucher->discount_type = $voucher->discount_type + 1;
 		$voucher->usedTimes = 0;
 		$voucher->inCharge = Yii::$app->user->identity->adminname;
 		$voucher->status = 2;

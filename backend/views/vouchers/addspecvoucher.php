@@ -21,6 +21,7 @@ use kartik\widgets\DatePicker;
     <?= $form->field($model ,'discount_type')->dropDownList($type)?>
     <?= $form->field($model ,'discount_item')->dropDownList($item)?>
     <?= $form->field($setcon ,'condition_id')->dropDownList($con, ['prompt'=>'Unlimited Use'])->label('Special Condition')?>
+    <?= $form->field($setcon ,'amount')->textInput()->input('',['placeholder' => 'Required when condition "Reach certain purchase amount" was chosen.'])?>
 
     	<?= $form->field($model, 'startDate')->widget(DatePicker::classname(), [
     		'options' => ['placeholder' => 'Date voucher active to use'],

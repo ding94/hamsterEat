@@ -121,6 +121,12 @@ class VouchersController extends CommonController
 		if (Yii::$app->request->post()) {
 			$setcon->load(Yii::$app->request->post());
 			$model->load(Yii::$app->request->post());
+			if ($setcon['condition_id'] == 2) {
+				if (empty($setcon['amount'])) {
+					Yii::$app->session->setFlash('warning','Please fill in amount for condition');
+					return $this->redirect(Yii::$app->request->referrer);
+				}
+			}
 			$valid = ValidController::VoucherCheckValid($model,4);
 			if ($valid ==true) 
 			{

@@ -96,7 +96,7 @@ ManageStaffAsset::register($this);
                         <td data-th='Username'><?= $data['User_Username']?></td>
                         <td data-th='Position'><?= $data['RmanagerLevel_Level']?></td>
                         <td data-th='Date Time Added'><?= $dt->format('d-m-Y H:i:s')?></td>
-                        <td><?= Html::a('Delete', ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn','data-confirm'=>Yii::t('m-restaurant','Are you sure you want to remove?')])?></td>
+                        <td><?= Html::a(Yii::t("food","Delete"), ['delete-restaurant-staff', 'rid'=>$data['Restaurant_ID'], 'uname'=>$data['User_Username']], ['class'=>'raised-btn secondary-btn','data-confirm'=>Yii::t('m-restaurant','Are you sure you want to remove?')])?></td>
                     </tr>
                 
             <?php endif; }

@@ -67,7 +67,7 @@ class UservoucherController extends CommonController
 	public function actionEditvoucher($id)
 	{
 		$voucher = Vouchers::find()->where('id=:id',[':id'=>$id])->one();
-		if ($voucher['endDate'] <= strtotime(time()) || $voucher['discount_type'] == 3 || $voucher['discount_type'] == 6) {
+		if ($voucher['endDate'] <= strtotime(time()) || $voucher['status'] == 3) {
 				Yii::$app->session->setFlash('warning', "Coupon was used or expired!");
 				return $this->redirect(Yii::$app->request->Referrer);
 			}
@@ -89,13 +89,11 @@ class UservoucherController extends CommonController
 
 	public function actionMultigive()
 	{
-
 		$post = Yii::$app->request->post();
 		$users = Yii::$app->request->post('result');
 		$count = count($users);
 		$end = strtotime(Yii::$app->request->post('UserVoucher')['endDate']);
 		$chars ="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";//code 包含字母
-		
 		foreach ($users as $k => $userid) 
 		{
 			$code ="";
@@ -106,7 +104,6 @@ class UservoucherController extends CommonController
 
 			$voucher = new Vouchers;
 			$voucher->load($post);
-			$voucher->discount_type +=1;
 			$voucher->code = $code;
 			$voucher->usedTimes = 0;
 			$voucher->status = 2;

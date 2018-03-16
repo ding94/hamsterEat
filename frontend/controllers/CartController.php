@@ -398,141 +398,139 @@ class CartController extends CommonController
     { // ajax's function must do in one controller, can't pass to second
         if (empty($dis)) {
             if (empty($codes)) {
-                $value=  Json::encode(19);
-                return $value;
+                $value['error'] =  1; // error 1 = error, 0 = pass
+                return Json::encode($value);
             }
         }
-        if (!empty($codes)) {
-            $dis= $codes;
-        }
+
+        if (!empty($codes)){$dis= $codes;}
+
         $special = VouchersSetCondition::find()->where('code=:c',[':c'=>$dis])->one();
         if (!empty($special)) {
             $v = Vouchers::find()->where('code=:c',[':c'=>$dis])->all();
             foreach ($v as $k => $val) {
                 $valid = DiscountController::specialVoucherUse($val,$special);
                 if ($valid == false) {
-                    return Json::encode(20);
+                    $value['error']= 1;
+                    $value['item'] = 2;
+                    $value['condition'] = $special['condition_id'];
+                    if ($special['condition_id'] == 2) {
+                        $value['amount'] = $special['amount'];
+                    }
+                    return Json::encode($value);
                 }
             }
-            
         }
+
         $valid = UserVoucher::find()->where('code = :c',[':c'=>$dis])->one();
         $voucher = Vouchers::find()->where('code = :c',[':c'=>$dis])->one();
        if ($voucher['status'] == 5) {
-           $valid['endDate'] = date('Y-m-d',strtotime('+1 day'));
+           $valid['endDate'] = date('Y-m-d',strtotime('+1 day')); // valid has ['enddate'] attribute, so was not count as empty
        }
-       if (!empty($valid)) 
+       if (!empty($valid) && ($voucher['status'] == 2 || $voucher['status'] == 5) && $valid['endDate'] > date('Y-m-d')) 
         {
-            if ($voucher['status'] == 2 || $voucher['status'] == 5)  
+            $vouchers = Vouchers::find()->where('code = :c',[':c'=>$dis])->all();
+            $value['code'] = $dis;
+            $value['sub'] = $sub;
+            $value['deli'] = $deli;
+            $value['total'] = $total;
+            $value['discount'] = 0;
+            foreach ($vouchers as $k => $vou) 
             {
-                if ($valid['endDate'] > date('Y-m-d')) 
-                {   
-                    $vouchers = Vouchers::find()->where('code = :c',[':c'=>$dis])->all();
-                    $value['code'] = $dis;
-                    $value['sub'] = $sub;
-                    $value['deli'] = $deli;
-                    $value['total'] = $total;
-                    $value['discount'] = 0;
-                    foreach ($vouchers as $k => $vou) 
+                if ($vou['discount_type'] == 1)  
+                {
+                    switch ($vou['discount_item']) 
                     {
-                        if ($vou['discount_type'] == 1)  
-                        {
-                            switch ($vou['discount_item']) 
-                            {
-                                case 1:
-                                    $value['discount'] += ($value['sub']* ($vou['discount'] / 100));
-                                    /* this 1 count with early discount for percentage
-                                    $value['total'] = $value['total'] - ($value['sub']* ($vou['discount'] / 100));
-                                    */
-                                    $value['sub'] = $value['sub']- ($value['sub']* ($vou['discount'] / 100));
-                                    $value['total'] =  $value['sub'] + $value['deli'];
-                                    break;
+                        case 1:
+                            $value['discount'] += ($value['sub']* ($vou['discount'] / 100));
+                            /* this 1 count with early discount for percentage
+                            $value['total'] = $value['total'] - ($value['sub']* ($vou['discount'] / 100));
+                            */
+                            $value['sub'] = $value['sub']- ($value['sub']* ($vou['discount'] / 100));
+                            $value['total'] =  $value['sub'] + $value['deli'];
+                            break;
 
-                                case 2:
-                                    $value['discount'] += ($value['deli']* ($vou['discount'] / 100));
-                                    $value['deli'] = $value['deli']-($value['deli']*($vou['discount'] / 100));
-                                    $value['total'] =  $value['sub'] + $value['deli'];
-                                    break;
+                        case 2:
+                            $value['discount'] += ($value['deli']* ($vou['discount'] / 100));
+                            $value['deli'] = $value['deli']-($value['deli']*($vou['discount'] / 100));
+                            $value['total'] =  $value['sub'] + $value['deli'];
+                            break;
 
-                                case 3:
-                                    $value['discount'] += ($value['total']* ($vou['discount'] / 100));
-                                    $value['total'] = $value['total'] - ($value['total']*($vou['discount'] / 100));
-                                    break;
+                        case 3:
+                            $value['discount'] += ($value['total']* ($vou['discount'] / 100));
+                            $value['total'] = $value['total'] - ($value['total']*($vou['discount'] / 100));
+                            break;
                                      
-                                default:
-                                    $value = 0;
-                                    break;
-                            }
-                        }
-                        elseif ($vou['discount_type'] == 2 ) 
-                        {
-                            switch ($vou['discount_item']) 
-                            {
-                                case 1:
-                                    if (($value['sub']-$vou['discount']) < 0) {
-                                        $value['discount'] += $value['sub'];
-                                        /*for amount
-                                        $value['total'] = $value['total'] - $value['sub']; <0
-                                        $value['total'] = $value['total'] - $vou['discount']; else
-                                        */
-                                        $value['sub'] = 0;
-                                    }
-                                    else{
-                                        $value['discount'] += $vou['discount'];
-                                        $value['sub'] = $value['sub'] - $vou['discount'];
-                                    }
-
-                                    $value['total'] =  $value['sub'] + $value['deli'];
-                                    break;
-
-                                case 2:
-                                    if (($value['deli']-$vou['discount']) < 0) {
-                                        $value['discount'] += $value['deli'];
-                                        $value['deli'] = 0;
-                                    }
-                                    else{
-                                        $value['discount'] += $vou['discount'];
-                                        $value['deli'] = $value['deli'] - $vou['discount'];
-                                    }
-                                    $value['total'] =  $value['sub'] + $value['deli'];
-                                    break;
-
-                                case 3:
-                                    if (($value['total']-$vou['discount']) < 0) {
-                                        $value['discount'] += $value['total'];
-                                        $value['total'] = 0;
-                                    }
-                                    else{
-                                        $value['discount'] += $vou['discount'];
-                                        $value['total'] = $value['total'] - $vou['discount'];
-                                    }
-                                    break;
-                                     
-                                default:
-                                    $value = 0;
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            $value = 0;
-                        }
+                        default:
+                            $value['error']= 1;
+                            $value['item'] = 0;
+                            break;
                     }
                 }
-                elseif ($valid->endDate < date('Y-m-d')) 
+                    
+                elseif ($vou['discount_type'] == 2 ) 
                 {
-                    $value = 0;
+                    switch ($vou['discount_item']) 
+                    {
+                        case 1:
+                            if (($value['sub']-$vou['discount']) < 0) {
+                                $value['discount'] += $value['sub'];
+                                /*for amount
+                                $value['total'] = $value['total'] - $value['sub']; <0
+                                $value['total'] = $value['total'] - $vou['discount']; else
+                                */
+                                $value['sub'] = 0;
+                            }
+                            else{
+                                $value['discount'] += $vou['discount'];
+                                $value['sub'] = $value['sub'] - $vou['discount'];
+                            }
+                            $value['total'] =  $value['sub'] + $value['deli'];
+                            break;
+
+                        case 2:
+                            if (($value['deli']-$vou['discount']) < 0) {
+                                $value['discount'] += $value['deli'];
+                                $value['deli'] = 0;
+                            }
+                            else{
+                                $value['discount'] += $vou['discount'];
+                                $value['deli'] = $value['deli'] - $vou['discount'];
+                            }
+                            $value['total'] =  $value['sub'] + $value['deli'];
+                            break;
+
+                        case 3:
+                            if (($value['total']-$vou['discount']) < 0) {
+                                $value['discount'] += $value['total'];
+                                $value['total'] = 0;
+                            }
+                            else{
+                                $value['discount'] += $vou['discount'];
+                                $value['total'] = $value['total'] - $vou['discount'];
+                            }
+                            break;
+                                     
+                        default:
+                            $value['error']= 1;
+                            $value['item'] = 0;
+                            break;
+                    }
+                }
+                else{
+                    $value['error']= 1;
+                    $value['item'] = 0;
                 }
             }
-            else
-            {
-                $value = 0;
-            }
-            
         }
-       elseif(empty($valid)) {
-       
-        $value = 0;
+       else{
+            $value['error']= 1;
+            if (empty($valid) || ($voucher['status'] == 2 || $voucher['status'] == 5)) {
+                $value['item'] = 0;
+            }
+            if ($valid['endDate'] > date('Y-m-d')) {
+                $value['item'] = 1;
+            }
        }
        $value=  Json::encode($value);
        return $value;

@@ -217,7 +217,11 @@ class DiscountController extends Controller
 
             case 2:
                 //case 2 = voucher that with limited purchase
-                # code...
+                if ($order>=$special['amount']) {
+                    return true;
+                }
+                Yii::$app->session->setFlash('warning','Purchase amount was not fulfilled.');
+                return false;
                 break;
             
             default:

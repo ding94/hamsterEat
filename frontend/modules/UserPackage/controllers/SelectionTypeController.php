@@ -23,23 +23,25 @@ class SelectionTypeController extends Controller
 		$data['message'] = "";
 		$selection = array_filter($selection);
 		
-		//return $data;
 		foreach ($foodselection as $key => $value) 
 		{
-			if(is_array($selection[$value->ID]))
+			if(empty($selection[$value->ID]))
+			{
+				$count = 0;
+			}
+			elseif(is_array($selection[$value->ID])) 
 			{
 				$count = count($selection[$value->ID]);
 			}
 			else
 			{
-				$count = 1;
+				$count =1;
 			}
+			
 			
 			if($count< $value->Min || $count > $value->Max)
 			{
-				Yii::$app->session->setFlash('danger', 'Please select at least '.$value->Min.' items and most '.$value->Max.' items in '.$value->TypeName);
-				
-				$data['message'] = $value->ID;
+				$data['message'] = 'Please select at least '.$value->Min.' items and most '.$value->Max.' items in '.$value->cookieName;
 				$data['value'] =2;
 				return $data;
 			}
@@ -53,7 +55,7 @@ class SelectionTypeController extends Controller
 	*/
 	public static function newSelection($selection,$pid)
 	{
-		$returnData =  [];
+		$returnData =  array();
 
 		foreach($selection as $select)
 		{

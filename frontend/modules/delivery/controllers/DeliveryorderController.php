@@ -10,7 +10,7 @@ use common\models\RestaurantName;
 use Yii;
 use frontend\controllers\OrderController;
 use frontend\controllers\CommonController;
-use frontend\controllers\NotificationController;
+use frontend\modules\notification\controllers\NoticController;
 use frontend\modules\Restaurant\controllers\ProfitController;
 use frontend\models\OrderHistorySearch;
 use common\models\Order\Orderitem;
@@ -204,14 +204,14 @@ class DeliveryorderController extends CommonController
     }
 
 	//This function updates the orders status to on the way and specific order item status to picked up
-    public function actionUpdatePickedup($oid, $did)
+    public function actionUpdatePickedup($oid,$did)
     {
        $valid = $this->singlePickup($oid,$did);
        return $this->redirect(Yii::$app->request->referrer);
     }
 
 //--This function updates the order's status to completed
-    public function actionUpdateCompleted( $did)
+    public function actionUpdateCompleted($did)
     {
         $this->singleComplete($did);
         return $this->redirect(Yii::$app->request->referrer);
@@ -238,7 +238,8 @@ class DeliveryorderController extends CommonController
             {
                 $item->save();
             }
-            NotificationController::createNotification($did,4);
+            NoticController::centerNotic(2,$order->Orders_Status,$did); 
+           
             return true;
         }
         else
@@ -254,25 +255,36 @@ class DeliveryorderController extends CommonController
         $orderitem = OrderController::findOrderitem($oid,10);
         $orderitem->OrderItem_Status = 10;
        
-      
         $order = OrderController::findOrder($orderitem->Delivery_ID);
-
+        $notic = array();
         if ($order['Orders_Status'] == 3)
         {
+
             $order->Orders_Status = 11;
          
             if(!$order->save() || !$orderitem->save())
             {
             	return false;
             }
+            else
+            {
+                $notic['type'] = 2;
+                $notic['status'] = $order->Orders_Status;
+                $notic['id'] = $order->Delivery_ID;
+            }
         }
         else
-        {
-             
+        {  
             if(! $orderitem->save())
             {
                 return false;
             } 
+            else
+            {
+                $notic['type'] = 1;
+                $notic['status'] = $orderitem->OrderItem_Status;
+                $notic['id'] = $orderitem->Order_ID;
+            }
         }
 
         $allitem = OrderItem::find()->where('Delivery_ID =:did and OrderItem_Status != 10 and OrderItem_Status != 8 and OrderItem_Status != 9',[':did' => $orderitem->Delivery_ID])->all();
@@ -282,11 +294,14 @@ class DeliveryorderController extends CommonController
             $order = OrderController::findOrder($orderitem->Delivery_ID);
             $order->Orders_Status = 5;
             if($order->save()){
-            	NotificationController::createNotification($did,4);
+            	NoticController::centerNotic(2,$order->Orders_Status,$order->Delivery_ID);
             	return true;
             }
             return false;
-          
+        }
+        else
+        {
+           NoticController::centerNotic($notic['type'],$notic['status'],$notic['id']); 
         }
        
        return true;

@@ -64,7 +64,7 @@ OrderDetailsAsset::register($this);
                     <td colspan="2">
                         <?php
                             $selects = Orderitemselection::find()->where('Order_ID=:id',[':id'=>$detail['Order_ID']])->all();
-                            $show = array();
+                            $show = "";
                             foreach ($selects as $ke => $select) {
                                 $sel = Foodselection::find()->where('ID=:sid',[':sid'=>$select['Selection_ID']])->one();
                                 if ($ke != 0) {

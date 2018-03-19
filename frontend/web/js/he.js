@@ -55,7 +55,6 @@ $(".non-halal").children('a').click(function(){
 })
 
 function passType(type,url){
-  console.log(url);
   $.ajax({
       url :url,
       type: "post",

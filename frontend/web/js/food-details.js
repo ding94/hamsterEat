@@ -12,7 +12,7 @@ $('body').on('submit','#a2cart',function(e){
             success: function (data) 
             {  
             	obj = JSON.parse(data);
-            
+              
             	if(obj.value == 1 || obj.value == 4)
            		{
            			$('#system-messages').append("<div id='aa' class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.message+"</div>").fadeIn();

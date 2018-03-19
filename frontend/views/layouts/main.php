@@ -81,7 +81,6 @@ NotificationAsset::register($this);
 
 
 <?php $this->beginBody() ?>
-
 <div class="wrap">
     <?php
     NavBar::begin([
@@ -210,8 +209,7 @@ NotificationAsset::register($this);
     ]);
     NavBar::end();
     ?>
-     </div>
-
+    </div>
      <nav id="bottom-navbar">
             <div>
                 <ul>
@@ -230,7 +228,7 @@ NotificationAsset::register($this);
                             $orderitem = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$level['Restaurant_ID'],':s'=>2])->joinwith(['food'])->count();
                                 $count += $orderitem;
                         }
-                        echo Html::a('<span class="glyphicon glyphicon-list-alt"></span><span class="badge">('.$count.')</span>',['/Restaurant/restaurant/phonecooking'],['data-toggle'=>'modal','data-target'=>'#add-modal']);
+                        echo Html::a('<span class="glyphicon glyphicon-list-alt"></span><span class="badge">'.$count.'</span>',['/Restaurant/restaurant/phonecooking'],['data-toggle'=>'modal','data-target'=>'#add-modal']);
                     endif;?>
 
                     <li><?php echo Html::a('<i class="fa fa-cutlery"></i>',['/Restaurant/restaurant/restaurant-service']);?></li>
@@ -279,6 +277,14 @@ NotificationAsset::register($this);
             </div>
         </div>
         <div class="page-wrap">
+            <!-- <div id="promo-banner">
+                <div class="text">
+                    PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15%
+                </div>
+                <a class="close-icon" href="#" onclick="closeBanner()">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div> -->
             <?= $content ?>
         </div>
 

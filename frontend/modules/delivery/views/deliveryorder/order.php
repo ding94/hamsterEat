@@ -127,12 +127,14 @@ DeliverymanOrdersAsset::register($this);
                         <td data-th="Quantity"><?php echo $orderitemdetails['OrderItem_Quantity']; ?></td>
                         
                         <td><?= $statusid[$orderitemdetails['OrderItem_Status']];?></td>
-                        
+                        <td data-th="Current Status">
                         <?php if ($orderitemdetails['OrderItem_Status'] == 2 || $orderitemdetails['OrderItem_Status']== 3): ?>
-                            <td data-th="Current Status"><span class='label label-warning'><?= Yii::t('m-delivery','Wait for Food to be Prepared')?> </span></td>
+                            <span class='label label-warning'><?= Yii::t('m-delivery','Wait for Food to be Prepared')?> </span>
+
                         <?php elseif($orderitemdetails['OrderItem_Status']== 4): ?>
-                            <td data-th="Update Status"><?php echo Html::a(Yii::t('order','Picked Up'), ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$did], ['class'=>'raised-btn main-btn']); ?></td>
+                           <?php echo Html::a(Yii::t('order','Picked Up'), ['update-pickedup', 'oid'=>$orderitemdetails['Order_ID'], 'did'=>$did], ['class'=>'raised-btn main-btn']); ?>
                         <?php endif;?>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </table>

@@ -4,13 +4,12 @@ use Yii;
 use yii\web\Controller;
 use common\models\User;
 use common\models\food\{Food,Foodselectiontype,Foodselection,Foodstatus};
-use common\models\Order\{Orders,Orderitem};
+use common\models\Order\{Orders,Orderitem,DeliveryAddress};
 use common\models\Area;
 use common\models\vouchers\{Vouchers,DiscountItem,UserVoucher,VouchersSetCondition,VouchersConditions};
 use common\models\user\{Userdetails,Useraddress};
 use common\models\Restaurant;
-use common\models\Cart\Cart;
-use common\models\Cart\CartSelection;
+use common\models\Cart\{Cart,CartSelection};
 use yii\helpers\Json;
 use frontend\modules\UserPackage\controllers\SelectionTypeController;
 use frontend\controllers\CommonController;
@@ -330,13 +329,32 @@ class CartController extends CommonController
         }
         else
         {
+
             Yii::$app->session->setFlash('success', Yii::t('cart','Order Success'));
+            $requireName = self::detectName($order->Delivery_ID,$order->User_Username);
+
             $orderitem = Orderitem::find()->joinWith('food')->where('Delivery_ID=:id',[':id'=>$did])->orderBy('Order_ID ASC')->all();
-            return $this->render('aftercheckout', ['did'=>$did, 'order'=>$order,'orderitem'=>$orderitem ]);
+
+            return $this->render('aftercheckout', ['did'=>$did, 'order'=>$order,'orderitem'=>$orderitem ,'requireName'=>$requireName]);
         }
        
     }
 
+    protected static function detectName($did,$username)
+    {
+        $data = array();
+        $data['value'] = 0;
+        $address = DeliveryAddress::findOne($did);
+        $userdetail = Userdetails::find()->where('User_Username = :u',[':u'=>$username])->one();
+        if($userdetail->fullName != $address->name || $userdetail->User_ContactNo != $address->contactno)
+        {
+            $data['value'] = 1;
+            $data['fullname'] = $address->name;
+            $data['contactno'] = $address->contactno;
+        }
+       
+        return $data;
+    }
     /*
     *find cart base on cid and uid
     * data['value'] 

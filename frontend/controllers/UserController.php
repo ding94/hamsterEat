@@ -10,6 +10,7 @@ use common\models\User;
 use common\models\user\Changepassword;
 use common\models\Upload;
 use yii\web\UploadedFile;
+use yii\helpers\Json;
 use common\models\Account\Accountbalance;
 use common\models\Account\AccountbalanceHistory;
 use frontend\models\Accounttopup;
@@ -28,7 +29,7 @@ class UserController extends CommonController
                  'class' => AccessControl::className(),
                  'rules' => [
                     [
-                        'actions' => ['user-profile','userdetails','useraddress','userbalance','changepassword','primary-address','newaddress','delete-address','edit-address'],
+                        'actions' => ['user-profile','userdetails','useraddress','userbalance','changepassword','primary-address','newaddress','delete-address','edit-address','change-name-contact'],
                         'allow' => true,
                         'roles' => ['@'],
 
@@ -49,6 +50,31 @@ class UserController extends CommonController
       
         return $this->render('userprofile',['user' => $user]);
        
+    }
+
+    public function actionChangeNameContact()
+    {
+        $post = Yii::$app->request->post();
+        $data =array();
+        $data['value'] = 0;
+        if(!empty($post))
+        {
+            $detail = Userdetails::findOne(Yii::$app->user->id);
+            $name = explode(' ', $post['name'],2);
+            $detail->User_ContactNo = $post['contactno'];
+            $detail->User_FirstName = $name[0];
+            if(!empty($name[1]))
+            {
+                $detail->User_LastName = $name[1];
+            }
+            if($detail->save())
+            {
+                $data['value'] = 1;
+                $data['message'] = "Your Delivery Name And Contanct Number Sucess Save";
+            }
+        }
+
+        return Json::encode($data);
     }
 
     public function actionUserdetails()

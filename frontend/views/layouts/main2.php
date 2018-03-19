@@ -77,16 +77,8 @@ NotificationAsset::register($this);
                 foreach($notic as $data)
                 {
                     $ago = Yii::$app->formatter->asRelativeTime($data['created_at']);
-                    if($data['type'] == 1)
-                    {
-                          $url = ["/Restaurant/restaurantorder/index",'rid' => $data['rid']];
-                    }
-                    else
-                    {
-                         $url = [Yii::$app->view->params['listOfNotic'][$i]['url']];
-                    }
-                   
-                    $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['description'].' from <span class="right">'.$ago.'</span></h4>','url' => $url];
+                       
+                    $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['name'].' from '.$ago.'</h4>','url' => $data['url']];
                 }
             }
         }

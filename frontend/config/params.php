@@ -1,4 +1,6 @@
 <?php
+use Yii;
+
 return [
     'adminEmail' => 'support@hamstereat.my',
     'submitticket' =>  '/submitticket',

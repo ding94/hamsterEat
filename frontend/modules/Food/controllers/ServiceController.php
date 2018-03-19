@@ -92,7 +92,6 @@ class ServiceController extends CommonController
             }
             else
             {
-
                 $valid = CancelController::CancelOrder($id);
             }
             
@@ -146,7 +145,11 @@ class ServiceController extends CommonController
             else
             {
                 //self::selectionCancel($selection->item);
-               $isvalid=  CancelController::orderCancel($selection->item);
+                $isvalid=  CancelController::orderCancel($selection->item);
+                if(!isvalid)
+                {
+                    break;
+                }
             }
             
         }

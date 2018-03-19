@@ -254,8 +254,7 @@ class RestaurantController extends CommonController
     }
 
     public function actionDeactive($id,$item)
-    {
-        $sucess = false;
+    {  
         switch ($item) {
             case 1:
                 $model = self::findModel($id);
@@ -265,6 +264,7 @@ class RestaurantController extends CommonController
             case 2:
                 $model = Foodstatus::find()->where('Food_ID=:id',[':id'=>$id])->one();
                 $model->Status = 0;
+             
                 $sucess = $model->save();
                 return $sucess;
                 break;

@@ -14,7 +14,7 @@ use common\models\Company\Company;
 use common\models\Restaurant;
 use common\models\food\Food;
 use common\models\Profit\RestaurantProfit;
-use frontend\controllers\NotificationController;
+use frontend\modules\notification\controllers\NoticController;
 use frontend\models\OrderHistorySearch;
 
 class RestaurantorderController extends CommonController
@@ -224,9 +224,13 @@ class RestaurantorderController extends CommonController
             {
             	return false;
             }
+            NoticController::centerNotic(2,3,$order->Delivery_ID);
         }
-        
-        NotificationController::createNotification($oid,2);
+        else
+        {
+            NoticController::centerNotic(1,3,$oid);
+        }
+    
         return true;
     }
 
@@ -236,7 +240,7 @@ class RestaurantorderController extends CommonController
         $orderitem->OrderItem_Status = 4;
        	if($orderitem->save())
        	{
-       		NotificationController::createNotification($orderitem->Delivery_ID,3);
+       		NoticController::centerNotic(1,4,$oid);
        		return true;
        	}
        	return false;

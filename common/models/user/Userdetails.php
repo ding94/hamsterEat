@@ -30,6 +30,11 @@ class Userdetails extends \yii\db\ActiveRecord
         {
             return "not set";
         }
+
+        if(empty($this->User_LastName))
+        {
+            return $this->User_FirstName;
+        }
         return $this->User_FirstName . ' ' . $this->User_LastName;
     }
     

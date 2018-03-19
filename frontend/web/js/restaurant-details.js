@@ -20,7 +20,7 @@ $('.scroll-link').on('click', function(event){
     });
 
 function scrollToID(id, speed){
-    var targetOffset = $(id).offset().top - $("#category-bar").outerHeight()*3;
+    var targetOffset = $(id).offset().top - $("#category-bar").outerHeight()*2;
     $('html,body').animate({scrollTop:targetOffset}, speed);
 }
 
@@ -30,7 +30,7 @@ function scrNav() {
     var sTop = $(window).scrollTop();
     $('.foodtype').each(function() {
       var id = $(this).attr('id'),
-          offset = $(this).offset().top - $("#category-bar").outerHeight()*3,
+          offset = $(this).offset().top - $("#category-bar").outerHeight()*2,
           height = $(this).height();
       if(sTop >= offset && sTop < offset + height) {
         link.removeClass('active-link');

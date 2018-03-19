@@ -122,10 +122,12 @@
   .filter{
     position: fixed;
     height: 100%;
-    padding:0px;
+    padding:10px;
     display: none;
     z-index: 4;
     margin-left: -20px;
+    background-color: rgba(51, 51, 51,0.9);
+    top: 48px;
   }
 
   .filter-container{
@@ -133,7 +135,12 @@
     overflow: auto;
     height: 100%;
     background-color: rgba(51, 51, 51,0.9);
-     width: 70%;
+    width: 70%;
+  }
+
+  #accordion div.panel-body{
+    height: 50vh;
+    overflow: scroll;
   }
 
   .filter-name p{

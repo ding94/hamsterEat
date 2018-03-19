@@ -20,6 +20,11 @@
   border-left: 1px solid #efefef;
 }
 
+.my-orders-table .orderRow a {
+  width: 100%;
+  margin: 3px;
+}
+
 .empty-img{
   width:150px; 
   height:150px; 

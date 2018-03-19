@@ -54,7 +54,7 @@ class ValidController extends Controller
 	{
 		$voucher = Vouchers::find()->where('code = :c',[':c' => $post])->one();
 		if (!empty($voucher)) {
-			if($voucher['discount_type'] == 100 || $voucher['discount_type'] == 101)
+			if($voucher['status'] == 5)
 			{
 				return true;
 			}
@@ -63,6 +63,10 @@ class ValidController extends Controller
 				switch ($case) {
 				case 1:
 					if ($voucher->endDate <= strtotime(date('Y-m-d h:i:s'))) {
+						if ($voucher['status'] != 5) {
+				            $voucher['status'] = 4;
+				        	$voucher->save(false);
+				        }
 						Yii::$app->session->setFlash('error',Yii::t('discount','Coupon was expired!'));
 						return false;
 					}
@@ -112,12 +116,12 @@ class ValidController extends Controller
 					Yii::$app->session->setFlash('error',Yii::t('discount','Voucher code repeated!'));
 					return false;
 				}
-				elseif ($post->discount_type == 1 && $post->discount >=101) 
+				elseif ($post->discount_type == 1 && $voucher->discount >=101) 
 				{
 					Yii::$app->session->setFlash('error',Yii::t('discount','Discount cannot higher than 100% !'));
 					return false;
 				}
-				elseif ($post->discount_type == 4 && $post->discount >=501) 
+				elseif ($post->discount_type == 2 && $voucher->discount >=501) 
 				{
 					Yii::$app->session->setFlash('error',Yii::t('discount','Discount cannot higher than RM500 !'));
 					return false;
@@ -129,12 +133,12 @@ class ValidController extends Controller
 				break;
 			
 			case 2:
-				if ($post->discount_type == 1 && $post->discount >=101) 
+				if ($post->discount_type == 1 && $voucher->discount >=101) 
 				{
 					Yii::$app->session->setFlash('error',Yii::t('discount','Discount cannot higher than 100% !'));
 					return false;
 				}
-				elseif ($post->discount_type == 4 && $post->discount >=501) 
+				elseif ($post->discount_type == 2 && $voucher->discount >=501) 
 				{
 					Yii::$app->session->setFlash('error',Yii::t('discount','Discount cannot higher than RM500 !'));
 					return false;

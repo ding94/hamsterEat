@@ -49,7 +49,8 @@ Modal::end();
 ?>
 
 <div class="container" id="group-area-index">
-    <h1><?= Yii::t('m-restaurant','Order Food for Delivery')?></h1>   
+    <h1><?= Yii::t('m-restaurant','Order Food for Delivery')?></h1>
+    <div id="filter-btn" class="btn raised-btn main-btn"><i class="fa fa-sliders"></i> <?php echo Yii::t('m-restaurant','Filter') ?></div>   
 	 <?php  $cookies = Yii::$app->request->cookies;
             $halal = $cookies->getValue('halal');
 			$session = Yii::$app->session;

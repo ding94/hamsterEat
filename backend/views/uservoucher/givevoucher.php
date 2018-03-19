@@ -55,8 +55,8 @@ use kartik\widgets\DatePicker;
 
             'code',
             'discount',
-            'voucher_type.description',
-            'voucher_item.description',
+            'discount_type.description',
+            'discount_items.description',
             
         ],
     ]); ?>

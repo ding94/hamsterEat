@@ -19,7 +19,7 @@ FoodDetailsAsset::register($this);
 date_default_timezone_set("Asia/Kuala_Lumpur");
 ?>
 <div id="nav">
-  <ul class="nav nav-pills food-details-tab">
+  <ul class="nav nav-tabs food-details-tab">
     <li class="active"><a data-toggle="pill" href="#home"><?= Yii::t('food','Food Details') ?></a></li>
     <li ><a data-toggle="pill" href="#comments"><?= Yii::t('food','Comments') ?></a></li>
   </ul>

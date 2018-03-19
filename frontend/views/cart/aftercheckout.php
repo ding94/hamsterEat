@@ -51,7 +51,6 @@ CheckoutAsset::register($this);
                         <td colspan="2"><?= $order['Delivery_ID']; ?></td>
                     </tr>
                         <td><?=Yii::t('order','Order ID'); ?>:</td>
-                        
                         <?php $orders= ""; ?>
                         <?php foreach ($orderitem as $key => $oid): ?>
                                 <?php if($key == 0 ): ?>

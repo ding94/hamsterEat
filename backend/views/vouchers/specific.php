@@ -12,7 +12,7 @@ use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\vouchers\Vouchers;
 
-    $this->title = 'Vouchers List';
+    $this->title = 'Special Vouchers List';
     $this->params['breadcrumbs'][] = $this->title;
     
 ?>
@@ -48,21 +48,20 @@ use common\models\vouchers\Vouchers;
 
             [
                 'attribute' => 'discount',
-                 'value' => function($model)
-                        {
-                            if ($model->discount_type == 100) {
+                 'value' => function($model){
+                        if ($model->discount_type == 1) {
                                 return $model->discount.' %';
                             }
                             return 'RM '.$model->discount;
-                        },
+                 }
             ],
             [
-                'attribute' => 'voucher_item.description',
-                'filter' => array( "7"=>"Discount from purchase","8"=>"Discount from Service Charge","9"=>"Discount from Total"),
+                'attribute' => 'discount_items.description',
+                'filter' => array( "1"=>"Discount from purchase","2"=>"Discount from delivery charge","4"=>"Discount from Service Charge","3"=>"Discount from Total"),
             ],
             [
-                'attribute' => 'voucher_type.description',
-                'filter' => array( "100"=>"Discount %","101"=>"Discount RM"),
+                'attribute' => 'voucher_status.description',
+                'filter' => array( "1"=>"Activated","2"=>"Assigned","3"=>"Deactivated","4"=>"Expired","5"=>"Employee's Voucher"),
             ],
             [                  
                  'attribute' => 'startDate',

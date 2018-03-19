@@ -101,7 +101,7 @@
                         'items' =>  [
                                         ['label' => 'Voucher List' ,'icon' => 'circle-o' , 'url' => ['/vouchers/index']],
                                         ['label' => 'User Voucher List' ,'icon' => 'circle-o' , 'url' => ['/uservoucher/index']],
-                                        ['label' => "Employee's Voucher" ,'icon' => 'circle-o' , 'url' => ['/vouchers/specific']],
+                                        ['label' => "Special Voucher" ,'icon' => 'circle-o' , 'url' => ['/vouchers/specific']],
                                     ],
                         'options' => ['class' => 'active'],
                     ],
@@ -121,7 +121,7 @@
                     [
                         'label' => 'Translate Controller' ,'icon' => 'cutlery' ,   'url' => '#',
                         'items' => [
-                                        ['label' => 'Tanslate' , 'icon' => 'circle-o' , 'url' => ['/translate/index']],
+                                        ['label' => 'Translate' , 'icon' => 'circle-o' , 'url' => ['/translate/index']],
                                         ['label' => 'FAQ' , 'icon' => 'circle-o' , 'url' => ['/translate/index','case'=>3]],
                                         ['label' => 'Guide' , 'icon' => 'circle-o' , 'url' => ['/translate/index','case'=>4]],
                                    ],

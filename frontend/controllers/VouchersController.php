@@ -6,7 +6,7 @@ use yii\helpers\ArrayHelper;
 use common\models\vouchers\Vouchers;
 use common\models\vouchers\UserVoucher;
 use common\models\vouchers\VouchersUsed;
-use common\models\vouchers\VouchersType;
+use common\models\vouchers\DiscountItem;
 use yii\filters\AccessControl;
 use frontend\controllers\CommonController;
 
@@ -49,18 +49,17 @@ class VouchersController extends CommonController
 				foreach ($vouchers as $ke => $vou) {
 					$uservoucher[$key]['code'] = $vou['code'];
 					$uservoucher[$key]['endDate'] = date('Y-m-d', $vou['endDate']);
-					$uservoucher[$key]['discount_item'] = VouchersType::find()->where('id=:id',[':id'=>$vou['discount_item']])->one()->description;
-					if ($vou['discount_type']>=1 && $vou['discount_type']>=4) {
+					$uservoucher[$key]['discount_item'] = DiscountItem::find()->where('id=:id',[':id'=>$vou['discount_item']])->one()->description;
+					if ($vou['discount_type'] == 2) {
 						$uservoucher[$key]['discount'] = "RM ".$vou['discount'];
 					}
-					else
-					{
+					else{
 						$uservoucher[$key]['discount'] = $vou['discount'].' %';
 					}
 					if (strtotime($uservoucher[$key]['endDate']) < time()) {
 						$uservoucher[$key]['endDate'] = Yii::t('vouchers',"Expired");
 					}
-					if ($vou['discount_type'] == 3 || $vou['discount_type'] == 6) {
+					if ($vou['status'] == 3) {
 						$uservoucher[$key]['endDate'] = Yii::t('vouchers',"Used");
 					}
 
@@ -76,21 +75,8 @@ class VouchersController extends CommonController
 	public static function voucherCreate($amount,$item,$type)
 	{
 		if (!empty($amount)) { // check null amount
-			if ($item >= 7 && $item <= 10) { // check item valid
-				if ($type == 2 || $type == 5) { // check type valid
-					switch ($type) {
-						case 2:
-							$case = 1;
-							break;
-
-						case 5:
-							$case = 2;
-							break;
-						
-						default:
-							$case = 3;
-							break;
-					}
+			if ($item >= 1 && $item <= 4) { // check item valid
+				if ($type == 1 || $type == 2) { // check type valid
 						$voucher = new Vouchers;
 
 						$voucher->scenario = 'save';
@@ -102,12 +88,10 @@ class VouchersController extends CommonController
 				        $voucher->inCharge = 0;
 				      	$voucher->startDate = time();
 				      	$voucher->endDate = strtotime(date('Y-m-d h:i:s',strtotime('+30 day')));
-				      	$valid = ValidController::VoucherCheckValid($voucher,$case); //check voucher valid
+				      	$valid = ValidController::VoucherCheckValid($voucher,$type); //check voucher valid
 				      	if ($valid == true) {
 				      		return $voucher;
 				      	}
-				      	
-					
 				}
 			}
 		}
@@ -142,10 +126,8 @@ class VouchersController extends CommonController
 		$isValid = false;
 		if (!empty($voucher)) {
 			foreach ($voucher as $k => $vou) {
-				if ($vou['discount_type'] != 100) {
-					if ($vou['discount_type'] != 101) {
-						$vou['discount_type'] += 1;
-					}
+				if ($vou['status'] != 5) {
+					$vou['status'] += 1;
 				}
 				$vou['usedTimes'] += 1;
 				if ($vou->validate()) {
@@ -168,5 +150,5 @@ class VouchersController extends CommonController
 			}
 		}
 		return $isValid;
-	}	
+	}
 }

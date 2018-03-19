@@ -8,6 +8,9 @@ use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
 use common\models\vouchers\Vouchers;
 use common\models\vouchers\UserVoucher;
+use common\models\vouchers\VouchersUsed;
+use common\models\vouchers\VouchersSetCondition;
+use common\models\vouchers\VouchersConditions;
 
 
 class DiscountController extends Controller
@@ -17,10 +20,10 @@ class DiscountController extends Controller
 	{
 		$voucher = Vouchers::find()->where('id =:id',[':id'=>$post])->one();
 
-		if (($voucher['discount_type'] >= 1 && $voucher['discount_type']<= 3) || $voucher['discount_type'] == 100)  {
+		if ($voucher['discount_type'] == 1)  {
 			$price = $price * ((100 - $voucher['discount']) / 100);
 		}
-		elseif ($voucher['discount_type'] >= 4 && $voucher['discount_type'] <= 6 || $voucher['discount_type'] == 101) {
+		elseif ($voucher['discount_type'] == 2 ) {
 			$price = $price - $voucher['discount'];
 		}
 
@@ -32,10 +35,10 @@ class DiscountController extends Controller
 	{
 		$voucher = Vouchers::find()->where('id =:id',[':id'=>$post])->one();
 		
-		if (($voucher['discount_type'] >= 1 && $voucher['discount_type']<= 3) || $voucher['discount_type'] == 100)  {
+		if ($voucher['discount_type'] == 1)  {
 			$price = (($price*$voucher['discount']) / 100);
 		}
-		elseif ($voucher['discount_type'] >= 4 && $voucher['discount_type'] <= 6 || $voucher['discount_type'] == 101) {
+		elseif ($voucher['discount_type'] ==2) {
 			if ($voucher['discount'] >= $price) {
 				$price = $price;
 			}
@@ -58,7 +61,8 @@ class DiscountController extends Controller
         
         /* Validations (user and date) */
         $valid = ValidController::DateValidCheck($code,1);
-        if ($voucher[0]['discount_type'] == 100 || $voucher[0]['discount_type']== 101) {
+
+        if ($voucher[0]['discount_type'] == 5) {
             $valid = true;
         }
         
@@ -72,6 +76,24 @@ class DiscountController extends Controller
                 return $data;
             }
         }
+        foreach ($voucher as $k => $vou) 
+        {
+            if ($vou['status']==3 || $vou['status']==4) {
+                $valid = false;
+                Yii::$app->session->setFlash('error', 'Coupon was used. Please use another one.');
+                return $data;
+            }
+
+            //detect special/condition voucher
+            $special = VouchersSetCondition::find()->where('vid=:v',[':v'=>$vou['id']])->one();
+            if (!empty($special)) {
+                $voucherused = VouchersUsed::find()->where('vid=:v',[':v'=>$vou['id']])->one();
+                $valid = self::specialVoucherUse($vou,$special,$order['Orders_TotalPrice']);
+                if ($valid == false) {
+                    return $data;
+                }
+            }
+        }
 
 		/* discounttotal make back 0, do discounts */
 		$order['Orders_DiscountTotalAmount'] = 0 ;
@@ -80,23 +102,23 @@ class DiscountController extends Controller
 		{
 			if ($order['Orders_TotalPrice'] > 0) 
 			{
-				if ($vou['discount_type'] == 2 || $vou['discount_type'] == 100)  
+				if ($vou['discount_type'] == 1)  
                 {
                 	switch ($vou['discount_item']) 
                     {
-                        case 7:
+                        case 1:
                             $order['Orders_DiscountTotalAmount'] += ($order['Orders_Subtotal']* ($vou['discount'] / 100));
                             //$order['Orders_Subtotal'] = $order['Orders_Subtotal']- ($order['Orders_Subtotal']* ($vou['discount'] / 100));
                             $order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
                             break;
 
-                        case 8:
+                        case 2:
                             $order['Orders_DiscountTotalAmount'] += ($order['Orders_DeliveryCharge']* ($vou['discount'] / 100));
                             //$order['Orders_DeliveryCharge'] = $order['Orders_DeliveryCharge']-($order['Orders_DeliveryCharge']*($vou['discount'] / 100));
                             $order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
                             break;
 
-                        case 9:
+                        case 3:
                         	$order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
                             $order['Orders_DiscountTotalAmount'] += ($order['Orders_TotalPrice']* ($vou['discount'] / 100));
                             $order['Orders_TotalPrice'] = $order['Orders_TotalPrice'] - ($order['Orders_TotalPrice']*($vou['discount'] / 100));
@@ -108,11 +130,11 @@ class DiscountController extends Controller
                             break;
                     }
             	}
-            	elseif ($vou['discount_type'] == 5 || $vou['discount_type'] == 101) 
+            	elseif ($vou['discount_type'] == 2) 
                 {
                     switch ($vou['discount_item']) 
                     {
-                        case 7:
+                        case 1:
                             if (($order['Orders_Subtotal']-$vou['discount']) < 0) {
                                 $order['Orders_DiscountTotalAmount'] += $order['Orders_Subtotal'];
                                 //$order['Orders_Subtotal'] = 0;
@@ -125,7 +147,7 @@ class DiscountController extends Controller
                             $order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
                             break;
 
-                        case 8:
+                        case 2:
                             if (($order['Orders_DeliveryCharge']-$vou['discount']) < 0) {
                                 $order['Orders_DiscountTotalAmount'] += $order['Orders_DeliveryCharge'];
                                 //$order['Orders_DeliveryCharge'] = 0;
@@ -137,7 +159,7 @@ class DiscountController extends Controller
                             $order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
                             break;
 
-                        case 9:
+                        case 3:
                         	$order['Orders_TotalPrice'] =  $order['Orders_Subtotal'] + $order['Orders_DeliveryCharge'];
                             if (($order['Orders_TotalPrice']-$vou['discount']) < 0) {
                                 $order['Orders_DiscountTotalAmount'] += $order['Orders_TotalPrice'];
@@ -169,6 +191,7 @@ class DiscountController extends Controller
         if ($order['Orders_TotalPrice'] < 0) {
             $order['Orders_TotalPrice'] = 0;
         }
+        
         $order['Orders_Subtotal'] = number_format($order['Orders_Subtotal'],2);
         $order['Orders_DeliveryCharge']= number_format($order['Orders_DeliveryCharge'],2);
         $order['Orders_DiscountTotalAmount']= number_format($order['Orders_DiscountTotalAmount'],2);
@@ -177,4 +200,35 @@ class DiscountController extends Controller
         $data['value'] = 1;
 		return $data;
 	}
+
+    public static function specialVoucherUse($voucher,$special,$order=0)
+    {
+        switch ($special['condition_id']) {
+            case 1:
+                //case 1 = voucher that each user only can use once
+                $voucherhistory = VouchersUsed::find()->where('vid=:v',[':v'=>$voucher['id']])->andWhere(['=','uid',Yii::$app->user->identity->id])->one();
+                if (!empty($voucherhistory)) {
+                    Yii::$app->session->setFlash('warning','You are already used this coupon.');
+                    return false;
+                }
+                return true;
+                
+                break;
+
+            case 2:
+                //case 2 = voucher that with limited purchase
+                if ($order>=$special['amount']) {
+                    return true;
+                }
+                Yii::$app->session->setFlash('warning','Purchase amount was not fulfilled.');
+                return false;
+                break;
+            
+            default:
+                Yii::$app->session->setFlash('warning','Something went wrong.');
+                return false;
+                break;
+        }
+
+    }
 }

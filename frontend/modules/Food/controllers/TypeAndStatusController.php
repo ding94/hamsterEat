@@ -29,7 +29,7 @@ class TypeAndStatusController extends Controller
             $oldAttributes = $status->oldAttributes;
             $status->food_limit  = $status->default_limit-($oldAttributes['default_limit']-$oldAttributes['food_limit']);
         }
-      
+        
 	    $data['status'] = $status;
 	    return $data;
 	}

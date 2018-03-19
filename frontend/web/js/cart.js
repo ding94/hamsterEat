@@ -103,12 +103,12 @@ function quantity(up,cid,url)
 
   function discount()
   {   
- /* alert(document.getElementById("subtotal").innerHTML);*/
+    //alert(document.getElementById("codes").value);
     $.ajax({
     url : $("input[name=dis-url]").val(),
     type: "get",
     data :{
-      dis: document.getElementById("voucherstype-type").value.replace(/\s+/g, ''),
+      dis: document.getElementById("discountitem-description").value.replace(/\s+/g, ''),
       codes: document.getElementById("codes").value.replace(/\s+/g, ''),
       sub: parseFloat(document.getElementById("subtotal").innerHTML).toFixed(2),
       deli: parseFloat(document.getElementById("delivery").innerHTML).toFixed(2),
@@ -116,13 +116,13 @@ function quantity(up,cid,url)
     },
     success: function (data) {
       var obj = JSON.parse(data);
-      if (obj == 19) { return false;}
-      if (obj != 0 ) 
+      //alert(obj);
+      if (obj['error'] != 1 ) 
       {
         //document.getElementById("disamount").innerHTML = "- "+(parseFloat(obj['discount'])).toFixed(2);
         
        // document.getElementById("discount").style = "display:block;";
-    discout = (parseFloat(obj['discount'])).toFixed(2);
+        discout = (parseFloat(obj['discount'])).toFixed(2);
         document.getElementById("early").innerHTML = ""+(0).toFixed(2);
         document.getElementById("subtotal").innerHTML = (parseFloat(obj['sub'])).toFixed(2);
         document.getElementById("delivery").innerHTML = (parseFloat(obj['deli'])).toFixed(2);
@@ -136,9 +136,26 @@ function quantity(up,cid,url)
         document.getElementById("refresh").style ='display:block';
     $('.table-total tr:nth-child(2)').after("<tr><td><b>Discount</b></td><td class='text-xs-left'>-RM "+discout+"</td></tr>");
       }
-      else if (obj ==0) 
+      else
       {
-        alert("No coupon found or coupon expired! Please check your account > Discount Codes");
+        if (obj['item'] == 1){
+          alert("Coupon was expired! Please check your account > Discount Codes");
+          return false;
+        }
+        else if(obj['item'] == 2){
+          if (obj['condition'] == 1) {
+            alert('You already used this coupon.'); 
+            return false;
+          }
+          else if (obj['condition'] == 2) {
+            alert('You need to fulfill purchase amount. RM'+obj['amount']); 
+            return false;
+          }
+        }
+        else{
+          alert("No coupon found or coupon expired! Please check your account > Discount Codes");
+          return false;
+        }
       }
    },
    error: function (request, status, error) {

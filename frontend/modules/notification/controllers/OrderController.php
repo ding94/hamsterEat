@@ -9,43 +9,50 @@ use common\models\User;
 use common\models\food\FoodName;
 use common\models\Order\DeliveryAddress;
 use common\models\sms\SmsSender;
-use common\models\notic\{NotificationSetting,Notification,NotifcationType	};
+use common\models\notic\{NotificationSetting,Notification,NotificationType	};
 
 class OrderController extends CommonController
 {
-	public static function createUserNotic($type,$tid,$id)
+	/*
+	* find notifcation setting data 
+	* to detect whether send notification to user 
+	* base on
+	* => tid,sid
+	* => id can be delivery id or order id
+	* => uid is user id
+	* => base on eable more then 0
+	*/
+	public static function createUserNotic($tid,$sid,$id)
 	{
-		$setting = NotificationSetting::find()->where('type = :t and id = :tid',[':t'=>$type,':tid'=>$tid])->one();
-
+		
+		$setting = NotificationSetting::find()->where("tid = :t and sid = :sid and enable != '0'",[':t'=>$tid,':sid'=>$sid])->all();
+		
 		if(empty($setting))
 		{
 			return true;
 		}
-
-		if($setting->enable_notification == 0 && $setting->enable_email == 0 && $setting->enamble_sms == 0)
-		{
-			return true;
-		}
-
+		
 		$result = array();
-
-		if($setting->enable_notification != 0)
+	
+		foreach($setting as $i=>$value)
 		{
-			$result['notic'] = self::genearateNotic($type,$id,$setting->description);
-		}
-
-		if($setting->enable_email == 1)
-		{
-			$isvalid = self::genereteEmail($type,$id,$setting->description);
-			$result['mail'] = $isvalid;
-		}
-
-		if($setting->enamble_sms == 1)
-		{
-			$isvalid = self::genereteSms($type,$id,$setting->description);
-			$result['sms'] = $isvalid;
+			switch ($value->setting_type_id) {
+				case 1:
+					$result[$i] = self::genearateNotic($tid,$id,$value->description);
+					break;
+				case 2:
+					$result[$i] = self::genereteEmail($tid,$id,$value->description);
+					break;
+				case 3:
+					$result[$i] = self::genereteSms($tid,$id,$value->description);
+					break;
+				default:
+					# code...
+					break;
+			}
 		}
 		
+		var_dump($result);exit;
 	}
 
 	public static function genearateNotic($type,$id,$description)
@@ -147,7 +154,7 @@ class OrderController extends CommonController
 
 	public static function getType($type)
 	{
-		$data = NotifcationType::findOne($type);
+		$data = NotificationType::findOne($type);
 		return $data;
 	}
 

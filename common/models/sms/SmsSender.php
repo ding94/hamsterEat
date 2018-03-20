@@ -69,6 +69,7 @@ Class SmsSender extends Model
 		$log = new SmsLog;
 		$log->type = $this->type;
 		$log->result = $result;
+		$log->number = $this->phone_number;
 		$log->content = self::getContent();
 		$log->save();
 		

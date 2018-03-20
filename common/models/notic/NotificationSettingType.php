@@ -5,22 +5,21 @@ namespace common\models\notic;
 use Yii;
 
 /**
- * This is the model class for table "notifcation_type".
+ * This is the model class for table "notification_setting_type".
  *
  * @property int $id
- * @property string $name
- * @property string $structure
  * @property string $description
- * @property string $url
+ *
+ * @property NotificationSetting[] $notificationSettings
  */
-class NotifcationType extends \yii\db\ActiveRecord
+class NotificationSettingType extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'notifcation_type';
+        return 'notification_setting_type';
     }
 
     /**
@@ -29,10 +28,9 @@ class NotifcationType extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'name', 'structure', 'description', 'url'], 'required'],
+            [['id', 'description'], 'required'],
             [['id'], 'integer'],
-            [['structure', 'url'], 'string'],
-            [['name', 'description'], 'string', 'max' => 50],
+            [['description'], 'string', 'max' => 50],
             [['id'], 'unique'],
         ];
     }
@@ -44,10 +42,15 @@ class NotifcationType extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'structure' => 'Structure',
             'description' => 'Description',
-            'url' => 'Url',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNotificationSettings()
+    {
+        return $this->hasMany(NotificationSetting::className(), ['setting_type_id' => 'id']);
     }
 }

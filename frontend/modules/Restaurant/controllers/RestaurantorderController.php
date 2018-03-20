@@ -226,10 +226,9 @@ class RestaurantorderController extends CommonController
             }
             NoticController::centerNotic(2,3,$order->Delivery_ID);
         }
-        else
-        {
-            NoticController::centerNotic(1,3,$oid);
-        }
+  
+        NoticController::centerNotic(1,3,$oid);
+        
     
         return true;
     }

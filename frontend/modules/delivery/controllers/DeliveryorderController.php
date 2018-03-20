@@ -299,10 +299,8 @@ class DeliveryorderController extends CommonController
             }
             return false;
         }
-        else
-        {
-           NoticController::centerNotic($notic['type'],$notic['status'],$notic['id']); 
-        }
+        NoticController::centerNotic($notic['type'],$notic['status'],$notic['id']); 
+
        
        return true;
     }

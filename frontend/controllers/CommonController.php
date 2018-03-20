@@ -8,7 +8,7 @@ use Yii;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
-use common\models\notic\{Notification,NotifcationType};
+use common\models\notic\{Notification,NotificationType};
 use common\models\Cart\Cart;
 use common\models\Rmanager;
 use common\models\Rmanagerlevel;
@@ -56,7 +56,7 @@ class CommonController extends Controller
         if(!Yii::$app->user->isGuest)
         {
             $result = array();
-            Yii::$app->params['listOfNotic'] = ArrayHelper::index(NotifcationType::find()->asArray()->all(), 'id');
+            Yii::$app->params['listOfNotic'] = ArrayHelper::index(NotificationType::find()->asArray()->all(), 'id');
            
             $query = Notification::find()->where('uid = :uid and view = :v',[':uid' => Yii::$app->user->identity->id,':v'=>0])->orderBy(['created_at'=>SORT_DESC]);
             $count = $query->count();

@@ -46,9 +46,9 @@ class SmsLog extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'result', 'content'], 'required'],
+            [['type','number', 'result', 'content'], 'required'],
             [['id', 'type', 'created_at', 'updated_at'], 'integer'],
-            [['content'], 'string'],
+            [['content','number'], 'string'],
             [['result'], 'string', 'max' => 50],
             [['id'], 'unique'],
         ];
@@ -62,6 +62,7 @@ class SmsLog extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'type' => 'Type',
+            'number'=>'Phone Number',
             'result' => 'Result',
             'content' => 'Content',
             'created_at' => 'Created At',

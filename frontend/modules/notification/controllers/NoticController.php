@@ -15,17 +15,18 @@ class NoticController extends Controller
      */
     public function actionIndex()
     {
+    	self::centerNotic(1,3,240);exit;
         return $this->render('index');
     }
 
-    public static function centerNotic($type,$tid,$id)
+    public static function centerNotic($tid,$sid,$id)
 	{
-		switch ($type) {
+		switch ($tid) {
 			case 1:
-				OrderController::createUserNotic($type,$tid,$id);
+				OrderController::createUserNotic($tid,$sid,$id);
 				break;
 			case 2:
-				OrderController::createUserNotic($type,$tid,$id);
+				OrderController::createUserNotic($tid,$sid,$id);
 			default:
 				# code...
 				break;

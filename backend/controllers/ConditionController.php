@@ -6,9 +6,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\filters\AccessControl;
-use common\models\vouchers\Vouchers;
-use common\models\vouchers\VouchersConditions;
-use common\models\vouchers\VouchersSetCondition;
+use common\models\vouchers\{Vouchers,VouchersConditions,VouchersSetCondition};
 
 class ConditionController extends CommonController
 {

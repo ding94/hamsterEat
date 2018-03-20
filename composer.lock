@@ -1498,16 +1498,16 @@
         },
         {
             "name": "kartik-v/yii2-date-range",
-            "version": "1.6.8",
+            "version": "v1.6.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-date-range.git",
-                "reference": "908e8175f3f8c091d425bcaba6e18871d63291a0"
+                "reference": "ed12260339f4699c363360465a22a46c714eb6be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-date-range/zipball/908e8175f3f8c091d425bcaba6e18871d63291a0",
-                "reference": "908e8175f3f8c091d425bcaba6e18871d63291a0",
+                "url": "https://api.github.com/repos/kartik-v/yii2-date-range/zipball/ed12260339f4699c363360465a22a46c714eb6be",
+                "reference": "ed12260339f4699c363360465a22a46c714eb6be",
                 "shasum": ""
             },
             "require": {
@@ -1548,7 +1548,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2017-08-08T04:26:22+00:00"
+            "time": "2018-03-15T08:22:53+00:00"
         },
         {
             "name": "kartik-v/yii2-dialog",
@@ -4133,16 +4133,16 @@
         },
         {
             "name": "yiisoft/yii2",
-            "version": "2.0.14.1",
+            "version": "2.0.14.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "d99969394c66dc3606134af092b8ec561ea5d7c6"
+                "reference": "ef74f3783e964cea477f06e6d6ce209df1f37881"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/d99969394c66dc3606134af092b8ec561ea5d7c6",
-                "reference": "d99969394c66dc3606134af092b8ec561ea5d7c6",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/ef74f3783e964cea477f06e6d6ce209df1f37881",
+                "reference": "ef74f3783e964cea477f06e6d6ce209df1f37881",
                 "shasum": ""
             },
             "require": {
@@ -4229,7 +4229,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2018-02-24T20:23:06+00:00"
+            "time": "2018-03-13T14:15:01+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -4791,16 +4791,16 @@
         },
         {
             "name": "codeception/phpunit-wrapper",
-            "version": "6.0.7",
+            "version": "6.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/phpunit-wrapper.git",
-                "reference": "d020db336c52af4498aefe5905a17333b26486c8"
+                "reference": "e18f3ea1f841bfd2cecaf6e183e584127b9d467b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/phpunit-wrapper/zipball/d020db336c52af4498aefe5905a17333b26486c8",
-                "reference": "d020db336c52af4498aefe5905a17333b26486c8",
+                "url": "https://api.github.com/repos/Codeception/phpunit-wrapper/zipball/e18f3ea1f841bfd2cecaf6e183e584127b9d467b",
+                "reference": "e18f3ea1f841bfd2cecaf6e183e584127b9d467b",
                 "shasum": ""
             },
             "require": {
@@ -4833,7 +4833,7 @@
                 }
             ],
             "description": "PHPUnit classes used by Codeception",
-            "time": "2018-03-13T02:15:58+00:00"
+            "time": "2018-03-16T10:17:47+00:00"
         },
         {
             "name": "codeception/stub",

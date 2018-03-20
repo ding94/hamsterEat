@@ -262,7 +262,6 @@ class CheckoutController extends CommonController
                     $cookies = Yii::$app->response->cookies;
                     $cookies->remove('cart');
                     unset($cookies['cart']);
-                    NotificationController::createNotification($did,1);
                     
                    	return $this->redirect(['/cart/aftercheckout','did'=>$did]);
                 }

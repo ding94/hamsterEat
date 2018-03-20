@@ -81,7 +81,6 @@ NotificationAsset::register($this);
 
 
 <?php $this->beginBody() ?>
-
 <div class="wrap">
     <?php
     NavBar::begin([
@@ -120,20 +119,14 @@ NotificationAsset::register($this);
             $menuItems[end($keys)]['items'][] = '<div class="inner-notic">';
             foreach(Yii::$app->params['notication'] as $i=> $notic)
             {
+
                 $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-title">'.Yii::$app->params['listOfNotic'][$i]['description'].'</h4>' ];
                 foreach($notic as $data)
                 {
+
                     $ago = Yii::$app->formatter->asRelativeTime($data['created_at']);
-                    if($data['type'] == 1)
-                    {
-                        $url = ["/Restaurant/restaurantorder/index",'rid' => $data['rid']];
-                    }
-                    else
-                    {
-                         $url = [Yii::$app->params['listOfNotic'][$i]['url']];
-                    }
-                   
-                    $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['description'].' from '.$ago.'</h4>','url' => $url];
+                    
+                    $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['name'].' from '.$ago.'</h4>','url' => $data['url']];
                 }
             }
             $menuItems[end($keys)]['items'][] = '</div>';
@@ -210,8 +203,7 @@ NotificationAsset::register($this);
     ]);
     NavBar::end();
     ?>
-     </div>
-
+    </div>
      <nav id="bottom-navbar">
             <div>
                 <ul>
@@ -230,7 +222,7 @@ NotificationAsset::register($this);
                             $orderitem = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$level['Restaurant_ID'],':s'=>2])->joinwith(['food'])->count();
                                 $count += $orderitem;
                         }
-                        echo Html::a('<span class="glyphicon glyphicon-list-alt"></span><span class="badge">('.$count.')</span>',['/Restaurant/restaurant/phonecooking'],['data-toggle'=>'modal','data-target'=>'#add-modal']);
+                        echo Html::a('<span class="glyphicon glyphicon-list-alt"></span><span class="badge">'.$count.'</span>',['/Restaurant/restaurant/phonecooking'],['data-toggle'=>'modal','data-target'=>'#add-modal']);
                     endif;?>
 
                     <li><?php echo Html::a('<i class="fa fa-cutlery"></i>',['/Restaurant/restaurant/restaurant-service']);?></li>
@@ -279,6 +271,14 @@ NotificationAsset::register($this);
             </div>
         </div>
         <div class="page-wrap">
+            <!-- <div id="promo-banner">
+                <div class="text">
+                    PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15%
+                </div>
+                <a class="close-icon" href="#" onclick="closeBanner()">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div> -->
             <?= $content ?>
         </div>
 

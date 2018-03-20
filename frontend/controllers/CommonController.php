@@ -8,8 +8,7 @@ use Yii;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
-use common\models\Notification;
-use common\models\NotificationSetting;
+use common\models\notic\{Notification,NotifcationType};
 use common\models\Cart\Cart;
 use common\models\Rmanager;
 use common\models\Rmanagerlevel;
@@ -56,19 +55,20 @@ class CommonController extends Controller
         $number ="";
         if(!Yii::$app->user->isGuest)
         {
-            
-            $result = [];
-            Yii::$app->params['listOfNotic'] = ArrayHelper::index(NotificationSetting::find()->asArray()->all(), 'id');
-            $query = Notification::find()->where('uid = :uid and view = :v',[':uid' => Yii::$app->user->identity->id,':v'=>0])->asArray()->orderBy(['created_at'=>SORT_DESC]);
+            $result = array();
+            Yii::$app->params['listOfNotic'] = ArrayHelper::index(NotifcationType::find()->asArray()->all(), 'id');
+           
+            $query = Notification::find()->where('uid = :uid and view = :v',[':uid' => Yii::$app->user->identity->id,':v'=>0])->orderBy(['created_at'=>SORT_DESC]);
             $count = $query->count();
             Yii::$app->params['countNotic'] = $count == 0 ? "" : " <span class='badge'>".$count."</span>";
             $notication = $query->limit(20)->all();
+            
             foreach($notication as $single)
             {
                 $result[$single['type']][] = $single;
                 //$result[$single['type']]['url'] = $this->urlLink($single['type'],$single['rid']);
             }
-            
+           
             Yii::$app->params['notication'] = $result;
            
 

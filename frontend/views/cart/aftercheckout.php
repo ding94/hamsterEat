@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\web\Session;
+use yii\helpers\Url;
 use frontend\controllers\CartController;
 use frontend\assets\CheckoutAsset;
 
@@ -26,6 +27,15 @@ CheckoutAsset::register($this);
          </div>
        </div> 
     </div>
+    <?php if($requireName['value'] == 1):?>
+    <div id="nameConfirm">
+        <?php 
+            echo Html::hiddenInput('url',Url::to(['/user/change-name-contact']));
+            echo Html::hiddenInput('name', $requireName['fullname']);
+            echo Html::hiddenInput('contactno',$requireName['contactno']);
+        ?>
+    </div>
+    <?php endif;?>
     <div class="container" id="aftercheckout">
         <div class="checkout-header">
             <h2>

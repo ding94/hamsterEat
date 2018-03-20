@@ -26,6 +26,9 @@ return [
         'Food' => [
             'class' => 'frontend\modules\Food\food',
         ],
+        'notification' => [
+            'class' => 'frontend\modules\notification\notification',
+        ],
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [

@@ -42,6 +42,7 @@ $this->title = Yii::t('site','Delivery Food In Medini').' | HamsterEat';
 		</div> 
     </div>
 </div> -->
+
 <div id="frontpage-container" class="container-fluid">
 	<img src="<?php echo Yii::$app->params['baseUrl'] ?>/index.jpg" alt="" class="mySlides">
 	<div id="SSCrow2" class="container">

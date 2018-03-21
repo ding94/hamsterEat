@@ -58,4 +58,9 @@ class Deliveryman extends \yii\db\ActiveRecord
             'DeliveryMan_DateTimeApproved' => 'Delivery Man  Date Time Approved',
         ];
     }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(),'User_id','id');
+    }
 }

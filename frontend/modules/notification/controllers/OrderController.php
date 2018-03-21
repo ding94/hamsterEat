@@ -51,10 +51,9 @@ class OrderController extends CommonController
 					break;
 			}
 		}
-		
-		var_dump($result);exit;
 	}
 
+	
 	public static function genearateNotic($type,$id,$description)
 	{
 		$data = self::evaluateData($type,1,$id,$description);

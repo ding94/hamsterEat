@@ -37,7 +37,7 @@ class CompanyController extends CommonController
 	public function actionIndex()
 	{
 		$emplo = new CompanyEmployees;
-		$this->layout = 'user';
+		
 		$company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one();
 		
 		$users = CompanyEmployees::find()->where('cid=:id',[':id'=>$company['id']])->andWhere(['!=','uid',Yii::$app->user->identity->id]);
@@ -50,7 +50,7 @@ class CompanyController extends CommonController
 			return $this->redirect('/site/index');
 		}
 		if (Yii::$app->request->post()) {
-			var_dump(Yii::$app->request->post());exit;
+		
 			$emplo->load(Yii::$app->request->post());
 
 			if (empty($emplo['uid'])) {

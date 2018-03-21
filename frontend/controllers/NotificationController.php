@@ -54,6 +54,7 @@ class NotificationController extends CommonController
 
 	public function actionTurnoff()
 	{
+		var_dump('a');exit;
 		Notification::updateAll(['view' => 1],'uid = :uid',[':uid'=>Yii::$app->user->identity->id]);
 		return $this->redirect(Yii::$app->request->referrer); 
 	}

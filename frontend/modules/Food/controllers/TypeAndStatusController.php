@@ -117,7 +117,7 @@ class TypeAndStatusController extends Controller
         $array['isvalid'] = $isvalid;
         $array['type'] = $newType;
         $array['tname'] = $newName;
-      
+     
         return $array;
     }
 

@@ -3,6 +3,7 @@
 namespace common\models\notic;
 
 use Yii;
+use common\models\Order\StatusType;
 
 /**
  * This is the model class for table "notification_setting".
@@ -14,8 +15,9 @@ use Yii;
  * @property string $description
  * @property string $enable 0=> turn off 1=>turn on 2=>admin on
  *
- * @property NotifcationType $t
+ * @property NotificationType $t
  * @property NotificationSettingType $settingType
+ * @property StatusType $s
  */
 class NotificationSetting extends \yii\db\ActiveRecord
 {
@@ -36,8 +38,9 @@ class NotificationSetting extends \yii\db\ActiveRecord
             [['tid', 'setting_type_id', 'sid', 'description'], 'required'],
             [['tid', 'setting_type_id', 'sid'], 'integer'],
             [['description', 'enable'], 'string'],
-            [['tid'], 'exist', 'skipOnError' => true, 'targetClass' => NotifcationType::className(), 'targetAttribute' => ['tid' => 'id']],
+            [['tid'], 'exist', 'skipOnError' => true, 'targetClass' => NotificationType::className(), 'targetAttribute' => ['tid' => 'id']],
             [['setting_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => NotificationSettingType::className(), 'targetAttribute' => ['setting_type_id' => 'id']],
+            [['sid'], 'exist', 'skipOnError' => true, 'targetClass' => StatusType::className(), 'targetAttribute' => ['sid' => 'id']],
         ];
     }
 
@@ -61,7 +64,7 @@ class NotificationSetting extends \yii\db\ActiveRecord
      */
     public function getT()
     {
-        return $this->hasOne(NotifcationType::className(), ['id' => 'tid']);
+        return $this->hasOne(NotificationType::className(), ['id' => 'tid']);
     }
 
     /**
@@ -70,5 +73,13 @@ class NotificationSetting extends \yii\db\ActiveRecord
     public function getSettingType()
     {
         return $this->hasOne(NotificationSettingType::className(), ['id' => 'setting_type_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getS()
+    {
+        return $this->hasOne(StatusType::className(), ['id' => 'sid']);   
     }
 }

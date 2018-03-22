@@ -126,7 +126,7 @@ NotificationAsset::register($this);
 
                     $ago = Yii::$app->formatter->asRelativeTime($data['created_at']);
                     
-                    $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['name'].' from '.$ago.'</h4>','url' => $data['url']];
+                    $menuItems[end($keys)]['items'][] = ['label' => '<h4 class="item-info">'.$data['name'].'.<br><span> from '.$ago.'</span></h4>','url' => $data['url']];
                 }
             }
             $menuItems[end($keys)]['items'][] = '</div>';

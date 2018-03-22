@@ -22,6 +22,7 @@ use yii\bootstrap\Modal;
 use frontend\assets\NotificationAsset;
 use common\models\Company\Company;
 use common\models\Order\Orders;
+use frontend\controllers\CommonController;
 AppAsset::register($this);
 NotificationAsset::register($this);
 
@@ -143,10 +144,10 @@ NotificationAsset::register($this);
             $count = 0;
             foreach ($lvl as $k => $level) {
                 $cookies = Yii::$app->request->cookies;
-                $resname = RestaurantName::find()->where('rid=:rid',[':rid'=>$level['Restaurant_ID']])->andWhere(['=','language',$cookies['language']->value])->one();
+                $resname = CommonController::getRestaurantName($level['Restaurant_ID']);
                 $orderitem = Orderitem::find()->where('Restaurant_ID=:id AND OrderItem_Status=:s',[':id'=>$level['Restaurant_ID'],':s'=>2])->joinwith(['food'])->count();
                 if ($orderitem > 0) {
-                    $menuItems[end($key)]['items'][] = ['label'=>$resname['translation'].'('.$orderitem.')','url'=>['/Restaurant/restaurant/cooking-detail','rid'=>$level['Restaurant_ID']]];
+                    $menuItems[end($key)]['items'][] = ['label'=>$resname.'('.$orderitem.')','url'=>['/Restaurant/restaurant/cooking-detail','rid'=>$level['Restaurant_ID']]];
                     $menuItems[end($key)]['items'][] = '<li class="divider"></li>';
                 }
                 $count += $orderitem;

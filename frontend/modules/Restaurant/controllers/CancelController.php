@@ -73,9 +73,10 @@ class CancelController extends CommonController
          
         }
 
+        $user = User::find()->where('username = :n',[':n'=>$order->User_Username])->one();
+
         if($order->Orders_DiscountTotalAmount > 0)
         {
-            $user = User::find()->where('username = :n',[':n'=>$order->User_Username])->one();
                 
             $vused = VouchersUsed::find()->where('uid = :uid and did = :did',[':uid'=>$user->id,':did'=>$data->Delivery_ID])->one();
             
@@ -113,7 +114,7 @@ class CancelController extends CommonController
             {
                $acc->save();
             }
-            NoticController::centerNotic(1,$data['OrderItem_Status'],$data['Order_ID']);
+            NoticController::centerNotic(1,$data['OrderItem_Status'],$data['Order_ID'],$user->id);
             return $isValid;
         }
         else
@@ -190,10 +191,11 @@ class CancelController extends CommonController
             $order['Orders_DiscountTotalAmount'] = 0;
 
             if ($reason->validate() && $value->validate() && $order->validate()) {
+                $user = User::find()->where('username = :u',[':u'=>$order->User_Username])->one();
                 $reason->save();
                 $value->save();
                 $order->save();
-                NoticController::centerNotic(2,$order['Orders_Status'],$order['Delivery_ID']);
+                NoticController::centerNotic(2,$order['Orders_Status'],$order['Delivery_ID'],$user->id);
             }
             else
             {

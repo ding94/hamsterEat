@@ -6,17 +6,15 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\data\Pagination;
-use common\models\RestaurantName;
 use Yii;
 use frontend\controllers\OrderController;
 use frontend\controllers\CommonController;
 use frontend\modules\notification\controllers\NoticController;
 use frontend\modules\Restaurant\controllers\ProfitController;
 use frontend\models\OrderHistorySearch;
-use common\models\Order\Orderitem;
-use common\models\Order\Orders;
+use common\models\Order\{Orderitem,Orders,StatusType};
 use common\models\Company\Company;
-use common\models\Order\StatusType;
+use common\models\User;
 
 class DeliveryorderController extends CommonController
 {
@@ -232,13 +230,14 @@ class DeliveryorderController extends CommonController
         
         if($isValid)
         {
+            $user = User::find()->where('username = :u',[':u'=>$order->User_Username])->one();
             $order->save();
             $profit->save();
             foreach($itemProfit as $item)
             {
                 $item->save();
             }
-            NoticController::centerNotic(2,$order->Orders_Status,$did); 
+            NoticController::centerNotic(2,$order->Orders_Status,$did,$user->id); 
            
             return true;
         }
@@ -288,22 +287,21 @@ class DeliveryorderController extends CommonController
         }
 
         $allitem = OrderItem::find()->where('Delivery_ID =:did and OrderItem_Status != 10 and OrderItem_Status != 8 and OrderItem_Status != 9',[':did' => $orderitem->Delivery_ID])->all();
-
+        $order = OrderController::findOrder($orderitem->Delivery_ID);
+        $user = User::find()->where('username = :u',[':u'=>$order->User_Username])->one();
+        
         if(empty($allitem))
         {
-            $order = OrderController::findOrder($orderitem->Delivery_ID);
+           
             $order->Orders_Status = 5;
             if($order->save()){
-            	NoticController::centerNotic(2,$order->Orders_Status,$order->Delivery_ID);
+              
+            	NoticController::centerNotic(2,$order->Orders_Status,$order->Delivery_ID,$user->id);
             	return true;
             }
             return false;
         }
-        else
-        {
-           NoticController::centerNotic($notic['type'],$notic['status'],$notic['id']); 
-        }
-       
+        NoticController::centerNotic($notic['type'],$notic['status'],$notic['id'],$user->id);   
        return true;
     }
 }

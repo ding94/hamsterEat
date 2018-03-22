@@ -79,6 +79,14 @@
                                     ],
                         'options' => ['class' => 'active'],
                     ],
+                    [
+                        'label'=>'Notification Controller','icon'=>'bell','url'=>'#',
+                        'items'=>[
+                            ['label'=>'Setting','icon'=>'circle-o','url'=>['/notification/setting']],
+                            ['label'=>'Sms Log','icon'=>'circle-o','url'=>['/notification/sms-log']],
+                        ],
+                         'options' => ['class' => 'active'],
+                    ],
 					[   'label' => 'Finance Controller', 'icon' => 'money', 'url' => '#',
                         'items' =>  [
                                         ['label' => 'Offline Topup', 'icon' => 'circle-o', 'url' => ['/finance/topup/index']],

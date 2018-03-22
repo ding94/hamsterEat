@@ -7,18 +7,21 @@ use yii\web\AssetBundle;
 /**
  * Main frontend application asset bundle.
  */
-class NotificationAsset extends AssetBundle
+class RestaurantDetailsTestAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/notification.css',
-        'css/user.css',
-        'css/drop-down-mobile.css',
+        'css/restaurant-details-test.css',
         'css/button.css',
+        'css/food-details-img-slider.css',
+        'css/ribbon.css',
     ];
     public $js = [
-        // 'js/rating-index.js',
+        'js/food-modal.js',
+        'js/report-modal.js',
+		'js/scrolltop.js',
+        'js/restaurant-details.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

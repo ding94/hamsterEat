@@ -239,7 +239,7 @@ class Food extends \yii\db\ActiveRecord
             }
         }
 
-        return  Yii::$app->params['defaultFoodImg'];
+        return  Yii::getAlias('@web').Yii::$app->params['defaultFoodImg'];
     }
 
     /*
@@ -261,10 +261,10 @@ class Food extends \yii\db\ActiveRecord
         if(empty($data))
         {
            
-           $data[] = Yii::$app->params['defaultFoodImg'];
+           $data[] = Yii::getAlias('@web').Yii::$app->params['defaultFoodImg'];
           
         }
-        
+       
         return $data; 
         
     }

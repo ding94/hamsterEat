@@ -93,7 +93,7 @@ class Notification extends \yii\db\ActiveRecord
     public function getUrl()
     {
         $keyword = self::getWord();
-        $originUrl = NotifcationType::findOne($this->type);
+        $originUrl = NotificationType::findOne($this->type);
         $did = $this->tid;
         if($keyword == 'foodname')
         {

@@ -125,12 +125,12 @@ class Restaurant extends \yii\db\ActiveRecord
         if(is_null($image))
         {
 
-            return Yii::$app->params['defaultRestaurantImg'];
+            return Yii::getAlias('@web').'/'.Yii::$app->params['defaultRestaurantImg'];
         }
         else if(!file_exists(Yii::$app->params['restaurant'].$image))
         {
 
-            return Yii::$app->params['defaultRestaurantImg'];
+            return Yii::getAlias('@web').'/'.Yii::$app->params['defaultRestaurantImg'];
         }
         else
         {

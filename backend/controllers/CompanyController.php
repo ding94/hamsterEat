@@ -13,7 +13,7 @@ use common\models\Company\CompanyEmployees;
 use common\models\Deliveryman;
 use common\models\DeliverymanCompany;
 use yii\web\UploadedFile;
-use common\models\Object;
+use common\models\SelfObject;
 
 class CompanyController extends CommonController
 {
@@ -88,7 +88,7 @@ class CompanyController extends CommonController
         $area = Area::find()->where(['like','Area_Postcode' , $postcode])->select(['Area_ID', 'Area_Area'])->all();
         $areaArray = [];
         foreach ($area as $area) {
-            $object = new Object();
+            $object = new SelfObject();
             $object->id = $area['Area_Area'];
             $object->name = $area['Area_Area'];
 
@@ -127,7 +127,14 @@ class CompanyController extends CommonController
 
     public function actionAddRider($id)
     {
-        $deliveryman = ArrayHelper::map(Deliveryman::find()->joinWith('user')->all(),'User_id','user.username');
+        $query = Deliveryman::find();
+        $deliveryman = array();
+        foreach($query->each() as $value)
+        {
+            $deliveryman[$value->User_id] = User::findOne($value->User_id)->username;
+          
+        }
+      
         $company = DeliverymanCompany::find()->where('cid=:cid',[':cid'=>$id])->one();
         if (empty($company)) {
             $company = new DeliverymanCompany();

@@ -176,7 +176,7 @@ Class AuthController extends CommonController
 			return 1;
 		}
 
-		$allchild ="";
+		$allchild = array();
 
 		foreach($data as $k=>$row)
 		{

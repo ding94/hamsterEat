@@ -5,6 +5,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
 use frontend\assets\AddFoodAsset;
 
 AddFoodAsset::register($this);
+
 ?>           
   
 <?php DynamicFormWidget::begin([
@@ -46,11 +47,10 @@ AddFoodAsset::register($this);
             <td class="vcenter">
                 <?php
 
-                    // necessary for update action.
-                    if (! $data->isNewRecord) {
+      
                         echo Html::activeHiddenInput($data, "[{$i}][{$ix}]ID");
                         echo Html::activeHiddenInput($selectionName[$ix], "[{$i}][{$ix}]id");
-                    }
+     
 
                     echo $form->field($selectionName[$ix], "[{$i}][{$ix}]translation")->label(false)->textInput(['maxlength' => true]);
                 ?>        

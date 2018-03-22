@@ -11,7 +11,7 @@ use frontend\controllers\OrderController;
 use common\models\Order\Orderitem;
 use common\models\Order\StatusType;
 use common\models\Company\Company;
-use common\models\Restaurant;
+use common\models\{Restaurant,User};
 use common\models\food\Food;
 use common\models\Profit\RestaurantProfit;
 use frontend\modules\notification\controllers\NoticController;
@@ -214,20 +214,20 @@ class RestaurantorderController extends CommonController
         foreach ($allitem as $item) {
             $updateOrder = $item->OrderItem_Status == 3 ? true : false && $updateOrder;
         }
-      
+        
+        $order = OrderController::findOrder($orderitem->Delivery_ID);
+        $user = User::find()->where('username = :u',[':u'=>$order->User_Username])->one();
         if($updateOrder)
         {
-            $order = OrderController::findOrder($orderitem->Delivery_ID);
-
             $order->Orders_Status = 3;
             if(!$order->save())
             {
             	return false;
             }
-            NoticController::centerNotic(2,3,$order->Delivery_ID);
+            NoticController::centerNotic(2,3,$order->Delivery_ID,$user->id);
         }
   
-        NoticController::centerNotic(1,3,$oid);
+        NoticController::centerNotic(1,3,$oid,$user->id);
         
     
         return true;
@@ -239,7 +239,9 @@ class RestaurantorderController extends CommonController
         $orderitem->OrderItem_Status = 4;
        	if($orderitem->save())
        	{
-       		NoticController::centerNotic(1,4,$oid);
+            $order = OrderController::findOrder($orderitem->Delivery_ID);
+            $user = User::find()->where('username = :u',[':u'=>$order->User_Username])->one();
+       		NoticController::centerNotic(1,4,$oid,$user->id);
        		return true;
        	}
        	return false;

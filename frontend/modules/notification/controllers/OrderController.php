@@ -9,7 +9,8 @@ use common\models\User;
 use common\models\food\FoodName;
 use common\models\Order\DeliveryAddress;
 use common\models\sms\SmsSender;
-use common\models\notic\{NotificationSetting,Notification,NotificationType	};
+use common\models\user\UserNotification;
+use common\models\notic\{NotificationSetting,Notification,NotificationType};
 
 class OrderController extends CommonController
 {
@@ -22,39 +23,56 @@ class OrderController extends CommonController
 	* => uid is user id
 	* => base on eable more then 0
 	*/
-	public static function createUserNotic($tid,$sid,$id)
+	public static function createUserNotic($tid,$sid,$id,$uid)
 	{
-		
-		$setting = NotificationSetting::find()->where("tid = :t and sid = :sid and enable != '0'",[':t'=>$tid,':sid'=>$sid])->all();
+		$setting = NotificationSetting::find()->where("tid = :t and sid = :sid and enable != '-1'",[':t'=>$tid,':sid'=>$sid])->all();
 		
 		if(empty($setting))
 		{
 			return true;
 		}
 		
-		$result = array();
-	
 		foreach($setting as $i=>$value)
 		{
-			switch ($value->setting_type_id) {
-				case 1:
-					$result[$i] = self::genearateNotic($tid,$id,$value->description);
-					break;
-				case 2:
-					$result[$i] = self::genereteEmail($tid,$id,$value->description);
-					break;
-				case 3:
-					$result[$i] = self::genereteSms($tid,$id,$value->description);
-					break;
-				default:
-					# code...
-					break;
+			if($value->enable == 0 || $value->enable == 1)
+			{
+				$user = UserNotification::find()->where('setting_id = :id and uid = :uid ',[':id'=>$value->id,':uid'=>$uid])->one();
+				$enable = empty($user) ? $value->enable : $user->enable;
+				if($enable == 1)
+				{
+					$result[$i] = self::centerDetectType($value->setting_type_id,$tid,$id,$value->description);
+				}
 			}
+			else
+			{
+				$result[$i] = self::centerDetectType($value->setting_type_id,$tid,$id,$value->description);
+			}
+			
 		}
-		
-		var_dump($result);exit;
 	}
 
+	protected static function centerDetectType($stid,$tid,$id,$description)
+	{
+		$result = array();
+
+		switch ($stid) {
+			case 1:
+				$result = self::genearateNotic($tid,$id,$description);
+				break;
+			case 2:
+				$result = self::genereteEmail($tid,$id,$description);
+				break;
+			case 3:
+				$result = self::genereteSms($tid,$id,$description);
+				break;
+			default:
+					# code...
+				break;
+		}
+		return $result;
+	}
+
+	
 	public static function genearateNotic($type,$id,$description)
 	{
 		$data = self::evaluateData($type,1,$id,$description);

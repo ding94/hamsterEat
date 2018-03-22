@@ -5,6 +5,7 @@ namespace common\models\sms;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use common\models\notic\NotificationType;
 
 /**
  * This is the model class for table "sms_log".
@@ -68,5 +69,10 @@ class SmsLog extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function getNoticType()
+    {
+        return $this->hasOne(NotificationType::className(), ['id' => 'type']);
     }
 }

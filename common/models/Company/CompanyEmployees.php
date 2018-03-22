@@ -48,8 +48,7 @@ class CompanyEmployees extends \yii\db\ActiveRecord
     {
         return [
             [['cid', 'uid'], 'required'],
-            [['cid', 'uid', 'status'], 'integer'],
-            [['created_at'], 'safe'],
+            [['cid', 'uid', 'status', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -64,6 +63,7 @@ class CompanyEmployees extends \yii\db\ActiveRecord
             'uid' => 'Uid',
             'status' => 'Status',
             'created_at' => 'Created At',
+            'updated_at'=>'Updated At',
         ];
     }
 }

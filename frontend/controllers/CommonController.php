@@ -135,9 +135,10 @@ class CommonController extends Controller
                 break;
             case 6:
                 $data = [
-                           Url::to(['/notification/index']) => Yii::t('notification','All Notification'),  
-                           Url::to(['/notification/index','type'=>1]) => Yii::t('notification','Unread'),  
-                           Url::to(['/notification/index','type'=>2]) => Yii::t('notification','Read'),  
+                           Url::to(['/notification/notic/index']) => Yii::t('notification','All Notification'),  
+                           Url::to(['/notification/notic/index','type'=>1]) => Yii::t('notification','Unread'),  
+                           Url::to(['/notification/notic/index','type'=>2]) => Yii::t('notification','Read'),
+                           Url::to(['/notification/setting/index'])=>Yii::t('notification','Setting'),
                        ];
                 break;
             default:

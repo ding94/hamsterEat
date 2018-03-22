@@ -92,10 +92,10 @@ class SelectionController extends CommonController
             $selectionName = [[new FoodSelectionName]];
         }
 
-        $array['type'] = $type;
-        $array['selection'] = $selection;
-        $array['typeName'] = $typeName;
-        $array['selectionName'] = $selectionName;
+        $array['type'] = array_values($type);
+        $array['selection'] = array_values($selection);
+        $array['typeName'] = array_values($typeName);
+        $array['selectionName'] = array_values($selectionName);
         return $array;
     }
 
@@ -125,7 +125,7 @@ class SelectionController extends CommonController
 		$selection = $data['selection'];
 		$typeName = $data['typeName'];
 		$selectionName = $data['selectionName'];
-      
+
 		$true = TypeAndStatusController::detectMinMax($post['Foodselectiontype'],$post['Foodselection']);
         if($true)
         {
@@ -138,6 +138,7 @@ class SelectionController extends CommonController
        	$isvalid = $arrayType['isvalid'] && $arraySelection['isvalid'];
        	$array = array_merge($arrayType,$arraySelection);
        	$array['isvalid'] = $isvalid;
+
        	return $array;
 	}
 	
@@ -178,28 +179,38 @@ class SelectionController extends CommonController
     	$post = Yii::$app->request->post();
     	$old = [];
     	$isvalid = true;
-  	
+        $sorting = self::sortingSelection($selection,$name);
+        $selection = $sorting['sel'];
+        $name = $sorting['name'];
+        
     	foreach ($post['Foodselection'] as $i => $select) 
     	{
     		$old = ArrayHelper::merge($old, array_filter(ArrayHelper::getColumn($select, 'ID')));
-    		$arrayData['Foodselection'] = $select;
-    		$arrayData['FoodSelectionName'] = $post['FoodSelectionName'][$i];
 
-    		if(empty($selection[$i]))
-    		{
-    			$selection[$i][] = new Foodselection;
-    			$name[$i][] = new FoodSelectionName;
-    		}
-  			$newSel[$i] = Model::createMultiple(Foodselection::classname(), $selection[$i] ,"ID",$i);
-       	
-       		$newName[$i] = Model::createMultiple(FoodSelectionName::classname(), $name[$i] ,"id",$i);
-
-        	Model::loadMultiple($newSel[$i],$arrayData);
-
-        	Model::loadMultiple($newName[$i],$arrayData);
-    		$isvalid = Model::validateMultiple($newName[$i]) && Model::validateMultiple($newSel[$i]) && $isvalid;
+            foreach($select as $k =>$value)
+            {
+                $data['Foodselection'] = $value;
+                $data['FoodSelectionName'] = $post['FoodSelectionName'][$i][$k];
+               
+                if($value['ID']== "")
+                {
+                    $tempSel = new Foodselection;
+                    $tempName = new FoodSelectionName;
+                }
+                else
+                {
+                    $tempSel = $selection[$value["ID"]];
+                    $tempName = $name[$value["ID"]];
+                }
+                $tempSel->load($data);
+                $tempName->load($data);
+                $isvalid = $tempSel->validate() && $tempName->validate() && $isvalid;
+                $newSel[$i][$k] = $tempSel;
+                $newName[$i][$k] = $tempName;
+             
+            }
     	}
-    	
+    	 
     	if (!empty($type)) 
         {
             $oldSelect = self::oldData($type,2);
@@ -229,6 +240,24 @@ class SelectionController extends CommonController
         }
         
         return $selection;
+    }
+
+    protected static function sortingSelection($selection,$name)
+    {
+        $new = array();
+        $newSel = array();
+        $newName = array();
+        foreach($selection as $i => $sel)
+        {
+            foreach($sel as $k=>$value)
+            {
+                $newSel[$value->ID] = $value;
+                $newName[$name[$i][$k]->id] = $name[$i][$k];
+            }
+        }
+        $new['sel'] = $newSel;
+        $new['name'] = $newName;
+        return $new;
     }
 
     public static function enableOff($id)

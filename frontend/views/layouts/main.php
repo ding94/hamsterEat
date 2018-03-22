@@ -46,7 +46,6 @@ NotificationAsset::register($this);
         
     </div>
     <?= Html::csrfMetaTags() ?>
-    <!--<link rel="stylesheet" href="\frontend\web\css\font-awesome.min.css">-->
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>

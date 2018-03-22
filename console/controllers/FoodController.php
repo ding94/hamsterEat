@@ -8,6 +8,6 @@ class FoodController extends Controller
 {
 	public function actionDailylimit()
 	{
-		Yii::$app->queue->delay(10)->push(new FoodLimit());
+		Yii::$app->queue->push(new FoodLimit());
 	}
 }

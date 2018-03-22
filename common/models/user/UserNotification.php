@@ -3,6 +3,7 @@
 namespace common\models\user;
 
 use Yii;
+use common\models\notic\NotificationSetting;
 
 /**
  * This is the model class for table "user_notification".

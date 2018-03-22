@@ -76,7 +76,8 @@ NotificationAsset::register($this);
         						</div>
         					</div>	
         					<?php else:
-		        				echo $form->field($value,'['.$value->id.']enable')->checkBox()->label("");
+        						$id = $value->tableSchema->name == 'notification_setting' ? $value->id : $value->setting_id;
+		        				echo $form->field($value,'['.$id.']enable')->checkBox()->label("");
 		        			endif;?>
         				</td>
         					

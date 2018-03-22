@@ -23,7 +23,7 @@ class NoticController extends Controller
                  //'only' => ['logout', 'signup','index'],
                  'rules' => [
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index','turnoff'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -71,14 +71,21 @@ class NoticController extends Controller
 		return $this->redirect(Yii::$app->request->referrer); 
 	}
 
-    public static function centerNotic($tid,$sid,$id)
+	/*
+	* passing data base on tid
+	* tid=> notification type id
+	* sid=> status id
+	* id => can be delivery id or order it
+	* uid => user id 
+	*/
+    public static function centerNotic($tid,$sid,$id,$uid)
 	{
 		switch ($tid) {
 			case 1:
-				OrderController::createUserNotic($tid,$sid,$id);
+				OrderController::createUserNotic($tid,$sid,$id,$uid);
 				break;
 			case 2:
-				OrderController::createUserNotic($tid,$sid,$id);
+				OrderController::createUserNotic($tid,$sid,$id,$uid);
 			default:
 				# code...
 				break;

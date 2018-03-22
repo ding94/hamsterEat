@@ -52,3 +52,6 @@ composer.lock
 composer.lock
 *.lock
 composer.lock
+composer.lock
+*.lock
+*.lock

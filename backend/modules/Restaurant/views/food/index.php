@@ -74,9 +74,9 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     $html = "<div class='row'><div class='col-xs-6'>";
                     $html .= $array[$model->foodStatus->Status];
                     $html .="</div><div class='col-xs-6'>";
-                    $html .=  Html::a($name,$url);
+                    $html .= 
                     $html .= "</div></div>";
-                    return $html;
+                    return $array[$model->foodStatus->Status]." | ". Html::a($name,$url);;
                 },
                  'filter' => $array,
             ],

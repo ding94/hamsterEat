@@ -146,12 +146,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
                 'value' => function($model)
                 {
-                    $html = "<div class='col-md-6'>";
-                    $html .= $model->address->name;
-                    $html .="</div><div class='col-md-6'>";
-                    $html .=  Html::a("View Address Detail",['address' ,'id'=>$model->Delivery_ID],['data-toggle'=>"modal",'data-target'=>"#addressDetail",'data-title'=>"Address Detail",]);
-                    $html .= "</div>";
-                    return $html;
+                    return Html::a($model->address->name,['address' ,'id'=>$model->Delivery_ID],['data-toggle'=>"modal",'data-target'=>"#addressDetail",'data-title'=>"Address Detail",]);;
                 },
             ],
 			[
@@ -162,12 +157,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'mergeHeader'=>true,
 				'value' => function($model)
                 {
-                	$html = "<div class='col-md-6'>";
-                	$html .= number_format($model->Orders_TotalPrice, 2, '.', '');
-                	$html .="</div><div class='col-md-6'>";
-                	$html .=  Html::a("View Price Detail",['price' ,'id'=>$model->Delivery_ID],['data-toggle'=>"modal",'data-target'=>"#orderDetail",'data-title'=>"Price Detail",]);
-                	$html .= "</div>";
-                    return $html;
+                    return Html::a(number_format($model->Orders_TotalPrice, 2, '.', ''),['price' ,'id'=>$model->Delivery_ID],['data-toggle'=>"modal",'data-target'=>"#orderDetail",'data-title'=>"Price Detail",]);
                 },
               
 			],

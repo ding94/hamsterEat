@@ -199,7 +199,7 @@ class DefaultController extends CommonController
         $resname = CommonController::getRestaurantName($rid);
         $language = Yii::$app->request->cookies->getValue('language');
 
-        return $this->render('restaurantdetailsnew',['id'=>$id,'resname'=>$resname, 'allfood'=>$allfood, 'rid'=>$rid,'allfoodtype'=>$allfoodtype]);
+        return $this->render('restaurantdetailstest',['id'=>$id,'resname'=>$resname, 'allfood'=>$allfood, 'rid'=>$rid,'allfoodtype'=>$allfoodtype]);
     }
 
 //--This function captures the new restaurant's area group based on the entered postcode and area

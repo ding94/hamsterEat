@@ -328,6 +328,7 @@ div.userprofile-input{margin: 0px 0px 55px 0px;}
  
   align-items: stretch;
 }
+
 .nav-default >li { 
   display: inline-block; 
   width: 100%;
@@ -348,8 +349,6 @@ div.userprofile-input{margin: 0px 0px 55px 0px;}
   list-style-position:inside;
   margin-bottom: 0px;
 }
-
-
 
 #nav > li:first-child.active{
    border-left:1px solid #FFDA00;

@@ -66,7 +66,7 @@ if (parseInt(window.innerWidth)<768) {
     $(document).on("click", function () {
         $(".filter").slideUp(500);
     });
-    // $('#bottom-navbar').on("click", function () {
+    // $('.outer-container').on("click", function () {
     //     $(".filter").hide();
     // });
 }

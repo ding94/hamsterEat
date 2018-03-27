@@ -187,7 +187,18 @@ if (empty($language)) {
     NavBar::end();
     ?>
 </div>
-
+<div class="inital-chat-container">
+        <div class="chat-container">
+            <div class="minified-box">
+               <div class="chat-indicator"></div>
+               <div class="minified-wrapper">
+                   <div class="chat-text-container">
+                       <?php echo Html::a('<i class="fa fa-comments" aria-hidden="true"></i>','https://tawk.to/chat/5ab860194b401e45400e0a00/1c9g3hsq7/?$_tawk_popout=true',['target'=>'_blank','class'=>'status-icon']);?>
+                   </div>
+               </div>
+            </div>
+        </div>
+    </div>
 <nav id="bottom-navbar">
             <div>
                 <ul>

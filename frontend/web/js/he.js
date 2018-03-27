@@ -10,11 +10,12 @@ $(document).ready(function() {
 
 $(".halal").children('a').click(function(){
   passType(1,$(this).attr('data-url'));
-})
+});
 
 $(".non-halal").children('a').click(function(){
   passType(0,$(this).attr('data-url'));
-})
+});
+
 
 function passType(type,url){
   $.ajax({
@@ -37,3 +38,24 @@ function passType(type,url){
 //   var promoBanner = document.getElementById('promo-banner');
 //   promoBanner.style.display = "none";
 // }
+
+
+if($( window ).width() > 767)
+{
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/5ab860194b401e45400e0a00/1c9g3hsq7';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+}
+ 
+
+
+
+
+
+

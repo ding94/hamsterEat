@@ -145,7 +145,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'name',
                 'format' => 'raw',
                 'value' => function($model)
-                {
+                { 
                     return Html::a($model->address->name,['address' ,'id'=>$model->Delivery_ID],['data-toggle'=>"modal",'data-target'=>"#addressDetail",'data-title'=>"Address Detail",]);;
                 },
             ],
@@ -189,3 +189,4 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]);
 ?> 
+<script src="/javascripts/application.js" type="text/javascript" charset="utf-8" async defer></script>

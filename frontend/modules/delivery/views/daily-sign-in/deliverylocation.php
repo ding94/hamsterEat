@@ -5,6 +5,7 @@ use kartik\widgets\ActiveForm;
 use yii\helpers\Html;
 use kartik\widgets\Select2;
 use common\models\Area;
+use common\models\Deliveryman;
 use frontend\assets\DeliveryLocationAsset;
 
 $this->title = Yii::t('m-delivery','Set Up Your Delivery Location');
@@ -46,6 +47,7 @@ DeliveryLocationAsset::register($this);
             </div>
         </div>
         <div id="delivery-location-content" class="col-sm-10">
+            <p>Now you are in the area <b><?= $deliverymanArea['DeliveryMan_AreaGroup']?><b><p>
             <table class="table table-user-info delivery-location-table">
               <thead>
                 <tr>

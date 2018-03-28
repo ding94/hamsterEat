@@ -58,7 +58,19 @@ Modal::end() ?>
             [
                 'attribute' => 'deliverymancompany.uid',
                 'label' => 'Deliveryman',
-                'value' => function($model){return User::find()->where('id=:id',[':id'=>$model['deliverymancompany']['uid']])->one()->username;},
+                'value' => function($model){
+                    if(is_null($model->deliverymancompany))
+                    {
+                        $username = "Not Delivery Man";
+                    }
+                    else
+                    {
+                         $user = User::find()->where('id=:id',[':id'=>$model['deliverymancompany']['uid']])->one();
+                         $username = $user->username;
+                    }
+                   
+                    return $username;
+                },
             ],
 
             ['class' => 'yii\grid\ActionColumn' ,

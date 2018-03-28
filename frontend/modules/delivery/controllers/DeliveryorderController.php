@@ -245,9 +245,8 @@ class DeliveryorderController extends CommonController
         {
             return false;
         }
-        
+         
     }
-
     protected static function singlePickup($oid,$did)
     {
     	$updateOrder = false;

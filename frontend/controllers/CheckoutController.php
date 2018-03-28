@@ -20,6 +20,7 @@ use common\models\Order\DeliveryAddress;
 use common\models\food\{Foodselection,Foodstatus};
 use common\models\user\Useraddress;
 use common\models\Company\Company;
+use common\models\Company\CompanyEmployees;
 use common\models\DeliverymanCompany;
 use common\models\Area;
 use common\models\User;
@@ -71,12 +72,28 @@ class CheckoutController extends CommonController
 
 		if($early == false)
 		{
-			Yii::$app->session->setFlash('error', Yii::t('checkout','The allowed time to place order is over. Please place your order in between 8am and 11am daily.'));
+			Yii::$app->session->setFlash('error', Yii::t('checkout','.'));
 			  return $this->redirect(Yii::$app->request->referrer);
 		}
         
-        $company = Company::find()->where('area_group = :group',[':group'=>$cartData['area']])->all();
-        $companymap = ArrayHelper::map($company,'id','name');
+    
+        
+        $userexist = CompanyEmployees::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->all();
+        
+
+        $companymap = array();
+
+       	foreach ($userexist as $key => $value) {
+       		  $company = Company::findOne($value->cid);
+       		  $companymap[$value['cid']] = $company->name;
+       		  
+       	}
+    	if(empty($companymap))
+    	{
+    		Yii::$app->session->setFlash('error', Yii::t('checkout','You do not belong to any company.'));
+    		return $this->redirect(['cart/view-cart']);
+   		}
+	
        	$user = Userdetails::find()->where('User_id=:uid',[':uid'=>Yii::$app->user->identity->id])->one();
 
        	$username = "";
@@ -92,7 +109,7 @@ class CheckoutController extends CommonController
         $deliveryAddress = new DeliveryAddress;
 		//$address = Useraddress::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->orderBy('level DESC')->all();
 		//$addressmap = ArrayHelper::map($address,'id','address');
-		return $this->render('index',['deliveryaddress'=>$deliveryAddress, 'order'=>$order, 'username'=>$username, 'contact'=>$contact, 'companymap'=>$companymap]);
+		return $this->render('index',['deliveryaddress'=>$deliveryAddress, 'order'=>$order, 'username'=>$username, 'contact'=>$contact, 'companymap'=>$companymap,'userexist'=>$userexist]);
 	}
 
 	public function actionProcess()
@@ -276,7 +293,7 @@ class CheckoutController extends CommonController
             }
 		}
 
-		//Yii::$app->session->setFlash('warning', "Order Fail. Please Try Again Later");
+		Yii::$app->session->setFlash('warning', "Order Fail. Please Try Again Later");
         return $this->redirect(Yii::$app->request->referrer);
 	}
 

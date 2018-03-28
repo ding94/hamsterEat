@@ -232,7 +232,9 @@ class DailySignInController extends CommonController
 			//  Yii::$app->db->createCommand($sql)->execute();
 		}
 
-        return $this->render('deliverylocation', ['postcode'=>$postcode,'area'=>$area,'postcodeArray'=>$postcodeArray,'find'=>$find,'link'=>$link]);
+        $deliverymanArea=Deliveryman::find()->where('User_id = :User_id',[':User_id'=> Yii::$app->user->identity->id])->one(); 
+
+        return $this->render('deliverylocation', ['postcode'=>$postcode,'area'=>$area,'postcodeArray'=>$postcodeArray,'find'=>$find,'link'=>$link,' deliverymanArea', $deliverymanArea]);
     }
 }
 

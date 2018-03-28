@@ -18,7 +18,7 @@ class RestaurantOrdersHistoryAsset extends AssetBundle
         'css/button.css',
     ];
     public $js = [
-        // 'js/cart.js',
+        'js/cart.js',
 		'js/scrolltop.js',
     ];
     public $depends = [

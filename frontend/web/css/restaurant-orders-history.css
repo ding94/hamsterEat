@@ -19,6 +19,9 @@
 
 .border{
   border: 1px solid black;
+  padding-left: 15px;
+  padding-right: 15px;  
+  margin-top: 30px;
 
 }
 

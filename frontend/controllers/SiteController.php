@@ -252,7 +252,7 @@ class SiteController extends CommonController
                     if (Yii::$app->getUser()->login($user)) {
 
                         Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
-                        return $this->redirect('validation');
+                        return $this->redirect(['/site/validation']);
                     }
                 }
                 else{
@@ -280,7 +280,7 @@ class SiteController extends CommonController
                 } else{
                     Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
                 }
-                return $this->redirect('validation');
+                return $this->redirect(['/site/validation']);
     }
 
     public function actionConfirm()
@@ -316,7 +316,7 @@ class SiteController extends CommonController
                 
                 Yii::$app->getSession()->setFlash('success','Success!');
                 Yii::$app->getUser()->login($user);
-                return $this->redirect(['user/user-profile']);
+                return $this->redirect(['/user/user-profile']);
             }
             else
             {

@@ -61,11 +61,13 @@ class DefaultController extends CommonController
         $model = new RestaurantName();
         $resname['en'] ='en';
         $resname['zh'] ='zh';
-        $value = '';
+        $value = array();
+		
         foreach ($resname as $lan => $name) {
             $data = RestaurantName::find()->where('rid=:rid',[':rid'=>$rid])->andWhere(['=','language',$name])->one();
+			
             if (!empty($data)) {
-                $value[$name] = $data['translation'];
+                $value[$name] = $data->translation;
             }
             else{
                 $value[$name] = '';

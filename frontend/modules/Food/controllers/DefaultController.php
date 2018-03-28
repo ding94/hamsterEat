@@ -118,7 +118,7 @@ class DefaultController extends CommonController
     		if($data['valid'])
     		{
     			Yii::$app->session->setFlash('success',Yii::t('cart','Success!'));
-
+				
     			if($newData)
     			{
                     

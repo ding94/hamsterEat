@@ -60,12 +60,12 @@ CheckoutAsset::register($this);
         </div>
         <?php $form = ActiveForm::begin(['id' => 'checkout','action' => ['/checkout/order']]); ?>
         <div class="cart-detail">
-         
             <div class="company">
               <h3><?= Yii::t('checkout','Company Address') ?></h3>
+            
               <?= $form->field($deliveryaddress,'cid')->dropDownList($companymap,[ 'prompt' => ' -- Select Company --'])->label(false);?>
             </div>
-        
+     
             <div class="cart-content">
                 <h3><?= Yii::t('checkout','Receiver') ?></h3>
                 <div class="row">

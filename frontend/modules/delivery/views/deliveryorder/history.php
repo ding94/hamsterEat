@@ -49,8 +49,13 @@ DeliverymanOrdersHistoryAsset::register($this);
             </div>
         </div>
         <div id="deliveryman-orders-history-content" class="col-sm-10">
+
+            <div class="col-md-12 margin-bottom">
+                <?= Html::button(Yii::t('common','Search'),['class' => 'btn-block raised-btn ','onclick'=>'showSearchbox()']) ?>
+            </div>
+            <br>
             <?php $form = ActiveForm::begin(['method' => 'get','action'=>['history']]); ?>
-                <div class="search-border">
+                <div class="search-border" id="search-box" style="display:none;">
                     <label class="control-label"><?= Yii::t('m-restaurant','Search Data')?></label>
                     <div class="row">
                         <div class="col-sm-6">

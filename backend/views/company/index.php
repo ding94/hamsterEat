@@ -59,10 +59,12 @@ Modal::end() ?>
                 'attribute' => 'deliverymancompany.uid',
                 'label' => 'Deliveryman',
                 'value' => function($model){
+
                     $user = User::find()->where('id=:id',[':id'=>$model['deliverymancompany']['uid']])->one();
                     $name = empty($user) ? "Not Deliveryman Assign Yet": $user->username;
                   
                     return $name;
+
                 },
             ],
 

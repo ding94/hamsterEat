@@ -237,11 +237,15 @@ class DefaultController extends CommonController
                 $post = Yii::$app->request->post();
                 $restaurant['Restaurant_Name'] = $post['RestaurantName']['en_name'];
                 $upload->imageFile =  UploadedFile::getInstance($restaurant, 'Restaurant_RestaurantPicPath');
-                $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
-
-                $upload->upload(Yii::$app->params['restaurant']);
-
-                $restaurant->Restaurant_RestaurantPicPath = $upload->imageFile->name;
+                 
+                if(!is_null($upload->imageFile))
+                {
+                    $upload->imageFile->name = time().'.'.$upload->imageFile->extension;
+                    $upload->upload(Yii::$app->params['restaurant']);
+                    $restaurant->Restaurant_RestaurantPicPath = $upload->imageFile->name;
+                }
+               
+              
                 $restaurant->Restaurant_Manager=Yii::$app->user->identity->username;
 
                 $restaurant->Restaurant_AreaGroup = $restArea;
@@ -253,6 +257,7 @@ class DefaultController extends CommonController
 
                 if ($restaurant->validate()) {
                     $restaurant->save();
+                   
                     foreach ($post['RestaurantName'] as $l => $val) {
                         $resname = new RestaurantName;
                         if ($l == "zh_name") {

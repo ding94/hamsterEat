@@ -81,20 +81,24 @@ class SignupForm extends Model
             $user->generateAuthKey();
             $user->save(false);
         }
-        
-        
-        if($this->type == 2){
-            $auth = \Yii::$app->authManager;
-            $authorRole = $auth->getRole('rider');
-            $auth->assign($authorRole, $user->getId());
+		
+        if($user->save())
+		{
+			if($this->type == 2){
+			$auth = \Yii::$app->authManager;
+			$authorRole = $auth->getRole('rider');
+			$auth->assign($authorRole, $user->getId());
+			} 
+			else if($this->type == 1)
+			{     
+				$auth = \Yii::$app->authManager;
+				$authorRole = $auth->getRole('restaurant manager');
+				$auth->assign($authorRole, $user->getId());
+			}
         }
-        else if($this->type == 1)
-        {     
-            $auth = \Yii::$app->authManager;
-            $authorRole = $auth->getRole('restaurant manager');
-            $auth->assign($authorRole, $user->getId());
-        }
+       
         
-        return $user->save() ? $user : null;
+        
+        return $user ? $user : null;
     }
 }

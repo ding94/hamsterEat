@@ -77,4 +77,3 @@ UserAsset::register($this);
         </div>
     </div>
 </div>
-</div>

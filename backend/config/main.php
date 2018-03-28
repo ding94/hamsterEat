@@ -7,11 +7,11 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-backend',
+    'id' => 'hamster-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    
+    'name' => 'Hamster Eat Backend',
     'modules' => [
         'finance' => [
             'class' => 'app\modules\finance\finance',

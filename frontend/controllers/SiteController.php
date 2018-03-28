@@ -9,10 +9,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
-use frontend\models\PasswordResetRequestForm;
-use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
-use frontend\models\ContactForm;
+use frontend\models\{PasswordResetRequestForm,ResetPasswordForm,SignupForm,ContactForm};
 use common\models\Rmanager;
 use common\models\Deliveryman;
 use common\models\User;
@@ -31,10 +28,6 @@ use common\models\Expansion;
 use common\models\Feedback;
 use common\models\Feedbackcategory;
 use common\models\Upload;
-use common\models\food\Food;
-use common\models\food\FoodName;
-use common\models\food\FoodSelectionName;
-use common\models\food\FoodSelectiontypeName;
 use yii\web\UploadedFile;
 /**
  * Site controller
@@ -426,36 +419,47 @@ class SiteController extends CommonController
     }
     
     public function actionDeliveryman(){
-         $model = new SignupForm();
-         $model1 = new Deliveryman();
-
-         if ($model->load(Yii::$app->request->post()) &&  $model1->load(Yii::$app->request->post())) {
-         
+        $model = new SignupForm();
+        $model1 = new Deliveryman();
+        $model1->scenario = "new";
+        $data = Area::find()->all();
+        $areaGroup = ArrayHelper::map($data,'Area_ID','Area_Group');
+        $area = ArrayHelper::map($data,'Area_ID','Area_Area');
+     
+        if ($model->load(Yii::$app->request->post()) &&  $model1->load(Yii::$app->request->post())) 
+        {
+            $model1->DeliveryMan_DateTimeApplied = time();
             $model->type = 2;
-            
-            if ($user = $model->signup()) {
+
+            if(array_key_exists($model1->aid, $areaGroup))
+            {
+                $model1->DeliveryMan_AreaGroup = $areaGroup[$model1->aid];
+            }
+           
+            if ($model1->validate() && $user = $model->signup()) 
+            {
                 $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
                     ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
                 ->setTo($user->email)
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setSubject('Signup Confirmation')
                 ->send();
-                if($email){
-                    if (Yii::$app->getUser()->login($user)) {
+                if($email)
+                {
+                    if (Yii::$app->getUser()->login($user)) 
+                    {
                         $model1->User_id=$user->id;
                         $model1->save();
                         Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
-                        return $this->redirect('validation');
+                        return $this->redirect(['validation']);
                     }
                 }
-                else{
-                Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
-                }
-                return $this->goHome();
-                }
             }
-        
-          return $this->render('deliveryman',['model1'=>$model1,'model'=>$model]);
+            Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
+            return $this->goHome();  
+        }
+
+        return $this->render('deliveryman',['model1'=>$model1,'model'=>$model,'area'=>$area]);
     }
 	public function actionRuser()
     {

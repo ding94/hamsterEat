@@ -503,7 +503,7 @@ class CheckoutController extends CommonController
         $allData ="" ;
         foreach ($data as $id)
         {
-            $sql = Deliveryman::findOne($id);    
+            $sql = Deliveryman::find()->where('User_id = :uid and DeliveryMan_Approval = 1',[':uid'=>$id]);    
             $allData[] = $sql;
         }
             

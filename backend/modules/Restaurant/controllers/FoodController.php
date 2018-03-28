@@ -157,7 +157,7 @@ Class FoodController extends CommonController
             $month = date('Y-n',strtotime('this year'));
         }
         $explodemonth = explode("-",$month);
-        $food = Food::find()->asArray()->all();
+        $food = Food::find()->all();
 
         $months = CommonController::getYear($explodemonth[0]);
         $startend = CommonController::getStartEnd($explodemonth[0]);
@@ -243,19 +243,20 @@ Class FoodController extends CommonController
     public static function countFoodSold($food,$start,$end)
     {
         foreach ($food as $key => $value) {
-            $food_array = ['id'=>(int)$value['Food_ID'],'name'=>$value['Name']];
+          
+            $food_array = ['id'=>(int)$value['Food_ID'],'name'=>$value['originName']];
             $json_food = Json::encode($food_array);
              
             $model = RestaurantItemProfit::find()->where('fid = :fid',[':fid'=>$json_food])->andWhere(['between','created_at',$start,$end])->asArray()->all();
             $modelcount = 0;
             if(empty($model)){
                 $modelcount = 0;
-                $data[$value['Name']] = $modelcount;
+                $data[$value['originName']] = $modelcount;
             } else {
                 foreach ($model as $k => $v) {
                     $modelcount+= $v['quantity'];
                 }
-                $data[$value['Name']] = $modelcount;
+                $data[$value['originName']] = $modelcount;
             }
         }
         arsort($data);

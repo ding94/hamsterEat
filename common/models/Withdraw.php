@@ -34,20 +34,6 @@ class Withdraw extends \yii\db\ActiveRecord
         return 'withdraw';
     }
 
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-            'timestamp' => [
-                'class' => 'yii\behaviors\TimestampBehavior',
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at','updated_at'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
-                ],
-            ],   
-        ];
-    }
-
     /**
      * @inheritdoc
      */
@@ -59,10 +45,10 @@ class Withdraw extends \yii\db\ActiveRecord
             [['acc_name'],'required','message'=>Yii::t('withdraw','Account Name').Yii::t('common',' cannot be blank.')],
             [['to_bank'],'required','message'=>Yii::t('topup','Bank Account Number').Yii::t('common',' cannot be blank.')],
             [['reason','accounttopup_status.title', 'inCharge'], 'string'],
-            [['created_at','updated_at','uid', 'action','to_bank'], 'integer'],
+            [['uid', 'action','to_bank'], 'integer'],
             [['withdraw_amount'], 'number','min'=>1],
             [['bank_name', 'from_bank'], 'string', 'max' => 255],	
-			[['bank.Bank_Name'],'safe'],
+			[['bank.Bank_Name','created_at','updated_at',],'safe'],
         ];
     }
 

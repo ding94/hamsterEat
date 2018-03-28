@@ -20,6 +20,7 @@ use Yii;
  */
 class Deliveryman extends \yii\db\ActiveRecord
 {
+    public $aid;
     /**
      * @inheritdoc
      */
@@ -34,7 +35,8 @@ class Deliveryman extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['User_id', 'DeliveryMan_CarPlate', 'DeliveryMan_LicenseNo', 'DeliveryMan_AreaGroup', 'DeliveryMan_VehicleType', 'DeliveryMan_DateTimeApplied'], 'required'],
+            [['DeliveryMan_CarPlate', 'DeliveryMan_LicenseNo', 'DeliveryMan_AreaGroup', 'DeliveryMan_VehicleType', 'DeliveryMan_DateTimeApplied'], 'required'],
+            ['aid','required','on'=>'new'],
             [['User_id','DeliveryMan_LicenseNo', 'DeliveryMan_Approval', 'DeliveryMan_Assignment', 'DeliveryMan_AreaGroup', 'DeliveryMan_DateTimeApplied', 'DeliveryMan_DateTimeApproved'], 'integer'],
             [['DeliveryMan_CarPlate', 'DeliveryMan_VehicleType'], 'string', 'max' => 255],
             [['User_id'], 'unique'],
@@ -56,11 +58,12 @@ class Deliveryman extends \yii\db\ActiveRecord
             'DeliveryMan_VehicleType' => 'Delivery Man  Vehicle Type',
             'DeliveryMan_DateTimeApplied' => 'Delivery Man  Date Time Applied',
             'DeliveryMan_DateTimeApproved' => 'Delivery Man  Date Time Approved',
+            'aid'=> "Area",
         ];
     }
 
     public function getUser()
     {
-        return $this->hasOne(User::className(),'User_id','id');
+        return $this->hasOne(User::className(),['id'=>'User_id']);
     }
 }

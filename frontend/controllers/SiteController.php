@@ -91,6 +91,10 @@ class SiteController extends CommonController
     public function actions()
     {
         return [
+            'auth' => [
+              'class' => 'yii\authclient\AuthAction',
+              'successCallback' => [$this, 'oAuthSuccess'],
+            ],
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
@@ -719,5 +723,63 @@ class SiteController extends CommonController
         ]);
         \Yii::$app->getResponse()->getCookies()->add($cookie);
         return true;
+    }
+
+    public function oAuthSuccess($client)
+    {
+       $attributes = $client->getUserAttributes();
+
+        /** @var Auth $auth */
+        $auth = AuthFb::find()->where([
+            'source' => $client->getId(),
+            'source_id' => $attributes['id'],
+        ])->one();
+
+        if (Yii::$app->user->isGuest) {
+            if ($auth) { // login
+                $user = User::find()->where(['id' => $auth->user_id])->one();
+                Yii::$app->user->login($user);
+                $this->successUrl = Url::to(['index']);
+            } else { // signup
+                if (User::find()->where(['email' => $attributes['email']])->exists()) {
+                    Yii::$app->getSession()->setFlash('error', [
+                        Yii::t('app', "User with the same email as in {client} account already exists but isn't linked to it. Login using email first to link it.", ['client' => $client->getTitle()]),
+                    ]);
+                } else {
+                    $user = new User([
+                        'username' => $attributes['name'],
+                        'email' => $attributes['email'],
+                    ]);
+                    $user->generateAuthKey();
+                    $transaction = $user->getDb()->beginTransaction();
+                    if ($user->save()) {
+                        $auth = new AuthFb([
+                            'user_id' => $user->id,
+                            'source' => $client->getId(),
+                            'source_id' => (string)$attributes['id'],
+                        ]);
+                        $balance = self::newBalance($user);
+                        if ($auth->save() && $balance->save()) {
+                            $transaction->commit();
+                            Yii::$app->user->login($user);
+                            $this->successUrl = Url::to(['index']);
+                        } else {
+                            print_r($auth->getErrors());
+                        }
+                    } else {
+                        print_r($user->getErrors());
+                    }
+                }
+            }
+        } else { // user already logged in
+            if (!$auth) { // add auth provider
+                $auth = new AuthFb([
+                    'user_id' => Yii::$app->user->id,
+                    'source' => $client->getId(),
+                    'source_id' => $attributes['id'],
+                ]);
+                $auth->save();
+            }
+        }
     }
 }

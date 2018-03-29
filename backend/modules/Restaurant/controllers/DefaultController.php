@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
 use backend\models\RestaurantSearch;
+use backend\models\RmanagerSearch;
 use common\models\Area;
 use common\models\User;
 use common\models\Rmanager;
@@ -59,7 +60,7 @@ class DefaultController extends CommonController
 
     public function actionRmanager_approval()
     {
-        $searchModel = new Rmanager();
+        $searchModel = new RmanagerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('rmanager-approval',['model' => $dataProvider , 'searchModel' => $searchModel]);

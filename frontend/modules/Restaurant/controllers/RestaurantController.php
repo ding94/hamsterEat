@@ -154,7 +154,7 @@ class RestaurantController extends CommonController
             if($single->address->type == 1 && $single->address->cid > 0)
             {
                 $companyName = Company::findOne($single->address->cid)->name;
-                $foodName = $single->food->originName;
+                $foodName = $single->food->cookieName;
                 $empty = json_encode(['empty'=>['name'=>'N/A','nick'=>'N/A']]);
 
                 $selectionName = empty(Json::decode($single->trim_selection)) ? $empty : $single->trim_selection;
@@ -163,7 +163,7 @@ class RestaurantController extends CommonController
                 $companyData[$companyName][$foodName]['nickname'] = $single->food->Nickname;
                 $companyData[$companyName][$foodName][$selectionName]['orderid'][$single->Order_ID]['remark'] = "";
             
-                if(!array_key_exists('quantity',$companyData[$companyName][$single->food->originName][$selectionName]))
+                if(!array_key_exists('quantity',$companyData[$companyName][$single->food->cookieName][$selectionName]))
                 {
                     $companyData[$companyName][$foodName][$selectionName]['quantity'] = 0;
                 }
@@ -180,7 +180,7 @@ class RestaurantController extends CommonController
             else
             {
                 $did = $single->Delivery_ID;
-                $singleData[$did]['foodname'] = $single->food->Name;
+                $singleData[$did]['foodname'] = $single->food->cookieName;
                 $singleData[$did]['nickname'] = $single->food->Nickname;
                 $singleData[$did]['quantity'] = $single->OrderItem_Quantity;
                 $singleData[$did]['selection'] = Json::decode($single->trim_selection);

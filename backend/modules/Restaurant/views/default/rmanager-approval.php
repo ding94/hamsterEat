@@ -29,7 +29,7 @@ use yii\bootstrap\Modal;
             ],
             [
                 'attribute' =>'Rmanager_NRIC',
-                'filterInputOptions' => ['placeholder' => 'Search User'],
+                'filterInputOptions' => ['placeholder' => 'Search NRIC'],
             ], 
             [
                 'attribute' => 'Rmanager_DateTimeApplied',

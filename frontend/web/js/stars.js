@@ -56,10 +56,11 @@ function emoticon($percent){
 }
 
 function loadSvg(selector, url) {
+    var path = $('.ratingdiv').attr('data-path');
     var target = document.querySelector(selector);
     // Request the SVG file
     var ajax = new XMLHttpRequest();
-    ajax.open("GET", "imageLocation/" + url + ".svg", true);
+    ajax.open("GET", path + "/imageLocation/" + url + ".svg", true);
     ajax.send();
 
     // Append the SVG to the target

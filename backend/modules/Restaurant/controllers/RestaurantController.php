@@ -90,13 +90,13 @@ class RestaurantController extends CommonController
     public function actionChangeOperation($id,$case)
     {
         $model = self::findModel($id);
-
+        
         switch ($case) {
             case 1:
-                $model['Restaurant_Status'] = 'Closed';
+                $model['Restaurant_Status'] = 3;
                 break;
             case 2:
-                $model['Restaurant_Status'] = 'Operating';
+                $model['Restaurant_Status'] = 2;
                 break;
             default:
                 break;

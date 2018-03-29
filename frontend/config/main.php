@@ -32,6 +32,23 @@ return [
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        'authClientCollection' => [
+          'class' => 'yii\authclient\Collection',
+          'clients' => [
+            'facebook' => [
+              'class' => 'yii\authclient\clients\Facebook',
+              'authUrl' => 'https://www.facebook.com/dialog/oauth?display=popup',
+              'clientId' => '841042482745737',
+              'clientSecret' => '8cdd1cad773e5e47d4dd52c96453695c',
+              'attributeNames' => ['name', 'email', 'first_name', 'last_name'],
+            ],
+            // 'google' =>[
+            //     'class' => 'yii\authclient\clients\Google',
+            //     'clientId' => '138417018765-oct3tthrjhdinu2hgdck3fqm9e5uo869.apps.googleusercontent.com',
+            //     'clientSecret' => 'HkseF_IGtMju85GJcaYb3eDH',
+            // ],
+      ],
+  ],
         'i18n' => [
             'translations' => [
                 'common' => ['class' => 'common\translation\DbSentencesTranslate',],

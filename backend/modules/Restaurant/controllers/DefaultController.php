@@ -57,6 +57,26 @@ class DefaultController extends CommonController
         return $this->render('rmanager-approval',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
 
+    public function actionClose($id)
+    {
+        $restaurant = Restaurant::find()->where('restaurant.Restaurant_ID=:id',[':id'=>$id])->joinWith(['food'])->one();
+        $restaurant['Restaurant_Status'] = 4;
+        foreach ($restaurant['food'] as $k => $food) {
+            if (!empty($food['foodStatus'])) {
+                $food['foodStatus']['Status'] = 0;
+                $food['foodStatus']->save(false);
+            }
+        }
+        if ($restaurant->validate()) {
+            $restaurant->save();
+            Yii::$app->session->setFlash('success','Restaurant and owned foods Closed!');
+        }
+        else{
+            Yii::$app->session->setFlash('warning','Close failed!');
+        }
+        return $this->redirect(['/restaurant/default/index']);
+    }
+
     public function actionEditRestaurantDetails($rid)
     {
         $model = new RestaurantName();

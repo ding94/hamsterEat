@@ -28,7 +28,7 @@ class StatisticsController extends CommonController
 		$ts_last = strtotime($last);
 
 		$food = Food::find()->where('Restaurant_ID=:rid',[':rid'=>$rid])->all();
-
+		$data = array();
 		foreach ($food as $key => $value) {
 			
 			$food_array = ['id'=>(int)$value['Food_ID'],'name'=>$value['originName']];

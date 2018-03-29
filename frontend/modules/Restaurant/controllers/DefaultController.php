@@ -72,14 +72,14 @@ class DefaultController extends CommonController
         $cookies = Yii::$app->request->cookies;
         $session = Yii::$app->session;
         /*$halal = $cookies->getValue('halal', 'value');
-        $query = restaurant::find()->distinct()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>'Operating'])->joinWith(['rJunction']);
+        $query = restaurant::find()->distinct()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>2])->joinWith(['rJunction']);
         if(empty($halal) || $halal['value'] == 0)
         {
             $query->andWhere('Type_ID =  24');
         }*/
         $halal = $cookies->getValue('halal');
        
-        $query = restaurant::find()->distinct()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $session['group'], ':status'=>'Operating'])->joinWith(['rJunction']);
+        $query = restaurant::find()->distinct()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $session['group'], ':status'=>2])->joinWith(['rJunction']);
         
         if(!empty($halal) || $halal == 1)
         {
@@ -166,7 +166,7 @@ class DefaultController extends CommonController
             $rmanager = Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one();
         }
         if (empty($rmanager)) {
-            $valid = Restaurant::find()->where('Restaurant_ID=:id AND Restaurant_Status=:s',[':id'=>$rid,':s'=>"Operating"])->one();
+            $valid = Restaurant::find()->where('Restaurant_ID=:id AND Restaurant_Status=:s',[':id'=>$rid,':s'=>2])->one();
             if (empty($valid)) {
                 Yii::$app->session->setFlash('error', Yii::t('m-restaurant','This restaurant was not valid now.'));
             }
@@ -251,7 +251,7 @@ class DefaultController extends CommonController
                 $restaurant->Restaurant_AreaGroup = $restArea;
                 $restaurant->Restaurant_Area = $areachosen;
                 $restaurant->Restaurant_DateTimeCreated = time();
-                $restaurant->Restaurant_Status = 'Under Renovation';
+                $restaurant->Restaurant_Status = 1;
                 $restaurant->Restaurant_Rating = "0";
                 $restaurant->approval = 0;
 
@@ -619,9 +619,9 @@ class DefaultController extends CommonController
     public static function updateRestaurant($rid)
     {
         $data = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
-        if($data->Restaurant_Status == 'Under Renovation')
+        if($data->Restaurant_Status == 1)
         {
-            $data->Restaurant_Status = "Operating";
+            $data->Restaurant_Status = 2;
             if($data->save())
             {
                 return true;

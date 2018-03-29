@@ -84,6 +84,14 @@ class SiteController extends CommonController
     public function actions()
     {
         return [
+            'auth' => [
+              'class' => 'yii\authclient\AuthAction',
+              'successCallback' => [$this, 'oAuthSuccess'],
+            ],
+            'link' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'linkSuccess'],
+            ],
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
@@ -723,5 +731,92 @@ class SiteController extends CommonController
         ]);
         \Yii::$app->getResponse()->getCookies()->add($cookie);
         return true;
+    }
+
+    public function oAuthSuccess($client)
+    {
+       $attributes = $client->getUserAttributes();
+
+        /** @var Auth $auth */
+        $auth = AuthFb::find()->where([
+            'source' => $client->getId(),
+            'source_id' => $attributes['id'],
+        ])->one();
+
+        if (Yii::$app->user->isGuest) {
+            if ($auth) { // login
+                $user = User::find()->where(['id' => $auth->user_id])->one();
+                Yii::$app->user->login($user);
+                Yii::$app->getSession()->setFlash('success', 'Login Successful');
+                return $this->goHome();
+            } else { // signup
+                if (User::find()->where(['email' => $attributes['email']])->exists()) {
+                    Yii::$app->getSession()->setFlash('error', [
+                        Yii::t('app', "User with the same email as in {client} account already exists but isn't linked to it. Login using email first to link it.", ['client' => $client->getTitle()]),
+                    ]);
+                } else {
+                    $user = new User([
+                        'username' => $attributes['name'],
+                        'email' => $attributes['email'],
+                    ]);
+                    $user->generateAuthKey();
+                    $transaction = $user->getDb()->beginTransaction();
+                    if ($user->save()) {
+                        $auth = new AuthFb([
+                            'user_id' => $user->id,
+                            'source' => $client->getId(),
+                            'source_id' => (string)$attributes['id'],
+                        ]);
+                        $balance = new Accountbalance;
+                        $balance->User_Username = $user['username'];
+                        $balance->User_Balance = 0; 
+                        if ($auth->save() && $balance->save()) {
+                            $transaction->commit();
+                            Yii::$app->user->login($user);
+                            $this->successUrl = Url::to(['index']);
+                        } else {
+                            print_r($auth->getErrors());
+                        }
+                    } else {
+                        print_r($user->getErrors());
+                    }
+                }
+            }
+        } else { // user already logged in
+            if (!$auth) { // add auth provider
+                $auth = new AuthFb([
+                    'user_id' => Yii::$app->user->id,
+                    'source' => $client->getId(),
+                    'source_id' => $attributes['id'],
+                ]);
+                $auth->save();
+            }
+        }
+    }
+    
+    public function linkSuccess($client)
+    {
+        $attributes = $client->getUserAttributes();
+        
+        $auth = AuthFb::find()->where([
+            'source' => $client->getId(),
+            'source_id' => $attributes['id'],
+        ])->one();
+        
+        if($auth == NULL){
+            $auth = new AuthFb([
+                'user_id' => Yii::$app->user->identity->id,
+                'source' => $client->getId(),
+                'source_id' => (string)$attributes['id'],
+            ]);
+            $auth->save();
+            if($auth->save()){
+                Yii::$app->getSession()->setFlash('success', 'Link Successful');
+            } else {
+                Yii::$app->getSession()->setFlash('danger', 'Link Unsuccessful');
+            }
+        } else {
+            Yii::$app->getSession()->setFlash('danger', 'Your account has already been link to your facebook.');
+        }
     }
 }

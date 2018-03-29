@@ -33,6 +33,20 @@ $this->title = Yii::t('common','Login');
                 <div class="forgotpassword pull-right" style="color:#999;">
                      <?= Html::a(Yii::t('site','Forgot Your Password?'), ['site/request-password-reset']) ?>.
                 </div>
+                <?php $authAuthChoice = yii\authclient\widgets\AuthChoice::begin([
+                    'options' =>['style' => 'float:right;'],
+                    'baseAuthUrl' => ['site/auth']
+                    ]); ?>
+                    <ul class="auth-clients">
+                        <?php foreach ($authAuthChoice->getClients() as $client): ?>
+                            <li><?= $authAuthChoice->clientLink($client,
+                                '<span class="fa fa-'.$client->getName().'"></span> Sign in with '.$client->getTitle(),
+                                [
+                                    'class' => 'btn btn-block btn-social btn-'.$client->getName(),
+                                    ]) ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                            <?php yii\authclient\widgets\AuthChoice::end(); ?>
 
             <?php ActiveForm::end(); ?>
 		  </div>

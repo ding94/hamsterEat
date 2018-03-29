@@ -16,6 +16,10 @@
   background-color: white
 }
 
+#userprofile .btn-facebook{
+    margin-top:10px;
+}
+
 .userprofile-header-title{
   font-size: 1.6em;
   font-weight: 500;
@@ -33,12 +37,10 @@
 }
 
 .userprofile-left{
-  height: 25em;
+  height: 30em;
   border-right: 1px solid #efefef;
   padding-top: 3em;
 }
-
-
 
 .userprofile-avatar{
   margin:20px 20px;

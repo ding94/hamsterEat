@@ -28,7 +28,7 @@ class Orderitem extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-	public $check;
+    public $check;
     public $item = [];
     public static function tableName()
     {
@@ -162,20 +162,20 @@ class Orderitem extends \yii\db\ActiveRecord
 
         foreach($data as $single)
         {
-            
-            if(empty($array[$single->FoodType_ID]))
+            $name = FoodSelection::findOne($single->Selection_ID);
+            if(!empty($name))
             {
-                $name = FoodSelectionName::findOne($single->Selection_ID);
-                
-                $array[$single->FoodType_ID]['name'] = FoodSelectionName::findOne($single->Selection_ID)->translation ;
-                $array[$single->FoodType_ID]['nick'] = Foodselection::findOne($single->Selection_ID)->Nickname ;
+                 if(empty($array[$single->FoodType_ID]))
+                {
+                    $array[$single->FoodType_ID]['name'] = $name->cookieName ;
+                    $array[$single->FoodType_ID]['nick'] = $name->Nickname ;
+                }
+                else
+                {
+                    $array[$single->FoodType_ID]['name'] .=  ",".$name->cookieName;
+                    $array[$single->FoodType_ID]['nick'] .=  ",".$name->Nickname;
+                }
             }
-            else
-            {
-                $array[$single->FoodType_ID]['name'] .=  ",".FoodSelectionName::findOne($single->Selection_ID)->translation ;
-                $array[$single->FoodType_ID]['nick'] .=  ",".Foodselection::findOne($single->Selection_ID)->Nickname ;
-            }
-            
         }
         return Json::encode($array);
     }

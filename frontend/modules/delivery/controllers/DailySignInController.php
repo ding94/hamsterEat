@@ -79,6 +79,7 @@ class DailySignInController extends CommonController
     	foreach($signData as $k=> $data)
     	{
     		$allDate = json_decode($data->day);
+            $all[] = $data->uid;
     		if($allDate->$date->result == 1)
 			{
 				$all[] = $data->uid;

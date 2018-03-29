@@ -22,6 +22,9 @@ return [
         'restaurant' => [
             'class' => 'backend\modules\Restaurant\restaurant',
         ],
+        'promotion' => [
+            'class' => 'backend\modules\Promotion\promotion',
+        ],
         'gridview' =>  [
             'class' => '\kartik\grid\Module',
             // enter optional module parameters below - only if you need to  

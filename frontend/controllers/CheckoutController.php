@@ -506,7 +506,7 @@ class CheckoutController extends CommonController
         /*$data = DailySignInController::getAllDailyRecord($area);
           
         if(empty($data))
-        {s
+        {
             Yii::$app->session->setFlash('error', 'Sorry! We have insufficient of deliveryman, please try after 10 minutes or contact our customer service for more information.');
             return -1;
         }*/
@@ -516,8 +516,13 @@ class CheckoutController extends CommonController
             $uid = $dc['uid'];
             return $uid;
         }
+        else
+        {
+        	Yii::$app->session->setFlash('error', 'Sorry! We have insufficient of deliveryman, please try after 10 minutes or contact our customer service for more information.');
+        	return  -1;
+        }
 
-        $allData ="" ;
+        /*$allData ="" ;
         foreach ($data as $id)
         {
             $sql = Deliveryman::find()->where('User_id = :uid and DeliveryMan_Approval = 1',[':uid'=>$id]);    
@@ -543,7 +548,7 @@ class CheckoutController extends CommonController
                    
             }
         }
-        return $uid;
+        return $uid;*/
             //$user = User::findOne($uid);
            
             //return $user->username;       

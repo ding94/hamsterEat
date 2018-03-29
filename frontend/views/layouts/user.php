@@ -290,7 +290,7 @@ if (empty($language)) {
                 <ul id="linklist" class="list-unstyled">
                     <li> <?php echo Html::a(Yii::t('common','Contact'),['site/contact']) ?></li>
                 </ul>
-                <p><?= Yii::t('site','Tel') ?>. 1700-818-315</p>
+                <p><?= Yii::t('site','Tel') ?>. 1700-818-360</p>
 
                 <p><?= Yii::t('common','Email') ?>. support@hamsterEat.my</p>
                 <a href="mailto:support@hamsterEat.my" target="_blank" class="raised-btn main-btn"><?= Yii::t('layouts','Email Us')?></a>

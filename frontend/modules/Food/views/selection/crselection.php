@@ -135,7 +135,7 @@ AddFoodAsset::register($this);
 
                 <?php echo Html::submitButton(Yii::t('common','Save'), ['class' => 'raised-btn main-btn', 'name' => 'insert-button']);
                     if($status == 1):
-                        echo Html::a(Yii::t('common','Skip'),['/image/create','id'=>$id,'rid'=>$rid], ['class' => 'raised-btn change-password-resize-btn', 'name' => 'insert-button']);
+                        echo Html::a(Yii::t('common','Skip'),['/Food/image/create','id'=>$id,'rid'=>$rid], ['class' => 'raised-btn change-password-resize-btn', 'name' => 'insert-button']);
                        
                     endif;
                 ?>

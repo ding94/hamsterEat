@@ -10,7 +10,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	echo GridView::widget([
 	    'dataProvider' => $model,
 	    'filterModel'=>$searchModel,
-	        'pjax' => true,
+	    'pjax' => true,
 	    'panel' => [
 	        'type' => GridView::TYPE_PRIMARY,
 	        'heading' => "SMS LOG",
@@ -43,20 +43,33 @@ $this->params['breadcrumbs'][] = $this->title;
 	    	],
 	    	[
 	    		'attribute' =>'result',
-	    		'filter' => $array['result'],
+	    		/*'filter' => $array['result'],
 				'filterType' => GridView::FILTER_SELECT2,
 				'filterWidgetOptions' => [
 				    'pluginOptions' => ['allowClear' => true],
 				],
-				'filterInputOptions' => ['placeholder' => 'Any Result'],
+				'filterInputOptions' => ['placeholder' => 'Any Result'],*/
 	    	],
 	    	'number',
 	    	[
 	    		'attribute' => 'content',
 	    		'mergeHeader'=>true,
 	    	],
-	    	
-	    	'created_at:datetime',
+	    	[
+	    		'attribute' => 'created_at',
+	    		'format' => 'datetime',
+    			'filterType' => GridView::FILTER_DATE_RANGE,
+				'filterWidgetOptions' => [
+			        'pluginOptions' => [
+			        	'locale' => [ 
+			        		'format' => 'YYYY-MM-DD',
+			        		'separator'=>' to ',
+			        	]
+			        ],
+			    ],
+			    'filterInputOptions' => ['placeholder' => 'Select Between Two Dates'],
+	    	],
+	    
 	    ],
 	]);
 ?>

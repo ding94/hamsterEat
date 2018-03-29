@@ -5,7 +5,7 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use common\models\DeliveryAttendence;
 
-class DeliverySearch extends DeliveryAttendence
+class DeliveryDailySearch extends DeliveryAttendence
 {
 	public function attributes()
     {

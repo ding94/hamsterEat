@@ -14,7 +14,7 @@ Class CommonController extends Controller
 	    $action = Yii::$app->controller->action->id;
         $module = Yii::$app->controller->module->id;
 	    
-        if($module != 'app-backend')
+        if($module != 'hamster-backend')
         {
             $permissionName = $module.'/'.$controller.'/'.$action;
         }else

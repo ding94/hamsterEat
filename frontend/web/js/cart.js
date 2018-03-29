@@ -189,6 +189,14 @@ function quantity(up,cid,url)
    document.getElementById('refresh').style.display = "block";
    document.getElementById('voucher').style.display = "none";
   }
+ function showSearchbox() {
+    var x = document.getElementById("search-box");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
 
 
 // Add no-touch class to body for mobile touch events and toggle hover class on elements that need it

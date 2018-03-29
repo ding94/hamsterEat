@@ -17,7 +17,7 @@ class DeliverymanOrdersHistoryAsset extends AssetBundle
         'css/button.css',
     ];
     public $js = [
-        // 'js/cart.js',
+        'js/cart.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

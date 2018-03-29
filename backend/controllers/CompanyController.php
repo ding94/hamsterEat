@@ -127,14 +127,13 @@ class CompanyController extends CommonController
 
     public function actionAddRider($id)
     {
-        $query = Deliveryman::find();
+        $query = Deliveryman::find()->where('DeliveryMan_Approval = 1');
         $deliveryman = array();
         foreach($query->each() as $value)
         {
             $deliveryman[$value->User_id] = User::findOne($value->User_id)->username;
-          
         }
-      
+        
         $company = DeliverymanCompany::find()->where('cid=:cid',[':cid'=>$id])->one();
         if (empty($company)) {
             $company = new DeliverymanCompany();

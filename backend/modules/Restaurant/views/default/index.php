@@ -92,12 +92,12 @@ use common\models\RestaurantName;
                 {
                     if ($model['Restaurant_Status'] != 1) {
                         if($model['Restaurant_Status'] == 2){
-                            $url =Url::to(['/restaurant/restaurant/change-operation','id' =>$model->Restaurant_ID,'case'=>1]);
+                            $case=1;
                         }
                         else{
-                            $url = Url::to(['/restaurant/restaurant/change-operation','id' =>$model->Restaurant_ID,'case'=>2]);
+                            $case=2;
                         }
-                    
+                        $url = Url::to(['/restaurant/restaurant/change-operation','id' =>$model->Restaurant_ID,'case'=>$case]);
                         return $model['Restaurant_Status'] == 3 ?  Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'Activate']) :  Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'Deactivate']);
                     }
                     return '';

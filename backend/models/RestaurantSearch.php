@@ -14,6 +14,7 @@ class RestaurantSearch extends Restaurant
 		return[
 			[['Restaurant_ID','Restaurant_Manager','Restaurant_Name','Restaurant_Status','approve','area','Restaurant_Area','Restaurant_LicenseNo','Restaurant_Rating','Restaurant_DateTimeCreated'],'safe'],
 		];
+	
 	}
 
 	public function search($params,$case = 1)
@@ -46,7 +47,7 @@ class RestaurantSearch extends Restaurant
             'Restaurant_ID' => $this->Restaurant_ID,
             'Restaurant_Status' => $this->Restaurant_Status,
             'area.Area_State' => $this->area,
-            'rmanager.Rmanager_Approval' => $this->approve,
+            'rmanager.rmanager_Approval' => $this->approve,
         ]);
 
         $query->andFilterWhere(['like','Restaurant_ID' ,$this->Restaurant_ID]);
@@ -57,7 +58,7 @@ class RestaurantSearch extends Restaurant
         $query->andFilterWhere(['like','Restaurant_LicenseNo' ,$this->Restaurant_LicenseNo]);
         $query->andFilterWhere(['like','Restaurant_Rating' ,$this->Restaurant_Rating]);
         $query->andFilterWhere(['like','FROM_UNIXTIME(Restaurant_DateTimeCreated, "%Y-%m-%d")' ,$this->Restaurant_DateTimeCreated]);
-
+        
         return $dataProvider;
 	}
 }

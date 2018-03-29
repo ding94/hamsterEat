@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use backend\models\ItemProfitSearch;
 use backend\models\RestaurantSearch;
+use backend\models\RmanagerSearch;
 use common\models\Profit\RestaurantItemProfit;
 use common\models\Restaurant;
 use common\models\Food\Food;
@@ -234,6 +235,7 @@ class RestaurantController extends CommonController
             $data[$foods['Food_ID']]['divider'] = $count;
 
         }
+        
         if (!empty($post)) {
             return $this->render('speedrating',['data'=>$data,'foodname'=>$foodname,'restaurant'=>$restaurant,'post'=>$post]);
         }

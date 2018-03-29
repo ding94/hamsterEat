@@ -346,9 +346,9 @@ NotificationAsset::register($this);
                 <h3> Yii::t('common','Follow')  |  Yii::t('common','Get in Touch') </h3>
                 <hr>
                  <center>
-                 <a target="_blank" href="https://www.facebook.com" class="btn btn-social-icon btn-facebook"><span class="fa fa-facebook"></span></a>
-                 <a target="_blank" href="https://plus.google.com" class="btn btn-social-icon btn-google"><span class="fa fa-google"></span></a>
-                 <a target="_blank" href="https://www.instagram.com" class="btn btn-social-icon btn-instagram"><span class="fa fa-instagram"></span></a>
+                 <a target="_blank" href="https://www.facebook.com" class="btn btn-social-icon btn-facebook-footer"><span class="fa fa-facebook"></span></a>
+                 <a target="_blank" href="https://plus.google.com" class="btn btn-social-icon btn-google-footer"><span class="fa fa-google"></span></a>
+                 <a target="_blank" href="https://www.instagram.com" class="btn btn-social-icon btn-instagram-footer"><span class="fa fa-instagram"></span></a>
                  </center>               
             </div> -->
 

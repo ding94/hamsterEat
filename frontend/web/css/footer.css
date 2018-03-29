@@ -60,36 +60,36 @@
   color:#ffffff;
 }
 
-.btn-facebook,.btn-google,.btn-instagram{
-	margin-right:5%;
-	margin-left:5%;
-	background-color:#fff;
-	border-radius: 50%;
+.btn-facebook-footer,.btn-google-footer,.btn-instagram-footer{
+  margin-right:5%;
+  margin-left:5%;
+  background-color:#fff;
+  border-radius: 50%;
 }
 
-.btn-facebook{
-	color:#3B5998;
+.btn-facebook-footer{
+  color:#3B5998;
 }
 
-.btn-facebook:hover{
-	background: #3B5998;
-	color: white;
+.btn-facebook-footer:hover{
+  background: #3B5998;
+  color: white;
 }
 
-.btn-google{
-	color:#DC4A38;
+.btn-google-footer{
+  color:#DC4A38;
 }
 
-.btn-google:hover{
+.btn-google-footer:hover{
     background: #DC4A38;
     color: white;
 }
 
-.btn-instagram{
-	color:#d6249f;
+.btn-instagram-footer{
+  color:#d6249f;
 }
 
-.btn-instagram:hover{
+.btn-instagram-footer:hover{
     background: #d6249f;
     color: white;
 }

@@ -51,6 +51,17 @@ UserAsset::register($this);
               <?php echo Html::img($picpath,['class'=>"userprofile-image"])?>
               <?= Html::a(Yii::t('common','Edit'), ['/user/userdetails'], ['class'=>'raised-btn btn-default userprofile-editbutton']) ?>
               <?= Html::a(Yii::t('common','Logout'), ['/site/logout'], ['class'=>'raised-btn btn-danger userprofile-logoutbutton','data-method'=>'post']) ?>
+              <?php $authAuthChoice = yii\authclient\widgets\AuthChoice::begin([
+                    'baseAuthUrl' => ['site/link'],
+                    ]); ?>
+                        <?php foreach ($authAuthChoice->getClients() as $client): ?>
+                          <?= $authAuthChoice->clientLink($client,
+                                '<span class="fa fa-'.$client->getName().'"></span> Link with '.$client->getTitle(),
+                                [
+                                    'class' => 'btn btn-block btn-social btn-'.$client->getName(),
+                                    ]) ?>
+                                <?php endforeach; ?>
+              <?php yii\authclient\widgets\AuthChoice::end(); ?>
           </div>
         </div>
         <div class="col-sm-9 userprofile-right">

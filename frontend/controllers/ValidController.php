@@ -17,7 +17,7 @@ class ValidController extends Controller
 {
 	public static function restaurantValid($id)
 	{
-		$valid = Restaurant::find()->where('Restaurant_ID=:id AND Restaurant_Status=:s',[':id'=>$id,':s'=>"Closed"])->one();
+		$valid = Restaurant::find()->where('Restaurant_ID=:id AND Restaurant_Status=:s',[':id'=>$id,':s'=>3])->one();
 		
 		if (!empty($valid)) {
 			return true;

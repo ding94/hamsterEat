@@ -114,7 +114,9 @@ class DefaultController extends CommonController
 
     	if($food->load(Yii::$app->request->post()) && $name->load(Yii::$app->request->post()) && $status->load(Yii::$app->request->post()))
     	{
-    		$data = $this->save($food,$name,$junction,$status);
+            $restaurant = Restaurant::findOne($rid);
+    		$data = $this->save($food,$name,$junction,$status,$restaurant);
+
     		if($data['valid'])
     		{
     			Yii::$app->session->setFlash('success',Yii::t('cart','Success!'));
@@ -157,7 +159,7 @@ class DefaultController extends CommonController
     	return $this->redirect(Yii::$app->request->referrer);	
     }
 
-    protected static function save($food,$name,$junction,$status)
+    protected static function save($food,$name,$junction,$status,$restaurant)
     {
     	$arrayJ = TypeAndStatusController::detectJunction($junction);
     	if($arrayJ['message'] == 0)
@@ -175,7 +177,11 @@ class DefaultController extends CommonController
         //var_dump($status);exit;
     	$name->language = "en";
     	
-	    $valid = $junction->validate() && $food->validate() && $name->validate() && $status->validate();
+        if ($restaurant['Restaurant_Status'] == 1) {
+            $restaurant['Restaurant_Status'] = 2;
+        }
+
+	    $valid = $junction->validate() && $food->validate() && $name->validate() && $status->validate() && $restaurant->validate();
 	   	$data['id'] = 0;
 
 	    if($valid)
@@ -189,7 +195,7 @@ class DefaultController extends CommonController
 	    		$name->id = $fid;
 	    		$junction->Food_ID = $fid;
 
-	    		if($name->save() && $junction->save() && $status->save())
+	    		if($name->save() && $junction->save() && $status->save() && $restaurant->save())
 	    		{
 	    			$data['id'] = $fid;
 	    			$valid = true;

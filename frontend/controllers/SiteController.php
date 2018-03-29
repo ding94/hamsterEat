@@ -28,6 +28,7 @@ use common\models\Expansion;
 use common\models\Feedback;
 use common\models\Feedbackcategory;
 use common\models\Upload;
+use common\models\AuthFb;
 use yii\web\UploadedFile;
 /**
  * Site controller
@@ -735,20 +736,48 @@ class SiteController extends CommonController
 
     public function oAuthSuccess($client)
     {
-       $attributes = $client->getUserAttributes();
+        switch ($client->getId()) {
+            case 'facebook':
+                $auth = self::fbAuth($client);
+                if($auth == true){
+                    return $this->goHome();
+                } else {
+                    Yii::$app->getSession()->setFlash('error', 'Login Failed');
+                    return $this->goHome();
+                }
+                break;
+
+            case 'google':
+                $auth = self::googleAuth($client);
+                if($auth == true){
+                    return $this->goHome();
+                } else {
+                    Yii::$app->getSession()->setFlash('error', 'Login Failed');
+                    return $this->goHome();
+                }
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+    }
+
+    private static function fbAuth($client)
+    {
+        $attributes = $client->getUserAttributes();
 
         /** @var Auth $auth */
         $auth = AuthFb::find()->where([
             'source' => $client->getId(),
             'source_id' => $attributes['id'],
         ])->one();
-
         if (Yii::$app->user->isGuest) {
             if ($auth) { // login
                 $user = User::find()->where(['id' => $auth->user_id])->one();
                 Yii::$app->user->login($user);
                 Yii::$app->getSession()->setFlash('success', 'Login Successful');
-                return $this->goHome();
+                return true;
             } else { // signup
                 if (User::find()->where(['email' => $attributes['email']])->exists()) {
                     Yii::$app->getSession()->setFlash('error', [
@@ -758,6 +787,66 @@ class SiteController extends CommonController
                     $user = new User([
                         'username' => $attributes['name'],
                         'email' => $attributes['email'],
+                    ]);
+                    $user->generateAuthKey();
+                    $transaction = $user->getDb()->beginTransaction();
+                    if ($user->save()) {
+                        $auth = new AuthFb([
+                            'user_id' => $user->id,
+                            'source' => $client->getId(),
+                            'source_id' => (string)$attributes['id'],
+                        ]);
+                        $balance = new Accountbalance;
+                        $balance->User_Username = $user['username'];
+                        $balance->User_Balance = 0; 
+                        if ($auth->save() && $balance->save()) {
+                            $transaction->commit();
+                            Yii::$app->user->login($user);
+                            $this->successUrl = Url::to(['index']);
+                        } else {
+                            print_r($auth->getErrors());
+                        }
+                    } else {
+                        print_r($user->getErrors());
+                    }
+                }
+            }
+        } else { // user already logged in
+            if (!$auth) { // add auth provider
+                $auth = new AuthFb([
+                    'user_id' => Yii::$app->user->id,
+                    'source' => $client->getId(),
+                    'source_id' => $attributes['id'],
+                ]);
+                $auth->save();
+            }
+        }
+    }
+
+    private static function googleAuth($client)
+    {
+        $attributes = $client->getUserAttributes();
+
+        /** @var Auth $auth */
+        $auth = AuthFb::find()->where([
+            'source' => $client->getId(),
+            'source_id' => $attributes['id'],
+        ])->one();
+        if (Yii::$app->user->isGuest) {
+            if ($auth) { // login
+                $user = User::find()->where(['id' => $auth->user_id])->one();
+                Yii::$app->user->login($user);
+                Yii::$app->getSession()->setFlash('success', 'Login Successful');
+                return true;
+            } else { // signup
+                if (User::find()->where(['email' => $attributes['emails'][0]['value']])->exists()) {
+                    Yii::$app->getSession()->setFlash('error', [
+                        Yii::t('app', "User with the same email as in {client} account already exists but isn't linked to it. Login using email first to link it.", ['client' => $client->getTitle()]),
+                    ]);
+                } else {
+                    $user = new User([
+                        'username' => $attributes['displayName'],
+                        'email' => $attributes['emails'][0]['value'],
                     ]);
                     $user->generateAuthKey();
                     $transaction = $user->getDb()->beginTransaction();

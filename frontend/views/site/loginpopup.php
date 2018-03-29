@@ -29,7 +29,7 @@ $this->title = Yii::t('common','Login');
                     <?php $authAuthChoice = yii\authclient\widgets\AuthChoice::begin([
                     'options' =>['style' => 'float:right;'],
                     'baseAuthUrl' => ['site/auth']
-                    ]); ?>
+                    ]);?>
                     <ul class="auth-clients">
                         <?php foreach ($authAuthChoice->getClients() as $client): ?>
                             <li><?= $authAuthChoice->clientLink($client,

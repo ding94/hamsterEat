@@ -290,7 +290,7 @@ if (empty($language)) {
                 <ul id="linklist" class="list-unstyled">
                     <li> <?php echo Html::a(Yii::t('common','Contact'),['site/contact']) ?></li>
                 </ul>
-                <p><?= Yii::t('site','Tel') ?>. 1700-818-315</p>
+                <p><?= Yii::t('site','Tel') ?>. 1700-818-360</p>
 
                 <p><?= Yii::t('common','Email') ?>. support@hamsterEat.my</p>
                 <a href="mailto:support@hamsterEat.my" target="_blank" class="raised-btn main-btn"><?= Yii::t('layouts','Email Us')?></a>
@@ -301,9 +301,9 @@ if (empty($language)) {
                 <h3> Yii::t('common','Follow')  |  Yii::t('common','Get in Touch') </h3>
                 <hr>
                  <center>
-                 <a target="_blank" href="https://www.facebook.com" class="btn btn-social-icon btn-facebook"><span class="fa fa-facebook"></span></a>
-                 <a target="_blank" href="https://plus.google.com" class="btn btn-social-icon btn-google"><span class="fa fa-google"></span></a>
-                 <a target="_blank" href="https://www.instagram.com" class="btn btn-social-icon btn-instagram"><span class="fa fa-instagram"></span></a>
+                 <a target="_blank" href="https://www.facebook.com" class="btn btn-social-icon btn-facebook-footer"><span class="fa fa-facebook"></span></a>
+                 <a target="_blank" href="https://plus.google.com" class="btn btn-social-icon btn-google-footer"><span class="fa fa-google"></span></a>
+                 <a target="_blank" href="https://www.instagram.com" class="btn btn-social-icon btn-instagram-footer"><span class="fa fa-instagram"></span></a>
                  </center>               
             </div> -->
 

@@ -1,9 +1,11 @@
 <?php
 
 namespace backend\controllers;
+
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
 use Yii;
 
 Class CommonController extends Controller

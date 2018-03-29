@@ -34,8 +34,8 @@ $this->title = Yii::t('common','About Us').' | HamsterEat.my';
       <?= Yii::t('common','About Us') ?>
     </h3>
     <p>
-      <span class="secondary-header"><?= Yii::t('site','Registered Company Name') ?>:</span>
-      SGshop Ecommerce Sdn Bhd
+      <span class="secondary-header"></span>
+      <b>SGshop Ecommerce Sdn Bhd</b>
     </p>
     <p>
       <span class="secondary-header"><?= Yii::t('common','Address') ?>:</span>
@@ -55,7 +55,7 @@ $this->title = Yii::t('common','About Us').' | HamsterEat.my';
     </h3>
     <p>
       <span class="secondary-header"><?= Yii::t('site','Customer Support Hotline') ?>:</span>
-      1700 818 315
+      1700 818 360
     </p>
     <p>
       <span class="secondary-header"><?= Yii::t('site','Customer Support Email') ?>:</span>

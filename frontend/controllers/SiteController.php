@@ -88,6 +88,10 @@ class SiteController extends CommonController
               'class' => 'yii\authclient\AuthAction',
               'successCallback' => [$this, 'oAuthSuccess'],
             ],
+            'link' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'linkSuccess'],
+            ],
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
@@ -743,7 +747,8 @@ class SiteController extends CommonController
             if ($auth) { // login
                 $user = User::find()->where(['id' => $auth->user_id])->one();
                 Yii::$app->user->login($user);
-                $this->successUrl = Url::to(['index']);
+                Yii::$app->getSession()->setFlash('success', 'Login Successful');
+                return $this->goHome();
             } else { // signup
                 if (User::find()->where(['email' => $attributes['email']])->exists()) {
                     Yii::$app->getSession()->setFlash('error', [
@@ -762,7 +767,9 @@ class SiteController extends CommonController
                             'source' => $client->getId(),
                             'source_id' => (string)$attributes['id'],
                         ]);
-                        $balance = self::newBalance($user);
+                        $balance = new Accountbalance;
+                        $balance->User_Username = $user['username'];
+                        $balance->User_Balance = 0; 
                         if ($auth->save() && $balance->save()) {
                             $transaction->commit();
                             Yii::$app->user->login($user);
@@ -784,6 +791,32 @@ class SiteController extends CommonController
                 ]);
                 $auth->save();
             }
+        }
+    }
+    
+    public function linkSuccess($client)
+    {
+        $attributes = $client->getUserAttributes();
+        
+        $auth = AuthFb::find()->where([
+            'source' => $client->getId(),
+            'source_id' => $attributes['id'],
+        ])->one();
+        
+        if($auth == NULL){
+            $auth = new AuthFb([
+                'user_id' => Yii::$app->user->identity->id,
+                'source' => $client->getId(),
+                'source_id' => (string)$attributes['id'],
+            ]);
+            $auth->save();
+            if($auth->save()){
+                Yii::$app->getSession()->setFlash('success', 'Link Successful');
+            } else {
+                Yii::$app->getSession()->setFlash('danger', 'Link Unsuccessful');
+            }
+        } else {
+            Yii::$app->getSession()->setFlash('danger', 'Your account has already been link to your facebook.');
         }
     }
 }

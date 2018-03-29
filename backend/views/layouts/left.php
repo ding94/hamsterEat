@@ -105,11 +105,12 @@
                                     ],
                         'options' => ['class' => 'active'],
                     ],
-                    [   'label' => 'Voucher Controller' , 'icon' => 'cog' ,'url' => '#',
+                    [   'label' => 'Promotion Controller' , 'icon' => 'cog' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Voucher List' ,'icon' => 'circle-o' , 'url' => ['/vouchers/index']],
                                         ['label' => 'User Voucher List' ,'icon' => 'circle-o' , 'url' => ['/uservoucher/index']],
                                         ['label' => "Special Voucher" ,'icon' => 'circle-o' , 'url' => ['/vouchers/specific']],
+                                        ['label' => "Promotion Setting" ,'icon' => 'circle-o' , 'url' => ['/promotion/setting/index']],
                                     ],
                         'options' => ['class' => 'active'],
                     ],

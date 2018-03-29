@@ -156,5 +156,15 @@ use common\models\RestaurantName;
                     },
                 ],
             ],
+
+            ['class' => 'yii\grid\ActionColumn' ,
+             'template'=>'{close}',
+             'buttons' => [
+                'close' => function($url , $model)
+                {
+                    return Html::a('Close' , $url , ['title' => 'Close Restaurant','data-confirm'=>"Close this Restaurant? Restaurant ID: ".$model->Restaurant_ID]);
+                },
+              ]
+            ],
         ]
     ]); ?>

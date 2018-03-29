@@ -29,6 +29,10 @@
 	height: 50vh;
 }
 
+#aftercheckout table{
+	margin-bottom: 0px;
+}
+
 .cart-detail{
 	width: 75%;
 	margin:auto;

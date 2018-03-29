@@ -62,7 +62,6 @@ use common\models\RestaurantName;
                 'format' => 'raw',
                 'value' => function($model)
                 {
-                   
                     return Html::a($model->Restaurant_Manager,['default/manager' ,'name'=>$model->Restaurant_Manager],['data-toggle'=>"modal",'data-target'=>"#managerDetail",'data-title'=>"Restuarant Manager Detail",]);
                 },
             ],
@@ -73,8 +72,12 @@ use common\models\RestaurantName;
                 }
             ],
             [
-                'attribute' => 'Restaurant_Status',
-                'filter' => array( "Operating"=>"Operating","Under Renovation"=>"Under Renovation"),
+                'attribute' => 'description',
+                'value' => function($model){
+                    return $model['status']['description'];
+                    //var_dump($model['restaurantStatus']);exit;
+                },
+                'filter' => array( 2=>"Operating",1=>"Under Renovation",3=>"Restaurant Pause",4=>"Restaurant Closed"),
             ],
            
             [
@@ -87,16 +90,15 @@ use common\models\RestaurantName;
                 'format' => 'raw',
                 'value' => function($model,$url)
                 {
-                    if ($model['Restaurant_Status']!='Under Renovation') {
-
-                        if($model['Restaurant_Status'] == 'Operating'){
-                            $url =Url::to(['/restaurant/restaurant/change-operation','id' =>$model->Restaurant_ID,'case'=>1]);
+                    if ($model['Restaurant_Status'] != 1) {
+                        if($model['Restaurant_Status'] == 2){
+                            $case=1;
                         }
                         else{
-                            $url = Url::to(['/restaurant/restaurant/change-operation','id' =>$model->Restaurant_ID,'case'=>2]);
+                            $case=2;
                         }
-                    
-                        return $model['Restaurant_Status'] == 'Closed' ?  Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'Activate']) :  Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'Deactivate']);
+                        $url = Url::to(['/restaurant/restaurant/change-operation','id' =>$model->Restaurant_ID,'case'=>$case]);
+                        return $model['Restaurant_Status'] == 3 ?  Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'Activate']) :  Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'Deactivate']);
                     }
                     return '';
                 },

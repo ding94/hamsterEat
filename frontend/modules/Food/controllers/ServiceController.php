@@ -50,7 +50,7 @@ class ServiceController extends CommonController
 		{
 			CommonController::restaurantPermission($rid);
 			$restaurant = RestaurantController::findModel($rid);
-			        if ($restaurant['Restaurant_Status'] == 'Closed') {
+			if ($restaurant['Restaurant_Status'] == 3) {
 	            Yii::$app->session->setFlash('error', Yii::t('m-restaurant',"Restaurant was not opening."));
 	            return $this->redirect(Yii::$app->request->referrer);
 	        }

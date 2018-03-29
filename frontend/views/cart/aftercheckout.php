@@ -46,10 +46,10 @@ CheckoutAsset::register($this);
         <div class="row">
             <div class="col-md-6 checkout-detail" >
                 <table class="table table-hover" style="font-size: 1.2em;">
-                    <tr id="no-border">
+                    <!--<tr id="no-border">
                         <td style="width: 40%;"><?=Yii::t('common','Delivery ID'); ?>:</td>
                         <td colspan="2"><?= $order['Delivery_ID']; ?></td>
-                    </tr>
+                    </tr> -->
                         <td><?=Yii::t('order','Order ID'); ?>:</td>
                         <?php $orders= ""; ?>
                         <?php foreach ($orderitem as $key => $oid): ?>

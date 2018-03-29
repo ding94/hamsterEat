@@ -46,10 +46,10 @@ class Restaurant extends \yii\db\ActiveRecord
     {
         return [
             [['Restaurant_Name', 'Restaurant_Street', 'Restaurant_UnitNo', 'Restaurant_Pricing', 'Restaurant_LicenseNo','Restaurant_AreaGroup','approval'], 'required'],
-            [['Restaurant_Postcode', 'Restaurant_Pricing', 'Restaurant_DateTimeCreated', 'Restaurant_AreaGroup','approval'], 'integer'],
+            [['Restaurant_Postcode', 'Restaurant_Pricing', 'Restaurant_DateTimeCreated', 'Restaurant_AreaGroup','Restaurant_Status','approval'], 'integer'],
             ['Restaurant_Rating','default','value'=>0],
             ['Restaurant_Rating','number'],
-            [['Restaurant_Manager', 'Restaurant_Name', 'Restaurant_RestaurantPicPath', 'Restaurant_Status', 'Restaurant_LicenseNo'], 'string', 'max' => 255],
+            [['Restaurant_Manager', 'Restaurant_Name', 'Restaurant_RestaurantPicPath','Restaurant_LicenseNo'], 'string', 'max' => 255],
             [['Restaurant_Area', 'Restaurant_Street', 'Restaurant_UnitNo'], 'string', 'max' => 50],
             [['timestart','timeend'],'date'],
         ];
@@ -77,7 +77,6 @@ class Restaurant extends \yii\db\ActiveRecord
             'Restaurant_AreaGroup' => 'Restaurant  Area Group',
         ];
     }
-
     public function getArea()
     {
         return $this->hasOne(Area::className(),['Area_ID' => 'Restaurant_AreaGroup']);
@@ -96,6 +95,11 @@ class Restaurant extends \yii\db\ActiveRecord
     public function getRestaurantType()
     {
         return $this->hasMany(Restauranttype::className(), ['ID'=>'Type_ID'])->viaTable('restauranttypejunction', ['Restaurant_ID'=>'Restaurant_ID']);
+    }
+
+    public function getStatus()
+    {
+        return $this->hasOne(RestaurantStatus::className(), ['id'=>'Restaurant_Status']);
     }
 
     public function getRJunction()

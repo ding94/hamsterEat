@@ -89,7 +89,7 @@ class RestaurantController extends CommonController
         CommonController::restaurantPermission($id);
         $restaurant = self::findModel($id);
 
-        $restaurant['Restaurant_Status'] = 'Closed';
+        $restaurant['Restaurant_Status'] = 3;
         $valid = true;
         $foods = Food::find()->JoinWith(['foodStatus'])->where('Restaurant_ID=:id',[':id'=>$restaurant['Restaurant_ID']])->andWhere('Status >= 0')->all();
 
@@ -115,7 +115,7 @@ class RestaurantController extends CommonController
     {
         CommonController::restaurantPermission($id);
         $model = self::findModel($id);
-        $model->Restaurant_Status = "Operating";
+        $model->Restaurant_Status = 2;
         if($model->validate())
         {
             $model->save();
@@ -258,7 +258,7 @@ class RestaurantController extends CommonController
         switch ($item) {
             case 1:
                 $model = self::findModel($id);
-                $model->Restaurant_Status = "Closed";
+                $model->Restaurant_Status = 3;
                 $sucess = $model->save();
                 break;
             case 2:

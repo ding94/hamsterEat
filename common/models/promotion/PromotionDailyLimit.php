@@ -3,6 +3,8 @@
 namespace common\models\promotion;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "promotion_daily_limit".
@@ -25,6 +27,20 @@ class PromotionDailyLimit extends \yii\db\ActiveRecord
         return 'promotion_daily_limit';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at','updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],   
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -34,7 +50,6 @@ class PromotionDailyLimit extends \yii\db\ActiveRecord
             [['id', 'date', 'food_limit', 'created_at', 'updated_at'], 'required'],
             [['id', 'food_limit', 'created_at', 'updated_at'], 'integer'],
             [['date'], 'string', 'max' => 25],
-            [['id', 'date'], 'unique', 'targetAttribute' => ['id', 'date']],
             [['id'], 'exist', 'skipOnError' => true, 'targetClass' => PromotionLimit::className(), 'targetAttribute' => ['id' => 'id']],
         ];
     }

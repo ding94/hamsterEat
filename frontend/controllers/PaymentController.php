@@ -65,7 +65,7 @@ class PaymentController extends CommonController
             if($isValid)
             {
                 $this->updateOrderStatus($post['did'],1);
-                NotificationController::createNotification($post['did'],3);
+                //NotificationController::createNotification($post['did'],3);
                 return $this->redirect(['/cart/aftercheckout','did'=>$post['did']]);
             }
         }
@@ -74,7 +74,7 @@ class PaymentController extends CommonController
             $order = $this->findOrder($post['did']);
 
             $this->updateOrderStatus($post['did'],2);
-            NotificationController::createNotification($post['did'],3);
+            //NotificationController::createNotification($post['did'],3);
             return $this->redirect(['/cart/aftercheckout','did'=>$post['did']]);
         }
         return $this->redirect(Yii::$app->request->referrer);

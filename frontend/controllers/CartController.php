@@ -175,8 +175,9 @@ class CartController extends CommonController
         foreach($cart as $single)
         {
             $groupCart[$single['area']][] = $single;
+           
         }
-          //var_dump($groupCart[1][0]);exit;
+        
 
         return $this->render('cart',['groupCart' => $groupCart]);
     }
@@ -185,7 +186,7 @@ class CartController extends CommonController
     {
         $time['now'] = Yii::$app->formatter->asTime(time());
         $query =  Cart::find()->where('uid = :uid and area = :area',[':uid' => Yii::$app->user->identity->id ,':area'=>$area])->joinWith(['food']);
-
+      
         $price['total'] = 0;
 
         foreach($query->each() as $value)
@@ -203,13 +204,11 @@ class CartController extends CommonController
         $time['early'] = date('08:00:00');
         $time['late'] = date('23:00:59');
 
-        $this->layout ="content";
-
         $voucher = ArrayHelper::map(UserVoucher::find()->where('uid=:uid',[':uid'=>Yii::$app->user->identity->id])->andWhere(['>=','user_voucher.endDate',time(date("Y-m-d"))])->joinWith(['voucher'=>function($query){
                 $query->andWhere(['=','status',2]);
             }])->all(),'code','code');
         $ren = new DiscountItem;
-        return $this->render('totalcart',['price'=>$price ,'time' => $time,'voucher'=>$voucher,'ren'=>$ren,'area'=>$area]);
+        return $this->renderAjax('totalcart',['price'=>$price ,'time' => $time,'voucher'=>$voucher,'ren'=>$ren,'area'=>$area]);
     }
 
     /* Function for dependent dropdown in frontend index page. */

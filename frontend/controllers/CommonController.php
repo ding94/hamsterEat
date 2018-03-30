@@ -247,6 +247,7 @@ class CommonController extends Controller
             $cookies = Yii::$app->request->cookies['language']->value;
         }
         $resname = ArrayHelper::map(RestaurantName::find()->where('rid=:rid',[':rid'=>$rid])->all(),'language','translation');
+       
         if (!empty($resname[$cookies])) {
             $resname = $resname[$cookies];
         }

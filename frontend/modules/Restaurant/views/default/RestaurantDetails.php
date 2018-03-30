@@ -1,0 +1,123 @@
+<?php
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\bootstrap\Modal;
+use common\models\Rmanagerlevel;
+use frontend\assets\StarsAsset;
+use frontend\assets\RestaurantDetailsAsset;
+use frontend\controllers\CartController;
+
+$this->title = $resname;
+
+StarsAsset::register($this);
+RestaurantDetailsAsset::register($this);
+
+
+date_default_timezone_set("Asia/Kuala_Lumpur");
+?>
+<?php Modal::begin([
+            'id'     => 'foodDetail',
+            'size'   => 'modal-lg',
+            //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    
+    Modal::end() ?>
+   
+  <?php Modal::begin([
+            'header' => '<h2 class="modal-title">'.Yii::t('common','Report').'</h2>',
+            'id'     => 'report-modal',
+            'size'   => 'modal-sm',
+            'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
+    ]);
+    
+    Modal::end() ?>
+<div class = "container">
+ <!--<a class="back" href="../web/index.php?r=ticket%2Findex"><i class="fa fa-angle-left">&nbsp;Back</i></a><br>-->
+  
+<a href="#top" class="scrollToTop"></a>
+  <div class="restaurant-info-container">
+        <div class="restaurant-img-div">
+        <?php echo Html::a(Yii::t('common',"Back") ,Yii::$app->request->referrer,['class'=>'raised-btn secondary-btn','id'=>'back'])?>
+        <?php echo Html::img($id->img, ['class' => 'restaurant-img']) ?>
+        </div> 
+        <div class="restaurant-info-inner">
+        <div class="restaurant-name-div"><h1 class="restaurant-name"><?php echo $resname; ?></h1>
+        <?php if(!Yii::$app->user->isGuest):?>
+        <span class="report-button"><?php echo Html::a(Yii::t('common','Report'), Url::to(['/report/report-restaurant' ,'name'=>$resname]), ['class'=>'raised-btn secondary-btn','data-toggle'=>'modal','data-target'=>'#report-modal']) ?>
+        <?php endif ;?>
+        </span>
+    </div>
+        <div class="rating"><span class="small-text stars"><?php echo $id['Restaurant_Rating']; ?></span></div>
+        <div class="info-div">
+          <ul class="info">
+            <?php if ($id['Restaurant_Pricing'] == 1){ ?>
+            <li>$</li>
+            <?php } else if ($id['Restaurant_Pricing'] == 2){ ?>
+            <li> $ $ </li>
+            <?php } else { ?>
+            <li> $ $ $ </li>
+            <?php } 
+              foreach ($id['restaurantType'] as $type):
+            ?>
+            <li>
+              <?php echo $type['Type_Name'] ?>
+            </li>
+            <?php endforeach; ?>
+            <li class="none"><?php echo $id['Restaurant_UnitNo'].", ".$id['Restaurant_Street'].", ".$id['Restaurant_Area'].", ".$id['Restaurant_Postcode']; ?></li>
+          </ul>
+        </div>
+         </div>
+    </div>
+    <br>
+    <hr class="restaurantdetails-hr">
+    <h2><center>Menu</h2>
+    
+    <div class = "foodItems">
+    </div>
+    
+    <?php
+      $rid = $id['Restaurant_ID'];
+      $id = isset($_GET['foodid']) ? $_GET['foodid'] : ''; 
+    ?>
+    <div class="outer-container">
+    <div class="menu-container" id="menu-container">
+        <?php foreach($rowfood as $data): ?>
+        <?php $imgdata =  $data->multipleImg?>
+        <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>"  class ="food-link" data-toggle="modal" data-target="#foodDetail" data-img= <?php echo json_encode($imgdata) ?>>
+        <div class="item">
+            <div class="img">
+                <?php if (time() > strtotime(date("Y/m/d 11:0:0"))):?>
+                    <div class="corner-ribbon top-left sticky red shadow">-15%</div>
+                <?php endif; ?>
+                <img  src=<?php echo $data->singleImg?> alt="">
+            </div>
+            <div class="inner-item">
+                <div class="foodName-div">
+                    <span class="foodName">
+                        <?= $data['Name'];?>
+                    </span>
+                    <span class="small-text stars" alt="<?php echo $data['Rating']; ?>">
+                        <?php echo $data['Rating']; ?>
+                    </span>
+                </div>
+                <!-- <div class="stars-div"></div> -->
+                <div class="price-div">
+                    <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
+                        <span class="price"><strike><?php echo 'RM'.$data['Price']; ?></strike>        <?php $data['Price']=$data['Price']*0.85;$data['Price'] = CartController::actionRoundoff1decimal($data['Price']); echo 'RM'.number_format($data['Price'],2); ?></span>
+                    <?php else: ?>
+                        <span class="price"><?php echo 'RM'.$data['Price']; ?></span>
+                    <?php endif;?>
+                </div>
+                <div class="foodDesc-div"><span class="foodDesc"><?php echo $data['Description']; ?></span></div>
+                <div class="tag-div">
+                <?php foreach($data['foodType']as $type): ?>
+                <span class="tag"><?php echo $type['Type_Desc'].'&nbsp;&nbsp;&nbsp;'; ?></span>
+                <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+        </a>
+        <?php endforeach; ?>
+    </div>
+    </div>
+</div>

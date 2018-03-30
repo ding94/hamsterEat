@@ -47,7 +47,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
         </span>
     </div>
         <div class="rating"><span class="small-text stars"><?php echo $id['Restaurant_Rating']; ?></span></div>
-        <div class="ratingdiv"><span class="emoticon"></span><span class="testrating"><?php echo $id['Restaurant_Rating']; ?></span></div>
+        <div class="ratingdiv" data-path="<?php echo Yii::getAlias('@web') ?>"><span class="emoticon"></span><span class="testrating"><?php echo $id['Restaurant_Rating']; ?></span></div>
         <div class="info-div">
           <ul class="info">
             <?php if ($id['Restaurant_Pricing'] == 1){ ?>

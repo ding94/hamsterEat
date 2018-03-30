@@ -19,7 +19,7 @@ use yii\web\NotFoundHttpException;
  */
 class DefaultController extends CommonController
 {
-    public function actionOpenall()
+    /*public function actionOpenall()
     {
         $restaurant = Restaurant::find()->all();
         foreach ($restaurant as $key => $value) {
@@ -27,7 +27,7 @@ class DefaultController extends CommonController
             $value->save(false);
         }
         return $this->redirect(['/site/index']);
-    }
+    }*/
     /**
      * Renders the index view for the module
      * @return string

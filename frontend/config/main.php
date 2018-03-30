@@ -42,11 +42,11 @@ return [
               'clientSecret' => '8cdd1cad773e5e47d4dd52c96453695c',
               'attributeNames' => ['name', 'email', 'first_name', 'last_name'],
             ],
-            // 'google' =>[
-            //     'class' => 'yii\authclient\clients\Google',
-            //     'clientId' => '138417018765-oct3tthrjhdinu2hgdck3fqm9e5uo869.apps.googleusercontent.com',
-            //     'clientSecret' => 'HkseF_IGtMju85GJcaYb3eDH',
-            // ],
+            'google' =>[
+                'class' => 'yii\authclient\clients\Google',
+                'clientId' => '138417018765-oct3tthrjhdinu2hgdck3fqm9e5uo869.apps.googleusercontent.com',
+                'clientSecret' => 'HkseF_IGtMju85GJcaYb3eDH',
+            ],
       ],
   ],
         'i18n' => [

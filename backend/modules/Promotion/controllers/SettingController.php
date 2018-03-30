@@ -38,17 +38,16 @@ class SettingController extends Controller
     	
     	if($model->load(Yii::$app->request->post()))
     	{
-    		if($model->save())
+    		$data = $this->save($model);
+    		Yii::$app->session->setFlash($data['type'],$data['message']);
+    		if($data['valid'] != 1)
     		{
-    			Yii::$app->session->setFlash('success', "Promotion  success Create");
-    			if($true && $model->PromotionType != 1)
-	    		{
-	    			return $this->redirect(['/promotion/limit/type-generate','id'=>$model->id]);
-	    		}
-	    		return $this->redirect(['index']);
+    			if($data['valid'] == 3)
+    			{
+    				return $this->redirect(['/promotion/limit/type-generate','id'=>$data['id']]);
+    			}
+    			return $this->render(['index']);
     		}
-
-    		Yii::$app->session->setFlash('warning', "Promotion  Fail Create");
     	}	
     	return $this->render('createEdit',['model'=>$model,'array'=>$array]);
     }
@@ -74,6 +73,55 @@ class SettingController extends Controller
     		}
     	}
     	return $this->redirect(['index']);
+    }
+
+    /*
+    * validate and detect for promotion
+    */
+    protected static function save($model)
+    {
+    	$data = array();
+    	$data['message'] = "";
+    	$data['type'] = "warning";
+    	$data['valid'] = 1;
+
+    	$post = Yii::$app->request->post();
+    	if(!empty($post['Promotion']['date']))
+    	{
+    		$date = explode(' - ',$post['Promotion']['date']);
+    		$model->start_date = $date[0];
+    		$model->end_date = $date[1];
+    	}
+
+    	$current = date("Y-m-d");
+    	if($current > $model->start_date)
+    	{
+    		$data['message'] = "Please Date after ".$current;
+    		return $data;
+    	}
+
+    	$new = $model->isNewRecord;
+    	
+    	if($model->save())
+    	{
+    		$data['message'] = $new ? "Success Create" : "Success Update";
+    		$data['type'] = "success";
+    		$data['id'] = $model->id;
+    		if($new && $model->type_promotion != 1)
+    		{
+    			$data['valid'] = 3;
+    		}
+    		else
+    		{
+    			$data['valid'] = 2;
+    		}
+    	}
+    	else
+    	{
+    		$data['message'] = $new ? "Fail to Create" : "Fail to Update";
+    	}
+    	return $data;
+    	
     }
 
     protected static function findModel($id)

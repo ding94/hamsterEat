@@ -4,6 +4,7 @@ namespace backend\modules\Promotion\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
 use common\models\food\Food;
 use common\models\Company\Company;
@@ -29,8 +30,8 @@ class LimitController extends Controller
 				break;
 		}
 
-		$model = $this->mutipleModel($data);
-
+		$model = $this->mutipleModel($data,$id);
+		
 		if(Yii::$app->request->post())
 		{
 			if($this->save($model,$promotion->id,$promotion->food_limit))
@@ -41,22 +42,33 @@ class LimitController extends Controller
 		return $this->render('typegenerate',['promotion'=>$promotion,'model'=>$model,'data'=>$data]);
 	}
 
-	protected static function mutipleModel($data)
+	protected static function mutipleModel($data,$id)
 	{
 		$model = array();
 		foreach($data as $i=> $value)
 		{
-			$model[$i] = new PromotionLimit;
+			$limit = PromotionLimit::find()->where('pid = :pid and tid = :tid',[':pid'=>$id,':tid'=>$value->id])->one();
+			$promotion = empty($limit) ? new PromotionLimit : $limit;
+			$model[$i] = $promotion;
 		}
 		return $model;
 	}
 
 	protected static function save($model,$id,$foodlimit)
 	{
+
 		Model::loadMultiple($model,Yii::$app->request->post());
 		
-		$limit = self::arrayData($model,2);
+		$data = self::arrayData($model);
+		$model = $data['model'];
+		$limit = $data['limit'];
 		
+		if(empty($model))
+		{
+			Yii::$app->session->setFlash('warning', "At Least One Item Must More Then Zero");
+			return false;
+		}
+
 		if($limit > $foodlimit)
 		{
 			Yii::$app->session->setFlash('warning', "The Limit is out of the promotion limit");
@@ -64,9 +76,22 @@ class LimitController extends Controller
 		}
 		
 		$valid = Model::validateMultiple($model);
+
 		if($valid)
 		{
-			$valid = self::arrayData($model,1,$id);
+			foreach($model as $value)
+			{
+				if(!$value->save())
+				{
+					PromotionLimit::deleteAll('pid = :pid',[':pid'=>$id]);
+					$valid = false;
+					break;
+				}
+				else
+				{
+					$valid = true;
+				}
+			}
 			if($valid)
 			{
 				Yii::$app->session->setFlash('success', "Promotion Create");
@@ -78,28 +103,24 @@ class LimitController extends Controller
 		return $valid;
 	}
 
-	protected static function arrayData($model,$type,$id=0)
+	protected static function arrayData($model)
 	{
+		$data =array();
 		$limit = 0;
-		foreach($model as $data)
+		foreach($model as $i=>$value)
 		{
-			if($type == 2)
+			if($value->isNewRecord && $value->food_limit == 0)
 			{
-				$limit += $data->food_limit;
+				unset($model[$i]);
 			}
 			else
 			{
-				if(!$data->save())
-				{
-
-					PromotionLimit::deleteAll('pid = :pid',[':pid'=>$id]);
-					return false;
-					break;
-				}
+				$limit += $value->food_limit;
 			}
 		}
-
-		return $type == 2 ? $limit : true;
+		$data['model'] = $model;
+		$data['limit'] = $limit;
+		return $data;
 	}
 
 	protected static function findModel($id)

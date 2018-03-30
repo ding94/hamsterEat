@@ -802,7 +802,7 @@ class SiteController extends CommonController
                         if ($auth->save() && $balance->save()) {
                             $transaction->commit();
                             Yii::$app->user->login($user);
-                            $this->successUrl = Url::to(['index']);
+                            return true;
                         } else {
                             print_r($auth->getErrors());
                         }
@@ -826,7 +826,6 @@ class SiteController extends CommonController
     private static function googleAuth($client)
     {
         $attributes = $client->getUserAttributes();
-
         /** @var Auth $auth */
         $auth = AuthFb::find()->where([
             'source' => $client->getId(),
@@ -862,7 +861,7 @@ class SiteController extends CommonController
                         if ($auth->save() && $balance->save()) {
                             $transaction->commit();
                             Yii::$app->user->login($user);
-                            $this->successUrl = Url::to(['index']);
+                            return true;
                         } else {
                             print_r($auth->getErrors());
                         }

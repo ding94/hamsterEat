@@ -24,5 +24,6 @@ use kartik\widgets\ActiveForm;
 	    	
     	<div class="form-group">
 	        <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
+	        <?= Html::a('Back',['index'],['class'=>'btn btn-primary']) ?>
 	   </div>
 	<?php ActiveForm::end();?>

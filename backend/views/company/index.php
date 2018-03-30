@@ -34,17 +34,6 @@ Modal::end() ?>
 <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\ActionColumn' ,
-                'header'=>'Add Employee' ,
-                'template'=>' {addemployee}',
-                'buttons' => [
-                    'addemployee' => function($url,$model)
-                    {
-                        return  Html::a(FA::icon('user-plus 2x') , Url::to(['/company/add-employee', 'id'=>$model['id']]) , ['title' => 'Add Employee']);
-                    },
-                ],
-            ],
-
 			[
             	'attribute' => 'name',
                 'label' => 'Company Name',
@@ -77,12 +66,12 @@ Modal::end() ?>
             ],
 
             ['class' => 'yii\grid\ActionColumn' ,
-                'header'=>'Assign Deliveryman' ,
+                'header'=>'Add Employee' ,
                 'template'=>' {addemployee}',
                 'buttons' => [
                     'addemployee' => function($url,$model)
                     {
-                        return  Html::a(FA::icon('user-plus 2x') , Url::to(['/company/add-employee', 'id'=>$model['id']]) , ['data-toggle'=>'modal','data-target'=>'#add-employee']);
+                        return  Html::a(FA::icon('user-plus 2x') , Url::to(['/company/add-employee', 'id'=>$model['id']]) , ['title' => 'Add Employee']);
                     },
                 ],
             ],

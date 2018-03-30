@@ -166,7 +166,7 @@ class CompanyController extends CommonController
             $valid = CompanyEmployees::find()->where('uid=:u',[':u'=>$employee['uid']])->one();
             foreach ($list as $key => $value) {
                 if (!empty($valid)) {
-                    Yii::$app->session->setFlash('warning','user repeated!');
+                    Yii::$app->session->setFlash('warning','User was assigned to company!');
                     return $this->redirect(['/company/add-employee','id'=>$id]);
                 }
             }
@@ -177,15 +177,28 @@ class CompanyController extends CommonController
 
             if ($employee->validate()) {
                 $employee->save();
-                Yii::$app->session->setFlash('success','added!');
-                return $this->redirect(['/company/index']);
+                Yii::$app->session->setFlash('success','Added!');
+                return $this->redirect(['/company/add-employee','id'=>$id]);
             }
             else{
-                Yii::$app->session->setFlash('warning','faled!');
+                Yii::$app->session->setFlash('warning','failed!');
                 return $this->redirect(['/company/add-employee','id'=>$id]);
             }
         }
         return $this->render('add-employee',['company'=>$company,'employee'=>$employee,'url'=>$url,'list'=>$list]);
+    }
+
+    public function actionRemoveEmployee($id)
+    {
+        $employee = CompanyEmployees::find()->where('id=:id',[':id'=>$id])->one();
+        $cid = $employee['cid'];
+        if ($employee->delete()) {
+            Yii::$app->session->setFlash('success','Deleted!');
+        }
+        else{
+            Yii::$app->session->setFlash('warning','failed!');
+        }
+        return $this->redirect(['/company/add-employee','id'=>$employee['cid']]);
     }
 
     public function actionUserlist($rmanager=null,$q = null) 

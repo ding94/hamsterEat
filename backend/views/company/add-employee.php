@@ -30,16 +30,20 @@ use yii\web\JsExpression;
 		    ],
 		])->label('Username');  ?>
 <?= Html::submitButton('Add', ['class' => 'btn btn-success']) ?>
+<?= Html::a('Back',Url::to(['/company/index']) ,['class' => 'btn btn-primary']) ?>
 <?php ActiveForm::end();?>
 
 
-<table class='table table-hover' style="background-color: white;margin:10px">
-	<tr><td colspan="2"><h3>Employer of this company</h3></td></tr>
-	<tr><td>#</td><td><b>Username</b></td></tr>
-	<?php foreach ($list as $key => $value): ?>
-		<tr>
-			<td><?= $key+1 ?></td>
-			<td><?= $value['user']['username']; ?></td>
-		</tr>
-	<?php endforeach; ?>
-</table>
+<?php if (!empty($list)): ?>
+	<table class='table table-hover' style="background-color: white;margin:10px">
+		<tr><td colspan="3"><h3>Employer of this company</h3></td></tr>
+		<tr><td>#</td><td><b>Username</b></td></tr>
+		<?php foreach ($list as $key => $value): ?>
+			<tr>
+				<td><?= $key+1 ?></td>
+				<td><?= $value['user']['username']; ?></td>
+				<td><?= Html::a('Remove employee' , Url::to(['/company/remove-employee','id'=>$value['id']]) , ['title' => 'Edit Details','data-confirm'=>'Do you sure to remove this user from this company?']); ?></td>
+			</tr>
+		<?php endforeach; ?>
+	</table>
+<?php endif;?>

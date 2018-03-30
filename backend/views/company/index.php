@@ -18,7 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'size'   => 'modal-md',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
-    
 Modal::end() ?>
 
 <?php Modal::begin([
@@ -27,7 +26,6 @@ Modal::end() ?>
             'size'   => 'modal-md',
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
-    
 Modal::end() ?>
 
 <?= Html::a('Register new Company', ['/company/register'], ['class'=>'btn btn-success']);?>
@@ -36,6 +34,16 @@ Modal::end() ?>
 <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
+            ['class' => 'yii\grid\ActionColumn' ,
+                'header'=>'Add Employee' ,
+                'template'=>' {addemployee}',
+                'buttons' => [
+                    'addemployee' => function($url,$model)
+                    {
+                        return  Html::a(FA::icon('user-plus 2x') , Url::to(['/company/add-employee', 'id'=>$model['id']]) , ['title' => 'Add Employee']);
+                    },
+                ],
+            ],
 
 			[
             	'attribute' => 'name',
@@ -66,6 +74,17 @@ Modal::end() ?>
                     return $name;
 
                 },
+            ],
+
+            ['class' => 'yii\grid\ActionColumn' ,
+                'header'=>'Assign Deliveryman' ,
+                'template'=>' {addemployee}',
+                'buttons' => [
+                    'addemployee' => function($url,$model)
+                    {
+                        return  Html::a(FA::icon('user-plus 2x') , Url::to(['/company/add-employee', 'id'=>$model['id']]) , ['data-toggle'=>'modal','data-target'=>'#add-employee']);
+                    },
+                ],
             ],
 
             ['class' => 'yii\grid\ActionColumn' ,

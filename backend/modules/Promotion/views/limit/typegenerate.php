@@ -14,24 +14,24 @@ $this->params['breadcrumbs'][] = $this->title;
 $form = ActiveForm::begin();
 ?>
 <div class="row">
-	<?php foreach($data as $i=>$value):?>
+	<?php foreach($model as $i=>$single):?>
 		<div class="col-sm-4">
 			<?php 
-				echo Html::activeHiddenInput($model,'['.$i.']pid',['value'=>$promotion->id]);
-				echo Html::activeHiddenInput($model,'['.$i.']tid',['value'=>$value->id]);
-				echo $form->field($model,'['.$i.']food_limit')->widget(TouchSpin::classname(),[
+				echo Html::activeHiddenInput($single,'['.$i.']pid',['value'=>$promotion->id]);
+				echo Html::activeHiddenInput($single,'['.$i.']tid',['value'=>$data[$i]->id]);
+				echo $form->field($single,'['.$i.']food_limit')->widget(TouchSpin::classname(),[
 					'pluginOptions' => [
 				        'buttonup_class' => 'btn btn-primary', 
 				        'buttondown_class' => 'btn btn-info', 
 				        'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>', 
 				        'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>'
 				    ]
-				])->label($value->name." Limit");
+				])->label($data[$i]->name." Limit");
 			?>
 		</div>
 	<?php endforeach;?>
 </div>
  
-<?php echo  Html::submitButton($model->isNewRecord ? Yii::t('app', 'Add') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
+<?php echo  Html::submitButton($model[0]->isNewRecord ? Yii::t('app', 'Add') : Yii::t('app', 'Update'), ['class' => $model[0]->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
 ActiveForm::end();
 ?>

@@ -14,6 +14,8 @@ use common\models\Deliveryman;
 use common\models\DeliverymanCompany;
 use yii\web\UploadedFile;
 use common\models\SelfObject;
+use yii\helpers\Url;
+use yii\db\Query;
 
 class CompanyController extends CommonController
 {
@@ -151,6 +153,54 @@ class CompanyController extends CommonController
             return $this->redirect(['/company/index']);
         }
         return $this->renderAjax('add-rider',['company'=>$company,'deliveryman'=>$deliveryman]);
+    }
+
+    public function actionAddEmployee($id)
+    {
+        $company = Company::find()->where('id=:id',[':id'=>$id])->one();
+        $employee = new CompanyEmployees();
+        $list = CompanyEmployees::find()->where('cid=:c',[':c'=>$id])->joinWith('user')->all();
+        $url = Url::to(['/company/userlist']);
+        if (Yii::$app->request->post()) {
+            $employee->load(Yii::$app->request->post());
+            $valid = CompanyEmployees::find()->where('uid=:u',[':u'=>$employee['uid']])->one();
+            foreach ($list as $key => $value) {
+                if (!empty($valid)) {
+                    Yii::$app->session->setFlash('warning','user repeated!');
+                    return $this->redirect(['/company/add-employee','id'=>$id]);
+                }
+            }
+            $employee['cid'] = $id;
+            $employee['status'] = 1;
+            $employee['created_at'] = time();
+            $employee['updated_at'] = time();
+
+            if ($employee->validate()) {
+                $employee->save();
+                Yii::$app->session->setFlash('success','added!');
+                return $this->redirect(['/company/index']);
+            }
+            else{
+                Yii::$app->session->setFlash('warning','faled!');
+                return $this->redirect(['/company/add-employee','id'=>$id]);
+            }
+        }
+        return $this->render('add-employee',['company'=>$company,'employee'=>$employee,'url'=>$url,'list'=>$list]);
+    }
+
+    public function actionUserlist($rmanager=null,$q = null) 
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $query = new Query;
+            $query= User::find()->select('id , username')->andWhere(['like','username',$q])->andWhere(['!=','id',$rmanager])->all();
+            $out['results'] = array_values($query);
+        }
+        elseif ($id > 0) {
+            $out['results'] = ['id' => $id, 'text' => User::find($id)->username];
+        }
+        return $out;
     }
 
     public function actionOperate($id)

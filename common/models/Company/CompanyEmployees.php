@@ -6,7 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
 use yii\behaviors\TimestampBehavior;
-
+use common\models\User;
 
 /**
  * This is the model class for table "company_employees".
@@ -65,5 +65,10 @@ class CompanyEmployees extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at'=>'Updated At',
         ];
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(),['id' => 'uid']);
     }
 }

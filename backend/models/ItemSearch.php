@@ -11,7 +11,7 @@ Class ItemSearch extends Orderitem
 	public function rules()
 	{
 		return[
-			[['foodName'],'safe'],
+			[['foodName','OrderItem_Status'],'safe'],
 		];
 	}
 
@@ -33,8 +33,8 @@ Class ItemSearch extends Orderitem
 	    ];
 
 	    $dataProvider->sort->attributes['foodName'] = [
-	        'asc' => ['food.Name' => SORT_ASC],
-	        'desc' => ['food.Name' => SORT_DESC],
+	        'asc' => ['foodName' => SORT_ASC],
+	        'desc' => ['foodName' => SORT_DESC],
 	    ];
 
         $this->load($params);
@@ -47,7 +47,7 @@ Class ItemSearch extends Orderitem
         ]);
 
         $query->andFilterWhere(['like','OrderItem_Remark',$this->OrderItem_Remark]);
-        $query->andFilterWhere(['like','food.Name',$this->foodName]);
+        $query->andFilterWhere(['like','Description',$this->foodName]);
 
         return $dataProvider;
 	}

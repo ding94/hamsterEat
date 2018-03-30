@@ -90,17 +90,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Food Name',
                 'attribute' => 'foodName',
                 'value' => 'food.originName',
+                'filterInputOptions' =>['placeholder'=> 'Search Food ']
             ],
         	'OrderItem_LineTotal',
+
         	[
-        		'attribute' =>'Orders_Status',
+        		'attribute'=>'OrderItem_Status',
 				'filterType' => GridView::FILTER_SELECT2,
 				'filter' => $allstatus,
 				'filterWidgetOptions' => [
 			        'pluginOptions' => ['allowClear' => true],
 			    ],
 			    'filterInputOptions' => ['placeholder' => 'Any Status'],
-        		'attribute'=>'OrderItem_Status',
+        		
         		'value' => function($model)use($allstatus)
         		{
         			return $allstatus[$model->OrderItem_Status];

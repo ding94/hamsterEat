@@ -93,6 +93,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                 $imgdata =  $food->multipleImg
         ?>
         <?php if($food['foodStatus']['food_limit'] <= 0){ ?>
+        <!-- if food limit below or equal to 0 render unclickable div with disable text overlay -->
         <div class="item">
             <div class="disable-div">Food Unavailable</div>
             <div class="img">

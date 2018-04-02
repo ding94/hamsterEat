@@ -152,6 +152,7 @@
   flex: 1 1 auto;
 }
 
+/* css to display food as unavailable */
 .disable-div{
   position: absolute; 
   z-index: 2;

@@ -8,7 +8,8 @@ RestaurantDefaultIndex2Asset::register($this);
 
  $imgdata =  $fooddata->multipleImg;
 ?>
-<?php if($fooddata['foodStatus']['food_limit'] <= 0){ ?>
+<?php if($fooddata['foodStatus']['food_limit'] <= 0){ ?> 
+<!-- if food limit below or equal to 0 render unclickable div with disable text overlay -->
     <div class="item" data-id=<?php echo $fooddata->Food_ID ?>>
        <div class="disable-div">Food Unavailable</div>
         <?php if (Yii::$app->formatter->asTime(time()) < date("11:0:0")):?>

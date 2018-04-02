@@ -47,7 +47,7 @@ class CompanyController extends CommonController
 		
 		if (empty($company)) {
 			Yii::$app->session->setFlash('error',Yii::t('common','Error!'));
-			return $this->redirect('/site/index');
+			return $this->redirect(['/site/index']);
 		}
 		if (Yii::$app->request->post()) {
 		

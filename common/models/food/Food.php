@@ -37,6 +37,9 @@ class Food extends \yii\db\ActiveRecord
     public $foodPackage = 0;
     public $zhName;
     public $enName;
+    public $promotion_enable = 0;
+    public $promotion_text;
+    public $promotion_price = 0;
 
     public static function tableName()
     {
@@ -257,7 +260,7 @@ class Food extends \yii\db\ActiveRecord
                 //return Yii::getAlias('@web').'/'.Yii::$app->params['foodImg'].$image->img;
             }
         }
-
+        
         if(empty($data))
         {
            

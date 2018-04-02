@@ -6,7 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
 use yii\data\Pagination;
-use frontend\controllers\{CommonController,ValidController};
+use frontend\controllers\{CommonController,ValidController,PromotionController};
 use common\models\Restaurant;
 use common\models\Rating\Foodrating;
 use common\models\Cart\{Cart,CartSelection};
@@ -46,9 +46,9 @@ class DefaultController extends CommonController
 
     public function actionDetail($id,$rid)
     {
-        if(!Yii::$app->request->isAjax){
+       /* if(!Yii::$app->request->isAjax){
             return $this->redirect(Yii::$app->request->referrer);
-        }
+        }*/
         $valid = ValidController::RestaurantValid($rid);
 
         if($valid)
@@ -72,6 +72,15 @@ class DefaultController extends CommonController
             return $this->redirect(Yii::$app->request->referrer);
         }
 
+        $price =  PromotionController::getPromotioinPrice($fooddata->Price,$fooddata->Food_ID,1);
+        if(is_array($price))
+        {
+            $fooddata->promotion_price = $price['price'];
+            $fooddata->promotion_text = $price['message'];
+            $fooddata->promotion_enable = 1;
+        }
+    
+        //$fooddata =
         $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id' => $id])->orderBy(['ID' => SORT_ASC])->all();
       
         $cartSelection = new CartSelection;

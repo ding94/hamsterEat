@@ -90,13 +90,17 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
         <div class="menu-container" id="menu-container">
         <?php 
             foreach($typename as $food):
-                $imgdata =  $food->multipleImg
+                $imgdata =  $food->multipleImg;
         ?>
         <a href="<?php echo yii\helpers\Url::to(['/Food/default/detail','id'=>$food['Food_ID'],'rid'=>$rid]); ?>"  class ="food-link" data-toggle="modal" data-target="#foodDetail" data-img= <?php echo json_encode($imgdata) ?>>
         <div class="item">
             <div class="img">
-                <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
-                    <div class="corner-ribbon top-left sticky red shadow"><span>-15%</span></div>
+                <?php if (time() < strtotime(date("Y/m/d 11:0:0")) || $food->promotion_enable == 1):?>
+                    <div class="corner-ribbon top-left sticky red shadow">
+                        <span>
+                        <?php echo $food->promotion_enable == 0 ? "15%" : $food->promotion_text;?>
+                        </span>
+                    </div>
                 <?php endif; ?>
                 <img src=<?php echo $food->singleImg?> alt="">
             </div>
@@ -104,8 +108,15 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
             <div class="foodName-div"><span class="foodName"><?php echo $food['cookieName']; ?></span><span class="small-text stars" alt="<?php echo $food['Rating']; ?>"><?php echo $food['Rating']; ?></span></div>
             <!-- <div class="stars-div"></div> -->
             <div class="price-div">
-                <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
-                    <span class="price"><strike><?php echo 'RM'.$food['Price']; ?></strike>        <?php $food['Price']=$food['Price']*0.85;$food['Price'] = CartController::actionRoundoff1decimal($food['Price']); echo 'RM'.number_format($food['Price'],2); ?></span>
+                <?php if (time() < strtotime(date("Y/m/d 11:0:0"))|| $food->promotion_enable == 1) :?>
+                    <span class="price">
+                        <strike><?php echo 'RM'.$food['Price']; ?></strike>
+                        <?php 
+                            $disPrice= $food->promotion_enable == 0 ? $food['Price']*0.85 : $food->promotion_price;
+                            $disPrice = CartController::actionRoundoff1decimal($disPrice);
+                            echo 'RM'.number_format($disPrice,2); 
+                        ?>
+                    </span>
                 <?php else: ?>
                     <span class="price"><?php echo 'RM'.$food['Price']; ?></span>
                 <?php endif;?>

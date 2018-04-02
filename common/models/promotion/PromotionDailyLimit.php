@@ -47,7 +47,7 @@ class PromotionDailyLimit extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'date', 'food_limit', 'created_at', 'updated_at'], 'required'],
+            [['id', 'date', 'food_limit'], 'required'],
             [['id', 'food_limit', 'created_at', 'updated_at'], 'integer'],
             [['date'], 'string', 'max' => 25],
             [['id'], 'exist', 'skipOnError' => true, 'targetClass' => PromotionLimit::className(), 'targetAttribute' => ['id' => 'id']],

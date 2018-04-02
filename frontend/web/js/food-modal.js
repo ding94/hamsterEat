@@ -4,7 +4,7 @@ $(function(){
     $('#foodDetail').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var modal = $(this);
-           
+            $(".inital-chat-container").css('display','none');
             var href = button.attr('href');
             var mutipleImg = jQuery.parseJSON(button.attr('data-img'));
             var count = Object.keys(mutipleImg).length;
@@ -66,6 +66,10 @@ $(function(){
 
                     $('#foodDetail').on('hidden.bs.modal', function () {
                             clearTimeout(repeat);
+                            if($( window ).width() < 768)
+                            {
+                             $(".inital-chat-container").css('display','block');
+                            }
                         });
 
                     modal.find('.stars').stars(); //show stars in comment tab

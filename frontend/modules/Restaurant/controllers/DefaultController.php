@@ -26,8 +26,7 @@ use common\models\Restauranttypejunction;
 use common\models\Restauranttype;
 use common\models\LanguageLine;
 use frontend\modules\Restaurant\controllers\RestauranttypeController;
-use frontend\controllers\CommonController;
-use common\models\MonthlyUnix;
+use frontend\controllers\{CommonController,PromotionController};
 use yii\web\Session;
 
 /**
@@ -183,7 +182,7 @@ class DefaultController extends CommonController
         $model = food::find()->where('Restaurant_ID=:id',[':id' => $rid])->joinWith(['foodStatus'=>function($query){
             $query->where('Status = 1');
         }])->joinWith('junction');
-        $model->andWhere(['>','food_limit',0]);
+     
         $rowfood = $model->all();
         
         $allfood = array();
@@ -194,7 +193,18 @@ class DefaultController extends CommonController
             $type = Foodtype::find()->where('ID=:id',[':id'=>$foodtypejunction->Type_ID])->one();
             
             $allfoodtype[$foodtypejunction->Type_ID] = $type->Type_Desc;
+            $price = PromotionController::getPromotioinPrice($data->Price,$data->Food_ID,1);
+            if(is_array($price))
+            {
+ 
+                $data->promotion_price = $price['price'];
+                $data->promotion_text = $price['message'];
+                $data->promotion_enable = 1;
+            }
+            //$data = 
+
             $allfood[$foodtypejunction->Type_ID][] = $data;
+
         }
         $resname = CommonController::getRestaurantName($rid);
         $language = Yii::$app->request->cookies->getValue('language');

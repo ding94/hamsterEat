@@ -38,8 +38,22 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
               <div class="foodname">
                 <span><?php echo $fooddata->cookieName;?></span><span class="food-limit-span">Available to Order: <?php echo $foodlimit->food_limit ?></span>
               </div>
-              <?php $am = time() < strtotime(date("Y/m/d 11:0:0"));?>
-          <div class="foodprice" data-price="<?php $discount = CartController::actionRoundoff1decimal($fooddata->Price*0.15);$price = CartController::actionRoundoff1decimal($fooddata->Price);if($am){$price=$price-$discount;} echo $price?>">
+              <?php $am = (time() < strtotime(date("Y/m/d 11:0:0")) || $fooddata->promotion_enable == 1);
+                if($am) :
+                  if($fooddata->promotion_enable == 0):
+                    $discount = CartController::actionRoundoff1decimal($fooddata->Price*0.15);
+                    $price = CartController::actionRoundoff1decimal($fooddata->Price);
+                    $price=$price-$discount;
+                  else :
+                    $price = CartController::actionRoundoff1decimal($fooddata->promotion_price);
+                  endif;
+                else:
+                  $price =CartController::actionRoundoff1decimal($fooddata->Price);
+                endif;
+                //$price = fooddata->prmotion_enable == 0 : ? $fooddata->Price *0.15;
+
+              ?>
+          <div class="foodprice" data-price="<?php echo $price?>">
             <?php if ($am == true):?>
               <span><strike><?php echo 'RM'.$fooddata->Price; ?></strike></span><span class='price'><?php echo 'RM'.number_format($price,2); ?></span>
             <?php else: ?>

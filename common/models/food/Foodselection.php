@@ -2,6 +2,7 @@
 
 namespace common\models\food;
 use frontend\controllers\CartController;
+use frontend\controllers\PromotionController;
 use Yii;
 
 /**
@@ -59,29 +60,41 @@ class Foodselection extends \yii\db\ActiveRecord
 
     public function getTypeprice()
     {
-        $am = time() < strtotime(date("Y/m/d 11:0:0"));
-        if ($am) {
-            if ($this->Price != 0) {
-                $discount = CartController::actionRoundoff1decimal($this->Price *0.15);
-                $this->Price = $this->Price - $discount;
-            }
-        }
+        $price = $this->getDisPrice();
         $name = $this->getCookieName();
-      
-        return '<span class="foodselection-name">'.$name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($this->Price).'">RM'.CartController::actionRoundoff1decimal($this->Price).'</span><span class="radio-custom-label"></span>';
+       
+        return '<span class="foodselection-name">'.$name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($price).'">RM'.CartController::actionRoundoff1decimal($price).'</span><span class="radio-custom-label"></span>';
     }
 
     public function getCheckboxtypeprice()
+    { 
+        $price = $this->getDisPrice();
+        $name = $this->getCookieName();
+        return '<span class="foodselection-name">'.$name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($price).'">RM'.CartController::actionRoundoff1decimal($price).'</span><span class="checkbox-custom-label"></span>';
+    }
+
+    protected function getDisPrice()
     {
-        $am = time() < strtotime(date("Y/m/d 11:0:0"));
-        if ($am) {
+        $promotion = PromotionController::getPromotioinPrice($this->Price,$this->Food_ID,2);
+        if(is_array($promotion))
+        {
+            return CartController::actionRoundoff1decimal($promotion['price']);
+        }
+        
+        return $this->getEarlyPrice();
+        
+    }
+
+    protected function getEarlyPrice()
+    {
+        if(time() < strtotime(date("Y/m/d 11:0:0")))
+        {
             if ($this->Price != 0) {
                 $discount = CartController::actionRoundoff1decimal($this->Price *0.15);
                 $this->Price = $this->Price - $discount;
             }
         }
-        $name = $this->getCookieName();
-        return '<span class="foodselection-name">'.$name.'</span><span class="selection-price" data-price="'.CartController::actionRoundoff1decimal($this->Price).'">RM'.CartController::actionRoundoff1decimal($this->Price).'</span><span class="checkbox-custom-label"></span>';
+        return $this->Price;
     }
 
     public function getSelectedtpye()

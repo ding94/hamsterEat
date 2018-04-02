@@ -137,8 +137,9 @@ NotificationAsset::register($this);
         }
        
         $rmanager = Rmanager::find()->where('uid=:id AND Rmanager_Approval=:ra',[':id'=>Yii::$app->user->identity->id,':ra'=>1])->one();
-      
-       
+        //company check
+        $company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one();
+
         if (!empty($rmanager)) {
             $menuItems[] = ['label' => '<span class="glyphicon glyphicon-list-alt">'];
             $key = array_keys($menuItems);
@@ -163,8 +164,14 @@ NotificationAsset::register($this);
                         '<li class="divider"></li>',
                        ]];
          $keys = array_keys($menuItems);
+
         if (!empty($rmanager)) {
                 $menuItems[end($keys)]['items'][] =['label' => Yii::t('layouts','Restaurants'), 'url' => ['/Restaurant/restaurant/restaurant-service']];
+                $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+        }
+        //company redirect link
+        if (!empty($company)) {
+                $menuItems[end($keys)]['items'][] =['label' => Yii::t('layouts','Company'), 'url' => ['/company/index']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
         if (Deliveryman::find()->where('User_id=:id',[':id'=>Yii::$app->user->identity->id])->one()){

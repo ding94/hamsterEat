@@ -64,7 +64,8 @@ UserAsset::register($this);
               <?php yii\authclient\widgets\AuthChoice::end(); ?>
           </div>
         </div>
-        <div class="col-sm-9 userprofile-right">
+
+        <div class="col-sm-5 userprofile-right">
           <h4><b><?= Yii::t('common','Details') ?></b></h4>
           <div class="userprofile-input">
               <div class="row outer-row">
@@ -89,6 +90,20 @@ UserAsset::register($this);
               </div>
           </div>
         </div>
+        <?php if(empty(!$employee)): ?>
+          <div class='col-sm-3 userprofile-right' style="float: left;">
+            <?php if($employee['status'] == 1) :?>
+              You are employee of <br>
+              <H4><b><?= $employee['company']['name']; ?> !</b></H4>
+            <?php else: ?>
+              <H4><b>Company Register In Process</b></H4>
+            <?php endif;?>
+            </div>
+        <?php else: ?>
+          <div class='col-sm-3 userprofile-right' style="float: right;">
+            <?= Html::a('Find your Company',Url::to(['/company/show-companies']))?>
+          </div>
+        <?php endif;?>
       </div>
     </div>
 </div>

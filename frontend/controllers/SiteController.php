@@ -29,6 +29,7 @@ use common\models\Feedback;
 use common\models\Feedbackcategory;
 use common\models\Upload;
 use common\models\AuthFb;
+use common\models\company\{Company,CompanyEmployees};
 use yii\web\UploadedFile;
 /**
  * Site controller
@@ -248,9 +249,16 @@ class SiteController extends CommonController
     public function actionSignup()
     {
         $model = new SignupForm();
-    
+        $employee = new CompanyEmployees();
+        $company = Arrayhelper::map(Company::find()->all(),'id','name');
         if ($model->load(Yii::$app->request->post())) {
+            $employee->load(Yii::$app->request->post());
             if ($user = $model->signup()) {
+                $employee['uid'] = $user['id'];
+                $employee['status'] = 0;
+                $employee['created_at'] = time();
+                $employee['updated_at'] = time();
+                $employee->save(false);
                 $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
                     ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
                 ->setTo($user->email)
@@ -272,7 +280,7 @@ class SiteController extends CommonController
             }
         
 
-        return $this->render('signup', ['model' => $model]);
+        return $this->render('signup', ['model' => $model,'employee'=>$employee,'company'=>$company]);
     }
     
     public function actionResendconfirmlink()

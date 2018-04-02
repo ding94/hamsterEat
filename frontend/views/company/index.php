@@ -19,7 +19,7 @@ use common\models\User;
 		    'options' => ['placeholder' => 'Search for an user ...'],
 		    'pluginOptions' => [
 		        'allowClear' => true,
-		        'minimumInputLength' => 6,
+		        //'minimumInputLength' => 6,
 		        'language' => [
 		            'errorLoading' => new JsExpression("function () { return 'Waiting for results...'; }"),
 		        ],
@@ -41,7 +41,7 @@ use common\models\User;
 <?php ActiveForm::end(); ?>
 
 
-<div class="col-lg-5 col-lg-offset-3">
+<div class="col-lg-5">
 <h3><?= Yii::t('company','User Assigned in')?> <?= $company['name']; ?> </h3>
 	<table class="table table-hover">
 		<tr>
@@ -49,15 +49,38 @@ use common\models\User;
 			<th><?= Yii::t('company','Username')?></th>
 			<th></th>
 		</tr>
-		<?php foreach($users as $k => $value) : ?>
+		<?php foreach($approved as $k => $value) : ?>
 			<tr>
 				<td><?= $k+1; ?></td>
 				<td><font> <?= User::find()->where('id=:uid',[':uid'=>$value['uid']])->one()->username; ?> </font></td>
-				<td><?= Html::a(Yii::t('common','Remove'), ['/company/removeemployee', 'id'=>$value['id']], ['class'=>'raised-btn btn-danger']);?></td>
+				<td><?= Html::a(Yii::t('common','Reject'), ['/company/reject-employee', 'id'=>$value['id']], ['class'=>'raised-btn btn-danger']);?></td>
 			</tr>
 		<?php endforeach; ?>
 	</table>
-</div><div class="col-lg-5 col-lg-offset-3">
+</div>
+
+<div class="col-lg-5">
+<h3><?= Yii::t('company',"User haven't approved")?></h3>
+	<table class="table table-hover">
+		<tr>
+			<th><?= Yii::t('company','Serial ID')?></th>
+			<th><?= Yii::t('company','Username')?></th>
+			<th></th>
+		</tr>
+		<?php foreach($rejected as $k => $value) : ?>
+			<tr>
+				<td><?= $k+1; ?></td>
+				<td><font> <?= User::find()->where('id=:uid',[':uid'=>$value['uid']])->one()->username; ?> </font></td>
+				<td>
+					<?= Html::a(Yii::t('common','Approve'), ['/company/approve-employee', 'id'=>$value['id']], ['class'=>'raised-btn btn-success']);?>
+					<?= Html::a(Yii::t('common','Remove'), ['/company/removeemployee', 'id'=>$value['id']], ['class'=>'raised-btn btn-danger']);?>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+	</table>
+</div>
+
+<div class="col-lg-5 col-lg-offset-3">
 <?php echo \yii\widgets\LinkPager::widget([
       'pagination' => $pagination,
     ]); ?>

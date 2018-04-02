@@ -73,20 +73,21 @@ class CheckoutController extends CommonController
 		if($early == false)
 		{
 			Yii::$app->session->setFlash('error', Yii::t('checkout','.'));
-			  return $this->redirect(Yii::$app->request->referrer);
+			return $this->redirect(Yii::$app->request->referrer);
 		}
-        
-    
         
         $userexist = CompanyEmployees::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->all();
         
-
         $companymap = array();
 
        	foreach ($userexist as $key => $value) {
        		  $company = Company::findOne($value->cid);
        		  $companymap[$value['cid']] = $company->name;
-       		  
+       		  //check employee approved company
+       		  if ($value['status'] != 1) {
+       		  	Yii::$app->session->setFlash('error', "You have't registered as any company's employee!");
+				return $this->redirect(Yii::$app->request->referrer);
+       		  }
        	}
     	if(empty($companymap))
     	{

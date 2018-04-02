@@ -270,6 +270,15 @@ if (empty($language)) {
                 </div>
             </div>
         </div>
+        <div id="promo-banner">
+            <div class="text">
+                PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15%
+            </div>
+            <a class="close-icon" href="#" onclick="closeBanner()">
+                <i class="fa fa-times"></i>
+            </a>
+        </div>
+        <div id='promo-banner-empty-div'></div>
         <div class="page-wrap">
             <?= $content ?>
         </div>

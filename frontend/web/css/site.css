@@ -1179,13 +1179,14 @@ span.badge{
 .btn-google.disabled:hover,.btn-google[disabled]:hover,fieldset[disabled] .btn-google:hover,.btn-google.disabled:focus,.btn-google[disabled]:focus,fieldset[disabled] .btn-google:focus,.btn-google.disabled.focus,.btn-google[disabled].focus,fieldset[disabled] .btn-google.focus{background-color:#dd4b39;border-color:rgba(0,0,0,0.2)}
 .btn-google .badge{color:#dd4b39;background-color:#fff}
 
-/* #promo-banner{
+#promo-banner{
   position: fixed;
   z-index: 10;
   height: 60px;
   width: 100%;
   background-image: linear-gradient(to left, #ff4e50 0%, #f98622 100%);
   margin-top: -11px;
+  top: 75px;
 }
 
 #promo-banner a.close-icon{
@@ -1205,7 +1206,13 @@ span.badge{
   padding: 10px;
   margin: auto;
   width: 100%;
-} */
+}
+
+#promo-banner-empty-div{
+  min-height: 60px;
+  min-width: 100%;
+  background-color: transparent;
+}
 
 /* #SSCrow2 .form{
   border-radius: 15px;

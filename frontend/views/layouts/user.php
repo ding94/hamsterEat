@@ -235,7 +235,15 @@ if (empty($language)) {
                 </ul>
             </div>
         </nav>
-
+    <div id="promo-banner">
+        <div class="text">
+            PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15%
+        </div>
+        <a class="close-icon" href="#" onclick="closeBanner()">
+            <i class="fa fa-times"></i>
+        </a>
+    </div>
+    <div id='promo-banner-empty-div'></div>
     <div class="container page-wrap">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

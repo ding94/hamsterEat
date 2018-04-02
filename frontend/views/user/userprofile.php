@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
 use frontend\assets\UserAsset;
+use common\models\company\Company;
 $this->title = Yii::t('user','My Profile');
 
 UserAsset::register($this);
@@ -92,7 +93,10 @@ UserAsset::register($this);
         </div>
         <?php if(empty(!$employee)): ?>
           <div class='col-sm-3 userprofile-right' style="float: left;">
-            <?php if($employee['status'] == 1) :?>
+            <?php if(Company::find()->where('id=:id',[':id'=>$employee['cid']])->one()->owner_id == $employee['uid']): ?>
+              You are Owner of <br>
+              <H4><b><?= $employee['company']['name']; ?> !</b></H4>
+            <?php elseif($employee['status'] == 1) :?>
               You are employee of <br>
               <H4><b><?= $employee['company']['name']; ?> !</b></H4>
             <?php else: ?>

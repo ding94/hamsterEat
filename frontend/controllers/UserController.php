@@ -9,6 +9,7 @@ use common\models\user\Useraddress;
 use common\models\User;
 use common\models\user\Changepassword;
 use common\models\Upload;
+use common\models\company\CompanyEmployees;
 use yii\web\UploadedFile;
 use yii\helpers\Json;
 use common\models\Account\Accountbalance;
@@ -45,10 +46,10 @@ class UserController extends CommonController
         $user = User::find()->where('user.id = :id' ,[':id' => Yii::$app->user->id])->joinWith(['address' => function($query){
             $query->orderBy(['level' =>SORT_DESC ]);
         },'userdetails','balance'])->one();
-
+        $employee = CompanyEmployees::find()->where('uid=:u',[':u'=>Yii::$app->user->id])->joinWith('company')->one();
         $this->layout = 'user';
       
-        return $this->render('userprofile',['user' => $user]);
+        return $this->render('userprofile',['user' => $user,'employee'=>$employee]);
        
     }
 
@@ -273,5 +274,4 @@ class UserController extends CommonController
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
-
 }

@@ -22,7 +22,7 @@ class CompanyController extends CommonController
                  //'only' => ['logout', 'signup','index'],
                  'rules' => [
                     [
-                        'actions' => ['index','removeemployee','userlist'],
+                        'actions' => ['index','removeemployee','userlist','show-companies','register-employee','approve-employee','reject-employee','remove-employee'],
                         'allow' => true,
                         'roles' => ['@'],
 
@@ -43,11 +43,13 @@ class CompanyController extends CommonController
 		$users = CompanyEmployees::find()->where('cid=:id',[':id'=>$company['id']])->andWhere(['!=','uid',Yii::$app->user->identity->id]);
 		$countQuery = clone $users;
         $pagination = new Pagination(['totalCount'=>$countQuery->count(),'pageSize'=>10]);
-        $users = $users->offset($pagination->offset)->limit($pagination->limit)->all();
-		
+        //$approved = $users->andWhere(['=','status',1])->offset($pagination->offset)->limit($pagination->limit)->all();
+        $approved = CompanyEmployees::find()->where('cid=:id',[':id'=>$company['id']])->andWhere(['!=','uid',Yii::$app->user->identity->id])->andWhere(['=','status',1])->all();
+        $rejected = CompanyEmployees::find()->where('cid=:id',[':id'=>$company['id']])->andWhere(['!=','uid',Yii::$app->user->identity->id])->andWhere(['=','status',0])->all();
+
 		if (empty($company)) {
 			Yii::$app->session->setFlash('error',Yii::t('common','Error!'));
-			return $this->redirect('/site/index');
+			return $this->redirect(['/site/index']);
 		}
 		if (Yii::$app->request->post()) {
 		
@@ -72,7 +74,7 @@ class CompanyController extends CommonController
 				return $this->redirect(['/company/index']);
 			}
 		}
-		return $this->render('index',['emplo'=>$emplo,'company'=>$company,'pagination'=>$pagination,'users'=>$users]);
+		return $this->render('index',['emplo'=>$emplo,'company'=>$company,'pagination'=>$pagination,'approved'=>$approved,'rejected'=>$rejected]);
 	}
 
 	public function actionUserlist($q = null, $id = null) 
@@ -81,17 +83,78 @@ class CompanyController extends CommonController
 	    $out = ['results' => ['id' => '', 'text' => '']];
 	    if (!is_null($q)) {
 	        $query = new Query;
-	        $query= User::find()->select('id , username')->where('username=:u',[':u'=>$q])->andWhere(['!=','id',Yii::$app->user->identity->id])->all();
+	        $query= User::find()->select('id , username')->andWhere(['like','username',$q])->andWhere(['!=','id',Yii::$app->user->identity->id])->all();
 	        $out['results'] = array_values($query);
-	    }
-	    elseif ($id > 0) {
-	        $out['results'] = ['id' => $id, 'text' => User::find($id)->username];
 	    }
 	    return $out;
 	}
 
+	public function actionShowCompanies()
+    {
+    	//gave user to register company theirselves
+        if (CompanyEmployees::find()->where('uid=:u',[':u'=>Yii::$app->user->identity->id])->one()) {
+    		Yii::$app->session->setFlash('warning','You are registered to another company.');
+    		return $this->redirect(['/user/user-profile']);
+        }
+        $list = Company::find()->all();
+
+        if (Yii::$app->request->post()) {
+        	var_dump(Yii::$app->request->post());exit;
+        }
+
+        return $this->render('show-companies',['list'=>$list]);
+    }
+
+    public function actionRegisterEmployee($cid)
+    {
+    	//register employee function
+    	$company = Company::findOne($cid);
+    	$employee = new CompanyEmployees();
+    	$employee['cid'] = $company['id'];
+    	$employee['uid'] = Yii::$app->user->id;
+    	$employee['status'] = 0;
+    	$employee['created_at'] = time();
+    	$employee['updated_at'] = time();
+    	if ($employee->validate()) {
+    		$employee->save();
+    		Yii::$app->session->setFlash('sucess','Registered! Please wait for company approve.');
+    		return $this->redirect(['/user/user-profile']);
+    	}
+    	else{
+    		Yii::$app->session->setFlash('warning','Failed !');
+    		return $this->redirect(['/user/user-profile']);
+    	}
+
+        return $this->render('register-company',['list'=>$list]);
+    }
+
+	public function actionRejectEmployee($id)
+	{
+		//company reject employee
+		$employee = CompanyEmployees::findOne($id);
+		if (!empty($employee) && $employee->validate()) {
+			$employee['status'] = 0;
+			$employee['updated_at'] = time();
+			$employee->save();
+		}
+		return $this->redirect(['/company/index']);
+	}
+
+	public function actionApproveEmployee($id)
+	{
+		//company approve employee
+		$employee = CompanyEmployees::findOne($id);
+		if (!empty($employee) && $employee->validate()) {
+			$employee['status'] = 1;
+			$employee['updated_at'] = time();
+			$employee->save();
+		}
+		return $this->redirect(['/company/index']);
+	}
+
 	public function actionRemoveemployee($id)
 	{
+		//company remove employee
 		$employee = CompanyEmployees::find()->where('id=:id',[':id'=>$id])->one();
 		$employer = CompanyEmployees::find()->where('uid=:uid',[':uid'=>Yii::$app->user->identity->id])->one();
 		$owner = Company::find()->where('owner_id=:oid',[':oid'=>Yii::$app->user->identity->id])->one();

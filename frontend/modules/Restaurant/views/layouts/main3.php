@@ -131,7 +131,10 @@ if (empty($language)) {
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
             $menuItems[end($keys)]['items'][] = "<li><div class='col-sm-6'>".Html::a('<h4 class="menu-title">'.Yii::t('layouts','Mark All as Read').'</h4>',['/notification/notic/turnoff'])."</div><div class='col-sm-6'>".Html::a('<h4 class="menu-title pull-right">'.Yii::t('layouts','View All').'</h4>',['/notification/notic/index'])."</div></li>";
         }
+
         $rmanager = Rmanager::find()->where('uid=:id AND Rmanager_Approval=:ra',[':id'=>Yii::$app->user->identity->id,':ra'=>1])->one();
+        //company check
+        $company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one();
 
         if (!empty($rmanager)) {
             $menuItems[] = ['label' => '<span class="glyphicon glyphicon-list-alt">'];
@@ -160,6 +163,11 @@ if (empty($language)) {
          $keys = array_keys($menuItems);
         if ($rmanager) {
                 $menuItems[end($keys)]['items'][] =['label' => Yii::t('layouts','Restaurants'), 'url' => ['/Restaurant/restaurant/restaurant-service']];
+                $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+        }
+        //company redirect link
+        if (!empty($company)) {
+                $menuItems[end($keys)]['items'][] =['label' => Yii::t('layouts','Company'), 'url' => ['/company/index']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
         if (Deliveryman::find()->where('User_id=:id',[':id'=>Yii::$app->user->identity->id])->one()){
@@ -270,6 +278,15 @@ if (empty($language)) {
                 </div>
             </div>
         </div>
+        <div id="promo-banner">
+            <div class="text">
+                PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15%
+            </div>
+            <a class="close-icon" href="#" onclick="closeBanner()">
+                <i class="fa fa-times"></i>
+            </a>
+        </div>
+        <div id='promo-banner-empty-div'></div>
         <div class="page-wrap">
             <?= $content ?>
         </div>

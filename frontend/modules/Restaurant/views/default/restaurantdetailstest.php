@@ -69,7 +69,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
          </div>
     </div>
     <?php if(empty($allfoodtype) && empty($foodtype)):?>
-        <h1><?= Html::encode('Food Current Not Available');?></h1>
+        <h1><?= Html::encode('Food Currently Not Available');?></h1>
     <?php else : ?>
     <div id="category-bar">
         <ul class="container">
@@ -92,6 +92,30 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
             foreach($typename as $food):
                 $imgdata =  $food->multipleImg;
         ?>
+        <?php if($food['foodStatus']['food_limit'] <= 0){ ?>
+        <!-- if food limit below or equal to 0 render unclickable div with disable text overlay -->
+        <div class="item">
+            <div class="disable-div">Food Unavailable</div>
+            <div class="img">
+                <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
+                    <div class="corner-ribbon top-left sticky red shadow"><span>-15%</span></div>
+                <?php endif; ?>
+                <img src=<?php echo $food->singleImg?> alt="">
+            </div>
+            <div class="inner-item">
+            <div class="foodName-div"><span class="foodName"><?php echo $food['cookieName']; ?></span><span class="small-text stars" alt="<?php echo $food['Rating']; ?>"><?php echo $food['Rating']; ?></span></div>
+            <!-- <div class="stars-div"></div> -->
+            <div class="price-div">
+                <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
+                    <span class="price"><strike><?php echo 'RM'.$food['Price']; ?></strike>        <?php $food['Price']=$food['Price']*0.85;$food['Price'] = CartController::actionRoundoff1decimal($food['Price']); echo 'RM'.number_format($food['Price'],2); ?></span>
+                <?php else: ?>
+                    <span class="price"><?php echo 'RM'.$food['Price']; ?></span>
+                <?php endif;?>
+            </div>
+            <div class="foodDesc-div"><span class="foodDesc"><?php echo $food['Description']; ?></span></div>
+            </div>
+        </div>
+        <?php }else{ ?>
         <a href="<?php echo yii\helpers\Url::to(['/Food/default/detail','id'=>$food['Food_ID'],'rid'=>$rid]); ?>"  class ="food-link" data-toggle="modal" data-target="#foodDetail" data-img= <?php echo json_encode($imgdata) ?>>
         <div class="item">
             <div class="img">
@@ -125,8 +149,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
             </div>
         </div>
         </a>
-      
-            
+        <?php } ?>
         <?php endforeach; ?>
         </div>
         </div>

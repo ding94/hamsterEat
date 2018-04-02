@@ -71,4 +71,9 @@ class CompanyEmployees extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(),['id' => 'uid']);
     }
+
+    public function getCompany()
+    {
+        return $this->hasOne(Company::className(),['id' => 'cid']);
+    }
 }

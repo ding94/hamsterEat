@@ -34,10 +34,12 @@ function passType(type,url){
   });
 }
 
-// function closeBanner(){
-//   var promoBanner = document.getElementById('promo-banner');
-//   promoBanner.style.display = "none";
-// }
+function closeBanner(){
+  var promoBanner = document.getElementById('promo-banner');
+  var promoBannerEmptyDiv = document.getElementById('promo-banner-empty-div');
+  promoBanner.style.display = "none";
+  promoBannerEmptyDiv.style.display = "none";
+}
 
 
 /*if($( window ).width() > 767)

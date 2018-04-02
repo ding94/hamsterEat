@@ -128,6 +128,9 @@ if (empty($language)) {
         
 
         $rmanager = Rmanager::find()->where('uid=:id AND Rmanager_Approval=:ra',[':id'=>Yii::$app->user->identity->id,':ra'=>1])->one();
+        //company check
+        $company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one();
+        
         if (!empty($rmanager)) {
             $menuItems[] = ['label' => '<span class="glyphicon glyphicon-list-alt">'];
             $key = array_keys($menuItems);
@@ -158,6 +161,11 @@ if (empty($language)) {
         if ($rmanager) {
             $menuItems[end($keys)]['items'][] =['label' => Yii::t('layouts','Restaurants'), 'url' => ['/Restaurant/restaurant/restaurant-service']];
             $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
+        }
+        //company redirect link
+        if (!empty($company)) {
+                $menuItems[end($keys)]['items'][] =['label' => Yii::t('layouts','Company'), 'url' => ['/company/index']];
+                $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
         if (Deliveryman::find()->where('User_id=:id',[':id'=>Yii::$app->user->identity->id])->one()){
                 $menuItems[end($keys)]['items'][] =['label' => Yii::t('layouts','Delivery Orders'), 'url' => ['/Delivery/deliveryorder/order']];
@@ -235,7 +243,15 @@ if (empty($language)) {
                 </ul>
             </div>
         </nav>
-
+    <div id="promo-banner">
+        <div class="text">
+            PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15%
+        </div>
+        <a class="close-icon" href="#" onclick="closeBanner()">
+            <i class="fa fa-times"></i>
+        </a>
+    </div>
+    <div id='promo-banner-empty-div'></div>
     <div class="container page-wrap">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

@@ -210,9 +210,6 @@ class CompanyController extends CommonController
             $query= User::find()->select('id , username')->andWhere(['like','username',$q])->andWhere(['!=','id',$rmanager])->all();
             $out['results'] = array_values($query);
         }
-        elseif ($id > 0) {
-            $out['results'] = ['id' => $id, 'text' => User::find($id)->username];
-        }
         return $out;
     }
 

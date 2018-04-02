@@ -25,6 +25,8 @@ $this->title = Yii::t('site','User Signup');
 
                 <?= $form->field($model, 'password')->passwordInput()->label(Yii::t('common','Password')) ?>
 
+                <?= $form->field($employee, 'cid')->dropDownList($company,['prompt'=>'Please Choose Your Company'])?>
+
                 <div class="form-group">
                     <?= Html::submitButton(Yii::t('common','Signup'), ['class' => 'raised-btn main-btn', 'name' => 'signup-button']) ?> <br><br>
 

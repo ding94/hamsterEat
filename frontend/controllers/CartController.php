@@ -179,7 +179,7 @@ class CartController extends CommonController
         }
         
 
-        return $this->render('carttest',['groupCart' => $groupCart]);
+        return $this->render('cart',['groupCart' => $groupCart]);
     }
 
     public function actionTotalcart($area)

@@ -9,7 +9,7 @@ use common\models\user\Useraddress;
 use common\models\User;
 use common\models\user\Changepassword;
 use common\models\Upload;
-use common\models\company\CompanyEmployees;
+use common\models\Company\CompanyEmployees;
 use yii\web\UploadedFile;
 use yii\helpers\Json;
 use common\models\Account\Accountbalance;

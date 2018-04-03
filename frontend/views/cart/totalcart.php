@@ -46,9 +46,12 @@ CartAsset::register($this);
         </td>
         <td class="text-xs-right">RM <font id="delivery"><?php echo $charge ; ?></font></td>
       </tr>
+      <?php 
+        $dis = 0;
+        if($price['promotion'] == 0 ):?>
       <?php if($time['early'] <= $time['now'] && $time['late'] >= $time['now']):?>
       <tr id="earlytd" class="relative">
-        <?php $earlyDiscount = CartController::actionRoundoff1decimal($total *0.15)?>
+        <?php $dis = $earlyDiscount = CartController::actionRoundoff1decimal($total *0.15)?>
         <td><?= Yii::t('common','Early Discount') ?><i class="fa fa-question-circle" aria-hidden="true">
           <span class="i-detail i-information"> 
             <?= Yii::t('cart','early-promo') ?>
@@ -56,7 +59,12 @@ CartAsset::register($this);
         </td>
   			<td class="text-xs-right" style="color:red;">-RM <font id='early'><?php echo $earlyDiscount?></font></td>
       </tr>
-
+      <?php endif ;?>
+      <?php else : ?>
+        <tr>
+          <td>Discount</td>
+          <td class="text-xs-left">-<?= $dis =$price['promotion'];?></td>
+        </tr>
       <?php endif ;?>
               <!--<tr id="discount" >
                 <td><span><b>Discount:</span></td>
@@ -71,14 +79,14 @@ CartAsset::register($this);
         </tr>-->
 
         <tr style="font-size:20px;">
-          <?php $finalPrice = $total - $earlyDiscount + $charge ;?>
+          <?php $finalPrice = $total - $dis + $charge ;?>
           <td><b><?= Yii::t('common','Total') ?></td>
           <td class="text-xs-right" ><b>RM <font id="total"><?php echo CartController::actionRoundoff1decimal($finalPrice); ?></font></td>
         </tr>
       </table>
 	  	
-		
- <div style="margin-right: 5%;" id="pcs">
+  <?php if($price['promotion'] == 0 ):?>
+  <div style="margin-right: 5%;" id="pcs">
 	  <div id="pc"><?= Yii::t('cart','Have a') ?> <font style="font-weight:bold;"><?= Yii::t('cart','promo code') ?></font>? 
 			<?= Yii::t('cart','Enter it') ?> <a href="javascript:showDiv()" id="showDiv" style="color:#3C3CFF;text-decoration:underline;"><?= Yii::t('cart','here') ?></a>
     </div>
@@ -86,8 +94,9 @@ CartAsset::register($this);
         <div id="dis" style=""><input id="codes">
           <a class="raised-btn main-btn" onclick="return discount()"><?= Yii::t('common','Submit') ?></a>
         </div>
-			</div>
-    </div>
+		</div>
+  </div>
+  <?php endif ;?>
     <br>
   </div>  
 </div>

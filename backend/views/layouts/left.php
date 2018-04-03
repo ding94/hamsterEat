@@ -42,7 +42,7 @@
                                         [ 'label' => 'Admin List', 'icon' => 'circle-o', 'url' => ['/admin/index']],
                                         [ 'label' => 'R.Manager Approve', 'icon' => 'circle-o', 'url' => ['/restaurant/default/rmanager_approval']],
                                         [ 'label' => 'Restaurant Approve', 'icon' => 'circle-o', 'url' => ['/restaurant/default/restaurant_approval']],
-                                        [ 'label' => 'Restaurant Approve', 'icon' => 'circle-o', 'url' => ['/deliveryman/approval']],
+                                        [ 'label' => 'DeliveryMan Approval', 'icon' => 'circle-o', 'url' => ['/deliveryman/approval']],
                                     ],
                         'options' => ['class' => 'active'],
                         'visible'=> Yii::$app->user->can('admin/index'),

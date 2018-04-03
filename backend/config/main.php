@@ -43,9 +43,10 @@ return [
                 'common' => ['class' => 'common\translation\DbSentencesTranslate'],
                 'food' => ['class' => 'common\translation\DbSentencesTranslate'],
                 'checkout' => ['class' => 'common\translation\DbSentencesTranslate'],
-                 'user' => ['class' => 'common\translation\DbSentencesTranslate'],
-                 'withdraw'=>['class' => 'common\translation\DbSentencesTranslate'],
-                 'topup'=>['class' => 'common\translation\DbSentencesTranslate'],
+                'user' => ['class' => 'common\translation\DbSentencesTranslate'],
+                'withdraw'=>['class' => 'common\translation\DbSentencesTranslate'],
+                'topup'=>['class' => 'common\translation\DbSentencesTranslate'],
+                'ticket'=>['class' => 'common\translation\DbSentencesTranslate'],
             ],
         ],
         'frontendAuthManager' => [

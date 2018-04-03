@@ -110,6 +110,9 @@ class Cart extends \yii\db\ActiveRecord
         return $this->hasMany(CartSelection::className(),['cid' => 'id']);
     }
 
+    /*
+    * detect food status and limit to disable user process to checkout
+    */
     public function getStatus()
     {
         $data = Foodstatus::find()->where('Food_ID = :fid and Status = 1',[':fid'=>$this->fid])->andWhere(['>','food_limit','0'])->one();

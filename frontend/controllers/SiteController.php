@@ -29,7 +29,7 @@ use common\models\Feedback;
 use common\models\Feedbackcategory;
 use common\models\Upload;
 use common\models\AuthFb;
-use common\models\company\{Company,CompanyEmployees};
+use common\models\Company\{Company,CompanyEmployees};
 use yii\web\UploadedFile;
 /**
  * Site controller
@@ -396,88 +396,89 @@ class SiteController extends CommonController
         ]);
     }
     
-    public function actionRmanager()
-    {
-        $model = new SignupForm();
-        $model1 = new Rmanager();
+    // public function actionRmanager()
+    // {
+    //     $model = new SignupForm();
+    //     $model1 = new Rmanager();
         
         
-         if ($model->load(Yii::$app->request->post()) &&  $model1->load(Yii::$app->request->post())) {
+    //      if ($model->load(Yii::$app->request->post()) &&  $model1->load(Yii::$app->request->post())) {
          
-            $model->type = 1;
+    //         $model->type = 1;
             
-            if ($user = $model->signup()) {
-                $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
-                    ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
-                ->setTo($user->email)
-                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
-                ->setSubject('Signup Confirmation')
-                ->send();
-                if($email){
-                    if (Yii::$app->getUser()->login($user)) {
-                        $model1->uid=$user->id;
-                        $model1->User_Username=$user->username;
-                        $model1->Rmanager_Approval = 1;
-                        $model1->Rmanager_DateTimeApplied = time();
-                        $model1->Rmanager_DateTimeApproved = time();
-                        $model1->save();
-                        Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
-                        return $this->redirect('validation');
-                    }
-                }
-                else{
-                Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
-                }
-                return $this->goHome();
-                }
-            }
+    //         if ($user = $model->signup()) {
+    //             $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
+    //                 ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
+    //             ->setTo($user->email)
+    //             ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+    //             ->setSubject('Signup Confirmation')
+    //             ->send();
+    //             if($email){
+    //                 if (Yii::$app->getUser()->login($user)) {
+    //                     $model1->uid=$user->id;
+    //                     $model1->User_Username=$user->username;
+    //                     $model1->Rmanager_Approval = 1;
+    //                     $model1->Rmanager_DateTimeApplied = time();
+    //                     $model1->Rmanager_DateTimeApproved = time();
+    //                     $model1->save();
+    //                     Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
+    //                     return $this->redirect('validation');
+    //                 }
+    //             }
+    //             else{
+    //             Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
+    //             }
+    //             return $this->goHome();
+    //             }
+    //         }
         
-          return $this->render('rmanager',['model1'=>$model1,'model'=>$model]);
-    }
+    //       return $this->render('rmanager',['model1'=>$model1,'model'=>$model]);
+    // }
     
-    public function actionDeliveryman(){
-        $model = new SignupForm();
-        $model1 = new Deliveryman();
-        $model1->scenario = "new";
-        $data = Area::find()->all();
-        $areaGroup = ArrayHelper::map($data,'Area_ID','Area_Group');
-        $area = ArrayHelper::map($data,'Area_ID','Area_Area');
+    // public function actionDeliveryman(){
+    //     $model = new SignupForm();
+    //     $model1 = new Deliveryman();
+    //     $model1->scenario = "new";
+    //     $data = Area::find()->all();
+    //     $areaGroup = ArrayHelper::map($data,'Area_ID','Area_Group');
+    //     $area = ArrayHelper::map($data,'Area_ID','Area_Area');
      
-        if ($model->load(Yii::$app->request->post()) &&  $model1->load(Yii::$app->request->post())) 
-        {
-            $model1->DeliveryMan_DateTimeApplied = time();
-            $model->type = 2;
+    //     if ($model->load(Yii::$app->request->post()) &&  $model1->load(Yii::$app->request->post())) 
+    //     {
+    //         $model1->DeliveryMan_DateTimeApplied = time();
+    //         $model->type = 2;
 
-            if(array_key_exists($model1->aid, $areaGroup))
-            {
-                $model1->DeliveryMan_AreaGroup = $areaGroup[$model1->aid];
-            }
+    //         if(array_key_exists($model1->aid, $areaGroup))
+    //         {
+    //             $model1->DeliveryMan_AreaGroup = $areaGroup[$model1->aid];
+    //         }
            
-            if ($model1->validate() && $user = $model->signup()) 
-            {
-                $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
-                    ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
-                ->setTo($user->email)
-                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
-                ->setSubject('Signup Confirmation')
-                ->send();
-                if($email)
-                {
-                    if (Yii::$app->getUser()->login($user)) 
-                    {
-                        $model1->User_id=$user->id;
-                        $model1->save();
-                        Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
-                        return $this->redirect(['validation']);
-                    }
-                }
-            }
-            Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
-            return $this->goHome();  
-        }
+    //         if ($model1->validate() && $user = $model->signup()) 
+    //         {
+    //             $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
+    //                 ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
+    //             ->setTo($user->email)
+    //             ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+    //             ->setSubject('Signup Confirmation')
+    //             ->send();
+    //             if($email)
+    //             {
+    //                 if (Yii::$app->getUser()->login($user)) 
+    //                 {
+    //                     $model1->User_id=$user->id;
+    //                     $model1->save();
+    //                     Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
+    //                     return $this->redirect(['validation']);
+    //                 }
+    //             }
+    //         }
+    //         Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
+    //         return $this->goHome();  
+    //     }
 
-        return $this->render('deliveryman',['model1'=>$model1,'model'=>$model,'area'=>$area]);
-    }
+    //     return $this->render('deliveryman',['model1'=>$model1,'model'=>$model,'area'=>$area]);
+    // }
+    
 	public function actionRuser()
     {
         return $this->render('ruser');

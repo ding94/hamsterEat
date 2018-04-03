@@ -37,6 +37,7 @@ UserAsset::register($this);
         <div class="col-sm-3 userprofile-left">
           <div class="userprofile-avatar">
               <?php 
+              
                 if(is_null($user->userdetails->User_PicPath)) :
 
                   $picpath = Url::to('@web/imageLocation/DefaultPic.png');

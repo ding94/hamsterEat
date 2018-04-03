@@ -3,11 +3,11 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 use common\models\Order\Orderitem;
+use kartik\grid\GridView;
 
   $this->title = 'Delivery Pending List';
   $this->params['breadcrumbs'][] = $this->title;
@@ -19,8 +19,6 @@ use common\models\Order\Orderitem;
         'columns' => [
             'Delivery_ID',
             'Orders_TotalPrice',
-            'Orders_PaymentMethod',
-
             [
               'attribute'=>'quantity',
               'label' => 'No. Orders',
@@ -28,8 +26,27 @@ use common\models\Order\Orderitem;
                 return Orderitem::find()->where('Delivery_ID=:d',[':d'=>$model['Delivery_ID']])->count();
               }
             ],
+  
+            [
+              'label'=>'Payment Method',
+              'attribute' => 'Orders_PaymentMethod',
+              'filter' => ['Account Balance'=>'Account Balance','Cash on Delivery'=>'Cash on Delivery'],
+              'filterType' => GridView::FILTER_SELECT2,
+              'filterWidgetOptions' => [
+                    'pluginOptions' => ['allowClear' => true],
+                ],
+              'filterInputOptions' => ['placeholder' => 'Any Method'],
+              'format' => 'raw'
+            ],
+       
+            [                  
+                 'attribute' => 'Orders_DateTimeMade',
+                 'value' => 'Orders_DateTimeMade',
+                 'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'Orders_DateTimeMade', 'dateFormat' => 'yyyy-MM-dd',]),
+                 'format' => 'datetime',
+            ],
             
-            'Orders_DateTimeMade:datetime',
+            
 
             ['class' => 'yii\grid\ActionColumn' ,
              'template'=>'{showdetails}',

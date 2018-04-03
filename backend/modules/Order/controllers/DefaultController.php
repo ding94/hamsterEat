@@ -5,6 +5,7 @@ namespace backend\modules\Order\controllers;
 use Yii;
 use yii\web\Controller;
 use backend\models\OrderSearch;
+use backend\models\ItemSearch;
 use backend\controllers\CommonController;
 use common\models\Account\Accountbalance;
 use common\models\food\Food;
@@ -34,8 +35,8 @@ class DefaultController extends CommonController
 
     public function actionOrder()
     {
-        $searchModel = new OrderSearch();
-    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,3);
+        $searchModel = new ItemSearch();
+    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 		return $this->render('orders',['model' => $dataProvider , 'searchModel' => $searchModel]);
     }
@@ -208,4 +209,6 @@ class DefaultController extends CommonController
         }
         return false;
     }
+
+
 }

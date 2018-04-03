@@ -12,7 +12,7 @@ use common\models\Restaurant;
 use common\models\Cart\{Cart,CartSelection};
 use yii\helpers\Json;
 use frontend\modules\UserPackage\controllers\SelectionTypeController;
-use frontend\controllers\CommonController;
+use frontend\controllers\{CommonController,PromotionController};
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
@@ -186,18 +186,19 @@ class CartController extends CommonController
     {
         $time['now'] = Yii::$app->formatter->asTime(time());
         $query =  Cart::find()->where('uid = :uid and area = :area',[':uid' => Yii::$app->user->identity->id ,':area'=>$area])->joinWith(['food']);
-      
+        $price['promotion'] = 0;
         $price['total'] = 0;
 
         foreach($query->each() as $value)
         {
             if($value->status == 1)
             {
+                $price['promotion'] += self::getCartPromotion($value->price,$value->selectionprice,$value->fid)*$value->quantity;
                 $price['total'] += $value->price * $value->quantity;
                 $countDelivery[$value->food->Restaurant_ID] = 0;
             }
         }
-      
+       
         $deliveryCharge = empty($countDelivery)? 0 : count($countDelivery) * Yii::$app->params['deliveryCharge'];
         $price['delivery'] = $deliveryCharge;
 
@@ -209,6 +210,25 @@ class CartController extends CommonController
             }])->all(),'code','code');
         $ren = new DiscountItem;
         return $this->renderAjax('totalcart',['price'=>$price ,'time' => $time,'voucher'=>$voucher,'ren'=>$ren,'area'=>$area]);
+    }
+
+    protected static function getCartPromotion($price,$selprice,$fid)
+    {
+        $promotion = PromotionController::getPromotioinPrice($price-$selprice,$fid,1);
+        $dis = 0;
+
+        if(is_array($promotion))
+        {
+            $dis = ($price-$selprice)- $promotion['price'];
+                   
+            $seldis = PromotionController::getPromotioinPrice($selprice,$fid,2);
+            if(is_array($seldis))
+            {
+                $dis += $selprice-$seldis['price'];
+            }
+
+        }
+        return $dis;
     }
 
     /* Function for dependent dropdown in frontend index page. */

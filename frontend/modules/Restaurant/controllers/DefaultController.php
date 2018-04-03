@@ -544,7 +544,16 @@ class DefaultController extends CommonController
         }
         
         $food = $query->limit(12)->all();
-
+        foreach($food as $value)
+        {
+            $price = PromotionController::getPromotioinPrice($value->Price,$value->Food_ID,1);
+            if(is_array($price))
+            {
+                $value->promotion_price = $price['price'];
+                $value->promotion_text = $price['message'];
+                $value->promotion_enable = 1;
+            }
+        }
         $moreFood = $query->limit(13)->count() > 12 ? 1 :0 ;
       
         $foodquery = Foodtype::find()->andWhere('ID != 3 and ID != 4')->orderBy(['Type_Desc'=>SORT_ASC]);
@@ -590,6 +599,13 @@ class DefaultController extends CommonController
         
         foreach($query->each() as $fooddata)
         {
+            $price = PromotionController::getPromotioinPrice($fooddata->Price,$fooddata->Food_ID,1);
+            if(is_array($price))
+            {
+                $fooddata->promotion_price = $price['price'];
+                $fooddata->promotion_text = $price['message'];
+                $fooddata->promotion_enable = 1;
+            }
             $data[] = Yii::$app->controller->renderPartial('_food',['fooddata'=>$fooddata]);
             //$data[] = $fooddata->Food_ID;
         }

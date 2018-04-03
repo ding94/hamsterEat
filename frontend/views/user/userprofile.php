@@ -93,14 +93,16 @@ UserAsset::register($this);
         </div>
         <?php if(empty(!$employee)): ?>
           <div class='col-sm-3 userprofile-right' style="float: left;">
-            <?php if(Company::find()->where('id=:id',[':id'=>$employee['cid']])->one()->owner_id == $employee['uid']): ?>
-              You are Owner of <br>
-              <H4><b><?= $employee['company']['name']; ?> !</b></H4>
+            <?php if(!empty($company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->id])->all())): ?>
+              <?= Yii::t('user','You are Owner of').' '; ?> <br>
+              <?php foreach($company as $k => $c) : ?>
+                <H4><b><?= ($k+1).'. '.$c['name']; ?></b></H4>
+              <?php endforeach; ?>
             <?php elseif($employee['status'] == 1) :?>
-              You are employee of <br>
+              <?= Yii::t('user','You are employee of').' ';?> <br>
               <H4><b><?= $employee['company']['name']; ?> !</b></H4>
             <?php else: ?>
-              <H4><b>Company Register In Process</b></H4>
+              <H4><b><?= Yii::t('user','Company Register In Process')?></b></H4>
             <?php endif;?>
             </div>
         <?php else: ?>

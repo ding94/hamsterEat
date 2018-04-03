@@ -25,7 +25,7 @@ class AllOrderController extends CommonController
 			$searchModel->Delivery_ID = $did;
 		}
 		
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,4);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,3);
         $alluser = ArrayHelper::map(User::find()->where('status = 10')->all(),'username','username');
 
         $allstatus =ArrayHelper::map(StatusType::find()->all(),'id','type');

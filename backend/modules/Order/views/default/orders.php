@@ -3,18 +3,17 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\GridView;
 use yii\grid\ActionColumn;
 use yii\db\ActiveRecord;
 use iutbay\yii2fontawesome\FontAwesome as FA;
+use kartik\grid\GridView;
 
   $this->title = 'Orders Pending List';
   $this->params['breadcrumbs'][] = $this->title;
 
   echo Html::a('Go to Delivery List', Url::to(['/order/default/index']),['class'=>'btn btn-primary']);
   
-?>
-  <?= GridView::widget([
+echo GridView::widget([
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
@@ -28,12 +27,36 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 },
               ]
             ],
-
-            'Order_ID',
-            'order.Delivery_ID',
-            'order.User_Username',
-            'order.Orders_PaymentMethod',
-            'food.originName',
+            [
+              'attribute' =>'Order_ID',
+              'filterInputOptions' => ['placeholder' => 'Search ID'],
+            ],
+            [ 
+              'attribute' => 'Delivery_ID',
+             'filterInputOptions' => ['placeholder' => 'Search ID'],
+            ],
+             [ 
+              'attribute' => 'User_Username',
+              'filterInputOptions' => ['placeholder' => 'Search ID'],
+              'value'=> 'order.User_Username',
+            ],
+            [
+              'label'=>'Payment Method',
+              'attribute' => 'Orders_PaymentMethod',
+              'filter' => ['Account Balance'=>'Account Balance','Cash on Delivery'=>'Cash on Delivery'],
+              'filterType' => GridView::FILTER_SELECT2,
+              'filterWidgetOptions' => [
+                    'pluginOptions' => ['allowClear' => true],
+                ],
+              'filterInputOptions' => ['placeholder' => 'Any Method'],
+              'format' => 'raw',
+              'value'=>'order.Orders_PaymentMethod',
+            ],
+            [   
+              'attribute' => 'FoodName',
+              'filterInputOptions' => ['placeholder' => 'Select Food'],
+              'value'=>'food.originName',
+            ],
             [
               'attribute' =>'selection',
               'value'=>function($model){
@@ -47,7 +70,14 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 
               }
             ],
-            'order.Orders_DateTimeMade:datetime',
-        ]
+            [                  
+              'attribute' => 'Orders_DateTimeMade',
+              'value' => 'order.Orders_DateTimeMade',
+              'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'Orders_DateTimeMade', 'dateFormat' => 'yyyy-MM-dd',]),
+              'format' => 'datetime',
+     
+            ],
+            
+        ] 
       ]
     ); ?>

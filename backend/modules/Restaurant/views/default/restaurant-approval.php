@@ -25,7 +25,13 @@ use yii\bootstrap\Modal;
             [
                 'attribute' => 'Restaurant_Name',
             ],
-            'Restaurant_DateTimeCreated:datetime',
+
+            [
+                'attribute' =>'Restaurant_DateTimeCreated',
+                 'value' => 'Restaurant_DateTimeCreated',
+                 'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'Restaurant_DateTimeCreated', 'dateFormat' => 'yyyy-MM-dd',]),
+                 'format' => 'datetime',
+            ],
             [
                 'value' => function($model,$url){
                      return $model['approval'] == 0 ?  'Rejected' :  'Approved';

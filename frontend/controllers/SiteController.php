@@ -29,7 +29,7 @@ use common\models\Feedback;
 use common\models\Feedbackcategory;
 use common\models\Upload;
 use common\models\AuthFb;
-use common\models\company\{Company,CompanyEmployees};
+use common\models\Company\{Company,CompanyEmployees};
 use yii\web\UploadedFile;
 /**
  * Site controller

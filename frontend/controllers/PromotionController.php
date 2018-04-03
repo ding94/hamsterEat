@@ -11,11 +11,11 @@ class PromotionController extends Controller
 	/*
 	* detect any promotion
 	* find user use already the promotion
+	*
 	*/
 	public static function getPromotioinPrice($price,$id,$type)
 	{
 		$today = date("Y-m-d");
-		$userUsed = false;
 		$promotion = Promotion::find()->where(['<=','start_date',$today])->andWhere(['>=','end_date',$today])->one();
 
 		if(empty($promotion))
@@ -26,13 +26,17 @@ class PromotionController extends Controller
 		if(!Yii::$app->user->isGuest)
 		{
 			$userUsed = PromotionUserUsed::find()->where('id = :id and uid = :uid',[':id'=>$promotion->id,':uid'=>Yii::$app->user->identity->id])->exists();
+			if($userUsed)
+			{
+				return $price;
+			}
 		}
 		
-
-		if($userUsed)
+		if($type == 2 && $promotion->enable_selection == 0)
 		{
 			return $price;
 		}
+
 		//$food->Price = self::calPrice($promotion->type_discount,$promotion->discount,$food->Price);
 		
 		return self::detectPromotion($promotion,$price,$id,$type);

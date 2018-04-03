@@ -46,10 +46,12 @@ CartAsset::register($this);
         </td>
         <td class="text-xs-right">RM <font id="delivery"><?php echo $charge ; ?></font></td>
       </tr>
-      <?php if($price['promotion'] == 0 ):?>
+      <?php 
+        $dis = 0;
+        if($price['promotion'] == 0 ):?>
       <?php if($time['early'] <= $time['now'] && $time['late'] >= $time['now']):?>
       <tr id="earlytd" class="relative">
-        <?php $earlyDiscount = CartController::actionRoundoff1decimal($total *0.15)?>
+        <?php $dis = $earlyDiscount = CartController::actionRoundoff1decimal($total *0.15)?>
         <td><?= Yii::t('common','Early Discount') ?><i class="fa fa-question-circle" aria-hidden="true">
           <span class="i-detail i-information"> 
             <?= Yii::t('cart','early-promo') ?>
@@ -61,7 +63,7 @@ CartAsset::register($this);
       <?php else : ?>
         <tr>
           <td>Discount</td>
-          <td class="text-xs-left">-<?= $price['promotion'];?></td>
+          <td class="text-xs-left">-<?= $dis =$price['promotion'];?></td>
         </tr>
       <?php endif ;?>
               <!--<tr id="discount" >
@@ -77,7 +79,7 @@ CartAsset::register($this);
         </tr>-->
 
         <tr style="font-size:20px;">
-          <?php $finalPrice = $total - $price['promotion'] + $charge ;?>
+          <?php $finalPrice = $total - $dis + $charge ;?>
           <td><b><?= Yii::t('common','Total') ?></td>
           <td class="text-xs-right" ><b>RM <font id="total"><?php echo CartController::actionRoundoff1decimal($finalPrice); ?></font></td>
         </tr>

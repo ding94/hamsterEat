@@ -7,7 +7,7 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-frontend',
+    'id' => 'hamsterEat-frontend',
     'name' => 'Delivery Food In Medini | HamsterEat',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
@@ -101,7 +101,7 @@ return [
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+            'name' => 'hamsterEat-frontend',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

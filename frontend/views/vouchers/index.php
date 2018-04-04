@@ -51,7 +51,7 @@ MyVouchersAsset::register($this);
                                 <?php echo $uservou['discount']; ?>
                             </td>
                             <td data-th="Item">
-                                <?php echo $uservou['discount_item']; ?>
+                                <?php echo Yii::t('vouchers',$uservou['discount_item']); ?>
                             </td>
                             <td data-th="Last Available Date">
                                 <?php echo $uservou['endDate']; ?>

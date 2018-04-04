@@ -3,6 +3,7 @@
 namespace common\models\translate;
 
 use Yii;
+use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
 
 /**
@@ -23,7 +24,6 @@ class SentencesSource extends \yii\db\ActiveRecord
     {
         return 'sentences_source';
     }
-
     /**
      * @inheritdoc
      */
@@ -85,9 +85,14 @@ class SentencesSource extends \yii\db\ActiveRecord
                 # code...
                 break;
         }
-        
 
         $this->load($params);
+
+        $query
+        ->andFilterWhere(['like','category' , $this->getAttribute('category')])
+        ->andFilterWhere(['like','message' , $this->getAttribute('message')])
+        ;
+
         return $dataProvider;
     }
 

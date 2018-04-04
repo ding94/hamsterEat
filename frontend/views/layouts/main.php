@@ -292,6 +292,7 @@ NotificationAsset::register($this);
             </div>
         </div>
         <?php 
+            //set banner hide or show
             $link = Url::to(['/site/closebanner']); 
             $cookies = Yii::$app->request->cookies;
             if (empty($cookies['banner'])):

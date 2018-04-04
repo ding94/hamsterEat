@@ -24,10 +24,9 @@ Modal::end();
     <?php endif; ?>
 </div>
 
-<?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-
 <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             [
                 'class' => 'yii\grid\ActionColumn',
@@ -73,4 +72,3 @@ Modal::end();
             
         ],
     ])?>
-<?php ActiveForm::end(); ?>

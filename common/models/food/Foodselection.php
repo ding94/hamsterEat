@@ -2,7 +2,7 @@
 
 namespace common\models\food;
 use frontend\controllers\CartController;
-use frontend\controllers\PromotionController;
+use frontend\modules\offer\controllers\PromotionController;
 use Yii;
 
 /**

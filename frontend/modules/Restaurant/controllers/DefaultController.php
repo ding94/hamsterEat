@@ -26,7 +26,8 @@ use common\models\Restauranttypejunction;
 use common\models\Restauranttype;
 use common\models\LanguageLine;
 use frontend\modules\Restaurant\controllers\RestauranttypeController;
-use frontend\controllers\{CommonController,PromotionController};
+use frontend\controllers\CommonController;
+use frontend\modules\offer\controllers\PromotionController;
 use yii\web\Session;
 
 /**
@@ -209,7 +210,7 @@ class DefaultController extends CommonController
         $resname = CommonController::getRestaurantName($rid);
         $language = Yii::$app->request->cookies->getValue('language');
 
-        return $this->render('restaurantdetailstest',['id'=>$id,'resname'=>$resname, 'allfood'=>$allfood, 'rid'=>$rid,'allfoodtype'=>$allfoodtype]);
+        return $this->render('restaurantdetails',['id'=>$id,'resname'=>$resname, 'allfood'=>$allfood, 'rid'=>$rid,'allfoodtype'=>$allfoodtype]);
     }
 
 //--This function captures the new restaurant's area group based on the entered postcode and area

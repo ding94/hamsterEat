@@ -13,7 +13,7 @@ Class PromotionSearch extends Promotion
 	public function rules()
     {
         return [
-           [['type_promotion','type_discount','discount','food_limit','first','last'],'safe'],
+           [['type_promotion','type_discount','discount','first','last'],'safe'],
         ];
     }
 	public function search($params)
@@ -30,7 +30,6 @@ Class PromotionSearch extends Promotion
            'type_promotion' => $this->type_promotion,
            'type_discount' => $this->type_discount,
            'discount' => $this->discount,
-           'food_limit' => $this->food_limit,
         ]);
 
         if(!empty($this->first))

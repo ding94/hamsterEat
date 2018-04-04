@@ -12,7 +12,6 @@ use Yii;
  * @property string $type_discount 1=> discount % 2=>discount amount 3=>amount leave
  * @property string $end_date end date
  * @property string $enable_selection  0=> not discount 1=> discount
- * @property int $food_limit per day food promotion
  * @property string $start_date start date
  * @property string $end_date end date
  *
@@ -37,8 +36,8 @@ class Promotion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type_promotion', 'type_discount', 'discount', 'food_limit','enable_selection', 'start_date', 'end_date'], 'required'],
-            [['type_promotion', 'discount', 'food_limit'], 'integer'],
+            [['type_promotion', 'type_discount', 'discount','enable_selection', 'start_date', 'end_date'], 'required'],
+            [['type_promotion', 'discount'], 'integer'],
             [['type_discount','enable_selection'], 'string'],
             [['start_date', 'end_date'], 'string', 'max' => 25],
             [['type_promotion'], 'exist', 'skipOnError' => true, 'targetClass' => PromotionType::className(), 'targetAttribute' => ['type_promotion' => 'id']],
@@ -56,7 +55,6 @@ class Promotion extends \yii\db\ActiveRecord
             'type_discount' => 'Type Discount',
             'discount' => 'Discount',
             'enable_selection'=> 'Enable Selection',
-            'food_limit' => 'Food Limit',
             'start_date' => 'Start Date',
             'end_date' => 'End Date',
         ];

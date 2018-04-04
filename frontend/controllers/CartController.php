@@ -12,7 +12,8 @@ use common\models\Restaurant;
 use common\models\Cart\{Cart,CartSelection};
 use yii\helpers\Json;
 use frontend\modules\UserPackage\controllers\SelectionTypeController;
-use frontend\controllers\{CommonController,PromotionController};
+use frontend\controllers\CommonController;
+use frontend\modules\offer\controllers\PromotionController;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
@@ -158,6 +159,13 @@ class CartController extends CommonController
         
         foreach($cart as $i=> $single)
         {
+            $promotion = PromotionController::getPromotioinPrice($single->price,$single->fid,1);
+            if(is_array($promotion))
+            {
+
+                $single->promotion_enable = 1;
+              
+            }
             if(!empty($single['selection']))
             {
                 foreach($single['selection'] as $selection)
@@ -177,7 +185,6 @@ class CartController extends CommonController
             $groupCart[$single['area']][] = $single;
            
         }
-        
 
         return $this->render('cart',['groupCart' => $groupCart]);
     }
@@ -212,7 +219,7 @@ class CartController extends CommonController
         return $this->renderAjax('totalcart',['price'=>$price ,'time' => $time,'voucher'=>$voucher,'ren'=>$ren,'area'=>$area]);
     }
 
-    protected static function getCartPromotion($price,$selprice,$fid)
+    public static function getCartPromotion($price,$selprice,$fid)
     {
         $promotion = PromotionController::getPromotioinPrice($price-$selprice,$fid,1);
         $dis = 0;

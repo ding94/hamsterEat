@@ -2,7 +2,6 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
-use common\models\Rmanagerlevel;
 use frontend\assets\StarsAsset;
 use frontend\assets\RestaurantDetailsAsset;
 use frontend\controllers\CartController;
@@ -31,7 +30,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
     ]);
     
     Modal::end() ?>
-<div class = "container">
+<div id="restaurant-details-container" class = "container">
  <!--<a class="back" href="../web/index.php?r=ticket%2Findex"><i class="fa fa-angle-left">&nbsp;Back</i></a><br>-->
   
 <a href="#top" class="scrollToTop"></a>
@@ -48,6 +47,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
         </span>
     </div>
         <div class="rating"><span class="small-text stars"><?php echo $id['Restaurant_Rating']; ?></span></div>
+        <div class="ratingdiv" data-path="<?php echo Yii::getAlias('@web') ?>"><span class="emoticon"></span><span class="testrating"><?php echo $id['Restaurant_Rating']; ?></span></div>
         <div class="info-div">
           <ul class="info">
             <?php if ($id['Restaurant_Pricing'] == 1){ ?>
@@ -68,56 +68,72 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
         </div>
          </div>
     </div>
-    <br>
-    <hr class="restaurantdetails-hr">
-    <h2><center>Menu</h2>
-    
-    <div class = "foodItems">
+    <?php if(empty($allfoodtype) && empty($foodtype)):?>
+        <h1><?= Html::encode('Food Currently Not Available');?></h1>
+    <?php else : ?>
+    <div id="category-bar">
+        <ul class="container">
+        <?php
+        foreach($allfoodtype as $i=>$name):
+                    ?>
+            <a src="#" class="scroll-link" data-id="section<?php echo $i ?>"><li><?php echo $name; ?></li></a>
+        <?php endforeach; ?>
+        </ul>
     </div>
-    
-    <?php
-      $rid = $id['Restaurant_ID'];
-      $id = isset($_GET['foodid']) ? $_GET['foodid'] : ''; 
-    ?>
-    <div class="outer-container">
-    <div class="menu-container" id="menu-container">
-        <?php foreach($rowfood as $data): ?>
-        <?php $imgdata =  $data->multipleImg?>
-        <a href="<?php echo yii\helpers\Url::to(['/food/food-details','id'=>$data['Food_ID'],'rid'=>$rid]); ?>"  class ="food-link" data-toggle="modal" data-target="#foodDetail" data-img= <?php echo json_encode($imgdata) ?>>
+
+    <?php foreach($allfood as $typeid => $typename):?>
+    <div id="section<?php echo $typeid;?>" class="foodtype">
+        <div class="foodtype-name">
+            <h1><span><?php echo $allfoodtype[$typeid]; ?></span></h1>
+        </div>
+        <div class="outer-container">
+        <div class="menu-container" id="menu-container">
+        <?php 
+            foreach($typename as $food):
+                $imgdata =  $food->multipleImg;
+        ?>
+        <?php if($food['foodStatus']['food_limit'] > 0): ?>
+        <a href="<?php echo yii\helpers\Url::to(['/Food/default/detail','id'=>$food['Food_ID'],'rid'=>$rid]); ?>"  class ="food-link" data-toggle="modal" data-target="#foodDetail" data-img= <?php echo json_encode($imgdata) ?>>
+        <?php endif;?>
         <div class="item">
+            <?php if($food['foodStatus']['food_limit'] <= 0): ?>
+            <div class="disable-div">Food Unavailable</div>
+            <?php endif;?>
             <div class="img">
-                <?php if (time() > strtotime(date("Y/m/d 11:0:0"))):?>
-                    <div class="corner-ribbon top-left sticky red shadow">-15%</div>
+                <?php if (time() < strtotime(date("Y/m/d 11:0:0")) || $food->promotion_enable == 1):?>
+                    <div class="corner-ribbon top-left sticky red shadow">
+                        <span>
+                        <?php echo $food->promotion_enable == 0 ? "15%" : $food->promotion_text;?>
+                        </span>
+                    </div>
                 <?php endif; ?>
-                <img  src=<?php echo $data->singleImg?> alt="">
+                <img src=<?php echo $food->singleImg?> alt="">
             </div>
             <div class="inner-item">
-                <div class="foodName-div">
-                    <span class="foodName">
-                        <?= $data['Name'];?>
+            <div class="foodName-div"><span class="foodName"><?php echo $food['cookieName']; ?></span><span class="small-text stars" alt="<?php echo $food['Rating']; ?>"><?php echo $food['Rating']; ?></span></div>
+            <!-- <div class="stars-div"></div> -->
+            <div class="price-div">
+                <?php if (time() < strtotime(date("Y/m/d 11:0:0"))|| $food->promotion_enable == 1) :?>
+                    <span class="price">
+                        <strike><?php echo 'RM'.$food['Price']; ?></strike>
+                        <?php 
+                            $disPrice= $food->promotion_enable == 0 ? $food['Price']*0.85 : $food->promotion_price;
+                            $disPrice = CartController::actionRoundoff1decimal($disPrice);
+                            echo 'RM'.number_format($disPrice,2); 
+                        ?>
                     </span>
-                    <span class="small-text stars" alt="<?php echo $data['Rating']; ?>">
-                        <?php echo $data['Rating']; ?>
-                    </span>
-                </div>
-                <!-- <div class="stars-div"></div> -->
-                <div class="price-div">
-                    <?php if (time() < strtotime(date("Y/m/d 11:0:0"))):?>
-                        <span class="price"><strike><?php echo 'RM'.$data['Price']; ?></strike>        <?php $data['Price']=$data['Price']*0.85;$data['Price'] = CartController::actionRoundoff1decimal($data['Price']); echo 'RM'.number_format($data['Price'],2); ?></span>
-                    <?php else: ?>
-                        <span class="price"><?php echo 'RM'.$data['Price']; ?></span>
-                    <?php endif;?>
-                </div>
-                <div class="foodDesc-div"><span class="foodDesc"><?php echo $data['Description']; ?></span></div>
-                <div class="tag-div">
-                <?php foreach($data['foodType']as $type): ?>
-                <span class="tag"><?php echo $type['Type_Desc'].'&nbsp;&nbsp;&nbsp;'; ?></span>
-                <?php endforeach; ?>
-                </div>
+                <?php else: ?>
+                    <span class="price"><?php echo 'RM'.$food['Price']; ?></span>
+                <?php endif;?>
+            </div>
+            <div class="foodDesc-div"><span class="foodDesc"><?php echo $food['Description']; ?></span></div>
             </div>
         </div>
         </a>
         <?php endforeach; ?>
+        </div>
+        </div>
     </div>
-    </div>
+    <?php endforeach; ?>
+    <?php endif;?>
 </div>

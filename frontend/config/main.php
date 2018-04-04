@@ -29,6 +29,9 @@ return [
         'notification' => [
             'class' => 'frontend\modules\notification\notification',
         ],
+         'Promotion' => [
+            'class' => 'frontend\modules\offer\Promotion',
+        ],
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [

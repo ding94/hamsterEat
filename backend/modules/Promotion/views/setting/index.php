@@ -62,12 +62,6 @@ echo GridView::widget([
             'width'=>'7%', 
         ],
         [
-            'attribute'=>'food_limit',
-            'vAlign' => 'middle',
-            'hAlign' => 'center', 
-            'width'=>'7%',
-        ],
-        [
             'attribute'=>'first',
             'vAlign' => 'middle',
             'hAlign' => 'center',

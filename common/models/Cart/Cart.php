@@ -28,6 +28,7 @@ class Cart extends \yii\db\ActiveRecord
      * @inheritdoc
      */
     public $groupselection = [];
+    public $promotion_enable = 0;
     private $idCache;
 
     public static function tableName()

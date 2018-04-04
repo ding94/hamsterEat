@@ -34,7 +34,7 @@ class LimitController extends Controller
 		
 		if(Yii::$app->request->post())
 		{
-			if($this->save($model,$promotion->id,$promotion->food_limit))
+			if($this->save($model,$promotion->id))
 			{
 				return $this->redirect(['/promotion/setting/index']);
 			}
@@ -54,7 +54,7 @@ class LimitController extends Controller
 		return $model;
 	}
 
-	protected static function save($model,$id,$foodlimit)
+	protected static function save($model,$id)
 	{
 
 		Model::loadMultiple($model,Yii::$app->request->post());
@@ -66,12 +66,6 @@ class LimitController extends Controller
 		if(empty($model))
 		{
 			Yii::$app->session->setFlash('warning', "At Least One Item Must More Then Zero");
-			return false;
-		}
-
-		if($limit > $foodlimit)
-		{
-			Yii::$app->session->setFlash('warning', "The Limit is out of the promotion limit");
 			return false;
 		}
 		

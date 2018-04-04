@@ -7,7 +7,7 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use kartik\widgets\TouchSpin;
 
-$this->title = "Generate List Of Promotion With Maximun Limit :".$promotion->food_limit;
+$this->title = "Generate List Of Promotion ";
 $this->params['breadcrumbs'][] = ['label' => 'Promotion Index', 'url' => ['/promotion/setting/index']];
 $this->params['breadcrumbs'][] = $this->title;
 

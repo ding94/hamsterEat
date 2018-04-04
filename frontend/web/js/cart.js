@@ -54,7 +54,7 @@ $('.delete').on('click',function(event){
     }
 });
 
-$('footer.content').on('click', '.plusMinus', function(event) {
+$('.footer-content-container').on('click', '.plusMinus', function(event) {
   event.preventDefault();
   url = $(this).attr('data-url');
   
@@ -217,3 +217,12 @@ function quantity(up,cid,url)
     });
     
   });
+
+// js for cart collapse panel chevron arrow display
+$('.panel-collapse').on('show.bs.collapse', function () {
+  $(this).siblings('.panel-heading').addClass('active');
+});
+
+$('.panel-collapse').on('hide.bs.collapse', function () {
+  $(this).siblings('.panel-heading').removeClass('active');
+});

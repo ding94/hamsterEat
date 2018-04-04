@@ -1,13 +1,15 @@
 <?php
-namespace frontend\controllers;
+namespace frontend\modules\offer\controllers;
+
 use Yii;
 use yii\web\Controller;
-use common\models\promotion\{Promotion,PromotionLimit,PromotionDailyLimit,PromotionUserUsed};
-use common\models\food\{Food,Foodselection};
-use common\models\Company\{CompanyEmployees};
+use common\models\promotion\{Promotion,PromotionDailyLimit,PromotionUserUsed};
+use common\models\Cart\Cart;
+use common\models\food\Food;
 
 class PromotionController extends Controller
 {
+
 	/*
 	* detect any promotion
 	* find user use already the promotion
@@ -15,21 +17,11 @@ class PromotionController extends Controller
 	*/
 	public static function getPromotioinPrice($price,$id,$type)
 	{
-		$today = date("Y-m-d");
-		$promotion = Promotion::find()->where(['<=','start_date',$today])->andWhere(['>=','end_date',$today])->one();
-
+		$promotion = self::getPromotion();
+		
 		if(empty($promotion))
 		{
 			return $price;
-		}
-
-		if(!Yii::$app->user->isGuest)
-		{
-			$userUsed = PromotionUserUsed::find()->where('id = :id and uid = :uid',[':id'=>$promotion->id,':uid'=>Yii::$app->user->identity->id])->exists();
-			if($userUsed)
-			{
-				return $price;
-			}
 		}
 		
 		if($type == 2 && $promotion->enable_selection == 0)
@@ -39,72 +31,59 @@ class PromotionController extends Controller
 
 		//$food->Price = self::calPrice($promotion->type_discount,$promotion->discount,$food->Price);
 		
-		return self::detectPromotion($promotion,$price,$id,$type);
+		return self::findPromotionPrice($promotion,$price,$id,$type);
 	}
 
 	/*
-	* use query to find the PromotionLimitData 
+	* detect promotion and whether user used;
+	*/
+	public static function getPromotion()
+	{
+		$today = date("Y-m-d");
+		$promotion = Promotion::find()->where(['<=','start_date',$today])->andWhere(['>=','end_date',$today])->one();
+
+		if(empty($promotion))
+		{
+			return;
+		}
+
+		if(!Yii::$app->user->isGuest)
+		{
+			$userUsed = PromotionUserUsed::find()->where('id = :id and uid = :uid',[':id'=>$promotion->id,':uid'=>Yii::$app->user->identity->id])->exists();
+			if($userUsed)
+			{
+				return;
+			}
+		}
+		return $promotion;
+	}
+
+	/*
+	* ind the PromotionLimitData 
 	* if not data return price
 	* and find daily limit
 	* to calculate daily food limit reach max limit of food limit
 	*/
-	protected static function detectPromotion($promotion,$price,$id,$type)
+	protected static function findPromotionPrice($promotion,$price,$id,$type)
 	{
 
+		$arrayLimit = DetectPromotionController::getDailyList($id,$promotion->id,$promotion->type_promotion);
 		$food = Food::findOne($id);
-		
-		$query = PromotionLimit::find()->where('pid = :pid',[':pid'=>$promotion->id]);
-		switch ($promotion->type_promotion) {
-			case 2:
-				$query->andWhere('tid = :tid',[':tid'=>$food->Restaurant_ID]);
-				break;
-			case 3:
-				$query->andWhere('tid = :tid',[':tid'=>$food->Food_ID]);
-				break;
-			case 4:
-				$cid = self::detectCompany();
-				$query->andWhere('tid = :tid',[':tid'=>$cid]);
-				break;
-			default:
-				# code...
-				break;
-		}
-
-		$limit = $query->one();
-
-		if(empty($limit))
+		if(empty($arrayLimit))
 		{
-			return $price;
-		}
-
-		$dailyLimit = self::findDailiyLimit($promotion->id);
-		
-		if(empty($dailyLimit))
-		{
+			var_dump('a');exit;
 			return $price;
 		}
 		
 		$data = $price;
-
-		if($dailyLimit->food_limit <= $limit->food_limit)
+		$dailyLimit = $arrayLimit['daily'];
+		$limit =$arrayLimit['limit'];
+		if($dailyLimit->food_limit < $limit->food_limit)
 		{
 			$data =  self::calPrice($promotion->type_discount,$promotion->discount,$food->Price,$type);
 		}
 		
 		return $data;
-	}
-
-	/*
-	* find User Company if not exist return -1
-	*/
-	protected static function detectCompany()
-	{
-		if(Yii::$app->user->isGuest)
-		{
-			return -1;
-		}
-		$company = CompanyEmployees::find()->where('uid = :uid',[":uid"=>Yii::$app->user->identity->id])->one();
-		return empty($company) ? -1 : $company->cid;
 	}
 
 	/*
@@ -143,10 +122,22 @@ class PromotionController extends Controller
 	}
 
 	/*
+	* create user used promotion data
+	* id => promotion id
+	*/
+	public static function createUserUsed($id)
+	{
+		$data = new PromotionUserUsed;
+		$data->id =$id;
+		$data->uid = Yii::$app->user->identity->id;
+		return $data;
+	}
+
+	/*
 	* find promotion daily limit
 	* if not create one
 	*/
-	protected static function findDailiyLimit($id)
+	public static function findDailiyLimit($id)
 	{
 		$today = date("Y-m-d");
 		$model = PromotionDailyLimit::find()->where('id = :id and date = :d',[':id'=>$id,':d'=>$today])->one();
@@ -157,6 +148,7 @@ class PromotionController extends Controller
 			$model->id = $id;
 			$model->date = $today;
 			$model->food_limit = 0;
+			
 			if(!$model->save())
 			{
 				return;

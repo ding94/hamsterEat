@@ -101,7 +101,7 @@ class SettingController extends Controller
     	}
 
     	$new = $model->isNewRecord;
-    	
+    
     	if($model->save())
     	{
     		$data['message'] = $new ? "Success Create" : "Success Update";
@@ -137,7 +137,8 @@ class SettingController extends Controller
     {
     	$array = array();
     	$array['type'] = ArrayHelper::map(PromotionType::find()->all(),'id','description');
-    	$array['discount'] = [1=>'Discount %',2=>'Discount Amount',3=>'Discount Leave Amount'];
+        $array['discount'] = [1=>'Discount %',2=>'Discount Amount',3=>'Discount Leave Amount'];
+    	$array['selection'] = [1=>'On',0=>'Off'];
     	return $array;
     }
 }

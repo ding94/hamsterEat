@@ -63,66 +63,77 @@ $cart_status = 0;
 	</div>
    <?php $form = ActiveForm::begin(['action' =>['checkout/process'],'method' => 'post']); ?>
 	<div class="container">
-    <?php foreach($cart as$i=> $single) :
+    <?php foreach($cart as $i=> $single) :
       $disable = $single->status == 0 ? true:false;
       $cart_status += $single->status;
     ?> 
-			<section id="cart-<?php echo $i?>" class="cart <?php echo $disable ? "disable-cart" : ""?>" data-status=<?php echo $single->status?>>
+      <section id="cart-<?php echo $i?>" class="cart <?php echo $disable ? "disable-cart" : ""?>" data-status=<?php echo $single->status?>>
         <?php if($disable):?>
         <div class="disable-overlay"><div>Not Available<a class="fa fa-trash delete" href="#" data-id=<?php echo $i?> data-url=<?php echo $deleteurl?> ></a></div></div>
-        <article class="product disable-opacity">
+        <div class="cart-item-container disable-opacity">
         <?php else : ?>
-			  <article class="product">
+        <div class="cart-item-container">
         <?php 
           endif ;
           echo Html::hiddenInput('id',$single['id'],['class'=>$i."-id"]);
+          echo Html::hiddenInput('promotion[]',$single['promotion_enable'],['disabled'=>$disable]);
           echo Html::hiddenInput('cid[]',$single['id'],['disabled'=>$disable]);
           ?> 
-				  <header>
-					  <a class="remove">
-              <img src=<?php echo $single->food->singleImg ?> alt="" class="img-responsive"> 
+          <div class="img">
+            <a class="remove">
+              <img src=<?php echo $single->food->singleImg ?> alt="" class="img-responsive">
               <h3> 
                 <a class="remove delete" href="#" data-id=<?php echo $i?> data-url=<?php echo $deleteurl?><?=Yii::t('common','Remove');?></a>
-  				    </h3>
-				    </a>
-				</header> 
-	 
-        <div class="content">				
-      		<h1>
-            <?php echo Html::a(Yii::t('cart',$single['food']['cookieName']),['Restaurant/default/restaurant-details','rid'=> $single['food']['Restaurant_ID']],['target'=>"_blank"])?>
-          </h1>
-          <div class="relative">
-            <?php if(!empty($single->groupselection)):?>
-            <?=Yii::t('cart','Food Selection');?>
-            <i class="fa fa-info-circle"> 
-              <span class="i-detail i-selection" > 
-                <?php 
-                    foreach($single->groupselection as $name=>$selection):
-                      $text = implode( ", ", $selection );
-                      echo $name .":  ".$text ."</br>";
-                    endforeach;
-                ?>
-              </span>
-            </i>&nbsp;
-            <?php endif;?>
+              </h3>
+            </a>
           </div>
-      		<?php if(!empty($single['remark'])): ?>
+          <div class="content">
+            <div class="content-container">
+              <h1>
+                <?php echo Html::a(Yii::t('cart',$single['food']['cookieName']),['Restaurant/default/restaurant-details','rid'=> $single['food']['Restaurant_ID']],['target'=>"_blank"])?>
+              </h1>
+              <?php if(!empty($single->groupselection)):?>
+                <div class="panel-group">
+                  <div class="panel panel-default">
+                    <div class="panel-heading" data-toggle="collapse" href="#collapse<?php echo $i?>">
+                      <h4 class="panel-title">
+                        <a>
+                          <?=Yii::t('cart','Food Selection');?>
+                          <i class="fa fa-info-circle"></i>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapse<?php echo $i?>" class="panel-collapse collapse">
+                      <div class="panel-body">
+                      <?php 
+                      foreach($single->groupselection as $name=>$selection):
+                        $text = implode( ", ", $selection );
+                        echo $name .":  ".$text ."</br>";
+                      endforeach;
+                      ?>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            <?php endif;?>
+            <?php if(!empty($single['remark'])): ?>
             <div class="relative upper-trash" style="color:#fc7171;"><?=Yii::t('common','Remarks');?>
-      				<i class="fa fa-info-circle"> <span class="i-detail i-selection" ><?php echo $single['remark'];?><span >  </i>
+              <i class="fa fa-info-circle"> <span class="i-detail i-selection" ><?php echo $single['remark'];?><span >  </i>
             </div>
-      			<?php endif; ?>
-          <a id="d" class="fa fa-trash delete" href="#" data-id=<?php echo $i?> data-url=<?php echo $deleteurl;?>></a>
-      	</div>	
-      	<footer class="content">
-      		<span class="qt-minus plusMinus" data-id=<?php echo $i?> data-url=<?php echo $quantityurl?>>-</span>
-      		<span class="qt" id="qt"> <?php echo $single['quantity'];?></span>
-      		<span class="qt-plus plusMinus" data-id=<?php echo $i?> data-url=<?php echo $quantityurl?>>+</span>
-          <h2 class="full-price">RM
-      			<?php echo  CartController::actionRoundoff1decimal($single['price'] * $single['quantity']);?>
-      		</h2>
-      	</footer>
-			</article>  
-    </section> 
+            <?php endif; ?>
+              <a id="d" class="fa fa-trash delete" href="#" data-id=<?php echo $i?> data-url=<?php echo $deleteurl;?>></a>
+            </div>
+            <div class="footer-content-container">
+              <span class="qt-minus plusMinus" data-id=<?php echo $i?> data-url=<?php echo $quantityurl?>>-</span>
+              <span class="qt" id="qt"> <?php echo $single['quantity'];?></span>
+              <span class="qt-plus plusMinus" data-id=<?php echo $i?> data-url=<?php echo $quantityurl?>>+</span>
+              <h2 class="full-price">RM
+                <?php echo  CartController::actionRoundoff1decimal($single['price'] * $single['quantity']);?>
+              </h2>
+            </div>
+          </div>
+        </div>
+      </section>
     <?php endforeach ;?>
   </div> 
   <iframe id="iframe" src=<?php echo Url::toRoute(['cart/totalcart','area'=>$index])?>></iframe>

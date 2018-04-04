@@ -99,8 +99,12 @@ div::-webkit-scrollbar-thumb{
   }
 }
 
+#uppernavbar .glyphicon{
+  margin: 0 5px;
+}
+
 /*
-* navbar drop down desgin
+* navbar drop down design
 */
 #uppernavbar .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
   color: #141100;

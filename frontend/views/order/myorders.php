@@ -64,7 +64,7 @@ MyOrdersAsset::register($this);
               <?php if($data['Orders_Status'] == 6 || $data['Orders_Status'] == 7): 
                   echo Html::a(Yii::t('order','Invoice Detail'),['invoice-pdf','did'=>$data['Delivery_ID']], ['target'=>'_blank' ,'class'=>'raised-btn main-btn']); 
                   if($data['Orders_Status'] == 6):
-                    echo Html::a(Yii::t('order','Rating'),['/rating/index','id'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']);
+                    echo Html::a(Yii::t('rating','Rating'),['/rating/index','id'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']);
                   endif;
               else :?>
                 <a class="raised-btn main-btn" href="<?php echo yii\helpers\Url::to(['order-details','did'=>$data['Delivery_ID']]); ?>">

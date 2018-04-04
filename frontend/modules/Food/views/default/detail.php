@@ -103,7 +103,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                         <span class="selection-name"><?php echo $type['cookieName']; ?></span>
                        
                         <span class="selection-warning">
-                          *Select at most <?php echo $type ['Max']; ?> items.
+                          *<?= Yii::t('food','Select at most').' '.$type ['Max'].Yii::t('food','items.'); ?>
                         </span>
                       
                      

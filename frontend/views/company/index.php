@@ -32,7 +32,7 @@ use common\models\User;
 		        'templateResult' => new JsExpression('function(user) { return user.username; }'),
 		        'templateSelection' => new JsExpression('function (user) { return user.username; }'),
 		    ],
-		])->label(Yii::t('company','Username'));  ?>
+		])->label(Yii::t('common','Username'));  ?>
 	</div>
 	<div class="col-md-2" style="margin-top: 2%;">
 		<?= Html::submitButton(Yii::t('company','Add Employee'), ['class' => 'raised-btn main-btn submit-resize-btn', 'name' => 'add-button']) ?>
@@ -46,7 +46,7 @@ use common\models\User;
 	<table class="table table-hover">
 		<tr>
 			<th><?= Yii::t('company','Serial ID')?></th>
-			<th><?= Yii::t('company','Username')?></th>
+			<th><?= Yii::t('common','Username')?></th>
 			<th></th>
 		</tr>
 		<?php foreach($approved as $k => $value) : ?>
@@ -64,7 +64,7 @@ use common\models\User;
 	<table class="table table-hover">
 		<tr>
 			<th><?= Yii::t('company','Serial ID')?></th>
-			<th><?= Yii::t('company','Username')?></th>
+			<th><?= Yii::t('common','Username')?></th>
 			<th></th>
 		</tr>
 		<?php foreach($rejected as $k => $value) : ?>

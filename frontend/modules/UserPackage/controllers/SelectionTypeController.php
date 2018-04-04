@@ -41,7 +41,7 @@ class SelectionTypeController extends Controller
 			
 			if($count< $value->Min || $count > $value->Max)
 			{
-				$data['message'] = 'Please select at least '.$value->Min.' items and most '.$value->Max.' items in '.$value->cookieName;
+				$data['message'] = Yii::t('food','Please select at least').' '.$value->Min.' '.Yii::t('food','items and most').' '.$value->Max.' '.Yii::t('food','items in').' '.$value->cookieName;
 				$data['value'] =2;
 				return $data;
 			}

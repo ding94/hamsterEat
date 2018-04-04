@@ -85,4 +85,10 @@ class PromotionLimit extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Promotion::className(), ['id' => 'pid']);
     }
+
+    public function getDailyLimit()
+    {
+        $today = date("Y-m-d");
+        return $this->hasOne(PromotionDailyLimit::className(),['id'=>'id'])->andOnCondition(['date' => $today]);
+    }
 }

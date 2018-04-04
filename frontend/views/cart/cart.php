@@ -76,6 +76,7 @@ $cart_status = 0;
         <?php 
           endif ;
           echo Html::hiddenInput('id',$single['id'],['class'=>$i."-id"]);
+          echo Html::hiddenInput('promotion[]',$single['promotion_enable'],['disabled'=>$disable]);
           echo Html::hiddenInput('cid[]',$single['id'],['disabled'=>$disable]);
           ?> 
 				  <header>

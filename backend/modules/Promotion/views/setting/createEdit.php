@@ -15,8 +15,9 @@ $form = ActiveForm::begin();
 	echo $form->field($model, 'type_promotion')->dropDownList($array['type'], ['value'=>4,'disabled'=>true]);
 	echo $form->field($model, 'type_promotion')->hiddenInput(['value'=>4])->label(false);
 	echo $form->field($model, 'type_discount')->dropDownList($array['discount'],['prompt'=>'-- Select One --']);
+	echo $form->field($model, 'enable_selection')->dropDownList($array['selection'],['prompt'=>'-- Select One --']);
 	echo $form->field($model,'discount');
-	echo $form->field($model,'food_limit');
+
 	?>
 	<label>Date Range</label>
 	<div class="input-group drp-container">

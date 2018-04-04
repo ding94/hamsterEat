@@ -45,7 +45,7 @@ class PromotionUserUsed extends \yii\db\ActiveRecord
     {
         return [
             [['id', 'uid'], 'required'],
-            [['id', 'uid', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'uid', 'created_at', 'updated_at','did'], 'integer'],
             [['id', 'uid'], 'unique', 'targetAttribute' => ['id', 'uid']],
         ];
     }
@@ -58,6 +58,7 @@ class PromotionUserUsed extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'uid' => 'Uid',
+            'did' => 'Did',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

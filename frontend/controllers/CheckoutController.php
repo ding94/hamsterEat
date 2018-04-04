@@ -7,10 +7,8 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\filters\AccessControl;
-use frontend\controllers\CommonController;
-use frontend\controllers\CartController;
-use frontend\controllers\VouchersController;
-use frontend\controllers\PaymentController;
+use frontend\controllers\{CommonController,CartController,VouchersController,PaymentController};
+use frontend\modules\offer\controllers\DetectPromotionController;
 use common\models\Cart\Cart;
 use common\models\Order\Orders;
 use common\models\Order\Orderitem;
@@ -69,7 +67,7 @@ class CheckoutController extends CommonController
       	}
 
       	$cartData = $cookies->getValue('cart');
-
+      	
 		if($early == false)
 		{
 			Yii::$app->session->setFlash('error', Yii::t('checkout','.'));
@@ -116,7 +114,7 @@ class CheckoutController extends CommonController
 	public function actionProcess()
 	{
 		$post = Yii::$app->request->post();
-	
+		
 		if(empty($post['cid']))
       	{
       		Yii::$app->session->setFlash('error', Yii::t('checkout','Your Cart is Empty. Please Add item before processing to checkout'));
@@ -126,6 +124,7 @@ class CheckoutController extends CommonController
 		$cookieData['cid'] = $post['cid'];
       	$cookieData['area'] = $post['area'];
       	$cookieData['code'] = $post['code'];
+      	$cookieData['promotion'] = $post['promotion'];
 
       	$cookie =  new Cookie([
             'name' => 'cart',
@@ -158,7 +157,7 @@ class CheckoutController extends CommonController
 		}
 		
 		$cartData = $cookies->getValue('cart');
-				
+		
 		$avaiableCart = true;
 		$foodOn = true;
 		foreach($cartData['cid'] as $id)
@@ -228,7 +227,7 @@ class CheckoutController extends CommonController
 		$delivery = $this->addDeliveryAssignment($deliveryman);
 
 		$isValid = $delivery->validate() && $address->validate() ;
-
+		
 		if($isValid)
 		{
 			$transaction = Yii::$app->db->beginTransaction();
@@ -241,6 +240,20 @@ class CheckoutController extends CommonController
 				if (!empty($cartData['code'])) {
 					
 					$isValid = VouchersController::endvoucher($cartData['code'],$order->Delivery_ID) && $isValid;
+				}
+				
+				if(!empty($dataorder['userUsed']) && !empty($dataorder['dailyLimit']))
+				{
+					$used = $dataorder['userUsed'];
+					$used->did = $did;
+					foreach($dataorder['dailyLimit'] as $daily)
+					{
+						if(!$daily->save())
+						{
+							break;
+						}
+					}
+					$used->save();
 				}
 				
 				foreach($allorderitem as $i=> $orderitem)
@@ -377,18 +390,24 @@ class CheckoutController extends CommonController
 	*/
 	protected static function createOrder($post,$deliveryman,$cookie)
 	{
-		
 		$data['value'] = -1;
 		$data['data'] = "";
 		
-		$total =0;
-		foreach($cookie['cid'] as $cid)
+		$priceArray = DetectPromotionController::calCheckOutPrice($cookie);
+		if(empty($priceArray))
 		{
-			$cart = Cart::find()->where('cart.id = :id',[':id'=>$cid])->joinWith(['food'])->one();
 			
-			$countDelivery[$cart->food->Restaurant_ID] = 0;
-			$total += $cart->price * $cart->quantity;
+			return $data;
 		}
+
+		$total = $priceArray['total'];
+		$promotionDis = $priceArray['dis'];
+		$countDelivery = $priceArray['countDelivery'];
+		unset($priceArray['total']);
+		unset($priceArray['dis']);
+		unset($priceArray['countDelivery']);
+
+		$promotionAvaiable = $priceArray['dailyLimit'] && $promotionDis > 0;
  		
  		$deliveryCharge = count($countDelivery) * 5;
 		$order = new Orders;
@@ -400,33 +419,58 @@ class CheckoutController extends CommonController
 		$order->Orders_DateTimeMade = time();
 		$order->Orders_Subtotal = $total;
 		$order->Orders_DeliveryCharge = $deliveryCharge;
-		$order->Orders_DiscountTotalAmount = 0;
-		$order->Orders_TotalPrice = $deliveryCharge + $total;
+		$order->Orders_DiscountTotalAmount = $promotionDis;
+		$order->Orders_TotalPrice = $deliveryCharge - $promotionDis + $total;
 		
-		if(self::earlyOrder())
+		if(!$promotionAvaiable)
 		{
-			$order->Orders_DiscountEarlyAmount = CartController::actionRoundoff1decimal($total * 0.15);
-			//$order->Orders_DiscountTotalAmount += $order->Orders_DiscountEarlyAmount;
-			$order->Orders_TotalPrice -= $order->Orders_DiscountEarlyAmount;
-		}
-
-		if (!empty($cookie['code'])) {
-		
-			$data = DiscountController::orderdiscount($cookie['code'],$order);
-			if($data['value'] == -1)
+			unset($priceArray['dailyLimit']);
+			if(self::earlyOrder())
 			{
-				return $data;
+				$order->Orders_DiscountEarlyAmount = CartController::actionRoundoff1decimal($total * 0.15);
+				//$order->Orders_DiscountTotalAmount += $order->Orders_DiscountEarlyAmount;
+				$order->Orders_TotalPrice -= $order->Orders_DiscountEarlyAmount;
 			}
-			$order  = $data['data'];
+
+			if (!empty($cookie['code'])) {
+			
+				$data = DiscountController::orderdiscount($cookie['code'],$order);
+				if($data['value'] == -1)
+				{
+					return $data;
+				}
+				$order  = $data['data'];
+			}
+			$isValid = true;
+		}
+		else
+		{
+			foreach ($priceArray as $key => $value) {
+				if(is_array($value))
+				{
+					foreach($value as $lv)
+					{
+						$isValid = $lv->validate();
+					}
+				}
+				else
+				{
+					$isValid = $value->validate();
+				}
+				
+			}
 		}
 
-		if($order->validate())
+		if($order->validate() && $isValid)
 		{
 			$data['value'] = 1;
 			$data['data'] = $order;
+			if($priceArray)
+			{
+				$data = array_merge($data,$priceArray);
+			}
 		}
 		
-		//$order->Orders_TotalPrice=0;
 		return $data;
 	}
 

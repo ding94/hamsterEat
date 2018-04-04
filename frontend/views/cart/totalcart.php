@@ -62,8 +62,11 @@ CartAsset::register($this);
       <?php endif ;?>
       <?php else : ?>
         <tr>
-          <td>Discount</td>
-          <td class="text-xs-left">-<?= $dis =$price['promotion'];?></td>
+          <td>First Day Discount<i class="fa fa-question-circle" aria-hidden="true">
+          <span class="i-detail"> 
+              Food Promotion With/Without Food Selection Discount
+          </span></i></td>
+          <td class="text-xs-left">-<?= $dis = $price['promotion'];?></td>
         </tr>
       <?php endif ;?>
               <!--<tr id="discount" >

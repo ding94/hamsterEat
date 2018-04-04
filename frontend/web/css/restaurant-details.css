@@ -1,3 +1,7 @@
+#restaurant-details-container{
+  margin-bottom: 100px;
+}
+
 .outer-container{
   display:flex;
   align-items: center;
@@ -30,7 +34,7 @@
   background-color: white;
   min-width: 300px;
   min-height: 202px;
-  border: 1px solid #e5e5e5;
+  /* border: 1px solid #e5e5e5; */
 /*    -webkit-box-shadow: 3px 3px 1px 0px rgba(0,0,0,0.5);
   -moz-box-shadow: 3px 3px 1px 0px rgba(0,0,0,0.5);
   box-shadow: 3px 3px 1px 0px rgba(0,0,0,0.5); */
@@ -112,8 +116,8 @@
   font-weight: bold;
 }
 
-.menu-container a:hover{
-  box-shadow: 0px 0px 20px -2px grey;
+#menu-container a:hover{
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   text-decoration: none !important;
 }
 
@@ -130,6 +134,9 @@
 
 .restaurant-info-container{
   display: flex;
+  background-color: #FFF;
+  padding: 10px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
 .restaurant-info-inner{
@@ -206,6 +213,8 @@
   display: flex;
   justify-content: center;
   overflow-x: auto;
+  background-color: #FFF;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
 #category-bar::-webkit-scrollbar
@@ -247,11 +256,93 @@
 
 .foodtype-name{
   margin: 30px 0;
+  text-align: center;
+  padding: 20px 0;
+  background-color: #FFF;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.foodtype-name h1{
+  margin: 0;
+}
+
+.foodtype-name span{
+  margin: 0 10px;
+  padding: 5px;
+  border-bottom: 4px solid #FFDA00;
+}
+
+.foodtype-name i{
+  color: #FFDA00;
+  margin: 0 5px;
+  font-size: 25px;
+}
+
+#menu-container a{
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
 .active-link{
   background-color: #F2F2F2;
   color: #FFCC00;
+}
+
+.emoticon svg{
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+.ratingdiv{
+  display: flex;
+}
+
+.testrating{
+  font-weight: bolder;
+}
+
+.rating-great circle,
+.rating-great line,
+.rating-great{
+  color: #87c700;
+  stroke: #87c700;
+}
+
+.rating-good circle,
+.rating-good line,
+.rating-good{
+  color: #3f918d ;
+  stroke: #3f918d;
+}
+
+.rating-meh circle,
+.rating-meh line,
+.rating-meh{
+  color: #FF8100;
+  stroke: #FF8100;
+}
+
+.rating-bad circle,
+.rating-bad line,
+.rating-bad{
+  color: #DD4949;
+  stroke: #DD4949;
+}
+
+/* css to display food as unavailable */
+.disable-div{
+  position: absolute; 
+  z-index: 2;
+  height: 100%;
+  width: 100%; 
+  background-color: rgba(0, 0, 0, 0.6); 
+  color: #FFF; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
 }
 
 @media(max-width: 500px){
@@ -363,11 +454,10 @@
   .scrollToTop{
     padding:25px; 
     z-index:99; 
-    background-color:#FFDA00;
     text-decoration: none;
     position:fixed;
-    top:80%;
-    right:8%;
+    top:30%!important;
+    right:3%;
     display:none;
     background: url('./../SysImg/Icon2.png') no-repeat;
     background-size: 40px 40px;

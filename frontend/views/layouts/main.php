@@ -291,15 +291,22 @@ NotificationAsset::register($this);
                 </div>
             </div>
         </div>
-        <div id="promo-banner">
-            <div class="text">
-                PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15%
+        <?php 
+            $link = Url::to(['/site/closebanner']); 
+            $cookies = Yii::$app->request->cookies;
+            if (empty($cookies['banner'])):
+        ?>
+            <div id="promo-banner">
+                <div class="text">
+                        <input type="hidden" id="closebanner-link" value="<?= $link; ?>"/>
+                        PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15%
+                </div>
+                <a class="close-icon" href="#" onclick="closeBanner()">
+                    <i class="fa fa-times"></i>
+                </a>
             </div>
-            <a class="close-icon" href="#" onclick="closeBanner()">
-                <i class="fa fa-times"></i>
-            </a>
-        </div>
-        <div id='promo-banner-empty-div'></div>
+            <div id='promo-banner-empty-div'></div>
+        <?php endif; ?>
         <div class="page-wrap">
             <?= $content ?>
         </div>

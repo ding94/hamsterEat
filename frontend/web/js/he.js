@@ -23,7 +23,7 @@ function passType(type,url){
       type: "post",
       data :{
         type :type,
-    },
+    },  
     success: function (data) {
       $("#type-modal").modal('hide');
     },
@@ -35,6 +35,16 @@ function passType(type,url){
 }
 
 function closeBanner(){
+  $.ajax({
+    url: document.getElementById('closebanner-link').value,
+    type: 'get',
+    success: function(data){
+      var obj = JSON.parse(data);
+    },
+    error: function (request, status, error) {
+      //console.log(request.responseText);
+    }
+  });
   var promoBanner = document.getElementById('promo-banner');
   var promoBannerEmptyDiv = document.getElementById('promo-banner-empty-div');
   promoBanner.style.display = "none";

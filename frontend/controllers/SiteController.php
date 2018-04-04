@@ -31,6 +31,7 @@ use common\models\Upload;
 use common\models\AuthFb;
 use common\models\Company\{Company,CompanyEmployees};
 use yii\web\UploadedFile;
+use yii\helpers\Json;
 /**
  * Site controller
  */
@@ -47,7 +48,7 @@ class SiteController extends CommonController
                 'only' => ['logout', 'signup','index','resendconfirmlink','referral','resendconfirmlink-referral','request-password-reset','reset-password','validation'],
                 'rules' => [
                     [
-                        'actions' => ['signup','index','resendconfirmlink','confirm','logout','request-password-reset','reset-password'],
+                        'actions' => ['signup','index','resendconfirmlink','confirm','logout','request-password-reset','reset-password','closebanner'],
 
                         'allow' => true,
 
@@ -204,8 +205,25 @@ class SiteController extends CommonController
         Yii::$app->user->logout();
         $cookies = Yii::$app->response->cookies;
         $cookies->remove('halal');
+        $cookies->remove('banner');
         Yii::$app->session->setFlash('success', Yii::t('site','Logout Success.'));
         return $this->goHome();
+    }
+
+    public function actionClosebanner()
+    {
+        $cookies = Yii::$app->request->cookies;
+        if (empty($cookies->getValue('banner'))) {
+            $cookie =  new Cookie([
+                'name' => 'banner',
+                'value' => 0,
+                'expire' => time() + 86400,
+            ]);
+            \Yii::$app->getResponse()->getCookies()->add($cookie);
+        }
+
+        //$cookies = Yii::$app->response->cookies;
+        //$cookies->remove('banner');
     }
 
     /**

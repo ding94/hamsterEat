@@ -63,6 +63,7 @@ class SettingController extends Controller
 
     public function actionDelete($id)
     {
+
     	$model = $this->findModel($id);
     	$today = date("Y-m-d");
     	if($today >= $model->start_date)
@@ -94,23 +95,29 @@ class SettingController extends Controller
     	$data['type'] = "warning";
     	$data['valid'] = 0;
 
+        $new = $model->isNewRecord;
+        $current = date("Y-m-d");
+
     	$post = Yii::$app->request->post();
         
-    	/*if(empty($post['Promotion']['date']))
+        if(!$new && ($current >= $model->start_date))
+        {
+            $data['message'] = "Cannot Edit When Promotion Start";
+            return $data;
+        }
+         
+    	if(empty($post['Promotion']['date']))
     	{
     		$date = explode(' - ',$post['Promotion']['date']);
     		$model->start_date = $date[0];
     		$model->end_date = $date[1];
-    	}*/
+    	}
 
-    	$current = date("Y-m-d");
     	if($current >= $model->start_date)
     	{
     		$data['message'] = "Please Select Date after ".$current;
     		return $data;
     	}
-
-    	$new = $model->isNewRecord;
     
     	if($model->save())
     	{

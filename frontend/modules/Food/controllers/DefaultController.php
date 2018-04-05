@@ -79,6 +79,7 @@ class DefaultController extends CommonController
             $fooddata->promotion_price = $price['price'];
             $fooddata->promotion_text = $price['message'];
             $fooddata->promotion_enable = 1;
+            $fooddata->promotion_left = $price['left'];
         }
     
         //$fooddata =

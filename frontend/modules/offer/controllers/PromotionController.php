@@ -81,6 +81,7 @@ class PromotionController extends Controller
 		if($dailyLimit->food_limit < $limit->food_limit)
 		{
 			$data =  self::calPrice($promotion->type_discount,$promotion->discount,$price,$type);
+			$data['left'] = $limit->food_limit - $dailyLimit->food_limit;
 		}
 		
 		return $data;

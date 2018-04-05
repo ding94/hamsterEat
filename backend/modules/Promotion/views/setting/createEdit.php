@@ -27,8 +27,13 @@ $form = ActiveForm::begin();
 	<?php 
 		if($model->isNewRecord)
 		{
-			$model->start_date = date("Y-m-d",strtotime("next week"));
-			$model->end_date = date("Y-m-d",strtotime($model->start_date)+60*60*144);
+			$model->date = date("Y-m-d",strtotime("+1 week")) .' - '. date("Y-m-d",strtotime("+2 week"));
+			//$model->start_date = date("Y-m-d",strtotime("next week"));
+			//$model->end_date = date("Y-m-d",strtotime($model->start_date)+60*60*144);
+		}
+		else
+		{
+			$model->date = $model->start_date .' - '. $model->end_date;
 		}
 		
 		echo DateRangePicker::widget([
@@ -36,8 +41,6 @@ $form = ActiveForm::begin();
 	    'attribute' => 'date',
 	    'useWithAddon'=>true,
 	    'convertFormat'=>true,
-	    'startAttribute' => 'start_date',
-	    'endAttribute' => 'end_date',
 	    'pluginOptions'=>[
 	        'locale'=>['format' => 'Y-m-d'], 
 	    ],

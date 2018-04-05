@@ -36,7 +36,12 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
             <?php echo Html::hiddenInput('url',Url::to(['/cart/addto-cart','id'=>$fooddata->Food_ID]));?>       
              <br>
               <div class="foodname">
-                <span><?php echo $fooddata->cookieName;?></span><span class="food-limit-span">Available to Order: <?php echo $foodlimit->food_limit ?></span>
+                <span><?php echo $fooddata->cookieName;?></span>
+                <?php if($fooddata->promotion_enable == 1):?>
+                <span class="food-limit-span">Promotion Available: <?php echo $fooddata->promotion_left ?></span>
+                <?php else:?>
+                <span class="food-limit-span">Available to Order: <?php echo $foodlimit->food_limit ?></span>
+                <?php endif;?>
               </div>
               <?php $am = (time() < strtotime(date("Y/m/d 11:0:0")) || $fooddata->promotion_enable == 1);
                 if($am) :

@@ -40,6 +40,7 @@ class Food extends \yii\db\ActiveRecord
     public $promotion_enable = 0;
     public $promotion_text;
     public $promotion_price = 0;
+    public $promotion_left = 0;
 
     public static function tableName()
     {

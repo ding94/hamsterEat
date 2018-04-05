@@ -23,7 +23,7 @@ class LimitController extends Controller
 				$data = Restaurant::find()->all();
 				break;
 			case 3:
-				$data = Food::find()->all();
+				$data = Food::find()->where('Status != -1')->joinWith(['foodStatus'])->all();
 				break;
 			case 4:
 				$data = Company::find()->all();

@@ -102,9 +102,18 @@ echo GridView::widget([
 
                 'urlCreator' => function($action,$url,$model)
                 {
-                    if ($action === 'update'){
-                       
-                        return Url::to(['generate','id'=>$model]);
+                    if($action === "view")
+                    {
+                        return Url::to(['/promotion/limit/type-generate','id'=>$model]);
+                    }
+                    if ($action === 'update')
+                    {
+                       return Url::to(['generate','id'=>$model]);
+                    }
+
+                    if($action === 'delete')
+                    {
+                        return Url::to(['delete','id'=>$model]);
                     }
                   
                 },

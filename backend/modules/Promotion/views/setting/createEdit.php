@@ -12,21 +12,25 @@ $this->params['breadcrumbs'][] = ['label' => 'Promotion Index', 'url' => ['index
 $this->params['breadcrumbs'][] = $this->title;
 
 $form = ActiveForm::begin();
-	echo $form->field($model, 'type_promotion')->dropDownList($array['type'], ['value'=>4,'disabled'=>true]);
-	echo $form->field($model, 'type_promotion')->hiddenInput(['value'=>4])->label(false);
+	echo $form->field($model, 'type_promotion')->dropDownList($array['type'],['prompt'=>'-- Select One --']);
+	
 	echo $form->field($model, 'type_discount')->dropDownList($array['discount'],['prompt'=>'-- Select One --']);
-	echo $form->field($model, 'enable_selection')->dropDownList($array['selection'],['prompt'=>'-- Select One --']);
+	
 	echo $form->field($model,'discount');
-
-	?>
+	echo $form->field($model, 'enable_selection')->dropDownList($array['selection'],['prompt'=>'-- Select One --']);
+?>
 	<label>Date Range</label>
 	<div class="input-group drp-container">
 	<span class="input-group-addon">
 	    <i class="glyphicon glyphicon-calendar"></i>
 	</span>
 	<?php 
-		$model->start_date = date("Y-m-d",strtotime("next week"));
-		$model->end_date = date("Y-m-d",strtotime($model->start_date)+60*60*144);
+		if($model->isNewRecord)
+		{
+			$model->start_date = date("Y-m-d",strtotime("next week"));
+			$model->end_date = date("Y-m-d",strtotime($model->start_date)+60*60*144);
+		}
+		
 		echo DateRangePicker::widget([
 	    'model'=>$model,
 	    'attribute' => 'date',

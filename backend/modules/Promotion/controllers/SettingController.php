@@ -4,6 +4,7 @@ namespace backend\modules\Promotion\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
 use backend\models\PromotionSearch;
 use common\models\promotion\{Promotion,PromotionType,PromotionLimit};
@@ -30,9 +31,17 @@ class SettingController extends Controller
     /*
     * create or edit promotion
     */
-    public function actionGenerate()
+    public function actionGenerate($id=0)
     {
-    	$model = new Promotion;
+        if($id==0)
+        {
+            $model = new Promotion;
+        }
+        else
+        {
+            $model = $this->findModel($id);
+        }
+    	
     	$array = $this->genArrayData();
     	$true = $model->isNewRecord;
     	
@@ -40,13 +49,13 @@ class SettingController extends Controller
     	{
     		$data = $this->save($model);
     		Yii::$app->session->setFlash($data['type'],$data['message']);
-    		if($data['valid'] != 1)
+    		if($data['valid'] != 0)
     		{
-    			if($data['valid'] == 3)
-    			{
-    				return $this->redirect(['/promotion/limit/type-generate','id'=>$data['id']]);
-    			}
-    			return $this->render(['index']);
+                if($true)
+                {
+                   return $this->redirect(['/promotion/limit/type-generate','id'=>$data['id']]); 
+                }
+    			return $this->redirect(['index']);
     		}
     	}	
     	return $this->render('createEdit',['model'=>$model,'array'=>$array]);
@@ -83,20 +92,21 @@ class SettingController extends Controller
     	$data = array();
     	$data['message'] = "";
     	$data['type'] = "warning";
-    	$data['valid'] = 1;
+    	$data['valid'] = 0;
 
     	$post = Yii::$app->request->post();
-    	if(!empty($post['Promotion']['date']))
+        
+    	/*if(empty($post['Promotion']['date']))
     	{
     		$date = explode(' - ',$post['Promotion']['date']);
     		$model->start_date = $date[0];
     		$model->end_date = $date[1];
-    	}
+    	}*/
 
     	$current = date("Y-m-d");
-    	if($current > $model->start_date)
+    	if($current >= $model->start_date)
     	{
-    		$data['message'] = "Please Date after ".$current;
+    		$data['message'] = "Please Select Date after ".$current;
     		return $data;
     	}
 
@@ -107,14 +117,9 @@ class SettingController extends Controller
     		$data['message'] = $new ? "Success Create" : "Success Update";
     		$data['type'] = "success";
     		$data['id'] = $model->id;
-    		if($new && $model->type_promotion != 1)
-    		{
-    			$data['valid'] = 3;
-    		}
-    		else
-    		{
-    			$data['valid'] = 2;
-    		}
+    		
+    		$data['valid'] = 1;
+    		
     	}
     	else
     	{

@@ -8,6 +8,7 @@ use common\models\Cart\Cart;
 use common\models\food\Food;
 use common\models\Company\CompanyEmployees;
 use common\models\promotion\PromotionLimit;
+use frontend\controllers\CartController;
 
 class DetectPromotionController extends Controller
 {
@@ -66,8 +67,8 @@ class DetectPromotionController extends Controller
 				return "";
 			}
 		}
-		$data['total'] = $total;
-		$data['dis'] = $dis;
+		$data['total'] =  CartController::actionRoundoff1decimal($total);
+		$data['dis'] =  CartController::actionRoundoff1decimal($dis);
 		$data['dailyLimit'] = $dailyLimit;
 		$data['countDelivery'] = $countDelivery;
 		
@@ -97,8 +98,10 @@ class DetectPromotionController extends Controller
     protected static function getPromotionData($price,$selprice,$fid)
     {
     	$array = array();
-    	$dis = self::getPrice($price,$selprice,$fid);
     	$promotion = PromotionController::getPromotion();
+
+    	$dis = self::getPrice($price,$selprice,$fid,$promotion->type_discount);
+    	
     	
     	$defaultLimit = self::getDailyList($fid,$promotion->id,$promotion->type_promotion);
 
@@ -116,22 +119,38 @@ class DetectPromotionController extends Controller
     /*
     * get price and selection price
     */
-    protected static function getPrice($price,$selprice,$fid)
+    protected static function getPrice($price,$selprice,$fid,$type)
     {
     	$promotion = PromotionController::getPromotioinPrice($price-$selprice,$fid,1);
+    	
 		if(empty($promotion))
 		{
 			Yii::$app->session->setFlash('warning', Yii::t('food','Promotion Already Finish'));
 			return"";
 		}
-
-		$dis = ($price-$selprice)- $promotion['price'];
-     
+		if(($type == 1 || $type == 2)&& $promotion['price'] == 0)
+		{
+			$dis = $price-$selprice;
+		}
+		else
+		{
+			$dis = ($price-$selprice)- $promotion['price'];
+		}
+	
+     	
         $seldis = PromotionController::getPromotioinPrice($selprice,$fid,2);
-
+        
         if(is_array($seldis))
 	    {
-	         $dis += $cart->selectionprice-$seldis['price'];
+	    	if(($type == 1 || $type == 2)&& $seldis['price'] == 0)
+	    	{
+	    		$dis += $selprice;
+	    	}
+	    	else
+	    	{
+	    		$dis +=$seldis['price'];
+	    	}
+	        
 	    }
 
 	    return $dis;

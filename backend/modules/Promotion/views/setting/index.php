@@ -98,7 +98,17 @@ echo GridView::widget([
         [
             'class' => 'kartik\grid\ActionColumn',
             'headerOptions' => ['class' => 'kartik-sheet-style'],
-             'template'=>' {update}{delete} ',
+            'template'=>'{view}{update}{delete} ',
+
+                'urlCreator' => function($action,$url,$model)
+                {
+                    if ($action === 'update'){
+                       
+                        return Url::to(['generate','id'=>$model]);
+                    }
+                  
+                },
+              
         ],
     ],
 ]);

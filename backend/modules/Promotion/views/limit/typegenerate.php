@@ -18,7 +18,34 @@ $form = ActiveForm::begin();
 		<div class="col-sm-4">
 			<?php 
 				echo Html::activeHiddenInput($single,'['.$i.']pid',['value'=>$promotion->id]);
-				echo Html::activeHiddenInput($single,'['.$i.']tid',['value'=>$data[$i]->id]);
+				if(empty($data))
+				{
+					echo Html::activeHiddenInput($single,'['.$i.']tid',['value'=>0]);
+				}
+				else
+				{
+					
+					switch ($promotion->type_promotion) {
+						case 2:
+							$dataid = $data[$i]->Restaurant_ID;
+							$dataname = $data[$i]->originName;
+							break;
+						case 3:
+							$dataid = $data[$i]->Food_ID;
+							$dataname = $data[$i]->originName;
+							break;
+						case 4:
+							$dataid = $data[$i]->id;
+							$dataname = $data[$i]->name;
+							break;
+						default:
+							# code...
+							break;
+					}
+					
+					echo Html::activeHiddenInput($single,'['.$i.']tid',['value'=>$dataid]);
+				}
+				$name = empty($data) ? "Default " : $dataname;
 				if($single->isNewRecord):
 				echo $form->field($single,'['.$i.']food_limit')->widget(TouchSpin::classname(),[
 						'pluginOptions' => [
@@ -28,7 +55,7 @@ $form = ActiveForm::begin();
 					        'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>', 
 					        'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>'
 					    ]
-					])->label($data[$i]->name." Limit");
+					])->label($name." Limit");
 				else:
 					echo $form->field($single,'['.$i.']food_limit')->widget(TouchSpin::classname(),[
 						'pluginOptions' => [
@@ -37,7 +64,7 @@ $form = ActiveForm::begin();
 					        'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>', 
 					        'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>'
 					    ]
-					])->label($data[$i]->name." Limit");
+					])->label($name." Limit");
 				endif;
 			?>
 		</div>

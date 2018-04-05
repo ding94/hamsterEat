@@ -66,7 +66,7 @@ CartAsset::register($this);
           <span class="i-detail"> 
               Food Promotion With/Without Food Selection Discount
           </span></i></td>
-          <td class="text-xs-left">-<?= $dis = $price['promotion'];?></td>
+          <td class="text-xs-left">-<?= $dis = CartController::actionRoundoff1decimal($price['promotion']);?></td>
         </tr>
       <?php endif ;?>
               <!--<tr id="discount" >

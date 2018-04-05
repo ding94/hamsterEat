@@ -71,16 +71,16 @@ class PromotionController extends Controller
 		$food = Food::findOne($id);
 		if(empty($arrayLimit))
 		{
-			var_dump('a');exit;
+			
 			return $price;
 		}
-		
+
 		$data = $price;
 		$dailyLimit = $arrayLimit['daily'];
 		$limit =$arrayLimit['limit'];
 		if($dailyLimit->food_limit < $limit->food_limit)
 		{
-			$data =  self::calPrice($promotion->type_discount,$promotion->discount,$food->Price,$type);
+			$data =  self::calPrice($promotion->type_discount,$promotion->discount,$price,$type);
 		}
 		
 		return $data;
@@ -116,6 +116,7 @@ class PromotionController extends Controller
 				# code...
 				break;
 		}
+		
 		$data['price'] = $price;
 		$data['message'] = $message;
 		return $data;

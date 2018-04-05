@@ -76,6 +76,7 @@ class Foodselection extends \yii\db\ActiveRecord
     protected function getDisPrice()
     {
         $promotion = PromotionController::getPromotioinPrice($this->Price,$this->Food_ID,2);
+       
         if(is_array($promotion))
         {
             return CartController::actionRoundoff1decimal($promotion['price']);

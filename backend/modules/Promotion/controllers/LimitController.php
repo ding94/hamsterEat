@@ -8,7 +8,7 @@ use yii\web\NotFoundHttpException;
 use yii\helpers\ArrayHelper;
 use common\models\food\Food;
 use common\models\Company\Company;
-use common\models\Model;
+use common\models\{Model,Restaurant};
 use common\models\promotion\{Promotion,PromotionLimit};
 
 class LimitController extends Controller
@@ -20,6 +20,9 @@ class LimitController extends Controller
 		$data =array();
 		switch ($promotion->type_promotion) {
 			case 2:
+				$data = Restaurant::find()->all();
+				break;
+			case 3:
 				$data = Food::find()->all();
 				break;
 			case 4:
@@ -29,9 +32,9 @@ class LimitController extends Controller
 				# code...
 				break;
 		}
-
+	
 		$model = $this->mutipleModel($data,$id);
-		
+			
 		if(Yii::$app->request->post())
 		{
 			if($this->save($model,$promotion->id))
@@ -45,12 +48,25 @@ class LimitController extends Controller
 	protected static function mutipleModel($data,$id)
 	{
 		$model = array();
-		foreach($data as $i=> $value)
+
+		if(empty($data))
 		{
-			$limit = PromotionLimit::find()->where('pid = :pid and tid = :tid',[':pid'=>$id,':tid'=>$value->id])->one();
+			$limit = PromotionLimit::find()->where('pid = :pid and tid = :tid',[':pid'=>$id,':tid'=>0])->one();
 			$promotion = empty($limit) ? new PromotionLimit : $limit;
-			$model[$i] = $promotion;
+
+			$model[] = $promotion;
 		}
+		else
+		{
+			foreach($data as $i=> $value)
+			{
+				$limit = PromotionLimit::find()->where('pid = :pid and tid = :tid',[':pid'=>$id,':tid'=>$value->getPrimaryKey()])->one();
+				$promotion = empty($limit) ? new PromotionLimit : $limit;
+				$model[$i] = $promotion;
+			}
+			
+		}
+		
 		return $model;
 	}
 

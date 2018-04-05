@@ -227,14 +227,16 @@ class CartController extends CommonController
         if(is_array($promotion))
         {
             $dis = ($price-$selprice)- $promotion['price'];
-                   
+               
             $seldis = PromotionController::getPromotioinPrice($selprice,$fid,2);
+          
             if(is_array($seldis))
             {
                 $dis += $selprice-$seldis['price'];
             }
 
         }
+
         return $dis;
     }
 

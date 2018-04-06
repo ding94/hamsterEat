@@ -92,12 +92,12 @@ class PromotionController extends Controller
 	*  ptype => type of discount 
 	*  type=> use for food selection to let it become 0 in ptype 3
 	*/
-	protected static function calPrice($ptype,$discount,$price,$type)
+	public static function calPrice($ptype,$discount,$price,$type)
 	{
 		$message ="";
 		switch ($ptype) {
 			case '1':
-				$dis = (100-$discount)/100;
+				$dis = $discount/100;
 				$price *= $dis;
 				$message = "Discount ".$discount." %";
 				break;

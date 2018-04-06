@@ -81,8 +81,15 @@ class Foodselection extends \yii\db\ActiveRecord
         {
             return CartController::actionRoundoff1decimal($promotion['price']);
         }
-        
-        return $this->getEarlyPrice();
+
+        $availablePromotion = PromotionController::getPromotion();
+      
+        if(empty($availablePromotion))
+        {
+             return $this->getEarlyPrice();
+        }
+        return $this->Price;
+       
         
     }
 

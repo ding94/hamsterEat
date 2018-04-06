@@ -28,8 +28,6 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
   <div id="home" class="tab-pane fade in active"><a name="home"></a>
   <div class="row">
   	<div class="tab-content col-md-12" id="fooddetails">
-
-     
       <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
           
   		<!--<table class="table-user-information" style="width:60%; margin:auto;">-->  
@@ -43,6 +41,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                 <span class="food-limit-span">Available to Order: <?php echo $foodlimit->food_limit ?></span>
                 <?php endif;?>
               </div>
+             
               <?php $am = (time() < strtotime(date("Y/m/d 11:0:0")) || $fooddata->promotion_enable == 1);
                 if($am) :
                   if($fooddata->promotion_enable == 0):

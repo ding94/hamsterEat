@@ -67,7 +67,7 @@ class CartController extends CommonController
             return Json::encode($data);
         }
         
-        if($cart->quantity >= $food->foodStatus->food_limit+1)
+        if($cart->quantity > $food->foodStatus->food_limit)
         {
             $data['message'] = Yii::t('cart','Maximun Amount Of Food Order');
             return Json::encode($data);
@@ -196,6 +196,8 @@ class CartController extends CommonController
         $price['promotion'] = 0;
         $price['total'] = 0;
 
+        $avaialbePromotion = PromotionController::getPromotion();
+
         foreach($query->each() as $value)
         {
             if($value->status == 1)
@@ -216,7 +218,7 @@ class CartController extends CommonController
                 $query->andWhere(['=','status',2]);
             }])->all(),'code','code');
         $ren = new DiscountItem;
-        return $this->renderAjax('totalcart',['price'=>$price ,'time' => $time,'voucher'=>$voucher,'ren'=>$ren,'area'=>$area]);
+        return $this->renderAjax('totalcart',['price'=>$price ,'time' => $time,'voucher'=>$voucher,'ren'=>$ren,'area'=>$area,'avaialbePromotion'=>$avaialbePromotion]);
     }
 
     public static function getCartPromotion($price,$selprice,$fid)

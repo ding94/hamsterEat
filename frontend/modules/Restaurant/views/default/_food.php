@@ -20,9 +20,9 @@ RestaurantDefaultIndex2Asset::register($this);
         <?php endif; ?> 
         <?php if (time() < strtotime(date("Y/m/d 11:0:0")) || $fooddata->promotion_enable == 1):?>
              <div class="corner-ribbon top-left sticky red shadow">
-                    <span>
-                        <?php echo $fooddata->promotion_enable == 0 ? "15%" : $fooddata->promotion_text;?>
-                    </span>
+                <span>
+                    <?php echo $fooddata->promotion_enable == 0 ? "15%" : $fooddata->promotion_text;?>
+                </span>
             </div>
         <?php endif; ?>
             <div class="page-img">
@@ -31,7 +31,10 @@ RestaurantDefaultIndex2Asset::register($this);
             <div class="inner-item">
                 <div class="foodName-div"><span class="foodName"><?php echo $fooddata['cookieName']; ?></span><span class="small-text stars" alt="<?php echo $fooddata['Rating']; ?>"><?php echo $fooddata['Rating']; ?></span></div>
                     <div class="price-div">
-                       <?php if (time() < strtotime(date("Y/m/d 11:0:0"))|| $fooddata->promotion_enable == 1) :?>
+                        <?php if($fooddata->promotion_enable == 2):?>
+                             <span class="price"><?php echo 'RM'.$fooddata['Price']; ?></span>
+                        <?php elseif (time() < strtotime(date("Y/m/d 11:0:0"))|| $fooddata->promotion_enable == 1) :?>
+                            
                             <span class="price">
                                 <strike><?php echo 'RM'.$fooddata['Price']; ?></strike>
                                 <?php 

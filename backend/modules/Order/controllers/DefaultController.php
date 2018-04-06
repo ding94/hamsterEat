@@ -36,6 +36,7 @@ class DefaultController extends CommonController
     public function actionOrder()
     {
         $searchModel = new ItemSearch();
+        $searchModel->OrderItem_Status = 2;
     	$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 		return $this->render('orders',['model' => $dataProvider , 'searchModel' => $searchModel]);

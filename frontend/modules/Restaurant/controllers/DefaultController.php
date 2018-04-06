@@ -537,7 +537,7 @@ class DefaultController extends CommonController
         $cookies = Yii::$app->request->cookies;
         $session = Yii::$app->session;
         $halal = $cookies->getValue('halal');
-      
+       
         $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus','restaurant.rJunction']);
         if(!empty($halal) || $halal == 1)
         {
@@ -545,18 +545,29 @@ class DefaultController extends CommonController
         }
         
         $food = $query->limit(12)->all();
+
+        $avaialbePromotion = PromotionController::getPromotion();
+
         foreach($food as $value)
         {
+            if($avaialbePromotion)
+            {
+               $value->promotion_enable = 2; 
+            }
+            
             $price = PromotionController::getPromotioinPrice($value->Price,$value->Food_ID,1);
             if(is_array($price))
             {
                 $value->promotion_price = $price['price'];
                 $value->promotion_text = $price['message'];
-                $value->promotion_enable = 1;
+                $value->promotion_enable = 1; 
+                $value->promotion_left = $price['left'];
             }
+            
+           
         }
         $moreFood = $query->limit(13)->count() > 12 ? 1 :0 ;
-      
+       
         $foodquery = Foodtype::find()->andWhere('ID != 3 and ID != 4')->orderBy(['Type_Desc'=>SORT_ASC]);
         
         $allfoodtype = ArrayHelper::map($foodquery->all(),'ID','Type_Desc');
@@ -597,9 +608,16 @@ class DefaultController extends CommonController
         }
 
         $query->limit($limit);  
-        
+
+        $avaialbePromotion = PromotionController::getPromotion();
+
         foreach($query->each() as $fooddata)
         {
+            if($avaialbePromotion)
+            {
+               $fooddata->promotion_enable = 2; 
+            }
+
             $price = PromotionController::getPromotioinPrice($fooddata->Price,$fooddata->Food_ID,1);
             if(is_array($price))
             {

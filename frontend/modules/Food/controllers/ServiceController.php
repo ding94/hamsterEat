@@ -129,10 +129,10 @@ class ServiceController extends CommonController
             $did = $selection->item->Delivery_ID;
             //$did = $itemselection[5]->item->Delivery_ID;
            
-            $allitem = Orderitem::find()->where('Delivery_ID = :id',[':id'=>$did])->all();
+            $allitem = Orderitem::find()->where('Delivery_ID = :id and OrderItem_Status = 2',[':id'=>$did])->all();
 
             $count = count($allitem);
-
+           
             if($count <= 1)
             {
                 $isvalid = CancelController::deliveryCancel($selection->item);
@@ -146,7 +146,7 @@ class ServiceController extends CommonController
             {
                 //self::selectionCancel($selection->item);
                 $isvalid=  CancelController::orderCancel($selection->item);
-                if(!isvalid)
+                if(!$isvalid)
                 {
                     break;
                 }

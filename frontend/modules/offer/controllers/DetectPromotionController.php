@@ -148,7 +148,7 @@ class DetectPromotionController extends Controller
 	    	}
 	    	else
 	    	{
-	    		$dis +=$seldis['price'];
+	    		$dis += $selprice-$seldis['price'];
 	    	}
 	        
 	    }

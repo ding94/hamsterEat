@@ -47,9 +47,9 @@ class DefaultController extends CommonController
 
     public function actionDetail($id,$rid)
     {
-       /* if(!Yii::$app->request->isAjax){
+        if(!Yii::$app->request->isAjax){
             return $this->redirect(Yii::$app->request->referrer);
-        }*/
+        }
         $valid = ValidController::RestaurantValid($rid);
 
         if($valid)
@@ -72,17 +72,23 @@ class DefaultController extends CommonController
             Yii::$app->session->setFlash('error', Yii::t('food','Something Went Wrong. Please Try Again Later!'));
             return $this->redirect(Yii::$app->request->referrer);
         }
-
-        $price =  PromotionController::getPromotioinPrice($fooddata->Price,$fooddata->Food_ID,1);
-        if(is_array($price))
+        
+        $avaialbePromotion = PromotionController::getPromotion();
+       
+        if($avaialbePromotion)
         {
-            $fooddata->promotion_price = $price['price'];
-            $fooddata->promotion_text = $price['message'];
-            $fooddata->promotion_enable = 1;
-            $fooddata->promotion_left = $price['left'];
+            $fooddata->promotion_enable = 2;
+            $price =  PromotionController::getPromotioinPrice($fooddata->Price,$fooddata->Food_ID,1);
+            if(is_array($price))
+            {
+                $fooddata->promotion_price = $price['price'];
+                $fooddata->promotion_text = $price['message'];
+                $fooddata->promotion_enable = 1;
+                $fooddata->promotion_left = $price['left'];
+            }
         }
-    
-        //$fooddata =
+       
+       
         $foodtype = Foodselectiontype::find()->where('Food_ID = :id',[':id' => $id])->orderBy(['ID' => SORT_ASC])->all();
       
         $cartSelection = new CartSelection;

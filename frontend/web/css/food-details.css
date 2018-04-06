@@ -284,8 +284,7 @@ label span.checkbox-custom-label{
 }
 
 .food-details-tab{
-  display: flex;
-  justify-content: center;
+  background-color: #FFDA00;
   margin-bottom: 10px;
 }
 

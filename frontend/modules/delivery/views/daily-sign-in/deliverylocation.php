@@ -47,7 +47,8 @@ DeliveryLocationAsset::register($this);
             </div>
         </div>
         <div id="delivery-location-content" class="col-sm-10">
-            <p>Now you are in the area <b><?= $deliverymanArea['DeliveryMan_AreaGroup']?><b><p>
+
+            <p>Now you are in the area :<b><?= $deliverymanArea->DeliveryMan_AreaGroup?><b><p>
             <table class="table table-user-info delivery-location-table">
               <thead>
                 <tr>
@@ -58,8 +59,8 @@ DeliveryLocationAsset::register($this);
                 </tr>
               </thead>
               <?php
-                foreach ($area as $area) :
-                  $amount = Area::find()->where('Area_Group = :ag', [':ag'=>$area['Area_Group']])->all();
+                foreach ($postcodeArray as $area) :
+                  $amount = Area::find()->where('Area_Group = :ag', [':ag'=>$area])->all();
                   $count = count($amount);
                   foreach ($amount as $amount) :
                     if ($count > 0)

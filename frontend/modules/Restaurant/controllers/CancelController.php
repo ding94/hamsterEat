@@ -9,6 +9,7 @@ use common\models\problem\ProblemOrder;
 use common\models\food\Food;
 use common\models\vouchers\{VouchersUsed,Vouchers};
 use common\models\User;
+use frontend\modules\offer\controllers\ReverseController;
 use frontend\controllers\{CommonController,CartController,PaymentController,DiscountController};
 use frontend\modules\notification\controllers\NoticController;
 
@@ -17,7 +18,7 @@ class CancelController extends CommonController
 	public static function CancelOrder($id)
     {
         $item = Orderitem::find()->where('Food_ID=:id AND OrderItem_Status=:s',[':id'=>$id, ':s'=>2])->all();
-
+      
         if (!empty($item)) 
         {
             foreach ($item as $k => $value) 
@@ -37,11 +38,15 @@ class CancelController extends CommonController
         return true;
     }
 
+    /*
+    * detect wheater cancel order or delivery
+    * base on orderitem 
+    */
     public static function OrderorDeliveryCancel($did,$item)
     {
     	$query = Orderitem::find()->where('Delivery_ID = :did and OrderItem_Status = 2',[':did'=>$did]);
     	$count = $query->count();
-     
+        
     	if($count <= 1)
     	{ 
             $isValid = self::deliveryCancel($item);
@@ -54,10 +59,13 @@ class CancelController extends CommonController
     	return $isValid;
     }
 
+    /*
+    * cancel order
+    */
     public static function orderCancel($data)
     {  
         $did = $data->Delivery_ID;
-
+        
         $reason = new ProblemOrder;
         $reason->load(Yii::$app->request->post());
         $reason->Order_ID = $data->Order_ID;
@@ -69,7 +77,7 @@ class CancelController extends CommonController
 
         if($order->Orders_DiscountEarlyAmount > 0 )
         {
-           $order->Orders_DiscountEarlyAmount = CartController::actionRoundoff1decimal($order->Orders_Subtotal * 0.15);
+            $order->Orders_DiscountEarlyAmount = CartController::actionRoundoff1decimal($order->Orders_Subtotal * 0.15);
          
         }
 
@@ -77,15 +85,9 @@ class CancelController extends CommonController
 
         if($order->Orders_DiscountTotalAmount > 0)
         {
-                
-            $vused = VouchersUsed::find()->where('uid = :uid and did = :did',[':uid'=>$user->id,':did'=>$data->Delivery_ID])->one();
-            
-            $code = Vouchers::findOne($vused->vid)->code;
-
-            $dis = DiscountController::orderdiscount($code,$order);
-            $order = $dis['data'];         
+            $order = self::VoucherOrPromotion($order,$data,$user->id);
         }
-      
+        
         $order->Orders_TotalPrice =  $order->Orders_Subtotal + $order->Orders_DeliveryCharge - $order->Orders_DiscountEarlyAmount - $order->Orders_DiscountTotalAmount; 
        
         $data['OrderItem_Status'] = 8;
@@ -104,7 +106,7 @@ class CancelController extends CommonController
         {
            $isValid = $acc->validate() && $isValid;
         }
-
+       
         if($isValid)
         {
             $data->save();
@@ -189,7 +191,7 @@ class CancelController extends CommonController
             $order['Orders_DeliveryCharge'] = 0;
             $order['Orders_DiscountEarlyAmount'] = 0;
             $order['Orders_DiscountTotalAmount'] = 0;
-
+            
             if ($reason->validate() && $value->validate() && $order->validate()) {
                 $user = User::find()->where('username = :u',[':u'=>$order->User_Username])->one();
                 $reason->save();
@@ -205,5 +207,24 @@ class CancelController extends CommonController
            
         
          return true;
+    }
+    /*
+    * detect using voucher or promotion
+    */
+    protected static function VoucherOrPromotion($order,$data,$uid)
+    {
+        $vused = VouchersUsed::find()->where('uid = :uid and did = :did',[':uid'=>$uid,':did'=>$data->Delivery_ID])->one();
+        if(empty($vused))
+        {
+            $order = ReverseController::calDiscount($order,$data,$uid);
+        }
+        else
+        {
+            $code = Vouchers::findOne($vused->vid)->code;
+
+            $dis = DiscountController::orderdiscount($code,$order);
+            $order = $dis['data']; 
+        }
+        return $order;
     }
 }

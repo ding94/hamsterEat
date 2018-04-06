@@ -106,13 +106,14 @@ class SettingController extends Controller
             return $data;
         }
          
-    	if(empty($post['Promotion']['date']))
+    	if(!empty($post['Promotion']['date']))
     	{
     		$date = explode(' - ',$post['Promotion']['date']);
     		$model->start_date = $date[0];
     		$model->end_date = $date[1];
+           
     	}
-
+       
     	if($current >= $model->start_date)
     	{
     		$data['message'] = "Please Select Date after ".$current;

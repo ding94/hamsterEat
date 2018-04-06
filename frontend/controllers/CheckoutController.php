@@ -160,6 +160,7 @@ class CheckoutController extends CommonController
 		
 		$avaiableCart = true;
 		$foodOn = true;
+
 		foreach($cartData['cid'] as $id)
 		{
 			$query = Cart::find()->where('id = :id and uid = :uid and area = :area',[':id'=>$id ,':uid'=>Yii::$app->user->identity->id,':area'=>$cartData['area']])->one();
@@ -173,6 +174,7 @@ class CheckoutController extends CommonController
 			{
 				$foodOn = false;
 			}
+			
 		}
 		
 		if(!$avaiableCart)

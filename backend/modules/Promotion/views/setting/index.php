@@ -62,6 +62,19 @@ echo GridView::widget([
             'width'=>'7%', 
         ],
         [
+            'attribute'=>'enable_selection',
+            'value'=>function($model)use($array)
+            {
+                return $array['selection'][$model->enable_selection];
+            },
+            'filter' =>  $array['selection'],
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['placeholder' => 'Any Selection Type'],
+        ],
+        [
             'attribute'=>'first',
             'vAlign' => 'middle',
             'hAlign' => 'center',

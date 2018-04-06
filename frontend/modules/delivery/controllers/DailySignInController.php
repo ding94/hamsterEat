@@ -214,8 +214,7 @@ class DailySignInController extends CommonController
     {
         $postcode = new Area();
 		$postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_Group','Area_Group');
-		$area="SELECT DISTINCT Area_Group from area";
-		$area = Yii::$app->db->createCommand($area)->queryAll();
+		
 		$find = new Deliveryman();
         $link = CommonController::createUrlLink(5);
 		// var_dump($find->load(Yii::$app->request->post()));exit;
@@ -228,14 +227,14 @@ class DailySignInController extends CommonController
 			$search->DeliveryMan_AreaGroup = $areaa;
 			$search->save();
 			Yii::$app->session->setFlash('success', Yii::t('common',"Update completed"));
-            return $this->redirect(['/user/user-profile']);
+            return $this->redirect(['deliveryLocation']);
 			// $sql="UPDATE deliveryman SET DeliveryMan_AreaGroup = ".$postcodeArray." WHERE User_id =18";
 			//  Yii::$app->db->createCommand($sql)->execute();
 		}
 
         $deliverymanArea=Deliveryman::find()->where('User_id = :User_id',[':User_id'=> Yii::$app->user->identity->id])->one(); 
-
-        return $this->render('deliverylocation', ['postcode'=>$postcode,'area'=>$area,'postcodeArray'=>$postcodeArray,'find'=>$find,'link'=>$link,' deliverymanArea', $deliverymanArea]);
+       
+        return $this->render('deliverylocation', ['postcode'=>$postcode,'postcodeArray'=>$postcodeArray,'find'=>$find,'link'=>$link,'deliverymanArea'=> $deliverymanArea]);
     }
 }
 

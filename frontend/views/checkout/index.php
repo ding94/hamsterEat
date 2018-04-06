@@ -63,7 +63,7 @@ CheckoutAsset::register($this);
             <div class="company">
               <h3><?= Yii::t('checkout','Company Address') ?></h3>
             
-              <?= $form->field($deliveryaddress,'cid')->dropDownList($companymap,[ 'prompt' => ' -- Select Company --'])->label(false);?>
+              <?= $form->field($deliveryaddress,'cid')->dropDownList($companymap)->label(false);?>
             </div>
      
             <div class="cart-content">

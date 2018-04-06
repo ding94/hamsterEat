@@ -100,7 +100,7 @@ CheckoutAsset::register($this);
                                 <td class="text-right" style="color: red;">- RM <?= number_format($order['Orders_DiscountTotalAmount'],2); ?></td>
                             </tr>
                         <?php endif; ?>
-                        <tr style="background-color: #d9d9d9">
+                        <tr class="aftercheckout-total" style="background-color: rgba(255,228,69,0.7)">
                             <td></td>
                             <td class="text-right" style="text-align: right;"><?=Yii::t('common','Total'); ?>:</td>
                             <td class="text-right">RM <?= number_format($order['Orders_TotalPrice'],2); ?></td>

@@ -83,6 +83,11 @@
 	border-top: 0px;
 }
 
+.aftercheckout-total{
+	font-weight: bold;
+	font-size: 26px;
+}
+
 @media (max-width: 991px){
 	.raised-btn{
 		width: 100%;

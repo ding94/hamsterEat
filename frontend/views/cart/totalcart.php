@@ -81,7 +81,7 @@ CartAsset::register($this);
               <td><a class="btn btn-primary" onclick="return discount()">Submit</a></div></td>
         </tr>-->
 
-        <tr style="font-size:20px;">
+        <tr style="font-size:28px;">
           <?php $finalPrice = $total - $dis + $charge ;?>
           <td><b><?= Yii::t('common','Total') ?></td>
           <td class="text-xs-right" ><b>RM <font id="total"><?php echo CartController::actionRoundoff1decimal($finalPrice); ?></font></td>

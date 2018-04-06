@@ -18,13 +18,14 @@ FoodDetailsAsset::register($this);
 
 date_default_timezone_set("Asia/Kuala_Lumpur");
 ?>
-<div id="nav">
-  <ul class="nav nav-tabs food-details-tab">
+
+<div>
+  <ul class="nav nav-tabs nav-justified food-details-tab">
     <li class="active"><a data-toggle="pill" href="#home"><?= Yii::t('food','Food Details') ?></a></li>
     <li ><a data-toggle="pill" href="#comments"><?= Yii::t('food','Comments') ?></a></li>
   </ul>
 </div>
-  <div class="tab-content">
+<div class="tab-content">
   <div id="home" class="tab-pane fade in active"><a name="home"></a>
   <div class="row">
   	<div class="tab-content col-md-12" id="fooddetails">
@@ -222,5 +223,4 @@ foreach ($comments as $comments) :
     endforeach; ?>
     <td><?php echo "<center>".Html::a(Yii::t('food','View All Comments'), ['view-comments', 'id'=>$fooddata['Food_ID']], ['class'=>'btn btn-default']); ?></td>
 </div>
-
 </div>

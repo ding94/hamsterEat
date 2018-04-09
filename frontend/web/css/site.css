@@ -1188,28 +1188,31 @@ span.badge{
   z-index: 10;
   height: 60px;
   width: 100%;
-  background-image: linear-gradient(to left, #ff4e50 0%, #f98622 100%);
+  background-image: url('../imageLocation/1200px_banner_background.png');
+  background-size: cover;
   margin-top: -11px;
   top: 75px;
 }
 
-#promo-banner a.close-icon{
+/* temporary not using */
+/* #promo-banner a.close-icon{
   font-size: 18px;
   position: absolute;
   padding: 10px;
   padding-top: 3px;
   right: 0px;
-}
+} */
 
 #promo-banner div.text{
   position: absolute;
   font-size: 30px;
-  text-shadow: 2px 2px #ff0000;
-  color: #FFF;
+  /* text-shadow: 2px 2px #ff0000; */
+  /* color: #FFF; */
   text-align: center;
-  padding: 10px;
+  /* padding: 10px; */
   margin: auto;
   width: 100%;
+  height: 60px;
 }
 
 #promo-banner-empty-div{

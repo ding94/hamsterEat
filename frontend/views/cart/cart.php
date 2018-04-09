@@ -98,7 +98,7 @@ $cart_status = 0;
                     <div class="panel-heading" data-toggle="collapse" href="#collapse<?php echo $i?>">
                       <h4 class="panel-title">
                         <a>
-                          <?=Yii::t('cart','Food Selection');?>
+                          <?=Yii::t('cart','Food Selection Detail');?>
                           <i class="fa fa-info-circle"></i>
                         </a>
                       </h4>

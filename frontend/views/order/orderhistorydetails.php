@@ -5,6 +5,7 @@ use common\models\food\Food;
 use common\models\Order\Orderitemselection;
 use common\models\food\FoodSelectionName;
 use common\models\Order\Orders;
+use frontend\controllers\CommonController;
 use yii\helpers\Html;
 $this->title = "Invoice";
 ?>
@@ -37,7 +38,7 @@ $this->title = "Invoice";
                         <td style="font-weight: bold;text-align: top;">Delivery Address:</td>
                         <td><?= $address['location'].', '.$address['postcode'].', '.$address['area']; ?></td>
                         <td style="font-weight: bold;">Payment Made:</td>
-                        <td><?= Yii::$app->formatter->asTime($order['Orders_DateTimeMade']); ?></td>
+                        <td><?= CommonController::getTime($order['Orders_DateTimeMade']); ?></td>
                     </tr> 
                 </table>
             </div>

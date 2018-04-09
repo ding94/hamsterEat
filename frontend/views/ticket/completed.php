@@ -11,6 +11,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use frontend\assets\UserAsset;
+use frontend\controllers\CommonController;
 
 $this->title = Yii::t('ticket','My Completed Questions');
 UserAsset::register($this);
@@ -86,7 +87,7 @@ UserAsset::register($this);
                             ?>
                         </td>
                         <td data-th="Date">
-                            <?= date('Y-m-d h:i:s',$model['Ticket_DateTime']); ?>
+                            <?= CommonController::getTime($model['Ticket_DateTime'],'Y-m-d h:i:s'); ?>
                         </td>
                         <td data-th="Chat">
                             <a href=<?php echo  Url::to(['ticket/chatting','sid'=>$k,'tid'=>$model['Ticket_ID']]); ?> >

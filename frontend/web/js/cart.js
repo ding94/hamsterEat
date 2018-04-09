@@ -48,7 +48,7 @@ $('.delete').on('click',function(event){
             }
         })
         .fail(function(e) {
-          console.log(e);
+          console.log(e.responseText);
           $('.delete').attr("disabled",false);
         })
     }
@@ -123,14 +123,19 @@ function quantity(up,cid,url)
         
        // document.getElementById("discount").style = "display:block;";
         discout = (parseFloat(obj['discount'])).toFixed(2);
-        document.getElementById("early").innerHTML = ""+(0).toFixed(2);
+        if(document.getElementById("early") != null)
+        {
+           document.getElementById("early").innerHTML = ""+(0).toFixed(2);
+            document.getElementById("earlytd").style ='display:none';
+        }
+       
         document.getElementById("subtotal").innerHTML = (parseFloat(obj['sub'])).toFixed(2);
         document.getElementById("delivery").innerHTML = (parseFloat(obj['deli'])).toFixed(2);
         document.getElementById("total").innerHTML = (obj['total']).toFixed(2);
         $("input[name='code']",parent.document).val(obj['code'].replace(/\s+/g,''));
 
         document.getElementById("voucher").style ='display:none';
-        document.getElementById("earlytd").style ='display:none';
+       
         document.getElementById("cs").style ='display:none';
         document.getElementById("pcs").style ='display:none';
         document.getElementById("refresh").style ='display:block';

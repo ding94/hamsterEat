@@ -76,7 +76,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 
               <?php  
                 $ftids = array();
-
+               
                 foreach($foodtype as $k=> $type) : 
                   $selection = Foodselection::find()->where('Type_ID = :ftid and status = 1',[':ftid' => $type['ID']])->orderBy(['Price' => SORT_ASC])->all();
                  
@@ -158,8 +158,8 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                   endforeach; 
                 ?>
                  </div>
-             
-                 <?= $form->field($cart, 'remark',['enableClientValidation' => false])->label(Yii::t('common','Remarks')); ?>
+                <!-- Disable temporary -->
+                <!--  <?= $form->field($cart, 'remark',['enableClientValidation' => false])->label(Yii::t('common','Remarks')); ?> -->
                
                 <?= $form->field($cart, 'quantity',['options'=>['class'=>'quantity']],['enableClientValidation' => false])->widget(TouchSpin::classname(), [
                     'options' => [

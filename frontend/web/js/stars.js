@@ -34,30 +34,32 @@ $.fn.testrating = function(){
     return $(this).each(function(){
         var val = parseFloat($(this).html());
         var percent = val * 20;
+        var emoticonEl = $(this).prev();
+        var ratingdivEl = $(this).parent();
         $(this).html(Math.round(percent)+'%');
-        emoticon(percent);
+        emoticon(percent,emoticonEl,ratingdivEl);
     });
 }
 
-function emoticon($percent){
+function emoticon($percent,$emoticonEl,$ratingdivEl){
     if($percent >= 90){
-        loadSvg('.emoticon','happy');
-        $('.ratingdiv').addClass("rating-great");
+        loadSvg($emoticonEl,'happy');
+        $($ratingdivEl[0]).addClass("rating-great");
     } else if ($percent >= 80) {
-        loadSvg('.emoticon','smile');
-        $('.ratingdiv').addClass("rating-good");
+        loadSvg($emoticonEl,'smile');
+        $($ratingdivEl[0]).addClass("rating-good");
     } else if ($percent >= 60) {
-        loadSvg('.emoticon','meh');
-        $('.ratingdiv').addClass("rating-meh");
+        loadSvg($emoticonEl,'meh');
+        $($ratingdivEl[0]).addClass("rating-meh");
     } else {
-        loadSvg('.emoticon','sad');
-        $('.ratingdiv').addClass("rating-bad");
+        loadSvg($emoticonEl,'sad');
+        $($ratingdivEl[0]).addClass("rating-bad");
     }
 }
 
 function loadSvg(selector, url) {
     var path = $('.ratingdiv').attr('data-path');
-    var target = document.querySelector(selector);
+    var target = selector[0];
     // Request the SVG file
     var ajax = new XMLHttpRequest();
     ajax.open("GET", path + "/imageLocation/" + url + ".svg", true);

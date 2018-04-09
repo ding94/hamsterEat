@@ -345,6 +345,11 @@
   align-items: center;
 }
 
+.foodName-div .testrating{
+  font-size: 14px;
+  margin-top: 6px;
+}
+
 @media(max-width: 500px){
   #button-container a{
     display: block;

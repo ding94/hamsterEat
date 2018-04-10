@@ -66,35 +66,52 @@ class ReverseController extends Controller
 
         if($promotion->type_promotion == 2 || $promotion->type_promotion == 3)
         {
-        	$tid = $fid;
-        	if($promotion->type_promotion == 2)
-        	{
-        		$food = Food::findOne($fid);
-        		$tid = $food->Restaurant_ID;
-        	}
-        	$limit = PromotionLimit::find()->where('pid = :pid and tid = :tid',[':pid'=>$promotion->id,':tid'=>$tid])->joinWith(['dailyLimit'])->one();
-            
-        	if(empty($limit))
-        	{
-        		return "";
-        	}
-            $date = Yii::$app->formatter->asDate($created);
-           
-            $dailyLimit = PromotionDailyLimit::find()->where('id = :id and date = :date',[':id'=>$limit->id,':date'=>$date])->one();
-            if(empty($dailyLimit))
+            $valid =self::detectPromotionOn($fid,$created,$promotion);
+            if(!$valid)
             {
                 return "";
             }
-
-            if($created > $dailyLimit->updated_at)
-            {
-                return "";
-            }
-           
         }
 
         return $promotion;
 	}
+
+    /*
+    * detect wheather the promotion is on 
+    * for specific food or restaurant
+    * detect base on created time and promotion daily limit updated_at time
+    */
+    protected static function detectPromotionOn($fid,$created,$promotion)
+    {
+        $tid = $fid;
+        if($promotion->type_promotion == 2)
+        {
+            $food = Food::findOne($fid);
+            $tid = $food->Restaurant_ID;
+        }
+
+        $limit = PromotionLimit::find()->where('pid = :pid and tid = :tid',[':pid'=>$promotion->id,':tid'=>$tid])->joinWith(['dailyLimit'])->one();
+            
+        if(empty($limit))
+        {
+            return false;
+        }
+
+        $date = Yii::$app->formatter->asDate($created);
+           
+        $dailyLimit = PromotionDailyLimit::find()->where('id = :id and date = :date',[':id'=>$limit->id,':date'=>$date])->one();
+
+        if(empty($dailyLimit))
+        {
+            return false;
+        }
+
+        if($created > $dailyLimit->updated_at)
+        {
+            return false;
+        }
+        return true;
+    }
 
 	
 }

@@ -154,13 +154,13 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                     
                 <?php }
                   else:
-                      echo $form->field($cartSelection,'selectionid['.$type['ID'].']', ['enableClientValidation' => false])->hiddenInput()->label(false);
+                      echo $form->field($cartSelection,'selectionid['.$type['ID'].']', ['enableClientValidation' => false])->hiddenInput(['value'=>''])->label(false);
                   endif;
                   endforeach; 
                 ?>
                  </div>
                 <!-- Disable temporary -->
-                <!--  <?= $form->field($cart, 'remark',['enableClientValidation' => false])->label(Yii::t('common','Remarks')); ?> -->
+                  <?= $form->field($cart, 'remark',['enableClientValidation' => false])->label(Yii::t('common','Remarks'))->hiddenInput(); ?> 
                
                 <?= $form->field($cart, 'quantity',['options'=>['class'=>'quantity']],['enableClientValidation' => false])->widget(TouchSpin::classname(), [
                     'options' => [
@@ -169,7 +169,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                     ],
                     'pluginOptions' => [
                         'min' => 1,
-                        'max'=>$limit,
+                        'max'=>100,
                         'initval' => 1,
                         'buttonup_class' => 'btn btn-primary plus-btn', 
                         'buttondown_class' => 'btn btn-primary minus-btn', 

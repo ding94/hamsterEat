@@ -12,6 +12,7 @@ use yii\helpers\ArrayHelper;
 use kartik\widgets\Select2;
 use backend\models\Admin;
 use frontend\assets\UserAsset;
+use frontend\controllers\CommonController;
 
 $this->title = Yii::t('ticket','My Questions');
 UserAsset::register($this);
@@ -91,7 +92,7 @@ UserAsset::register($this);
                             ?>
                         </td>
                         <td data-th="Date">
-                            <?= date('Y-m-d h:i:s',$model['Ticket_DateTime']); ?>
+                            <?= CommonController::getTime($model['Ticket_DateTime'],'Y-m-d h:i:s'); ?>
                         </td>
                         <td data-th="Chat">
                             <a href=<?php echo  Url::to(['ticket/chatting','sid'=>$k,'tid'=>$model['Ticket_ID']]); ?> >

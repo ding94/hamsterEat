@@ -114,11 +114,12 @@ class SiteController extends CommonController
 //--This function captures the user's area group from the entered postcodes and area
     public function actionIndex()
     {
+
         $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_ID','Area_Area');
 
         $list =array();
         $banner = Banner::find()->where(['<=','startTime',date("Y-m-d H:i:s")])->andWhere(['>=','endTime',date("Y-m-d H:i:s")])->all();
-
+  
         if(Yii::$app->request->isPost)
         {
             $post = Yii::$app->request->post();

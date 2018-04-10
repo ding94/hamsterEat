@@ -6,7 +6,8 @@ use frontend\controllers\CartController;
 StarsAsset::register($this);
 RestaurantDefaultIndex2Asset::register($this);
 
- $imgdata =  $fooddata->multipleImg;
+    $imgdata =  $fooddata->multipleImg;
+    date_default_timezone_set("Asia/Kuala_Lumpur");
 ?>
 <?php if($fooddata['foodStatus']['food_limit'] <= 0): ?> 
 <!-- if food limit below or equal to 0 render unclickable div with disable text overlay -->
@@ -33,8 +34,8 @@ RestaurantDefaultIndex2Asset::register($this);
                     <div class="price-div">
                         <?php if($fooddata->promotion_enable == 2):?>
                              <span class="price"><?php echo 'RM'.$fooddata['Price']; ?></span>
-                        <?php elseif (time() < strtotime(date("Y/m/d 11:0:0"))|| $fooddata->promotion_enable == 1) :?>
-                            
+                        <?php elseif (time() < strtotime(date("Y/m/d 11:00:00"))|| $fooddata->promotion_enable == 1) :?>
+
                             <span class="price">
                                 <strike><?php echo 'RM'.$fooddata['Price']; ?></strike>
                                 <?php 

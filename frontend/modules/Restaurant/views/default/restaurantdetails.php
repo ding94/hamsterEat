@@ -46,7 +46,6 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
         <?php endif ;?>
         </span>
     </div>
-        <div class="rating"><span class="small-text stars"><?php echo $id['Restaurant_Rating']; ?></span></div>
         <div class="ratingdiv" data-path="<?php echo Yii::getAlias('@web') ?>"><span class="emoticon"></span><span class="testrating"><?php echo $id['Restaurant_Rating']; ?></span></div>
         <div class="info-div">
           <ul class="info">
@@ -110,7 +109,9 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                 <img src=<?php echo $food->singleImg?> alt="">
             </div>
             <div class="inner-item">
-            <div class="foodName-div"><span class="foodName"><?php echo $food['cookieName']; ?></span><span class="small-text stars" alt="<?php echo $food['Rating']; ?>"><?php echo $food['Rating']; ?></span></div>
+            <div class="foodName-div"><span class="foodName"><?php echo $food['cookieName']; ?></span>
+                <div class="ratingdiv" data-path="<?php echo Yii::getAlias('@web') ?>"><span class="emoticon"></span><span class="testrating"><?php echo $food['Rating']; ?></span></div>
+            </div>
             <!-- <div class="stars-div"></div> -->
             <div class="price-div">
                 <?php if (time() < strtotime(date("Y/m/d 11:0:0"))|| $food->promotion_enable == 1) :?>

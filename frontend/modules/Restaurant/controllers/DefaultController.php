@@ -71,6 +71,7 @@ class DefaultController extends CommonController
     {
         $cookies = Yii::$app->request->cookies;
         $session = Yii::$app->session;
+      
         /*$halal = $cookies->getValue('halal', 'value');
         $query = restaurant::find()->distinct()->where('Restaurant_AreaGroup = :group and Restaurant_Status = :status' ,[':group' => $groupArea, ':status'=>2])->joinWith(['rJunction']);
         if(empty($halal) || $halal['value'] == 0)

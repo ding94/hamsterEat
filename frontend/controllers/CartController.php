@@ -13,7 +13,7 @@ use common\models\Cart\{Cart,CartSelection};
 use yii\helpers\Json;
 use frontend\modules\UserPackage\controllers\SelectionTypeController;
 use frontend\controllers\CommonController;
-use frontend\modules\offer\controllers\PromotionController;
+use frontend\modules\offer\controllers\{PromotionController,DetectPromotionController};
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\filters\AccessControl;
@@ -45,6 +45,10 @@ class CartController extends CommonController
 //--This function continues on from FoodController's actionFoodDetails and adds a food item to cart
     public function actionAddtoCart($id)
     {
+        $timevalid = CommonController::getOrdertime();
+        if ($timevalid == false) {
+            return $this->redirect(Yii::$app->request->referrer);
+        }
         $cart = new Cart;
         $cartSelection = new CartSelection;
         $post = Yii::$app->request->post();
@@ -53,8 +57,7 @@ class CartController extends CommonController
         //$cartSelection->load(Yii::$app->request->post());
         if(empty($post))
         {
-            $data['message'] = Yii::t('cart','Something Went Wrong!');
-            ;
+            $data['message'] = Yii::t('cart','Exceed Food Order Limit');
             return Json::encode($data);
         }
 
@@ -67,10 +70,12 @@ class CartController extends CommonController
             return Json::encode($data);
         }
         
-        if($cart->quantity > $food->foodStatus->food_limit)
+        $detctQuantity = self::detectQuantity($cart->quantity,$food->foodStatus->   food_limit,$id,$session['group']);
+
+        if($detctQuantity['value'] == -1)
         {
-            $data['message'] = Yii::t('cart','Maximun Amount Of Food Order');
-            return Json::encode($data);
+            $data['message'] = $detctQuantity['message'];
+            return Json::encode($data); 
         }
 
         if(empty($session['group']) || $session['group'] != $food['restaurant']['Restaurant_AreaGroup'])
@@ -154,7 +159,7 @@ class CartController extends CommonController
     public function actionViewCart()
     {
         $groupCart = [];
-        
+
         $cart = Cart::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->joinWith(['food','selection'])->all();
         
         foreach($cart as $i=> $single)
@@ -212,7 +217,7 @@ class CartController extends CommonController
         $price['delivery'] = $deliveryCharge;
 
         $time['early'] = date('08:00:00');
-        $time['late'] = date('23:00:59');
+        $time['late'] = date('11:00:00');
 
         $voucher = ArrayHelper::map(UserVoucher::find()->where('uid=:uid',[':uid'=>Yii::$app->user->identity->id])->andWhere(['>=','user_voucher.endDate',time(date("Y-m-d"))])->joinWith(['voucher'=>function($query){
                 $query->andWhere(['=','status',2]);
@@ -408,10 +413,17 @@ class CartController extends CommonController
         $status = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$cart->fid])->one();
         switch ($update) {
             case 'minus':
-                $cart->quantity = $cart->quantity - 1;
+                $cart->quantity -= 1;
                 break;
-
+ 
             case 'plus':
+                
+                $promotion = $this->detectQuantity(1,$status->food_limit,$cart->fid,$cart->area);
+                if($promotion['value'] == -1)
+                {
+                    $data['message'] = $promotion['message'];
+                     return Json::encode($data);
+                }
                 $cart->quantity += 1;
                 break;
             
@@ -420,12 +432,6 @@ class CartController extends CommonController
         }
         if ($cart->quantity < 1) {
             $data['message'] = Yii::t('cart',"Food can't order less than 1.");
-            return Json::encode($data);
-        }
-
-        if($status->food_limit-$cart->quantity < 0)
-        {
-            $data['message'] =  $data['message'] = Yii::t('cart','Maximun Amount Of Food Order');
             return Json::encode($data);
         }
 
@@ -612,17 +618,19 @@ class CartController extends CommonController
     */
     protected static function availableCart($id,$post)
     {
-        $data['value'] =1 ;
+        $data['value'] = 1 ;
+        //$data['value'] = -1;
         $data['message'] = "";
 
         if(!empty($post['Cart']['remark']))
         {
             return $data;
         }
+        
         $addedCart ="";
         $isAvailable = false;
-        $allcart = Cart::find()->where("uid = :uid and fid = :fid and remark = ''",[':uid'=>Yii::$app->user->identity->id,':fid'=>$id])->joinWith(['selection'])->all();
-
+        $allcart = Cart::find()->where("uid = :uid and fid = :fid ",[':uid'=>Yii::$app->user->identity->id,':fid'=>$id])->joinWith(['selection'])->all();
+       
         if(empty($allcart))
         {
             return $data;
@@ -637,7 +645,7 @@ class CartController extends CommonController
                 break;
             }
         }
-      
+
         if($isAvailable)
         {
             $addedCart->quantity += $post['Cart']['quantity'];
@@ -651,7 +659,7 @@ class CartController extends CommonController
             else
             {
                 $data['message'] = Yii::t('cart',"Something Went Wrong!");
-                $data['value'] = 0;
+                $data['value'] = -1;
               
             }
         }
@@ -753,6 +761,70 @@ class CartController extends CommonController
         $price[0] =  $food->Price + $price[1];
         
         return $price;
+    }
+
+    /*
+    * detect food quantity base on promotion and food limit
+    * cq => cart quantity
+    * fq => food quantity
+    * id => food id
+    * group => areagroup
+    */
+    protected static function detectQuantity($cq,$fq,$id,$group)
+    {
+        $data =array();
+        $data['value'] = -1;
+        $data['message'] ="";
+        $promotion = PromotionController::getPromotion();
+        if(empty($promotion))
+        {
+            if($cq > $fq)
+            {
+                $data['message'] = "The Quantity More Than Food Limit";
+                return $data;
+            }
+        }
+        else
+        {   
+            $quantity = $cq += self::detectTypePromotion($id,$promotion);
+            $promotionData = DetectPromotionController::getDailyList($id,$promotion->id,$promotion->type_promotion);
+            $pquantity = $promotionData['limit']->food_limit - $promotionData['daily']->food_limit;
+
+            if($quantity > $pquantity )
+            {
+                $data['message'] = "The Quantity More Than Promotion Quantity";
+                return $data;
+            }
+        }
+        $data['value'] = 1;
+        return $data;
+    }
+
+    /*
+    * detect type promotion 
+    * base on cart quantity and promotion
+    * calulate the promotion food limit
+    */
+    protected static function detectTypePromotion($fid,$promotion)
+    {
+        $query = Cart::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id]);
+        switch ($promotion->type_promotion) {
+            case 2:
+                $food = Food::findOne($fid);
+                $restaurant = Restaurant::find()->where('restaurant.Restaurant_ID = :id',[':id'=>$food->Restaurant_ID])->joinWith(['food'])->one();
+                $allfood = ArrayHelper::map($restaurant->food,'Food_ID','Food_ID');
+                $query->andWhere(['in','fid',$allfood]);
+                break;
+            case 3:
+                $query->andWhere('fid = :fid',[':fid'=>$fid]);
+                break;
+            default:
+               
+                break;
+        }
+        $count = $query->sum('quantity');
+        return  is_null($count) ? 0 : $count;
+        
     }
 
     public static function actionDisplay2decimal($price)

@@ -149,6 +149,37 @@ class CommonController extends Controller
         return $data;
     }
 
+    //convert unix time to date format
+    //format = ('unix time', 'date format')
+    public static function getTime($time='',$date='')
+    {
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        if (empty($date)) {
+            $date = 'Y-m-d h:i:s';
+        }
+        
+        if (!empty($time)) {
+            $time = date($date,$time);
+        }
+        else{
+            $time = date($date);
+        }
+
+        return $time;
+    }
+
+    public static function getOrdertime()
+    {
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $time = self::getTime('','H');
+        $date = self::getTime('','N');
+        if ($time<7 || $time>11 || $date==6 || $date == 7) {
+            Yii::$app->session->setFlash('error', Yii::t('checkout','You cannot place order at this time.'));
+            return false;
+        }
+        return true;
+    }
+
     public static function getLanguage($case='')
     {
         if (!empty($case)) {

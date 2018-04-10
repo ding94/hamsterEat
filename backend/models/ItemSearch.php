@@ -21,7 +21,7 @@ Class ItemSearch extends Orderitem
 	public function search($params,$id=0)
 	{
 
-		$query = Orderitem::find()->distinct()->where('OrderItem_Status=:s',[':s'=>2])->orderBy('Order_ID DESC');
+		$query = Orderitem::find()->distinct()->orderBy('Order_ID DESC');
 				$query->joinWith(['order']);
 				$query->joinWith(['order_selection']);
 				$query->joinWith(['food']);

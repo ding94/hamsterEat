@@ -7,6 +7,9 @@ use frontend\assets\CartAsset;
 
 CartAsset::register($this);
 ?>
+
+<br>
+
 <div class="container">
     <div class="col-md-3 col-md-offset-2" id='voucher'>
       <?php $url = Url::to(['cart/getdiscount']);
@@ -72,14 +75,25 @@ CartAsset::register($this);
         </tr>
         <?php endif ;?>
       <?php endif ;?>
-        
-
         <tr style="font-size:28px;">
           <?php $finalPrice = $total - $dis + $charge ;?>
           <td><b><?= Yii::t('common','Total') ?></td>
           <td class="text-xs-right" ><b>RM <font id="total"><?php echo CartController::actionRoundoff1decimal($finalPrice); ?></font></td>
         </tr>
       </table>
+       <?php  if(!$avaialbePromotion):?> 
+     
+    <div style="margin-right: 5%;" id="pcs">
+    <div id="pc"><?= Yii::t('cart','Have a') ?> <font style="font-weight:bold;"><?= Yii::t('cart','promo code') ?></font>? 
+      <?= Yii::t('cart','Enter it') ?> <a href="javascript:showDiv()" id="showDiv" style="color:#3C3CFF;text-decoration:underline;"><?= Yii::t('cart','here') ?></a>
+    </div>
+    <div id="cs" style="display:none;">
+        <div id="dis" style=""><input id="codes">
+          <a class="raised-btn main-btn" onclick="return discount()"><?= Yii::t('common','Submit') ?></a>
+        </div>
+      </div>
+    </div>
+     <?php endif ;?>
     <br>
   </div>  
 </div>

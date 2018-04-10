@@ -72,6 +72,15 @@ if (empty($language)) {
     
     Modal::end() ?>
 
+    <?php Modal::begin([
+        'header' => '<h2 class="modal-title">Terms & Conditions</h2>',
+        'id'     => 'newsModal',
+        'size'   => 'modal-lg',
+        'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
+    ]);
+    
+    Modal::end() ?>
+
 <?php $this->beginBody() ?>
 
 <div class="wrap">
@@ -243,22 +252,26 @@ if (empty($language)) {
                 </ul>
             </div>
         </nav>
-    <?php 
-        $link = Url::to(['/site/closebanner']); 
-        $cookies = Yii::$app->request->cookies;
-        if (empty($cookies['banner'])):
-    ?>
-        <div id="promo-banner">
-            <div class="text">
-                    <input type="hidden" id="closebanner-link" value="<?= $link; ?>"/>
-                    PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15%
+        <?php 
+            //set banner hide or show
+            $link = Url::to(['/site/closebanner']); 
+            $cookies = Yii::$app->request->cookies;
+            if (empty($cookies['banner'])):
+        ?>
+            <div id="promo-banner">
+                <div class="text">
+                        <input type="hidden" id="closebanner-link" value="<?= $link; ?>"/>
+                        <div class="text-img">
+                            <!-- <img src="<?php //echo Yii::$app->params['baseUrl'] ?>/1200px_banner.png" alt=""> -->
+                            <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>" class ="btn raised-btn main-btn" data-toggle="modal" data-target="#newsModal">T&C</a>
+                        </div>
+                </div>
+                <!-- <a class="close-icon" href="#" onclick="closeBanner()">
+                    <i class="fa fa-times"></i>
+                </a> -->
             </div>
-            <a class="close-icon" href="#" onclick="closeBanner()">
-                <i class="fa fa-times"></i>
-            </a>
-        </div>
-        <div id='promo-banner-empty-div'></div>
-    <?php endif; ?>
+            <div id='promo-banner-empty-div'></div>
+        <?php endif; ?>
     <div class="container page-wrap">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -281,7 +294,7 @@ if (empty($language)) {
 
 <!--<footer class="footer navbar-fixed-bottom">
     <div class="container">
-        <p class="pull-left">&copy; hamsterEat <?= date('Y') ?></p>
+        <p class="pull-left">&copy; hamsterEat <?= CommonController::getTime('','Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

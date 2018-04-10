@@ -1188,34 +1188,64 @@ span.badge{
   z-index: 10;
   height: 60px;
   width: 100%;
-  background-image: linear-gradient(to left, #ff4e50 0%, #f98622 100%);
+  background-image: url('../imageLocation/1200px_banner_background.png');
+  background-size: cover;
   margin-top: -11px;
   top: 75px;
 }
 
-#promo-banner a.close-icon{
+/* temporary not using */
+/* #promo-banner a.close-icon{
   font-size: 18px;
   position: absolute;
   padding: 10px;
   padding-top: 3px;
   right: 0px;
-}
+} */
 
 #promo-banner div.text{
+  z-index: 5;
   position: absolute;
   font-size: 30px;
-  text-shadow: 2px 2px #ff0000;
-  color: #FFF;
   text-align: center;
-  padding: 10px;
   margin: auto;
   width: 100%;
+  height: 60px;
+}
+
+#promo-banner .text-img{
+  position: relative;
+}
+
+#promo-banner .text-img{
+  height: 100%;
+  background: url('../imageLocation/1200px_banner.png')center no-repeat;
+}
+
+@media (max-width: 1199px){
+  #promo-banner .text-img{
+    height: 100%;
+    background: url('../imageLocation/767px_banner.png')center no-repeat;
+  }
+}
+
+@media (max-width: 766px){
+  #promo-banner .text-img{
+    height: 100%;
+    background: url('../imageLocation/320px_banner.png')center no-repeat;
+  }
 }
 
 #promo-banner-empty-div{
   min-height: 60px;
   min-width: 100%;
   background-color: transparent;
+}
+
+.text-img a{
+  position: absolute;
+  right: 0;
+  margin: 10px;
 }
 
 /* #SSCrow2 .form{

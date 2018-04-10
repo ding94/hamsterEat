@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\LinkPager;
 use kartik\widgets\Select2;
 use frontend\assets\MyOrdersAsset;
-
+use frontend\controllers\CommonController;
 $this->title = Yii::t('order','My Orders')." : ". Yii::t('order',$status);
 
 
@@ -75,9 +75,9 @@ MyOrdersAsset::register($this);
             <td class="with" data-th="Delivery ID">
                 <?php echo $data['Delivery_ID']; ?>
             </td>
-            <?php date_default_timezone_set("Asia/Kuala_Lumpur"); ?>
+            <?php $time = CommonController::getTime($data['Orders_DateTimeMade'],'Y-m-d h:i:s') ?>
             <td class="with" data-th="Date and Time Placed">
-                <?php echo date('Y-m-d h:i:s',$data['Orders_DateTimeMade']); ?>
+                <?= $time; ?>
             </td>
 
             <?php if ($data['Orders_Status'] == 1) : ?>

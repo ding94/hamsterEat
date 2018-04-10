@@ -27,6 +27,7 @@ class DetectPromotionController extends Controller
     	foreach($cookie['cid'] as $i=>$cid)
 		{
 			$cart = Cart::find()->where('cart.id = :id',[':id'=>$cid])->joinWith(['food'])->one();
+			
 			if($cookie['promotion'][$i] == 1)
 			{
 				$promotion = self::getPromotionData($cart->price,$cart->selectionprice,$cart->fid);
@@ -62,8 +63,10 @@ class DetectPromotionController extends Controller
 		{
 			$valid = self::detectMaxLimit($dailyLimit,$originLimit);
 			$data['userUsed'] = PromotionController::createUserUsed($limit->pid);
-			if($valid)
+			
+			if(!$valid || !$data['userUsed']->validate())
 			{
+				
 				return "";
 			}
 		}
@@ -85,10 +88,10 @@ class DetectPromotionController extends Controller
     		if($value->food_limit > $origin[$key]->food_limit)
     		{
     			Yii::$app->session->setFlash('warning', Yii::t('food','You Cannot Order To Many Quantity In Promotion'));
-    			return true;
+    			return false;
     		}
     	}
-    	return false;
+    	return true;
     }
 
     /*

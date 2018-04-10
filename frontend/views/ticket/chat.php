@@ -11,6 +11,7 @@ use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use backend\models\Admin;
 use frontend\assets\UserAsset;
+use frontend\controllers\CommonController;
 use kartik\widgets\Select2;
 use kartik\widgets\FileInput;
 
@@ -61,7 +62,7 @@ UserAsset::register($this);
               <th><?= Yii::t('common','Title')?>:</th>
               <th><?php echo $name; ?></th>
               <th><?php echo $ticket->Ticket_Content; ?></th>
-              <th><?php echo date('d/M/Y h:i:s',($ticket->Ticket_DateTime)); ?></th>
+              <th><?php echo CommonController::getTime($ticket->Ticket_DateTime,'d/M/Y h:i:s'); ?></th>
 
               <!-- picture error was normal to localhostm, path set for server -->
               <th><?php if(!empty($ticket->Ticket_PicPath)){ echo Html::a(Yii::t('ticket','View Picture'),[Yii::$app->params['submitticket-pic'].$ticket->Ticket_PicPath],['target'=>'_blank']); }?></th>
@@ -72,7 +73,7 @@ UserAsset::register($this);
             <td></td>
             <td data-th="Name"><?php echo $modell->Replies_ReplyPerson;?> </td>
             <td data-th="Enquiry"><?php echo $modell->Replies_ReplyContent; ?></td>
-            <td data-th="Date"><?php echo date('d/M/Y h:i:s',($modell->Replies_DateTime)); ?></td>
+            <td data-th="Date"><?php echo CommonController::getTime($modell->Replies_DateTime,'d/M/Y h:i:s'); ?></td>
             <td data-th="Refrences">
               <?php if(!empty($modell->Replies_PicPath)){ echo Html::a(Yii::t('ticket','View Picture'),[Yii::$app->params['replyticket-pic'].$modell->Replies_PicPath],['target'=>'_blank']); }?>
             </td>

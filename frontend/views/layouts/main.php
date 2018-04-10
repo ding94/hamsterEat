@@ -327,7 +327,7 @@ NotificationAsset::register($this);
 <!--
 <footer class="footer ">
     <div class="container">
-        <p class="pull-left">&copy; hamsterEat <?= date('Y') ?></p>
+        <p class="pull-left">&copy; hamsterEat <?= CommonController::getTime('','Y') ?></p>
        
     </div>
 </footer>-->

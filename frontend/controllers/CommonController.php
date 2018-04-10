@@ -149,6 +149,25 @@ class CommonController extends Controller
         return $data;
     }
 
+    //convert unix time to date format
+    //format = ('unix time', 'date format')
+    public static function getTime($time='',$date='')
+    {
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        if (empty($date)) {
+            $date = 'Y-m-d h:i:s';
+        }
+        
+        if (!empty($time)) {
+            $time = date($date,$time);
+        }
+        else{
+            $time = date($date);
+        }
+
+        return $time;
+    }
+
     public static function getLanguage($case='')
     {
         if (!empty($case)) {

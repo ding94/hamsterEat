@@ -114,10 +114,15 @@ class CheckoutController extends CommonController
 	public function actionProcess()
 	{
 		$post = Yii::$app->request->post();
-		
+		$time = CommonController::getTime('','H');
+		$date = CommonController::getTime('','N');
 		if(empty($post['cid']))
       	{
       		Yii::$app->session->setFlash('error', Yii::t('checkout','Your Cart is Empty. Please Add item before processing to checkout'));
+			return $this->redirect(Yii::$app->request->referrer);
+      	}
+      	if ($time<7 || $time>11 || $date==6 || $date == 7) {
+      		Yii::$app->session->setFlash('error', Yii::t('checkout','You cannot place order at this time.'));
 			return $this->redirect(Yii::$app->request->referrer);
       	}
 
@@ -225,7 +230,7 @@ class CheckoutController extends CommonController
 		$order = $dataorder['data'];
 		$allorderitem = $dataitem['data'];
 		$status = $dataitem['status'];
-		
+	
 		$delivery = $this->addDeliveryAssignment($deliveryman);
 
 		$isValid = $delivery->validate() && $address->validate() ;

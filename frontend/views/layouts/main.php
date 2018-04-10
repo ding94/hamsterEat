@@ -82,7 +82,7 @@ NotificationAsset::register($this);
     Modal::end() ?>
 
     <?php Modal::begin([
-            'header' => '<h2 class="modal-title">News Test</h2>',
+            'header' => '<h2 class="modal-title">Terms & Conditions</h2>',
             'id'     => 'newsModal',
             'size'   => 'modal-lg',
             'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
@@ -310,7 +310,7 @@ NotificationAsset::register($this);
                 <div class="text">
                         <input type="hidden" id="closebanner-link" value="<?= $link; ?>"/>
                         <div class="text-img">
-                            <img src="<?php echo Yii::$app->params['baseUrl'] ?>/1200px_banner.png" alt="">
+                            <!-- <img src="<?php //echo Yii::$app->params['baseUrl'] ?>/1200px_banner.png" alt=""> -->
                             <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>" class ="btn raised-btn main-btn" data-toggle="modal" data-target="#newsModal">T&C</a>
                         </div>
                 </div>

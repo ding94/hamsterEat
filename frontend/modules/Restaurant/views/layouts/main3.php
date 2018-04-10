@@ -76,6 +76,15 @@ if (empty($language)) {
     
     Modal::end() ?>
 
+    <?php Modal::begin([
+            'header' => '<h2 class="modal-title">Terms & Conditions</h2>',
+            'id'     => 'newsModal',
+            'size'   => 'modal-lg',
+            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
+    ]);
+    
+    Modal::end() ?>
+
 <?php $this->beginBody() ?>
 
 <div class="wrap">
@@ -279,6 +288,7 @@ if (empty($language)) {
             </div>
         </div>
         <?php 
+            //set banner hide or show
             $link = Url::to(['/site/closebanner']); 
             $cookies = Yii::$app->request->cookies;
             if (empty($cookies['banner'])):
@@ -286,11 +296,14 @@ if (empty($language)) {
             <div id="promo-banner">
                 <div class="text">
                         <input type="hidden" id="closebanner-link" value="<?= $link; ?>"/>
-                        PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15% PROMO 15%
+                        <div class="text-img">
+                            <!-- <img src="<?php //echo Yii::$app->params['baseUrl'] ?>/1200px_banner.png" alt=""> -->
+                            <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>" class ="btn raised-btn main-btn" data-toggle="modal" data-target="#newsModal">T&C</a>
+                        </div>
                 </div>
-                <a class="close-icon" href="#" onclick="closeBanner()">
+                <!-- <a class="close-icon" href="#" onclick="closeBanner()">
                     <i class="fa fa-times"></i>
-                </a>
+                </a> -->
             </div>
             <div id='promo-banner-empty-div'></div>
         <?php endif; ?>

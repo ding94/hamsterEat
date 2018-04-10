@@ -45,6 +45,10 @@ class CartController extends CommonController
 //--This function continues on from FoodController's actionFoodDetails and adds a food item to cart
     public function actionAddtoCart($id)
     {
+        $timevalid = CommonController::getOrdertime();
+        if ($timevalid == false) {
+            return $this->redirect(Yii::$app->request->referrer);
+        }
         $cart = new Cart;
         $cartSelection = new CartSelection;
         $post = Yii::$app->request->post();

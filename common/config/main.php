@@ -6,7 +6,7 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
          'formatter' => [
-            'dateFormat' => 'php:d-M-Y',
+            'dateFormat' => 'php:Y-m-d',
             'datetimeFormat' => 'php:Y-m-d H:i:s',
             'timeFormat' => 'php:H:i:s',
             'timeZone' => 'Asia/Kuala_Lumpur',

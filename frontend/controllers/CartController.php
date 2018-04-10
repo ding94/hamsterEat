@@ -409,10 +409,17 @@ class CartController extends CommonController
         $status = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$cart->fid])->one();
         switch ($update) {
             case 'minus':
-                $cart->quantity = $cart->quantity - 1;
+                $cart->quantity -= 1;
                 break;
  
             case 'plus':
+                
+                $promotion = $this->detectQuantity(1,$status->food_limit,$cart->fid,$cart->area);
+                if($promotion['value'] == -1)
+                {
+                    $data['message'] = $promotion['message'];
+                     return Json::encode($data);
+                }
                 $cart->quantity += 1;
                 break;
             
@@ -421,12 +428,6 @@ class CartController extends CommonController
         }
         if ($cart->quantity < 1) {
             $data['message'] = Yii::t('cart',"Food can't order less than 1.");
-            return Json::encode($data);
-        }
-
-        if($status->food_limit-$cart->quantity < 0)
-        {
-            $data['message'] =  $data['message'] = Yii::t('cart','Exceed Food Order Limit');
             return Json::encode($data);
         }
 
@@ -781,7 +782,8 @@ class CartController extends CommonController
         {   
             $quantity = $cq += self::detectTypePromotion($id,$promotion);
             $promotionData = DetectPromotionController::getDailyList($id,$promotion->id,$promotion->type_promotion);
-            if($quantity > $promotionData['limit']->food_limit || $cq > $fq)
+            $pquantity = $promotionData['limit']->food_limit - $promotionData['daily']->food_limit;
+            if($quantity > $pquantity || $cq > $fq)
             {
                 $data['message'] = "The Quantity More Than Promotion Quantity";
                 return $data;

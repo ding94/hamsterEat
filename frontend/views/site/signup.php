@@ -29,8 +29,6 @@ $this->title = Yii::t('site','User Signup');
 
                 <div class="form-group">
                     <?= Html::submitButton(Yii::t('common','Signup'), ['class' => 'raised-btn main-btn', 'name' => 'signup-button']) ?> <br><br>
-
-                   
                 </div>
             <?php ActiveForm::end(); ?>
         </div>

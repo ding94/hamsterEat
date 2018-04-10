@@ -7,6 +7,7 @@ use frontend\assets\CartAsset;
 
 CartAsset::register($this);
 ?>
+
 <div class="container">
     <div class="col-md-3 col-md-offset-2" id='voucher'>
       <?php $url = Url::to(['cart/getdiscount']);

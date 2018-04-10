@@ -228,7 +228,7 @@ class CheckoutController extends CommonController
 		$order = $dataorder['data'];
 		$allorderitem = $dataitem['data'];
 		$status = $dataitem['status'];
-	
+		
 		$delivery = $this->addDeliveryAssignment($deliveryman);
 
 		$isValid = $delivery->validate() && $address->validate() ;
@@ -404,7 +404,7 @@ class CheckoutController extends CommonController
 			
 			return $data;
 		}
-
+		
 		$total = $priceArray['total'];
 		$promotionDis = $priceArray['dis'];
 		$countDelivery = $priceArray['countDelivery'];

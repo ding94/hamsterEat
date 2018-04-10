@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Lato|Open+Sans|Roboto+Slab');
+
+body {
+  font-family: 'Open Sans', "Hiragino Sans GB",冬青黑体,"SimHei",黑体, sans-serif;
+}
+
 #outer-cart{
 	margin-bottom: 100px;
 }

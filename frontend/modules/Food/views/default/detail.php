@@ -16,6 +16,7 @@ $this->title =  Yii::t('food','Food Details');
 StarsAsset::register($this);
 FoodDetailsAsset::register($this);
 
+$limit = 0;
 date_default_timezone_set("Asia/Kuala_Lumpur");
 ?>
 
@@ -37,9 +38,9 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
               <div class="foodname">
                 <span><?php echo $fooddata->cookieName;?></span>
                 <?php if($fooddata->promotion_enable == 1):?>
-                <span class="food-limit-span">Promotion Available: <?php echo $fooddata->promotion_left ?></span>
+                <span class="food-limit-span">Promotion Available: <?php echo $limit = $fooddata->promotion_left ?></span>
                 <?php else:?>
-                <span class="food-limit-span">Available to Order: <?php echo $foodlimit->food_limit ?></span>
+                <span class="food-limit-span">Available to Order: <?php echo $limit = $foodlimit->food_limit ?></span>
                 <?php endif;?>
               </div>
              
@@ -153,13 +154,13 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                     
                 <?php }
                   else:
-                      echo $form->field($cartSelection,'selectionid['.$type['ID'].']', ['enableClientValidation' => false])->hiddenInput()->label(false);
+                      echo $form->field($cartSelection,'selectionid['.$type['ID'].']', ['enableClientValidation' => false])->hiddenInput(['value'=>''])->label(false);
                   endif;
                   endforeach; 
                 ?>
                  </div>
                 <!-- Disable temporary -->
-                <!--  <?= $form->field($cart, 'remark',['enableClientValidation' => false])->label(Yii::t('common','Remarks')); ?> -->
+                  <?= $form->field($cart, 'remark',['enableClientValidation' => false])->label(Yii::t('common','Remarks'))->hiddenInput(); ?> 
                
                 <?= $form->field($cart, 'quantity',['options'=>['class'=>'quantity']],['enableClientValidation' => false])->widget(TouchSpin::classname(), [
                     'options' => [

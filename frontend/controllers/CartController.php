@@ -413,10 +413,17 @@ class CartController extends CommonController
         $status = Foodstatus::find()->where('Food_ID = :fid',[':fid'=>$cart->fid])->one();
         switch ($update) {
             case 'minus':
-                $cart->quantity = $cart->quantity - 1;
+                $cart->quantity -= 1;
                 break;
  
             case 'plus':
+                
+                $promotion = $this->detectQuantity(1,$status->food_limit,$cart->fid,$cart->area);
+                if($promotion['value'] == -1)
+                {
+                    $data['message'] = $promotion['message'];
+                     return Json::encode($data);
+                }
                 $cart->quantity += 1;
                 break;
             
@@ -425,12 +432,6 @@ class CartController extends CommonController
         }
         if ($cart->quantity < 1) {
             $data['message'] = Yii::t('cart',"Food can't order less than 1.");
-            return Json::encode($data);
-        }
-
-        if($status->food_limit-$cart->quantity < 0)
-        {
-            $data['message'] =  $data['message'] = Yii::t('cart','Exceed Food Order Limit');
             return Json::encode($data);
         }
 
@@ -617,17 +618,19 @@ class CartController extends CommonController
     */
     protected static function availableCart($id,$post)
     {
-        $data['value'] =1 ;
+        $data['value'] = 1 ;
+        //$data['value'] = -1;
         $data['message'] = "";
 
         if(!empty($post['Cart']['remark']))
         {
             return $data;
         }
+        
         $addedCart ="";
         $isAvailable = false;
-        $allcart = Cart::find()->where("uid = :uid and fid = :fid and remark = ''",[':uid'=>Yii::$app->user->identity->id,':fid'=>$id])->joinWith(['selection'])->all();
-
+        $allcart = Cart::find()->where("uid = :uid and fid = :fid ",[':uid'=>Yii::$app->user->identity->id,':fid'=>$id])->joinWith(['selection'])->all();
+       
         if(empty($allcart))
         {
             return $data;
@@ -642,7 +645,7 @@ class CartController extends CommonController
                 break;
             }
         }
-      
+
         if($isAvailable)
         {
             $addedCart->quantity += $post['Cart']['quantity'];
@@ -656,7 +659,7 @@ class CartController extends CommonController
             else
             {
                 $data['message'] = Yii::t('cart',"Something Went Wrong!");
-                $data['value'] = 0;
+                $data['value'] = -1;
               
             }
         }
@@ -785,7 +788,9 @@ class CartController extends CommonController
         {   
             $quantity = $cq += self::detectTypePromotion($id,$promotion);
             $promotionData = DetectPromotionController::getDailyList($id,$promotion->id,$promotion->type_promotion);
-            if($quantity > $promotionData['limit']->food_limit || $cq > $fq)
+            $pquantity = $promotionData['limit']->food_limit - $promotionData['daily']->food_limit;
+
+            if($quantity > $pquantity )
             {
                 $data['message'] = "The Quantity More Than Promotion Quantity";
                 return $data;

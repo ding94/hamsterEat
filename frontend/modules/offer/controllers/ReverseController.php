@@ -5,7 +5,7 @@ use Yii;
 use yii\web\Controller;
 use frontend\controllers\CartController;
 use common\models\food\Food;
-use common\models\promotion\{Promotion,PromotionLimit,PromotionUserUsed};
+use common\models\promotion\{Promotion,PromotionLimit,PromotionDailyLimit,PromotionUserUsed};
 
 class ReverseController extends Controller
 {
@@ -14,9 +14,10 @@ class ReverseController extends Controller
 		$dis = 0;
 		foreach($order->item as $item)
         {
+
             if($item->Order_ID != $data->Order_ID)
             {
-                $dis += self::calculatePromotion($item,$data->Delivery_ID,$uid,$item->Food_ID);
+                $dis += self::calculatePromotion($item,$data->Delivery_ID,$uid,$item->Food_ID,$order->Orders_DateTimeMade)*$item->OrderItem_Quantity;
             }
         }
         $order->Orders_DiscountTotalAmount = CartController::actionRoundoff1decimal($dis);
@@ -26,10 +27,10 @@ class ReverseController extends Controller
 	/*
 	* recalculate the promotion price
 	*/
-	protected static function calculatePromotion($item,$did,$uid,$fid)
+	protected static function calculatePromotion($item,$did,$uid,$fid,$created)
 	{
-		$promotion = self::isDiscount($uid,$did,$fid);
-
+		$promotion = self::isDiscount($uid,$did,$fid,$created);
+       
 		if(empty($promotion))
 		{
 			return 0;
@@ -57,7 +58,7 @@ class ReverseController extends Controller
 	* if is food or restaurant prmotion
 	* find base on tid
 	*/
-	protected static function isDiscount($uid,$did,$fid)
+	protected static function isDiscount($uid,$did,$fid,$created)
 	{
 		$pused = PromotionUserUsed::find()->where('uid = :uid and did = :did',[':uid'=>$uid,':did'=>$did])->one();
 		
@@ -65,21 +66,52 @@ class ReverseController extends Controller
 
         if($promotion->type_promotion == 2 || $promotion->type_promotion == 3)
         {
-        	$tid = $fid;
-        	if($promotion->type_promotion == 2)
-        	{
-        		$food = Food::findOne($fid);
-        		$tid = $food->Restaurant_ID;
-        	}
-        	$limit = PromotionLimit::find()->where('pid = :pid and tid = :tid',[':pid'=>$promotion->id,':tid'=>$tid])->exists();
-        	if(!$limit)
-        	{
-        		return "";
-        	}
+            $valid =self::detectPromotionOn($fid,$created,$promotion);
+            if(!$valid)
+            {
+                return "";
+            }
         }
 
         return $promotion;
 	}
+
+    /*
+    * detect wheather the promotion is on 
+    * for specific food or restaurant
+    * detect base on created time and promotion daily limit updated_at time
+    */
+    protected static function detectPromotionOn($fid,$created,$promotion)
+    {
+        $tid = $fid;
+        if($promotion->type_promotion == 2)
+        {
+            $food = Food::findOne($fid);
+            $tid = $food->Restaurant_ID;
+        }
+
+        $limit = PromotionLimit::find()->where('pid = :pid and tid = :tid',[':pid'=>$promotion->id,':tid'=>$tid])->joinWith(['dailyLimit'])->one();
+            
+        if(empty($limit))
+        {
+            return false;
+        }
+
+        $date = Yii::$app->formatter->asDate($created);
+           
+        $dailyLimit = PromotionDailyLimit::find()->where('id = :id and date = :date',[':id'=>$limit->id,':date'=>$date])->one();
+
+        if(empty($dailyLimit))
+        {
+            return false;
+        }
+
+        if($created > $dailyLimit->updated_at)
+        {
+            return false;
+        }
+        return true;
+    }
 
 	
 }

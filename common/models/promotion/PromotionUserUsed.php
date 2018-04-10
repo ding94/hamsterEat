@@ -11,6 +11,7 @@ use yii\db\ActiveRecord;
  *
  * @property int $id base on promotion id
  * @property int $uid base on user id
+ * @property int $did delivery id
  * @property int $created_at
  * @property int $updated_at
  */
@@ -45,8 +46,8 @@ class PromotionUserUsed extends \yii\db\ActiveRecord
     {
         return [
             [['id', 'uid'], 'required'],
-            [['id', 'uid', 'created_at', 'updated_at','did'], 'integer'],
-            [['id', 'uid'], 'unique', 'targetAttribute' => ['id', 'uid']],
+            [['id', 'uid', 'did', 'created_at', 'updated_at'], 'integer'],
+            [['did'], 'unique'],
         ];
     }
 

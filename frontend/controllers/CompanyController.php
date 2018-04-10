@@ -39,7 +39,10 @@ class CompanyController extends CommonController
 		$emplo = new CompanyEmployees;
 		
 		$company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one();
-		
+		if (empty($company)) {
+			Yii::$app->session->setFlash('error',Yii::t('common','You are not allow to perfrom this action!'));
+			return $this->redirect(['/user/user-profile']);
+		}
 		$users = CompanyEmployees::find()->where('cid=:id',[':id'=>$company['id']])->andWhere(['!=','uid',Yii::$app->user->identity->id]);
 		$countQuery = clone $users;
         $pagination = new Pagination(['totalCount'=>$countQuery->count(),'pageSize'=>10]);

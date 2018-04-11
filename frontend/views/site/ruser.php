@@ -17,7 +17,7 @@ $this->title = Yii::t('common','Signup');
   </div>
     <div class="container">
   <div class="row1">
-            <div class="col-lg-4" style="text-align:center">
+            <div class="col-lg-6" style="text-align:center">
               <span class="fa-stack fa-4x">
                         <i class="fa fa-circle fa-stack-2x text-primary" style="color:orange;"></i>
                          <i class="fa fa-user-o fa-stack-1x fa-inverse"></i>
@@ -25,6 +25,16 @@ $this->title = Yii::t('common','Signup');
                     <h4 class="service-heading"><?= Yii::t('site','Customer') ?></h4>  
                 <p><?= Html::a(Yii::t('site','Sign Up').' &raquo;', ['site/signup'],['class' => "raised-btn btn-default"]) ?></p>
             </div>
+            <br>
+             <div class="col-lg-6" style="text-align:center">
+              <span class="fa-stack fa-4x">
+                        <i class="fa fa-circle fa-stack-2x text-primary" style="color:orange;"></i>
+                         <i class="fa fa-building-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="service-heading">Company</h4>  
+                <p><?= Html::a(Yii::t('site','Sign Up').' &raquo;', ['site/companysignup'],['class' => "raised-btn btn-default"]) ?></p>
+            </div>
+
             <!-- <div class="col-lg-4" style="text-align:center">
 			<span class="fa-stack fa-4x">
                         <i class="fa fa-circle fa-stack-2x text-primary" style="color:orange;"></i>

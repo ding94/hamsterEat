@@ -56,7 +56,7 @@ $(function(){
     var button = $(event.relatedTarget);
     var modal = $(this);
     var href = button.attr('href');
-    modal.find('.modal-body').html('<i class=\"fa fa-spinner fa-spin\"></i>');
+    modal.find('.modal-body').html('<center><i class=\"fa fa-spinner fa-spin fa-3x\" style="padding:100px"></i><center>');
     $.post({url : href, async: true, backdropLimit: 1})
                 .done(function( data ) {
                     modal.find('.modal-body').html(data);

@@ -313,9 +313,6 @@ class SiteController extends CommonController
 
             if ($user = $model->companysignup()) {
 
-                $employee['uid'] = $user['id'];
-                $employee['status'] = 1;
-                $employee->save();
                 $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
                     ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
                 ->setTo($user->email)

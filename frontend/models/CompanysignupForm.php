@@ -88,9 +88,7 @@ class CompanysignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->status = User::STATUS_UNVERIFIED;
-        //$user->save();
 		
-            
         $area=Area::find()->where(['Area_id' =>$this->area])->one();
         $company= new Company();
         $company->name = $this->name;
@@ -109,6 +107,10 @@ class CompanysignupForm extends Model
                 $company->owner_id = $user->id;
                 if($company->save())
                 {
+                    $employee['cid'] = $company['id'];
+                    $employee['uid'] = $user['id'];
+                    $employee['status'] = 1;
+                    $employee->save(false);
                     return $user;
                 }
                 else

@@ -85,6 +85,28 @@ class CompanyController extends CommonController
         echo json_encode(['output'=>'', 'selected'=>'']);
     }
 
+    public function actionApprovecompany($id,$approval)
+    {
+        $company = Company::findOne($id);
+        switch ($approval) {
+            case 0:
+                $company['status'] =0 ;
+                $company->save();
+                Yii::$app->session->setFlash('success','Success!');
+                break;
+            case 1:
+                $company['status'] =1 ;
+                $company->save();
+                Yii::$app->session->setFlash('success','Success!');
+                break;
+            
+            default:
+                Yii::$app->session->setFlash('warning','Failed!');
+                break;
+        }
+        return $this->redirect(['/company/index']);
+    }
+
     public static function getAreaList($postcode)
     {
         $area = Area::find()->where(['like','Area_Postcode' , $postcode])->select(['Area_ID', 'Area_Area'])->all();

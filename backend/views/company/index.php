@@ -65,6 +65,26 @@ Modal::end() ?>
                 },
             ],
 
+            ['class' => 'yii\grid\ActionColumn' , 
+             'template'=>'{approval} ',
+             'header' => "Action",
+             'buttons' => [
+                'approval' => function($url , $model)
+                {
+                    if ($model['status'] == 0) {
+                        $status = 1;
+                        $toggle = 'toggle-off lg';
+                    }
+                    else{
+                         $status = 0;
+                         $toggle = 'toggle-on lg';
+                    }
+                    
+                    return Html::a(FA::icon($toggle) , ['/company/approvecompany','id'=>$model['id'],'approval'=>$status] , ['title' => 'approval']);
+                },
+              ]
+            ],
+
             ['class' => 'yii\grid\ActionColumn' ,
                 'header'=>'Add Employee' ,
                 'template'=>' {addemployee}',

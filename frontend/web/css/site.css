@@ -1248,6 +1248,29 @@ span.badge{
   margin: 10px;
 }
 
+/* T&C modal css */
+#newsModal .modal-header{
+  background-color: #FFDA00;
+}
+
+#newsModal .modal-body{
+  position: relative;
+  padding: 0;
+}
+
+#newsModal .content-background{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: url(../SysImg/Icon.png)center no-repeat;
+  background-size: 300px; 
+  opacity: 0.1;
+}
+
+#newsModal .container{
+  padding: 30px 15px;
+}
+
 /* #SSCrow2 .form{
   border-radius: 15px;
   background-image: -webkit-linear-gradient(right, #ff4e50 0%, #f9d423 100%);

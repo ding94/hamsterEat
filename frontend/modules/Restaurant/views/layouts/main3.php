@@ -80,7 +80,6 @@ if (empty($language)) {
             'header' => '<h2 class="modal-title">Terms & Conditions</h2>',
             'id'     => 'newsModal',
             'size'   => 'modal-lg',
-            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
     ]);
     
     Modal::end() ?>

@@ -18,6 +18,7 @@ $form = ActiveForm::begin();
 	
 	echo $form->field($model,'discount');
 	echo $form->field($model, 'enable_selection')->dropDownList($array['selection'],['prompt'=>'-- Select One --']);
+	echo $form->field($model, 'enable_per_user')->dropDownList($array['selection'],['prompt'=>'-- Select One --']);
 ?>
 	<label>Date Range</label>
 	<div class="input-group drp-container">

@@ -9,11 +9,10 @@ Class PromotionSearch extends Promotion
 	public $first;
 	public $last;
 
-
 	public function rules()
     {
         return [
-           [['type_promotion','type_discount','discount','first','last','enable_selection'],'safe'],
+           [['type_promotion','type_discount','discount','first','last','enable_selection','enable_per_user'],'safe'],
         ];
     }
 	public function search($params)
@@ -31,6 +30,7 @@ Class PromotionSearch extends Promotion
            'type_discount' => $this->type_discount,
            'discount' => $this->discount,
            'enable_selection' => $this->enable_selection,
+           'enable_per_user' => $this->enable_per_user,
         ]);
 
         if(!empty($this->first))

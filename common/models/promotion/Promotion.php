@@ -21,6 +21,7 @@ use Yii;
  */
 class Promotion extends \yii\db\ActiveRecord
 {
+    public $date;
     /**
      * @inheritdoc
      */

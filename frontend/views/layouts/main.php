@@ -238,7 +238,7 @@ NotificationAsset::register($this);
             <div>
                 <ul>
                     <?php if(Yii::$app->user->isGuest){ ?>
-
+                    
                     <li><?php echo Html::a('<i class="fa fa-user-plus"></i><span> Sign Up</span>',['/site/ruser']);?></li>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-log-in"></span><span> Sign In</span>',['/site/login-popup'],['data-toggle'=>'modal','data-target'=>'#login-modal']);?></li>
 

@@ -114,8 +114,10 @@ class CheckoutController extends CommonController
 	public function actionProcess()
 	{
 		$post = Yii::$app->request->post();
-		$time = CommonController::getTime('','H');
-		$date = CommonController::getTime('','N');
+		$timevalid = CommonController::getOrdertime();
+		if ($timevalid == false) {
+			return $this->redirect(Yii::$app->request->referrer);
+		}
 		if(empty($post['cid']))
       	{
       		Yii::$app->session->setFlash('error', Yii::t('checkout','Your Cart is Empty. Please Add item before processing to checkout'));
@@ -126,6 +128,7 @@ class CheckoutController extends CommonController
       		Yii::$app->session->setFlash('error', Yii::t('checkout','You cannot place order at this time.'));
 			return $this->redirect(Yii::$app->request->referrer);
       	}*/
+
 
 		$cookieData['cid'] = $post['cid'];
       	$cookieData['area'] = $post['area'];

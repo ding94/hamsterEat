@@ -9,7 +9,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
-use frontend\models\{PasswordResetRequestForm,ResetPasswordForm,SignupForm,ContactForm};
+use frontend\models\{PasswordResetRequestForm,ResetPasswordForm,SignupForm,ContactForm,CompanysignupForm};
 use common\models\Rmanager;
 use common\models\Deliveryman;
 use common\models\User;
@@ -300,6 +300,53 @@ class SiteController extends CommonController
         
 
         return $this->render('signup', ['model' => $model,'employee'=>$employee,'company'=>$company]);
+    }
+
+    public function actionCompanysignup()
+    {   
+
+        $model = new CompanysignupForm();   
+        $employee = new CompanyEmployees();
+        $company = new Company();
+        $area = Arrayhelper::map(area::find()->all(),'Area_ID','Area_Area');
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            $company->load(Yii::$app->request->post());
+            $employee->load(Yii::$app->request->post());
+
+
+            if ($user = $model->companysignup()) {
+
+                $employee['uid'] = $user['id'];
+                $employee['status'] = 1;
+                $employee['created_at'] = time();
+                $employee['updated_at'] = time();
+                $employee->save(false);
+                $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
+                    ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
+                ->setTo($user->email)
+                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                ->setSubject('Signup Confirmation')
+                ->send();
+
+                if($email){
+                    if (Yii::$app->getUser()->login($user)) {
+
+                        Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
+                        return $this->redirect(['/site/validation']);
+                    }
+                }
+                else{
+                Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
+                }
+                return $this->goHome();
+                }
+
+            }
+        
+
+        return $this->render('companysignup', ['model' => $model,'employee'=>$employee,'company'=>$company,'area'=> $area]);
     }
     
     public function actionResendconfirmlink()

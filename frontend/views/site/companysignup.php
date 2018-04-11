@@ -30,9 +30,7 @@ $this->title ='Company Signup';
  				    <br>
 	              	<fieldset>
         				<legend>Company Details</legend>
-		        			<?= $form->field($model, 'name')->label('Company Name') ?>
-
-			               	<?= $form->field($model, 'licenseno')->label('License No') ?>	
+		        			<?= $form->field($model, 'name')->label('Company Name') ?>	
 
 			               	<?= $form->field($model, 'address')->label('Address') ?>	
 

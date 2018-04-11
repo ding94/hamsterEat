@@ -304,7 +304,6 @@ class SiteController extends CommonController
 
     public function actionCompanysignup()
     {   
-
         $model = new CompanysignupForm();   
         $employee = new CompanyEmployees();
         $company = new Company();
@@ -312,17 +311,11 @@ class SiteController extends CommonController
 
         if ($model->load(Yii::$app->request->post())) {
 
-            $company->load(Yii::$app->request->post());
-            $employee->load(Yii::$app->request->post());
-
-
             if ($user = $model->companysignup()) {
 
                 $employee['uid'] = $user['id'];
                 $employee['status'] = 1;
-                $employee['created_at'] = time();
-                $employee['updated_at'] = time();
-                $employee->save(false);
+                $employee->save();
                 $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
                     ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
                 ->setTo($user->email)

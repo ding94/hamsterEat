@@ -16,14 +16,12 @@ class CompanysignupForm extends Model
     public $username;
     public $email;
     public $password;
-    public $type;
-    public $status;
     public $name;
     public $licenseno;
     public $address;
     public $postcode;
     public $area;
-    public $userid;
+
     /**
      * @inheritdoc
      */
@@ -46,9 +44,6 @@ class CompanysignupForm extends Model
 
             ['name', 'required','message'=>'Company name'.' cannot be blank.'],
             ['name', 'unique', 'targetClass' => '\common\models\Company\Company', 'message' => 'This company name has already been taken.'],
-            
-            ['licenseno', 'required','message'=>'licenseno'.Yii::t('common',' cannot be blank.')],
-            ['licenseno', 'string', 'min' => 6, 'max' => 20],
 
             ['address', 'required','message'=>'address'.Yii::t('common',' cannot be blank.')],
 
@@ -86,63 +81,42 @@ class CompanysignupForm extends Model
 
             return null;
         }
-
-       
-        if($this->status == 2){
-            $user = new User();
-            $user->username = $this->username;
-            $user->email = $this->email;
-            $user->status = 2;
-            $user->setPassword($this->password);
-            $user->generateAuthKey();
-            $user->save(false);
-        } else {
-            $user = new User();
-            $user->username = $this->username;
-            $user->email = $this->email;
-            $user->setPassword($this->password);
-            $user->generateAuthKey();
-            $user->save(false);
-        }
+   
+        $user = new User();
+        $user->username = $this->username;
+        $user->email = $this->email;
+        $user->setPassword($this->password);
+        $user->generateAuthKey();
+        $user->status = User::STATUS_UNVERIFIED;
+        //$user->save();
 		
-        
-
-        if($user->save())
-		{
-			if($this->type == 2){
-			$auth = \Yii::$app->authManager;
-			$authorRole = $auth->getRole('rider');
-			$auth->assign($authorRole, $user->getId());
-			} 
-			else if($this->type == 1)
-			{     
-				$auth = \Yii::$app->authManager;
-				$authorRole = $auth->getRole('restaurant manager');
-				$auth->assign($authorRole, $user->getId());
-			}
-        }
-
-
-       if ($user->validate()) {
-            $userid = user::find()->where(['username' => $this->username])->one();
             
-            $area=Area::find()->where(['Area_id' =>$this->area])->one();
-            $company= new Company();
-            $company->name = $this->name;
-            $company->owner_id = $userid->id;
-            $company->license_no = $this->licenseno;
-            $company->address = $this->address;
-            $company->postcode = $this->postcode;
-            $company->status = 0; 
-            $company->created_at = time();
-            $company->updated_at = time();
-            $company->area =$area->Area_Area ;
-            $company->area_group = $area->Area_Group;
-            $company->save(false);
-            
+        $area=Area::find()->where(['Area_id' =>$this->area])->one();
+        $company= new Company();
+        $company->name = $this->name;
+        
+        $company->license_no = "123456789";
+        $company->address = $this->address;
+        $company->postcode = $this->postcode;
+        $company->status = 0; 
+        $company->area =$area->Area_Area ;
+        $company->area_group = $area->Area_Group;
+      
+        if($user->validate() && $company->validate())
+        {
+            if($user->save())
+            {
+                $company->owner_id = $user->id;
+                if($company->save())
+                {
+                    return $user;
+                }
+                else
+                {
+                    $user->delete();
+                }
+            }
         }
-        
-        
-        return $user ? $user : null;
+        return null;
     }
 }

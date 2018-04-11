@@ -1095,10 +1095,6 @@ span.badge{
   box-shadow: 0px 11px 44.6px 0.5px rgba(0,0,0,0.35);
 }
 
-.header-img-div img{
-
-}
-
 #about-container section.col-md-5{
   margin: 45px;
 }
@@ -1215,23 +1211,27 @@ span.badge{
 
 #promo-banner .text-img{
   position: relative;
+  height: 100%;
 }
 
 #promo-banner .text-img{
-  height: 100%;
   background: url('../imageLocation/1200px_banner.png')center no-repeat;
 }
 
 @media (max-width: 1199px){
   #promo-banner .text-img{
-    height: 100%;
     background: url('../imageLocation/767px_banner.png')center no-repeat;
   }
 }
 
 @media (max-width: 766px){
   #promo-banner .text-img{
-    height: 100%;
+    background: url('../imageLocation/500px_banner.png')center no-repeat;
+  }
+}
+
+@media (max-width: 499px){
+  #promo-banner .text-img{
     background: url('../imageLocation/320px_banner.png')center no-repeat;
   }
 }

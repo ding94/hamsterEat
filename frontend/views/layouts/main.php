@@ -111,7 +111,6 @@ NotificationAsset::register($this);
     ];*/
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-plus"></span>'.'Company Signup', 'url' => ['/site/companysignup']];
-        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart cart"></span>'.Yii::t('common','Cart'), 'url' => ['/cart/view-cart']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span>'.Yii::t('common','Signup'), 'url' => ['/site/signup']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span>'.Yii::t('common','Login'), 'url' => ['/site/login-popup'],'linkOptions'=>['data-toggle'=>'modal','data-target'=>'#login-modal']]; 
     } else {

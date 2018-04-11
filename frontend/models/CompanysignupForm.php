@@ -7,7 +7,7 @@ use yii\db\ActiveRecord;
 use common\models\User;
 use common\models\Area;
 use common\models\Company\{Company,CompanyEmployees};
-
+use borales\extensions\phoneInput\PhoneInputValidator;
 /**
  *Company Signup form
  */
@@ -21,6 +21,8 @@ class CompanysignupForm extends Model
     public $address;
     public $postcode;
     public $area;
+    public $contact_name;
+    public $contact_number;
 
     /**
      * @inheritdoc
@@ -44,6 +46,12 @@ class CompanysignupForm extends Model
 
             ['name', 'required','message'=>'Company name'.' cannot be blank.'],
             ['name', 'unique', 'targetClass' => '\common\models\Company\Company', 'message' => 'This company name has already been taken.'],
+
+            ['contact_name', 'required','message'=>'Contact name'.' cannot be blank.'],
+            ['contact_name', 'unique', 'targetClass' => '\common\models\Company\Company', 'message' => 'This company name has already been taken.'],
+
+            ['contact_number', 'required','message'=>'Contact no'.' cannot be blank.'],
+            ['contact_number','match','pattern'=>'/^[0]{1}[1-9]{1}[0-9]{7,9}$/'],
 
             ['address', 'required','message'=>'address'.Yii::t('common',' cannot be blank.')],
 
@@ -92,7 +100,8 @@ class CompanysignupForm extends Model
         $area=Area::find()->where(['Area_id' =>$this->area])->one();
         $company= new Company();
         $company->name = $this->name;
-        
+        $company->contact_number = $this->contact_number;
+        $company->contact_name = $this->contact_name;
         $company->license_no = "123456789";
         $company->address = $this->address;
         $company->postcode = $this->postcode;
@@ -106,7 +115,8 @@ class CompanysignupForm extends Model
             {
                 $company->owner_id = $user->id;
                 if($company->save())
-                {
+                {   
+                    $employee = new CompanyEmployees();
                     $employee['cid'] = $company['id'];
                     $employee['uid'] = $user['id'];
                     $employee['status'] = 1;

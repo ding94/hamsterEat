@@ -53,9 +53,9 @@ class Company extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'license_no', 'address', 'postcode', 'area'], 'required'],
-            [['owner_id', 'status', 'area_group','created_at','updated_at','postcode'], 'integer'],
-            [['name', 'license_no', 'address', 'area'], 'string', 'max' => 255],
+            [['name','contact_name','contact_number','license_no','address', 'postcode', 'area'], 'required'],
+            [['contact_number','owner_id', 'status', 'area_group','created_at','updated_at','postcode'], 'integer'],
+            [['contact_name','name', 'license_no', 'address', 'area'], 'string', 'max' => 255],
             [['name'],'safe'],
             ['username', 'string'],
             [['username','owner_id'], 'required','on'=>'register'],
@@ -73,6 +73,8 @@ class Company extends \yii\db\ActiveRecord
             'name' => 'Name',
             'owner_id' => 'Owner ID',
             'license_no' => 'License No',
+            'contact_name' => 'Contact Name',
+            'contact_number'=> 'Contact Number',
             'address' => 'Address',
             'postcode' => 'Postcode',
             'area' => 'Area',

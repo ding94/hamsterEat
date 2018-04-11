@@ -75,6 +75,19 @@ echo GridView::widget([
             'filterInputOptions' => ['placeholder' => 'Any Selection Type'],
         ],
         [
+            'attribute'=>'enable_per_user',
+            'value'=>function($model)use($array)
+            {
+                return $array['selection'][$model->enable_per_user];
+            },
+            'filter' =>  $array['selection'],
+            'filterType' => GridView::FILTER_SELECT2,
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['placeholder' => 'Any Per User Type'],
+        ],
+        [
             'attribute'=>'first',
             'vAlign' => 'middle',
             'hAlign' => 'center',

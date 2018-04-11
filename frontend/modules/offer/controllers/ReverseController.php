@@ -21,7 +21,7 @@ class ReverseController extends Controller
             }
         }
         $order->Orders_DiscountTotalAmount = CartController::actionRoundoff1decimal($dis);
-        
+       
         return $order;
 	}
 	/*
@@ -51,7 +51,7 @@ class ReverseController extends Controller
         	}
         	
         }
-
+     
        	return $disPrice;
 	}
 

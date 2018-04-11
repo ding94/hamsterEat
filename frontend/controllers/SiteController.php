@@ -305,7 +305,6 @@ class SiteController extends CommonController
     public function actionCompanysignup()
     {   
         $model = new CompanysignupForm();   
-        $employee = new CompanyEmployees();
         $company = new Company();
         $area = Arrayhelper::map(area::find()->all(),'Area_ID','Area_Area');
 
@@ -336,7 +335,7 @@ class SiteController extends CommonController
             }
         
 
-        return $this->render('companysignup', ['model' => $model,'employee'=>$employee,'company'=>$company,'area'=> $area]);
+        return $this->render('companysignup', ['model' => $model,'company'=>$company,'area'=> $area]);
     }
     
     public function actionResendconfirmlink()

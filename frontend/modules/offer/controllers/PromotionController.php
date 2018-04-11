@@ -49,7 +49,7 @@ class PromotionController extends Controller
 
 		if(!Yii::$app->user->isGuest)
 		{
-			if($promotion->enable_per_user == 0)
+			if($promotion->enable_per_user == 1)
 			{
 				$userUsed = PromotionUserUsed::find()->where('id = :id and uid = :uid',[':id'=>$promotion->id,':uid'=>Yii::$app->user->identity->id])->exists();
 				if($userUsed)

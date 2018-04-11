@@ -106,7 +106,7 @@ class CancelController extends CommonController
         {
            $isValid = $acc->validate() && $isValid;
         }
-        
+       
         if($isValid)
         {
             $data->save();
@@ -153,6 +153,7 @@ class CancelController extends CommonController
         }
      
         $order->Orders_Subtotal -= $value->OrderItem_LineTotal* $value->OrderItem_Quantity;
+      
         return $order;
     } 
 

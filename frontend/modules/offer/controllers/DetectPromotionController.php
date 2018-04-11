@@ -31,6 +31,7 @@ class DetectPromotionController extends Controller
 			if($cookie['promotion'][$i] == 1)
 			{
 				$promotion = self::getPromotionData($cart->price,$cart->selectionprice,$cart->fid);
+
 				if(empty($promotion))
 				{
 					return "";
@@ -105,10 +106,9 @@ class DetectPromotionController extends Controller
 
     	$dis = self::getPrice($price,$selprice,$fid,$promotion->type_discount);
     	
-    	
     	$defaultLimit = self::getDailyList($fid,$promotion->id,$promotion->type_promotion);
-
-    	if(empty($dis) || empty($defaultLimit))
+    	
+    	if($dis < 0 || empty($defaultLimit))
     	{
     		return "";
     	}
@@ -129,8 +129,9 @@ class DetectPromotionController extends Controller
 		if(empty($promotion))
 		{
 			Yii::$app->session->setFlash('warning', Yii::t('food','Promotion Already Finish'));
-			return"";
+			return -1;
 		}
+
 		if(($type == 1 || $type == 2)&& $promotion['price'] == 0)
 		{
 			$dis = $price-$selprice;
@@ -140,7 +141,6 @@ class DetectPromotionController extends Controller
 			$dis = ($price-$selprice)- $promotion['price'];
 		}
 	
-     	
         $seldis = PromotionController::getPromotioinPrice($selprice,$fid,2);
         
         if(is_array($seldis))

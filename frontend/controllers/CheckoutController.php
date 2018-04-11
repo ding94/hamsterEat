@@ -121,10 +121,11 @@ class CheckoutController extends CommonController
       		Yii::$app->session->setFlash('error', Yii::t('checkout','Your Cart is Empty. Please Add item before processing to checkout'));
 			return $this->redirect(Yii::$app->request->referrer);
       	}
-      	if ($time<7 || $time>11 || $date==6 || $date == 7) {
+
+      	/*if ($time<7 || $time>11 || $date==6 || $date == 7) {
       		Yii::$app->session->setFlash('error', Yii::t('checkout','You cannot place order at this time.'));
 			return $this->redirect(Yii::$app->request->referrer);
-      	}
+      	}*/
 
 		$cookieData['cid'] = $post['cid'];
       	$cookieData['area'] = $post['area'];
@@ -232,7 +233,7 @@ class CheckoutController extends CommonController
 		$status = $dataitem['status'];
 		
 		$delivery = $this->addDeliveryAssignment($deliveryman);
-
+		
 		$isValid = $delivery->validate() && $address->validate() ;
 		
 		if($isValid)
@@ -401,6 +402,7 @@ class CheckoutController extends CommonController
 		$data['data'] = "";
 		
 		$priceArray = DetectPromotionController::calCheckOutPrice($cookie);
+	
 		if(empty($priceArray))
 		{
 			

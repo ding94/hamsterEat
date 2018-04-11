@@ -21,7 +21,7 @@ class ReverseController extends Controller
             }
         }
         $order->Orders_DiscountTotalAmount = CartController::actionRoundoff1decimal($dis);
-       
+        
         return $order;
 	}
 	/*
@@ -37,8 +37,9 @@ class ReverseController extends Controller
 		}
 
         $price = $item->OrderItem_LineTotal - $item->OrderItem_SelectionTotal;
+         
         $dis = PromotionController::calPrice($promotion->type_discount,$promotion->	discount,$price,1);
-       
+        
         $disPrice = $price-$dis['price'];
 
         if($promotion->enable_selection == 1)
@@ -50,6 +51,7 @@ class ReverseController extends Controller
         	}
         	
         }
+
        	return $disPrice;
 	}
 

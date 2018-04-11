@@ -173,7 +173,7 @@ class CommonController extends Controller
         date_default_timezone_set("Asia/Kuala_Lumpur");
         $time = self::getTime('','H');
         $date = self::getTime('','N');
-        if ($time<7 || $time>11 || $date==6 || $date == 7) {
+        if ($time<7 || $time<11 || $date==6 || $date == 7) {
             Yii::$app->session->setFlash('error', Yii::t('checkout','You cannot place order at this time.'));
             return false;
         }

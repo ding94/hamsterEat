@@ -90,7 +90,6 @@ class CompanysignupForm extends Model
         $user->status = User::STATUS_UNVERIFIED;
         //$user->save();
 		
-            
         $area=Area::find()->where(['Area_id' =>$this->area])->one();
         $company= new Company();
         $company->name = $this->name;

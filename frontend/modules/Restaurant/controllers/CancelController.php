@@ -106,7 +106,7 @@ class CancelController extends CommonController
         {
            $isValid = $acc->validate() && $isValid;
         }
-       
+      
         if($isValid)
         {
             $data->save();
@@ -130,9 +130,11 @@ class CancelController extends CommonController
     */
     protected function findOrder($did,$value)
     {
-        $order = Orders::find()->where('orders.Delivery_ID = :did',[':did'=>$did])->joinWith(['item'])->one();
+        $order = Orders::find()->where('orders.Delivery_ID = :did',[':did'=>$did])->joinWith(['item'=>function($query){
+            $query->andWhere('OrderItem_Status != 8 and OrderItem_Status != 9');
+        }])->one();
         //$item = Orderitem::find();
-       
+     
         foreach($order->item as $item)
         {
 

@@ -109,7 +109,7 @@ function quantity(up,cid,url)
     type: "get",
     data :{
       dis: document.getElementById("discountitem-description").value.replace(/\s+/g, ''),
-      codes: document.getElementById("codes").value.replace(/\s+/g, ''),
+      //codes: document.getElementById("codes").value.replace(/\s+/g, ''),
       sub: parseFloat(document.getElementById("subtotal").innerHTML).toFixed(2),
       deli: parseFloat(document.getElementById("delivery").innerHTML).toFixed(2),
       total: parseFloat(document.getElementById("total").innerHTML).toFixed(2),

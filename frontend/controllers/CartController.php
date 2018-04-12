@@ -448,8 +448,9 @@ class CartController extends CommonController
         return Json::encode($data);
     }
 
+/* old version with entering code
     public function actionGetdiscount($dis,$codes,$sub,$deli,$total)
-    { // ajax's function must do in one controller, can't pass to second
+    {
         if (empty($dis)) {
             if (empty($codes)) {
                 $value['error'] =  1; // error 1 = error, 0 = pass
@@ -458,6 +459,14 @@ class CartController extends CommonController
         }
 
         if (!empty($codes)){$dis= $codes;}
+
+*/
+    public function actionGetdiscount($dis,$sub,$deli,$total)
+    { // ajax's function must do in one controller, can't pass to second
+        if (empty($dis)) {
+            $value['error'] =  1; // error 1 = error, 0 = pass
+            return Json::encode($value);
+        }
 
         $special = VouchersSetCondition::find()->where('code=:c',[':c'=>$dis])->one();
         if (!empty($special)) {

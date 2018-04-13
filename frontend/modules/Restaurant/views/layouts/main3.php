@@ -105,7 +105,7 @@ if (empty($language)) {
          //['label' => '<span class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
     ];*/
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-plus"></span>'.'Company Signup', 'url' => ['/site/companysignup']];
+        $menuItems[] = ['label' => '<span class="fa fa-building fa-lg" aria-hidden="true"></span>'.' Company Signup', 'url' => ['/site/companysignup']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span> '.Yii::t('layouts','Signup'), 'url' => ['/site/signup']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> '.Yii::t('layouts','Login'), 'url' => ['/site/login-popup'],'linkOptions'=>['data-toggle'=>'modal','data-target'=>'#login-modal']]; 
     } else {

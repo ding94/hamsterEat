@@ -95,7 +95,7 @@ if (empty($language)) {
     ]);
     
     if (Yii::$app->user->isGuest) {
-         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-plus"></span>'.'Company Signup', 'url' => ['/site/companysignup']];
+        $menuItems[] = ['label' => '<span class="fa fa-building fa-lg" aria-hidden="true"></span>'.' Company Signup', 'url' => ['/site/companysignup']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span>'.Yii::t('common','Signup'), 'url' => ['/site/signup']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span>'.Yii::t('common','Login'), 'url' => ['/site/login']];
     }

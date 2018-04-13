@@ -22,7 +22,7 @@ use common\models\SelfObject;
 use common\models\Referral;
 use yii\helpers\ArrayHelper;
 use yii\web\Session;
-use frontend\controllers\CommonController;
+use frontend\controllers\{CommonController,PhoneController};
 use common\models\Banner;
 use common\models\Expansion;
 use common\models\Feedback;
@@ -114,12 +114,11 @@ class SiteController extends CommonController
 //--This function captures the user's area group from the entered postcodes and area
     public function actionIndex()
     {
-
         $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_ID','Area_Area');
 
         $list =array();
         $banner = Banner::find()->where(['<=','startTime',date("Y-m-d H:i:s")])->andWhere(['>=','endTime',date("Y-m-d H:i:s")])->all();
-  
+      
         if(Yii::$app->request->isPost)
         {
             $post = Yii::$app->request->post();
@@ -131,6 +130,7 @@ class SiteController extends CommonController
             $group = 1;
           
             $session = new Session;
+
             $session->open();
             $session['area'] = 'Medini';
             $session['group'] = $group;
@@ -305,37 +305,35 @@ class SiteController extends CommonController
     public function actionCompanysignup()
     {   
         $model = new CompanysignupForm();   
-        $company = new Company();
+      
         $area = Arrayhelper::map(area::find()->all(),'Area_ID','Area_Area');
 
         if ($model->load(Yii::$app->request->post())) {
+            $valid = PhoneController::ValidatePhone($model->validate_code,$model->contact_number);
+            if($valid)
+            {   
+                if ($user = $model->companysignup()) {
 
-            if ($user = $model->companysignup()) {
+                    $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
+                        ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
+                    ->setTo($user->email)
+                    ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                    ->setSubject('Signup Confirmation')
+                    ->send();
 
-                $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
-                    ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
-                ->setTo($user->email)
-                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
-                ->setSubject('Signup Confirmation')
-                ->send();
+                    if($email){
+                        if (Yii::$app->getUser()->login($user)) {
 
-                if($email){
-                    if (Yii::$app->getUser()->login($user)) {
-
-                        Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
-                        return $this->redirect(['/site/validation']);
+                            Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
+                            return $this->redirect(['/site/validation']);
+                        }
                     }
                 }
-                else{
-                Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
-                }
-                return $this->goHome();
-                }
-
+                Yii::$app->getSession()->setFlash('warning','Something Went Wrong');
             }
+        }
         
-
-        return $this->render('companysignup', ['model' => $model,'company'=>$company,'area'=> $area]);
+        return $this->render('companysignup', ['model' => $model,'area'=> $area]);
     }
     
     public function actionResendconfirmlink()

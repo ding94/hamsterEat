@@ -23,6 +23,7 @@ class CompanysignupForm extends Model
     public $area;
     public $contact_name;
     public $contact_number;
+    public $validate_code;
 
     /**
      * @inheritdoc
@@ -58,7 +59,7 @@ class CompanysignupForm extends Model
             ['postcode', 'required','message'=>'postcode'.Yii::t('common',' cannot be blank.')],
 
             ['area', 'required','message'=>'area'.Yii::t('common',' cannot be blank.')],
-            
+            ['validate_code','required'],
         ];
     }
 

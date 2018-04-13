@@ -105,9 +105,9 @@ if (empty($language)) {
          //['label' => '<span class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
     ];*/
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => '<span class="fa fa-building fa-lg" aria-hidden="true"></span>'.' Company Signup', 'url' => ['/site/companysignup']];
-        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span> '.Yii::t('layouts','Signup'), 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> '.Yii::t('layouts','Login'), 'url' => ['/site/login-popup'],'linkOptions'=>['data-toggle'=>'modal','data-target'=>'#login-modal']]; 
+        $menuItems[] = ['label' => '<span class="fa fa-building fa-lg" aria-hidden="true"></span>'.Yii::t('common','Company Signup'), 'url' => ['/site/companysignup']];
+        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span> '.Yii::t('common','Signup'), 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span> '.Yii::t('common','Login'), 'url' => ['/site/login-popup'],'linkOptions'=>['data-toggle'=>'modal','data-target'=>'#login-modal']]; 
     } else {
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['countCart'].'</span></span>', 'url' => ['/cart/view-cart']];
         $menuItems[] = ['label' => '<span> <i class="fa fa-bell"></i>'.Yii::$app->params['countNotic'].'</span>' ,'options'=> ['id'=>'notication']];
@@ -194,7 +194,7 @@ if (empty($language)) {
         //                 '<li class="divider"></li>',
         //                 ['label' => 'Chinese', 'url' => Url::to(['/site/changelanguage','lang'=>'zh'])]
         //                 ]];
-        $menuItems[] = '<li class="special-nav-item">'.Html::a('EN',['/site/changelanguage','lang'=>'en']).'<span>|</span>'.Html::a('中文',['/site/changelanguage','lang'=>'zh']).'</li>';
+        // $menuItems[] = '<li class="special-nav-item">'.Html::a('EN',['/site/changelanguage','lang'=>'en']).'<span>|</span>'.Html::a('中文',['/site/changelanguage','lang'=>'zh']).'</li>';
                     //var_dump($menuItems);exit;
         
        //  $menuItems = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];
@@ -210,6 +210,7 @@ if (empty($language)) {
         //     ['label' => 'My Profile', 'url' => ['/user/user-profile']];
          
     }
+    $menuItems[] = '<li class="special-nav-item">'.Html::a('EN',['/site/changelanguage','lang'=>'en']).'<span>|</span>'.Html::a('中文',['/site/changelanguage','lang'=>'zh']).'</li>';
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right dropdown'],
         'encodeLabels' => false,
@@ -332,13 +333,13 @@ if (empty($language)) {
 				<hr>
 				<ul id="linklist" class="list-unstyled">
                     <li><?php echo Html::a(Yii::t('layouts','Feedback'), Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal']) ?></li>
-					<li><?php echo Html::a(Yii::t('common','About Us'),['site/about']) ?></li>
-                    <li><?php echo Html::a(Yii::t('common','Guide'),['site/faq']) ?></li>
+					<li><?php echo Html::a(Yii::t('common','About Us'),['/site/about']) ?></li>
+                    <li><?php echo Html::a(Yii::t('common','Guide'),['/site/faq']) ?></li>
 					<li><a href="../HomeCookedDelicacies/Help.php"><?= Yii::t('common','Help') ?></a></li>
                     <?php if (Yii::$app->user->isGuest)
                     { ?>
-                        <li><?php echo Html::a(Yii::t('common','Login'),['site/login-popup'], ['data-toggle'=>'modal','data-target'=>'#login-modal']) ?></li>
-                        <li><?php echo Html::a(Yii::t('common','Signup'),['site/ruser']) ?></li> <?php
+                        <li><?php echo Html::a(Yii::t('common','Login'),['/site/login-popup'], ['data-toggle'=>'modal','data-target'=>'#login-modal']) ?></li>
+                        <li><?php echo Html::a(Yii::t('common','Signup'),['/site/ruser']) ?></li> <?php
                     }
                     ?>
 				</ul>

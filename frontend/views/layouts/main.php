@@ -109,7 +109,7 @@ NotificationAsset::register($this);
          //['label' => '<span class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
     ];*/
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => '<span class="fa fa-building fa-lg" aria-hidden="true"></span>'.' Company Signup', 'url' => ['/site/companysignup']];
+        $menuItems[] = ['label' => '<span class="fa fa-building fa-lg" aria-hidden="true"></span>'.Yii::t('common','Company Signup'), 'url' => ['/site/companysignup']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span>'.Yii::t('common','Signup'), 'url' => ['/site/signup']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span>'.Yii::t('common','Login'), 'url' => ['/site/login-popup'],'linkOptions'=>['data-toggle'=>'modal','data-target'=>'#login-modal']]; 
       
@@ -347,13 +347,13 @@ NotificationAsset::register($this);
                 <hr>
                 <ul id="linklist" class="list-unstyled">
                     <li><?php echo Html::a(Yii::t('layouts','Feedback'), Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal']) ?></li>
-                    <li><?php echo Html::a(Yii::t('common','About Us'),['site/about']) ?></li>
-                    <li><?php echo Html::a(Yii::t('common','Guide'),['site/faq']) ?></li>
+                    <li><?php echo Html::a(Yii::t('common','About Us'),['/site/about']) ?></li>
+                    <li><?php echo Html::a(Yii::t('common','Guide'),['/site/faq']) ?></li>
                     <li><a href="../HomeCookedDelicacies/Help.php"><?= Yii::t('common','Help') ?></a></li>
                     <?php if (Yii::$app->user->isGuest)
                     { ?>
-                        <li><?php echo Html::a(Yii::t('common','Login'),['site/login-popup'], ['data-toggle'=>'modal','data-target'=>'#login-modal']) ?></li>
-                        <li><?php echo Html::a(Yii::t('common','Signup'),['site/ruser']) ?></li> <?php
+                        <li><?php echo Html::a(Yii::t('common','Login'),['/site/login-popup'], ['data-toggle'=>'modal','data-target'=>'#login-modal']) ?></li>
+                        <li><?php echo Html::a(Yii::t('common','Signup'),['/site/ruser']) ?></li> <?php
                     }
                     ?>
                 </ul>

@@ -785,25 +785,39 @@ class CartController extends CommonController
         $data['value'] = -1;
         $data['message'] ="";
         $promotion = PromotionController::getPromotion();
+        
         if(empty($promotion))
         {
             if($cq > $fq)
             {
-                $data['message'] = "The Quantity More Than Food Limit";
+                $data['message'] = Yii::t('cart',"The Quantity More Than Food Limit");
                 return $data;
             }
         }
         else
         {   
             $quantity = $cq += self::detectTypePromotion($id,$promotion);
+            
             $promotionData = DetectPromotionController::getDailyList($id,$promotion->id,$promotion->type_promotion);
-            $pquantity = $promotionData['limit']->food_limit - $promotionData['daily']->food_limit;
-
-            if($quantity > $pquantity )
+            if(empty($promotionData))
             {
-                $data['message'] = "The Quantity More Than Promotion Quantity";
-                return $data;
+                if($cq > $fq)
+                {
+                    $data['message'] = Yii::t('cart',"The Quantity More Than Food Limit");
+                    return $data;
+                }
             }
+            else
+            {
+                 $pquantity = $promotionData['limit']->food_limit - $promotionData['daily']->food_limit;
+
+                if($quantity > $pquantity )
+                {
+                    $data['message'] = Yii::t('cart',"The Quantity More Than Promotion Quantity");
+                    return $data;
+                }
+            }
+           
         }
         $data['value'] = 1;
         return $data;

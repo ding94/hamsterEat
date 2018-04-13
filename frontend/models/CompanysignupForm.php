@@ -34,7 +34,7 @@ class CompanysignupForm extends Model
             ['username', 'trim'],
             ['username', 'required','message'=>Yii::t('common','Username').Yii::t('common',' cannot be blank.')],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 6, 'max' => 12],
+            ['username', 'string', 'min' => 6, 'max' => 255],
 
             ['email', 'trim'],
             ['email', 'required','message'=>Yii::t('common','Email').Yii::t('common',' cannot be blank.')],

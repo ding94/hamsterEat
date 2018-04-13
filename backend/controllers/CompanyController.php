@@ -156,8 +156,7 @@ class CompanyController extends CommonController
         foreach($query->each() as $value)
         {
             $deliveryman[$value->User_id] = User::findOne($value->User_id)->username;
-        }
-        
+        } 
         $company = DeliverymanCompany::find()->where('cid=:cid',[':cid'=>$id])->one();
         if (empty($company)) {
             $company = new DeliverymanCompany();

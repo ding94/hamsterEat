@@ -311,7 +311,11 @@ NotificationAsset::register($this);
             <div id="promo-banner">
                 <div class="text">
                         <input type="hidden" id="closebanner-link" value="<?= $link; ?>"/>
+                        <?php if(Yii::$app->request->cookies['language']->value == 'en'){ ?>
                         <div class="text-img">
+                        <?php }else{ ?>
+                        <div class="text-img-zh">
+                        <?php } ?>
                             <!-- <img src="<?php //echo Yii::$app->params['baseUrl'] ?>/1200px_banner.png" alt=""> -->
                             <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>" class ="btn raised-btn main-btn" data-toggle="modal" data-target="#newsModal">T&C</a>
                         </div>

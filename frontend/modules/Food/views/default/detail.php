@@ -169,7 +169,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                     ],
                     'pluginOptions' => [
                         'min' => 1,
-                        'max'=>100,
+                        'max'=>$limit,
                         'initval' => 1,
                         'buttonup_class' => 'btn btn-primary plus-btn', 
                         'buttondown_class' => 'btn btn-primary minus-btn', 

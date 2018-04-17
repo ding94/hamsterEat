@@ -55,15 +55,12 @@ $this->title = Yii::t('common','About Us').' | HamsterEat.my';
     </h3>
     <p>
       <span class="secondary-header"><?= Yii::t('site','Customer Support Hotline') ?>:</span>
-      1700 818 360
+      014-7771080
     </p>
     <p>
       <span class="secondary-header"><?= Yii::t('site','Customer Support Email') ?>:</span>
-      support@HamsterEat.my
+      support@hamstereat.my
     </p>
-    <p>
-      <span class="secondary-header"><?= Yii::t('site','Business Contact Email') ?>:</span>
-      business@HamsterEat.my
-    </p>
+   
   </section>
 </div>

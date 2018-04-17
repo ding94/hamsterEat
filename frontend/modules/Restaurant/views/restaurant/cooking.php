@@ -16,7 +16,11 @@ $quantity = 0;
 		<ul class="nav nav-tabs">
 			<?php foreach($companyData as $name=> $company):?>
 			<li >
-				<a href="#<?php echo $name?>" data-toggle="tab"><?php echo $name?></a>
+				<?php 
+					$symbol = array("!","@",'#','$','%','&','*');
+					$recname = str_replace($symbol,"-", $name); 
+				?>
+				<a href="#<?php echo $recname?>" data-toggle="tab"><?php echo $name?></a>
 			</li>
 			<?php endforeach ;?>
 			<?php foreach($singleData as $name => $single):?>
@@ -29,7 +33,12 @@ $quantity = 0;
 	<div class="panel-body">
 		<div class="tab-content">
 			<?php foreach($companyData as $name=> $company):?>
-			<div class="tab-pane cooking-table" id = <?php echo $name?>>
+			<?php 
+				$quantity = 0;
+				$symbol = array("!","@",'#','$','%','&','*');
+				$recname = str_replace($symbol,"-", $name); 
+			?>
+			<div class="tab-pane cooking-table" id = <?php echo $recname?>>
 				<table class="table table-bordered">
 				<thead>
 					<tr>

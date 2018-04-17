@@ -5,7 +5,11 @@ use frontend\assets\AppAsset;
 
 /* @var $this yii\web\View */
 /* @var $user common\models\User */
-$confirmLink = Url::to(['site/confirm','id' => $id, 'auth_key' => $auth_key],true);
+
+$confirmLink = Url::to(['/site/confirm','id' => $id, 'auth_key' => $auth_key],true);
+if ($back == 0) {
+	$confirmLink = Yii::$app->urlFrontEnd->createUrl(['site/confirm','id' => $id, 'auth_key' => $auth_key]);
+}
 AppAsset::register($this);
 ?>
 <div class="password-reset">

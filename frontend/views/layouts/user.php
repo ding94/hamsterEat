@@ -96,7 +96,7 @@ if (empty($language)) {
     ]);
     
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => '<span class="fa fa-building fa-lg" aria-hidden="true"></span>'.' Company Signup', 'url' => ['/site/companysignup']];
+        $menuItems[] = ['label' => '<span class="fa fa-building fa-lg" aria-hidden="true"></span>'.Yii::t('common','Company Signup'), 'url' => ['/site/companysignup']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span>'.Yii::t('common','Signup'), 'url' => ['/site/signup']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span>'.Yii::t('common','Login'), 'url' => ['/site/login']];
     }
@@ -220,7 +220,7 @@ if (empty($language)) {
             <div>
                 <ul>
                     <?php if(Yii::$app->user->isGuest){ ?>
-                    <li><?php echo Html::a('<i class="fa fa-user-plus"></i><span>'.Yii::t('layouts','Sign Up').'</span>',['/site/ruser']);?></li>
+                    <li><?php echo Html::a('<i class="fa fa-user-plus"></i><span>'.Yii::t('common','Sign Up').'</span>',['/site/ruser']);?></li>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-log-in"></span><span> Sign In</span>',['/site/login-popup'],['data-toggle'=>'modal','data-target'=>'#login-modal']);?></li>
                     <?php } elseif(Rmanager::find()->where('uid=:id',[':id'=>Yii::$app->user->identity->id])->one()) { ?>
                     <li><?php echo Html::a('<span class="glyphicon glyphicon-shopping-cart cart"><span class="badge">'.Yii::$app->params['countCart'].'</span></span>',['/cart/view-cart']);?></li>
@@ -261,7 +261,11 @@ if (empty($language)) {
             <div id="promo-banner">
                 <div class="text">
                         <input type="hidden" id="closebanner-link" value="<?= $link; ?>"/>
+                        <?php if(Yii::$app->request->cookies['language']->value == 'en'){ ?>
                         <div class="text-img">
+                        <?php }else{ ?>
+                        <div class="text-img-zh">
+                        <?php } ?>
                             <!-- <img src="<?php //echo Yii::$app->params['baseUrl'] ?>/1200px_banner.png" alt=""> -->
                           <!--   <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>" class ="btn raised-btn main-btn" data-toggle="modal" data-target="#newsModal">T&C</a> -->
                         </div>

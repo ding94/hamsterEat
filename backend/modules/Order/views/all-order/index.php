@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
  	echo GridView::widget([
         'dataProvider'=>$model,
         'filterModel'=>$searchModel,
-        'pjax'=>true,
+        'pjax'=>false,
         'striped'=>false,
         'hover'=>true,
         'headerRowOptions' => ['class' => 'kartik-sheet-style'],
@@ -161,6 +161,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
               
 			],
+                 [
+                'class' => 'kartik\grid\ActionColumn',
+                'template' => '{resit}',
+                'header' => "View Resit",
+                'buttons' => [
+                    'resit' => function($url,$model)
+                    {   
+                        return Html::a('Invoice Detail',['invoice-pdf','did'=>$model->Delivery_ID], ['target'=>'_blank' ,'class'=>'raised-btn main-btn']); 
+                
+                    }
+                ],
+            ],
 			[
                 'class' => 'kartik\grid\ActionColumn',
                 'template' => '{speed}',

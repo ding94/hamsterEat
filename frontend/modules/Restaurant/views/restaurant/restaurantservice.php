@@ -14,25 +14,27 @@ RestaurantServiceAsset::register($this);
     <div class="menu-container" id="menucon">
       <?php if(!empty($restaurants)): ?>
       <?php foreach($restaurants as $k => $restaurant ){?>
-      <div class="outer-item">
-        <a href=" <?php echo yii\helpers\Url::to(['/Restaurant/restaurantorder/history','rid'=>$restaurant['Restaurant_ID']]); ?> ">
-          <div class="item-no-border">
-            <div class="img">
-          
-              <?php echo Html::img($restaurant->img) ?>
-           
-           </div>
-            <div class="inner-item">
-              <div class="restaurant-name-div">
-                <span class="restaurant-name"><?php echo $resname[$k]; ?></span>
-                <span class="small-text pull-right stars" alt="<?php echo $restaurant['Restaurant_Rating']; ?>"><?php echo $restaurant['Restaurant_Rating']; ?></span>
-              </div>
-              <span><p><?php echo $restaurant['Restaurant_UnitNo'].','.$restaurant['Restaurant_Street'].','.$restaurant['Restaurant_Area'].', '.$restaurant['Restaurant_Postcode'] ?></p></span>
-            </div>  	
-          </div>
-    		</a>
-        <?= Html::a(Yii::t('m-restaurant','Placed Orders'),['/Restaurant/restaurant/cooking-detail','rid'=>$restaurant['Restaurant_ID']],['class'=>'raised-btn btn-success success-btn placed-orders-btn']);?>
-      </div>
+      <?php if($restaurant['Restaurant_Status'] !=4) : ?>
+        <div class="outer-item">
+          <a href=" <?php echo yii\helpers\Url::to(['/Restaurant/restaurantorder/history','rid'=>$restaurant['Restaurant_ID']]); ?> ">
+            <div class="item-no-border">
+              <div class="img">
+            
+                <?php echo Html::img($restaurant->img) ?>
+             
+             </div>
+              <div class="inner-item">
+                <div class="restaurant-name-div">
+                  <span class="restaurant-name"><?php echo $resname[$k]; ?></span>
+                  <span class="small-text pull-right stars" alt="<?php echo $restaurant['Restaurant_Rating']; ?>"><?php echo $restaurant['Restaurant_Rating']; ?></span>
+                </div>
+                <span><p><?php echo $restaurant['Restaurant_UnitNo'].','.$restaurant['Restaurant_Street'].','.$restaurant['Restaurant_Area'].', '.$restaurant['Restaurant_Postcode'] ?></p></span>
+              </div>  	
+            </div>
+      		</a>
+          <?= Html::a(Yii::t('m-restaurant','Placed Orders'),['/Restaurant/restaurant/cooking-detail','rid'=>$restaurant['Restaurant_ID']],['class'=>'raised-btn btn-success success-btn placed-orders-btn']);?>
+        </div>
+      <?php endif;?>
       <?php } ?>
     <?php else : ?>
       <div class="outer-item">

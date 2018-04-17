@@ -69,9 +69,9 @@ Modal::end();
             <span><?php echo Html::a(Yii::t('food','Insert Food'), ['/Food/default/create-edit-food','rid'=>$restaurant->Restaurant_ID], ['class'=>'raised-btn main-btn']); ?></span>
             <span> 
               <?php if ($restaurant['Restaurant_Status'] == 3): ?>
-              <?=Html::a('Resume Resturant Operate', Url::to(['/Restaurant/restaurant/resume-restaurant', 'id'=>$restaurant['Restaurant_ID']]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'resize-btn raised-btn btn-success'])?>
+              <?=Html::a(Yii::t('food','Resume Resturant Operate'), Url::to(['/Restaurant/restaurant/resume-restaurant', 'id'=>$restaurant['Restaurant_ID']]), ['id'=>'resume','data-confirm'=>"Do you want to Resume Operate?",'class'=>'resize-btn raised-btn btn-success'])?>
               <?php elseif($restaurant['Restaurant_Status'] == 2): ?>
-              <?=Html::a('Pause Resturant Operate', Url::to(['/Restaurant/restaurant/pauserestaurant', 'id'=>$restaurant['Restaurant_ID'],'item'=>1]), ['id'=>'pause','data-confirm'=>"Do you want to Pause Operate?",'class'=>'resize-btn raised-btn btn-danger'])?>  
+              <?=Html::a(Yii::t('food','Pause Resturant Operate'), Url::to(['/Restaurant/restaurant/pauserestaurant', 'id'=>$restaurant['Restaurant_ID'],'item'=>1]), ['id'=>'pause','data-confirm'=>"Do you want to Pause Operate?",'class'=>'resize-btn raised-btn btn-danger'])?>  
               <?php endif ?>
             </span>
           </div>

@@ -34,7 +34,7 @@ NotificationAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keyword" content="Delivery Food, Delivery Food In Medini, Food Delivery, Delivery In Johor">
+    <meta name="keyword" content="Delivery Food, Delivery Food In Medini, Food Delivery, Delivery In Johor, Hamster Eat Malaysia, Hamster Eat, Hamstereat">
     <meta name=”description” content="Provide the easiest-to-use food delivery service in Medini City, to serve customers with delicious food during office lunch time">
     <!-- <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet"> -->
     <link rel="shortcut icon" type="image/png" href=<?php echo Url::to('@web/SysImg/Icon.png')?>>
@@ -110,7 +110,7 @@ NotificationAsset::register($this);
          //['label' => '<span class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
     ];*/
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => '<span class="fa fa-building fa-lg" aria-hidden="true"></span>'.' Company Signup', 'url' => ['/site/companysignup']];
+        $menuItems[] = ['label' => '<span class="fa fa-building fa-lg" aria-hidden="true"></span>'.Yii::t('common','Company Signup'), 'url' => ['/site/companysignup']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span>'.Yii::t('common','Signup'), 'url' => ['/site/signup']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-log-in"></span>'.Yii::t('common','Login'), 'url' => ['/site/login-popup'],'linkOptions'=>['data-toggle'=>'modal','data-target'=>'#login-modal']]; 
       
@@ -312,7 +312,11 @@ NotificationAsset::register($this);
             <div id="promo-banner">
                 <div class="text">
                         <input type="hidden" id="closebanner-link" value="<?= $link; ?>"/>
+                        <?php if(Yii::$app->request->cookies['language']->value == 'en'){ ?>
                         <div class="text-img">
+                        <?php }else{ ?>
+                        <div class="text-img-zh">
+                        <?php } ?>
                             <!-- <img src="<?php //echo Yii::$app->params['baseUrl'] ?>/1200px_banner.png" alt=""> -->
                            <!--  <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>" class ="btn raised-btn main-btn" data-toggle="modal" data-target="#newsModal">T&C</a> -->
                         </div>
@@ -348,13 +352,13 @@ NotificationAsset::register($this);
                 <hr>
                 <ul id="linklist" class="list-unstyled">
                     <li><?php echo Html::a(Yii::t('layouts','Feedback'), Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal']) ?></li>
-                    <li><?php echo Html::a(Yii::t('common','About Us'),['site/about']) ?></li>
-                    <li><?php echo Html::a(Yii::t('common','Guide'),['site/faq']) ?></li>
+                    <li><?php echo Html::a(Yii::t('common','About Us'),['/site/about']) ?></li>
+                    <li><?php echo Html::a(Yii::t('common','Guide'),['/site/faq']) ?></li>
                     <li><a href="../HomeCookedDelicacies/Help.php"><?= Yii::t('common','Help') ?></a></li>
                     <?php if (Yii::$app->user->isGuest)
                     { ?>
-                        <li><?php echo Html::a(Yii::t('common','Login'),['site/login-popup'], ['data-toggle'=>'modal','data-target'=>'#login-modal']) ?></li>
-                        <li><?php echo Html::a(Yii::t('common','Signup'),['site/ruser']) ?></li> <?php
+                        <li><?php echo Html::a(Yii::t('common','Login'),['/site/login-popup'], ['data-toggle'=>'modal','data-target'=>'#login-modal']) ?></li>
+                        <li><?php echo Html::a(Yii::t('common','Signup'),['/site/ruser']) ?></li> <?php
                     }
                     ?>
                 </ul>

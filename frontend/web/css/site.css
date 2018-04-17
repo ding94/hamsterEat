@@ -1209,7 +1209,8 @@ span.badge{
   height: 60px;
 }
 
-#promo-banner .text-img{
+#promo-banner .text-img,
+#promo-banner .text-img-zh{
   position: relative;
   height: 100%;
 }
@@ -1218,9 +1219,17 @@ span.badge{
   background: url('../imageLocation/1200px_banner.png')center no-repeat;
 }
 
+#promo-banner .text-img-zh{
+  background: url('../imageLocation/1200px_banner_zh.png')center no-repeat;
+}
+
 @media (max-width: 1199px){
   #promo-banner .text-img{
     background: url('../imageLocation/767px_banner.png')center no-repeat;
+  }
+
+  #promo-banner .text-img-zh{
+    background: url('../imageLocation/767px_banner_zh.png')center no-repeat;
   }
 }
 
@@ -1228,11 +1237,19 @@ span.badge{
   #promo-banner .text-img{
     background: url('../imageLocation/500px_banner.png')center no-repeat;
   }
+
+  #promo-banner .text-img-zh{
+    background: url('../imageLocation/500px_banner_zh.png')center no-repeat;
+  }
 }
 
 @media (max-width: 499px){
   #promo-banner .text-img{
     background: url('../imageLocation/320px_banner.png')center no-repeat;
+  }
+
+  #promo-banner .text-img-zh{
+    background: url('../imageLocation/320px_banner_zh.png')center no-repeat;
   }
 }
 
@@ -1242,7 +1259,8 @@ span.badge{
   background-color: transparent;
 }
 
-.text-img a{
+.text-img a,
+.text-img-zh a{
   position: absolute;
   right: 0;
   margin: 10px;

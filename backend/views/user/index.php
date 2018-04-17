@@ -83,7 +83,7 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 {
                     if($model->status == 1)
                     {
-                        return Html::a("Resend email", ['user/email','id'=>$model->id]);
+                        return Html::a("Resend email", ['/site/resendconfirmlink','id'=>$model->id]);
                     }
                     if($model->status == 0)
                     {

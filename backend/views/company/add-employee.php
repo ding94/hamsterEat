@@ -42,6 +42,7 @@ use yii\web\JsExpression;
 			<tr>
 				<td><?= $key+1 ?></td>
 				<td><?= $value['user']['username']; ?></td>
+				<td><?php if($value['status'] == 1){echo 'Approved';}else{echo 'Rejected';}; ?></td>
 				<td><?= Html::a('Remove employee' , Url::to(['/company/remove-employee','id'=>$value['id']]) , ['title' => 'Edit Details','data-confirm'=>'Do you sure to remove this user from this company?']); ?></td>
 			</tr>
 		<?php endforeach; ?>

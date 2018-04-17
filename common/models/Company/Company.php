@@ -54,8 +54,8 @@ class Company extends \yii\db\ActiveRecord
     {
         return [
             [['name','contact_name','contact_number','license_no','address', 'postcode', 'area'], 'required'],
-            [['contact_number','owner_id', 'status', 'area_group','created_at','updated_at','postcode'], 'integer'],
-            [['contact_name','name', 'license_no', 'address', 'area'], 'string', 'max' => 255],
+            [['owner_id', 'status', 'area_group','created_at','updated_at','postcode'], 'integer'],
+            [['contact_name','name', 'license_no', 'address', 'area','contact_number'], 'string', 'max' => 255],
             [['name'],'safe'],
             ['username', 'string'],
             [['username','owner_id'], 'required','on'=>'register'],

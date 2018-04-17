@@ -6,6 +6,11 @@ $(document).ready(function() {
   {
       $("#type-modal").modal('show');
   }
+  else
+  {
+     closeNew();
+  }
+ 
 });
 
 $(".halal").children('a').click(function(){
@@ -26,6 +31,7 @@ function passType(type,url){
     },  
     success: function (data) {
       $("#type-modal").modal('hide');
+      closeNew();
     },
     error: function (request, status, error) {
       //console.log(request.responseText);
@@ -58,11 +64,36 @@ $(function(){
     var href = button.attr('href');
     modal.find('.modal-body').html('<center><i class=\"fa fa-spinner fa-spin fa-3x\" style="padding:100px"></i><center>');
     $.post({url : href, async: true, backdropLimit: 1})
-                .done(function( data ) {
-                    modal.find('.modal-body').html(data);
-                  });
+        .done(function( data ) {
+        modal.find('.modal-body').html(data);
+      });
   });
 })
+
+function closeNew()
+{
+  if($("input[name=news").val() == 1)
+  {
+    url = $("input[name=news-modal-url]").val();
+   
+    $('#newsModal').modal('show').find('.modal-body').html('<center><i class=\"fa fa-spinner fa-spin fa-3x\" style="padding:100px"></i><center>');
+    $.post({url : url, async: true, backdropLimit: 1})
+        .done(function( data ) {
+        $('#newsModal').find('.modal-body').html(data);
+    });
+       
+    $.ajax({
+      url: $("input[name=news-close-url]").val(),
+      type: 'GET',
+    })
+    .done(function() {
+      console.log("success");
+    })
+    .fail(function(e) {
+      console.log(e);
+    })
+  }
+}
 
 
 if($( window ).width() > 767)

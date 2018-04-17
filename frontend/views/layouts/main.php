@@ -81,13 +81,13 @@ NotificationAsset::register($this);
     
     Modal::end(); 
 
-   // Modal::begin([
-    //        'header' => '<h2 class="modal-title">Terms & Conditions</h2>',
-    //        'id'     => 'newsModal',
-    //        'size'   => 'modal-lg',
-    //]);
+    Modal::begin([
+            'header' => '<h2 class="modal-title">Terms & Conditions</h2>',
+            'id'     => 'newsModal',
+            'size'   => 'modal-lg',
+    ]);
     
-    //Modal::end() 
+    Modal::end() 
     ?>
 
 
@@ -280,9 +280,9 @@ NotificationAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
-        <?php  $cookies = Yii::$app->request->cookies;?>
-        <?php $emptyCookie = empty($cookies['halal']) ? 1: 0?>
-        
+        <?php  $cookies = Yii::$app->request->cookies;
+            $emptyCookie = empty($cookies['halal']) ? 1: 0;
+        ?>
         <div id="type-modal" class="modal fade" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -307,6 +307,17 @@ NotificationAsset::register($this);
             //set banner hide or show
             $link = Url::to(['/site/closebanner']); 
             $cookies = Yii::$app->request->cookies;
+            if(empty($cookies['news-read']))
+            {   
+                echo Html::hiddenInput('news',1);
+                echo Html::hiddenInput('news-modal-url',Url::to(['/news/news-simple','id'=>5]));
+                echo Html::hiddenInput('news-close-url',Url::to(['/news/news-cookie']));
+            }
+            else
+            {
+                echo Html::hiddenInput('news',0);
+            }
+           
             if (empty($cookies['banner'])):
         ?>
             <div id="promo-banner">
@@ -318,7 +329,7 @@ NotificationAsset::register($this);
                         <div class="text-img-zh">
                         <?php } ?>
                             <!-- <img src="<?php //echo Yii::$app->params['baseUrl'] ?>/1200px_banner.png" alt=""> -->
-                           <!--  <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>" class ="btn raised-btn main-btn" data-toggle="modal" data-target="#newsModal">T&C</a> -->
+                             <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>" class ="btn raised-btn main-btn" data-toggle="modal" data-target="#newsModal">Detail</a> 
                         </div>
                 </div>
                 <!-- <a class="close-icon" href="#" onclick="closeBanner()">

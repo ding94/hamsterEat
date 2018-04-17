@@ -291,6 +291,16 @@ if (empty($language)) {
             //set banner hide or show
             $link = Url::to(['/site/closebanner']); 
             $cookies = Yii::$app->request->cookies;
+            if(empty($cookies['news-read']))
+            {   
+                echo Html::hiddenInput('news',1);
+                echo Html::hiddenInput('news-modal-url',Url::to(['/news/news-simple','id'=>5]));
+                echo Html::hiddenInput('news-close-url',Url::to(['/news/news-cookie']));
+            }
+            else
+            {
+                echo Html::hiddenInput('news',0);
+            }
             if (empty($cookies['banner'])):
         ?>
             <div id="promo-banner">
@@ -302,7 +312,7 @@ if (empty($language)) {
                         <div class="text-img-zh">
                         <?php } ?>
                             <!-- <img src="<?php //echo Yii::$app->params['baseUrl'] ?>/1200px_banner.png" alt=""> -->
-                          <!--   <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>" class ="btn raised-btn main-btn" data-toggle="modal" data-target="#newsModal">T&C</a> -->
+                             <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>" class ="btn raised-btn main-btn" data-toggle="modal" data-target="#newsModal">Detail</a> 
                         </div>
                 </div>
                 <!-- <a class="close-icon" href="#" onclick="closeBanner()">

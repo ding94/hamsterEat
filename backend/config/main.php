@@ -98,6 +98,12 @@ return [
             'class' => 'yii\web\urlManager',
             'baseUrl' => './../../frontend/web/imageLocation/',
         ],
+        'urlFrontEnd' => [
+            'class' => 'yii\web\urlManager',
+            'baseUrl' => 'hamstereat.my/',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+        ],
         
          /*'urlManager' => [
             'enablePrettyUrl' => true,

@@ -13,6 +13,7 @@ use backend\models\auth\AdminAuthItemChild;
 use backend\controllers\CommonController;
 use common\models\Profit\RestaurantProfit;
 use common\models\Profit\RestaurantItemProfit;
+use common\models\User;
 use backend\models\AdminChangepassword;
 /**
  * Site controller
@@ -33,7 +34,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index','change-password','controllers'],
+                        'actions' => ['logout', 'index','change-password','controllers','resendconfirmlink'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -122,6 +123,24 @@ class SiteController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionResendconfirmlink($id)
+    {
+        $user = User::findOne($id);
+        $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html'],//html file, word file in email
+            ['id' => $user->id, 'auth_key' =>  $user->auth_key,'back'=>0])//pass value)
+            ->setTo( $user->email)
+            ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+            ->setSubject('Signup Confirmation')
+            ->send();
+        if($email){
+            Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
+                   
+        } else{
+            Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
+        }
+        return $this->redirect(['/user/index']);
     }
 
     /**

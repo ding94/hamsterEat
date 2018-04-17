@@ -269,7 +269,7 @@ class SiteController extends CommonController
     {
         $model = new SignupForm();
         $employee = new CompanyEmployees();
-        $company = Arrayhelper::map(Company::find()->all(),'id','name');
+        $company = Arrayhelper::map(Company::find()->andWhere(['!=','status',0])->all(),'id','name');
         if ($model->load(Yii::$app->request->post())) {
             $employee->load(Yii::$app->request->post());
             if ($user = $model->signup()) {

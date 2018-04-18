@@ -61,24 +61,25 @@ if (empty($language)) {
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
     
-    Modal::end() ?>
+    Modal::end();
 
-    <?php Modal::begin([
+    Modal::begin([
             'header' => '<h2 class="modal-title">'.Yii::t('layouts','Placed Orders').'</h2>',
             'id'     => 'add-modal',
             'size'   => 'modal-lg',
             'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
     ]);
     
-    Modal::end() ?>
+    Modal::end();
 
-    <?php Modal::begin([
-        'header' => '<h2 class="modal-title">Terms & Conditions</h2>',
-        'id'     => 'newsModal',
-        'size'   => 'modal-lg',
-    ]);
+   // Modal::begin([
+    //    'header' => '<h2 class="modal-title">Terms & Conditions</h2>',
+    //    'id'     => 'newsModal',
+    //    'size'   => 'modal-lg',
+    //]);
     
-    Modal::end() ?>
+    //Modal::end(); 
+    ?>
 
 <?php $this->beginBody() ?>
 
@@ -255,6 +256,16 @@ if (empty($language)) {
             //set banner hide or show
             $link = Url::to(['/site/closebanner']); 
             $cookies = Yii::$app->request->cookies;
+            if(empty($cookies['news-read']))
+            {   
+                echo Html::hiddenInput('news',1);
+                echo Html::hiddenInput('news-modal-url',Url::to(['/news/news-simple','id'=>5]));
+                echo Html::hiddenInput('news-close-url',Url::to(['/news/news-cookie']));
+            }
+            else
+            {
+                echo Html::hiddenInput('news',0);
+            }
             if (empty($cookies['banner'])):
         ?>
             <div id="promo-banner">
@@ -268,7 +279,7 @@ if (empty($language)) {
                             <div class="text-img-zh">
                         <?php } ?>
                             <!-- <img src="<?php //echo Yii::$app->params['baseUrl'] ?>/1200px_banner.png" alt=""> -->
-                            <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>" class ="btn raised-btn main-btn" data-toggle="modal" data-target="#newsModal">T&C</a>
+                             <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>" class ="btn raised-btn main-btn" data-toggle="modal" data-target="#newsModal">Detail</a>
                         </div>
                 </div>
                 <!-- <a class="close-icon" href="#" onclick="closeBanner()">
@@ -331,7 +342,7 @@ if (empty($language)) {
                 <ul id="linklist" class="list-unstyled">
                     <li> <?php echo Html::a(Yii::t('common','Contact'),['site/contact']) ?></li>
                 </ul>
-                <p><?= Yii::t('site','Tel') ?>. 1700-818-360</p>
+                <p><?= Yii::t('site','Tel') ?>. 014-7771080</p>
 
                 <p><?= Yii::t('common','Email') ?>. support@hamsterEat.my</p>
                 <a href="mailto:support@hamsterEat.my" target="_blank" class="raised-btn main-btn"><?= Yii::t('layouts','Email Us')?></a>

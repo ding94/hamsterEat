@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\filters\AccessControl; 
 use common\models\News;
+use yii\web\Cookie;
 use yii\data\ActiveDataProvider;
 
 class NewsController extends CommonController
@@ -20,6 +21,11 @@ class NewsController extends CommonController
                         'actions' => ['index'],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                    [
+                        'actions'=>['news-cookie'],
+                        'allow'=>true,
+                        'roles'=>['?','@'],
                     ],
                 ],
             ],
@@ -51,5 +57,18 @@ class NewsController extends CommonController
         $model=News::find()->orderBy('id DESC')->limit(10)->all();
         $news=News::find()->where('id = :id',[':id' => $id])->one();
         return $this->renderPartial('newssimple',['model'=>$model,'id'=>$id,'news'=>$news]);
+    }
+
+    public function actionNewsCookie()
+    {
+        $cookies = Yii::$app->request->cookies;
+        if (empty($cookies->getValue('news-read'))) {
+            $cookie =  new Cookie([
+                'name' => 'news-read',
+                'value' => 1,
+                'expire' => time() + 86400,
+            ]);
+            \Yii::$app->getResponse()->getCookies()->add($cookie);
+        }
     }
 }

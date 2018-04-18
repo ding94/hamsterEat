@@ -6,13 +6,16 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\Url;
+use frontend\assets\CompanyRegisterAsset;
+CompanyRegisterAsset::register($this);
 
 $this->title ='Company Signup';
 ?>
 <div class="container">
   <div class="col-lg-6 col-lg-offset-3" style="text-align:center">
     <h1><?= Html::encode($this->title) ?></h1>
-
+    <?= Html::hiddenInput('url',Url::toRoute(['/phone/validate']))?>
     <p><?php echo 'Please fill out the following fields to signup' ?></p>
   </div>
     <div class="container" >
@@ -42,7 +45,21 @@ $this->title ='Company Signup';
 			               		<?= $form->field($model, 'contact_name')->label('Contact Name') ?>	
 			               	</div>
 			               	<div class="col-lg-6">
-			               		<?= $form->field($model, 'contact_number')->label('Contact No') ?>
+			               		<?= $form->field($model, 'contact_number')->label('Contact No')?>
+			               	</div>
+			               
+			               	<div class="col-lg-6">
+			               		<div clas="form-group">
+			               			<label class="control-label"></label>
+			               			  <?= Html::a("Send Code",'#' ,['id'=>'phone-validate','class' => 'raised-btn secondery-btn width-100']) ?> 
+			               			<div class="help-block"></div>
+			               		</div>
+			               		
+			               		
+			               	</div>
+
+			               	<div class="col-lg-6">
+			               		<?= $form->field($model, 'validate_code');?>
 			               	</div>
 		        			<div class="col-lg-12">
 			               		<?= $form->field($model, 'address')->label('Address') ?>	

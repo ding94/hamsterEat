@@ -74,7 +74,14 @@ Class OrderSearch extends Orders
         	$date = explode("to", $this->Orders_DateTimeMade);
         	
         	$first = strtotime($date[0]. ' 00:00:00');
-        	$last = empty($data[1]) ? strtotime($date[0]. ' 23:59:59') : strtotime($date[1]. ' 23:59:59');
+        	switch ($case) {
+				case 3:
+	        		$last =strtotime($date[1]. ' 23:59:59');
+	        		break;
+	        	default:
+					$last = empty($data[1]) ? strtotime($date[0]. ' 23:59:59') : strtotime($date[1]. ' 23:59:59');
+	        		break;
+        	}
         	$query->andWhere(['between','Orders_DateTimeMade',$first,$last]);
         }
      	

@@ -82,7 +82,7 @@ NotificationAsset::register($this);
     Modal::end(); 
 
     Modal::begin([
-            'header' => '<h2 class="modal-title">Terms & Conditions</h2>',
+            'header' => '<h2 class="modal-title">Server Maintenance</h2>',
             'id'     => 'newsModal',
             'size'   => 'modal-lg',
     ]);
@@ -320,6 +320,7 @@ NotificationAsset::register($this);
            
             if (empty($cookies['banner'])):
         ?>
+        <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>"  data-toggle="modal" data-target="#newsModal">
             <div id="promo-banner">
                 <div class="text">
                         <input type="hidden" id="closebanner-link" value="<?= $link; ?>"/>
@@ -329,14 +330,15 @@ NotificationAsset::register($this);
                         <div class="text-img-zh">
                         <?php } ?>
                             <!-- <img src="<?php //echo Yii::$app->params['baseUrl'] ?>/1200px_banner.png" alt=""> -->
-                             <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>" class ="btn raised-btn main-btn" data-toggle="modal" data-target="#newsModal">Detail</a> 
+                           
                         </div>
                 </div>
                 <!-- <a class="close-icon" href="#" onclick="closeBanner()">
                     <i class="fa fa-times"></i>
                 </a> -->
             </div>
-            <div id='promo-banner-empty-div'></div>
+        </a> 
+        <div id='promo-banner-empty-div'></div>
         <?php endif; ?>
         <div class="page-wrap">
             <?= $content ?>

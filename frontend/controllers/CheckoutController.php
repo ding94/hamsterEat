@@ -15,15 +15,12 @@ use common\models\Order\Orderitem;
 use common\models\Order\Orderstatuschange;
 use common\models\Order\Orderitemselection;
 use common\models\Order\DeliveryAddress;
-use common\models\food\{Foodselection,Foodstatus};
+use common\models\food\{Food,Foodselection,Foodstatus};
 use common\models\user\Useraddress;
-use common\models\Company\Company;
-use common\models\Company\CompanyEmployees;
+use common\models\Company\{Company,CompanyEmployees};
 use common\models\DeliverymanCompany;
-use common\models\Area;
-use common\models\User;
 use common\models\user\Userdetails;
-use common\models\Deliveryman;
+use common\models\{Deliveryman,Area,User,OrderCartNickName};
 
 
 class CheckoutController extends CommonController
@@ -122,6 +119,18 @@ class CheckoutController extends CommonController
       	{
       		Yii::$app->session->setFlash('error', Yii::t('checkout','Your Cart is Empty. Please Add item before processing to checkout'));
 			return $this->redirect(Yii::$app->request->referrer);
+      	}
+
+      	foreach($post['cid'] as $cid)
+      	{
+      		$cart = Cart::find()->where('cart.id = :id',[':id'=>$cid])->joinWith(['nick'])->one();
+      		if(count($cart->nick) > $cart->quantity)
+      		{
+      			$food = Food::findOne($cart->fid);
+      			
+      			Yii::$app->session->setFlash('error', Yii::t('checkout','NickName is More Then Food {name} quantity',['name'=>$food->cookiename]));
+      			return $this->redirect(Yii::$app->request->referrer);
+      		}
       	}
 
       	/*if ($time<7 || $time>11 || $date==6 || $date == 7) {
@@ -234,11 +243,12 @@ class CheckoutController extends CommonController
 		$order = $dataorder['data'];
 		$allorderitem = $dataitem['data'];
 		$status = $dataitem['status'];
-		
+		$recordCid = $dataitem['cid'];
+
 		$delivery = $this->addDeliveryAssignment($deliveryman);
 		
-		$isValid = $delivery->validate() && $address->validate() ;
-		
+		$isValid = $delivery->validate() && $address->validate();
+
 		if($isValid)
 		{
 			$transaction = Yii::$app->db->beginTransaction();
@@ -277,6 +287,15 @@ class CheckoutController extends CommonController
 					if(!($isValid == $status[$i]->save()))
 					{
 						break;
+					}
+					if(!empty($recordCid[$i]))
+					{
+						foreach($recordCid[$i] as $record)
+						{
+							$record->type = '2';
+							$record->tid = $orderitem->Order_ID;
+							$record->save();
+						}
 					}
 					if(!is_null($orderitem['item']))
 					{
@@ -497,12 +516,16 @@ class CheckoutController extends CommonController
 		$isValid = true;
 		$data['value'] = -1;
 		$data['data'] = array();
+		$recordID = array();
 		foreach($allCid as $i=>$cid)
 		{
-			$cart = Cart::find()->where('cart.id = :id',[':id'=>$cid])->joinWith(['selection'])->one();
+			$cart = Cart::find()->where('cart.id = :id',[':id'=>$cid])->joinWith(['selection','nick'])->one();
 			
 			$status[$i] = self::deductFood($cart->quantity,$cart->fid);
-			
+			if(!empty($cart->nick))
+			{
+				$recordID[$i] = $cart->nick;
+			}
 			$orderitem = new Orderitem;
 			//$orderitem->Delivery_ID = $id;
 			$orderitem->Food_ID = $cart->fid;
@@ -530,12 +553,13 @@ class CheckoutController extends CommonController
 				}
 			}
 		}
-
+		
 		if($isValid)
 		{
 			$data['value'] = 1;
 			$data['data'] = $allitem;
 			$data['status'] = $status;
+			$data['cid'] = $recordID;
 		}
 
 		return $data;	

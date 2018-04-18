@@ -5,6 +5,7 @@ namespace common\models\Cart;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use Yii;
+use common\models\OrderCartNickName;
 use common\models\food\{Food,Foodstatus};
 use common\models\Cart\CartSelection;
 
@@ -59,12 +60,21 @@ class Cart extends \yii\db\ActiveRecord
     public function afterDelete()
     {
         $children = CartSelection::find()->where('cid = :cid',[':cid'=> $this->idCache])->all();
+        $nickname = OrderCartNickName::find()->where('tid = :tid and type = 1',[':tid'=>$this->idCache])->all();
         if(!empty($children))
         {
             foreach($children as $child)
             {
                 $child->delete();
             }  
+        }
+
+        if(!empty($nickname))
+        {
+            foreach($nickname as $nick)
+            {
+                $nick->delete();
+            }
         }
         parent::afterDelete();
     }
@@ -109,6 +119,14 @@ class Cart extends \yii\db\ActiveRecord
     public function getSelection()
     {
         return $this->hasMany(CartSelection::className(),['cid' => 'id']);
+    }
+
+    /*
+    * get nick name 
+    */
+    public function getNick()
+    {
+        return $this->hasMany(OrderCartNickName::className(),['tid'=>'id'])->andOnCondition(['type' => '1']);
     }
 
     /*

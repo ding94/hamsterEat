@@ -8,6 +8,7 @@ use kartik\widgets\TouchSpin;
 use kartik\widgets\DatePicker;
 use common\models\User;
 use yii\helpers\Url;
+use yii\bootstrap\Modal;
 use frontend\assets\StarsAsset;
 use frontend\assets\FoodDetailsAsset;
 use iutbay\yii2fontawesome\FontAwesome as FA;
@@ -31,9 +32,9 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
   <div class="row">
   	<div class="tab-content col-md-12" id="fooddetails">
       <?php $form = ActiveForm::begin(['id' => 'a2cart']); ?>
-          
+            <?php echo Html::hiddenInput('list-nick-url',Url::to(['/order-nick-name/convert-to-cookie']));?>
   		<!--<table class="table-user-information" style="width:60%; margin:auto;">-->  
-            <?php echo Html::hiddenInput('url',Url::to(['/cart/addto-cart','id'=>$fooddata->Food_ID]));?>       
+            <?php echo Html::hiddenInput('cart-url',Url::to(['/cart/addto-cart','id'=>$fooddata->Food_ID]));?>       
              <br>
               <div class="foodname">
                 <span><?php echo $fooddata->cookieName;?></span>
@@ -177,7 +178,9 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                         'buttondown_txt' => '<i class="fa fa-minus"></i>'
                     ],
                 ])->label(false); ?> 
+
               <div>
+          
                 <?= Html::submitButton(Yii::t('food','Add to cart').'<span class="total-price">'. CartController::actionRoundoff1decimal($price) .'</span>', ['class' => 'raised-btn addtocart-btn', 'name' => 'addtocart']) ?>
 
        

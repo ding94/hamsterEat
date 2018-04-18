@@ -66,6 +66,7 @@ $cart_status = 0;
     <?php foreach($cart as $i=> $single) :
       $disable = $single->status == 0 ? true:false;
       $cart_status += $single->status;
+
     ?> 
       <section id="cart-<?php echo $i?>" class="cart <?php echo $disable ? "disable-cart" : ""?>" data-status=<?php echo $single->status?>>
         <?php if($disable):?>
@@ -111,6 +112,32 @@ $cart_status = 0;
                         echo $name .":  ".$text ."</br>";
                       endforeach;
                       ?>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            <?php endif;?>
+            <?php if(!empty($single->nick)):?>
+              <div class="panel-group">
+                  <div class="panel panel-default">
+                    <div class="panel-heading" data-toggle="collapse" href="#nick<?php echo $i?>">
+                      <h4 class="panel-title">
+                        <a>
+                          <?=Yii::t('cart','NickName Detail');?>
+                          <i class="fa fa-info-circle"></i>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="nick<?php echo $i?>" class="panel-collapse collapse">
+                      <div class="panel-body">
+                      <button type="" class="btn btn-default btn-block">Add</button>
+                      <br>
+                      <?php foreach($single->nick as $k=>$nickname):?>
+                      <div class="input-group">
+                        <input type="text" class="form-control" value= <?= $nickname->nickname;?>><span class="input-group-btn"><button class="btn btn-default">Delete</button></span>
+                      </div>
+                      </br>
+                      <?php endforeach;?>
                       </div>
                     </div>
                   </div>

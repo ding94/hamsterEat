@@ -72,13 +72,13 @@ if (empty($language)) {
     
     Modal::end();
 
-   // Modal::begin([
-    //    'header' => '<h2 class="modal-title">Terms & Conditions</h2>',
-    //    'id'     => 'newsModal',
-    //    'size'   => 'modal-lg',
-    //]);
+    Modal::begin([
+        'header' => '<h2 class="modal-title">Server Maintenance</h2>',
+        'id'     => 'newsModal',
+       'size'   => 'modal-lg',
+    ]);
     
-    //Modal::end(); 
+    Modal::end(); 
     ?>
 
 <?php $this->beginBody() ?>
@@ -268,6 +268,7 @@ if (empty($language)) {
             }
             if (empty($cookies['banner'])):
         ?>
+            <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>"  data-toggle="modal" data-target="#newsModal">
             <div id="promo-banner">
                 <div class="text">
                         <input type="hidden" id="closebanner-link" value="<?= $link; ?>"/>
@@ -277,13 +278,14 @@ if (empty($language)) {
                         <div class="text-img-zh">
                         <?php } ?>
                             <!-- <img src="<?php //echo Yii::$app->params['baseUrl'] ?>/1200px_banner.png" alt=""> -->
-                             <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>" class ="btn raised-btn main-btn" data-toggle="modal" data-target="#newsModal">Detail</a>
+                           
                         </div>
                 </div>
                 <!-- <a class="close-icon" href="#" onclick="closeBanner()">
                     <i class="fa fa-times"></i>
                 </a> -->
             </div>
+        </a> 
             <div id='promo-banner-empty-div'></div>
         <?php endif; ?>
     <div class="container page-wrap">

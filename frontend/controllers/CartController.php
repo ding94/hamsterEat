@@ -3,6 +3,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use common\models\User;
+use yii\web\Cookie;
 use common\models\food\{Food,Foodselectiontype,Foodselection,Foodstatus};
 use common\models\Order\{Orders,Orderitem,DeliveryAddress};
 use common\models\Area;
@@ -139,6 +140,7 @@ class CartController extends CommonController
                     $transaction->commit();
                     $data['message'] = Yii::t('cart','Food item has been added to cart.').' '.Html::a('<u>'.Yii::t('cart','Go to my Cart').'</u>', ['/cart/view-cart']).'.';
                     $data['value'] = 1;
+                    self::generateNickName($cart->quantity,$cart->id);
                     return JSON::encode($data);
                 }
                 $transaction->rollBack();
@@ -160,7 +162,7 @@ class CartController extends CommonController
     {
         $groupCart = [];
 
-        $cart = Cart::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->joinWith(['food','selection'])->all();
+        $cart = Cart::find()->where('uid = :uid',[':uid' => Yii::$app->user->identity->id])->joinWith(['food','selection','nick'])->all();
         
         foreach($cart as $i=> $single)
         {
@@ -657,9 +659,11 @@ class CartController extends CommonController
 
         if($isAvailable)
         {
+            $oldQuantity = $addedCart->quantity;
             $addedCart->quantity += $post['Cart']['quantity'];
             if($cart->save())
             {
+                self::generateNickName($addedCart->quantity-$oldQuantity,$addedCart->id);
                 $data['message'] = Yii::t('cart','Food item has been added to cart.').' '.Html::a('<u>'.Yii::t('cart','Go to my Cart').'</u>', ['/cart/view-cart']).'.';
                     $data['value'] = 4;
                     //Yii::$app->session->setFlash('success', 'Food item has been added to cart. '.Html::a('<u>Go to my Cart</u>', ['/cart/view-cart']).'.');
@@ -848,6 +852,16 @@ class CartController extends CommonController
         $count = $query->sum('quantity');
         return  is_null($count) ? 0 : $count;
         
+    }
+
+    protected static function generateNickName($quantity,$id)
+    {
+         $cookie =  new Cookie([
+            'name' => 'cartNickName',
+            'value' => ['quantity'=>$quantity,'id'=>$id],
+            'expire' => time() + 3600,
+        ]);
+        \Yii::$app->getResponse()->getCookies()->add($cookie);
     }
 
     public static function actionDisplay2decimal($price)

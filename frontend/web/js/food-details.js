@@ -3,25 +3,29 @@ $('body').on('submit','#a2cart',function(e){
 	e.stopImmediatePropagation();
 	$('.addtocart-btn').attr("disabled", true);
 	var form = $(this);
-  
-	$.ajax({
-			async: true,
-            url    : $("input[name=url]").val(),
+	submitForm(form);
+})
+
+function submitForm(form)
+{
+  $.ajax({
+      async: true,
+            url    : $("input[name=cart-url]").val(),
             type   : 'post',
             data   : form.serialize(),
             success: function (data) 
             {  
-            	obj = JSON.parse(data);
+              obj = JSON.parse(data);
               
-            	if(obj.value == 1 || obj.value == 4)
-           		{
-           			$('#system-messages').append("<div id='aa' class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.message+"</div>").fadeIn();
-	           		//$('#system-messages').children().delay(3000).fadeTo(500,0).slideUp(500).queue(function() { $('#aa').remove(); });
-           			//$("#w1-success-0").html(data).fadeIn().delay(3000).fadeOut();
-           			$("#foodDetail").modal('hide');
+              if(obj.value == 1 || obj.value == 4)
+              {
+                $('#system-messages').append("<div id='aa' class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.message+"</div>").fadeIn();
+                //$('#system-messages').children().delay(3000).fadeTo(500,0).slideUp(500).queue(function() { $('#aa').remove(); });
+                //$("#w1-success-0").html(data).fadeIn().delay(3000).fadeOut();
+                $("#foodDetail").modal('hide');
                 if(obj.value == 1)
                 {
-                    if(!($(".cart").children(".badge").html()))
+                  if(!($(".cart").children(".badge").html()))
                   {
                     $(".cart").children('.badge').html(1);
                   }
@@ -31,23 +35,34 @@ $('body').on('submit','#a2cart',function(e){
                     $(".cart").children(".badge").html(count);
                   }
                 }
-           			//location.reload();
-           		}
-           		else
-	           	{
-	           		$('#system-messages').append("<div id='aa' class='alert alert-danger'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.message+"</div>").fadeIn();
-	           		//$('#system-messages').children().delay(3000).fadeTo(500,0).slideUp(500).queue(function() { $('#aa').remove(); });
-           			//$('#system-messages').html(data).fadeIn();
+                listNickName();
+                //location.reload();
+              }
+              else
+              {
+                $('#system-messages').append("<div id='aa' class='alert alert-danger'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.message+"</div>").fadeIn();
+                //$('#system-messages').children().delay(3000).fadeTo(500,0).slideUp(500).queue(function() { $('#aa').remove(); });
+                //$('#system-messages').html(data).fadeIn();
                 console.log(obj.message);
-           		} 
-           		$('.addtocart-btn').attr("disabled", false);   
+              } 
+              $('.addtocart-btn').attr("disabled", false);   
             },
             error  : function (e) 
             {
                 console.log(e);
             }
        });
-})
+}
+
+function listNickName()
+{
+  url = $("input[name=list-nick-url]").val();
+  $('#orderQuantity').modal('show').find('.modal-body').html('<center><i class=\"fa fa-spinner fa-spin fa-3x\" style="padding:100px"></i><center>');
+  $.post({url : url, async: true, backdropLimit: 1})
+    .done(function( data ) {
+      $('#orderQuantity').find('.modal-body').html(data);
+  });
+}
 
 /* JS function to calculate and display food price with user selection in add to cart button */
 function calcprice() {

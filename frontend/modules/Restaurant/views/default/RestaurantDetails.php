@@ -29,7 +29,9 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
             'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
     ]);
     
-    Modal::end() ?>
+    Modal::end();
+   
+    ?>
 <div id="restaurant-details-container" class = "container">
  <!--<a class="back" href="../web/index.php?r=ticket%2Findex"><i class="fa fa-angle-left">&nbsp;Back</i></a><br>-->
   

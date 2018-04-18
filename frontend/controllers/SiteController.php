@@ -368,14 +368,18 @@ class SiteController extends CommonController
         
         if(!empty($user)){
             $user->status=10;
-            
-            $userdetails = new Userdetails();
-            $userdetails->User_id= $id;
-            $userdetails->User_Username= $user['username'];
-            $userbalance = new Accountbalance;
-            $userbalance->User_Username = $user['username'];
-            $userbalance->User_Balance = 0; 
-
+            $userdetails = Userdetails::findOne($id);
+            $userbalance = Accountbalance::findOne($id);
+            if(empty($userdetails)){
+                $userdetails = new Userdetails();
+                $userdetails->User_id= $id;
+                $userdetails->User_Username= $user['username'];
+            }
+            if(empty($userbalance)){
+                $userbalance = new Accountbalance;
+                $userbalance->User_Username = $user['username'];
+                $userbalance->User_Balance = 0; 
+            }
             $point = self::generateMemberPoint($id);
 
             $isValid = $user->validate() && $userdetails->validate() && $point->validate();

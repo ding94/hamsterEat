@@ -81,7 +81,9 @@ DeliverymanOrdersAsset::register($this);
 					<thead class='none'>
 						<tr>
 							<th><div class="inner-row"><?php echo Html::checkbox('null',false ,['class'=>'check-all','id'=>'delivery']) ?><?= Yii::t('common','Delivery ID')?></th>
-							<th><?= Yii::t('m-delivery','Collect Price')?></th>
+								<th><?= Yii::t('m-delivery','Collect Price')?></th>
+								<th><?= Yii::t('common','Contact Person')?></th>
+								<th><?= Yii::t('common','Contact No')?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -89,6 +91,8 @@ DeliverymanOrdersAsset::register($this);
 						<tr>
 							<td data-th="Order ID"><div class="inner-row"><?php echo Html::checkbox('did[]',false ,['label'=>$did ,'value'=> $did]) ?></div></td>
 							<td data-th="Price"><?= $price; ?></td>
+							<td><?= $deliname[$did] ?></td>
+							<td><?= $delicontact[$did] ?></td>
 						</tr>		
 						<?php endforeach; ?>
 					</tbody>

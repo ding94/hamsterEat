@@ -59,8 +59,7 @@ $this->title = Yii::t('common','About Us').' | HamsterEat.my';
     </p>
     <p>
       <span class="secondary-header"><?= Yii::t('site','Customer Support Email') ?>:</span>
-      support@hamstereat.my
+      support@HamsterEat.my
     </p>
-   
   </section>
 </div>

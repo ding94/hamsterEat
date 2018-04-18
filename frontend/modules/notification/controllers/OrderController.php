@@ -97,7 +97,7 @@ class OrderController extends CommonController
 		
 	}
 
-	public function genereteEmail($type,$id,$description)
+	public static function genereteEmail($type,$id,$description)
 	{
 		$data = self::evaluateData($type,2,$id,$description);
 	

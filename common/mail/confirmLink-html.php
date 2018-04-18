@@ -16,7 +16,7 @@ AppAsset::register($this);
 	<h1>Welcome to HamsterEat!</h1>
 	<hr style="width:40%; border-bottom: 1px solid grey;" >
 	<p>To start using all features of the website, please verify your email address.</p>
-	<p>If you did not create an account with us using this address, please contact us at xxxx@hamstereat.com</p>
+	<p>If you did not create an account with us using this address, please contact us at support@HamsterEat.my</p>
     <p>Your confirmation link: </p>
     <div class="verify-button"><?= Html::a('Verify your account', $confirmLink) ?></div>
 </div>

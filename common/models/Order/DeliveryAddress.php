@@ -85,6 +85,11 @@ class DeliveryAddress extends \yii\db\ActiveRecord
         return $this->hasOne(Company::className(),['id' => 'cid']);
     }
 
+    public function getDelivery()
+    {
+        return $this->hasOne(Orders::className(),['Delivery_ID' => 'delivery_id']);
+    }
+
     public function getDeliveryName()
     {
         $model = User::findOne($this->deliveryman);

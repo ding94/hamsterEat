@@ -12,7 +12,7 @@ DeliverymanOrdersAsset::register($this);
 ?>
 <div class="container" id="deliveryman-orders-container">
     <div class="deliveryman-orders-header">
-        <div class="deliveryman-orders-header-title"><?= Html::encode($this->title) ?></div>
+        <div class="deliveryman-orders-header-title"><?= Html::encode($this->title) ?> <?= Html::a('Orders PDF',['/Delivery/deliveryorder/company-orders-pdf'],['class'=>'btn btn-primary'])?></div>
     </div>
     <div class="content">
         <div class="col-sm-2">
@@ -65,7 +65,7 @@ DeliverymanOrdersAsset::register($this);
                 <thead>
                     <tr>
                         <th><?= Yii::t('common','Delivery ID')?></th>
-                        <th><?= Yii::t('m-delivery','Order Address')?></th>
+                        <th><?= Yii::t('m-delivery','Order addcslashes(str, charlist)dress')?></th>
                         <th><?= Yii::t('m-delivery','Order Postcode')?></th>
                         <th><?= Yii::t('m-delivery','Collect')?> (RM)</th>
                         <th><?= Yii::t('m-delivery','View Map')?></th>

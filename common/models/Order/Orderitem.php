@@ -5,13 +5,13 @@ namespace common\models\Order;
 use Yii;
 use yii\helpers\Json;
 use common\models\Restaurant;
+use common\models\OrderCartNickName;
 use common\models\food\Food;
 use common\models\food\Foodselection;
 use common\models\food\FoodSelectionName;
 use common\models\food\Foodselectiontype;
 use common\models\Order\Orderitemstatuschange;
 use common\models\Order\Orderitemselection;
-
 /**
  * This is the model class for table "orderitem".
  *
@@ -152,6 +152,11 @@ class Orderitem extends \yii\db\ActiveRecord
     public function getAddress()
     {
         return $this->hasOne(DeliveryAddress::className(),['delivery_id'=>'Delivery_ID']);
+    }
+
+    public function getNickname()
+    {
+        return $this->hasMany(OrderCartNickName::className(),['tid'=>'Order_ID']);
     }
 
     public function getTrim_selection()

@@ -11,7 +11,7 @@ use Yii;
 use backend\models\{DeliveryDailySearch,DeliveryManSearch};
 use common\models\{Deliveryman,DeliverymanCompany};
 use common\models\Order\Orders;
-
+use common\models\Company\Company;
 class DeliverymanController extends CommonController
 {
 	public function actionDailySignin($month,$day)
@@ -101,4 +101,5 @@ class DeliverymanController extends CommonController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 	}
+
 }

@@ -7,6 +7,7 @@ use yii\db\ActiveRecord;
 use yii\data\ActiveDataProvider;
 use yii\behaviors\TimestampBehavior;
 use common\models\DeliverymanCompany;
+use common\models\Order\DeliveryAddress;
 
 /**
  * This is the model class for table "company".
@@ -109,5 +110,10 @@ class Company extends \yii\db\ActiveRecord
     public function getDeliverymancompany()
     {
         return $this->hasOne(DeliverymanCompany::className(),['cid'=>'id']);
+    }
+
+    public function getDeliveryaddress()
+    {
+        return $this->hasMany(DeliveryAddress::className(),['cid'=>'id']);
     }
 }

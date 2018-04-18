@@ -157,7 +157,7 @@ class DeliveryorderController extends CommonController
     {
         date_default_timezone_set("Asia/Kuala_Lumpur");
         $time = strtotime(date('Y-m-d'));
-        $orders = DeliveryAddress::find()->where('deliveryman=:d',[':d'=>Yii::$app->user->identity->id])->andWhere(['>=','orders.Orders_DateTimeMade',$time])->joinWith('delivery')->all(); // find all orders in this day
+        $orders = DeliveryAddress::find()->where('deliveryman=:d',[':d'=>Yii::$app->user->identity->id])->andWhere(['>=','orders.Orders_DateTimeMade',$time])->joinWith('delivery','nickname')->all(); // find all orders in this day
         if(empty($orders))
         {
             Yii::$app->session->setFlash('error', Yii::t('cart','Something Went Wrong!'));
@@ -180,9 +180,23 @@ class DeliveryorderController extends CommonController
             $data[$companyname][$restaurantname][$did][] = $item; //set all data,$item = order details
         }
 
+         foreach ($data as $k => $restaurant) {
+            foreach ($restaurant as $company => $deliveryid) {
+                foreach ($deliveryid as $deliid => $items) {
+                    foreach ($items as $l => $item) {
+                        if (empty($delirowcount[$item['Delivery_ID']])) {
+                            $delirowcount[$item['Delivery_ID']] =0;
+                        }
+                        $delirowcount[$item['Delivery_ID']] += $item['OrderItem_Quantity'];
+                        $orderrowcount[$item['Order_ID']] = $item['OrderItem_Quantity'];
+                    }
+                }
+            }
+        }
+
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
-            'content' => $this->renderPartial('companyorderslist',['data'=>$data]),
+            'content' => $this->renderPartial('companyorderslist',['data'=>$data,'delirowcount'=>$delirowcount,'orderrowcount'=>$orderrowcount]),
             'options' => [
                 'title' => 'Orders List',
                 //'subject' => 'Sample Subject',
@@ -199,7 +213,7 @@ class DeliveryorderController extends CommonController
     {
         date_default_timezone_set("Asia/Kuala_Lumpur");
         $time = strtotime(date('Y-m-d'));
-        $orders = DeliveryAddress::find()->where('deliveryman=:d',[':d'=>Yii::$app->user->identity->id])->andWhere(['>=','orders.Orders_DateTimeMade',$time])->joinWith('delivery')->all();
+        $orders = DeliveryAddress::find()->where('deliveryman=:d',[':d'=>Yii::$app->user->identity->id])->andWhere(['>=','orders.Orders_DateTimeMade',$time])->joinWith('delivery','nickname')->all();
         if(empty($orders))
         {
             Yii::$app->session->setFlash('error', Yii::t('cart','Something Went Wrong!'));
@@ -207,6 +221,8 @@ class DeliveryorderController extends CommonController
         }
         $i = 0;
         $data = [];
+        $delirowcount = [];
+        $orderrowcount = [];
         $orderitem = [];
         foreach ($orders as $k => $order) {
             foreach ($order['delivery']['item'] as $l => $item) {
@@ -222,9 +238,23 @@ class DeliveryorderController extends CommonController
             $data[$restaurantname][$companyname][$did][] = $item; // only change restaurant name with comapny name
         }
 
+        foreach ($data as $k => $restaurant) {
+            foreach ($restaurant as $company => $deliveryid) {
+                foreach ($deliveryid as $deliid => $items) {
+                    foreach ($items as $l => $item) {
+                        if (empty($delirowcount[$item['Delivery_ID']])) {
+                            $delirowcount[$item['Delivery_ID']] =0;
+                        }
+                        $delirowcount[$item['Delivery_ID']] += $item['OrderItem_Quantity'];
+                        $orderrowcount[$item['Order_ID']] = $item['OrderItem_Quantity'];
+                    }
+                }
+            }
+        }
+
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
-            'content' => $this->renderPartial('restaurantorderslist',['data'=>$data]),
+            'content' => $this->renderPartial('restaurantorderslist',['data'=>$data,'delirowcount'=>$delirowcount,'orderrowcount'=>$orderrowcount]),
             'options' => [
                 'title' => 'Orders List',
                 //'subject' => 'Sample Subject',

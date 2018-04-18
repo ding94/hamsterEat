@@ -20,17 +20,24 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
     
-    Modal::end() ?>
+    Modal::end();
    
-  <?php Modal::begin([
+    Modal::begin([
             'header' => '<h2 class="modal-title">'.Yii::t('common','Report').'</h2>',
             'id'     => 'report-modal',
             'size'   => 'modal-sm',
             'footer' => '<a href="#" class="raised-btn alternative-btn" data-dismiss="modal">'.Yii::t('common','Close').'</a>',
     ]);
-    
-    Modal::end();
    
+    Modal::end(); 
+
+    Modal::begin([
+            'header' => '<h2 class="modal-title">Order NickName</h2>',
+            'id'     => 'orderQuantity',
+    ]);
+   
+    Modal::end()
+
     ?>
 <div id="restaurant-details-container" class = "container">
  <!--<a class="back" href="../web/index.php?r=ticket%2Findex"><i class="fa fa-angle-left">&nbsp;Back</i></a><br>-->

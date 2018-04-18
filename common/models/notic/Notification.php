@@ -81,6 +81,7 @@ class Notification extends \yii\db\ActiveRecord
         if($keyword == 'foodname')
         {
             $item = Orderitem::find()->where('Order_ID = :id ',[':id'=>$this->tid])->joinWith(['food'])->one();
+           
             $word = \Yii::t('food',$this->description,[$keyword=>$item->food->cookieName]);
         }
         else

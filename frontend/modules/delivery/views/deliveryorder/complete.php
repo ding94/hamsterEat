@@ -22,7 +22,7 @@ DeliverymanOrdersAsset::register($this);
 
 <div class="container" id="deliveryman-orders-container">
     <div class="deliveryman-orders-header">
-        <div class="deliveryman-orders-header-title"><?= Html::encode($this->title) ?>
+        <div class="deliveryman-orders-header-title"><?= Html::encode($this->title) ?><?= Html::encode($this->title) ?> <?= Html::a('Orders PDF',['/Delivery/deliveryorder/company-orders-pdf'],['class'=>'btn btn-primary'])?>
 		</div>
     </div>
     <div class="content">

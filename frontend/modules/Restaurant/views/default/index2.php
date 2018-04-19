@@ -35,6 +35,13 @@ echo Select2::widget([
 ]);
 Modal::end();
 
+ Modal::begin([
+            'header' => '<h2 class="modal-title">Order NickName</h2>',
+            'id'     => 'orderQuantity',
+            'size'   => 'modal-lg',
+    ]);
+Modal::end(); 
+
 Modal::begin([
     'id'     => 'foodDetail',
     'size'   => 'modal-lg',

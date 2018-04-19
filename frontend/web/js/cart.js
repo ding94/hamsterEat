@@ -13,13 +13,82 @@ function detectEmptyCart()
   var count = parseInt($("#cart").children(".badge").html()) -1;
   if(count >= 1)
   {
-    $("#cart").children(".badge").html(count);
+    $(".cart").children(".badge").html(count);
   }
   else
   {
-    $("#cart").children(".badge").remove();
+    $(".cart").children(".badge").remove();
   }
 }
+
+$('.new-nick').on('click', function(event) {
+  event.preventDefault();
+  /* Act on the event */
+  parent = $(this).parent('.panel-body');
+  id = $(this).attr('data-id');
+  url = $("input[name=add-nick-url]").val();
+  $.ajax({
+    url: url,
+    type: 'GET',
+    data: {id: id},
+  })
+  .done(function(data) {
+    obj = JSON.parse(data);
+    if(obj.value == 1)
+    {
+      parent.append(obj.message);
+      console.log(parent);
+    }
+    else
+    {
+      $('#system-messages').append("<div id='aa' class='alert alert-danger'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.message+"</div>").fadeIn();
+    }
+  })
+  .fail(function(e) {
+    console.log(e);
+  });
+  
+});
+
+$(".panel-body").on('click','.delete-nick' ,function(event) {
+  event.preventDefault();
+  /* Act on the event */
+  divdelete = $(this).closest('div.input-group').next();
+  brdelete = $(this).closest('div.input-group');
+  if(typeof($(this).attr('attr-id'))  ===  "undefined")
+  {
+    divdelete.remove();
+    brdelete.remove();
+  }
+  else
+  {
+    $.ajax({
+      url: $("input[name=remove-nick-url]").val(),
+      type: 'GET',
+      data: {id: $(this).attr('attr-id')},
+    })
+    .done(function(data) {
+
+      obj = JSON.parse(data);
+      if(obj.value == 1)
+      {
+        $('#system-messages').append("<div id='aa' class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.message+"</div>").fadeIn();
+        $('#system-messages').children().delay(3000).fadeTo(500,0).slideUp(500).queue(function() { $('#aa').remove(); });
+        divdelete.remove();
+        brdelete.remove();
+      }
+      else
+      {
+        $('#system-messages').append("<div id='aa' class='alert alert-danger'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.message+"</div>").fadeIn();
+      }
+    })
+    .fail(function(e) {
+      console.log(e);
+    })
+  }
+});
+
+
 
 $('.delete').on('click',function(event){
     if(confirm('Are you sure you want to remove from cart?')){

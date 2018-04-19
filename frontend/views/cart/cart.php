@@ -10,10 +10,13 @@ $this->title = Yii::t('cart','My Cart');
 CartAsset::register($this);
 $deleteurl = Url::to(['cart/delete']);
 $quantityurl = Url::to(['cart/quantity']);
+$addnickurl = Url::to(['/order-nick-name/add-nick']);
+$deletenickurl = Url::to(['/order-nick-name/remove-nick']);
 $cart_status = 0;
 
 ?>
-
+<?php echo Html::hiddenInput('add-nick-url',$addnickurl);?>
+<?php echo Html::hiddenInput('remove-nick-url',$deletenickurl);?>
 <?php if(empty($groupCart)): ?>
   <div class="container" style="margin-top:2%;">
     <div class="row">
@@ -117,32 +120,34 @@ $cart_status = 0;
                   </div>
                 </div>
             <?php endif;?>
-            <?php if(!empty($single->nick)):?>
-              <div class="panel-group">
-                  <div class="panel panel-default">
-                    <div class="panel-heading" data-toggle="collapse" href="#nick<?php echo $i?>">
-                      <h4 class="panel-title">
-                        <a>
-                          <?=Yii::t('cart','NickName Detail');?>
-                          <i class="fa fa-info-circle"></i>
-                        </a>
-                      </h4>
+            <div class="panel-group">
+              <div class="panel panel-default">
+                <div class="panel-heading" data-toggle="collapse" href="#nick-<?php echo $i?>">
+                  <h4 class="panel-title">
+                    <a>
+                      <?=Yii::t('cart','NickName Detail');?><i class="fa fa-info-circle"></i>
+                    </a>
+                  </h4>
+                </div>
+                <div id="nick-<?php echo $i?>" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <?php echo Html::hiddenInput('nick-cid',$single->id);?>
+                  <!--   <button type="button" class="new-nick btn btn-default btn-block" data-id=<?php echo $single['id']?>>Add</button>
+ -->
+                    <br>
+                    <?php if(!empty($single->nick)):?>
+                    <?php foreach($single->nick as $k=>$nickname):?>
+                    <div class="input-group">
+                      <input type="text" class="form-control nick-edit" value= <?= $nickname->nickname;?> disabled ><span class="input-group-btn"><button attr-id=<?php echo $nickname->id?> class="delete-nick btn btn-default">Delete</button></span>
                     </div>
-                    <div id="nick<?php echo $i?>" class="panel-collapse collapse">
-                      <div class="panel-body">
-                      <button type="" class="btn btn-default btn-block">Add</button>
-                      <br>
-                      <?php foreach($single->nick as $k=>$nickname):?>
-                      <div class="input-group">
-                        <input type="text" class="form-control" value= <?= $nickname->nickname;?>><span class="input-group-btn"><button class="btn btn-default">Delete</button></span>
-                      </div>
-                      </br>
-                      <?php endforeach;?>
-                      </div>
-                    </div>
+                    </br>
+                    <?php endforeach;?>
+                    <?php endif;?>
                   </div>
                 </div>
-            <?php endif;?>
+              </div>
+            </div>
+           
             <?php if(!empty($single['remark'])): ?>
             <div class="relative upper-trash" style="color:#fc7171;"><?=Yii::t('common','Remarks');?>
               <i class="fa fa-info-circle"> <span class="i-detail i-selection" ><?php echo $single['remark'];?><span >  </i>

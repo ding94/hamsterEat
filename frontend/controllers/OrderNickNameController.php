@@ -6,6 +6,7 @@ use yii\web\Controller;
 use yii\helpers\Json;
 use common\models\OrderCartNickName;
 use common\models\Cart\Cart;
+use yii\helpers\Url;
 
 class OrderNickNameController extends Controller
 {
@@ -71,7 +72,79 @@ class OrderNickNameController extends Controller
 
         $data['message'] = "Something Went Wrong!!";
         
-        return JSON::encode($data);
+        return Json::encode($data);
+	}
+
+	public function actionAddNick()
+	{
+		$data['value'] = -1;
+		$data['message'] = "";
+		$get = Yii::$app->request->get();
+		if(empty($get['id']))
+		{
+			$data['message'] = "Something Went Wrong";
+			return Json::encode($data);
+		}
+		$id = $get['id'];
+		$cart = Cart::findOne($id);
+
+		if(empty($cart))
+		{
+			$data['message'] = "Something Went Wrong";
+			return Json::encode($data);
+		}
+		$count = OrderCartNickName::find()->where('type = 1 and tid = :tid',[':tid'=>$id])->count();
+		if($count > $cart->quantity)
+		{
+			$data['message'] = "Cannot Not More Then Food Quantity";
+			return Json::encode($data);
+		}
+		$link = Url::to(['/order-nick-name/update-nick','cid'=>$cart->id,'id'=>0]);
+		$data['value'] = 1;
+		$data['message'] = "<div class='input-group'><input type='text' class='form-control'><span class='input-group-btn'><a class= 'btn btn-default' href=".$link.">Update</a><button class='delete-nick btn btn-default'>Delete</button></span></div><br>";
+		return Json::encode($data);
+	}
+
+	public function actionUpdateNick($cid,$id)
+	{
+		if($id == 0)
+		{
+			$name = new OrderCartNickName;
+			$name->type = '1';
+		}
+		else
+		{
+			$name = OrderCartNickName::findOne($id);
+		}
+	}
+
+	public function actionRemoveNick()
+	{
+		$data['value'] = -1;
+		$data['message'] = "Something Went Wrong";
+
+		$get = Yii::$app->request->get();
+		if(empty($get['id']))
+		{
+			return Json::encode($data);
+		}
+		$id = $get['id'];
+
+		$name = OrderCartNickName::findOne($id);
+
+		if(empty($name))
+		{
+			return Json::encode($data);
+		}
+
+		if($name->delete())
+		{
+			$data['value'] = 1;
+			$data['message'] = "Nick Name Success Fully Delete";
+			return Json::encode($data);
+		}
+
+		return Json::encode($data);
 	}
 
 	/*
@@ -98,7 +171,7 @@ class OrderNickNameController extends Controller
 		if(empty($modelData['message']))
 		{
 			$data['value'] = 2;
-			$data['message'] = "You Have Not Adding Any Nick Name For The Order";
+			$data['message'] = "Nothing Added";
 			return $data;
 		}
 		
@@ -116,7 +189,7 @@ class OrderNickNameController extends Controller
 			$data['message'] = $model;
 			return $data;
 		}
-		$data['message'] = "Something Went Wrong!!";
+		$data['message'] = "The Cart Item Already Delete!!";
 		return $data;
 	}
 

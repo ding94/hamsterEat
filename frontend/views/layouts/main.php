@@ -369,7 +369,7 @@ NotificationAsset::register($this);
                     <li><?php echo Html::a(Yii::t('layouts','Feedback'), Url::to(['/site/feed-back', 'link'=>Yii::$app->request->url]), ['data-toggle'=>'modal','data-target'=>'#feedback-modal']) ?></li>
                     <li><?php echo Html::a(Yii::t('common','About Us'),['/site/about']) ?></li>
                     <li><?php echo Html::a(Yii::t('common','Guide'),['/site/faq']) ?></li>
-                    <li><a href="../HomeCookedDelicacies/Help.php"><?= Yii::t('common','Help') ?></a></li>
+                    
                     <?php if (Yii::$app->user->isGuest)
                     { ?>
                         <li><?php echo Html::a(Yii::t('common','Login'),['/site/login-popup'], ['data-toggle'=>'modal','data-target'=>'#login-modal']) ?></li>

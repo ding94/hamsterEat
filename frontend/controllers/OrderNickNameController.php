@@ -93,29 +93,56 @@ class OrderNickNameController extends Controller
 			$data['message'] = "Something Went Wrong";
 			return Json::encode($data);
 		}
-		$count = OrderCartNickName::find()->where('type = 1 and tid = :tid',[':tid'=>$id])->count();
-		if($count > $cart->quantity)
+		
+		if($get['length'] > $cart->quantity)
 		{
 			$data['message'] = "Cannot Not More Then Food Quantity";
 			return Json::encode($data);
 		}
 		$link = Url::to(['/order-nick-name/update-nick','cid'=>$cart->id,'id'=>0]);
+		$idData = Json::encode(['id'=>0,'cid'=>$cart->id]);
 		$data['value'] = 1;
-		$data['message'] = "<div class='input-group'><input type='text' class='form-control'><span class='input-group-btn'><a class= 'btn btn-default' href=".$link.">Update</a><button class='delete-nick btn btn-default'>Delete</button></span></div><br>";
+		$data['message'] = "<div class='input-group'><input type='text' class='form-control nick-edit' data-id='".$idData."' ><span class='input-group-btn'><a class='delete-nick btn btn-default'>Delete</a></span></div><br>";
 		return Json::encode($data);
 	}
 
-	public function actionUpdateNick($cid,$id)
+	public function actionUpdateNick()
 	{
+		$data['value'] = -1;
+		$data['message'] = "Something Went Wrong";
+
+		$post = Yii::$app->request->post();
+	
+		if(empty($post))
+		{
+			return Json::encode($data);
+		}
+
+		$id = $post['id'];
+		$cid = $post['cid'];
+
 		if($id == 0)
 		{
 			$name = new OrderCartNickName;
 			$name->type = '1';
+			$name->tid = $cid;
 		}
 		else
 		{
 			$name = OrderCartNickName::findOne($id);
 		}
+
+		$name->nickname = $post['name'];
+
+		if($name->save())
+		{
+			$data['value'] =1;
+			$idData = Json::encode(['id'=>$id,'cid'=>$cid]);
+			$data['message'] = $idData;
+			return Json::encode($data);
+		}
+
+		return Json::encode($data);
 	}
 
 	public function actionRemoveNick()

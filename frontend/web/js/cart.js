@@ -27,17 +27,18 @@ $('.new-nick').on('click', function(event) {
   parent = $(this).parent('.panel-body');
   id = $(this).attr('data-id');
   url = $("input[name=add-nick-url]").val();
+  length = parent.children('div.input-group').length+1;
+ 
   $.ajax({
     url: url,
     type: 'GET',
-    data: {id: id},
+    data: {id: id,length:length},
   })
   .done(function(data) {
     obj = JSON.parse(data);
     if(obj.value == 1)
     {
       parent.append(obj.message);
-      console.log(parent);
     }
     else
     {
@@ -50,8 +51,17 @@ $('.new-nick').on('click', function(event) {
   
 });
 
-$(".panel-body").on('click','.delete-nick' ,function(event) {
+$(document).ready(function() {
+  $(".delete-nick").click(function(event) {
+    /* Act on the event */
+     event.preventDefault();
+    console.log('b');
+  });
+});
+
+$(".panel-body").on('click','a.delete-nick' ,function(event) {
   event.preventDefault();
+ 
   /* Act on the event */
   divdelete = $(this).closest('div.input-group').next();
   brdelete = $(this).closest('div.input-group');
@@ -88,7 +98,42 @@ $(".panel-body").on('click','.delete-nick' ,function(event) {
   }
 });
 
+$(".panel-body").on('keypress', function(event) {
+  return event.which !== 13;
+  /* Act on the event */
+});
 
+$(".panel-body").on('change propertychange', '.nick-edit', function(event) {
+  event.preventDefault();
+  /* Act on the event */
+  text = $(this);
+  arrayID = text.attr('data-id');
+  id = JSON.parse(arrayID);
+  url = $("input[name=update-nick-url]").val(),
+  $.ajax({
+    url: url,
+    type: 'POST',
+    data: {
+      id: id.id,
+      cid : id.cid,
+      name : text.val(),
+    },
+  })
+  .done(function(data) {
+    obj = JSON.parse(data);
+    if(obj.value == 1)
+    {
+      text.attr('data-id',obj.message);
+    }
+    else
+    {
+       $('#system-messages').append("<div id='aa' class='alert alert-danger'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.message+"</div>").fadeIn();
+    }
+  })
+  .fail(function(e) {
+    console.log(e);
+  })
+});
 
 $('.delete').on('click',function(event){
     if(confirm('Are you sure you want to remove from cart?')){

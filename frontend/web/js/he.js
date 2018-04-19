@@ -95,7 +95,7 @@ function closeNew()
   }
 }
 
-
+/*
 if($( window ).width() > 767)
 {
   var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -108,7 +108,7 @@ if($( window ).width() > 767)
   s0.parentNode.insertBefore(s1,s0);
   })();
 }
- 
+ */
 
 
 

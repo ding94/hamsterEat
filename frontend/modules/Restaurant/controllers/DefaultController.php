@@ -539,7 +539,9 @@ class DefaultController extends CommonController
         $session = Yii::$app->session;
         $halal = $cookies->getValue('halal');
        
-        $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant','junction','foodStatus','restaurant.rJunction']);
+        $query = food::find()->distinct()->where('restaurant.Restaurant_AreaGroup = :group and foodstatus.Status = 1',[':group' => $session['group']])->joinWith(['restaurant'=>function($query){
+            $query->andWhere('Restaurant_Status = 2');
+        },'junction','foodStatus','restaurant.rJunction']);
         if(!empty($halal) || $halal == 1)
         {
             $query->andWhere('restauranttypejunction.Type_ID =  23');

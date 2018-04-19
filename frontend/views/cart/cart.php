@@ -5,6 +5,7 @@ use frontend\controllers\CartController;
 use frontend\assets\CartAsset;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
+use yii\helpers\Json;
 
 $this->title = Yii::t('cart','My Cart');
 CartAsset::register($this);
@@ -12,11 +13,13 @@ $deleteurl = Url::to(['cart/delete']);
 $quantityurl = Url::to(['cart/quantity']);
 $addnickurl = Url::to(['/order-nick-name/add-nick']);
 $deletenickurl = Url::to(['/order-nick-name/remove-nick']);
+$updatenickurl = Url::to(['/order-nick-name/update-nick']);
 $cart_status = 0;
 
 ?>
 <?php echo Html::hiddenInput('add-nick-url',$addnickurl);?>
 <?php echo Html::hiddenInput('remove-nick-url',$deletenickurl);?>
+<?php echo Html::hiddenInput('update-nick-url',$updatenickurl);?>
 <?php if(empty($groupCart)): ?>
   <div class="container" style="margin-top:2%;">
     <div class="row">
@@ -132,13 +135,14 @@ $cart_status = 0;
                 <div id="nick-<?php echo $i?>" class="panel-collapse collapse">
                   <div class="panel-body">
                     <?php echo Html::hiddenInput('nick-cid',$single->id);?>
-                  <!--   <button type="button" class="new-nick btn btn-default btn-block" data-id=<?php echo $single['id']?>>Add</button>
- -->
+                    <button type="button" class="new-nick btn btn-default btn-block" data-id=<?php echo $single['id']?>>Add</button>
+
                     <br>
                     <?php if(!empty($single->nick)):?>
                     <?php foreach($single->nick as $k=>$nickname):?>
                     <div class="input-group">
-                      <input type="text" class="form-control nick-edit" value= <?= $nickname->nickname;?> disabled ><span class="input-group-btn"><button attr-id=<?php echo $nickname->id?> class="delete-nick btn btn-default">Delete</button></span>
+                      <?php $idData = Json::encode(['id'=>$nickname->id,'cid'=>$nickname->tid]) ?>
+                      <input type="text" class="form-control nick-edit" value= <?= $nickname->nickname;?> data-id = <?= $idData ?>><span class="input-group-btn"><a attr-id=<?php echo $nickname->id?> class="delete-nick btn btn-default">Delete</a></span>
                     </div>
                     </br>
                     <?php endforeach;?>

@@ -16,7 +16,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 ?>
 <?php Modal::begin([
             'id'     => 'foodDetail',
-            'size'   => 'modal-lg',
+            
             //'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
     
@@ -34,6 +34,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
     Modal::begin([
             'header' => '<h2 class="modal-title">Order NickName</h2>',
             'id'     => 'orderQuantity',
+            'size'   => 'modal-lg',
     ]);
    
     Modal::end()

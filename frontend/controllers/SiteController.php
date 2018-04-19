@@ -337,9 +337,9 @@ class SiteController extends CommonController
     }
     
     public function actionResendconfirmlink()
-    {
+    {   $back= 1;
         $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html'],//html file, word file in email
-                    ['id' => Yii::$app->user->identity->id, 'auth_key' => Yii::$app->user->identity->auth_key])//pass value)
+                    ['id' => Yii::$app->user->identity->id, 'auth_key' => Yii::$app->user->identity->auth_key,'back'=>$back])//pass value)
                 ->setTo(Yii::$app->user->identity->email)
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setSubject('Signup Confirmation')
@@ -615,11 +615,11 @@ class SiteController extends CommonController
     }
 
     public function actionResendconfirmlinkReferral()
-    {
+    {   $back= 1;
         $referral = Referral::find()->where('new_user = :user',[':user'=>Yii::$app->user->identity->username])->one();
 
         $email = \Yii::$app->mailer->compose(['html' => 'confirmLinkReferral-html'],//html file, word file in email
-                    ['id' => Yii::$app->user->identity->id, 'auth_key' => Yii::$app->user->identity->auth_key, 'referral_name' => $referral->referral])//pass value)
+                    ['id' => Yii::$app->user->identity->id, 'auth_key' => Yii::$app->user->identity->auth_key,'back'=>$back, 'referral_name' => $referral->referral])//pass value)
                 ->setTo(Yii::$app->user->identity->email)
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setSubject('Signup Confirmation')

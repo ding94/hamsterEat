@@ -16,39 +16,43 @@ use backend\controllers\CommonController;
 
 class RestaurantController extends CommonController
 {
-    public function actionProfit($id,$first =0)
+    public function actionProfit($id,$first =0,$last =0)
     {
+        
         $tempmodel = Restaurant::find()->one();
-
         $restaurantlist = Restaurant::find()->asArray()->all();
         $restaurantlist = ArrayHelper::map($restaurantlist, 'Restaurant_ID', 'Restaurant_Name');
 
-        if($first == 0)
+          
+        if($first == 0 || $last == 0)
         {
-            $first = date("Y-m", strtotime("first day of this month")); 
+            $first = date("Y-m-d", strtotime("first day of this month"));
+        
+            $last = date("Y-m-d", strtotime("last day of this month"));
         }
-
+        
         if (Yii::$app->request->post()) {
             $post = Yii::$app->request->post();
             $oid = $post['Restaurant']['Restaurant_ID'];
 
-            $firstDay = date('Y-m-01 00:00:00', strtotime($first));
-            $lastDay = date('Y-m-t 23:59:59', strtotime("last day of".$first.""));
+            $firstDay = date('Y-m-d 00:00:00',strtotime($first));
+            $lastDay = date('Y-m-d 23:59:59', strtotime($last));
 
             $totalProfit = $this->monthyTotalProfit($firstDay,$lastDay,$id);
+
             $totalProfitOther = $this->monthyTotalProfit($firstDay,$lastDay,$oid);
 
             return $this->render('compare',['first'=>$first,'totalProfit' => $totalProfit,'totalProfitOther' => $totalProfitOther,'id'=>$id,'restaurantlist'=>$restaurantlist,'tempmodel'=>$tempmodel,'oid'=>$oid]);
         }
        
-        $firstDay = date('Y-m-01 00:00:00', strtotime($first));
-        $lastDay = date('Y-m-t 23:59:59', strtotime("last day of".$first.""));
-
+        $firstDay = date('Y-m-d 00:00:00',strtotime($first));
+        $lastDay = date('Y-m-d 23:59:59', strtotime($last));
+   
         $totalProfit = $this->monthyTotalProfit($firstDay,$lastDay,$id);
-       
+  
         $searchModel = new ItemProfitSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$firstDay,$lastDay,$id,1);
-        return $this->render('index',['model' => $dataProvider ,'searchModel'=>$searchModel,'first'=>$first,'totalProfit' => $totalProfit,'id'=>$id,'restaurantlist'=>$restaurantlist,'tempmodel'=>$tempmodel]);
+        return $this->render('index',['model' => $dataProvider ,'searchModel'=>$searchModel,'first'=>$first,'last'=>$last,'totalProfit' => $totalProfit,'id'=>$id,'restaurantlist'=>$restaurantlist,'tempmodel'=>$tempmodel]);
     }
 
     public function actionRestaurantRankingPerMonth($month=0)
@@ -129,8 +133,8 @@ class RestaurantController extends CommonController
        
         for($i = 0 ; $i<=$totalMonth ; $i++)
         {
-            $month = date('Y-m', strtotime($first));
-            $lastDay =  date('Y-m-t 23:59:59', strtotime($first));
+            $month = date('Y-m-d 00:00:00', strtotime($first));
+            $lastDay =  date('Y-m-d 23:59:59', strtotime($last));
 
             $cost = RestaurantItemProfit::find()->where('rid = :rid',[':rid'=>$id])->andWhere(['between','created_at',strtotime($first),strtotime($lastDay)])->sum('quantity * originalPrice');
 
@@ -139,7 +143,7 @@ class RestaurantController extends CommonController
             $data[$month]['cost'] = is_null($cost) ? 0 : Yii::$app->formatter->format($cost, ['decimal', 2]);
 
             $data[$month]['sellPrice'] = is_null($sellPrice) ? 0 : Yii::$app->formatter->format($sellPrice, ['decimal', 2]);
-            $first = date('Y-m-01 00:00:00', strtotime("+1 month", strtotime($first)));
+            $first = date('Y-m-d 00:00:00', strtotime("+1 month", strtotime($first)));
         }
        
         return $data;

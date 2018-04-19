@@ -171,10 +171,11 @@ class CommonController extends Controller
     public static function getOrdertime()
     {
         date_default_timezone_set("Asia/Kuala_Lumpur");
-        $time = self::getTime('','H');
-        $date = self::getTime('','N');
+         date_default_timezone_set("Asia/Kuala_Lumpur");
+        $time = (int)self::getTime('','H');
+        $date = (int)self::getTime('','N');
         return true;
-        if ($time<7 || $time>11 || $date==6 || $date == 7) {
+         if ($time<7 || $time>=11 || $date==6 || $date == 7) {
             Yii::$app->session->setFlash('error', Yii::t('checkout','You cannot place order at this time.'));
             return false;
         }

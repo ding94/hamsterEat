@@ -267,6 +267,7 @@ class SiteController extends CommonController
      */
     public function actionSignup()
     {
+        $back=1;
         $model = new SignupForm();
         $employee = new CompanyEmployees();
         $company = Arrayhelper::map(Company::find()->andWhere(['!=','status',0])->all(),'id','name');
@@ -279,7 +280,7 @@ class SiteController extends CommonController
                 $employee['updated_at'] = time();
                 $employee->save(false);
                 $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
-                    ['id' => $user->id, 'auth_key' => $user->auth_key])//pass value)
+                    ['id' => $user->id, 'auth_key' => $user->auth_key,'back'=>$back])//pass value)
                 ->setTo($user->email)
                 ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
                 ->setSubject('Signup Confirmation')

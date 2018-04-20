@@ -58,7 +58,7 @@ class OrderNickNameController extends Controller
 			if($valid)
             {
                 $transaction->commit();
-                $data['message'] = "Sucess Add Nick Name";
+                $data['message'] = Yii::t('cart','Success Add Order Nickname');
                	$data['value'] = 1;
                 return JSON::encode($data);
             }
@@ -70,7 +70,7 @@ class OrderNickNameController extends Controller
             $transaction->rollBack();
         }
 
-        $data['message'] = "Something Went Wrong!!";
+        $data['message'] = Yii::t('food','Something Went Wrong. Please Try Again Later!');
         
         return Json::encode($data);
 	}
@@ -82,7 +82,7 @@ class OrderNickNameController extends Controller
 		$get = Yii::$app->request->get();
 		if(empty($get['id']))
 		{
-			$data['message'] = "Something Went Wrong";
+			$data['message'] = Yii::t('food','Something Went Wrong. Please Try Again Later!');
 			return Json::encode($data);
 		}
 		$id = $get['id'];
@@ -90,26 +90,27 @@ class OrderNickNameController extends Controller
 
 		if(empty($cart))
 		{
-			$data['message'] = "Something Went Wrong";
+			$data['message'] = Yii::t('food','Something Went Wrong. Please Try Again Later!');
 			return Json::encode($data);
 		}
 		
 		if($get['length'] > $cart->quantity)
 		{
-			$data['message'] = "Cannot Not More Then Food Quantity";
+			$data['message'] = Yii::t("cart",'Cannot Not More Then Food Quantity');
 			return Json::encode($data);
 		}
+
 		$link = Url::to(['/order-nick-name/update-nick','cid'=>$cart->id,'id'=>0]);
 		$idData = Json::encode(['id'=>0,'cid'=>$cart->id]);
 		$data['value'] = 1;
-		$data['message'] = "<div class='input-group'><input type='text' class='form-control nick-edit' data-id='".$idData."' ><span class='input-group-btn'><a class='delete-nick btn btn-default'>Delete</a></span></div><br>";
+		$data['message'] = "<div class='input-group'><input type='text' class='form-control nick-edit' data-id='".$idData."' ><span class='input-group-btn'><a class='delete-nick btn btn-default'>".Yii::t('food','Delete')."</a></span></div><br>";
 		return Json::encode($data);
 	}
 
 	public function actionUpdateNick()
 	{
 		$data['value'] = -1;
-		$data['message'] = "Something Went Wrong";
+		$data['message'] = Yii::t('food','Something Went Wrong. Please Try Again Later!');
 
 		$post = Yii::$app->request->post();
 	
@@ -137,7 +138,7 @@ class OrderNickNameController extends Controller
 		if($name->save())
 		{
 			$data['value'] =1;
-			$idData = Json::encode(['id'=>$id,'cid'=>$cid]);
+			$idData = Json::encode(['id'=>$name->id,'cid'=>$cid]);
 			$data['message'] = $idData;
 			return Json::encode($data);
 		}
@@ -145,10 +146,13 @@ class OrderNickNameController extends Controller
 		return Json::encode($data);
 	}
 
+	/*
+	* remove nick name
+	*/
 	public function actionRemoveNick()
 	{
 		$data['value'] = -1;
-		$data['message'] = "Something Went Wrong";
+		$data['message'] = Yii::t('common','Delete Fail');
 
 		$get = Yii::$app->request->get();
 		if(empty($get['id']))
@@ -167,8 +171,7 @@ class OrderNickNameController extends Controller
 		if($name->delete())
 		{
 			$data['value'] = 1;
-			$data['message'] = "Nick Name Success Fully Delete";
-			return Json::encode($data);
+			$data['message'] = Yii::t('common','Delete Successfully');
 		}
 
 		return Json::encode($data);
@@ -189,7 +192,7 @@ class OrderNickNameController extends Controller
 
 		if(empty($post['OrderCartNickName']))
 		{
-			$data['message'] ="SomeThing Went Wrong!!";
+			$data['message'] = Yii::t('food','Something Went Wrong. Please Try Again Later!');
 			return $data;
 		}
 
@@ -198,7 +201,6 @@ class OrderNickNameController extends Controller
 		if(empty($modelData['message']))
 		{
 			$data['value'] = 2;
-			$data['message'] = "Nothing Added";
 			return $data;
 		}
 		
@@ -216,7 +218,7 @@ class OrderNickNameController extends Controller
 			$data['message'] = $model;
 			return $data;
 		}
-		$data['message'] = "The Cart Item Already Delete!!";
+		$data['message'] = Yii::t("cart","The Cart Item Already Delete!!");
 		return $data;
 	}
 
@@ -248,7 +250,7 @@ class OrderNickNameController extends Controller
 				$nick = $cookies->getValue('cartNickName');
 				if($nick['id'] != $n->tid)
 				{
-					$data['message'] = "Something Went Wrong";
+					$data['message'] = Yii::t('food','Something Went Wrong. Please Try Again Later!');
 					return $data;
 				}
 				$valid = $n->validate() && $valid;

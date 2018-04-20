@@ -35,11 +35,11 @@ echo Select2::widget([
 ]);
 Modal::end();
 
- Modal::begin([
-            'header' => '<h2 class="modal-title">Order NickName</h2>',
-            'id'     => 'orderQuantity',
-            'size'   => 'modal-lg',
-    ]);
+Modal::begin([
+    'header' => '<h2 class="modal-title">'.Yii::t('common','Nickname').'</h2>',
+    'id'     => 'orderQuantity',
+    'size'   => 'modal-lg',
+]);
 Modal::end(); 
 
 Modal::begin([

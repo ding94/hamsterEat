@@ -63,7 +63,7 @@ class OrderCartNickName extends \yii\db\ActiveRecord
             'id' => 'ID',
             'type' => 'Type',
             'tid' => 'Tid',
-            'nickname' => 'Nickname',
+            'nickname' => \Yii::t("common","Nickname"),
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

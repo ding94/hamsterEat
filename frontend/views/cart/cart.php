@@ -128,21 +128,22 @@ $cart_status = 0;
                 <div class="panel-heading" data-toggle="collapse" href="#nick-<?php echo $i?>">
                   <h4 class="panel-title">
                     <a>
-                      <?=Yii::t('cart','NickName Detail');?><i class="fa fa-info-circle"></i>
+                      <?=Yii::t('cart','Nickname Detail');?><i class="fa fa-info-circle"></i>
                     </a>
                   </h4>
                 </div>
                 <div id="nick-<?php echo $i?>" class="panel-collapse collapse">
                   <div class="panel-body">
-                    <?php echo Html::hiddenInput('nick-cid',$single->id);?>
-                    <button type="button" class="new-nick btn btn-default btn-block" data-id=<?php echo $single['id']?>>Add</button>
-
+                    <?php 
+                      echo Html::hiddenInput('nick-cid',$single->id);
+                      echo Html::button(Yii::t('common','Add'),['class'=>'new-nick btn btn-default btn-block','data-id'=>$single['id']]);
+                    ?>
                     <br>
                     <?php if(!empty($single->nick)):?>
                     <?php foreach($single->nick as $k=>$nickname):?>
                     <div class="input-group">
                       <?php $idData = Json::encode(['id'=>$nickname->id,'cid'=>$nickname->tid]) ?>
-                      <input type="text" class="form-control nick-edit" value= <?= $nickname->nickname;?> data-id = <?= $idData ?>><span class="input-group-btn"><a attr-id=<?php echo $nickname->id?> class="delete-nick btn btn-default">Delete</a></span>
+                      <input type="text" class="form-control nick-edit" value= <?= $nickname->nickname;?> data-id = <?= $idData ?>><span class="input-group-btn"><a attr-id=<?php echo $nickname->id?> class="delete-nick btn btn-default"><?= Yii::t('food','Delete')?></a></span>
                     </div>
                     </br>
                     <?php endforeach;?>

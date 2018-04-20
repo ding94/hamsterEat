@@ -24,6 +24,8 @@ function detectEmptyCart()
 $('.new-nick').on('click', function(event) {
   event.preventDefault();
   /* Act on the event */
+  button = $(this);
+  button.attr("disabled",true);
   parent = $(this).parent('.panel-body');
   id = $(this).attr('data-id');
   url = $("input[name=add-nick-url]").val();
@@ -48,20 +50,13 @@ $('.new-nick').on('click', function(event) {
   .fail(function(e) {
     console.log(e);
   });
-  
-});
-
-$(document).ready(function() {
-  $(".delete-nick").click(function(event) {
-    /* Act on the event */
-     event.preventDefault();
-    console.log('b');
-  });
+   button.attr("disabled",false);
 });
 
 $(".panel-body").on('click','a.delete-nick' ,function(event) {
   event.preventDefault();
- 
+  button = $(this);
+  button.attr("disabled",true);
   /* Act on the event */
   divdelete = $(this).closest('div.input-group').next();
   brdelete = $(this).closest('div.input-group');
@@ -96,6 +91,7 @@ $(".panel-body").on('click','a.delete-nick' ,function(event) {
       console.log(e);
     })
   }
+  button.attr("disabled",false);
 });
 
 $(".panel-body").on('keypress', function(event) {
@@ -170,6 +166,7 @@ $('.delete').on('click',function(event){
 
 $('.footer-content-container').on('click', '.plusMinus', function(event) {
   event.preventDefault();
+  
   url = $(this).attr('data-url');
   
   $(this).attr("disabled", true);
@@ -222,7 +219,7 @@ function quantity(up,cid,url)
     url : $("input[name=dis-url]").val(),
     type: "get",
     data :{
-      dis: document.getElementById("discountitem-description").value.replace(/\s+/g, ''),
+      dis: document.getElementById("codes").value.replace(/\s+/g, ''),
       //codes: document.getElementById("codes").value.replace(/\s+/g, ''),
       sub: parseFloat(document.getElementById("subtotal").innerHTML).toFixed(2),
       deli: parseFloat(document.getElementById("delivery").innerHTML).toFixed(2),

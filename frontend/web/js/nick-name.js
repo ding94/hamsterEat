@@ -11,8 +11,12 @@ $('body').on('submit','#a2Nick',function(e){
 		obj = JSON.parse(data);
 		if(obj.value == 1 || obj.value == 2	)
 		{
-			$('#system-messages').append("<div id='aa' class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.message+"</div>").fadeIn();
+			if(obj.value == 1)
+			{
+				$('#system-messages').append("<div id='aa' class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.message+"</div>").fadeIn();
             $('#system-messages').children().delay(3000).fadeTo(500,0).slideUp(500).queue(function() { $('#aa').remove(); });
+			}
+			
             $("#orderQuantity").modal('hide');
 		}
 		else

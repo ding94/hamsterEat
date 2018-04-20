@@ -115,7 +115,7 @@ class SiteController extends CommonController
     public function actionIndex()
     {
         $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_ID','Area_Area');
-
+       
         $list =array();
         $banner = Banner::find()->where(['<=','startTime',date("Y-m-d H:i:s")])->andWhere(['>=','endTime',date("Y-m-d H:i:s")])->all();
       

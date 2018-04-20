@@ -53,7 +53,12 @@ class CheckoutController extends CommonController
 	*/
 	public function actionIndex()
 	{   
-		$early = $this->earlyOrder();
+		$early = CommonController::getOrdertime();
+
+		if($early == false)
+		{
+			return $this->redirect(Yii::$app->request->referrer);
+		}
 		
 		$cookies = Yii::$app->request->cookies;
 		
@@ -65,11 +70,7 @@ class CheckoutController extends CommonController
 
       	$cartData = $cookies->getValue('cart');
       	
-		if($early == false)
-		{
-			Yii::$app->session->setFlash('error', Yii::t('checkout','.'));
-			return $this->redirect(Yii::$app->request->referrer);
-		}
+		
         
         $userexist = CompanyEmployees::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->all();
         
@@ -128,7 +129,7 @@ class CheckoutController extends CommonController
       		{
       			$food = Food::findOne($cart->fid);
       			
-      			Yii::$app->session->setFlash('error', Yii::t('checkout','NickName is More Then Food {name} quantity',['name'=>$food->cookiename]));
+      			Yii::$app->session->setFlash('error', Yii::t('checkout','Nickname is More Then Food {name} quantity',['name'=>$food->cookiename]));
       			return $this->redirect(Yii::$app->request->referrer);
       		}
       	}
@@ -346,10 +347,10 @@ class CheckoutController extends CommonController
 	*/
 	protected static function earlyOrder()
 	{
-		$early = date('08:00:00');
+		$early = date('07:00:00');
 		$timenow = Yii::$app->formatter->asTime(time());
         //$last = date('11:00:59');
-        $last = date('23:00:59');
+        $last = date('11:00:00');
 
         if($early >= $timenow || $last <= $timenow)
         {

@@ -35,32 +35,42 @@ $this->title = "Orders List";
                             <?php foreach($did as $l => $items): ?>
                                 <?php $count = count($items); ?>
                                 <tr style="border: 1px solid black;">
-                                    <td  rowspan=<?= $delirowcount[$l]+1 ?> style="border: 1px solid black;"><?= $company?></td>
-                                    <td  rowspan=<?= $delirowcount[$l]+1 ?> style="border: 1px solid black;"><?= $l?></td>
+
+                                    <td  rowspan=<?= $delirowcount[$restaurant][$l]+$count+1 ?> style="border: 1px solid black;"><?= $company?></td>
+                                    <td  rowspan=<?= $delirowcount[$restaurant][$l]+$count+1 ?> style="border: 1px solid black;"><?= $l?></td>
                                 </tr>
                                 <?php foreach($items as $k => $item): ?>
+                                    <tr>
+                                        <td rowspan=<?= $orderrowcount[$item['Order_ID']]+1 ?> style="border: 1px solid black;">
+                                            <?= $item['Order_ID']; ?>
+                                        </td>
+                                        <td rowspan=<?= $orderrowcount[$item['Order_ID']]+1 ?> style="border: 1px solid black;">
+                                            <?= $item->getFood_selection_name($item); ?>
+                                        </td>
+                                        <td rowspan=<?= $orderrowcount[$item['Order_ID']]+1 ?> style="border: 1px solid black;">
+                                            <?= $item['address']['name']; ?>
+                                        </td>
+                                        <td rowspan=<?= $orderrowcount[$item['Order_ID']]+1 ?> style="border: 1px solid black;">
+                                            <?= $item['address']['contactno']; ?>
+                                        </td>
+                                    </tr>
                                     <?php for ($i=0; $i < $orderrowcount[$item['Order_ID']]; $i++) { ?>
-                                    <tr style="border: 1px solid black;">
-                                            <td  style="border: 1px solid black;"><?= $item['Order_ID']; ?></td>
-                                            <td  style="border: 1px solid black;"><?= $item['food']['originname']; ?></td>
-                                                <td  style="border: 1px solid black;">
-                                                    <?php if (empty($item['nickname'][$i-1]['nickname'])):?>
-                                                    <?= 'blank' ?>
+                                            <tr style="border: 1px solid black;">
+                                                <td style="border: 1px solid black;">
+                                                    <?php if (empty($item['nickname'][$i]['nickname'])):?>
+                                                        <?= 'blank' ?>
                                                     <?php else: ?>
-                                                        <b><?= $item['nickname'][$i-1]['nickname']; ?></b>
+                                                        <b><?= $item['nickname'][$i]['nickname']; ?></b>
                                                     <?php endif; ?>
                                                 </td>
-
-                                            <td  style="border: 1px solid black;"><?= $item['address']['name']; ?></td>
-                                            <td  style="border: 1px solid black;"><?= $item['address']['contactno']; ?></td>
-                                            <td  style="border: 1px solid black;"></td>
-                                    </tr>
-                                    <?php }?>
+                                                <td style="border: 1px solid black;"></td>
+                                            </tr>
+                                        <?php }?>
                                 <?php endforeach; ?>
                             <?php endforeach; ?>
                         <?php endforeach; ?>
                     </table>
-                <?php endforeach; ?>
+                <?php endforeach;?>
             </div>
         </div>
     </div>

@@ -13,6 +13,8 @@ use kartik\export\ExportMenu;
 use dosamigos\chartjs\ChartJs;
 use iutbay\yii2fontawesome\FontAwesome as FA;
 
+
+
     $this->title = "Restaurant ".$id." Earning";
     $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Restuarant Detail '), 'url' => ['default/index']];
     $this->params['breadcrumbs'][] = $this->title;
@@ -21,19 +23,19 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
     <label class="control-label">Search ...</label>
     <div class="row">
         <div class="col-md-9">
-            <?php
-                echo DatePicker::widget([
-                        'name' => 'first',
-                        'value' => $first,
-                        'type' => DatePicker::TYPE_INPUT,
-                        'pluginOptions' => [
-                            'autoclose'=>true,
-                            'startView'=>'year',
-                            'minViewMode'=>'months',
-                            'format' => 'yyyy-m'
+                <?php
+                        echo DatePicker::widget([
+                            'name' => 'first',
+                            'value' => $first,
+                            'type' => DatePicker::TYPE_RANGE,
+                            'name2' => 'last',
+                            'value2' => $last,
+                            'pluginOptions' => [
+                                'autoclose'=>true,
+                                'format' => 'yyyy-m-d'
                             ]
-                ]);
-            ?>
+                        ]);
+                    ?>
         </div>
         <div class="col-md-3">
             <?= Html::submitButton('Search', ['class' => 'btn-block ']) ?>
@@ -46,12 +48,12 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
         <h4><?php echo $date; ?></h4>
         <?= $cost = str_replace(",", "", $data['cost']); $price = str_replace(",", "", $data['sellPrice']);?>
         <?= ChartJs::widget([
-    'type' => 'doughnut',
-    'options' => [
-    ],
-    'data' => [
-        'labels' => ['Cost','Selling Price'],
-        'datasets' => [
+            'type' => 'doughnut',
+            'options' => [
+            ],
+            'data' => [
+                'labels' => ['Cost','Selling Price'],
+                'datasets' => [
             [
                 'label' => ['Cost','Selling Price'],
                 'backgroundColor' => ["#f45b69","#ffda00"],
@@ -73,20 +75,6 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
             </table>
         </div>
     <?php endforeach ;?>
-    <?php $form = ActiveForm::begin(); ?>
-        <div class="col-md-3">
-            <?php
-                echo $form->field($tempmodel, 'Restaurant_ID')->widget(Select2::classname(),[
-                        'name' => 'compare',
-                        'data' => $restaurantlist,
-                        'options' => [
-                            'placeholder' => 'Compare with ...',
-                        ],
-                ])->label('Compare with...');
-            ?>
-            <?= Html::submitButton('Compare',['class' => 'btn-block ']) ?>
-        </div>
-    <?php ActiveForm::end(); ?>
     </div>
 <?php  echo GridView::widget([
         'dataProvider'=>$model,

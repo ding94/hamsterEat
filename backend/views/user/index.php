@@ -81,10 +81,6 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
              'buttons' => [
                 'active' => function($url , $model)
                 {
-                    if($model->status == 1)
-                    {
-                        return Html::a("Resend email", ['/site/resendconfirmlink','id'=>$model->id]);
-                    }
                     if($model->status == 0)
                     {
                          $url = Url::to(['user/active' ,'id'=>$model->id]);
@@ -92,6 +88,24 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                     else
                     {
                         $url = Url::to(['user/delete' ,'id'=>$model->id]) ;
+                    }
+                   
+                    return  $model->status ==10  ? Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'Deactivate']) : Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'Activate']);
+                },
+              ]
+            ],
+            ['class' => 'yii\grid\ActionColumn' , 
+             'template'=>'{active} ',
+             'header' => "Resend Email",
+             'buttons' => [
+                'active' => function($url , $model)
+                {
+                    if($model->status == 1)
+                    {
+                        return Html::a("Resend email", ['/site/resendconfirmlink','id'=>$model->id]);
+                    }
+                    else{
+                        return Html::a("");
                     }
                    
                     return  $model->status ==10  ? Html::a(FA::icon('toggle-on lg') , $url , ['title' => 'Deactivate']) : Html::a(FA::icon('toggle-off lg') , $url , ['title' => 'Activate']);

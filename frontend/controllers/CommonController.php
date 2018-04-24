@@ -17,19 +17,23 @@ use yii\web\HttpException;
 
 class CommonController extends Controller
 {
+    //public $enableCsrfValidation = false;
     public function beforeAction($action)
     {
+
         if (!parent::beforeAction($action)) {
 
              return false;
         }
+        $controller = Yii::$app->controller->id;
+        $action = Yii::$app->controller->action->id;
+        $permissionName = $controller.'/'.$action; 
+        
         if(!Yii::$app->user->isGuest)
         {
             if(Yii::$app->user->identity->status == 1 || Yii::$app->user->identity->status == 2)
             {
-                $controller = Yii::$app->controller->id;
-                $action = Yii::$app->controller->action->id;
-                $permissionName = $controller.'/'.$action; 
+               
                
                 if($permissionName   == 'site/validation')
                 {

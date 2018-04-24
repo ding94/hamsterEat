@@ -3,19 +3,19 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "payment".
  *
- * @property integer $id
- * @property integer $uid
- * @property string $paid_amount
- * @property integer $paid_type
- * @property integer $bank_acc
- * @property string $item
- * @property string $original_price
- * @property integer $voucher_id
- * @property integer $discount
+ * @property int $id
+ * @property int $uid
+ * @property double $paid_amount
+ * @property string $paid_type 1=> account balance,2=> fpx
+ * @property int $item_id currently only delivery id
+ * @property int $created_at
+ * @property int $updated_at
  */
 class Payment extends \yii\db\ActiveRecord
 {
@@ -27,16 +27,30 @@ class Payment extends \yii\db\ActiveRecord
         return 'payment';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at','updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],   
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['uid', 'paid_amount', 'paid_type', 'original_price'], 'required'],
-            [['uid', 'paid_type', 'bank_acc', 'voucher_id', 'discount'], 'integer'],
-            [['paid_amount', 'original_price'], 'number'],
-            [['item'], 'string', 'max' => 255],
+            [['uid', 'paid_amount', 'paid_type', 'item_id'], 'required'],
+            [['uid', 'item_id'], 'integer'],
+            [['paid_amount'], 'number'],
+            [['paid_type'], 'string'],
         ];
     }
 
@@ -50,11 +64,9 @@ class Payment extends \yii\db\ActiveRecord
             'uid' => 'Uid',
             'paid_amount' => 'Paid Amount',
             'paid_type' => 'Paid Type',
-            'bank_acc' => 'Bank Acc',
-            'item' => 'Item',
-            'original_price' => 'Original Price',
-            'voucher_id' => 'Voucher ID',
-            'discount' => 'Discount',
+            'item_id' => 'Item ID',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
 }

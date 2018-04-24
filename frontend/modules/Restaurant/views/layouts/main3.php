@@ -219,6 +219,7 @@ if (empty($language)) {
     NavBar::end();
     ?>
 	 </div>
+    <?php echo Html::hiddenInput('detect-payment-url',Url::to(['/payment/detect-payment']));?>
     <div class="inital-chat-container">
         <div class="chat-container">
             <div class="minified-box">

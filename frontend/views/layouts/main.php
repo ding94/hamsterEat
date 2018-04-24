@@ -224,6 +224,7 @@ NotificationAsset::register($this);
     ]);
     NavBar::end();
     ?>
+    <?php echo Html::hiddenInput('detect-payment-url',Url::to(['/payment/detect-payment']));?>
     </div>
     <div class="inital-chat-container">
         <div class="chat-container">

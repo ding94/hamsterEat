@@ -45,10 +45,10 @@ class SiteController extends CommonController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup','index','resendconfirmlink','referral','resendconfirmlink-referral','request-password-reset','reset-password','validation'],
+                'only' => ['logout', 'signup','index','resendconfirmlink','referral','resendconfirmlink-referral','request-password-reset','reset-password','validation','notify'],
                 'rules' => [
                     [
-                        'actions' => ['signup','index','resendconfirmlink','confirm','logout','request-password-reset','reset-password','closebanner'],
+                        'actions' => ['signup','index','resendconfirmlink','confirm','logout','request-password-reset','reset-password','closebanner','notify'],
 
                         'allow' => true,
 
@@ -122,11 +122,11 @@ class SiteController extends CommonController
         if(Yii::$app->request->isPost)
         {
             $post = Yii::$app->request->post();
-
-            // if (is_null($post['area']) || empty($post['area'])) {
-            //     Yii::$app->session->setFlash('error', 'Please select area to continue.');
-            //     return $this->refresh();
-            // }
+            
+             /*if (is_null($post['area']) || empty($post['area'])) {
+                 Yii::$app->session->setFlash('error', 'Please select area to continue.');
+                 return $this->refresh();
+             }*/
             $group = 1;
           
             $session = new Session;
@@ -140,6 +140,12 @@ class SiteController extends CommonController
 
         return $this->render('index',['list'=>$list,'postcodeArray'=>$postcodeArray,'banner'=>$banner]);
 
+    }
+
+    public function actionNotify()
+    {
+       var_dump(Yii::$app->request->get());exit;
+        
     }
 
     public function actionChangelanguage($lang)

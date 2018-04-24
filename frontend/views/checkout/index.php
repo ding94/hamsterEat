@@ -83,7 +83,7 @@ CheckoutAsset::register($this);
             </div>
             <div class="cart-content">
                 <h3><?= Yii::t('common','Payment Method') ?></h3>
-                <?= $form->field($order, 'Orders_PaymentMethod')->radioList(['Account Balance'=>Yii::t('checkout','Account Balance'),'Cash on Delivery'=>Yii::t('checkout','Cash on Delivery')])->label(''); ?>
+                <?= $form->field($order, 'Orders_PaymentMethod')->radioList(['Account Balance'=>Yii::t('checkout','Account Balance Or Online Payment'),'Cash on Delivery'=>Yii::t('checkout','Cash on Delivery')])->label(''); ?>
             </div>  
             <?= Html::submitButton(Yii::t('common','Place Order'), ['class' => 'raised-btn main-btn', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?>
 

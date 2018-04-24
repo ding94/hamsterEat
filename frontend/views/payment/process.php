@@ -40,13 +40,18 @@ PaymentAsset::register($this);
           <label for="account-balance"><?= Yii::t('payment','Use Account Balance') ?></label>
           <span class="pull-right"><?= Yii::t('payment','Your Current Balance') ?> : RM<?php echo $balance->User_Balance ?></span>
           <div class="check"></div>
-        </li>
-        <li>
-        <input type="radio" id="cash-on" name="account-balance" value="2">
+      </li>
+      <li>
+        <input type="radio" id="fpx" name="account-balance" value="2">
+          <label for="fpx"><?= Yii::t('payment','Use FPX') ?></label>
+          <div class="check"></div>
+      </li>
+      <li>
+        <input type="radio" id="cash-on" name="account-balance" value="3">
           <label for="cash-on"><?= Yii::t('payment','Back to COD') ?></label>
           <span class="pull-right"><?= Yii::t('payment','*COD = Cash On Delivery') ?></span>
           <div class="check"></div>
-        </li>
+      </li>
 		</ul>
 		<?php echo Html::hiddenInput('did', $order->Delivery_ID);?>
 		<div class="button-div">

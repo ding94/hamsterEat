@@ -10,6 +10,8 @@ $(document).ready(function() {
   {
      closeNew();
   }
+
+  detectPayment()
  
 });
 
@@ -93,6 +95,31 @@ function closeNew()
       console.log(e);
     })
   }
+}
+
+function detectPayment()
+{
+  $.ajax({
+    url: $("input[name=detect-payment-url]").val(),
+    type: 'GET',
+    
+  })
+  .done(function(obj) {
+      data = JSON.parse(obj);
+      if(data.value === 1)
+      {
+          alertPayment(data.link);
+      }
+  })
+  .fail(function(e) {
+    console.log(e);
+  });
+  
+}
+
+function alertPayment(link)
+{
+  //window.location.href = link;
 }
 
 /*

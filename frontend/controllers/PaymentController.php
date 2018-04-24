@@ -4,12 +4,15 @@ namespace frontend\controllers;
 
 use common\models\Payment;
 use common\models\Account\Accountbalance;
-use common\models\Order\Orders;
+use common\models\Order\{Orders,Orderitem,DeliveryAddress};
+use common\models\PaymentGateWay\{PaymentCollection,PaymentBill,PaymentGatewayHistory};
 use frontend\controllers\MemberpointController;
 use frontend\controllers\CommonController;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
+use yii\base\Model;
+use yii\helpers\Json;
 
 class PaymentController extends CommonController
 {
@@ -27,10 +30,15 @@ class PaymentController extends CommonController
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
-                    'actions' => [
-                    'actions' => ['process-payment','payment-post'],
-                    'allow' => true,
-                    'roles' => ['@'],
+                    [
+                        'actions' => ['process-payment','payment-post','payment-gateway','notify'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['detect-payment'],
+                        'allow' => true,
+                        'roles' => ['?','@'],
                     ],
                 ],  
             ],
@@ -58,52 +66,164 @@ class PaymentController extends CommonController
             return $this->redirect(Yii::$app->request->referrer);
         }
 
-        if($post['account-balance'] == 1)
+        if($post['account-balance'] == 2)
         {
-            $order = $this->findOrder($post['did']);
-            $isValid = $this->Payment($order->Orders_TotalPrice,$post['did']);
-            if($isValid)
-            {
-                $this->updateOrderStatus($post['did'],1);
-                //NotificationController::createNotification($post['did'],3);
-                return $this->redirect(['/cart/aftercheckout','did'=>$post['did']]);
-            }
+            return $this->redirect(['payment-gateway','did'=>$post['did']]);
         }
-        elseif($post['account-balance'] == 2)
+       
+        $isValid = $this->getPayment();
+        if($isValid)
         {
-            $order = $this->findOrder($post['did']);
-
-            $this->updateOrderStatus($post['did'],2);
-            //NotificationController::createNotification($post['did'],3);
-            return $this->redirect(['/cart/aftercheckout','did'=>$post['did']]);
-        }
+             return $this->redirect(['/cart/aftercheckout','did'=>$post['did']]);
+        }  
+        
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-	public static function Payment($price,$did)
-	{
-		$payment = new Payment();
-		$userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => Yii::$app->user->identity->username])->one();
-		$payment->uid = Yii::$app->user->identity->id;
-		$payment->paid_type = 1;
-       
-		if ($userbalance->User_Balance >= $price ) {
-                $payment->paid_amount = $price; /* order price amount */
-                $payment->item = $did;
-                $payment->original_price = $price;
+    public function actionPaymentGateway($did)
+    {
+        $payment = Payment::find()->where('item_id = :did',[':did'=>$did])->one();
+        if(empty($payment))
+        {
+            $collect = PaymentCollection::generateCollection($did);
+            $address = DeliveryAddress::findOne($did);
+            $order = $this->findOrder($did);
+            if(empty($address) || empty($order))
+            {
+                return $this->redirect(['process-payment','did'=>$did]);
+            }
 
-                $userbalance->User_Balance -= $price; /* order price amount */
-                $userbalance->AB_minus += $price;
-                $userbalance->type = 5;
-                $userbalance->deliveryid = $did;
-                $userbalance->defaultAmount = $price;
-              
-                if($userbalance->save() && $payment->save())
+            $payment = $this->generatePayment($order->Orders_TotalPrice,$order->Delivery_ID,'2');
+            if($payment->save())
+            {
+                if($collect['value'] == 1)
                 {
-                    return true;
+                    $bill = PaymentBill::generateBill($collect['id'],Yii::$app->user->identity-> email,$address->name,$address->contactno,$order->Orders_TotalPrice,$payment->id);
+                    if($bill['value'] == 1)
+                    {
+                        return $this->redirect($bill['link']);
+                    }
+
+                } 
+            }
+        }
+        else
+        {
+            $history = PaymentGatewayHistory::find()->where("pid = :pid",[':pid'=>$payment->id])->one();
+           
+            $billData =  PaymentBill::getBill($history->bill_id);
+            if($billData['value'] == 1)
+            {
+                PaymentBill::generateCookie($history->collect_id,$history->bill_id);
+                return $this->redirect($billData['data']['url']);
+            }
+        }
+       
+        Yii::$app->session->setFlash('warning',Yii::t('food','Something Went Wrong. Please Try Again Later!'));
+        return $this->redirect(['process-payment','did'=>$did]);
+    }
+
+    public function actionDetectPayment()
+    {
+        $array = array(
+            'value' => 0,
+            'link' =>"",
+        );
+        if(!Yii::$app->user->isGuest)
+        {
+            $session = Yii::$app->session;
+            $payment = $session->get('payment');
+            if(!empty($payment))
+            {
+                $billData =  PaymentBill::getBill($payment['biilid']);
+                if($billData['value'] == 1 && $billData['data']['state'] == 'due' && !$billData['data']['paid'])
+                {
+                    $array['link'] = $billData['data']['url'];
+                    $array['value'] = 1;
                 }
-        } 
-        Yii::$app->session->setFlash('warning', Yii::t('payment','Payment failed! Insufficient Funds.'));
+
+              
+            }
+        }
+        return Json::encode($array);
+    }
+
+    public function actionNotify()
+    {
+        $get = Yii::$app->request->get();
+        $billData =  PaymentBill::getBill($get['billplz']['id']);
+        if($billData['value'] != 1)
+        {
+            Yii::$app->session->setFlash('warning',Yii::t('food','Something Went Wrong. Please Try Again Later!'));
+            return $this->redirect(['site/index']);
+        }
+        $billapi = $billData['data'];
+        $bill = PaymentGatewayHistory::find()->where('collect_id = :cid and bill_id = :bid',[':cid'=>$billapi['collection_id'],':bid'=>$billapi['id']])->joinWith(['p'])->one();
+        $did = $bill->p->item_id;
+        
+        if($billapi['paid'] && $billapi['state'] == 'paid')
+        {
+           
+            $bill->status = 1;
+            $bill->save();
+
+            $order = $this->updateOrderStatus($this->findOrder($did),2);
+            $this->saveStatus($order);
+            $session = Yii::$app->session;
+            $session->remove('payment');
+            return $this->redirect(['/cart/aftercheckout','did'=>$did]);
+        }
+
+        Yii::$app->session->setFlash('warning',Yii::t('food','Something Went Wrong. Please Try Again Later!'));
+        return $this->redirect(['process-payment','did'=>$did]);
+    }
+
+    protected static function getPayment()
+    {
+        $post = Yii::$app->request->post();
+        $type = $post['account-balance'];
+      
+        $exists = self::findOrder($post['did']);
+        if(empty($exists))
+        {
+            return false;
+        }
+        $order = self::updateOrderStatus($exists,$type);
+      
+        switch ($type) {
+            case '1':
+                $isValid = self::accountBalancePayment($order);
+                break;
+            case '3':
+                $isValid = self::saveStatus($order);
+                break;
+            default:
+                $isValid =false;
+                break;
+        }
+       return $isValid;
+    }
+
+    /*
+    * generate payment detail and detect user account balance 
+    */
+	public static function AccountBalancePayment($order)
+	{
+		$userbalance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => Yii::$app->user->identity->username])->one();
+        $price  = $order->Orders_TotalPrice;
+		if ($userbalance->User_Balance >= $price ) 
+        {
+            $valid = self::updatePayment($order,$userbalance);
+            if($valid)
+            {
+                return true;
+            }
+        }
+        else
+        {
+            Yii::$app->session->setFlash('warning', Yii::t('payment','Payment failed! Insufficient Funds.'));
+        }
+       
 		return false;
 	}
 
@@ -129,36 +249,9 @@ class PaymentController extends CommonController
                     return true;
                 }
                
-            } else {
-                Yii::$app->session->setFlash('warning', Yii::t('payment','Payment failed! Insufficient Funds.'));
-        }
-        return false;
-    }
-
-    protected static function updateOrderStatus($did,$case)
-    {
-        $order = Orders::find()->where('orders.Delivery_ID = :id',[':id'=>$did])->joinWith(['item'])->one();
-        switch ($case) {
-            case 2:
-                $order['Orders_PaymentMethod'] = 'Cash on Delivery';
-                break;
-            case 1:
-                break;
-            default:
-                return false;
-                break;
-        }
-
-        $order->Orders_Status = 2;
-        
-        foreach($order['item'] as $item)
-        {
-            $item->OrderItem_Status = 2;
-            $item->save();
-        }
-        if($order->save())
-        {
-            return true;
+        } 
+        else {
+            Yii::$app->session->setFlash('warning', Yii::t('payment','Payment failed! Insufficient Funds.'));
         }
         return false;
     }
@@ -175,12 +268,122 @@ class PaymentController extends CommonController
         return $acc;
     }
 
-    public static function findOrder($id)
+    /*
+    * find order;
+    */
+    protected static function findOrder($id)
     {
-        if (($model = Orders::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+        $model = Orders::find()->where('orders.Delivery_ID = :id and Orders_Status = 1',[':id'=>$id])->joinWith(['item'])->one();
+        if(empty($model))
+        {
+            return "";
         }
+        return $model;
+    }
+
+    /*
+    * update order status
+    * or payment status
+    * return empty if validate wrong
+    */
+    protected static function updateOrderStatus($order,$changePayment)
+    {
+        if($changePayment == 3)
+        {
+            $order['Orders_PaymentMethod'] = 'Cash on Delivery';
+        }
+        elseif($changePayment == 2)
+        {
+             $order['Orders_PaymentMethod'] = 'Online Banking';
+        }
+
+        $order->Orders_Status = 2;
+        
+        foreach($order['item'] as $item)
+        {
+            $item->OrderItem_Status = 2;
+           
+        }
+
+        $valid = Model::validateMultiple($order->item) && $order->validate();
+        if($valid)
+        {
+            return $order;
+        }
+        return "";
+    }
+
+    /*
+    * save order status
+    */
+    protected static function saveStatus($order)
+    {
+        foreach ($order->item as $key => $value) {
+            if(!$value->save())
+            {
+                Orderitem::updateAll(['OrderItem_Status'=>1],'Delivery_ID = :id',[':id'=>$order->Delivery_ID]);
+                return false;
+            }
+        }
+
+        if($order->save())
+        {
+            return true;
+        }
+
+        Orderitem::updateAll(['OrderItem_Status'=>1],'Delivery_ID = :id',[':id'=>$order->Delivery_ID]);
+        return false;
+    }
+
+    /*
+    * update payment for account balance
+    */
+    protected static function updatePayment($order,$userbalance)
+    {
+        $price = $order->Orders_TotalPrice;
+
+        $payment = self::generatePayment($price,$order->Delivery_ID,'1');
+
+        $userbalance->User_Balance -= $price; /* order price amount */
+        $userbalance->AB_minus += $price;
+        $userbalance->type = 5;
+        $userbalance->deliveryid = $order->Delivery_ID;
+        $userbalance->defaultAmount = $price;
+        $valid = $userbalance->validate() && $payment->validate();
+        if($valid)
+        {
+            $transaction = Yii::$app->db->beginTransaction();
+            try{
+                foreach($order->item as $value)
+                {
+                    if(!$value->save())
+                    {
+                        break;
+                    }
+                }
+                if($order->save() && $payment->save() && $userbalance->save())
+                {
+                    $transaction->commit();
+                    return true;
+                }
+            }
+            catch(Exception $e)
+            {
+                $transaction->rollBack();
+            }
+        }
+       
+        Yii::$app->session->setFlash('warning',Yii::t('food','Something Went Wrong. Please Try Again Later!'));
+        return false;
+    }
+
+    protected static function generatePayment($price,$did,$type)
+    {
+        $payment = new Payment;
+        $payment->uid = Yii::$app->user->identity->id;
+        $payment->paid_type = $type;
+        $payment->paid_amount = $price; /* order price amount */
+        $payment->item_id = $did;
+        return $payment;
     }
 }

@@ -142,6 +142,7 @@
                         'label' => 'Company Controller' ,'icon' => 'cutlery' ,   'url' => '#',
                         'items' => [
                                         ['label' => 'Company List' , 'icon' => 'circle-o' , 'url' => ['/company/index']],
+                                        ['label' => 'Company Orders List' , 'icon' => 'circle-o' , 'url' => ['/company/company-order-list']],
                                    ],
                         'options' => ['class' => 'active'],
 

@@ -12,6 +12,15 @@ use yii\widgets\DetailView;
     'model' => $model,
     'attributes' => [
        [
+            'label' => 'Payment Method',
+            'format' => 'raw',
+            'value' => function($model){
+                return "<span class='pull-right'>".($model->Orders_PaymentMethod)."</span>";
+            }
+
+
+       ],
+       [
     		'label' => 'Sub Total',
     		'format' => 'raw',
     		'value' => function($model){

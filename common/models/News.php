@@ -30,10 +30,7 @@ class News extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
-            [['text'], 'string'],
             [['startTime', 'endTime'], 'safe'],
-            [['name'], 'string', 'max' => 255],
         ];
     }
 
@@ -44,8 +41,6 @@ class News extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'text' => 'Text',
             'startTime' => 'Start Time',
             'endTime' => 'End Time',
         ];
@@ -53,7 +48,7 @@ class News extends \yii\db\ActiveRecord
 
     public function search($params)
     {
-        $query = self::find();
+        $query = self::find()->joinWith('enText','zhText');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -65,5 +60,15 @@ class News extends \yii\db\ActiveRecord
     public function getNewsDate()
     {
         return date('Y-m-d', strtotime($this->startTime));
+    }
+
+    public function getEnText()
+    {
+        return $this->hasOne(NewsText::className(),['nid' =>'id'])->andWhere(['=','language','en']);
+    }
+
+    public function getZhText()
+    {
+        return $this->hasOne(NewsText::className(),['nid' =>'id'])->andWhere(['=','language','zh']);
     }
 }

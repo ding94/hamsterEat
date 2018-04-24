@@ -19,47 +19,58 @@ $this->title = "Orders List";
                 <?php foreach ($data as $companies => $restaurants): ?>
                     <table class="table" style="border: 1px solid black;">
                         <tr style="border: 1px solid black; border-collapse: collapse;">
-                            <td colspan="6" style="border: 1px solid black;"><h3><?= $companies?></h3></td>
+                            <td colspan="7" style="border: 1px solid black;"><h3><?= $companies?></h3></td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid black;font-weight: bold">Restaurant</td>
                             <td style="border: 1px solid black;font-weight: bold">Delivery ID</td>
                             <td style="border: 1px solid black;font-weight: bold">Order ID</td>
                             <td style="border: 1px solid black;font-weight: bold">Food</td>
-                            <td style="border: 1px solid black;font-weight: bold">Nickname</td>
                             <td style="border: 1px solid black;font-weight: bold">Contact</td>
                             <td style="border: 1px solid black;font-weight: bold">Contact No</td>
+                            <td style="border: 1px solid black;font-weight: bold">Nickname</td>
                             <td style="border: 1px solid black;font-weight: bold">check</td>
                         </tr>
                         <?php foreach($restaurants as $restaurant => $did): ?>
                             <?php foreach($did as $l => $items): ?>
-                                <?php $count = count($items); ?>
                                 <tr style="border: 1px solid black;">
-                                    <td  rowspan=<?= $delirowcount[$l]+1 ?> style="border: 1px solid black;"><?= $restaurant?></td>
-                                    <td  rowspan=<?= $delirowcount[$l]+1 ?> style="border: 1px solid black;"><?= $l?></td>
+                                    <?php $count = count($items);?>
+                                    <td  rowspan=<?= $delirowcount[$restaurant][$l]+$count+1 ?> style="border: 1px solid black;"><?= $restaurant?></td>
+                                    <td  rowspan=<?= $delirowcount[$restaurant][$l]+$count+1 ?> style="border: 1px solid black;"><?= $l?></td>
+                                    
                                 </tr>
                                 <?php foreach($items as $k => $item): ?>
+                                    <tr>
+                                        <td rowspan=<?= $orderrowcount[$item['Order_ID']]+1 ?> style="border: 1px solid black;">
+                                            <?= $item['Order_ID']; ?>
+                                        </td>
+                                        <td rowspan=<?= $orderrowcount[$item['Order_ID']]+1 ?> style="border: 1px solid black;">
+                                            <b><?= $item['food']['originName']?></b><?=$item->getFood_selection_name($item); ?>
+                                        </td>
+                                        <td rowspan=<?= $orderrowcount[$item['Order_ID']]+1 ?> style="border: 1px solid black;">
+                                            <?= $item['address']['name']; ?>
+                                        </td>
+                                        <td rowspan=<?= $orderrowcount[$item['Order_ID']]+1 ?> style="border: 1px solid black;">
+                                            <?= $item['address']['contactno']; ?>
+                                        </td>
+                                    </tr>
                                     <?php for ($i=0; $i < $orderrowcount[$item['Order_ID']]; $i++) { ?>
-                                    <tr style="border: 1px solid black;">
-                                            <td  style="border: 1px solid black;"><?= $item['Order_ID']; ?></td>
-                                            <td  style="border: 1px solid black;"><?= $item['food']['originname']; ?></td>
-                                                <td  style="border: 1px solid black;">
-                                                    <?php if (empty($item['nickname'][$i-1]['nickname'])):?>
-                                                    <?= 'blank' ?>
+                                            <tr style="border: 1px solid black;">
+                                                <td style="border: 1px solid black;">
+                                                    <?php if (empty($item['nickname'][$i]['nickname'])):?>
+                                                        <?= '-' ?>
                                                     <?php else: ?>
-                                                        <b><?= $item['nickname'][$i-1]['nickname']; ?></b>
+                                                        <b><?= $item['nickname'][$i]['nickname']; ?></b>
                                                     <?php endif; ?>
                                                 </td>
-                                            <td  style="border: 1px solid black;"><?= $item['address']['name']; ?></td>
-                                            <td  style="border: 1px solid black;"><?= $item['address']['contactno']; ?></td>
-                                            <td  style="border: 1px solid black;"></td>
-                                    </tr>
-                                    <?php }?>
+                                                <td style="border: 1px solid black;"></td>
+                                            </tr>
+                                        <?php } ?>
                                 <?php endforeach; ?>
                             <?php endforeach; ?>
                         <?php endforeach; ?>
                     </table>
-                <?php endforeach; ?>
+                <?php endforeach;?>
             </div>
         </div>
     </div>

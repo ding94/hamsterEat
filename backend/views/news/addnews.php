@@ -8,15 +8,15 @@ use yii\helpers\Url;
 
 <?php $form = ActiveForm::begin(); ?>
 
-<?= $form->field($model, 'name')->textInput() ?>
+<?= $form->field($en_text, 'name')->textInput()->label('English Name') ?>
 
-<?= $form->field($model, 'text')->widget(CKEditor::className(), [
+<?= $form->field($en_text, 'text')->widget(CKEditor::className(), [
         'options' => ['rows' => 6],
         'preset' => 'full',
         'clientOptions' => [
                     'filebrowserUploadUrl' => Url::to(['news/upload'])
                 ]
-    ]) ?>
+    ])->label('English Text') ?>
 
 <?= $form->field($model, 'startTime')->widget(DateTimePicker::classname(), [
 		    'options' => ['placeholder' => 'Enter start date and time ...'],

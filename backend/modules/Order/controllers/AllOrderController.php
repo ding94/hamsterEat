@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\helpers\ArrayHelper;
 use common\models\User;
+use common\models\Company\Company;
 use common\models\Order\StatusType;
 use common\models\Order\Orders;
 use common\models\Order\Orderitemstatuschange;
@@ -23,7 +24,8 @@ use backend\models\ItemSearch;
 class AllOrderController extends CommonController
 {
 	public function actionIndex($did=0)
-	{
+	{	
+	
 		$searchModel = new OrderSearch();
 		if($did !=0)
 		{
@@ -32,10 +34,12 @@ class AllOrderController extends CommonController
 		
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,3);
         $alluser = ArrayHelper::map(User::find()->where('status = 10')->all(),'username','username');
-
+        $allcompany = ArrayHelper::map(Company::find()->where('status =1')->all(),'id','name');
         $allstatus =ArrayHelper::map(StatusType::find()->all(),'id','type');
+        $allcompany[0] ="No Company";   
         $arrayData['user'] = $alluser;
         $arrayData['status'] = $allstatus;
+        $arrayData['company'] = $allcompany;
 
         return $this->render('index',['model' => $dataProvider , 'searchModel' => $searchModel ,'arrayData'=>$arrayData]);
 	}
@@ -78,6 +82,7 @@ class AllOrderController extends CommonController
 	public function actionAddress($id)
 	{
 		$model = DeliveryAddress::findOne($id);
+
 		return $this->renderAjax('_address',['model'=>$model]);
 	}
 

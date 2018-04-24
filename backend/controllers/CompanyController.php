@@ -255,14 +255,25 @@ class CompanyController extends CommonController
 
     public function actionCompanyOrderList()
     {
-        $c = Company::find()->all();
+        //find all companies, then find their orders
+        $companies = Company::find()->all();
         $j = 0;
-        $data = [];
-        foreach ($c as $key => $company) {
+        $data = [];// ready to get data
+        foreach ($companies as $key => $company) {
             foreach ($company['deliveryaddress'] as $k => $value) {
-                if ($value['delivery']['Orders_DateTimeMade'] > strtotime(date('Y-m-d'))) {
-                    $data[$j] = $company;
-                    $j += 1;
+                if ($value['delivery']['Orders_DateTimeMade'] > strtotime(date('Y-m-d'))) {// check time equals to today
+                    if (!empty($data)) { // detect for no errors
+                        foreach ($data as $l => $cdata) {
+                            if ($cdata['name']!= $company['name']) { // if company duplicated, save only 1 company
+                                $data[$j] = $company;
+                                $j += 1;
+                            }
+                        }
+                    }
+                    else{
+                        $data[$j] = $company;
+                        $j += 1;
+                    }
                 }
             }
         }
@@ -296,14 +307,14 @@ class CompanyController extends CommonController
             $data[$companyname][$restaurantname][$did][] = $item; //set all data,$item = order details
         }
 
-         foreach ($data as $k => $restaurant) {
-            foreach ($restaurant as $company => $deliveryid) {
+         foreach ($data as $k => $restaurants) {
+            foreach ($restaurants as $restaurant => $deliveryid) {
                 foreach ($deliveryid as $deliid => $items) {
                     foreach ($items as $l => $item) {
-                        if (empty($delirowcount[$item['Delivery_ID']])) {
-                            $delirowcount[$item['Delivery_ID']] =0;
+                        if (empty($delirowcount[$restaurant][$item['Delivery_ID']])) {
+                            $delirowcount[$restaurant][$item['Delivery_ID']] =0;
                         }
-                        $delirowcount[$item['Delivery_ID']] += $item['OrderItem_Quantity'];
+                        $delirowcount[$restaurant][$item['Delivery_ID']] += $item['OrderItem_Quantity'];
                         $orderrowcount[$item['Order_ID']] = $item['OrderItem_Quantity'];
                     }
                 }

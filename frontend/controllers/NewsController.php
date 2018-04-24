@@ -54,9 +54,23 @@ class NewsController extends CommonController
 
     public function actionNewsSimple($id)
     {
-        $model=News::find()->orderBy('id DESC')->limit(10)->all();
-        $news=News::find()->where('id = :id',[':id' => $id])->one();
-        return $this->renderPartial('newssimple',['model'=>$model,'id'=>$id,'news'=>$news]);
+        $cookies = Yii::$app->request->cookies;
+        if (!empty($cookies['language'])) {
+            if ($cookies['language']->value == 'zh') {
+                $language = 'zhText';
+            }
+            else{
+                $language = 'enText';
+            }
+        }
+        else{
+            $language = 'enText';
+        }
+
+        $model=News::find()->orderBy('news.id DESC')->joinWith('enText','zhText')->limit(10)->all();
+        $news=News::find()->andWhere(['<=','startTime',date('Y-m-d')])->andWhere(['>','endTime',date('Y-m-d')])->joinWith('enText','zhText')->all();
+
+        return $this->renderPartial('newssimple',['model'=>$model,'id'=>$id,'language'=>$language,'news'=>$news]);
     }
 
     public function actionNewsCookie()

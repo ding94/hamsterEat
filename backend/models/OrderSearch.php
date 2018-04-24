@@ -3,6 +3,8 @@ namespace backend\models;
 
 use common\models\Order\Orders;
 use common\models\Order\Orderitem;
+use common\models\Order\deliveryAddress;
+use common\models\Company\Company;
 use yii\data\ActiveDataProvider;
 use common\models\Order\Orderitemstatuschange;
 use common\models\Order\Ordersstatuschange;
@@ -11,10 +13,11 @@ use common\models\Order\Orderitemselection;
 Class OrderSearch extends Orders
 {
 	public $name;
+	public $companyname;
 	public function rules()
 	{
 		return [
-			[['Delivery_ID','User_Username','Orders_PaymentMethod','Orders_DateTimeMade','Orders_Status','name'],'safe'],
+			[['Delivery_ID','User_Username','companyname','Orders_PaymentMethod','Orders_DateTimeMade','Orders_Status','name'],'safe'],
 		];
 	}
 
@@ -34,6 +37,8 @@ Class OrderSearch extends Orders
 			case 3:
 				$query = Orders::find()->orderBy('orders.Delivery_ID DESC');
 				$query->joinWith(['address']);
+	
+
 				//$query->joinWith(['order_item']);
 				//$query->joinWith(['order_status']);
 				break;
@@ -68,7 +73,8 @@ Class OrderSearch extends Orders
         //$query->andFilterWhere(['like','Orders_Time',$this->Orders_Time]);
         $query->andFilterWhere(['like','Orders_Status',$this->Orders_Status]);
         $query->andFilterWhere(['like','delivery_address.name',$this->name]);
-
+	    $query->andFilterWhere(['like','delivery_address.cid',$this->companyname]);
+	
         if(!empty($this->Orders_DateTimeMade))
         {
         	$date = explode("to", $this->Orders_DateTimeMade);

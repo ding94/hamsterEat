@@ -99,15 +99,17 @@ $this->params['breadcrumbs'][] = $this->title;
 			    'format' => 'raw'
 			],
 			[
-                'label'=>'Payment Method',
-				'attribute' => 'Orders_PaymentMethod',
-				'filter' => ['Account Balance'=>'Account Balance','Cash on Delivery'=>'Cash on Delivery'],
-				'filterType' => GridView::FILTER_SELECT2,
-				'filterWidgetOptions' => [
-			        'pluginOptions' => ['allowClear' => true],
-			    ],
-			    'filterInputOptions' => ['placeholder' => 'Any Method'],
-				'format' => 'raw'
+                'label'=>'Company',
+                'attribute' => 'companyname',
+                'value' => 'address.company.name',
+                'filter' => $arrayData['company'],
+                'filterType' => GridView::FILTER_SELECT2,
+                'filterWidgetOptions' => [
+                    'pluginOptions' => ['allowClear' => true],
+                ],
+                'filterInputOptions' => ['placeholder' => 'Any Company'],
+                'format' => 'raw'
+				
 			],
 			[
 				'attribute' =>'Orders_Status',

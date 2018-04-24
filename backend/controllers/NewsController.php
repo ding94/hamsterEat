@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\News;
+use common\models\NewsText;
 use yii\web\Controller;
 use common\models\Upload;
 use yii\web\UploadedFile;
@@ -21,50 +22,92 @@ Class NewsController extends CommonController
 	public function actionAddnews()
 	{
 		$model = new News();
-
+		$en_text = new NewsText();
 		if(Yii::$app->request->post())
 		{
 			$post = Yii::$app->request->post();
 			$model->load($post);
+			$en_text->load($post);
 			if ($model->validate()) {
 				$model->save();
-				Yii::$app->session->setFlash('success', 'Upload Successful');
-				return $this->redirect(['index']);
+				$en_text['language'] = 'en';
+				$en_text['nid'] = $model['id'];
+				if ($en_text->validate()) {
+					$en_text->save();
+					Yii::$app->session->setFlash('success', 'Upload Successful');
+					return $this->redirect(['index']);
+				}
+				else{
+					$model->delete();
+					Yii::$app->session->setFlash('warning', 'Upload failed.');
+				}
 			}
 		}
 
-		return $this->render('addnews',['model' => $model]);
+		return $this->render('addnews',['model' => $model,'en_text'=>$en_text]);
 	}
 
 	public function actionDelete($id)
 	{
 		$model = News::find()->where('id = :id',[':id'=>$id])->one();
+		$en = NewsText::find()->where('nid = :id',[':id'=>$id])->one();
+		$zh = NewsText::find()->where('nid = :id',[':id'=>$id])->one();
 		if ($model) {
 			$model->delete();
+			if (!empty($en)) {
+				$en->delete();
+			}
+			if (!empty($zh)) {
+				$zh->delete();
+			}
 		}
 		return $this->redirect(['index']);
 	}
 
-	public function actionUpdate($id)
+	public function actionPreview($id)
 	{
-		$model = News::find()->where('id = :id',[':id' =>$id])->one();
-		if(Yii::$app->request->post())
-		{
-			$post = Yii::$app->request->post();
-			$model->load($post);
+		$model = News::find()->where('news.id = :id',[':id' =>$id])->joinWith('enText','zhText')->one();
+		return $this->render('preview',['model' => $model]);
+	}
+
+	public function actionAddMandarin($id)
+	{
+		$model = NewsText::find()->where('nid = :id and language = :g',[':id' =>$id,':g'=>'zh'])->one();
+		if (empty($model)) {
+			$model = new NewsText();
+		}
+
+		if (Yii::$app->request->post()) {
+			$model->load(Yii::$app->request->post());
+			$model['language'] = 'zh';
+			$model['nid'] = $id;
 			if ($model->validate()) {
 				$model->save();
 				Yii::$app->session->setFlash('success', 'Update Successful');
 				return $this->redirect(['index']);
 			}
 		}
-		return $this->render('addnews',['model' => $model]);
+		return $this->render('add-edit-text',['model' => $model]);
 	}
 
-	public function actionPreview($id)
+	public function actionAddEnglish($id)
 	{
-		$model = News::find()->where('id = :id',[':id' =>$id])->one();
-		return $this->render('preview',['model' => $model]);
+		$model = NewsText::find()->where('nid = :id and language = :g',[':id' =>$id,':g'=>'en'])->one();
+		if (empty($model)) {
+			$model = new NewsText();
+		}
+
+		if (Yii::$app->request->post()) {
+			$model->load(Yii::$app->request->post());
+			$model['language'] = 'en';
+			$model['nid'] = $id;
+			if ($model->validate()) {
+				$model->save();
+				Yii::$app->session->setFlash('success', 'Update Successful');
+				return $this->redirect(['index']);
+			}
+		}
+		return $this->render('add-edit-text',['model' => $model]);
 	}
 
 	public function actionUpload()

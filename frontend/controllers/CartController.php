@@ -394,8 +394,11 @@ class CartController extends CommonController
         if (!empty($codes)){$dis= $codes;}
 
 */
-    public function actionGetdiscount($dis,$sub,$deli,$total)
+    public function actionGetdiscount($dis,$codes,$sub,$deli,$total)
     { // ajax's function must do in one controller, can't pass to second
+        if(!empty($codes)){
+            $dis = $codes;
+        }
         if (empty($dis)) {
             $value['error'] =  1; // error 1 = error, 0 = pass
             return Json::encode($value);

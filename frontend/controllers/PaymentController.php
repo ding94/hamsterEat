@@ -112,6 +112,7 @@ class PaymentController extends CommonController
             $history = PaymentGatewayHistory::find()->where("pid = :pid",[':pid'=>$payment->id])->one();
            
             $billData =  PaymentBill::getBill($history->bill_id);
+
             if($billData['value'] == 1)
             {
                 PaymentBill::generateCookie($history->collect_id,$history->bill_id);
@@ -163,7 +164,6 @@ class PaymentController extends CommonController
         
         if($billapi['paid'] && $billapi['state'] == 'paid')
         {
-           
             $bill->status = 1;
             $bill->save();
 

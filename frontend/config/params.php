@@ -12,7 +12,7 @@ return [
 	'userprofilepic' => './imageLocation/userprofilepic/',
 	'feedback' => './imageLocation/feedback/',
 	'restaurant' => './imageLocation/restaurant/',
-	'sysimg' =>'./SysImg/',
+	'sysimg' =>'./SysImg',
 	'deliveryCharge' => '5',
 	'countNotic' => "",
 	'countCart' => "",

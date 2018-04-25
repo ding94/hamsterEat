@@ -32,12 +32,13 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
     Modal::end(); 
 
     Modal::begin([
-            'header' => '<h2 class="modal-title">Order NickName</h2>',
-            'id'     => 'orderQuantity',
-            'size'   => 'modal-lg',
+    'header' => '<h2 class="modal-title">'.Yii::t('common','Nickname').'</h2>',
+    'id'     => 'orderQuantity',
+    'size'   => 'modal-lg',
     ]);
+    Modal::end(); 
    
-    Modal::end()
+  
 
     ?>
 <div id="restaurant-details-container" class = "container">

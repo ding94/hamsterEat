@@ -234,7 +234,10 @@ NotificationAsset::register($this);
     ]);
     NavBar::end();
     ?>
-    <?php echo Html::hiddenInput('detect-payment-url',Url::to(['/payment/detect-payment']));?>
+    <?php 
+        echo Html::hiddenInput('detect-payment-url',Url::to(['/payment/online-banking/detect-payment']));
+        echo Html::hiddenInput('close-payment-url',Url::to(['/payment/default/close-session']));
+    ?>
     </div>
     <div class="inital-chat-container">
         <div class="chat-container">

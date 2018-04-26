@@ -32,6 +32,9 @@ return [
          'Promotion' => [
             'class' => 'frontend\modules\offer\Promotion',
         ],
+        'payment' => [
+            'class' => 'frontend\modules\Payment\Payment',
+        ],
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [

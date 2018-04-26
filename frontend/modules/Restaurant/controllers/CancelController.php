@@ -92,7 +92,7 @@ class CancelController extends CommonController
        
         $data['OrderItem_Status'] = 8;
         $oldOrder = $order->getOldAttributes();
-        if($order->Orders_PaymentMethod == 'Account Balance')
+        if($order->Orders_PaymentMethod != 'Cash on Delivery')
         {
             $refundPrice =  $oldOrder['Orders_TotalPrice'] - $order['Orders_TotalPrice'];
             $reason->refund =  $refundPrice;
@@ -175,7 +175,7 @@ class CancelController extends CommonController
             $value['OrderItem_Status'] = 8;
             $order['Orders_Status'] = 8;
                     //check did user use balance to pay
-            if ($order['Orders_PaymentMethod'] == 'Account Balance') {
+            if ($order['Orders_PaymentMethod'] != 'Cash on Delivery') {
                 $reason['refund'] = $order['Orders_TotalPrice'];
                 $acc = PaymentController::refund($order['Orders_TotalPrice'],$order['User_Username'],$value['Delivery_ID'],6);
                 if ($acc->validate()) {

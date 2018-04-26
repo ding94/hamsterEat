@@ -36,7 +36,7 @@ class PaymentController extends CommonController
                         'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['detect-payment'],
+                        'actions' => ['detect-payment','close-session'],
                         'allow' => true,
                         'roles' => ['?','@'],
                     ],
@@ -48,6 +48,11 @@ class PaymentController extends CommonController
     public function actionProcessPayment($did)
     {
         $order = $this->findOrder($did);
+        if(empty($order))
+        {
+            Yii::$app->session->setFlash('warning',Yii::t('food','Something Went Wrong. Please Try Again Later!'));
+            return $this->redirect(['site/index']);
+        }
         $balance = Accountbalance::find()->where('User_Username = :User_Username',[':User_Username' => Yii::$app->user->identity->username])->one();
         if($order->User_Username != $balance->User_Username || $order->Orders_Status != 1)
         {
@@ -98,7 +103,7 @@ class PaymentController extends CommonController
             {
                 if($collect['value'] == 1)
                 {
-                    $bill = PaymentBill::generateBill($collect['id'],Yii::$app->user->identity-> email,$address->name,$address->contactno,$order->Orders_TotalPrice,$payment->id);
+                    $bill = PaymentBill::generateBill($collect['id'],Yii::$app->user->identity->email,$address->name,$address->contactno,$order->Orders_TotalPrice,$payment->id);
                     if($bill['value'] == 1)
                     {
                         return $this->redirect($bill['link']);
@@ -134,16 +139,17 @@ class PaymentController extends CommonController
         {
             $session = Yii::$app->session;
             $payment = $session->get('payment');
-            if(!empty($payment))
+            $controller = Yii::$app->controller->id;
+            $action = Yii::$app->controller->action->id;
+            $permissionName = $controller.'/'.$action; 
+            if($permissionName != "payment/process-payment")
             {
-                $billData =  PaymentBill::getBill($payment['biilid']);
-                if($billData['value'] == 1 && $billData['data']['state'] == 'due' && !$billData['data']['paid'])
+                if(!empty($payment))
                 {
-                    $array['link'] = $billData['data']['url'];
-                    $array['value'] = 1;
+                    $data = self::detectPaymentAvaiable($payment['bill_id'],$payment['collect_id']);
+                    
+                    return Json::encode($data);
                 }
-
-              
             }
         }
         return Json::encode($array);
@@ -166,16 +172,24 @@ class PaymentController extends CommonController
         {
             $bill->status = 1;
             $bill->save();
-
-            $order = $this->updateOrderStatus($this->findOrder($did),2);
-            $this->saveStatus($order);
-            $session = Yii::$app->session;
-            $session->remove('payment');
+            $order = $this->findOrder($did);
+            if(!empty($order))
+            {
+                $order = $this->updateOrderStatus($order,2);
+                $this->saveStatus($order);
+            }
+          
             return $this->redirect(['/cart/aftercheckout','did'=>$did]);
         }
 
         Yii::$app->session->setFlash('warning',Yii::t('food','Something Went Wrong. Please Try Again Later!'));
         return $this->redirect(['process-payment','did'=>$did]);
+    }
+
+    public function actionCloseSession()
+    {
+        $this->close();
+        return  "test";
     }
 
     protected static function getPayment()
@@ -216,6 +230,7 @@ class PaymentController extends CommonController
             $valid = self::updatePayment($order,$userbalance);
             if($valid)
             {
+                self::close();
                 return true;
             }
         }
@@ -328,6 +343,7 @@ class PaymentController extends CommonController
 
         if($order->save())
         {
+            self::close();
             return true;
         }
 
@@ -385,5 +401,45 @@ class PaymentController extends CommonController
         $payment->paid_amount = $price; /* order price amount */
         $payment->item_id = $did;
         return $payment;
+    }
+
+    protected static function detectPaymentAvaiable($billid,$collectid)
+    {
+        $array = array(
+            'value' => 0,
+            'link' =>"",
+        );
+
+        $bill = PaymentGatewayHistory::find()->where('collect_id = :cid and bill_id = :bid and uid = :uid',[':cid'=>$collectid,':bid'=>$billid,':uid'=>Yii::$app->user->identity->id])->joinWith(['p'])->one(); 
+        $billData =  PaymentBill::getBill($billid);
+
+        if(empty($bill) || $billData['value'] != 1)
+        {
+            return $array;
+        }
+        
+        $billApi = $billData['data'];
+        if($bill->status == 0)
+        {
+            if($billApi['paid'] && $billApi['state'] == 'paid')
+            {
+                $bill->status = 1;
+                $bill->save();
+                $array['value']=1;
+                $array['link']='Your Payment Has Successful Paid';
+            }
+            else
+            {
+                $array['value'] = 2;
+                $array['link'] = $billApi['url'];
+            }
+        }
+       return $array;
+    }
+
+    protected static function close()
+    {
+        $session = Yii::$app->session;
+        $session->remove('payment');
     }
 }

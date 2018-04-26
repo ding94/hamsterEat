@@ -106,9 +106,14 @@ function detectPayment()
   })
   .done(function(obj) {
       data = JSON.parse(obj);
-      if(data.value === 1)
+    
+      if(data.value === 2 )
       {
           alertPayment(data.link);
+      }
+      else if(data.value == 1)
+      {
+        $('#system-messages').append("<div id='aa' class='alert alert-success'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>"+obj.link+"</div>").fadeIn();
       }
   })
   .fail(function(e) {
@@ -119,7 +124,21 @@ function detectPayment()
 
 function alertPayment(link)
 {
-  //window.location.href = link;
+  if (confirm('Do You Want To Continue To Procee Your payment')) {
+     window.location.href = link;
+  } else {
+    console.log($("input[name=close-payment-url]").val());
+    $.ajax({
+      url: $("input[name=close-payment-url]").val(),
+    })
+    .done(function(data) {
+      console.log(data);
+    })
+    .fail(function(e) {
+      console.log(e);
+    });
+  }
+ 
 }
 
 /*

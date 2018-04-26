@@ -57,8 +57,8 @@ class PaymentBill extends PaymentApi
 			'email'=>$email,
 			'name'=>$name,
 			'amount'=>$amount*100,
-			'callback_url'=>Url::to(['payment/notify'],'http'),
-			'redirect_url'=>Url::to(['payment/notify'],'http'),
+			'callback_url'=>Url::to(['/payment/online-banking/notify'],'http'),
+			'redirect_url'=>Url::to(['/payment/online-banking/notify'],'http'),
 		);
 		
 		$response =  PaymentApi::clientResult('POST',2,$passData);
@@ -74,6 +74,11 @@ class PaymentBill extends PaymentApi
 		$data['value'] = "1";
 		$data['link'] = $result['url'];
 		return $data;
+	}
+
+	public function delete($billid)
+	{
+		$response =  PaymentApi::clientResult('DELETE',4,$billid);
 	}
 
 	/*

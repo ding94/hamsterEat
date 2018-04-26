@@ -293,7 +293,7 @@ class CartController extends CommonController
         
         if($order->Orders_Status == 1)
         {
-            return $this->redirect(['/payment/process-payment','did'=>$did]);
+            return $this->redirect(['/payment/default/process','did'=>$did]);
         }
         else
         {

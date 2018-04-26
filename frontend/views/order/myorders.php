@@ -81,7 +81,7 @@ MyOrdersAsset::register($this);
             </td>
 
             <?php if ($data['Orders_Status'] == 1) : ?>
-              <td> <?= Html::a(Yii::t('order','Go payment page'), ['payment/process-payment','did'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td> ?>
+              <td> <?= Html::a(Yii::t('order','Go payment page'), ['/payment/default/process','did'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td> ?>
             <?php else: ?>
               <td><?= $label[$data['Orders_Status']]; ?></td>
             <?php endif;?>

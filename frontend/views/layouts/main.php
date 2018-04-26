@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
+use yii\web\Cookie;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use kartik\widgets\SideNav;
@@ -17,6 +18,7 @@ use common\models\Rmanager;
 use common\models\RestaurantName;
 use common\models\Deliveryman;
 use common\models\Restaurant;
+use common\models\News;
 use common\models\Order\Orderitem;
 use yii\bootstrap\Modal;
 use frontend\assets\NotificationAsset;
@@ -328,31 +330,33 @@ NotificationAsset::register($this);
             {
                 echo Html::hiddenInput('news',0);
             }
-           
+            $news = $news=News::find()->andWhere(['<=','startTime',date('Y-m-d')])->andWhere(['>','endTime',date('Y-m-d')])->joinWith('enText','zhText')->all();
             if (empty($cookies['banner'])):
         ?>
-        <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>"  data-toggle="modal" data-target="#newsModal">
-            <div id="promo-banner">
-                <div class="text">
-                        <input type="hidden" id="closebanner-link" value="<?= $link; ?>"/>
-                        <?php if(empty(Yii::$app->request->cookies['language'])){ ?>
-                            <div class="text-img">
-                        <?php }elseif(Yii::$app->request->cookies['language']->value == 'en'){ ?>
-                            <div class="text-img">
-                        <?php }else{ ?>
-                            <div class="text-img-zh">
-                        <?php } ?>
-                            <!-- <img src="<?php //echo Yii::$app->params['baseUrl'] ?>/1200px_banner.png" alt=""> -->
-                           
-                        </div>
+        <?php if(!empty($news)) : ?>
+            <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>"  data-toggle="modal" data-target="#newsModal">
+                <div id="promo-banner">
+                    <div class="text">
+                            <input type="hidden" id="closebanner-link" value="<?= $link; ?>"/>
+                            <?php if(empty(Yii::$app->request->cookies['language'])){ ?>
+                                <div class="text-img">
+                            <?php }elseif(Yii::$app->request->cookies['language']->value == 'en'){ ?>
+                                <div class="text-img">
+                            <?php }else{ ?>
+                                <div class="text-img-zh">
+                            <?php } ?>
+                                <!-- <img src="<?php //echo Yii::$app->params['baseUrl'] ?>/1200px_banner.png" alt=""> -->
+                               
+                            </div>
+                    </div>
+                    <!-- <a class="close-icon" href="#" onclick="closeBanner()">
+                        <i class="fa fa-times"></i>
+                    </a> -->
                 </div>
-                <!-- <a class="close-icon" href="#" onclick="closeBanner()">
-                    <i class="fa fa-times"></i>
-                </a> -->
-            </div>
-        </a> 
-        <div id='promo-banner-empty-div'></div>
-        <?php endif; ?>
+            </a> 
+            <div id='promo-banner-empty-div'></div>
+            <?php endif; ?>
+        <?php endif;?>
         <div class="page-wrap">
             <?= $content ?>
         </div>

@@ -103,8 +103,8 @@ class DeliveryorderController extends CommonController
 		
                
     	$data = [];
-        $deliname = '';
-        $delicontact = '';
+        $deliname = array();
+        $delicontact = array();
     	foreach($orders as $order)
     	{
     		$company = Company::findOne($order->address->cid);

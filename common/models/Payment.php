@@ -5,7 +5,8 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-
+use common\models\User;
+/**
 /**
  * This is the model class for table "payment".
  *
@@ -69,4 +70,10 @@ class Payment extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
+
+    public function getName()
+    {
+        return $this->hasOne(User::className(),['id'=>'uid']);
+    } 
 }

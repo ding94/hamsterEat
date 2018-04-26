@@ -90,6 +90,7 @@
                     ],
 					[   'label' => 'Finance Controller', 'icon' => 'money', 'url' => '#',
                         'items' =>  [
+                                        ['label' => 'Payment History', 'icon' => 'circle-o', 'url' => ['/finance/paymenthistory/index']],
                                         ['label' => 'Offline Topup', 'icon' => 'circle-o', 'url' => ['/finance/topup/index']],
                                         ['label' => 'Withdraw', 'icon' => 'circle-o', 'url' => ['/finance/withdraw/index']],
                                         ['label' => 'Force Account', 'icon' => 'circle-o', 'url' => ['/finance/accountforce/index']],

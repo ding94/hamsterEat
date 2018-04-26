@@ -18,6 +18,7 @@ use common\models\Rmanagerlevel;
 use common\models\RestaurantName;
 use common\models\Deliveryman;
 use common\models\Restaurant;
+use common\models\news;
 use frontend\assets\NotificationAsset;
 use frontend\assets\UserAsset;
 use common\models\Order\Orders;
@@ -277,8 +278,10 @@ if (empty($language)) {
             {
                 echo Html::hiddenInput('news',0);
             }
+            $news = $news=News::find()->andWhere(['<=','startTime',date('Y-m-d')])->andWhere(['>','endTime',date('Y-m-d')])->joinWith('enText','zhText')->all();
             if (empty($cookies['banner'])):
         ?>
+        <?php if(!empty($news)) : ?>
             <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>"  data-toggle="modal" data-target="#newsModal">
             <div id="promo-banner">
                 <div class="text">
@@ -301,6 +304,7 @@ if (empty($language)) {
         </a> 
             <div id='promo-banner-empty-div'></div>
         <?php endif; ?>
+    <?php endif;?>
     <div class="container page-wrap">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

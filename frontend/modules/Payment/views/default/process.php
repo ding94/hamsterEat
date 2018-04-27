@@ -43,13 +43,13 @@ PaymentAsset::register($this);
       </li>
       <li>
         <input type="radio" id="fpx" name="payment-type" value="2">
-          <label for="fpx"><?= Yii::t('payment','Use FPX') ?></label>
+          <label for="fpx"><?= Yii::t('payment','Use Online Banking') ?></label>
           <div class="check"></div>
       </li>
       <li>
         <input type="radio" id="cash-on" name="payment-type" value="3">
-          <label for="cash-on"><?= Yii::t('payment','Back to COD') ?></label>
-          <span class="pull-right"><?= Yii::t('payment','*COD = Cash On Delivery') ?></span>
+          <label for="cash-on"><?= Yii::t('payment','Cash On Delivery') ?></label>
+       
           <div class="check"></div>
       </li>
 		</ul>

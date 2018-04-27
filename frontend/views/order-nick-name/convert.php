@@ -25,6 +25,7 @@ OrderNickNameAsset::register($this);
 			echo $form->field($model, '['.$i.']tid')->hiddenInput(['value'=>$nick['id']])->label(false);
 	 	endfor;
 	 	echo Html::submitButton(Yii::t('common','Add'), ['class' => 'add-to-name raised-btn main-btn']);
+	 	echo "&nbsp"; 
 	 	echo Html::a(Yii::t('common','Skip'),'#',['class'=>'skip-name raised-btn secondary-btn']);
 	 	ActiveForm::end();
 	?>

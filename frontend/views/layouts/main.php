@@ -333,7 +333,7 @@ NotificationAsset::register($this);
             {
                 echo Html::hiddenInput('news',0);
             }
-            $news = $news=News::find()->andWhere(['<=','startTime',date('Y-m-d')])->andWhere(['>','endTime',date('Y-m-d')])->joinWith('enText','zhText')->all();
+            $news=News::find()->andWhere(['<=','startTime',date('Y-m-d')])->andWhere(['>','endTime',date('Y-m-d')])->joinWith('enText','zhText')->all();
             if (empty($cookies['banner'])):
         ?>
         <?php if(!empty($news)) : ?>

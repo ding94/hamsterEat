@@ -16,7 +16,7 @@ class PaymentCollection extends PaymentApi
 			'id' => 0,
 		);
 
-		$dataPass = ['title'=>'Hamster Eat Delivery ID :'.$did." Payment"];
+		$dataPass = ['title'=>'Hamster Eat Delivery ID : '.$did." Payment"];
 		$response = PaymentApi::clientResult('POST',1,$dataPass);
 		
 		$result = Json::decode($response);

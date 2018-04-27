@@ -57,8 +57,8 @@ class PaymentBill extends PaymentApi
 			'email'=>$email,
 			'name'=>$name,
 			'amount'=>$amount*100,
-			'callback_url'=>Url::to(['/payment/online-banking/notify'],'http'),
-			'redirect_url'=>Url::to(['/payment/online-banking/notify'],'http'),
+			'callback_url'=>Url::to(['/payment/online-banking/notify'],'https'),
+			'redirect_url'=>Url::to(['/payment/online-banking/notify'],'https'),
 		);
 		
 		$response =  PaymentApi::clientResult('POST',2,$passData);

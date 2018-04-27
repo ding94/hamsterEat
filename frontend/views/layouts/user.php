@@ -292,7 +292,7 @@ if (empty($language)) {
             }
           
         ?>
-    <?php endif;?>
+   
     <div class="container page-wrap">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

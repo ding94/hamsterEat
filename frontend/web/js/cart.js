@@ -215,6 +215,10 @@ function quantity(up,cid,url)
   function discount()
   {   
     //alert(document.getElementById("codes").value);
+    console.log(document.getElementById("codes").value.replace(/\s+/g, ''));
+    console.log(parseFloat(document.getElementById("subtotal").innerHTML).toFixed(2));
+    console.log(parseFloat(document.getElementById("delivery").innerHTML).toFixed(2));
+    console.log(parseFloat(document.getElementById("total").innerHTML).toFixed(2));
     $.ajax({
     url : $("input[name=dis-url]").val(),
     type: "get",
@@ -241,7 +245,7 @@ function quantity(up,cid,url)
            document.getElementById("early").innerHTML = ""+(0).toFixed(2);
             document.getElementById("earlytd").style ='display:none';
         }
-       
+        console.log(obj);
         document.getElementById("subtotal").innerHTML = (parseFloat(obj['sub'])).toFixed(2);
         document.getElementById("delivery").innerHTML = (parseFloat(obj['deli'])).toFixed(2);
         document.getElementById("total").innerHTML = (obj['total']).toFixed(2);

@@ -14,7 +14,7 @@ CartAsset::register($this);
     <div class="col-md-3 col-md-offset-2" id='voucher'>
       <?php $url = Url::to(['cart/getdiscount']);
             echo Html::hiddenInput('dis-url',$url);
-      ?>			   
+      ?>         
       <?php if (!empty($voucher)): ?>
         <?php $form = ActiveForm::begin(); ?>
         <div>
@@ -55,7 +55,7 @@ CartAsset::register($this);
           if($price['promotion'] > 0):
       ?>
         <tr>
-          <td>First Day Discount<i class="fa fa-question-circle" aria-hidden="true">
+          <td>Promotion Discount<i class="fa fa-question-circle" aria-hidden="true">
           <span class="i-detail"> 
               Food Promotion With/Without Food Selection Discount
           </span></i></td>

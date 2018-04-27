@@ -403,7 +403,7 @@ class CartController extends CommonController
             $value['error'] =  1; // error 1 = error, 0 = pass
             return Json::encode($value);
         }
-
+        
         $special = VouchersSetCondition::find()->where('code=:c',[':c'=>$dis])->one();
         if (!empty($special)) {
             $v = Vouchers::find()->where('code=:c',[':c'=>$dis])->all();

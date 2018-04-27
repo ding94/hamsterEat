@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 
 class UserSearch extends User
 {
+    public $user_contactno;
 	public function attributes()
     {
         return array_merge(parent::attributes(),['userdetails.fullname','userdetails.User_ContactNo','userdetails.User_AccountBalance','authAssignment.item_name','balance.User_Balance']);
@@ -18,7 +19,7 @@ class UserSearch extends User
         return [
             //before set safe rule, add attributes at top 
             ['email' , 'unique'],
-            [['id','username' ,'userdetails.fullname' ,'userdetails.User_AccountBalance','userdetails.User_ContactNo' ,'status' ,'authAssignment.item_name','balance.User_Balance'] ,'safe'],
+            [['id','username' ,'userdetails.fullname' ,'userdetails.User_AccountBalance','userdetails.User_ContactNo','user_contactno' ,'status' ,'authAssignment.item_name','balance.User_Balance'] ,'safe'],
         ];
     }
 
@@ -40,7 +41,7 @@ class UserSearch extends User
             'desc'=>['User_AccountBalance'=>SORT_DESC],
         ];
 
-        $dataProvider->sort->attributes['userdetails.User_ContactNo'] = [
+        $dataProvider->sort->attributes['user_contactno'] = [
             'asc'=>['User_ContactNo'=>SORT_ASC],
             'desc'=>['User_ContactNo'=>SORT_DESC],
         ];
@@ -68,7 +69,7 @@ class UserSearch extends User
 
         $query->andFilterWhere(['like','username' , $this->username]);
         $query->andFilterWhere(['like','email' , $this->email]);
-        $query->andFilterWhere(['like','email' , $this->getAttribute('userdetails.User_ContactNo')]);
+        $query->andFilterWhere(['like','userdetails.User_ContactNo' , $this->user_contactno]);
         $query->andFilterWhere(['like','item_name' , $this->getAttribute('authAssignment.item_name')]);
         $query->andFilterWhere(['like','email' , $this->getAttribute('userdetails.User_AccountBalance')]);
        	$query->andFilterWhere(['or',

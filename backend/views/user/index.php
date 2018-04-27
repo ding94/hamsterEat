@@ -54,6 +54,11 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 },
             ],
 			'email',
+            [  
+                'label'=>'Phone No.',
+                'attribute' => 'user_contactno',
+                'value' => 'userdetails.User_ContactNo',
+            ],
              [
                 'attribute' => 'status',
                 'value' => function($model)

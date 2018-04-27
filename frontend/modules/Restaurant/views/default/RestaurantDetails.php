@@ -125,7 +125,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
             </div>
             <!-- <div class="stars-div"></div> -->
             <div class="price-div">
-                <?php if (time() < strtotime(date("Y/m/d 23:0:0"))|| $food->promotion_enable == 1) :?>
+                <?php if (time() < strtotime(date("Y/m/d 11:0:0"))|| $food->promotion_enable == 1) :?>
                     <span class="price">
                         <strike><?php echo 'RM'.CartController::actionRoundoff1decimal($food['Price']); ?></strike>
                         <?php 

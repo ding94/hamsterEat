@@ -15,7 +15,7 @@ $this->title = "Invoice";
         <div class="row" style="padding-top: 5%;font-family: 'Times New Roman', Times, serif;">
             <div name="titles"s style="padding-bottom: 5%">
                 <font style="font-size: 3em;">Invoice</font>
-                <p>SGShop Ecommerce Sdn Bhd</p>
+                <p>SGshop Ecommerce Sdn Bhd</p>
                 <p>1123326T</p>
                 <p>B-GF-05, Medini 6, Jalan Medini Sentral 5, Bandar Medini Iskandar Malaysia,<br>79250 Iskandar Puteri, Johor, Malaysia. </p>
             </div>
@@ -83,7 +83,7 @@ $this->title = "Invoice";
                         <tr>
                             <td style="font-weight: bold;border-bottom: 1px solid #ddd;">Line Total</td>
                             <td style="border-bottom: 1px solid #ddd;"></td>
-                            <td style="border-bottom: 1px solid #ddd;padding-right: 5%;text-align: right;">RM <?=  number_format($value['OrderItem_LineTotal'],2); ?></td>
+                            <td style="border-bottom: 1px solid #ddd;padding-right: 5%;text-align: right;">RM <?=  number_format(($value['OrderItem_LineTotal']+$value['OrderItem_SelectionTotal'])*$value['OrderItem_Quantity'],2); ?></td>
                         </tr>
                         <tr>
                             <td style="font-weight: bold;border-bottom: 1px solid black">Remarks</td>

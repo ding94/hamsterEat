@@ -37,11 +37,14 @@
   padding-top:40px;
 }
 
+.my-orders-table .table > tbody > tr > td{
+  font-size: 18px;
+}
+
 @media (min-width: 481px){
   .my-orders-table td{
     text-align: center;
   }
-
 }
 
 @media(max-width: 767px){

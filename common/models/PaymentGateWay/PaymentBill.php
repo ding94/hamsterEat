@@ -12,7 +12,7 @@ class PaymentBill extends PaymentApi
 	/*
 	* get bill from collect id
 	*/
-	public function getBill($billid)
+	public static function getBill($billid)
 	{
 		$data = array(
 			'value' => "-1",
@@ -37,7 +37,7 @@ class PaymentBill extends PaymentApi
 	/*
 	* generate bill from collect id
 	*/
-	public function generateBill($collectid,$email,$name,$mobile,$amount,$pid)
+	public static function generateBill($collectid,$email,$name,$mobile,$amount,$pid)
 	{
 		$data = array(
 			'value' => "-1",
@@ -53,12 +53,12 @@ class PaymentBill extends PaymentApi
 
 		$passData = array(
 			'collection_id'=>$collectid,
-			'description'=>$collectidAvaiable['data']['title'],
+			'description'=>"Thank You For Payment. Enjoy Your Meal.",
 			'email'=>$email,
 			'name'=>$name,
 			'amount'=>$amount*100,
-			'callback_url'=>Url::to(['/payment/online-banking/notify'],'http'),
-			'redirect_url'=>Url::to(['/payment/online-banking/notify'],'http'),
+			'callback_url'=>Url::to(['/payment/online-banking/notify'],'https'),
+			'redirect_url'=>Url::to(['/payment/online-banking/notify'],'https'),
 		);
 		
 		$response =  PaymentApi::clientResult('POST',2,$passData);
@@ -76,7 +76,7 @@ class PaymentBill extends PaymentApi
 		return $data;
 	}
 
-	public function delete($billid)
+	public static function delete($billid)
 	{
 		$response =  PaymentApi::clientResult('DELETE',4,$billid);
 	}

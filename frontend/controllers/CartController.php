@@ -403,7 +403,7 @@ class CartController extends CommonController
             $value['error'] =  1; // error 1 = error, 0 = pass
             return Json::encode($value);
         }
-
+        
         $special = VouchersSetCondition::find()->where('code=:c',[':c'=>$dis])->one();
         if (!empty($special)) {
             $v = Vouchers::find()->where('code=:c',[':c'=>$dis])->all();
@@ -457,7 +457,8 @@ class CartController extends CommonController
 
                         case 3:
                             $value['discount'] += ($value['total']* ($vou['discount'] / 100));
-                            $value['total'] = $value['total'] - ($value['total']*($vou['discount'] / 100));
+                            $total = $value['sub'] + $value['deli'];
+                            $value['total'] = $total - ($total*($vou['discount'] / 100));
                             break;
                                      
                         default:
@@ -506,7 +507,7 @@ class CartController extends CommonController
                             }
                             else{
                                 $value['discount'] += $vou['discount'];
-                                $value['total'] = $value['total'] - $vou['discount'];
+                                $value['total'] = ($value['sub'] + $value['deli']) - $vou['discount'];
                             }
                             break;
                                      

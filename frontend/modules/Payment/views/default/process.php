@@ -41,15 +41,17 @@ PaymentAsset::register($this);
           <span class="pull-right"><?= Yii::t('payment','Your Current Balance') ?> : RM<?php echo $balance->User_Balance ?></span>
           <div class="check"></div>
       </li>
+      <?php if($order->Orders_TotalPrice <= 0):?>
       <li>
         <input type="radio" id="fpx" name="payment-type" value="2">
-          <label for="fpx"><?= Yii::t('payment','Use FPX') ?></label>
+          <label for="fpx"><?= Yii::t('payment','Use Online Banking') ?></label>
           <div class="check"></div>
       </li>
+      <?php endif;?>
       <li>
         <input type="radio" id="cash-on" name="payment-type" value="3">
-          <label for="cash-on"><?= Yii::t('payment','Back to COD') ?></label>
-          <span class="pull-right"><?= Yii::t('payment','*COD = Cash On Delivery') ?></span>
+          <label for="cash-on"><?= Yii::t('payment','Cash On Delivery') ?></label>
+       
           <div class="check"></div>
       </li>
 		</ul>

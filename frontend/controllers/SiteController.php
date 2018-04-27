@@ -114,6 +114,7 @@ class SiteController extends CommonController
 //--This function captures the user's area group from the entered postcodes and area
     public function actionIndex()
     {
+        
         $postcodeArray = ArrayHelper::map(Area::find()->all(),'Area_ID','Area_Area');
        
         $list =array();
@@ -977,7 +978,7 @@ class SiteController extends CommonController
                 Yii::$app->getSession()->setFlash('danger', 'Link Unsuccessful');
             }
         } else {
-            Yii::$app->getSession()->setFlash('danger', 'Your account has already been link to your facebook.');
+            Yii::$app->getSession()->setFlash('danger', 'Your account has already been linked.');
         }
     }
 }

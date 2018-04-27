@@ -127,7 +127,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
             <div class="price-div">
                 <?php if (time() < strtotime(date("Y/m/d 11:0:0"))|| $food->promotion_enable == 1) :?>
                     <span class="price">
-                        <strike><?php echo 'RM'.$food['Price']; ?></strike>
+                        <strike><?php echo 'RM'.CartController::actionRoundoff1decimal($food['Price']); ?></strike>
                         <?php 
                             $disPrice= $food->promotion_enable == 0 ? $food['Price']*0.85 : $food->promotion_price;
                             $disPrice = CartController::actionRoundoff1decimal($disPrice);
@@ -135,7 +135,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                         ?>
                     </span>
                 <?php else: ?>
-                    <span class="price"><?php echo 'RM'.$food['Price']; ?></span>
+                    <span class="price"><?php echo 'RM'.CartController::actionRoundoff1decimal($food['Price']); ?></span>
                 <?php endif;?>
             </div>
             <div class="foodDesc-div"><span class="foodDesc"><?php echo $food['Description']; ?></span></div>

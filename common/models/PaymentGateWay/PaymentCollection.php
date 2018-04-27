@@ -9,14 +9,14 @@ class PaymentCollection extends PaymentApi
 	/*
 	* create a collection
 	*/
-	public function generateCollection($did)
+	public static function generateCollection($did)
 	{
 		$data = array(
 			'value' => "-1",
 			'id' => 0,
 		);
 
-		$dataPass = ['title'=>'Hamster Eat Delivery ID :'.$did." Payment"];
+		$dataPass = ['title'=>'Hamster Eat Delivery ID : '.$did." Payment"];
 		$response = PaymentApi::clientResult('POST',1,$dataPass);
 		
 		$result = Json::decode($response);
@@ -34,7 +34,7 @@ class PaymentCollection extends PaymentApi
 	/*
 	* detect collection is avaiable base on status
 	*/
-	public function detectCollection($collectionid)
+	public static function detectCollection($collectionid)
 	{
 		$data = array(
 			'value' => "-1",

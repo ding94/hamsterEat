@@ -83,12 +83,16 @@ UserAsset::register($this);
                 </div>
                 </div>
 				 <div class="row outer-row">
+          <div class="inner-row">
                 <div class="userprofile-label"><?= Yii::t('common','Contact')?>:</div>
                 <div class="userprofile-text"><?php echo empty($user->userdetails->User_ContactNo) ? Yii::t('common',"not set") :$user->userdetails->User_ContactNo ?></div>
+                </div>
               </div>
               <div class="row outer-row">
+                <div class="inner-row">
                 <div class="userprofile-label"><?= Yii::t('common','Balance')?>(RM): </div>
                 <div class="userprofile-text"><?php echo $user->balance->User_Balance?></div>
+                </div>
               </div>
           </div>
         </div>

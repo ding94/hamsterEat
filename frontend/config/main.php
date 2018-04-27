@@ -50,8 +50,12 @@ return [
             ],
             'google' =>[
                 'class' => 'yii\authclient\clients\Google',
+                /* this is for local host client id and secret */
                 'clientId' => '138417018765-oct3tthrjhdinu2hgdck3fqm9e5uo869.apps.googleusercontent.com',
                 'clientSecret' => 'HkseF_IGtMju85GJcaYb3eDH',
+                /* this is for production server client id and secret */
+                // 'clientId' => '138417018765-2h6vds5jc686kr8bmr0l3q3p8293gl6k.apps.googleusercontent.com',
+                // 'clientSecret' => 'vysvkbd3e0mveP-o7glmocPL',
             ],
       ],
   ],

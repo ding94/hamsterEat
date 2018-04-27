@@ -241,7 +241,7 @@ function quantity(up,cid,url)
            document.getElementById("early").innerHTML = ""+(0).toFixed(2);
             document.getElementById("earlytd").style ='display:none';
         }
-       
+        
         document.getElementById("subtotal").innerHTML = (parseFloat(obj['sub'])).toFixed(2);
         document.getElementById("delivery").innerHTML = (parseFloat(obj['deli'])).toFixed(2);
         document.getElementById("total").innerHTML = (obj['total']).toFixed(2);

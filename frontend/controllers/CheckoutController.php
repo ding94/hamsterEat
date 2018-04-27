@@ -168,8 +168,8 @@ class CheckoutController extends CommonController
 			Yii::$app->session->setFlash('warning', Yii::t('checkout',"Order Already Expired. Please Try Again"));
 			return $this->redirect(['/cart/view-cart']);
 		}
-
-		if(empty($post['DeliveryAddress']) || empty($post['Orders']))
+		
+		if(empty($post['DeliveryAddress']))
 		{
 			Yii::$app->session->setFlash('warning', Yii::t('checkout',"Please Fill Out Everything"));
 			return $this->redirect(['/cart/view-cart']);
@@ -224,7 +224,7 @@ class CheckoutController extends CommonController
 
 		//$cart = Cart::find()->where('uid = :uid and area = :area',[':uid'=> Yii::$app->user->identity->id,':area'=>$post['area']])->joinWith('selection')->all();
 		
-		$dataitem =$this->createOrderitem($cartData['cid'],$post['Orders']['Orders_PaymentMethod']);
+		$dataitem =$this->createOrderitem($cartData['cid']);
 		
 		$dataorder = $this->createOrder($post,$deliveryman,$cartData);
 
@@ -447,13 +447,15 @@ class CheckoutController extends CommonController
 		$order->User_Username = Yii::$app->user->identity->username;
 		$order->Orders_Date = date("Y-m-d");
 		$order->Orders_Time = date("13:00:00");
-		$order->Orders_Status = $order->Orders_PaymentMethod == "Cash on Delivery" ? 2 : 1;
+
+		$order->Orders_Status =  1;
 		$order->Orders_DateTimeMade = time();
 		$order->Orders_Subtotal = $total;
 		$order->Orders_DeliveryCharge = $deliveryCharge;
 		$order->Orders_DiscountTotalAmount = $promotionDis;
 		$order->Orders_TotalPrice = $deliveryCharge - $promotionDis + $total;
-		
+		$order->Orders_PaymentMethod = "Unpaid";
+	
 		if(!$promotionAvaiable)
 		{
 			unset($priceArray['dailyLimit']);
@@ -512,7 +514,7 @@ class CheckoutController extends CommonController
 	* id => order id
 	* query => Cart Query
 	*/
-	protected static function createOrderitem($allCid,$paymentMethod)
+	protected static function createOrderitem($allCid)
 	{
 		$isValid = true;
 		$data['value'] = -1;
@@ -533,7 +535,7 @@ class CheckoutController extends CommonController
 			$orderitem->OrderItem_Quantity  = $cart->quantity;
 			$orderitem->OrderItem_SelectionTotal = $cart->selectionprice;
 			$orderitem->OrderItem_LineTotal = $cart->price;
-			$orderitem->OrderItem_Status = $paymentMethod == "Cash on Delivery" ? 2 : 1;
+			$orderitem->OrderItem_Status = 1;
 			$orderitem->OrderItem_Remark = $cart->remark;
 			
 			$isValid = $orderitem->validate() && $status[$i]->validate()&& $isValid;

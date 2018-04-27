@@ -16,7 +16,7 @@ Class PaymentApi extends Model
 	/*
 	* generate header key
 	*/
-	private function getAuthoriza()
+	private static function getAuthoriza()
 	{
 		$data = ['Authorization' => 'Basic '.base64_encode(self::api_key)];
 		return $data;
@@ -26,7 +26,7 @@ Class PaymentApi extends Model
 	* 1=> generate collection
 	* 2=> payment 
 	*/
-	private function getUrl($type,$id="")
+	private static function getUrl($type,$id="")
 	{
 		$link = self::base_url;
 		switch ($type) {
@@ -49,7 +49,7 @@ Class PaymentApi extends Model
 		return $link;
 	}
 
-	public function clientResult($method,$type,$data)
+	public static function clientResult($method,$type,$data)
 	{
 		$client = new Client(['transport' => 'yii\httpclient\CurlTransport']);
 		if($method == "POST")

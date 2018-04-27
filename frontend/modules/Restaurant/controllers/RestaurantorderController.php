@@ -19,16 +19,16 @@ use frontend\models\OrderHistorySearch;
 
 class RestaurantorderController extends CommonController
 {
-	public function behaviors()
+    public function behaviors()
     {
          return [
-         	'verbs' => [
-		            'class' => \yii\filters\VerbFilter::className(),
-		            'actions' => [
+            'verbs' => [
+                    'class' => \yii\filters\VerbFilter::className(),
+                    'actions' => [
                        'mutiple-order'  => ['POST'],
-		               'history'  => ['GET'],
-		            ],
-		    ],
+                       'history'  => ['GET'],
+                    ],
+            ],
             'access' => [
                 'class' => AccessControl::className(),
                 //'only' => ['logout', 'signup','index'],
@@ -133,33 +133,33 @@ class RestaurantorderController extends CommonController
 
     public function actionMutipleOrder($status,$rid)
     {
-    	CommonController::restaurantPermission($rid);
-    	$post = Yii::$app->request->post();
-    	
-    	if(empty($post['oid']))
-    	{
-    		Yii::$app->session->setFlash('danger', Yii::t('m-delivery',"Please Select One!"));
+        CommonController::restaurantPermission($rid);
+        $post = Yii::$app->request->post();
+        
+        if(empty($post['oid']))
+        {
+            Yii::$app->session->setFlash('danger', Yii::t('m-delivery',"Please Select One!"));
             return $this->redirect(Yii::$app->request->referrer);
-    	}
+        }
 
-    	foreach($post['oid'] as $oid)
-    	{
-    		
-    		$isValid = self::detectStatus($status,$rid,$oid);
-    		if(!$isValid)
-    		{
-    			 $message .= Yii::t('order',"Order ID")." ".$oid. " ".Yii::t('common',"fail")."<br>";
-    		}
-    	}
+        foreach($post['oid'] as $oid)
+        {
+            
+            $isValid = self::detectStatus($status,$rid,$oid);
+            if(!$isValid)
+            {
+                 $message .= Yii::t('order',"Order ID")." ".$oid. " ".Yii::t('common',"fail")."<br>";
+            }
+        }
 
-    	if(!empty($message))
+        if(!empty($message))
         {
            Yii::$app->session->setFlash('warning', $message);
         }
         
         return $this->redirect(Yii::$app->request->referrer);
-    	//foreach($post[did] as $did => $)
-    	
+        //foreach($post[did] as $did => $)
+        
     }
 
     protected static function countOrder($rid,$status)
@@ -183,30 +183,30 @@ class RestaurantorderController extends CommonController
 
     protected static function detectStatus($status,$rid,$oid)
     {
-    	switch ($status) {
-    		case 2:
-    			$isValid = self::singlePreparing($oid,$rid);
-    			break;
-    		case 3:
-    			$isValid = self::singleReadyforpickup($oid,$rid);
-    			break;
-    		default:
-    			$isValid = false;
-    			break;
-    	}
-    	return $isValid;
+        switch ($status) {
+            case 2:
+                $isValid = self::singlePreparing($oid,$rid);
+                break;
+            case 3:
+                $isValid = self::singleReadyforpickup($oid,$rid);
+                break;
+            default:
+                $isValid = false;
+                break;
+        }
+        return $isValid;
     }
 
     protected static function singlePreparing($oid, $rid)
     {
-    	$updateOrder = false;
+        $updateOrder = false;
         $orderitem = OrderController::findOrderitem($oid,3);
       
         $orderitem->OrderItem_Status = 3;
       
         if(!$orderitem->save())
         {
-        	return false;
+            return false;
         }
 
         $allitem = OrderItem::find()->where('Delivery_ID =:did and OrderItem_Status != 8 and OrderItem_Status != 9',[':did' => $orderitem->Delivery_ID])->all();
@@ -222,7 +222,7 @@ class RestaurantorderController extends CommonController
             $order->Orders_Status = 3;
             if(!$order->save())
             {
-            	return false;
+                return false;
             }
             NoticController::centerNotic(2,3,$order->Delivery_ID,$user->id);
         }
@@ -237,14 +237,14 @@ class RestaurantorderController extends CommonController
     {
         $orderitem = OrderController::findOrderitem($oid,4);
         $orderitem->OrderItem_Status = 4;
-       	if($orderitem->save())
-       	{
+        if($orderitem->save())
+        {
             $order = OrderController::findOrder($orderitem->Delivery_ID);
             $user = User::find()->where('username = :u',[':u'=>$order->User_Username])->one();
-       		NoticController::centerNotic(1,4,$oid,$user->id);
-       		return true;
-       	}
-       	return false;
+            NoticController::centerNotic(1,4,$oid,$user->id);
+            return true;
+        }
+        return false;
         //return $this->redirect(Yii::$app->request->referrer);
     }
 }

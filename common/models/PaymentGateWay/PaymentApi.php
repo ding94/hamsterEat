@@ -49,7 +49,7 @@ Class PaymentApi extends Model
 		return $link;
 	}
 
-	public function clientResult($method,$type,$data)
+	public static function clientResult($method,$type,$data)
 	{
 		$client = new Client(['transport' => 'yii\httpclient\CurlTransport']);
 		if($method == "POST")

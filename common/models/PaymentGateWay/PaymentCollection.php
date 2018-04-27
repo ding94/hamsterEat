@@ -9,7 +9,7 @@ class PaymentCollection extends PaymentApi
 	/*
 	* create a collection
 	*/
-	public function generateCollection($did)
+	public static function generateCollection($did)
 	{
 		$data = array(
 			'value' => "-1",
@@ -34,7 +34,7 @@ class PaymentCollection extends PaymentApi
 	/*
 	* detect collection is avaiable base on status
 	*/
-	public function detectCollection($collectionid)
+	public static function detectCollection($collectionid)
 	{
 		$data = array(
 			'value' => "-1",

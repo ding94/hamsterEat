@@ -12,7 +12,7 @@ class PaymentBill extends PaymentApi
 	/*
 	* get bill from collect id
 	*/
-	public function getBill($billid)
+	public static function getBill($billid)
 	{
 		$data = array(
 			'value' => "-1",
@@ -37,7 +37,7 @@ class PaymentBill extends PaymentApi
 	/*
 	* generate bill from collect id
 	*/
-	public function generateBill($collectid,$email,$name,$mobile,$amount,$pid)
+	public static function generateBill($collectid,$email,$name,$mobile,$amount,$pid)
 	{
 		$data = array(
 			'value' => "-1",
@@ -76,7 +76,7 @@ class PaymentBill extends PaymentApi
 		return $data;
 	}
 
-	public function delete($billid)
+	public static function delete($billid)
 	{
 		$response =  PaymentApi::clientResult('DELETE',4,$billid);
 	}

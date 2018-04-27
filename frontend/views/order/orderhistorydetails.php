@@ -83,7 +83,7 @@ $this->title = "Invoice";
                         <tr>
                             <td style="font-weight: bold;border-bottom: 1px solid #ddd;">Line Total</td>
                             <td style="border-bottom: 1px solid #ddd;"></td>
-                            <td style="border-bottom: 1px solid #ddd;padding-right: 5%;text-align: right;">RM <?=  number_format($value['OrderItem_LineTotal'],2); ?></td>
+                            <td style="border-bottom: 1px solid #ddd;padding-right: 5%;text-align: right;">RM <?=  number_format(($value['OrderItem_LineTotal']+$value['OrderItem_SelectionTotal'])*$value['OrderItem_Quantity'],2); ?></td>
                         </tr>
                         <tr>
                             <td style="font-weight: bold;border-bottom: 1px solid black">Remarks</td>

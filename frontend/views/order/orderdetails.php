@@ -33,7 +33,7 @@ OrderDetailsAsset::register($this);
             <tr>
                 <th><center><?= Yii::t('order','Approximate Receiving Time') ?></th>
                 <td><?php $date = strtotime($order['Orders_Date'].' '.$order['Orders_Time']); echo date('d M Y h:i:s A',$date);?> </td>
-                <th><center><?= Yii::t('common','Status') ?></th>
+                <th><center><?= Yii::t('order','Order Status') ?></th>
                 
                 <td> <?= $label[$order->Orders_Status]; ?> </td>
             </tr>
@@ -100,27 +100,27 @@ OrderDetailsAsset::register($this);
                 <div class="tab-content col-md-6">
                     <table class="table">
                         <tr>
-                            <th><?= Yii::t('common','Subtotal') ?>:</th>
+                            <th><?= Yii::t('common','Subtotal(RM)') ?>:</th>
                             <td><?= $order['Orders_Subtotal']; ?></td>
                         </tr>
                         <tr>
-                            <th><?= Yii::t('common','Delivery Charge') ?>:</th>
+                            <th><?= Yii::t('common','Delivery Charge(RM)') ?>:</th>
                             <td><?= $order['Orders_DeliveryCharge']; ?></td>
                         </tr>
                         <?php if ($order['Orders_DiscountEarlyAmount'] >0): ?>
                             <tr>
-                                <th><?= Yii::t('common','Early Discount') ?>:</th>
+                                <th><?= Yii::t('common','Early Discount(RM)') ?>:</th>
                                 <td style="color: red;">- <?= $order['Orders_DiscountEarlyAmount']; ?></td>
                             </tr>
                         <?php endif ?>
                         <?php if ($order['Orders_DiscountTotalAmount'] >0): ?>
                             <tr>
-                                <th><?= Yii::t('common','Discount') ?>:</th>
+                                <th><?= Yii::t('common','Discount(RM)') ?>:</th>
                                 <td style="color: red;">- <?= $order['Orders_DiscountTotalAmount']; ?></td>
                             </tr>
                         <?php endif ?>
                         <tr>
-                            <th><?= Yii::t('common','Total') ?>:</th>
+                            <th><?= Yii::t('common','Total(RM)') ?>:</th>
                             <td><?= $order['Orders_TotalPrice']; ?></td>
                         </tr>
                     </table>

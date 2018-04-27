@@ -71,10 +71,10 @@ $(function(){
       });
   });
 })
-
+/*
 function closeNew()
 {
-  if($("input[name=news").val() == 1)
+  if($("input[name=news]").val() == 1)
   {
     url = $("input[name=news-modal-url]").val();
    
@@ -95,7 +95,7 @@ function closeNew()
       console.log(e);
     })
   }
-}
+}*/
 
 function detectPayment()
 {
@@ -141,7 +141,7 @@ function alertPayment(link)
  
 }
 
-/*
+
 if($( window ).width() > 767)
 {
   var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -154,7 +154,7 @@ if($( window ).width() > 767)
   s0.parentNode.insertBefore(s1,s0);
   })();
 }
- */
+
 
 
 

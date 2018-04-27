@@ -60,7 +60,7 @@ MyOrdersAsset::register($this);
           </thead>
           <?php foreach ($order as $data) :?>
           <tr class="orderRow">
-            <td colspan="2" class="block">
+            <td colspan="2" class="block" style="vertical-align: center;">
               <?php if($data['Orders_Status'] == 6 || $data['Orders_Status'] == 7): 
                   echo Html::a(Yii::t('order','Invoice Detail'),['invoice-pdf','did'=>$data['Delivery_ID']], ['target'=>'_blank' ,'class'=>'raised-btn main-btn']); 
                   if($data['Orders_Status'] == 6):
@@ -72,18 +72,18 @@ MyOrdersAsset::register($this);
                 </a>
               <?php endif ;?>
             </td>
-            <td class="with" data-th="Delivery ID">
+            <td class="with" data-th="Delivery ID"  style="vertical-align: center;">
                 <?php echo $data['Delivery_ID']; ?>
             </td>
             <?php $time = CommonController::getTime($data['Orders_DateTimeMade'],'Y-m-d h:i:s') ?>
-            <td class="with" data-th="Date and Time Placed">
+            <td class="with" data-th="Date and Time Placed"  style="vertical-align: center;">
                 <?= $time; ?>
             </td>
 
             <?php if ($data['Orders_Status'] == 1) : ?>
-              <td> <?= Html::a(Yii::t('order','Go payment page'), ['/payment/default/process','did'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td> ?>
+              <td  style="vertical-align: center;"> <?= Html::a(Yii::t('order','Go payment page'), ['/payment/default/process','did'=>$data['Delivery_ID']], ['class'=>'raised-btn main-btn']); ?></td> ?>
             <?php else: ?>
-              <td><?= $label[$data['Orders_Status']]; ?></td>
+              <td  style="vertical-align: center;"><?= $label[$data['Orders_Status']]; ?></td>
             <?php endif;?>
 
           </tr>

@@ -4,6 +4,11 @@
   margin: 10px;
 }
 
+.userprofile-input .inner-row{
+  align-items: center;
+  margin-bottom: 10px;
+}
+
 .inner-row{
   display: flex;
  /* min-width: 300px;*/
@@ -17,7 +22,7 @@
 }
 
 #userprofile .btn-facebook{
-    margin-top:10px;
+  margin-top:10px;
 }
 
 .userprofile-header-title{
@@ -66,14 +71,17 @@
 }
 
 .userprofile-label{
-  text-transform: capitalize;
+  text-transform: uppercase;
   color:#333;
+  width: 120px;
+  font-size: 14px;
+  font-weight: bolder;
 }
 
 .userprofile-text{
-  margin-bottom: 0.5em;
+  /* margin-bottom: 0.5em; */
   margin-left: 15px;
-  
+  font-size: 20px;
 }
 
 .userprofile-editbutton{
@@ -216,13 +224,17 @@
   }
 }
 
-@media(max-width: 990px){
+@media(max-width: 991px){
   .userprofile-avatar{
     margin : -17px;
   }
 
   .col-xs-2{
     width: 30%;
+  }
+
+  .userprofile-input .inner-row{
+    display: block;
   }
 
 }
@@ -247,10 +259,18 @@
   {
     margin-left:45px;
   }
+
+  .userprofile-input .inner-row{
+    display: flex;
+  }
   
 }
 
 @media(max-width: 489px){
+
+  #userprofile{
+    padding-bottom: 30px;
+  }
 
   div.userprofile-label
   {
@@ -262,6 +282,10 @@
 
   .col-xs-2{
     width: 35%;
+  }
+
+  .userprofile-input .inner-row{
+    display: block;
   }
 }
 

@@ -18,7 +18,7 @@ use common\models\Rmanagerlevel;
 use common\models\RestaurantName;
 use common\models\Deliveryman;
 use common\models\Restaurant;
-use common\models\news;
+use common\models\News;
 use frontend\assets\NotificationAsset;
 use frontend\assets\UserAsset;
 use common\models\Order\Orders;
@@ -281,7 +281,7 @@ if (empty($language)) {
             {
                 echo Html::hiddenInput('news',0);
             }
-            $news = $news=News::find()->andWhere(['<=','startTime',date('Y-m-d')])->andWhere(['>','endTime',date('Y-m-d')])->joinWith('enText','zhText')->all();
+            $news=News::find()->andWhere(['<=','startTime',date('Y-m-d')])->andWhere(['>','endTime',date('Y-m-d')])->joinWith('enText','zhText')->all();
             if (empty($cookies['banner'])):
         ?>
         <?php if(!empty($news)) : ?>

@@ -6,6 +6,8 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use common\models\Payment;
+use common\models\PaymentGateWay\PaymentGateWayHistory;
+
 
 /**
  * This is the model class for table "payment_gateway_history".

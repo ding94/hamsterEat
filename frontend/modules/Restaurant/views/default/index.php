@@ -153,10 +153,10 @@ Modal::end();
     <div class="outer-container">
       <div class="item-na-container hideItem"><span style="text-align: center;">No Restaurant Available For This Category ....</span></div>
       <div class="menu-container">
-          <a href="<?php echo yii\helpers\Url::to(['#']); ?>">
+          <!-- <a href=" echo yii\helpers\Url::to(['#']); ">
             <div class="list" data-type="loren,ipsum,">
               <div class="page-img">
-                  <?php echo Html::img(Yii::getAlias('@web').'/'.Yii::$app->params['defaultRestaurantImg'], ['class' => 'img'])?>
+                   echo Html::img(Yii::getAlias('@web').'/'.Yii::$app->params['defaultRestaurantImg'], ['class' => 'img'])
               </div>
               <div class="inner-item">
                 <div class="restaurant-name">
@@ -166,7 +166,7 @@ Modal::end();
                 </div>
               </div>        
             </div>
-          </a>
+          </a> -->
         <?php foreach($restaurant as $data) :?>
           <?php 
           $string = '';

@@ -53,7 +53,7 @@ class PaymentBill extends PaymentApi
 
 		$passData = array(
 			'collection_id'=>$collectid,
-			'description'=>$collectidAvaiable['data']['title'],
+			'description'=>"Thank You For Payment. Enjoy Your Meal.",
 			'email'=>$email,
 			'name'=>$name,
 			'amount'=>$amount*100,

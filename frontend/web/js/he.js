@@ -33,10 +33,10 @@ function passType(type,url){
     },  
     success: function (data) {
       $("#type-modal").modal('hide');
-      closeNew();
+      //closeNew();
     },
     error: function (request, status, error) {
-      //console.log(request.responseText);
+      console.log(request.responseText);
     }
 
   });
@@ -71,7 +71,7 @@ $(function(){
       });
   });
 })
-/*
+
 function closeNew()
 {
   if($("input[name=news]").val() == 1)
@@ -95,7 +95,7 @@ function closeNew()
       console.log(e);
     })
   }
-}*/
+}
 
 function detectPayment()
 {

@@ -306,42 +306,28 @@ if (empty($language)) {
             //set banner hide or show
             $link = Url::to(['/site/closebanner']); 
             $cookies = Yii::$app->request->cookies;
-            if(empty($cookies['news-read']))
-            {   
-                echo Html::hiddenInput('news',1);
-                echo Html::hiddenInput('news-modal-url',Url::to(['/news/news-simple','id'=>5]));
-                echo Html::hiddenInput('news-close-url',Url::to(['/news/news-cookie']));
+           
+            if(!empty($news))
+            {
+
+                if(empty($cookies['news-read']))
+                {   
+                    echo Html::hiddenInput('news',1);
+                    echo Html::hiddenInput('news-modal-url',Url::to(['/news/news-simple','id'=>$news->id]));
+                    echo Html::hiddenInput('news-close-url',Url::to(['/news/news-cookie']));
+                }
+                else
+                {
+                    echo Html::hiddenInput('news',0);
+                }
             }
             else
             {
                 echo Html::hiddenInput('news',0);
             }
-            $news=News::find()->andWhere(['<=','startTime',date('Y-m-d')])->andWhere(['>','endTime',date('Y-m-d')])->joinWith('enText','zhText')->all();
-            if (empty($cookies['banner'])):
+          
         ?>
-        <?php if(!empty($news)) : ?>
-        <a href="<?php echo yii\helpers\Url::to(['/news/news-simple','id'=>5]); ?>"  data-toggle="modal" data-target="#newsModal">
-            <div id="promo-banner">
-                <div class="text">
-                        <?php if(empty(Yii::$app->request->cookies['language'])){ ?>
-                            <div class="text-img">
-                        <?php }elseif(Yii::$app->request->cookies['language']->value == 'en'){ ?>
-                            <div class="text-img">
-                        <?php }else{ ?>
-                            <div class="text-img-zh">
-                        <?php } ?>
-                            <!-- <img src="<?php //echo Yii::$app->params['baseUrl'] ?>/1200px_banner.png" alt=""> -->
-                           
-                        </div>
-                </div>
-                <!-- <a class="close-icon" href="#" onclick="closeBanner()">
-                    <i class="fa fa-times"></i>
-                </a> -->
-            </div>
-        </a> 
-        <div id='promo-banner-empty-div'></div>
-        <?php endif; ?>
-        <?php endif;?>
+       
         <div class="page-wrap">
             <?= $content ?>
         </div>

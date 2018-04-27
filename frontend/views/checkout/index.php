@@ -13,29 +13,8 @@ $this->title = Yii::t('checkout','Check Out');
 CheckoutAsset::register($this);
 
 ?>
-<script type="text/javascript">
-  function checkempty()
-    {
-        if (document.getElementsByName("Orders[Orders_PaymentMethod]")[1].checked) 
-        {
-            var aler = "<?php echo Yii::t('checkout','Are you sure to pay with Account Balance?'); ?>";
-        }
-        else if (document.getElementsByName("Orders[Orders_PaymentMethod]")[2].checked)
-        {
-            var aler = "<?php echo Yii::t('checkout','Are you sure to pay cash on delivery?'); ?>";
-        }
-        else
-        {
-            alert("<?php echo Yii::t('checkout','Please select a payment method!'); ?>");
-            return false;
-        }
 
-        var con = confirm(aler);
-        if (con == true) { return true;}
-        else {return false;}
-    }
-</script>
-        <div class="container">
+    <div class="container">
        <div class="checkout-progress-bar">
          <div class="circle done">
            <span class="label"><i class="fa fa-check"></i></span>
@@ -81,11 +60,8 @@ CheckoutAsset::register($this);
                     </div>
                 </div>
             </div>
-            <div class="cart-content">
-                <h3><?= Yii::t('common','Payment Method') ?></h3>
-                <?= $form->field($order, 'Orders_PaymentMethod')->radioList(['Account Balance'=>Yii::t('checkout','Account Balance Or Online Payment'),'Cash on Delivery'=>Yii::t('checkout','Cash on Delivery')])->label(''); ?>
-            </div>  
-            <?= Html::submitButton(Yii::t('common','Place Order'), ['class' => 'raised-btn main-btn', 'onclick'=>'return checkempty()', 'name' => 'placeorder-button']) ?>
+          
+            <?= Html::submitButton(Yii::t('common','Place Order'), ['class' => 'raised-btn main-btn checkout-btn', 'name' => 'placeorder-button']) ?>
 
         </div>
         <?php ActiveForm::end(); ?>

@@ -253,7 +253,7 @@ class RestaurantController extends CommonController
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-    public function actionDeactive($id,$item)
+    public static function deactive($id,$item)
     {  
         switch ($item) {
             case 1:
@@ -292,7 +292,7 @@ class RestaurantController extends CommonController
     }
 
 
-    public function findModel($id)
+    public static function findModel($id)
     {
         $model = Restaurant::find()->where('Restaurant_ID = :id',[':id' =>$id])->one();
         if ($model !== null) {

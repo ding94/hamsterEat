@@ -96,7 +96,7 @@ class ServiceController extends CommonController
             }
             
             if ($valid == true) {
-                RestaurantController::actionDeactive($id,$item);
+                RestaurantController::deactive($id,$item);
                 Yii::$app->session->setFlash('warning', Yii::t('m-restaurant',"Status changed! Please inform customer service."));
                 return $this->redirect(Yii::$app->request->referrer); 
             }

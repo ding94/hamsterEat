@@ -1,250 +1,233 @@
 <?php
+
 namespace frontend\modules\Restaurant\controllers;
 
-use yii\web\Controller;
-use yii\filters\AccessControl;
-use yii\helpers\ArrayHelper;
-use yii\data\Pagination;
 use Yii;
-use frontend\controllers\CommonController;
-use frontend\controllers\OrderController;
-use common\models\Order\Orderitem;
-use common\models\Order\StatusType;
-use common\models\Company\Company;
-use common\models\{Restaurant,User};
+use yii\web\Controller;
+use common\models\Order\{Orderitem,Orders};
+use common\models\problem\ProblemOrder;
 use common\models\food\Food;
-use common\models\Profit\RestaurantProfit;
+use common\models\vouchers\{VouchersUsed,Vouchers};
+use common\models\User;
+use frontend\modules\offer\controllers\ReverseController;
+use frontend\controllers\{CommonController,CartController,PaymentController,DiscountController};
 use frontend\modules\notification\controllers\NoticController;
-use frontend\models\OrderHistorySearch;
 
-class RestaurantorderController extends CommonController
+class CancelController extends CommonController
 {
-	public function behaviors()
+    public static function CancelOrder($id)
     {
-         return [
-         	'verbs' => [
-		            'class' => \yii\filters\VerbFilter::className(),
-		            'actions' => [
-                       'mutiple-order'  => ['POST'],
-		               'history'  => ['GET'],
-		            ],
-		    ],
-            'access' => [
-                'class' => AccessControl::className(),
-                //'only' => ['logout', 'signup','index'],
-                'rules' => [
-                    [
-                        'actions' => ['mutiple-order','index','preparing','singleReadyforpickup','history','readyforpickup'],
-                        'allow' => true,
-                        'roles' => ['restaurant manager'],
- 
-                    ],
-                ]
-            ]
-        ];
-    }
-
-    public function actionIndex($rid,$status=0,$mode = 1)
-    {
-        $linkData = CommonController::restaurantPermission($rid);
-        $link = CommonController::getRestaurantOrdersUrl($rid);
-
-        $item ="";
-        $result = $this->countOrder($rid,$status);
-        $countItem = $result['count'];
-        $query = $result['query'];
-
-        if($status !=0)
+        $item = Orderitem::find()->where('Food_ID=:id AND OrderItem_Status=:s',[':id'=>$id, ':s'=>2])->all();
+      
+        if (!empty($item)) 
         {
-            $query->andWhere('OrderItem_Status = :s',[':s' => $status]);
-        }
-        $item = array();
-        foreach ($query->each() as $key => $data) 
-        {
-            $company = Company::findOne($data->address->cid);
-
-            if(empty($company))
+            foreach ($item as $k => $value) 
             {
-                $item['No Company'][$data->Delivery_ID][] = $data;
+                $isvalid = self::OrderorDeliveryCancel($value->Delivery_ID,$value);
+                if(!$isvalid)
+                {
+                    return false;
+                    break;
+                   
+                }
             }
-            else
-            {
-                $item[$company->name][$data->Delivery_ID][] = $data;
-            }
+            //use this formular for most accurate data protect
+            //if (count($orderitem) == ($k+1) ) {}
         }
-        $title = CommonController::getRestaurantName($rid).Yii::t('common',"'s")." ".Yii::t('m-restaurant',"Order");
-        $allstatus = ArrayHelper::map(StatusType::find()->all(),'type','id');
-
-        return $this->render('index',['count'=>$countItem,'item'=>$item ,'title'=>$title,'link'=>$link,'rid'=>$rid,'allstatus'=>$allstatus,'status'=>$status,'mode'=>$mode]);
-    }
-
-    public function actionHistory($rid)
-    {
-        $linkData = CommonController::restaurantPermission($rid);
-        $link = CommonController::getRestaurantUrl($linkData,$rid);
-      
-        $restaurant = Restaurant::find()->where('Restaurant_ID = :rid', [':rid'=>$rid])->one();
-
-        if ($restaurant['approval'] != 1) {
-            Yii::$app->session->setFlash('warning',Yii::t('m-restaurant','Restaurant was waiting admin to approve.'));
-            return $this->redirect(['/Restaurant/restaurant/restaurant-service']);
-        }
-
-        $searchModel = new OrderHistorySearch;
-        $query = $searchModel->search(Yii::$app->request->queryParams,$rid,2);
-
-        $countQuery = clone $query;
-
-        $pages = new Pagination(['totalCount' => $countQuery->count()]);
-
-        $data = $query->offset($pages->offset)
-        ->limit($pages->limit)
-        ->all();
-        $result = array();
-        foreach ($data as $key => $value) { 
-            $result[$value->Delivery_ID][0]['status'] = $value->order->Orders_Status;
-            $result[$value->Delivery_ID][0]['DateTime'] = Yii::$app->formatter->asDateTime($value->order->Orders_DateTimeMade);
-            $result[$value->Delivery_ID][] = $value;   
-        }
-        
-        
-        $title = CommonController::getRestaurantName($restaurant['Restaurant_ID']).Yii::t('m-restaurant',Yii::t('m-restaurant',"'s Orders History"));
-
-        $status = ArrayHelper::map(StatusType::find()->all(),'id','type');
-        $statusid = ArrayHelper::map(StatusType::find()->all(),'id','label');
-      
-        return $this->render('history', ['rid'=>$rid, 'title'=>$title, 'result'=>$result,'link'=>$link,'pagination'=>$pages,'statusid'=>$statusid,'status'=>$status,'searchModel'=>$searchModel]);
-    }
-
-    public function actionPreparing($oid, $rid)
-    {
-        CommonController::restaurantPermission($rid);
-        $this->singlePreparing($oid,$rid);
-       
-        return $this->redirect(Yii::$app->request->referrer);
-    }
-
-    public function actionReadyforpickup($oid, $rid)
-    {
-        CommonController::restaurantPermission($rid);
-        $this->singleReadyforpickup($oid,$rid);
-        return $this->redirect(Yii::$app->request->referrer);
-    }
-
-    public function actionMutipleOrder($status,$rid)
-    {
-    	CommonController::restaurantPermission($rid);
-    	$post = Yii::$app->request->post();
-    	
-    	if(empty($post['oid']))
-    	{
-    		Yii::$app->session->setFlash('danger', Yii::t('m-delivery',"Please Select One!"));
-            return $this->redirect(Yii::$app->request->referrer);
-    	}
-
-    	foreach($post['oid'] as $oid)
-    	{
-    		
-    		$isValid = self::detectStatus($status,$rid,$oid);
-    		if(!$isValid)
-    		{
-    			 $message .= Yii::t('order',"Order ID")." ".$oid. " ".Yii::t('common',"fail")."<br>";
-    		}
-    	}
-
-    	if(!empty($message))
-        {
-           Yii::$app->session->setFlash('warning', $message);
-        }
-        
-        return $this->redirect(Yii::$app->request->referrer);
-    	//foreach($post[did] as $did => $)
-    	
-    }
-
-    protected static function countOrder($rid,$status)
-    {
-        $countItem['Pending'] = 0;
-        $countItem['Preparing'] = 0;
-        $countItem['Ready for Pickup'] = 0;
-       
-        $query =Orderitem::find()->where('food.Restaurant_ID = :rid and OrderItem_Status != 1 and OrderItem_Status != 10 and OrderItem_Status != 8 and OrderItem_Status != 9',[':rid'=>$rid])->joinWith(['food.restaurant','address']);
-
-        foreach ($query->each() as $key => $item) 
-        {
-            $status = StatusType::findOne($item->OrderItem_Status);
-            $countItem[$status->type] += 1; 
-        }
-       
-        $data['count'] = $countItem;
-        $data['query'] = $query;
-        return $data;
-    }
-
-    protected static function detectStatus($status,$rid,$oid)
-    {
-    	switch ($status) {
-    		case 2:
-    			$isValid = self::singlePreparing($oid,$rid);
-    			break;
-    		case 3:
-    			$isValid = self::singleReadyforpickup($oid,$rid);
-    			break;
-    		default:
-    			$isValid = false;
-    			break;
-    	}
-    	return $isValid;
-    }
-
-    protected static function singlePreparing($oid, $rid)
-    {
-    	$updateOrder = false;
-        $orderitem = OrderController::findOrderitem($oid,3);
-      
-        $orderitem->OrderItem_Status = 3;
-      
-        if(!$orderitem->save())
-        {
-        	return false;
-        }
-
-        $allitem = OrderItem::find()->where('Delivery_ID =:did and OrderItem_Status != 8 and OrderItem_Status != 9',[':did' => $orderitem->Delivery_ID])->all();
-
-        foreach ($allitem as $item) {
-            $updateOrder = $item->OrderItem_Status == 3 ? true : false && $updateOrder;
-        }
-        
-        $order = OrderController::findOrder($orderitem->Delivery_ID);
-        $user = User::find()->where('username = :u',[':u'=>$order->User_Username])->one();
-        if($updateOrder)
-        {
-            $order->Orders_Status = 3;
-            if(!$order->save())
-            {
-            	return false;
-            }
-            NoticController::centerNotic(2,3,$order->Delivery_ID,$user->id);
-        }
-  
-        NoticController::centerNotic(1,3,$oid,$user->id);
-        
-    
+        Yii::$app->session->setFlash('Success', Yii::t('m-restaurant',"Status changed! Please inform customer service."));
         return true;
     }
 
-    protected static function singleReadyforpickup($oid, $rid)
+    /*
+    * detect wheater cancel order or delivery
+    * base on orderitem 
+    */
+    public static function OrderorDeliveryCancel($did,$item)
     {
-        $orderitem = OrderController::findOrderitem($oid,4);
-        $orderitem->OrderItem_Status = 4;
-       	if($orderitem->save())
-       	{
-            $order = OrderController::findOrder($orderitem->Delivery_ID);
-            $user = User::find()->where('username = :u',[':u'=>$order->User_Username])->one();
-       		NoticController::centerNotic(1,4,$oid,$user->id);
-       		return true;
-       	}
-       	return false;
-        //return $this->redirect(Yii::$app->request->referrer);
+        $query = Orderitem::find()->where('Delivery_ID = :did and OrderItem_Status = 2',[':did'=>$did]);
+        $count = $query->count();
+        
+        if($count <= 1)
+        { 
+            $isValid = self::deliveryCancel($item);
+            
+        }
+        else
+        {
+            $isValid = self::orderCancel($item);
+        }
+        return $isValid;
+    }
+
+    /*
+    * cancel order
+    */
+    public static function orderCancel($data)
+    {  
+        $did = $data->Delivery_ID;
+        
+        $reason = new ProblemOrder;
+        $reason->load(Yii::$app->request->post());
+        $reason->Order_ID = $data->Order_ID;
+        $reason->Delivery_ID = $did;
+        $reason['status'] = 1;
+        $reason['datetime'] = time();
+
+        $order = self::findOrder($did,$data);
+
+        if($order->Orders_DiscountEarlyAmount > 0 )
+        {
+            $order->Orders_DiscountEarlyAmount = CartController::actionRoundoff1decimal($order->Orders_Subtotal * 0.15);
+         
+        }
+
+        $user = User::find()->where('username = :n',[':n'=>$order->User_Username])->one();
+
+        if($order->Orders_DiscountTotalAmount > 0)
+        {
+            $order = self::VoucherOrPromotion($order,$data,$user->id);
+        }
+        
+        $order->Orders_TotalPrice =  $order->Orders_Subtotal + $order->Orders_DeliveryCharge - $order->Orders_DiscountEarlyAmount - $order->Orders_DiscountTotalAmount; 
+       
+        $data['OrderItem_Status'] = 8;
+        $oldOrder = $order->getOldAttributes();
+        if($order->Orders_PaymentMethod == 'Account Balance')
+        {
+            $refundPrice =  $oldOrder['Orders_TotalPrice'] - $order['Orders_TotalPrice'];
+            $reason->refund =  $refundPrice;
+            $acc = PaymentController::refund($refundPrice,$order->User_Username,$did,7);
+            $data['OrderItem_Status'] = 9;
+        }
+
+        $isValid = $data->validate() && $order->validate() && $reason->validate();
+
+        if(!empty($acc))
+        {
+           $isValid = $acc->validate() && $isValid;
+        }
+      
+        if($isValid)
+        {
+            $data->save();
+            $order->save();
+            $reason->save();
+            if(!empty($acc))
+            {
+               $acc->save();
+            }
+            NoticController::centerNotic(1,$data['OrderItem_Status'],$data['Order_ID'],$user->id);
+            return $isValid;
+        }
+        else
+        {
+            return $isValid;
+        }
+    }
+
+    /*
+    * find order and calculate the per resturant per delivery charge
+    */
+    protected static function findOrder($did,$value)
+    {
+        $order = Orders::find()->where('orders.Delivery_ID = :did',[':did'=>$did])->joinWith(['item'=>function($query){
+            $query->andWhere('OrderItem_Status != 8 and OrderItem_Status != 9');
+        }])->one();
+        //$item = Orderitem::find();
+     
+        foreach($order->item as $item)
+        {
+
+            $food = Food::findOne($item->Food_ID);
+            $totalRestaurant[$food->Restaurant_ID][$item->Order_ID] = $item->Order_ID;
+        }
+
+        $unsetData = Food::findOne($value->Food_ID)->Restaurant_ID;
+        unset($totalRestaurant[$unsetData][$value->Order_ID]);
+
+        if(empty($totalRestaurant[$unsetData]))
+        {
+            $order->Orders_DeliveryCharge -= 5;
+            if($order->Orders_TotalPrice > 0)
+            {
+                $order->Orders_TotalPrice -= 5;
+            }
+        }
+     
+        $order->Orders_Subtotal -= $value->OrderItem_LineTotal* $value->OrderItem_Quantity;
+      
+        return $order;
+    } 
+
+    public static function deliveryCancel($value)
+    {
+        $order = Orders::find()->where('Delivery_ID=:id',[':id'=>$value['Delivery_ID']])->one();
+       
+       /* if ($order['Orders_DateTimeMade'] > strtotime(date('Y-m-d'))) 
+        {*/
+            $reason = new ProblemOrder; // set new value to db, away from covering value
+            $reason['reason'] = 3;
+            $reason->load(Yii::$app->request->post());
+            $reason['Order_ID'] = $value['Order_ID'];
+            $reason['Delivery_ID'] = $value['Delivery_ID'];
+            $reason['status'] = 1;
+            $reason['datetime'] = time();
+            $value['OrderItem_Status'] = 8;
+            $order['Orders_Status'] = 8;
+                    //check did user use balance to pay
+            if ($order['Orders_PaymentMethod'] == 'Account Balance') {
+                $reason['refund'] = $order['Orders_TotalPrice'];
+                $acc = PaymentController::refund($order['Orders_TotalPrice'],$order['User_Username'],$value['Delivery_ID'],6);
+                if ($acc->validate()) {
+                    $acc->save();
+                    $order['Orders_Status'] = 9;
+                    $value['OrderItem_Status'] = 9;
+                }
+                else{
+                    Yii::$app->session->setFlash('Warning', Yii::t('cart',"Something Went Wrong!"));
+                            return false;
+                    }
+            }
+             
+            $order['Orders_Subtotal'] = 0;
+            $order['Orders_TotalPrice'] = 0;
+            $order['Orders_DeliveryCharge'] = 0;
+            $order['Orders_DiscountEarlyAmount'] = 0;
+            $order['Orders_DiscountTotalAmount'] = 0;
+            
+            if ($reason->validate() && $value->validate() && $order->validate()) {
+                $user = User::find()->where('username = :u',[':u'=>$order->User_Username])->one();
+                $reason->save();
+                $value->save();
+                $order->save();
+                NoticController::centerNotic(2,$order['Orders_Status'],$order['Delivery_ID'],$user->id);
+            }
+            else
+            {
+                Yii::$app->session->setFlash('Warning', Yii::t('cart',"Something Went Wrong!"));
+                return false;
+            }
+           
+        
+         return true;
+    }
+    /*
+    * detect using voucher or promotion
+    */
+    protected static function VoucherOrPromotion($order,$data,$uid)
+    {
+        $vused = VouchersUsed::find()->where('uid = :uid and did = :did',[':uid'=>$uid,':did'=>$data->Delivery_ID])->one();
+        if(empty($vused))
+        {
+            $order = ReverseController::calDiscount($order,$data,$uid);
+        }
+        else
+        {
+            $code = Vouchers::findOne($vused->vid)->code;
+
+            $dis = DiscountController::orderdiscount($code,$order);
+            $order = $dis['data']; 
+        }
+        return $order;
     }
 }

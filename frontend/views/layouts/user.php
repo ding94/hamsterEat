@@ -18,7 +18,7 @@ use common\models\Rmanagerlevel;
 use common\models\RestaurantName;
 use common\models\Deliveryman;
 use common\models\Restaurant;
-use common\models\news;
+use common\models\News;
 use frontend\assets\NotificationAsset;
 use frontend\assets\UserAsset;
 use common\models\Order\Orders;

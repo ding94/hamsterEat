@@ -457,7 +457,8 @@ class CartController extends CommonController
 
                         case 3:
                             $value['discount'] += ($value['total']* ($vou['discount'] / 100));
-                            $value['total'] = $value['total'] - ($value['total']*($vou['discount'] / 100));
+                            $total = $value['sub'] + $value['deli'];
+                            $value['total'] = $total - ($total*($vou['discount'] / 100));
                             break;
                                      
                         default:
@@ -506,7 +507,7 @@ class CartController extends CommonController
                             }
                             else{
                                 $value['discount'] += $vou['discount'];
-                                $value['total'] = $value['total'] - $vou['discount'];
+                                $value['total'] = ($value['sub'] + $value['deli']) - $vou['discount'];
                             }
                             break;
                                      

@@ -14,7 +14,7 @@ Class ItemSearch extends Orderitem
 	public function rules()
 	{
 		return[
-			[['Order_ID','Delivery_ID','User_Username','Orders_PaymentMethod','Orders_DateTimeMade','foodName','OrderItem_Status'],'safe'],
+			[['Order_ID','User_Username','Orders_PaymentMethod','Orders_DateTimeMade','foodName','OrderItem_Status'],'safe'],
 		];
 	}
 
@@ -27,8 +27,8 @@ Class ItemSearch extends Orderitem
 				$query->joinWith(['food']);
 
 		if($id != 0 )
-		{
-			$query->where('Delivery_ID = :id',[':id'=>$id]);
+		{	
+			$query->where('orderitem.Delivery_ID = :id',[':id'=>$id]);
 		}
 
 		$dataProvider = new ActiveDataProvider([
@@ -73,7 +73,7 @@ Class ItemSearch extends Orderitem
            'OrderItem_LineTotal' => $this->OrderItem_LineTotal,
            'OrderItem_Status' => $this->OrderItem_Status,
         ]);
-	    $query->andFilterWhere(['like','orderitemDelivery_ID',$this->Delivery_ID]);
+	    //$query->andFilterWhere(['like','orderitem.Delivery_ID',$this->Delivery_ID]);
 	    $query->andFilterWhere(['like','orders.User_Username',$this->User_Username]);
 	    $query->andFilterWhere(['like','orders.Orders_PaymentMethod',$this->Orders_PaymentMethod]);
         $query->andFilterWhere(['like','OrderItem_Remark',$this->OrderItem_Remark]);

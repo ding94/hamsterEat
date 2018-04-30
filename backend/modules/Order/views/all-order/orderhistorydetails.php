@@ -6,6 +6,7 @@ use common\models\Order\Orderitemselection;
 use common\models\food\FoodSelectionName;
 use common\models\Order\Orders;
 use frontend\controllers\CommonController;
+use frontend\controllers\CartController;
 use yii\helpers\Html;
 $this->title = "Invoice";
 ?>
@@ -111,7 +112,7 @@ $this->title = "Invoice";
                     </tr>
                     <tr>
                         <td style="text-align: right;font-weight: bold;padding-top: 5%;">Total:</td>
-                        <td style="text-align: right;font-weight: bold;padding-top: 5%;">RM <?=  number_format($order['Orders_TotalPrice'],2); ?></td>
+                        <td style="text-align: right;font-weight: bold;padding-top: 5%;">RM <?=  CartController::actionRoundoff1decimal($order['Orders_TotalPrice']); ?></td>
                     </tr>
                     
                 </table>

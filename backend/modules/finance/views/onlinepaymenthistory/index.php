@@ -103,8 +103,20 @@ $this->params['breadcrumbs'][] = $this->title;
 	            ],
 	            'filterInputOptions' => ['placeholder' => 'Any Type'],
 			],
-
-			'created_at:datetime',
+			[
+			 'attribute' => 'created_at',
+                'format' => 'datetime',
+                'filterType' => GridView::FILTER_DATE_RANGE,
+                'filterWidgetOptions' => [
+                    'pluginOptions' => [
+                        'locale' => [ 
+                            'format' => 'YYYY-MM-DD',
+                            'separator'=>' to ',
+                        ]
+                    ],
+                ],
+                'filterInputOptions' => ['placeholder' => 'Select Between Two Dates'],
+            ],
             'updated_at:datetime',
         ],
     ]);

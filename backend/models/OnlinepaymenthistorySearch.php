@@ -17,7 +17,7 @@ Class OnlinepaymenthistorySearch extends Payment
 	public function rules()
 	{
 		return[
-			[['bill_id','collect_id','pid','status'],'safe'],
+			[['bill_id','collect_id','pid','status','created_at'],'safe'],
 		];
 	}
 
@@ -36,8 +36,17 @@ Class OnlinepaymenthistorySearch extends Payment
 
 		$query->andFilterWhere(['like','collect_id' , $this->collect_id]);
 		$query->andFilterWhere(['like','bill_id' , $this->bill_id]);
-	 	
-	 
+	 	 if(!empty($this->created_at))
+        {
+        	$date = explode("to", $this->created_at);
+        	
+        	$first = strtotime($date[0]. ' 00:00:00');
+        	
+	        $last =strtotime($date[1]. ' 23:59:59');
+	        	
+        	$query->andWhere(['between','created_at',$first,$last]);
+        }
+     	
 		 return $dataProvider;
 	}
 

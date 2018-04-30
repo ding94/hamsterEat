@@ -11,14 +11,14 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
 $this->title = 'Online Payment History';
 $this->params['breadcrumbs'][] = $this->title;
 	 Modal::begin([
-        'id' => 'userDetail',
+        'id' => 'PaymentDetail',
         'header' => '<h4 class="modal-title">...</h4>',
         'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
   
     Modal::end();
     $this->registerJs("
-        $('#userDetail').on('show.bs.modal', function (event) {
+        $('#PaymentDetail').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
             var modal = $(this)
             var title = button.data('title') 
@@ -48,18 +48,62 @@ $this->params['breadcrumbs'][] = $this->title;
 			 ['class' => 'yii\grid\ActionColumn' , 
              'template'=>'{active} ',
              'header' => "View",
+             'headerOptions' => ['width' => '20px'],
+             'contentOptions' => ['class' => 'text-center'],	
              'buttons' => [
                 'active' => function($url , $model)
                 {
                   
-                    return  Html::a('<i class="fa fa-eye"></i>',['detail' ,'id'=>$model->bill_id], ['data-toggle'=>"modal",'data-target'=>"#userDetail",'data-title'=>"Payment Detail",]);
+                    return  Html::a('<i class="fa fa-eye"></i>',['detail' ,'id'=>$model->bill_id], ['data-toggle'=>"modal",'data-target'=>"#PaymentDetail",'data-title'=>"Payment Detail",]);
                 },
               ]
             ],
-			'bill_id',
-         	'collect_id',
-			'pid',
-			'status',
+            [	
+            	'label'=> 'Bill ID',
+            	'attribute' =>'bill_id',
+            	'filterInputOptions' => [
+	                'class' => 'form-control',
+	                'placeholder' => 'Bill ID'
+            	]
+        	],
+			[
+				'label'=> 'Collect_id',
+				'attribute'=> 'collect_id',
+				'filterInputOptions' => [
+					'class' => 'form-control',
+					'placeholder' => 'Collect ID'
+				]
+			],
+         	
+			[
+				'label'=>'Payment ID',
+				'attribute'=>'pid',
+				'filterInputOptions'=>[
+					'class'=>'form-control',
+					'placeholder'=>'Payment ID',
+				],
+			],
+			[	
+				'label'=>'Status',
+				'attribute'=>'status',
+				'width' => '130px',
+				'value'=>function($model,$url){
+					if($model->status==1):
+						return 'Paid';
+					elseif($model->status==2):
+						return 'Hidden';
+					else:
+						return 'Delete';
+					endif;
+				},
+				'filter' => array(0=>"Delete",1=>"Paid",2=>"Hidden"),
+				'filterType' => GridView::FILTER_SELECT2,
+				'filterWidgetOptions' => [
+	                'pluginOptions' => ['allowClear' => true],
+	            ],
+	            'filterInputOptions' => ['placeholder' => 'Any Type'],
+			],
+
 			'created_at:datetime',
             'updated_at:datetime',
         ],

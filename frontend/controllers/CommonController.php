@@ -13,6 +13,7 @@ use common\models\Cart\Cart;
 use common\models\Rmanager;
 use common\models\Rmanagerlevel;
 use common\models\RestaurantName;
+use common\models\Order\PlaceOrderChance;
 use yii\web\HttpException;
 
 class CommonController extends Controller
@@ -175,15 +176,50 @@ class CommonController extends Controller
     public static function getOrdertime()
     {
         date_default_timezone_set("Asia/Kuala_Lumpur");
-         date_default_timezone_set("Asia/Kuala_Lumpur");
         $time = (int)self::getTime('','H');
         $date = (int)self::getTime('','N');
         return true;
          if ($time<7 || $time>=11 || $date==6 || $date == 7) {
-            Yii::$app->session->setFlash('error', Yii::t('checkout','You cannot place order at this time.'));
-            return false;
+            $valid = self::getChances();
+            if ($valid == true) {
+                return true;
+            }
+            else{
+                Yii::$app->session->setFlash('error', Yii::t('checkout','You cannot place order at this time.'));
+                return false;
+            }
         }
         return true;
+    }
+
+    public static function getChances()
+    {
+        /*logic: 
+        equal UID, 
+        larger-equal chances, 
+        start_time smaller-equal than now
+        end_time larger than now, 01-05-2018(ST) <= 15-05-2018(now) > 31-05-2018(ET)
+         */
+        $chance = PlaceOrderChance::find()
+        ->where('uid=:id',[':id'=>Yii::$app->user->identity->id])
+        ->andWhere(['>=','chances',1])
+        ->andWhere(['<=','start_time',strtotime(date('Y-m-d'))])
+        ->andWhere(['>','end_time',strtotime(date('Y-m-d'))])->one();
+
+        $module = Yii::$app->controller->module->id;
+        $controller = Yii::$app->controller->id;
+        $action = Yii::$app->controller->action->id;
+
+        if (!empty($chance)) {
+            $chance['chances'] = $chance['chances'] - 1;
+            if ($chance->validate()) {
+                if ($module == 'payment' && $controller == 'default' && $action == 'payment-post') {
+                    $chance->save();
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     public static function getLanguage($case='')

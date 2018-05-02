@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "rest_days".
@@ -45,5 +47,18 @@ class RestDays extends \yii\db\ActiveRecord
             'month' => 'Month',
             'date' => 'Date',
         ];
+    }
+
+    public function search($params,$action)
+    {
+        $query = self::find();
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        return $dataProvider;
     }
 }

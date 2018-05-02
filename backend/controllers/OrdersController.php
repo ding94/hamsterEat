@@ -5,6 +5,7 @@ use Yii;
 use yii\db\Query;
 use yii\helpers\Url;
 use common\models\User;;
+use common\models\RestDays;;
 use common\models\order\PlaceOrderChance;
 
 class OrdersController extends CommonController 
@@ -55,4 +56,35 @@ class OrdersController extends CommonController
         }
         return $out;
     }
+
+    public function actionRestDays()
+    {
+    	$searchModel = new RestDays();
+    	$dataProvider = $searchModel->search(Yii::$app->request->queryParams,1);
+
+    	return $this->render('rest-days',['dataProvider' => $dataProvider , 'searchModel' => $searchModel]);
+    }
+
+    public function actionAddRestDay()
+	{
+		$model = new RestDays();
+
+		if (Yii::$app->request->post()) {
+			$model->load(Yii::$app->request->post());
+			if ($model['month'] >= 13 || $model['date'] >= 32) {
+				Yii::$app->session->setFlash('warning','Month or Date does not exist');
+			}
+			else{
+				if ($model->validate()) {
+					$model->save();
+					Yii::$app->session->setFlash('sucess','Success saved');
+					return $this->redirect(['/orders/rest-days']);
+				}
+				else{
+					Yii::$app->session->setFlash('warning','Failed to save info');
+				}
+			}
+		}
+		return $this->render('add-rest-day',['model'=>$model]);
+	}
 }

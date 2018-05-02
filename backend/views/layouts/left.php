@@ -77,6 +77,7 @@
                                         [ 'label' => 'Cancelled Order List', 'icon' => 'circle-o', 'url' => ['/customerservice/pausedorder']],
                                         [ 'label' => 'Solved Order List', 'icon' => 'circle-o', 'url' => ['/customerservice/comproblem']],
                                         ['label' => 'Delivery Earning','icon' => 'circle-o','url'=>['/order/profit/index']],
+                                        ['label' => 'Add Rest Day','icon' => 'circle-o','url'=>['/orders/rest-days']],
                                         ['label' => 'Add Order Chance','icon' => 'circle-o','url'=>['/orders/place-order-chance']],
                                     ],
                         'options' => ['class' => 'active'],

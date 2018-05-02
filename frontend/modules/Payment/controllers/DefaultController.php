@@ -64,8 +64,7 @@ class DefaultController extends CommonController
         $time_valid = CommonController::getOrdertime();
 
         if ($time_valid == false) {
-            Yii::$app->session->setFlash('warning', Yii::t('payment','Order time was passed!'));
-            return $this->redirect(['/cart/view-cart']);
+            return $this->redirect(Yii::$app->request->referrer);
         }
     	if(empty($post)|| empty($post['payment-type']) || empty($post['did']))
     	{

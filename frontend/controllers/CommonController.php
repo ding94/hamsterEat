@@ -1,19 +1,18 @@
 <?php 
 namespace frontend\controllers;
 
-use yii\helpers\Html;
-use yii\web\Controller;
-use yii\web\Cookie;
 use Yii;
-use yii\helpers\Url;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Json;
-use common\models\notic\{Notification,NotificationType};
-use common\models\Cart\Cart;
-use common\models\Rmanager;
-use common\models\Rmanagerlevel;
-use common\models\RestaurantName;
+use yii\web\Cookie;
+use yii\web\Controller;
 use yii\web\HttpException;
+use yii\helpers\Url;
+use yii\helpers\Html;
+use yii\helpers\Json;
+use yii\helpers\ArrayHelper;
+use common\models\Cart\Cart;
+use common\models\{Rmanager,RestaurantName,Rmanagerlevel,RestDays};
+use common\models\notic\{Notification,NotificationType};
+use common\models\Order\PlaceOrderChance;
 
 class CommonController extends Controller
 {
@@ -175,15 +174,66 @@ class CommonController extends Controller
     public static function getOrdertime()
     {
         date_default_timezone_set("Asia/Kuala_Lumpur");
-         date_default_timezone_set("Asia/Kuala_Lumpur");
         $time = (int)self::getTime('','H');
         $date = (int)self::getTime('','N');
+        $valid_date = self::getDateValid();
         return true;
-         if ($time<7 || $time>=11 || $date==6 || $date == 7) {
-            Yii::$app->session->setFlash('error', Yii::t('checkout','You cannot place order at this time.'));
+        if ($valid_date['valid']==false) {
+            Yii::$app->session->setFlash('error', Yii::t('checkout','We are rest because of '. $valid_date['reason']));
             return false;
         }
+         if ($time<7 || $time>=11 || $date==6 || $date == 7) {
+            $valid = self::getChances();
+            if ($valid == false) {
+                Yii::$app->session->setFlash('error', Yii::t('checkout','You cannot place order at this time.'));
+                return false;
+            }
+        }
         return true;
+    }
+
+    public static function getChances()
+    {
+        /*logic: 
+        equal UID, 
+        larger-equal chances, 
+        start_time smaller-equal than now
+        end_time larger than now, 01-05-2018(ST) <= 15-05-2018(now) > 31-05-2018(ET)
+         */
+        $chance = PlaceOrderChance::find()
+        ->where('uid=:id',[':id'=>Yii::$app->user->identity->id])
+        ->andWhere(['>=','chances',1])
+        ->andWhere(['<=','start_time',strtotime(date('Y-m-d'))])
+        ->andWhere(['>','end_time',strtotime(date('Y-m-d'))])->one();
+
+        $module = Yii::$app->controller->module->id;
+        $controller = Yii::$app->controller->id;
+        $action = Yii::$app->controller->action->id;
+
+        if (!empty($chance)) {
+            $chance['chances'] = $chance['chances'] - 1;
+            if ($chance->validate()) {
+                if ($module == 'payment' && $controller == 'default' && $action == 'payment-post') {
+                    $chance->save();
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static function getDateValid()
+    {
+        $date = RestDays::find()->andWhere(['or',['=','month',date('m')],['=','date',date('d')]])->one();
+        $data = array();
+        if (!empty($date)) {
+            $data['valid'] = false;
+            $data['reason'] = $date['rest_day_name'];
+        }
+        else{
+            $data['exist'] = true;
+        }
+        return $data;
     }
 
     public static function getLanguage($case='')

@@ -61,6 +61,11 @@ class DefaultController extends CommonController
     public function actionPaymentPost()
     {
     	$post = Yii::$app->request->post();
+        $time_valid = CommonController::getOrdertime();
+
+        if ($time_valid == false) {
+            return $this->redirect(Yii::$app->request->referrer);
+        }
     	if(empty($post)|| empty($post['payment-type']) || empty($post['did']))
     	{
     		Yii::$app->session->setFlash('warning', Yii::t('payment','Please Choose A Method'));

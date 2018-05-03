@@ -215,7 +215,7 @@ class DeliveryorderController extends CommonController
     {
         date_default_timezone_set("Asia/Kuala_Lumpur");
         $time = strtotime(date('Y-m-d'));
-        $orders = DeliveryAddress::find()->where('deliveryman=:d',[':d'=>Yii::$app->user->identity->id])->andWhere(['>=','orders.Orders_DateTimeMade',$time])->andWhere(['or',['=','orders.Orders_Status',4],['=','orders.Orders_Status',5],['=','orders.Orders_Status',3]])->joinWith('delivery','nickname')->all();
+        $orders = DeliveryAddress::find()->where('deliveryman=:d',[':d'=>Yii::$app->user->identity->id])->andWhere(['>=','orders.Orders_DateTimeMade',$time])->andWhere(['or',['=','orders.Orders_Status',4],['=','orders.Orders_Status',5],['=','orders.Orders_Status',3],['=','orders.Orders_Status',2]])->joinWith('delivery','nickname')->all();
         if(empty($orders))
         {
             Yii::$app->session->setFlash('error', Yii::t('cart','Something Went Wrong!'));

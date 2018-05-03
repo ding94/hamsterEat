@@ -45,7 +45,7 @@ $this->title = "Orders List";
                                             <?= $item['Order_ID']; ?>
                                         </td>
                                         <td rowspan=<?= $orderrowcount[$item['Order_ID']]+1 ?> style="border: 1px solid black;">
-                                            <b><?= $item['food']['originName']?></b><?=$item->getFood_selection_name($item); ?>
+                                            <b><?= $item['food']['originName']?>,</b><?=$item->getFood_selection_name($item); ?>
                                         </td>
                                         <td rowspan=<?= $orderrowcount[$item['Order_ID']]+1 ?> style="border: 1px solid black;">
                                             <?= $item['address']['name']; ?>

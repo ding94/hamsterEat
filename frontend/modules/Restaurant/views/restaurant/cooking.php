@@ -10,7 +10,7 @@ $quantity = 0;
 ?>
 
 <div class="container">
-	<?php echo Html::button(Yii::t('m-restaurant','View Nicknames'), ['class'=>'raised-btn btn-default fa fa-exchange swap-button pull-right switch name'])?>
+	<?php echo Html::a(Yii::t('m-restaurant','Show PDF'),['/Delivery/deliveryorder/restaurant-orders-pdf'], ['class'=>'raised-btn'])?><?php echo Html::button(Yii::t('m-restaurant','View Nicknames'), ['class'=>'raised-btn btn-default fa fa-exchange swap-button pull-right switch name'])?>
 <div class="panel">
 	<div class="panel-heading">
 		<ul class="nav nav-tabs">

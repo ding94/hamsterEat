@@ -57,8 +57,12 @@ PaymentAsset::register($this);
 		</ul>
 		<?php echo Html::hiddenInput('did', $order->Delivery_ID);?>
 		<div class="button-div">
-			<?php echo Html::submitButton(Yii::t('common','Submit'), ['class' => 'raised-btn main-btn payment-button']);?>
-		</div>
+      <?php echo Html::submitButton(Yii::t('common','Submit'), ['class' => 'raised-btn main-btn payment-button']);?>
+    </div>
+
+    <div class="button-div">
+      <?php echo Html::a(Yii::t('common','Cancel'),['/payment/default/payment-cancel','did'=>$order['Delivery_ID']],['class' => 'raised-btn main-btn payment-button','data-confirm'=>"Do you want to cancel this payment?"]);?>
+    </div>
 		<?php ActiveForm::end(); ?>
 	</div>
 </div>

@@ -23,7 +23,7 @@ class DefaultController extends CommonController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['process','payment-post'],
+                        'actions' => ['process','payment-post','payment-cancel'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -85,6 +85,21 @@ class DefaultController extends CommonController
         
         return $this->redirect(Yii::$app->request->referrer);	
         
+    }
+
+    public function actionPaymentCancel($did)
+    {
+        $order = Orders::findOne($did);
+        $order['Orders_Status'] = 8;
+        if ($order->validate()) {
+            foreach ($order['item'] as $k => $value) {
+                $value['OrderItem_Status'] = 8;
+                $value->save(false);
+            }
+            $order->save();
+            Yii::$app->session->setFlash('success', Yii::t('payment','Cancel Success!'));
+            return $this->redirect(['/order/my-orders']);
+        }
     }
 
     public function actionCloseSession()

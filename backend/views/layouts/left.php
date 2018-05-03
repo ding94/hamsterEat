@@ -70,6 +70,7 @@
                     ],
                     [   'label' => 'Order Controller', 'icon' => 'user', 'url' => "#",
                         'items' =>  [
+                                        ['label' => 'All Order Status' , 'icon' =>'circle-o' ,'url' => ['/order/all-order/orderstatus']],
                                         ['label' => ' All Delivery  List' ,'icon' => 'circle-o' , 'url' => ['/order/all-order/index']],
                                         ['label' => ' All Order Item List' ,'icon' => 'circle-o' , 'url' => ['/order/all-order/item']],
                                         ['label' => 'Delivery Pending List' ,'icon' => 'circle-o' , 'url' => ['/order/default/index']],

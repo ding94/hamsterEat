@@ -35,9 +35,14 @@ class DeliveryorderController extends CommonController
                  'rules' => [
                      [
                          'actions' => ['mutiple-pick','mutiple-complete','pickup','order','history',
-                         'update-pickedup','update-completed','complete','company-orders-pdf','restaurant-orders-pdf'],
+                         'update-pickedup','update-completed','complete',],
                          'allow' => true,
                          'roles' => ['rider'],
+                     ],
+                     [
+                        'actions' => ['company-orders-pdf','restaurant-orders-pdf',],
+                        'allow' => true,
+                        'roles' => ['@'],
                      ],
                  ]
              ]
@@ -215,7 +220,8 @@ class DeliveryorderController extends CommonController
     {
         date_default_timezone_set("Asia/Kuala_Lumpur");
         $time = strtotime(date('Y-m-d'));
-        $orders = DeliveryAddress::find()->where('deliveryman=:d',[':d'=>Yii::$app->user->identity->id])->andWhere(['>=','orders.Orders_DateTimeMade',$time])->andWhere(['or',['=','orders.Orders_Status',4],['=','orders.Orders_Status',5],['=','orders.Orders_Status',3],['=','orders.Orders_Status',2]])->joinWith('delivery','nickname')->all();
+        //$orders = DeliveryAddress::find()->where('deliveryman=:d',[':d'=>Yii::$app->user->identity->id])->andWhere(['>=','orders.Orders_DateTimeMade',$time])->andWhere(['or',['=','orders.Orders_Status',4],['=','orders.Orders_Status',5],['=','orders.Orders_Status',3],['=','orders.Orders_Status',2]])->joinWith('delivery','nickname')->all();
+        $orders = DeliveryAddress::find()->andWhere(['>=','orders.Orders_DateTimeMade',$time])->andWhere(['or',['=','orders.Orders_Status',4],['=','orders.Orders_Status',5],['=','orders.Orders_Status',3],['=','orders.Orders_Status',2]])->joinWith('delivery','nickname')->all();
         if(empty($orders))
         {
             Yii::$app->session->setFlash('error', Yii::t('cart','Something Went Wrong!'));

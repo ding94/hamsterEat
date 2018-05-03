@@ -26,9 +26,9 @@ $this->title = "Orders List";
                             <td style="border: 1px solid black;font-weight: bold">Delivery ID</td>
                             <td style="border: 1px solid black;font-weight: bold">Order ID</td>
                             <td style="border: 1px solid black;font-weight: bold">Food</td>
-                            <td style="border: 1px solid black;font-weight: bold">Nickname</td>
                             <td style="border: 1px solid black;font-weight: bold">Contact</td>
                             <td style="border: 1px solid black;font-weight: bold">Contact No</td>
+                            <td style="border: 1px solid black;font-weight: bold">Nickname</td>
                             <td style="border: 1px solid black;font-weight: bold">check</td>
                         </tr>
                         <?php foreach($companies as $company => $did): ?>
@@ -58,7 +58,7 @@ $this->title = "Orders List";
                                             <tr style="border: 1px solid black;">
                                                 <td style="border: 1px solid black;">
                                                     <?php if (empty($item['nickname'][$i]['nickname'])):?>
-                                                        <?= 'blank' ?>
+                                                        <?= '-' ?>
                                                     <?php else: ?>
                                                         <b><?= $item['nickname'][$i]['nickname']; ?></b>
                                                     <?php endif; ?>

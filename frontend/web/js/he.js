@@ -10,9 +10,10 @@ $(document).ready(function() {
   {
      closeNew();
   }
-
-  detectPayment()
- 
+  user_valid = $("input[name='user-validation']").val()
+  if (user_valid == 10) {
+    detectPayment();
+  }
 });
 
 $(".halal").children('a').click(function(){

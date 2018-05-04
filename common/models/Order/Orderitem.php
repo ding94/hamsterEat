@@ -36,10 +36,14 @@ class Orderitem extends \yii\db\ActiveRecord
     }
 
     public function afterSave($insert, $changedAttributes)
-    {
+    {   
+
         switch ($this->OrderItem_Status) {
             case 2:
-                $status = new Orderitemstatuschange;
+                $status = Orderitemstatuschange::findOne($this->Order_ID);
+                if(empty($status)){
+                    $status = new Orderitemstatuschange;
+                }
                 $status->Order_ID = $this->Order_ID;
                 $status->Change_PendingDateTime = time();
                 $status->save();
@@ -133,6 +137,7 @@ class Orderitem extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Orders::className(),['Delivery_ID' => 'Delivery_ID']); 
     }
+
 
     public function getOrder_status()
     {

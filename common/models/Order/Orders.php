@@ -47,6 +47,7 @@ class Orders extends \yii\db\ActiveRecord
 
     public function afterSave($insert, $changedAttributes)
     {
+ 
         if(!empty($changedAttributes['Orders_TotalPrice']))
         {
             $this->priceLog($changedAttributes);
@@ -186,7 +187,7 @@ class Orders extends \yii\db\ActiveRecord
 
     public function getOrder_item()
     {
-        return $this->hasOne(Orderitem::className(),['Delivery_ID' => 'Delivery_ID']); 
+        return $this->hasMany(Orderitem::className(),['Delivery_ID' => 'Delivery_ID']); 
     }
 
     public function getItem()

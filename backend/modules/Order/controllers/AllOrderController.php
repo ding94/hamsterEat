@@ -20,6 +20,7 @@ use yii\web\NotFoundHttpException;
 use common\models\Order\Orderitem;
 use common\models\food\Food;
 use backend\models\ItemSearch;
+use backend\models\OrderstatusSearch;
 
 class AllOrderController extends CommonController
 {
@@ -104,5 +105,64 @@ class AllOrderController extends CommonController
 	{
 		$model = Orders::findOne($id);
 		return $this->renderAjax('_price',['model'=>$model]);
-	}
+	}  
+
+
+    public function actionOrderstatus()
+    {
+        $searchModel= new OrderstatusSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $allstatus =ArrayHelper::map(StatusType::find()->all(),'id','type');
+       
+        return $this->render('orderstatus',['model' => $dataProvider , 'searchModel' => $searchModel,'allstatus'=>$allstatus]);
+    }
+
+    public function actionUpdate($id)
+    {
+        $model = Orders::find()->where('Orders.Delivery_ID = :id',[':id'=>$id])->joinWith(['order_item'])->one();
+       
+        
+        if($model->Orders_Status == 2 ){
+            $data=array('1');     
+        }elseif($model->Orders_Status == 3){
+            $data=array('1','2');
+        }elseif($model->Orders_Status == 4){
+            $data=array('1','2','3'); 
+        }elseif($model->Orders_Status == 11){
+            $data=array('1','2','3','4');
+        }elseif($model->Orders_Status == 10){
+            $data=array('1','2','3','4','11');
+        }elseif($model->Orders_Status == 5){
+            $data=array('1','2','3','4','11','10'); 
+        }elseif($model->Orders_Status == 6){
+            $data=array('1','2','3','4','11','10','5');
+        }elseif($model->Orders_Status == 7){
+            $data=array('1','2','3','4','11','10','5','6');
+        }else{
+             $data=array('');
+        }
+
+        $list = ArrayHelper::map(StatusType::find()->Where(['not in','id' ,$data])->all(),'id','type');
+        
+        if($model->load(Yii::$app->request->post()))
+        {   
+           if($model->validate()){
+
+               foreach ($model->order_item as $key => $order_item) {
+                   $order_item->OrderItem_Status = Yii::$app->request->post('Orders')['Orders_Status'];
+
+                   $order_item->save();
+
+               }
+
+                $model->save();
+                //  self::updateAllTopup();
+                Yii::$app->session->setFlash('success', "Update success");
+                return $this->redirect(['orderstatus']);
+            }
+        }
+       
+        return $this->render('changestatus', ['model' => $model ,'list' => $list]);
+    }
+
 }

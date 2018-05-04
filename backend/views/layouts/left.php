@@ -70,11 +70,11 @@
                     ],
                     [   'label' => 'Order Controller', 'icon' => 'user', 'url' => "#",
                         'items' =>  [
-                                        ['label' => 'All Order Status' , 'icon' =>'circle-o' ,'url' => ['/order/all-order/orderstatus']],
                                         ['label' => ' All Delivery  List' ,'icon' => 'circle-o' , 'url' => ['/order/all-order/index']],
                                         ['label' => ' All Order Item List' ,'icon' => 'circle-o' , 'url' => ['/order/all-order/item']],
                                         ['label' => 'Delivery Pending List' ,'icon' => 'circle-o' , 'url' => ['/order/default/index']],
                                         [ 'label' => 'Order Pending List', 'icon' => 'circle-o', 'url' => ['/order/default/order']],
+                                        ['label' => 'Change Delivery Status' , 'icon' =>'circle-o' ,'url' => ['/order/all-order/orderstatus']],
                                         [ 'label' => 'Cancelled Order List', 'icon' => 'circle-o', 'url' => ['/customerservice/pausedorder']],
                                         [ 'label' => 'Solved Order List', 'icon' => 'circle-o', 'url' => ['/customerservice/comproblem']],
                                         ['label' => 'Delivery Earning','icon' => 'circle-o','url'=>['/order/profit/index']],

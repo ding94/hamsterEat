@@ -119,9 +119,20 @@ OrderDetailsAsset::register($this);
                                 <td style="color: red;">- <?= $order['Orders_DiscountTotalAmount']; ?></td>
                             </tr>
                         <?php endif ?>
+                        <?php if($order['Orders_TotalPrice'] != CartController::actionRoundoff1decimal($order['Orders_TotalPrice'])): ?>
+                            <tr>
+                                 <th>Round off (RM):</th>
+                                 <td style="color: red;">
+                                    <?php if($order['Orders_TotalPrice'] > CartController::actionRoundoff1decimal($order['Orders_TotalPrice'])): echo "- ".number_format($order['Orders_TotalPrice'] - CartController::actionRoundoff1decimal($order['Orders_TotalPrice']),2); ?>
+
+                                    <?php elseif($order['Orders_TotalPrice'] < CartController::actionRoundoff1decimal($order['Orders_TotalPrice'])): echo "+ ".number_format(CartController::actionRoundoff1decimal($order['Orders_TotalPrice']) - $order['Orders_TotalPrice'],2); ?>
+                                    <?php endif ?>  
+                                </td>
+                            </tr>
+                        <?php endif ?>
                         <tr>
                             <th><?= Yii::t('common','Total (RM)') ?>:</th>
-                            <td><?= $order['Orders_TotalPrice']; ?></td>
+                            <td><?=  CartController::actionRoundoff1decimal($order['Orders_TotalPrice']); ?></td>
                         </tr>
                     </table>
                 </div>

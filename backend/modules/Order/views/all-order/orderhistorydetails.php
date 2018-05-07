@@ -104,17 +104,27 @@ $this->title = "Invoice";
                     </tr>
                     <tr>
                         <td style="text-align: right;">Discounted:</td>
-                            <td style="text-align: right;">- RM
-                    <?php if (!empty($order['Orders_DiscountEarlyAmount'])): echo number_format($order['Orders_DiscountEarlyAmount'],2); ?>
-                    <?php elseif(!empty($order['Orders_DiscountTotalAmount'])): echo number_format($order['Orders_DiscountTotalAmount'],2); ?>
-                    <?php endif ?>
+                        <td style="text-align: right;">- RM
+                            <?php if (!empty($order['Orders_DiscountEarlyAmount'])): echo number_format($order['Orders_DiscountEarlyAmount'],2); ?>
+                            <?php elseif(!empty($order['Orders_DiscountTotalAmount'])): echo number_format($order['Orders_DiscountTotalAmount'],2); ?>
+                            <?php endif ?>
                         </td>
                     </tr>
+                    <?php if($order['Orders_TotalPrice'] != CartController::actionRoundoff1decimal($order['Orders_TotalPrice'])): ?>
+                    <tr>
+                         <td style="text-align: right;">Round off:</td>
+                         <td style="text-align: right;">
+                            <?php if($order['Orders_TotalPrice'] > CartController::actionRoundoff1decimal($order['Orders_TotalPrice'])): echo "- RM ".number_format($order['Orders_TotalPrice'] - CartController::actionRoundoff1decimal($order['Orders_TotalPrice']),2); ?>
+
+                            <?php elseif($order['Orders_TotalPrice'] < CartController::actionRoundoff1decimal($order['Orders_TotalPrice'])): echo "+ RM ".number_format(CartController::actionRoundoff1decimal($order['Orders_TotalPrice']) - $order['Orders_TotalPrice'],2); ?>
+                            <?php endif ?>  
+                        </td>
+                    </tr>
+                    <?php endif ?>
                     <tr>
                         <td style="text-align: right;font-weight: bold;padding-top: 5%;">Total:</td>
                         <td style="text-align: right;font-weight: bold;padding-top: 5%;">RM <?=  CartController::actionRoundoff1decimal($order['Orders_TotalPrice']); ?></td>
-                    </tr>
-                    
+                    </tr>     
                 </table>
 
                 

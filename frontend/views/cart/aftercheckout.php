@@ -102,8 +102,18 @@ CheckoutAsset::register($this);
                         <?php endif; ?>
                         <tr class="aftercheckout-total" style="background-color: rgba(255,228,69,0.7)">
                             <td></td>
+                            <?php if($order['Orders_TotalPrice'] != CartController::actionRoundoff1decimal($order['Orders_TotalPrice'])): ?>
+                            <td class="text-right" style="text-align: right; padding:3%;"><?=Yii::t('common','Total'); ?>:</td>
+                                <td class="text-right">
+                                    <div style="font-size:15px;">
+                                       <del>RM <?= number_format($order['Orders_TotalPrice'],2); ?></del>
+                                    </div> 
+                            <?php else: ?>
                             <td class="text-right" style="text-align: right;"><?=Yii::t('common','Total'); ?>:</td>
-                            <td class="text-right">RM <?= number_format($order['Orders_TotalPrice'],2); ?></td>
+                            <td class="text-right" style="height:24px;">         
+                            <?php endif ?>
+                                    <div> RM <?= CartController::actionRoundoff1decimal($order['Orders_TotalPrice'],2); ?> </div>
+                                </td>
                         </tr>
                 </table>
             </div>

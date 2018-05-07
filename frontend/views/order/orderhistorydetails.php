@@ -6,6 +6,7 @@ use common\models\Order\Orderitemselection;
 use common\models\food\FoodSelectionName;
 use common\models\Order\Orders;
 use frontend\controllers\CommonController;
+use frontend\controllers\CartController;
 use yii\helpers\Html;
 $this->title = "Invoice";
 ?>
@@ -109,11 +110,21 @@ $this->title = "Invoice";
                     <?php endif ?>
                         </td>
                     </tr>
+                    <?php if($order['Orders_TotalPrice'] != CartController::actionRoundoff1decimal($order['Orders_TotalPrice'])): ?>
+                    <tr>
+                        <td style="text-align: right;">Round off:</td>
+                        <td style="text-align: right;">
+                        <?php if($order['Orders_TotalPrice'] > CartController::actionRoundoff1decimal($order['Orders_TotalPrice'])): echo "- RM ".number_format($order['Orders_TotalPrice'] - CartController::actionRoundoff1decimal($order['Orders_TotalPrice']),2); ?>
+
+                        <?php elseif($order['Orders_TotalPrice'] < CartController::actionRoundoff1decimal($order['Orders_TotalPrice'])): echo "+ RM ".number_format(CartController::actionRoundoff1decimal($order['Orders_TotalPrice']) - $order['Orders_TotalPrice'],2); ?>
+                                    <?php endif ?>  
+                        </td>
+                    </tr>
+                    <?php endif ?>
                     <tr>
                         <td style="text-align: right;font-weight: bold;padding-top: 5%;">Total:</td>
-                        <td style="text-align: right;font-weight: bold;padding-top: 5%;">RM <?=  number_format($order['Orders_TotalPrice'],2); ?></td>
+                        <td style="text-align: right;font-weight: bold;padding-top: 5%;">RM <?=  CartController::actionRoundoff1decimal($order['Orders_TotalPrice']); ?></td>
                     </tr>
-                    
                 </table>
 
                 

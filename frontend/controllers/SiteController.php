@@ -276,38 +276,57 @@ class SiteController extends CommonController
     {
         $back=1;
         $model = new SignupForm();
+        $userdetail = new Userdetails();
         $employee = new CompanyEmployees();
         $company = Arrayhelper::map(Company::find()->andWhere(['!=','status',0])->all(),'id','name');
         if ($model->load(Yii::$app->request->post())) {
-            $employee->load(Yii::$app->request->post());
-            if ($user = $model->signup()) {
-                $employee['uid'] = $user['id'];
-                $employee['status'] = 0;
-                $employee['created_at'] = time();
-                $employee['updated_at'] = time();
-                $employee->save(false);
-                $email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
-                    ['id' => $user->id, 'auth_key' => $user->auth_key,'back'=>$back])//pass value)
-                ->setTo($user->email)
-                ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
-                ->setSubject('Signup Confirmation')
-                ->send();
-                if($email){
-                    if (Yii::$app->getUser()->login($user)) {
+            $userdetail->load(Yii::$app->request->post());
+            $phone = Yii::$app->request->post('Userdetails')['User_ContactNo'];
+            $valid = PhoneController::ValidatePhone($model->validate_code,$phone);
+            if ($valid == true) {
+                $employee->load(Yii::$app->request->post());
+                if ($user = $model->signup()) {
 
-                        Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
-                        return $this->redirect(['/site/validation']);
+                    $valid = self::actionConfirm($user['id'],$user['auth_key'],$userdetail['User_ContactNo']);
+                    if ($valid==true) {
+                        $employee['uid'] = $user['id'];
+                        $employee['status'] = 0;
+                        $employee['created_at'] = time();
+                        $employee['updated_at'] = time();
+                        $employee->save(false);
+
+                        if (Yii::$app->getUser()->login($user)) {
+                            Yii::$app->getSession()->setFlash('success',Yii::t('common','Sign up success!'));
+                            return $this->redirect(['/user/user-profile']);
+                        }
+                        else{
+                            Yii::$app->getSession()->setFlash('warning','Signup failed, please contact customer service.');
+                            return $this->goHome();
+                        }
+                    }
+                    
+                    //signup with email version
+                    /*$email = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
+                        ['id' => $user->id, 'auth_key' => $user->auth_key,'back'=>$back])//pass value)
+                    ->setTo($user->email)
+                    ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                    ->setSubject('Signup Confirmation')
+                    ->send();
+                    if($email){
+                        if (Yii::$app->getUser()->login($user)) {
+
+                            Yii::$app->getSession()->setFlash('success','Verification email sent! Kindly check email and validate your account.');
+                            return $this->redirect(['/site/validation']);
+                        }
+                    }
+                    else{
+                    Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
+                    }
+                    return $this->goHome();*/
                     }
                 }
-                else{
-                Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
-                }
-                return $this->goHome();
-                }
             }
-        
-
-        return $this->render('signup', ['model' => $model,'employee'=>$employee,'company'=>$company]);
+        return $this->render('signup', ['model' => $model,'employee'=>$employee,'company'=>$company,'userdetail'=>$userdetail]);
     }
 
     public function actionCompanysignup()
@@ -361,16 +380,28 @@ class SiteController extends CommonController
                 return $this->redirect(['/site/validation']);
     }
 
-    public function actionConfirm()
+    public function actionConfirm($uid='',$auth_k='',$contact_no='')
     {   
-        $id = Yii::$app->request->get('id');
-        
-        $key = Yii::$app->request->get('auth_key');
-        $user = User::find()->where([
-        'id'=>$id,
-        'auth_key'=>$key,
-        'status'=>1,
-        ])->one();
+        if (empty($uid)||empty($auth_k)||empty($contact_no)) {
+            //path for email confirm
+            $id = Yii::$app->request->get('id');
+            $key = Yii::$app->request->get('auth_key');
+            $user = User::find()->where([
+                'id'=>$id,
+                'auth_key'=>$key,
+                'status'=>1,
+            ])->one();
+        }
+        else{
+            //phone number confirm, updated 07 May 2018
+            $id = $uid;
+            $key = $auth_k;
+            $user = User::find()->where([
+                'id'=>$id,
+                'auth_key'=>$key,
+                'status'=>10,
+            ])->one();
+        }
         
         if(!empty($user)){
             $user->status=10;
@@ -381,13 +412,13 @@ class SiteController extends CommonController
                 $userdetails->User_id= $id;
                 $userdetails->User_Username= $user['username'];
             }
+            $userdetails->User_ContactNo = $contact_no;
             if(empty($userbalance)){
                 $userbalance = new Accountbalance;
                 $userbalance->User_Username = $user['username'];
                 $userbalance->User_Balance = 0; 
             }
             $point = self::generateMemberPoint($id);
-
             $isValid = $user->validate() && $userdetails->validate() && $point->validate();
             if($isValid)
             {

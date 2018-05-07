@@ -14,7 +14,7 @@ use common\models\User;
 		<div class="text-center"><p><?= Yii::t('site',"Didn't receive activation email?") ?></p><a href="<?php echo yii\helpers\Url::to(['site/resendconfirmlink'])?>"><?= Yii::t('site','Resend activation email') ?></a></div>
 		<?php } ?>
 		<br>
-		<div class="text-center"><p>*If did not receive any activation email,please check your span mailbox or <a href="mailto:support@hamsterEat.my" target="_blank" >Contact us</a></p>
+		<div class="text-center"><p>*If did not receive any activation email,please check your spam mailbox or <a href="mailto:support@hamsterEat.my" target="_blank" >Contact us</a></p>
 		</div>
 	</div>
 </div>

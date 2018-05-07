@@ -7,20 +7,15 @@ use yii\web\AssetBundle;
 /**
  * Main frontend application asset bundle.
  */
-class UserAsset extends AssetBundle
+class SignupAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/user.css',
-        'css/drop-down-mobile.css',
         'css/button.css',
     ];
     public $js = [
-        // 'js/rating-index.js',
         'js/phone_validate.js',
-        'js/add-modal.js',
-        'js/user.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

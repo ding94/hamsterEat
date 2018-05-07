@@ -66,7 +66,7 @@ UserAsset::register($this);
                     </div>
                 </div>
 
-                <?= $form->field($detail, 'User_ContactNo')->textInput()->label(Yii::t('user','Contact Number')) ?>
+                <?= $form->field($detail, 'User_ContactNo')->textInput(['readOnly'=> true])->label(Yii::t('user','Contact Number')) ?>
 
                 <div class="form-group">
                     <?= Html::submitButton(Yii::t('user','Update Profile'), ['class' => 'raised-btn main-btn change-password-resize-btn', 'name' => 'signup-button']) ?>

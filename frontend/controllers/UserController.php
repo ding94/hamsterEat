@@ -1,25 +1,20 @@
 <?php
 namespace frontend\controllers;
 use Yii;
-use yii\web\Controller;
-use yii\helpers\ArrayHelper;
 use yii\data\Pagination;
-use common\models\user\Userdetails;
-use common\models\user\Useraddress;
-use common\models\User;
-use common\models\user\Changepassword;
-use common\models\Upload;
-use common\models\Company\CompanyEmployees;
-use yii\web\UploadedFile;
-use yii\helpers\Json;
-use common\models\Account\Accountbalance;
-use common\models\Account\AccountbalanceHistory;
-use frontend\models\Accounttopup;
-use common\models\Withdraw;
-use common\models\Account\Memberpoint;
-use frontend\controllers\CommonController;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
+use yii\helpers\Json;
+use yii\helpers\ArrayHelper;
+use yii\web\Controller;
+use yii\web\UploadedFile;
+use frontend\models\SignupForm;
+use frontend\models\Accounttopup;
+use frontend\controllers\CommonController;
+use common\models\{User,Upload,Withdraw};
+use common\models\Account\{Accountbalance,AccountbalanceHistory,Memberpoint};
+use common\models\Company\CompanyEmployees;
+use common\models\user\{Useraddress,Userdetails,Changepassword};
 
 class UserController extends CommonController
 {
@@ -30,7 +25,7 @@ class UserController extends CommonController
                  'class' => AccessControl::className(),
                  'rules' => [
                     [
-                        'actions' => ['user-profile','userdetails','useraddress','userbalance','changepassword','primary-address','newaddress','delete-address','edit-address','change-name-contact'],
+                        'actions' => ['user-profile','userdetails','useraddress','userbalance','changepassword','primary-address','newaddress','delete-address','edit-address','change-name-contact','phone-detail'],
                         'allow' => true,
                         'roles' => ['@'],
 
@@ -126,6 +121,32 @@ class UserController extends CommonController
 		//$this->view->title = 'Update Profile';
 		$this->layout = 'user';
 		return $this->render("userdetails",['detail' => $detail,'link' => $link,'upload'=>$upload]);
+    }
+
+    public function actionPhoneDetail()
+    {
+        $detail = Userdetails::findOne(Yii::$app->user->identity->id);
+        $signup = new SignupForm();
+        $link = CommonController::createUrlLink(2);
+        if (Yii::$app->request->post()) {
+            $signup->load(Yii::$app->request->post());
+            $detail->load(Yii::$app->request->post());
+            $phone = $detail['User_ContactNo'];
+            $valid = PhoneController::ValidatePhone($signup->validate_code,$phone);
+
+            if ($valid == true) {
+                if ($detail->validate()) {
+                    $detail->save();
+                    Yii::$app->session->setFlash('success', Yii::t('common',"Success!"));
+                    return $this->redirect(['/user/user-profile']);
+                }
+                else{
+                    Yii::$app->session->setFlash('warning', Yii::t('common',"Update Failed"));
+                }
+            }
+        }
+
+        return $this->render('phone-detail',['detail'=>$detail,'signup'=>$signup]);
     }
 
 	public function actionUserbalance()

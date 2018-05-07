@@ -15,7 +15,7 @@ class SignupForm extends Model
     public $password;
     public $type;
     public $status;
-
+    public $validate_code;
 
     /**
      * @inheritdoc
@@ -28,14 +28,16 @@ class SignupForm extends Model
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 6, 'max' => 12],
 
-            ['email', 'trim'],
+            /*['email', 'trim'],
             ['email', 'required','message'=>Yii::t('common','Email').Yii::t('common',' cannot be blank.')],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],*/
 
             ['password', 'required','message'=>Yii::t('common','Password').Yii::t('common',' cannot be blank.')],
             ['password', 'string', 'min' => 6, 'max' => 20],
+            ['validate_code','required'],
+            ['validate_code','integer'],
         ];
     }
 
@@ -68,7 +70,6 @@ class SignupForm extends Model
         if($this->status == 2){
             $user = new User();
             $user->username = $this->username;
-            $user->email = $this->email;
             $user->status = 2;
             $user->setPassword($this->password);
             $user->generateAuthKey();
@@ -76,12 +77,12 @@ class SignupForm extends Model
         } else {
             $user = new User();
             $user->username = $this->username;
-            $user->email = $this->email;
             $user->setPassword($this->password);
             $user->generateAuthKey();
+            $user->status = 10;
             $user->save(false);
         }
-		
+        
         if($user->save())
 		{
 			if($this->type == 2){

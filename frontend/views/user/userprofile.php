@@ -84,7 +84,7 @@ UserAsset::register($this);
                 </div>
 				 <div class="row outer-row">
           <div class="inner-row">
-                <div class="userprofile-label"><?= Yii::t('common','Contact')?>:</div>
+                <div class="userprofile-label"><?= Yii::t('common','Contact No')?>:</div>
                 <div class="userprofile-text"><?php echo empty($user->userdetails->User_ContactNo) ? Yii::t('common',"not set") :$user->userdetails->User_ContactNo ?></div>
                 </div>
               </div>

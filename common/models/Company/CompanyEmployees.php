@@ -47,7 +47,8 @@ class CompanyEmployees extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cid', 'uid'], 'required'],
+            [['uid'], 'required'],
+            ['cid', 'required', 'message' => Yii::t('company','Company cannot be blank.')],
             [['cid', 'uid', 'status', 'created_at', 'updated_at'], 'integer'],
         ];
     }

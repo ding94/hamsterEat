@@ -56,7 +56,7 @@ CheckoutAsset::register($this);
                 <div class="row">
                     <div class="col-xs-3 cart-label"><?= Yii::t('common','Contact No') ?>:</div>
                     <div class="col-xs-9">
-                        <?= $form->field($deliveryaddress, 'contactno')->textInput(['value'=>$contact])->label('')?>
+                        <?= $form->field($deliveryaddress, 'contactno')->textInput(['value'=>$contact,'readOnly'=> true])->label('')?>
                     </div>
                 </div>
             </div>

@@ -20,6 +20,7 @@ use common\models\Deliveryman;
 use common\models\Restaurant;
 use common\models\News;
 use common\models\Order\Orderitem;
+use common\models\user\Userdetails;
 use yii\bootstrap\Modal;
 use frontend\assets\NotificationAsset;
 use common\models\Company\Company;
@@ -238,7 +239,7 @@ NotificationAsset::register($this);
     ?>
     <?php 
         if (!Yii::$app->user->isGuest) {
-            if(Yii::$app->user->identity->status == 1){
+            if(Yii::$app->user->identity->status == 1 || empty(Userdetails::findOne(Yii::$app->user->identity->id)->User_ContactNo)){
                 echo Html::hiddenInput('user-validation',1);
             }
             else{

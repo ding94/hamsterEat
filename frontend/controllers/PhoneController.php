@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use frontend\controllers\CommonController;
 use common\models\sms\SmsSender;
+use common\models\user\Userdetails;
 use yii\web\Session;
 use Yii;
 
@@ -22,6 +23,10 @@ class PhoneController extends CommonController
 		if(empty($post['phone_number']))
 		{
 			$data['message'] = "Empty Phone Number";
+			return json_encode($data);
+		}
+		if (Userdetails::find()->where('User_ContactNo = :c',[':c'=>$post['phone_number']])->one()) {
+			$data['message'] = Yii::t('site','This Phone number has already been taken.');
 			return json_encode($data);
 		}
 		$random_digit = mt_rand(100000, 999999);

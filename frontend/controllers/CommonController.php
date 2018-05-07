@@ -10,6 +10,7 @@ use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
 use common\models\Cart\Cart;
+use common\models\user\Userdetails;
 use common\models\{Rmanager,RestaurantName,Rmanagerlevel,RestDays};
 use common\models\notic\{Notification,NotificationType};
 use common\models\Order\PlaceOrderChance;
@@ -32,9 +33,7 @@ class CommonController extends Controller
         {
             if(Yii::$app->user->identity->status == 1 || Yii::$app->user->identity->status == 2)
             {
-               
-               
-                if($permissionName   == 'site/validation')
+                if($permissionName == 'site/validation')
                 {
                     return true;
                 }
@@ -47,6 +46,17 @@ class CommonController extends Controller
                 $this->redirect(['/site/validation']);
                 return false;
                     //Yii::$app->end();
+            }
+
+            
+            if ($permissionName == 'user/phone-detail' || $permissionName == 'phone/validate') {
+                Yii::$app->session->setFlash('warning','Please complete your phone number before ordering.');
+                 return true;
+            }
+            $detail = Userdetails::findOne(Yii::$app->user->identity->id);
+            if (empty($detail['User_ContactNo'])) {
+                Yii::$app->session->setFlash('warning','Please complete your phone number before ordering.');
+                return $this->redirect(['/user/phone-detail']);
             }
         }
        

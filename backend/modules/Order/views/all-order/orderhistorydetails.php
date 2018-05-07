@@ -16,8 +16,7 @@ $this->title = "Invoice";
         <div class="row" style="padding-top: 5%;font-family: 'Times New Roman', Times, serif;">
             <div name="titles"s style="padding-bottom: 5%">
                 <font style="font-size: 3em;">Invoice</font>
-                <p>SGshop Ecommerce Sdn Bhd</p>
-                <p>1123326T</p>
+                <p>SGshop Ecommerce Sdn Bhd (1123326-T)</p>
                 <p>B-GF-05, Medini 6, Jalan Medini Sentral 5, Bandar Medini Iskandar Malaysia,<br>79250 Iskandar Puteri, Johor, Malaysia. </p>
             </div>
 

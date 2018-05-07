@@ -189,7 +189,7 @@ class CommonController extends Controller
         $valid_date = self::getDateValid();
         return true;
         if ($valid_date['valid']==false) {
-            Yii::$app->session->setFlash('error', Yii::t('checkout','We are rest because of '. $valid_date['reason']));
+            Yii::$app->session->setFlash('error', $valid_date['reason']);
             return false;
         }
          if ($time<7 || $time>=11 || $date==6 || $date == 7) {

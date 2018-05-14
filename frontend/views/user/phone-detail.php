@@ -44,6 +44,7 @@ UserAsset::register($this);
                 <ul class="nav nav-pills nav-stacked">
                     <li role="presentation"><?php echo Html::a(Yii::t('user','Edit User Profile'),['/user/userdetails'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                     <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?=Yii::t('user','Change Contact Number')?></a></li>
+                    <li role="presentation"><?php echo Html::a(Yii::t('user','Update Email'),['/user/email-detail'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                     <li role="presentation"><?php echo Html::a(Yii::t('user','Change Password'),['/user/changepassword'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                 </ul>
             </div>

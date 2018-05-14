@@ -5,15 +5,15 @@
 /* @var $model \frontend\models\SignupForm */
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
 use kartik\widgets\Select2;
+use yii\bootstrap\ActiveForm;
 use frontend\assets\UserAsset;
-use kartik\widgets\FileInput;
 
-$this->title = Yii::t('user','Edit details');
+$this->title = Yii::t('user','Email');
 UserAsset::register($this);
 ?>
-
+<?= Html::hiddenInput('url',Url::toRoute(['/phone/validate']))?>
 <div class="profile">
     <div id="userprofile" class="row">
    <div class="userprofile-header">
@@ -42,37 +42,32 @@ UserAsset::register($this);
             </div>
             <div class="nav-url">
                 <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?= Yii::t('user','Edit User Profile') ?></a></li>
+                    <li role="presentation"><?php echo Html::a(Yii::t('user','Edit User Profile'),['/user/userdetails'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                     <li role="presentation"><?php echo Html::a(Yii::t('user','Change Contact Number'),['/user/phone-detail'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
-                    <li role="presentation"><?php echo Html::a(Yii::t('user','Update Email'),['/user/email-detail'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
+                    <li role="presentation" class="active"><a href="#" class="btn-block userprofile-edit-left-nav"><?=Yii::t('user','Update Email')?></a></li>
                     <li role="presentation"><?php echo Html::a(Yii::t('user','Change Password'),['/user/changepassword'],['class'=>'btn-block userprofile-edit-left-nav'])?></li>
                 </ul>
             </div>
         </div>
     </div>
+    <div class='col-sm-8'>
+         <p><b><?= Yii::t('user','Current Email') ?></b></p>
+         <p>
+            <?php if(!empty($user['email'])): ?>
+                <?= $user['email'] ?>
+            <?php else: ?>
+                Null
+            <?php endif;?>        
+        </p>
+    </div>
         <div class="col-sm-8 userprofile-edit-input">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
                 
-                <?php 
-                    echo $form->field($upload, 'imageFile')->widget(FileInput::classname(), [
-                        'options' => ['accept' => 'image/*'],
-                    ])->label(Yii::t('common','Upload Image'));
-                ?>
-             
-                <div class="row">
-                    <div class="col-sm-6">
-                          <?= $form->field($detail, 'User_FirstName')->textInput()->label(Yii::t('user','First Name')) ?>
-                    </div> 
-                    <div class="col-sm-6">
-                            <?= $form->field($detail, 'User_LastName')->textInput()->label(Yii::t('user','Last Name')) ?>
-                    </div>
-                </div>
-
-                <?= $form->field($detail, 'User_ContactNo')->textInput(['readOnly'=> true])->label(Yii::t('user','Contact Number')) ?>
+                <?= $form->field($model, 'email')->textInput(['value'=>''])->label(Yii::t('user','New Email')) ?>
+                
 
                 <div class="form-group">
-                    <?= Html::submitButton(Yii::t('user','Update Profile'), ['class' => 'raised-btn main-btn change-password-resize-btn', 'name' => 'signup-button']) ?>
-                    <?php echo Html::a(Yii::t('common','Back'),['/user/user-profile'],['class'=>'raised-btn secondary-btn change-password-resize-btn'])?>
+                    <?= Html::submitButton(Yii::t('user','Update Email'), ['class' => 'raised-btn main-btn change-password-resize-btn', 'name' => 'signup-button']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

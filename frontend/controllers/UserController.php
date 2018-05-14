@@ -8,6 +8,7 @@ use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\UploadedFile;
+use yii\web\Session;
 use frontend\models\SignupForm;
 use frontend\models\Accounttopup;
 use frontend\controllers\CommonController;
@@ -25,7 +26,7 @@ class UserController extends CommonController
                  'class' => AccessControl::className(),
                  'rules' => [
                     [
-                        'actions' => ['user-profile','userdetails','useraddress','userbalance','changepassword','primary-address','newaddress','delete-address','edit-address','change-name-contact','phone-detail','change-phone'],
+                        'actions' => ['user-profile','userdetails','useraddress','userbalance','changepassword','primary-address','newaddress','delete-address','edit-address','change-name-contact','phone-detail','email-detail','email-confirm'],
                         'allow' => true,
                         'roles' => ['@'],
 
@@ -128,7 +129,7 @@ class UserController extends CommonController
         $detail = Userdetails::findOne(Yii::$app->user->identity->id);
         
         $signup = new SignupForm();
-        $link = CommonController::createUrlLink(2);
+        $link = CommonController::createUrlLink(1);
         if (Yii::$app->request->post()) {
             $signup->load(Yii::$app->request->post());
             $detail->load(Yii::$app->request->post());
@@ -148,6 +149,72 @@ class UserController extends CommonController
         }
         $this->layout = 'user';
         return $this->render('phone-detail',['detail'=>$detail,'signup'=>$signup,'link'=>$link]);
+    }
+
+    public function actionEmailDetail()
+    {
+        $user = User::findOne(Yii::$app->user->identity->id);
+        $link = CommonController::createUrlLink(1);
+        $model = new User;
+        $model->scenario = 'changeAdmin';
+
+        if ($model->load(Yii::$app->request->post())) {
+            $back = 1;
+            $email = $model['email'];
+            if ($email == $user['email']) {
+                Yii::$app->getSession()->setFlash('warning',Yii::t('user','Email was same as current.'));
+                return $this->redirect(['/user/email-detail']);
+            }
+            if (User::find()->where('email=:e',[':e'=>$email])->one()) {
+                Yii::$app->getSession()->setFlash('warning',Yii::t('user','This email address has already been taken.'));
+                return $this->redirect(['/user/email-detail']);
+            }
+
+            $mail = \Yii::$app->mailer->compose(['html' => 'confirmLink-html','text' => 'confirmLink-text'],//html file, word file in email
+                    ['id' => $user->id, 'auth_key' => $user->auth_key,'back'=>$back])//pass value)
+                    ->setTo($email)
+                    ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                    ->setSubject('Email Confirmation')
+                    ->send();
+
+                $session = Yii::$app->session;
+                $session['email'] = [
+                    'time' => time(),
+                    'lifetime' => 3600,
+                    'key' => $user->auth_key,
+                    'email' => $email,
+                ];
+            if($mail){
+                    Yii::$app->getSession()->setFlash('success',Yii::t('user','Verification email sent! Kindly check email and validate your account.'));
+                    return $this->redirect(['/user/email-detail']);
+                }
+
+            else{
+                Yii::$app->getSession()->setFlash('warning','Failed, kindly contact our customer srevice if you need help.');
+            }
+        }
+        $this->layout = 'user';
+        return $this->render('email-detail',['user'=>$user,'model'=>$model,'link'=>$link]);
+    }
+
+    public function actionEmailConfirm($id,$auth_key)
+    {
+        if (!empty(Yii::$app->session->get('email'))) {
+            $session = Yii::$app->session->get('email');
+            $user = User::findOne(Yii::$app->user->identity->id);
+            if ($id == $user['id'] && $auth_key == $user['auth_key']) {
+                $user['email'] = $session['email'];
+                $user->save();
+                Yii::$app->getSession()->setFlash('success',Yii::t('cart','Success!'));
+            }
+            else{
+                Yii::$app->getSession()->setFlash('warning',Yii::t('user','Verification failed! Kindly check resend email again.'));
+            }
+        }
+        else{
+            Yii::$app->getSession()->setFlash('warning',Yii::t('user','Verification failed! Kindly check resend email again.'));
+        }
+        return $this->redirect(['/user/email-detail']);
     }
 
 	public function actionUserbalance()

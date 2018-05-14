@@ -109,7 +109,8 @@ class CommonController extends Controller
             case 1:
                 $data = [   
                             Url::to(['/user/userdetails']) => Yii::t('common','Edit User Details'),
-                            Url::to(['/user/change-phone']) => Yii::t('common','Change Contact Number'),
+                            Url::to(['/user/phone-detail']) => Yii::t('user','Change Contact Number'),
+                            Url::to(['/user/email-detail']) => Yii::t('user','Change Email'),
                             Url::to(['/user/changepassword']) => Yii::t('user','Change Password'),
                         ];
                 break;

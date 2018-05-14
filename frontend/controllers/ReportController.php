@@ -51,13 +51,14 @@ class ReportController extends CommonController
 	public function actionReportRestaurant($name)
 	{
 		$report = new Report();
-		$categoryArray = ArrayHelper::map(ReportCategoryRestaurantStatus::find()->all(),'title','title');
+		$categoryArray = ArrayHelper::map(ReportCategoryRestaurantStatus::find()->all(),'id','title');
 		foreach ($categoryArray as $k => $value) {
 			$categoryArray[$k] = Yii::t('report',$value);
 		}
 		if ($report->load(Yii::$app->request->post())) {
 			$report->User_Username = Yii::$app->user->identity->username;
-			$report->Report_DateTime = date('Y-m-d H:i:s');
+			$report->uid = Yii::$app->user->identity->id;
+			$report->Report_DateTime = time('Y-m-d H:i:s');
 			$report->Report_PersonReported = $name;
 			$report->save();
 			if ($report->save()) {

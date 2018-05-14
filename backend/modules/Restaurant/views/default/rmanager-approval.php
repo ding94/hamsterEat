@@ -21,15 +21,15 @@ use yii\bootstrap\Modal;
             [
                 'attribute' => 'uid',
                 'headerOptions' => ['width' => "15px"],
-                'filterInputOptions' => ['placeholder' => 'Search ID'],
+                'filterInputOptions' => ['placeholder' => 'Any ID','class'=>'form-control'],
             ],
             [
                 'attribute' => 'User_Username',
-                'filterInputOptions' => ['placeholder' => 'Search User'],
+                'filterInputOptions' => ['placeholder' => 'Any User','class'=>'form-control'],
             ],
             [
                 'attribute' =>'Rmanager_NRIC',
-                'filterInputOptions' => ['placeholder' => 'Search NRIC'],
+                'filterInputOptions' => ['placeholder' => 'Any NRIC','class'=>'form-control'],
             ], 
             [
                 'attribute' => 'Rmanager_DateTimeApplied',
@@ -44,7 +44,7 @@ use yii\bootstrap\Modal;
                         ]
                     ],
                 ],
-                'filterInputOptions' => ['placeholder' => 'Select Between Two Dates'],
+                'filterInputOptions' => ['placeholder' => 'Select Between Two Dates', 'class'=>'form-control'],
             ],     
 
             [
@@ -53,6 +53,7 @@ use yii\bootstrap\Modal;
                      return $model['Rmanager_Approval'] == 0 ?  'Pending' :  'Approved';
                 },
                 'filter' => array( "1"=>"Approved","0"=>"Pending"),
+                'filterInputOptions' => ['prompt' => 'Approval and Pending', 'class'=>'form-control'],
             ],  
             [
 

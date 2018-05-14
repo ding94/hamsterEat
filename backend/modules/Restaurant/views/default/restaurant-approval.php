@@ -21,21 +21,27 @@ use yii\bootstrap\Modal;
             [
                 'attribute' => 'Restaurant_ID',
                 'headerOptions' => ['width' => "15px"],
+                'filterInputOptions' => ['placeholder' => 'Search ID', 'class'=>'form-control'],
             ],
             [
                 'attribute' => 'Restaurant_Name',
+                'filterInputOptions' => ['placeholder' => 'Search Restaurant Name', 'class'=>'form-control'],
             ],
 
             [
                 'attribute' =>'Restaurant_DateTimeCreated',
-                 'value' => 'Restaurant_DateTimeCreated',
-                 'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'Restaurant_DateTimeCreated', 'dateFormat' => 'yyyy-MM-dd',]),
-                 'format' => 'datetime',
+                'value' => 'Restaurant_DateTimeCreated',
+                'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'Restaurant_DateTimeCreated', 'dateFormat' => 'yyyy-MM-dd',]),
+                'format' => 'datetime',
+               
             ],
-            [
+            [   
+                'attribute' =>'Restaurant_Status',
                 'value' => function($model,$url){
                      return $model['approval'] == 0 ?  'Rejected' :  'Approved';
-                }
+                },
+                'filter' => array( "1"=>"Approved","0"=>"Rejected"),
+                'filterInputOptions' => ['prompt' => 'Approved and Rejected', 'class'=>'form-control'],
             ],
             [
                 'format' => 'raw',

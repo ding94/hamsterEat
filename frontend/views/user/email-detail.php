@@ -65,7 +65,6 @@ UserAsset::register($this);
                 
                 <?= $form->field($model, 'email')->textInput(['value'=>''])->label(Yii::t('user','New Email')) ?>
                 
-
                 <div class="form-group">
                     <?= Html::submitButton(Yii::t('user','Update Email'), ['class' => 'raised-btn main-btn change-password-resize-btn', 'name' => 'signup-button']) ?>
                 </div>

@@ -51,6 +51,11 @@ UserAsset::register($this);
         	echo $form->field($deliveryMan,'DeliveryMan_VehicleType', ['enableClientValidation' => $enableRider])->dropdownList([ 'Motorcycle'=>'Motorcycle', 'Car'=>'Car', 'Van'=>'Van'],['prompt' => 'Select Vehicle Type']);
     	?>
     </div>
+    <div>
+        <?php 
+            echo $form->field($userdetails,'User_ContactNo')->textInput();
+        ?>
+    </div>
     	<div class="form-group">
 	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Add') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	   </div>

@@ -46,7 +46,7 @@ class Userdetails extends \yii\db\ActiveRecord
             ['User_ContactNo', 'trim'],
             [['User_ContactNo'], 'required','message'=>Yii::t('common','Contact No').Yii::t('common',' cannot be blank.')],
             [['User_ContactNo'], 'match', 'pattern' => '/^[0-9]{10,11}$/','message'=>'Please Enter Correct Phone Format (e.g: 0123456789) '],
-            ['User_ContactNo', 'unique', 'targetClass' => '\common\models\user\Userdetails', 'message' => Yii::t('site','This Phone number has already been taken.')],
+            ['User_ContactNo', 'unique', 'targetClass' => '\common\models\user\Userdetails', 'message' => Yii::t('common','This Phone number has already been taken.')],
 
             [['User_id'], 'integer'],
             [['User_FirstName', 'User_LastName', 'User_PicPath' ], 'string', 'max' => 255],

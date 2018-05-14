@@ -11,6 +11,7 @@ use backend\models\UserSearch;
 use common\models\User;
 use common\models\Deliveryman;
 use common\models\Rmanager;
+use common\models\User\UserDetails;
 
 Class UserController extends CommonController
 {
@@ -60,6 +61,7 @@ Class UserController extends CommonController
 	public function actionUpdate($id)
 	{
 		$model = User::find()->where('id = :id',[':id'=>$id])->one();
+		$userdetails = UserDetails::find()->where('User_id = :id',[':id' => $id])->one();
 		$deliveryMan = DeliveryMan::findOne($id);
 		$deliveryMan = empty($deliveryMan) ? new Deliveryman : $deliveryMan;
 		$manager = Rmanager::findOne($id);
@@ -68,12 +70,15 @@ Class UserController extends CommonController
 		$list = self::getRole($id);
 		$model->scenario ="changeAdmin";
 		if(Yii::$app->request->post())
-		{
+		{	
+
+			
 			$post = Yii::$app->request->post();
 			$model->load(Yii::$app->request->post());
+			$userdetails->load(Yii::$app->request->post());
 			$post = Yii::$app->request->post();
 			$validate = true;
-		
+			
 			$dmOrRm = self::deliveryOrRestaurant($deliveryMan,$manager);
 			
 			if($dmOrRm['value'] == 0)
@@ -91,15 +96,17 @@ Class UserController extends CommonController
 			$validate  = $validate && $model->validate();
 
 			if($validate == true)
-	        {
+	        {	
+	 
 	        	$model->save();
 	        	$data->save();
+	        	$userdetails->save();
 	        	
 	        	Yii::$app->session->setFlash('success', "Update completed");
 	        	return $this->redirect(['index']);
 	        }
 		}
-		return $this->render('update',['model' => $model,'deliveryMan' => $deliveryMan ,'manager'=>$manager,'list' => $list]);
+		return $this->render('update',['model' => $model,'deliveryMan' => $deliveryMan ,'userdetails'=> $userdetails,'manager'=>$manager,'list' => $list]);
 	}
 
 	protected static function permission($role,$id)

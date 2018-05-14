@@ -48,15 +48,16 @@ class CommonController extends Controller
                     //Yii::$app->end();
             }
 
+            $detail = Userdetails::findOne(Yii::$app->user->identity->id);
             
             if ($permissionName == 'user/phone-detail' || $permissionName == 'phone/validate') {
-                Yii::$app->session->setFlash('warning','Please complete your phone number before ordering.');
-                 return true;
+                return true;
             }
-            $detail = Userdetails::findOne(Yii::$app->user->identity->id);
+            
             if (empty($detail['User_ContactNo'])) {
                 Yii::$app->session->setFlash('warning','Please complete your phone number before ordering.');
-                return $this->redirect(['/user/phone-detail']);
+                $this->redirect(['/user/phone-detail']);
+                return false;
             }
         }
        
@@ -108,6 +109,7 @@ class CommonController extends Controller
             case 1:
                 $data = [   
                             Url::to(['/user/userdetails']) => Yii::t('common','Edit User Details'),
+                            Url::to(['/user/change-phone']) => Yii::t('common','Change Contact Number'),
                             Url::to(['/user/changepassword']) => Yii::t('user','Change Password'),
                         ];
                 break;

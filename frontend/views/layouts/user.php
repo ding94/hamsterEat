@@ -21,6 +21,7 @@ use common\models\Restaurant;
 use common\models\News;
 use frontend\assets\NotificationAsset;
 use frontend\assets\UserAsset;
+use common\models\user\Userdetails;
 use common\models\Order\Orders;
 use common\models\Order\Orderitem;
 AppAsset::register($this);
@@ -216,8 +217,9 @@ if (empty($language)) {
     ?>
 </div>
  <?php 
+    //aware from infinity refresh page
     if (!Yii::$app->user->isGuest) {
-        if(Yii::$app->user->identity->status == 1){
+        if(Yii::$app->user->identity->status == 1 || empty(Userdetails::findOne(Yii::$app->user->identity->id)->User_ContactNo)){
             echo Html::hiddenInput('user-validation',1);
         }
         else{

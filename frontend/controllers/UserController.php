@@ -25,7 +25,7 @@ class UserController extends CommonController
                  'class' => AccessControl::className(),
                  'rules' => [
                     [
-                        'actions' => ['user-profile','userdetails','useraddress','userbalance','changepassword','primary-address','newaddress','delete-address','edit-address','change-name-contact','phone-detail'],
+                        'actions' => ['user-profile','userdetails','useraddress','userbalance','changepassword','primary-address','newaddress','delete-address','edit-address','change-name-contact','phone-detail','change-phone'],
                         'allow' => true,
                         'roles' => ['@'],
 
@@ -126,6 +126,7 @@ class UserController extends CommonController
     public function actionPhoneDetail()
     {
         $detail = Userdetails::findOne(Yii::$app->user->identity->id);
+        
         $signup = new SignupForm();
         $link = CommonController::createUrlLink(2);
         if (Yii::$app->request->post()) {
@@ -145,8 +146,8 @@ class UserController extends CommonController
                 }
             }
         }
-
-        return $this->render('phone-detail',['detail'=>$detail,'signup'=>$signup]);
+        $this->layout = 'user';
+        return $this->render('phone-detail',['detail'=>$detail,'signup'=>$signup,'link'=>$link]);
     }
 
 	public function actionUserbalance()

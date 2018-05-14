@@ -238,6 +238,7 @@ NotificationAsset::register($this);
     NavBar::end();
     ?>
     <?php 
+    //aware from infinity refresh page
         if (!Yii::$app->user->isGuest) {
             if(Yii::$app->user->identity->status == 1 || empty(Userdetails::findOne(Yii::$app->user->identity->id)->User_ContactNo)){
                 echo Html::hiddenInput('user-validation',1);

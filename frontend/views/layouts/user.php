@@ -61,6 +61,9 @@ if (empty($language)) {
                     width:50%;
                     z-index:5000;',
    ],]);?>
+   <div id="system-messages">
+            <!-- place for system message (like yii::seflash) fade in -->
+    </div>
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>

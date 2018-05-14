@@ -243,7 +243,7 @@ class CommonController extends Controller
             $data['reason'] = $date['rest_day_name'];
         }
         else{
-            $data['exist'] = true;
+            $data['valid'] = true;
         }
         return $data;
     }

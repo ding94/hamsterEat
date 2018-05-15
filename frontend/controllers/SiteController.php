@@ -66,7 +66,7 @@ class SiteController extends CommonController
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['validation'],
+                        'actions' => ['validation','send-email-event'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -141,6 +141,24 @@ class SiteController extends CommonController
 
         return $this->render('index',['list'=>$list,'postcodeArray'=>$postcodeArray,'banner'=>$banner]);
 
+    }
+
+    public function actionSendEmailEvent()
+    {
+        //$user = User::find()->andWhere(['not', ['email' => null]])->all();
+        $users = array();
+        $users[0]['username'] = 'lynnchew';
+        $users[0]['email'] = 'chew.leyching@sgshop.com.my';
+        $users[1]['username'] = 'Destinyy92';
+        $users[1]['email'] = 'che.binghuang@sgshop.com.my';
+        foreach ($users as $k => $user) {
+            $email = \Yii::$app->mailer->compose(['html' => 'event-html'],
+                ['username' => $user['username']])
+                    ->setTo($user['email'])
+                    ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name])
+                    ->setSubject('30% Discount on Food Price')
+                    ->send();
+        }
     }
 
     public function actionNotify()

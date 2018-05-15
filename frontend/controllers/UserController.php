@@ -140,7 +140,7 @@ class UserController extends CommonController
                 if ($detail->validate()) {
                     $detail->save();
                     Yii::$app->session->setFlash('success', Yii::t('common',"Success!"));
-                    return $this->redirect(['/user/user-profile']);
+                    return $this->redirect(['/user/phone-detail']);
                 }
                 else{
                     Yii::$app->session->setFlash('warning', Yii::t('common',"Update Failed"));

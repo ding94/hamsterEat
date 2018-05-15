@@ -20,6 +20,16 @@ class PhoneController extends CommonController
 		$data['message'] = "";
 
 		$post = Yii::$app->request->post();
+
+		// detect time limit for 60sec, prevent from resend loop
+		$session = Yii::$app->session;
+		if (!empty($session->get('validation'))) {
+			$time_left = $session->get('validation')['time-limit'] - time();
+			if($time_left >= 0){
+				$data['message'] = Yii::t('user','Please wait for ').$time_left.' '.Yii::t('user','seconds to resend sms.');
+				return json_encode($data);
+			}
+		}
 		if(empty($post['phone_number']))
 		{
 			$data['message'] = "Empty Phone Number";
@@ -44,6 +54,7 @@ class PhoneController extends CommonController
 				$session = Yii::$app->session;
 				$session['validation'] = [
 				    'time' => $time,
+				    'time-limit' =>$time + 60,
 				    'lifetime' => 3600,
 				    'code' => md5($random_digit.$time.$sms->phone_number),
 				];

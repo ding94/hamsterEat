@@ -72,7 +72,6 @@ Class UserController extends CommonController
 		if(Yii::$app->request->post())
 		{	
 
-			
 			$post = Yii::$app->request->post();
 			$model->load(Yii::$app->request->post());
 			$userdetails->load(Yii::$app->request->post());
@@ -93,11 +92,11 @@ Class UserController extends CommonController
 				$validate = self::permission($post['User']['role'],$id);
 			}
 			
-			$validate  = $validate && $model->validate();
-
+			$validate  = $validate && $model->validate() && $userdetails->validate();
+	
 			if($validate == true)
 	        {	
-	 
+
 	        	$model->save();
 	        	$data->save();
 	        	$userdetails->save();

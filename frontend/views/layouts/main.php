@@ -49,6 +49,7 @@ NotificationAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keyword" content="Delivery Food, Delivery Food In Medini, Food Delivery, Delivery In Johor, Hamster Eat Malaysia, Hamster Eat, Hamstereat">
     <meta name=”description” content="Provide the easiest-to-use food delivery service in Medini City, to serve customers with delicious food during office lunch time">
+
     <!-- <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet"> -->
     <link rel="shortcut icon" type="image/png" href=<?php echo Url::to('@web/SysImg/Icon.png')?>>
     <?= Alert::widget(['options'=>[
@@ -102,7 +103,6 @@ NotificationAsset::register($this);
     
     Modal::end() 
     ?>
-
 
 <?php $this->beginBody() ?>
     <div class="wrap">

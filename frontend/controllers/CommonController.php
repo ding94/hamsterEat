@@ -237,7 +237,7 @@ class CommonController extends Controller
 
     public static function getDateValid()
     {
-        $date = RestDays::find()->andWhere(['or',['=','month',date('m')],['=','date',date('d')]])->one();
+        $date = RestDays::find()->andWhere(['and',['=','month',date('m')],['=','date',date('d')]])->one();
         $data = array();
         if (!empty($date)) {
             $data['valid'] = false;

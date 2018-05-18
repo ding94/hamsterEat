@@ -110,10 +110,6 @@ UserAsset::register($this);
               <H4><b><?= Yii::t('user','Company Register In Process')?></b></H4>
             <?php endif;?>
             </div>
-        <?php else: ?>
-          <div class='col-sm-3 userprofile-right' style="float: right;">
-            <?= Html::a('Find your Company',Url::to(['/company/show-companies']))?>
-          </div>
         <?php endif;?>
       </div>
     </div>

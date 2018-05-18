@@ -53,7 +53,8 @@ class NewsController extends CommonController
 	}
 
     public function actionNewsSimple($id)
-    {
+    {   
+        date_default_timezone_set("Asia/Kuala_Lumpur");
         $cookies = Yii::$app->request->cookies;
         if (!empty($cookies['language'])) {
             if ($cookies['language']->value == 'zh') {
@@ -68,19 +69,22 @@ class NewsController extends CommonController
         }
 
         $model=News::find()->orderBy('news.id DESC')->joinWith('enText','zhText')->limit(10)->all();
-        $news=News::find()->andWhere(['<=','startTime',date('Y-m-d')])->andWhere(['>','endTime',date('Y-m-d')])->joinWith('enText','zhText')->all();
-
+        $news=News::find()->andWhere(['<=','startTime',date('Y-m-d H:i:s')])->andWhere(['>=','endTime',date('Y-m-d H:i:s')])->orderBy('news.startTime DESC')->all();
         return $this->renderPartial('newssimple',['model'=>$model,'id'=>$id,'language'=>$language,'news'=>$news]);
     }
 
     public function actionNewsCookie()
-    {
+    {    
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $news=News::find()->andWhere(['<=','startTime',date('Y-m-d H:i:s')])->andWhere(['>=','endTime',date('Y-m-d H:i:s')])->orderBy('news.startTime DESC')->one();
+        
         $cookies = Yii::$app->request->cookies;
-        if (empty($cookies->getValue('news-read'))) {
+
+        if (empty($cookies->getValue('news-read')) || (($cookies->getValue('news-read')) != $news->id)){
             $cookie =  new Cookie([
                 'name' => 'news-read',
-                'value' => 1,
-                'expire' => time() + 86400,
+                'value' => $news->id,
+                'expire' => strtotime(date('Y-m-d 23:59:59')) ,
             ]);
             \Yii::$app->getResponse()->getCookies()->add($cookie);
         }

@@ -14,13 +14,14 @@ use common\models\user\Userdetails;
 use common\models\{Rmanager,RestaurantName,Rmanagerlevel,RestDays};
 use common\models\notic\{Notification,NotificationType};
 use common\models\Order\PlaceOrderChance;
+use common\models\News;
 
 class CommonController extends Controller
 {
     //public $enableCsrfValidation = false;
     public function beforeAction($action)
     {
-
+        
         if (!parent::beforeAction($action)) {
 
              return false;
@@ -85,13 +86,19 @@ class CommonController extends Controller
            
             Yii::$app->params['notication'] = $result;
            
-
+            
             //Total Cart item
           
             $cart = Cart::find()->where(['uid'=> Yii::$app->user->identity->id])->count();
             Yii::$app->params['countCart'] = $cart == 0 ? "" : $cart;
 
         }
+
+       $news=News::find()->all();
+       foreach ($news as $key => $value) {
+         
+       }
+       
        
     }
 

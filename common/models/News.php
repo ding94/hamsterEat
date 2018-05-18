@@ -48,7 +48,8 @@ class News extends \yii\db\ActiveRecord
 
     public function search($params)
     {
-        $query = self::find()->joinWith('enText','zhText');
+        $query = self::find()->orderBy('news.id DESC')->joinWith('enText','zhText');
+      
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

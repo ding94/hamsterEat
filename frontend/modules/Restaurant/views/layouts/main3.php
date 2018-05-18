@@ -32,6 +32,7 @@ $language = Yii::$app->request->cookies->getValue('language');
 if (empty($language)) {
     $language = CommonController::getLanguage();
 }
+date_default_timezone_set("Asia/Kuala_Lumpur");
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -88,7 +89,7 @@ if (empty($language)) {
     Modal::end();
 
     Modal::begin([
-            'header' => '<h2 class="modal-title">Server Maintenance</h2>',
+            'header' => '<h2 class="modal-title">Today News</h2>',
             'id'     => 'newsModal',
             'size'   => 'modal-lg',
     ]);
@@ -306,11 +307,12 @@ if (empty($language)) {
             //set banner hide or show
             $link = Url::to(['/site/closebanner']); 
             $cookies = Yii::$app->request->cookies;
-           
+            $news=News::find()->andWhere(['<=','startTime',date('Y-m-d H:i:s')])->andWhere(['>=','endTime',date('Y-m-d H:i:s')])->orderBy('news.startTime DESC')->joinWith('enText','zhText')->one();
+
             if(!empty($news))
             {
 
-                if(empty($cookies['news-read']))
+                if (empty($cookies->getValue('news-read')) || (($cookies->getValue('news-read')) != $news->id))
                 {   
                     echo Html::hiddenInput('news',1);
                     echo Html::hiddenInput('news-modal-url',Url::to(['/news/news-simple','id'=>$news->id]));

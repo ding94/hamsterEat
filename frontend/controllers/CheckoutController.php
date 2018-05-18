@@ -70,12 +70,10 @@ class CheckoutController extends CommonController
 
       	$cartData = $cookies->getValue('cart');
       	
-		
-        
-        $userexist = CompanyEmployees::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->all();
-        
+        $companymap = ArrayHelper::map(Company::find()->all(),'id','name');
+        //compnay detection
+        /*$userexist = CompanyEmployees::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->all();
         $companymap = array();
-
        	foreach ($userexist as $key => $value) {
        		  $company = Company::findOne($value->cid);
        		  $companymap[$value['cid']] = $company->name;
@@ -89,7 +87,7 @@ class CheckoutController extends CommonController
     	{
     		Yii::$app->session->setFlash('error', Yii::t('checkout','You do not belong to any company.'));
     		return $this->redirect(['cart/view-cart']);
-   		}
+   		}*/
 	
        	$user = Userdetails::find()->where('User_id=:uid',[':uid'=>Yii::$app->user->identity->id])->one();
 
@@ -106,7 +104,7 @@ class CheckoutController extends CommonController
         $deliveryAddress = new DeliveryAddress;
 		//$address = Useraddress::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->orderBy('level DESC')->all();
 		//$addressmap = ArrayHelper::map($address,'id','address');
-		return $this->render('index',['deliveryaddress'=>$deliveryAddress, 'order'=>$order, 'username'=>$username, 'contact'=>$contact, 'companymap'=>$companymap,'userexist'=>$userexist]);
+		return $this->render('index',['deliveryaddress'=>$deliveryAddress, 'order'=>$order, 'username'=>$username, 'contact'=>$contact, 'companymap'=>$companymap]);
 	}
 
 	public function actionProcess()

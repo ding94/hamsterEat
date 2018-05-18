@@ -295,23 +295,15 @@ class SiteController extends CommonController
         $back=1;
         $model = new SignupForm();
         $userdetail = new Userdetails();
-        $employee = new CompanyEmployees();
-        $company = Arrayhelper::map(Company::find()->andWhere(['!=','status',0])->all(),'id','name');
         if ($model->load(Yii::$app->request->post())) {
             $userdetail->load(Yii::$app->request->post());
             $phone = Yii::$app->request->post('Userdetails')['User_ContactNo'];
             $valid = PhoneController::ValidatePhone($model->validate_code,$phone);
             if ($valid == true) {
-                $employee->load(Yii::$app->request->post());
                 if ($user = $model->signup()) {
 
                     $valid = self::actionConfirm($user['id'],$user['auth_key'],$userdetail['User_ContactNo']);
                     if ($valid==true) {
-                        $employee['uid'] = $user['id'];
-                        $employee['status'] = 0;
-                        $employee['created_at'] = time();
-                        $employee['updated_at'] = time();
-                        $employee->save(false);
 
                         if (Yii::$app->getUser()->login($user)) {
                             Yii::$app->getSession()->setFlash('success',Yii::t('common','Sign up success!'));
@@ -344,7 +336,7 @@ class SiteController extends CommonController
                     }
                 }
             }
-        return $this->render('signup', ['model' => $model,'employee'=>$employee,'company'=>$company,'userdetail'=>$userdetail]);
+        return $this->render('signup', ['model' => $model,'userdetail'=>$userdetail]);
     }
 
     public function actionCompanysignup()

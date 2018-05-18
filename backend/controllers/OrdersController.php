@@ -6,7 +6,7 @@ use yii\db\Query;
 use yii\helpers\Url;
 use common\models\User;;
 use common\models\RestDays;;
-use common\models\order\PlaceOrderChance;
+use common\models\Order\PlaceOrderChance;
 
 class OrdersController extends CommonController 
 {

@@ -41,7 +41,7 @@ class DeliveryAddress extends \yii\db\ActiveRecord
     {
         return [
             [['deliveryman', 'type'], 'required'],
-            [['cid'],'required','message'=>Yii::t('checkout','Selection').Yii::t('common',' cannot be blank.')],
+            [['cid'],'required','message'=>Yii::t('checkout','Company').Yii::t('common',' cannot be blank.')],
             [['name'],'required','message'=>Yii::t('common','name').Yii::t('common',' cannot be blank.')],
             [['contactno'],'required','message'=>Yii::t('common','Contact No').Yii::t('common',' cannot be blank.')],
             [['delivery_id', 'deliveryman', 'type', 'postcode'], 'integer'],

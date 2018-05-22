@@ -45,23 +45,25 @@ Modal::end();
                 'attribute' =>'Delivery_ID',
                 'group'=>true,  
                 'headerOptions' => ['style' => 'width:9%'],
+                'filterInputOptions' => ['placeholder' => 'Search Delivery ID', 'class' => 'form-control'],
             ],
            
             [
                 'attribute' => 'Order_ID',
+                'filterInputOptions' => ['placeholder' => 'Search Order ID', 'class' => 'form-control'],
                 
             ],
             [
                 'attribute' => 'name',
                 'value' =>'order.address.name',
                 'headerOptions' => ['style' => 'width:12%'],
+                'filterInputOptions' => ['placeholder' => 'Search Name', 'class' => 'form-control'],
             ],
             [
-                'header'=> 'Contact Number',
+                'label'=> 'Contact Number',
                 'attribute' => 'contactno',
                 'value' =>'order.address.contactno',
-                'mergeHeader'=>'true',
-                'headerOptions' => ['style' => 'width:12%'],
+                'filterInputOptions' => ['placeholder' => 'Search Contact No', 'class' => 'form-control'],
             ],
 
             [
@@ -75,10 +77,13 @@ Modal::end();
                 'filterInputOptions' => ['placeholder' => 'Any Reason'],
                 'headerOptions' => ['style' => 'width:10%'],
             ],
-
-            'description',
             [
-
+                'header'=> 'Description',
+                'attribute' => 'description',
+                'mergeHeader'=>'true',
+                'headerOptions' => ['style' => 'width:12%'],
+            ],
+            [
                 'attribute'=>'status',
                 'value' => function($model)
                 {

@@ -18,12 +18,13 @@ Class OrderitemSearch extends Orders
     public $description;
     public $name;
     public $status;
+    public $contactno;
 
 	public function rules()
     {
         return [
             //[['userfullname','usercontact','food','order_selection'],'safe'],
-            [['Order_ID','Delivery_ID','reasons','name','status'],'safe'],
+            [['Order_ID','Delivery_ID','contactno','reasons','name','status'],'safe'],
         ];
     }
 
@@ -48,23 +49,20 @@ Class OrderitemSearch extends Orders
 
 		$query->joinWith(['order']);
 		$query->joinWith(['address']);
+
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['Delivery_ID' => SORT_DESC]],
         ]);
 
-        $dataProvider->sort->attributes['Delivery_ID'] = [
-	        'asc' => ['Delivery_ID' => SORT_ASC],
-	        'desc' => ['Delivery_ID' => SORT_DESC],
+       
+	    $dataProvider->sort->attributes['name'] = [
+	        'asc' => ['delivery_address.name' => SORT_ASC],
+	        'desc' => ['delivery_address.name' => SORT_DESC],
 	    ];
-
-        $dataProvider->sort->attributes['Order_ID'] = [
-	        'asc' => ['Order_ID' => SORT_ASC],
-	        'desc' => ['Order_ID' => SORT_DESC],
-	    ];
-
-	    $dataProvider->sort->attributes['Delivery_ID'] = [
-	        'asc' => ['orderitem.Delivery_ID' => SORT_ASC],
-	        'desc' => ['orderitem.Delivery_ID' => SORT_DESC],
+	    $dataProvider->sort->attributes['contactno'] = [
+	        'asc' => ['delivery_address.contactno' => SORT_ASC],
+	        'desc' => ['delivery_address.contactno' => SORT_DESC],
 	    ];
 
 	    $dataProvider->sort->attributes['reasons'] = [
@@ -80,8 +78,9 @@ Class OrderitemSearch extends Orders
            'reason' => $this->reasons,
            	
         ]);
-        $query->andFilterWhere(['like','Order_ID',$this->Order_ID]);
-        $query->andFilterWhere(['like','name',$this->name]);
+        $query->andFilterWhere(['like','problem_order.Order_ID',$this->Order_ID]);
+        $query->andFilterWhere(['like','LOWER(name)', strtolower($this->name)]);
+        $query->andFilterWhere(['like','contactno',$this->contactno]);
 
         return $dataProvider;
 	}

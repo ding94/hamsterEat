@@ -23,16 +23,37 @@ Class OnlinepaymenthistorySearch extends Payment
 
 		public function search($params)
 	{
-		$query = PaymentGatewayHistory::find()->orderBy('pid DESC');
-		$dataProvider = new ActiveDataProvider(['query' => $query,]);
+		$query = PaymentGatewayHistory::find();
+		$dataProvider = new ActiveDataProvider([
+			'query' => $query,
+			'sort' => ['defaultOrder' => ['pid' => SORT_DESC]],
+		]);
 		
+        $this->load($params);
+		$dataProvider->sort->attributes['bill_id'] = [
+			'asc'=>['bill_id'=>SORT_ASC],
+			'desc'=>['bill_id'=>SORT_DESC],
+		];
+		$dataProvider->sort->attributes['collect_id'] = [
+            'asc'=>['collect_id'=>SORT_ASC],
+            'desc'=>['collect_id'=>SORT_DESC],
+        ];
 
-		$this->load($params);
-		
+        $dataProvider->sort->attributes['pid'] = [
+            'asc'=>['pid'=>SORT_ASC],
+            'desc'=>['pid'=>SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['status'] = [
+            'asc'=>['status'=>SORT_ASC],
+            'desc'=>['status'=>SORT_DESC],
+        ];
+
+
 	 	$query->andFilterWhere([
 	          'pid' => $this->pid,
 	          'status' => $this->status,
-	        ]);
+	    ]);
 
 		$query->andFilterWhere(['like','collect_id' , $this->collect_id]);
 		$query->andFilterWhere(['like','bill_id' , $this->bill_id]);

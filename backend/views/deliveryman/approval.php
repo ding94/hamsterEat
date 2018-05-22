@@ -28,10 +28,11 @@ echo GridView::widget([
         [
             'attribute' => 'username',
             'value' => 'user.username',
+            'filterInputOptions' => ['placeholder' => 'Search Name','class' => 'form-control'],
         ],
         [
             'attribute' => 'DeliveryMan_VehicleType',
-            'mergeHeader'=>'true',
+            'mergeHeader'=>'true',     
         ],
         [
             'attribute'=>'status',
@@ -58,7 +59,7 @@ echo GridView::widget([
                     ]
                 ],
             ],
-            'filterInputOptions' => ['placeholder' => 'Set Between Two Dates'],
+            'filterInputOptions' => ['placeholder' => 'Set Between Two Dates','class' => 'form-control'],
         ],
         [
             'attribute' => 'timeApprove',
@@ -73,7 +74,7 @@ echo GridView::widget([
                     ]
                 ],
             ],
-            'filterInputOptions' => ['placeholder' => 'Set Between Two Dates'],
+            'filterInputOptions' => ['placeholder' => 'Set Between Two Dates','class' => 'form-control'],
 
         ],
         ['class' => 'yii\grid\ActionColumn' , 

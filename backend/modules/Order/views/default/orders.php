@@ -29,15 +29,15 @@ echo GridView::widget([
             ],
             [
               'attribute' =>'Order_ID',
-              'filterInputOptions' => ['placeholder' => 'Search ID'],
+              'filterInputOptions' => ['placeholder' => 'Search Order ID', 'class' => 'form-control'],
             ],
             [ 
               'attribute' => 'Delivery_ID',
-             'filterInputOptions' => ['placeholder' => 'Search ID'],
+              'filterInputOptions' => ['placeholder' => 'Search Delivery ID', 'class' => 'form-control'],
             ],
              [ 
               'attribute' => 'User_Username',
-              'filterInputOptions' => ['placeholder' => 'Search ID'],
+              'filterInputOptions' => ['placeholder' => 'Search User  ID', 'class' => 'form-control'],
               'value'=> 'order.User_Username',
             ],
             [
@@ -53,8 +53,8 @@ echo GridView::widget([
               'value'=>'order.Orders_PaymentMethod',
             ],
             [   
-              'attribute' => 'FoodName',
-              'filterInputOptions' => ['placeholder' => 'Select Food'],
+              'attribute' => 'foodName',
+              'filterInputOptions' => ['placeholder' => 'Select Food', 'class' => 'form-control'],
               'value'=>'food.originName',
             ],
             [
@@ -73,7 +73,7 @@ echo GridView::widget([
             [                  
               'attribute' => 'Orders_DateTimeMade',
               'value' => 'order.Orders_DateTimeMade',
-              'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'Orders_DateTimeMade', 'dateFormat' => 'yyyy-MM-dd',]),
+              'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'Orders_DateTimeMade', 'dateFormat' => 'yyyy-MM-dd','options' => ['class' =>'form-control', 'placeholder'=>'Select Date']]),
               'format' => 'datetime',
      
             ],

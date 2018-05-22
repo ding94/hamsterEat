@@ -19,13 +19,14 @@ Class OrderstatusSearch extends Orders
 	public function search($params)
 	{
 
-		$query = Orders::find()->distinct()->orderBy('Delivery_ID DESC');
+		$query = Orders::find()->distinct();
 				$query->joinWith(['order_item']);
 				$query->joinWith(['order_status']);
 				
 		
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['Delivery_ID' => SORT_DESC]],
         ]);
      
         $this->load($params);

@@ -51,7 +51,7 @@ class DeliveryManSearch extends Deliveryman
         $query->andFilterWhere([
         	'DeliveryMan_Approval'=>$this->status,
         ]);
-        $query->andFilterWhere(['like','user.username',$this->username]);
+        $query->andFilterWhere(['like','LOWER(user.username)',strtolower($this->username)]);
 
         return $dataProvider;
 	}

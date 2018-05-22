@@ -22,11 +22,12 @@ Class PaymenthistorySearch extends Payment
 
 		public function search($params)
 	{
-		$query = Payment::find()->orderBy('payment.id DESC');
+		$query = Payment::find();
 		$query->joinWith(['name']);
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
+			'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
 		]);
 		
 
@@ -40,8 +41,6 @@ Class PaymenthistorySearch extends Payment
 	       	
 	        ]);
 	 	 $query->andFilterWhere(['like','payment.id' , $this->id]);
-		 $query->andFilterWhere(['like','uid', $this->uid]);
-		 $query->andFilterWhere(['like','username' , $this->username]);
 		 $query->andFilterWhere(['like','paid_amount' , $this->paid_amount]);
 		 $query->andFilterWhere(['like','paid_type' , $this->paid_type]);
 		 return $dataProvider;

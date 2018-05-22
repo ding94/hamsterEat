@@ -70,7 +70,7 @@ class CheckoutController extends CommonController
 
       	$cartData = $cookies->getValue('cart');
       	
-        $companymap = ArrayHelper::map(Company::find()->all(),'id','name');
+        $companymap = ArrayHelper::map(Company::find()->where('status=:s',[':s'=>1])->orderBy('name')->all(),'id','name');
         //compnay detection
         /*$userexist = CompanyEmployees::find()->where('uid = :uid',[':uid'=> Yii::$app->user->identity->id])->all();
         $companymap = array();

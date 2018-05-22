@@ -39,6 +39,7 @@ class PromotionController extends Controller
 	*/
 	public static function getPromotion()
 	{
+		date_default_timezone_set("Asia/Kuala_Lumpur");
 		$today = date("Y-m-d");
 		$promotion = Promotion::find()->where(['<=','start_date',$today])->andWhere(['>=','end_date',$today])->one();
 
@@ -104,7 +105,7 @@ class PromotionController extends Controller
 			case '1':
 				$dis = $discount/100;
 				$price *= $dis;
-				$message = "Discount ".$discount." %";
+				$message = "Discount ".(100-$discount)." %";
 				break;
 			case '2':
 				$price -= $discount;

@@ -11,7 +11,7 @@ use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
 use common\models\Cart\Cart;
 use common\models\user\Userdetails;
-use common\models\{Rmanager,RestaurantName,Rmanagerlevel,RestDays};
+use common\models\{Rmanager,RestaurantName,Rmanagerlevel,RestDays,PauseOperationTime};
 use common\models\notic\{Notification,NotificationType};
 use common\models\Order\PlaceOrderChance;
 use common\models\News;
@@ -193,22 +193,16 @@ class CommonController extends Controller
 
     public static function getOrdertime()
     {
-        date_default_timezone_set("Asia/Kuala_Lumpur");
-        $time = (int)self::getTime('','H');
-        $date = (int)self::getTime('','N');
         $valid_date = self::getDateValid();
         return true;
         if ($valid_date['valid']==false) {
-            Yii::$app->session->setFlash('error', $valid_date['reason']);
-            return false;
-        }
-         if ($time<7 || $time>=11 || $date==6 || $date == 7) {
             $valid = self::getChances();
             if ($valid == false) {
-                Yii::$app->session->setFlash('error', Yii::t('checkout','You cannot place order at this time.'));
+                Yii::$app->session->setFlash('error', $valid_date['reason']);
                 return false;
             }
         }
+
         return true;
     }
 
@@ -244,15 +238,57 @@ class CommonController extends Controller
 
     public static function getDateValid()
     {
+        date_default_timezone_set("Asia/Kuala_Lumpur");
         $date = RestDays::find()->andWhere(['and',['=','month',date('m')],['=','date',date('d')]])->one();
+        $time = PauseOperationTime::find()->all();
         $data = array();
         if (!empty($date)) {
             $data['valid'] = false;
             $data['reason'] = $date['rest_day_name'];
+            return $data;
         }
         else{
             $data['valid'] = true;
         }
+
+        if (!empty($time)) {
+            foreach ($time as $k => $value) {
+                switch ($value['symbol']) {
+                    case '==':
+                        if (date($value['date_format']) == $value['time']) {
+                            $data['valid'] = false;
+                        }
+                        break;
+                    case '>':
+                        if (date($value['date_format']) > $value['time']) {
+                            $data['valid'] = false;
+                        }
+                        break;
+                    case '>=':
+                        if (date($value['date_format']) >= $value['time']) {
+                            $data['valid'] = false;
+                        }
+                        break;
+                    case '<':
+                        if (date($value['date_format']) < $value['time']) {
+                            $data['valid'] = false;
+                        }
+                        break;
+                    case '<=':
+                        if (date($value['date_format']) <= $value['time']) {
+                            $data['valid'] = false;
+                        }
+                        break;
+                    default:
+                        $data['valid'] = false;
+                        break;
+                }
+                if ($data['valid'] == false) {
+                    $data['reason'] = Yii::t('checkout','You cannot place order at this time.');
+                }
+            }
+        }
+
         return $data;
     }
 

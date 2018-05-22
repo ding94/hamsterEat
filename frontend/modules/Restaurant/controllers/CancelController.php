@@ -128,7 +128,7 @@ class CancelController extends CommonController
     /*
     * find order and calculate the per resturant per delivery charge
     */
-    protected function findOrder($did,$value)
+    protected static function findOrder($did,$value)
     {
         $order = Orders::find()->where('orders.Delivery_ID = :did',[':did'=>$did])->joinWith(['item'=>function($query){
             $query->andWhere('OrderItem_Status != 8 and OrderItem_Status != 9');

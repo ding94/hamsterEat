@@ -83,14 +83,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'headerOptions'=>['class'=>'kartik-sheet-style'] ,
                 'expandOneOnly'=>false,
-        	 ],
-        	'Order_ID',
+        	],
+        	[   
+                'attribute' => 'Order_ID',
+                'filterInputOptions' => ['placeholder' =>'Search ID','class' =>'form-control'],
+            ],
         	'OrderItem_Quantity',
             [
                 'label' => 'Food Name',
                 'attribute' => 'foodName',
                 'value' => 'food.originName',
-                'filterInputOptions' =>['placeholder'=> 'Search Food ']
+                'filterInputOptions' =>['placeholder'=> 'Search Food ', 'class' =>'form-control'],
             ],
         	'OrderItem_LineTotal',
 

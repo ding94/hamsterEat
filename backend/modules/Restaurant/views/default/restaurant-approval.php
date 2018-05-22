@@ -31,9 +31,10 @@ use yii\bootstrap\Modal;
             [
                 'attribute' =>'Restaurant_DateTimeCreated',
                 'value' => 'Restaurant_DateTimeCreated',
-                'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'Restaurant_DateTimeCreated', 'dateFormat' => 'yyyy-MM-dd',]),
+
+                'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'Restaurant_DateTimeCreated', 'dateFormat' => 'yyyy-MM-dd','options'=>['class'=>'form-control', 'placeholder' => 'Select Date']]),
                 'format' => 'datetime',
-               
+
             ],
             [   
                 'attribute' =>'Restaurant_Status',

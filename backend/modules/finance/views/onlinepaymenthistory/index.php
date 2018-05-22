@@ -115,7 +115,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]
                     ],
                 ],
-                'filterInputOptions' => ['placeholder' => 'Select Between Two Dates'],
+                'filterInputOptions' => ['placeholder' => 'Select Between Two Dates', 'class'=> 'form-control'],
             ],
             'updated_at:datetime',
         ],

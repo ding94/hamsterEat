@@ -21,16 +21,18 @@ class RestaurantSearch extends Restaurant
 	public function search($params,$case = 1)
 	{
 		$query = Restaurant::find()->andWhere(['!=','Restaurant_Status',4]);
-
-		if ($case == 2) {
-			$query->orderby('Restaurant_DateTimeCreated DESC');
-		}
-
 		$query->joinWith(['area','manager','status']);
 
-		$dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
+        if($case == 2) {
+			$dataProvider = new ActiveDataProvider([
+	            'query' => $query,
+				'sort' => ['defaultOrder' => ['Restaurant_DateTimeCreated' => SORT_DESC]]
+			]);
+		}else{
+			$dataProvider = new ActiveDataProvider([
+           		'query' => $query,
+        	]);
+		};
 
 		$dataProvider->sort->attributes['area'] = [
 	        'asc' => ['area.Area_State' => SORT_ASC],
@@ -57,11 +59,11 @@ class RestaurantSearch extends Restaurant
         ]);
 
         $query->andFilterWhere(['like','Restaurant_ID' ,$this->Restaurant_ID]);
-        $query->andFilterWhere(['like','Restaurant_Name' ,$this->Restaurant_Name]);
+        $query->andFilterWhere(['like','LOWER(Restaurant_Name)' ,strtolower($this->Restaurant_Name)]);
         $query->andFilterWhere(['like','Restaurant_Manager' ,$this->Restaurant_Manager]);
         $query->andFilterWhere(['like','Restaurant_Area' ,$this->Restaurant_Area]);
         $query->andFilterWhere(['like','Restaurant_Status' ,$this->description]);
-        $query->andFilterWhere(['like','Restaurant_LicenseNo' ,$this->Restaurant_LicenseNo]);
+        $query->andFilterWhere(['like','LOWER(Restaurant_LicenseNo)' ,strtolower($this->Restaurant_LicenseNo)]);
         $query->andFilterWhere(['like','Restaurant_Rating' ,$this->Restaurant_Rating]);
         $query->andFilterWhere(['like','FROM_UNIXTIME(Restaurant_DateTimeCreated, "%Y-%m-%d")' ,$this->Restaurant_DateTimeCreated]);
         

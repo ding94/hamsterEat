@@ -3,7 +3,7 @@ namespace backend\models;
 
 use common\models\Order\Orders;
 use common\models\Order\Orderitem;
-use common\models\Order\deliveryAddress;
+use common\models\Order\DeliveryAddress;
 use common\models\Company\Company;
 use yii\data\ActiveDataProvider;
 use common\models\Order\Orderitemstatuschange;
@@ -22,7 +22,8 @@ Class OrderSearch extends Orders
 	}
 
 	public function search($params,$case)
-	{
+	{	
+	
 		switch ($case) {
 			case 1:
 				$query = Orders::find()->distinct()->where('OrderItem_Status=:s',[':s'=>2])->orderBy('Orders_DateTimeMade DESC');
@@ -35,8 +36,9 @@ Class OrderSearch extends Orders
 				$query->joinWith(['address']);
 				break;
 			case 3:
-				$query = Orders::find()->orderBy('orders.Delivery_ID DESC');
+				$query = Orders::find();
 				$query->joinWith(['address']);
+
 	
 
 				//$query->joinWith(['order_item']);
@@ -49,18 +51,18 @@ Class OrderSearch extends Orders
 		
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['Delivery_ID' => SORT_DESC]]
         ]);
 
-        $dataProvider->sort->attributes['Delivery_ID'] = [
-	        'asc' => ['Delivery_ID' => SORT_ASC],
-	        'desc' => ['Delivery_ID' => SORT_DESC],
+	     $dataProvider->sort->attributes['companyname'] = [
+	        'asc' => ['cid' => SORT_ASC],
+	        'desc' => ['cid' => SORT_DESC],
 	    ];
 
-	    $dataProvider->sort->attributes['name'] = [
-	        'asc' => ['delivery_address.name' => SORT_ASC],
-	        'desc' => ['delivery_address.name' => SORT_DESC],
+	     $dataProvider->sort->attributes['name'] = [
+	        'asc' => ['name' => SORT_ASC],
+	        'desc' => ['name' => SORT_DESC],
 	    ];
-
         $this->load($params);
 
      	$query->andFilterWhere([
@@ -72,7 +74,7 @@ Class OrderSearch extends Orders
      	
         //$query->andFilterWhere(['like','Orders_Time',$this->Orders_Time]);
         $query->andFilterWhere(['like','Orders_Status',$this->Orders_Status]);
-        $query->andFilterWhere(['like','delivery_address.name',$this->name]);
+        $query->andFilterWhere(['like','LOWER(delivery_address.name)',strtolower($this->name)]);
 	    $query->andFilterWhere(['like','delivery_address.cid',$this->companyname]);
 	
         if(!empty($this->Orders_DateTimeMade))

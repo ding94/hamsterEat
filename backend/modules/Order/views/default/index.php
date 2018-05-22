@@ -17,11 +17,15 @@ use kartik\grid\GridView;
         'dataProvider' => $model,
         'filterModel' => $searchModel,
         'columns' => [
-            'Delivery_ID',
+            
+            [
+              'attribute'=>'Delivery_ID',
+              'filterInputOptions' => ['placeholder' => 'Search Delivery ID', 'class'=>'form-control'],
+            ],
             'Orders_TotalPrice',
             [
               'attribute'=>'quantity',
-              'label' => 'No. Orders',
+              'label' => 'Order Quantity (Per Food)',
               'value' => function($model){
                 return Orderitem::find()->where('Delivery_ID=:d',[':d'=>$model['Delivery_ID']])->count();
               }
@@ -42,7 +46,7 @@ use kartik\grid\GridView;
             [                  
                  'attribute' => 'Orders_DateTimeMade',
                  'value' => 'Orders_DateTimeMade',
-                 'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'Orders_DateTimeMade', 'dateFormat' => 'yyyy-MM-dd',]),
+                 'filter' => \yii\jui\DatePicker::widget(['model'=>$searchModel, 'attribute'=>'Orders_DateTimeMade', 'dateFormat' => 'yyyy-MM-dd','options' => ['class' => 'form-control', 'placeholder' => 'Select Date']]),
                  'format' => 'datetime',
             ],
             

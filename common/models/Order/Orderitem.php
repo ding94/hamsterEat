@@ -7,6 +7,7 @@ use yii\helpers\Json;
 use common\models\Restaurant;
 use common\models\OrderCartNickName;
 use common\models\food\Food;
+use common\models\food\Foodname;
 use common\models\food\Foodselection;
 use common\models\food\FoodSelectionName;
 use common\models\food\Foodselectiontype;
@@ -104,6 +105,12 @@ class Orderitem extends \yii\db\ActiveRecord
     {
          return $this->hasOne(Food::className(),['Food_ID'=>'Food_ID']);
     }
+
+    public function getFoodname()
+    {
+         return $this->hasOne(Foodname::className(),['id'=>'Food_ID']);
+    }
+
 
     public function getFoodtype()
     {

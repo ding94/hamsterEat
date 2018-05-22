@@ -20,6 +20,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
     ]);
     Modal::end();
+    Modal::begin([
+        'id' => 'addressDetail',
+        'header' => '<h4 class="modal-title">...</h4>',
+        'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+    ]);
+    Modal::end();
     
     $this->registerJs("
         $('#orderDetail').on('show.bs.modal', function (event) {
@@ -135,7 +141,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			        	]
 			        ],
 			    ],
-			    'filterInputOptions' => ['placeholder' => 'Select Between Two Dates'],
+			    'filterInputOptions' => ['placeholder' => 'Select Between Two Dates', 'class' => 'form-control'],
 			],
             [
                 'label'=>'Full Name',

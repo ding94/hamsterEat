@@ -19,7 +19,7 @@ class UserSearch extends User
         return [
             //before set safe rule, add attributes at top 
             ['email' , 'unique'],
-            [['id','username' ,'userdetails.fullname' ,'userdetails.User_AccountBalance','userdetails.User_ContactNo','user_contactno' ,'status' ,'authAssignment.item_name','balance.User_Balance'] ,'safe'],
+            [['id','username' ,'userdetails.fullname' ,'userdetails.User_AccountBalance','user_contactno' ,'status' ,'authAssignment.item_name','balance.User_Balance'] ,'safe'],
         ];
     }
 
@@ -31,11 +31,7 @@ class UserSearch extends User
 			'query' => $query,
 		]);
 
-        $dataProvider->sort->attributes['userdetails.fullname'] = [
-            'asc'=>['User_FirstName'=>SORT_ASC, 'User_LastName'=>SORT_ASC],
-            'desc'=>['User_FirstName'=>SORT_DESC, 'User_LastName'=>SORT_DESC],
-        ];
-
+      
         $dataProvider->sort->attributes['userdetails.User_AccountBalance'] = [
             'asc'=>['User_AccountBalance'=>SORT_ASC],
             'desc'=>['User_AccountBalance'=>SORT_DESC],
@@ -67,11 +63,11 @@ class UserSearch extends User
 
         ]);
 
-        $query->andFilterWhere(['like','username' , $this->username]);
-        $query->andFilterWhere(['like','email' , $this->email]);
+        $query->andFilterWhere(['like','LOWER(username)' , strtolower($this->username)]);
+        $query->andFilterWhere(['like','LOWER(email)' , strtolower($this->email)]);
         $query->andFilterWhere(['like','userdetails.User_ContactNo' , $this->user_contactno]);
         $query->andFilterWhere(['like','item_name' , $this->getAttribute('authAssignment.item_name')]);
-        $query->andFilterWhere(['like','email' , $this->getAttribute('userdetails.User_AccountBalance')]);
+        //$query->andFilterWhere(['like','email' , $this->getAttribute('userdetails.User_AccountBalance')]);
        	$query->andFilterWhere(['or',
                                     ['like','User_FirstName',$this->getAttribute('userdetails.fullname')],
                                     ['like','User_LastName',$this->getAttribute('userdetails.fullname')],

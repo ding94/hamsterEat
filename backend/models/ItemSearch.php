@@ -3,6 +3,7 @@ namespace backend\models;
 
 use common\models\Order\Orders;
 use common\models\Order\Orderitem;
+
 use yii\data\ActiveDataProvider;
 
 Class ItemSearch extends Orderitem
@@ -14,17 +15,18 @@ Class ItemSearch extends Orderitem
 	public function rules()
 	{
 		return[
-			[['Order_ID','User_Username','Orders_PaymentMethod','Orders_DateTimeMade','foodName','OrderItem_Status'],'safe'],
+			[['Delivery_ID','Order_ID','User_Username','Orders_PaymentMethod','Orders_DateTimeMade','foodName','OrderItem_Status'],'safe'],
 		];
 	}
 
 	public function search($params,$id=0)
 	{
 
-		$query = Orderitem::find()->distinct()->orderBy('Order_ID DESC');
+		$query = Orderitem::find()->distinct();
 				$query->joinWith(['order']);
 				$query->joinWith(['order_selection']);
 				$query->joinWith(['food']);
+				$query->joinWith(['foodname']);
 
 		if($id != 0 )
 		{	
@@ -33,6 +35,7 @@ Class ItemSearch extends Orderitem
 
 		$dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['Order_ID' => SORT_DESC]],
         ]);
 
         $dataProvider->sort->attributes['Order_ID'] = [
@@ -40,9 +43,9 @@ Class ItemSearch extends Orderitem
 	        'desc' => ['Order_ID' => SORT_DESC],
 	    ];
 
-	    $dataProvider->sort->attributes['FoodName'] = [
-	        'asc' => ['foodName' => SORT_ASC],
-	        'desc' => ['foodName' => SORT_DESC],
+	    $dataProvider->sort->attributes['foodName'] = [
+	        'asc' => ['foodName.translation' => SORT_ASC],
+	        'desc' => ['foodName.translation' => SORT_DESC],
 	    ];
 	    
 	    $dataProvider->sort->attributes['User_Username'] =
@@ -74,10 +77,10 @@ Class ItemSearch extends Orderitem
            'OrderItem_Status' => $this->OrderItem_Status,
         ]);
 	    //$query->andFilterWhere(['like','orderitem.Delivery_ID',$this->Delivery_ID]);
-	    $query->andFilterWhere(['like','orders.User_Username',$this->User_Username]);
+	    $query->andFilterWhere(['like','LOWER(orders.User_Username)',strtolower($this->User_Username)]);
 	    $query->andFilterWhere(['like','orders.Orders_PaymentMethod',$this->Orders_PaymentMethod]);
         $query->andFilterWhere(['like','OrderItem_Remark',$this->OrderItem_Remark]);
-        $query->andFilterWhere(['like','Description',$this->foodName]);
+        $query->andFilterWhere(['like', 'LOWER(foodname.translation)', strtolower($this->foodName)]);
 
 	  if(!empty($this->Orders_DateTimeMade))
         {

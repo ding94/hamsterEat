@@ -35,8 +35,8 @@ class AllOrderController extends CommonController
 		
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams,3);
         $alluser = ArrayHelper::map(User::find()->where('status = 10')->all(),'username','username');
-        $allcompany = ArrayHelper::map(Company::find()->where('status =1')->all(),'id','name');
         $allstatus =ArrayHelper::map(StatusType::find()->all(),'id','type');
+        $allcompany = ArrayHelper::map(Company::find()->where('status =1')->all(),'id','name');
         $allcompany[0] ="No Company";   
         $arrayData['user'] = $alluser;
         $arrayData['status'] = $allstatus;

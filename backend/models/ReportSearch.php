@@ -21,14 +21,17 @@ class ReportSearch extends Report
 
 	public function search($params)
     {	
-        $query = Report::find()->orderBy('Report_ID DESC');
+        $query = Report::find();
         $query->joinWith(['userid']);
 
-        $dataProvider = new ActiveDataProvider(['query' => $query]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => ['defaultOrder' => ['Report_ID' => SORT_DESC]],
+        ]);
 
-        $dataProvider->sort->attributes['Order_ID'] = [
-            'asc' => ['Report_ID' => SORT_ASC],
-            'desc' => ['Report_ID' => SORT_DESC],
+        $dataProvider->sort->attributes['uid'] = [
+            'asc' => ['user.username' => SORT_ASC],
+            'desc' => ['user.username' => SORT_DESC],
         ];
 
         $this->load($params);

@@ -7,6 +7,7 @@ use yii\bootstrap\ActiveForm;
 use kartik\widgets\Select2;
 use yii\web\JsExpression;
 use kartik\widgets\DateTimePicker;
+use kartik\widgets\DatePicker;
 
     $this->title = 'Add Rest Day';
     $this->params['breadcrumbs'][] = $this->title;
@@ -17,10 +18,22 @@ use kartik\widgets\DateTimePicker;
         <?php $form = ActiveForm::begin(); ?>
 
             <?= $form->field($model, 'rest_day_name')->textInput() ?>
+            
+            <?= $form->field($model, 'start_time')->widget(DatePicker::classname(), [
+                'options' => ['placeholder' => 'Date voucher active to use'],
+                'pluginOptions' => [
+                'format' => 'yyyy-mm-dd',
+                'todayHighlight' => true,
+                'todayBtn' => true,]]) 
+            ?>
 
-            <?= $form->field($model, 'month')->textInput() ?>
-
-            <?= $form->field($model, 'date')->textInput() ?>
+            <?= $form->field($model, 'end_time' )->widget(DatePicker::classname(), [
+                'options' => ['placeholder' => 'Date voucher deactivated (default 30 days after start date)'],
+                'pluginOptions' => [
+                'format' => 'yyyy-mm-dd',
+                'todayHighlight' => true,
+                'todayBtn' => true,]]) 
+            ?>
 
             <div class="form-group">
                 <?= Html::submitButton('Add', ['class' => 'btn btn-success']) ?>

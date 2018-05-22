@@ -21,13 +21,8 @@ use iutbay\yii2fontawesome\FontAwesome as FA;
                 'attribute' => 'rest_day_name',
                 'label' => 'Name',
             ],
-            [
-                'attribute' => 'days',
-                'label' => 'Date',
-                'value' => function($model){
-                    return $model['month'].$model['date'];
-                }
-            ],
+            'start_time:datetime',
+            'end_time:datetime',
         ],
     ])
 ?>

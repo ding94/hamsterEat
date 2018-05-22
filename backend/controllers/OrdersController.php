@@ -67,22 +67,21 @@ class OrdersController extends CommonController
 
     public function actionAddRestDay()
 	{
+		date_default_timezone_set("Asia/Kuala_Lumpur");
 		$model = new RestDays();
-
+		$model->scenario = 'input';
 		if (Yii::$app->request->post()) {
 			$model->load(Yii::$app->request->post());
-			if ($model['month'] >= 13 || $model['date'] >= 32) {
-				Yii::$app->session->setFlash('warning','Month or Date does not exist');
+			$model->scenario = 'save';
+			$model['start_time'] = strtotime($model['start_time']);
+			$model['end_time'] = strtotime($model['end_time']);
+			if ($model->validate()) {
+				$model->save();
+				Yii::$app->session->setFlash('sucess','Success saved');
+				return $this->redirect(['/orders/rest-days']);
 			}
 			else{
-				if ($model->validate()) {
-					$model->save();
-					Yii::$app->session->setFlash('sucess','Success saved');
-					return $this->redirect(['/orders/rest-days']);
-				}
-				else{
-					Yii::$app->session->setFlash('warning','Failed to save info');
-				}
+				Yii::$app->session->setFlash('warning','Failed to save info');
 			}
 		}
 		return $this->render('add-rest-day',['model'=>$model]);

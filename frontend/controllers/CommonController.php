@@ -239,7 +239,7 @@ class CommonController extends Controller
     public static function getDateValid()
     {
         date_default_timezone_set("Asia/Kuala_Lumpur");
-        $date = RestDays::find()->andWhere(['and',['=','month',date('m')],['=','date',date('d')]])->one();
+        $date = RestDays::find()->andWhere(['and',['<=','start_time',time()],['>=','end_time',time()]])->one();
         $time = PauseOperationTime::find()->all();
         $data = array();
         if (!empty($date)) {

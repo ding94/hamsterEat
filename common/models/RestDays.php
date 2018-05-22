@@ -30,9 +30,10 @@ class RestDays extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['rest_day_name', 'month', 'date'], 'required'],
+            [['rest_day_name','start_time','end_time'], 'required'],
             [['rest_day_name'], 'string'],
-            [['month', 'date'], 'integer'],
+            [['start_time','end_time'],'date','on'=>['input']],
+            [['start_time','end_time'],'integer','on'=>['save']],
         ];
     }
 
@@ -44,8 +45,8 @@ class RestDays extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'rest_day_name' => 'Rest Day Name',
-            'month' => 'Month',
-            'date' => 'Date',
+            'start_time' => 'Start Time',
+            'end_time' => 'End Time',
         ];
     }
 

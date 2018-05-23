@@ -68,16 +68,21 @@ class SiteController extends Controller
      */
     public function actionIndex($first = 0,$last = 0,$type = 0)
     {
-       
         if($first == 0 && $last == 0)
         {
             $first = date("Y-m-d", strtotime("first day of this month"));
             $last = date("Y-m-d", strtotime("+1 days")); 
-        }
-        
-        $queryDelivery = RestaurantProfit::find()->Where(['between','created_at',strtotime($first),strtotime($last)]);
-        $queryOrder = RestaurantItemProfit::find()->where(['between','created_at',strtotime($first),strtotime($last)]);
-
+        };
+       
+        if(strtotime($first)>strtotime($last)){
+          
+            Yii::$app->session->setFlash('error', 'Starting date cannot bigger than End date');
+              return $this->redirect(['index']);  
+        };  
+    
+        $queryDelivery = RestaurantProfit::find()->Where(['between','created_at',strtotime($first. ' 00:00:00'),strtotime($last.' 23:59:59')]);
+        $queryOrder = RestaurantItemProfit::find()->where(['between','created_at',strtotime($first.' 00:00:00'),strtotime($last.' 23:59:59')]);
+      
         $days= CommonController::getMonth($first,$last,1);
         $delivery = $queryDelivery->select(['did','created_at'])->asArray()->all();
 
@@ -93,14 +98,15 @@ class SiteController extends Controller
         $data['countOrder'] = CommonController::convertToArray($countOrder);
         $data['countDelivery'] = CommonController::convertToArray($countDelivery);
 
-        $data['final']['totalDelivery'] = number_format($queryDelivery->sum('total-earlyDiscount-voucherDiscount+deliveryCharge'));
-        $data['final']['totalDeliveryCharge'] = number_format($queryDelivery->sum('deliveryCharge'));
-        $data['final']['earlyDiscount'] = number_format($queryDelivery->sum('earlyDiscount'));
-        $data['final']['voucherDiscount'] = number_format($queryDelivery->sum('voucherDiscount'));
-        $data['final']['orderFinalPrice'] = number_format($queryOrder->sum('quantity * finalPrice'));
-        $data['final']['orderOrignalPrice'] = number_format($queryOrder->sum('quantity * originalPrice'));
+        $data['final']['totalDelivery'] = number_format($queryDelivery->sum('total-earlyDiscount-voucherDiscount+deliveryCharge'),2);
+        $data['final']['totalDeliveryCharge'] = number_format($queryDelivery->sum('deliveryCharge'),2);
+        $data['final']['earlyDiscount'] = number_format($queryDelivery->sum('earlyDiscount'),2);
+        $data['final']['voucherDiscount'] = number_format($queryDelivery->sum('voucherDiscount'),2);
+        $data['final']['orderFinalPrice'] = number_format($queryDelivery->sum('total'),2);
+        $data['final']['orderOrignalPrice'] = number_format($queryOrder->sum('quantity * originalPrice'),2);
         $arrayType = [0=>'bar','1'=>'horizontalBar','2'=>'line'];
 
+       
         return $this->render('index',['data'=>$data,'first'=>$first,'last'=>$last,'arrayType'=>$arrayType,'type'=>$type]);
     }
 

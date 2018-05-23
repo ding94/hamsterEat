@@ -48,12 +48,15 @@
                         'options' => ['class' => 'active'],
                         'visible'=> Yii::$app->user->can('admin/index'),
                     ],
+
 					[   'label' => 'Bank Controller', 'icon' => 'bank', 'url' => "#",
                         'items' =>  [
                                         [ 'label' => 'Bank List', 'icon' => 'circle-o', 'url' => ['/bank/index']],
                                     ],
                         'options' => ['class' => 'active'],
+                        'visible'=> Yii::$app->user->can('bank/index'),
                     ],
+
                     [   'label' => 'Banner And News ' , 'icon' => 'square' ,'url' => '#',
                         'items' =>  [
                                         ['label' => 'Banner List' ,'icon' => 'circle-o' , 'url' => ['/banner/index']],
@@ -62,13 +65,17 @@
                                         ['label' => 'Add News' ,'icon' => 'circle-o' , 'url' => ['/news/addnews']],
                                     ],
                         'options' => ['class' => 'active'],
+                        'visible'=> Yii::$app->user->can('banner/index'),
                     ],
+
                     [   'label' => 'User Controller', 'icon' => 'user', 'url' => "#",
                         'items' =>  [
                                         [ 'label' => 'User List', 'icon' => 'circle-o', 'url' => ['/user/index']],
                                     ],
                         'options' => ['class' => 'active'],
+                        'visible'=> Yii::$app->user->can('user/index'),
                     ],
+
                     [   'label' => 'Order Controller', 'icon' => 'user', 'url' => "#",
                         'items' =>  [
                                         ['label' => ' All Delivery  List' ,'icon' => 'circle-o' , 'url' => ['/order/all-order/index']],
@@ -83,7 +90,9 @@
                                         ['label' => 'Add Order Chance','icon' => 'circle-o','url'=>['/orders/place-order-chance']],
                                     ],
                         'options' => ['class' => 'active'],
+                        'visible'=> Yii::$app->user->can('order/all-order/index'),
                     ],
+
                     [
                         'label'=>'Notification Controller','icon'=>'bell','url'=>'#',
                         'items'=>[
@@ -91,7 +100,9 @@
                             ['label'=>'Sms Log','icon'=>'circle-o','url'=>['/notification/sms-log']],
                         ],
                          'options' => ['class' => 'active'],
+                         'visible'=> Yii::$app->user->can('notification/setting'),
                     ],
+
 					[   'label' => 'Finance Controller', 'icon' => 'money', 'url' => '#',
                         'items' =>  [
                                         ['label' => 'Payment History', 'icon' => 'circle-o', 'url' => ['/finance/paymenthistory/index']],
@@ -101,7 +112,7 @@
                                         ['label' => 'Force Account', 'icon' => 'circle-o', 'url' => ['/finance/accountforce/index']],
                                     ],
                         'options' => ['class' => 'active'],
-
+                        'visible'=> Yii::$app->user->can('finance/paymenthistory/index'),
                     ],
 
                     [   'label' => 'Ticket Controller' , 'icon' => 'cog' ,'url' => '#',
@@ -111,6 +122,7 @@
                                         ['label' => 'Feedback List' ,'icon' => 'circle-o' , 'url' => ['/feedback/index']],
                                     ],
                         'options' => ['class' => 'active'],
+                        'visible'=> Yii::$app->user->can('ticket/index'),
                     ],
                     [   'label' => 'Promotion Controller' , 'icon' => 'cog' ,'url' => '#',
                         'items' =>  [
@@ -120,6 +132,7 @@
                                         ['label' => "Promotion Setting" ,'icon' => 'circle-o' , 'url' => ['/promotion/setting/index']],
                                     ],
                         'options' => ['class' => 'active'],
+                        'visible'=> Yii::$app->user->can('vouchers/index'),
                     ],
                     [
                         'label' => 'Restaurant Controller' ,'icon' => 'cutlery' ,   'url' => '#',
@@ -132,6 +145,7 @@
                                         ['label' => 'Food Ranking' , 'icon' => 'circle-o' ,'url' => ['/restaurant/food/food-ranking-per-month']],
                                    ],
                         'options' => ['class' => 'active'],
+                        'visible'=> Yii::$app->user->can('restaurant/default/index'),
 
                     ],
                     [
@@ -142,6 +156,7 @@
                                         ['label' => 'Guide' , 'icon' => 'circle-o' , 'url' => ['/translate/index','case'=>4]],
                                    ],
                         'options' => ['class' => 'active'],
+                        'visible'=> Yii::$app->user->can('translate/index'),
 
                     ],
                     [
@@ -151,6 +166,7 @@
                                         ['label' => 'Company Orders List' , 'icon' => 'circle-o' , 'url' => ['/company/company-order-list']],
                                    ],
                         'options' => ['class' => 'active'],
+                        'visible'=> Yii::$app->user->can('company/index'),
 
                     ],
                     // [
@@ -167,6 +183,7 @@
                                         ['label' => 'All Reports' , 'icon' => 'circle-o' , 'url' => ['/report/index']],
                                    ],
                         'options' => ['class' => 'active'],
+                        'visible'=> Yii::$app->user->can('report/index'),
 
                     ],
                     [   'label' => 'Auth Controller' , 'icon' => 'cog' ,'url' => '#',
@@ -175,6 +192,7 @@
                                         ['label' => 'Permission List' ,'icon' => 'circle-o' , 'url' => ['/auth/permission']],
                                     ],
                         'options' => ['class' => 'active'],
+                        'visible'=> Yii::$app->user->can('auth/index'),
                     ],
                             
                         

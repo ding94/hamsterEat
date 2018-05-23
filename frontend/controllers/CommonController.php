@@ -51,7 +51,7 @@ class CommonController extends Controller
 
             $detail = Userdetails::findOne(Yii::$app->user->identity->id);
             
-            if ($permissionName == 'user/phone-detail' || $permissionName == 'phone/validate') {
+            if ($permissionName == 'user/phone-detail' || $permissionName == 'phone/validate' || $permissionName == 'site/logout') {
                 return true;
             }
             

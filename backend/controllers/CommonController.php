@@ -35,9 +35,9 @@ Class CommonController extends Controller
 
 	public static function getMonth($first,$last,$type)
     {
-        $start_time = strtotime($first);
-
-        $end_time =  strtotime($last);
+        $start_time = strtotime($first.' 00:00:00');
+ 
+        $end_time =  strtotime($last.' 23:59:59');
 
         for($i=$start_time; $i<$end_time; $i+=86400)
         {
@@ -56,7 +56,7 @@ Class CommonController extends Controller
          
            
         }
-        
+       
         return $list;
     }
 

@@ -17,7 +17,7 @@ $quantity = 0;
 			<?php foreach($companyData as $name=> $company):?>
 			<li >
 				<?php 
-					$symbol = array("!","@",'#','$','%','&','*',' ');
+					$symbol = array("!","@",'#','$','%','&','*',' ','(',')');
 					$recname = str_replace($symbol,"-", $name); 
 				?>
 				<a href="#<?php echo $recname?>" data-toggle="tab"><?php echo $name?></a>
@@ -35,7 +35,7 @@ $quantity = 0;
 			<?php foreach($companyData as $name=> $company):?>
 			<?php 
 				$quantity = 0;
-				$symbol = array("!","@",'#','$','%','&','*',' ');
+				$symbol = array("!","@",'#','$','%','&','*',' ','(',')');
 				$recname = str_replace($symbol,"-", $name); 
 			?>
 			<div class="tab-pane cooking-table" id = <?php echo $recname?>>

@@ -677,21 +677,23 @@ class DefaultController extends CommonController
         return true;
     }
 
-    public function actionChangecookie($type)
-    {
+    public function actionChangecookie()
+    {   
+        $post= Yii::$app->request->post();
         $cookies = Yii::$app->response->cookies;
+        
         if(!is_null($cookies['halal']))
         {
             $cookies->remove('halal');
         }
-        
+
         $cookie =  new Cookie([
             'name' => 'halal',
-            'value' => $type,
+            'value' => $post['type'],
             'expire' => time() + 86400 * 365,
         ]);
-          
         \Yii::$app->getResponse()->getCookies()->add($cookie);
-        return $this->redirect(Yii::$app->request->referrer); 
+        return true;
     }
+        
 }

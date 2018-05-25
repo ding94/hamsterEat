@@ -47,28 +47,63 @@ Modal::end();
     Modal::end()
 
 ?>
-
+   <?php  $cookies = Yii::$app->request->cookies;
+            $halal = $cookies->getValue('halal');
+      $session = Yii::$app->session;
+       $url = Url::to(['/Restaurant/default/changecookie']);
+     ?> 
 <div class="container" id="group-area-index">
     <h1><?= Yii::t('m-restaurant','Order Food for Delivery')?></h1>
-    <div id="filter-btn" class="btn raised-btn main-btn"><i class="fa fa-sliders"></i> <?php echo Yii::t('m-restaurant','Filter') ?></div>   
-	 <?php  $cookies = Yii::$app->request->cookies;
-            $halal = $cookies->getValue('halal');
-			$session = Yii::$app->session;
-     ?>      
-	  
-     <?php echo Html::a(Yii::t('m-restaurant','Change to').": ". $name = $halal == 0 ? 'Halal' : 'Non-halal',['/Restaurant/default/changecookie','type'=>$halal == 0 ? 1 : 0],['class'=>'hl a-change'])?>
-        <span class="s" style="float:right;padding-left:10px;padding-right:10px;">|</span>
-		<?php echo Html::a(Yii::t('m-restaurant','Change Place'), ['/Restaurant/default/addsession','page'=>'index2'], ['id'=>'cp','class'=>'a-change','data-toggle'=>'modal','data-target'=>'#add-modal ','style'=>'font-size:14px']); ?>  
-			 <span class="area" style="float:right;padding-right:8px;"> <?php echo $session['area'] ?></span>
-      
+
+    <!--  For Phone View-->
+    <div id="filter-btn" class="btn raised-btn main-btn"><i class="fa fa-sliders"></i> <?php echo Yii::t('m-restaurant','Filter') ?></div>  
+       <div class="btn-group" id="halal-btn" data-toggle="buttons"> 
+        <?php if($name = $halal == 1){ ?>
+          <label class="btn btn-default btn-on-ph btn-sm active" onclick="halalstatus(1,'<?php echo $url ?>')">
+            <input type="radio" >Halal</label>
+          <label class="btn btn-default btn-on-ph btn-sm " onclick="halalstatus(0,'<?php echo $url ?>')">
+            <input type="radio" >Non-Halal</label>
+        <?php }else{ ?>
+            <label class="btn btn-default btn-on-ph  btn-sm " onclick="halalstatus(1,'<?php echo $url ?>')">
+              <input type="radio">Halal</label>
+            <label class="btn btn-default btn-on-ph btn-sm active" onclick="halalstatus(0,'<?php echo $url ?>')">
+              <input type="radio" >Non-Halal</label>
+        <?php } ?>  
+    </div>
+     
+	
+  <div class="all-status">
+     
+      <div class="btn-group hl a-change" data-toggle="buttons"> 
+        <?php if($name = $halal == 1){ ?>
+          <label class="btn btn-default btn-on-pc btn-sm active" onclick="halalstatus(1,'<?php echo $url ?>')">
+            <input type="radio" >Halal</label>
+          <label class="btn btn-default btn-off-pc btn-sm " onclick="halalstatus(0,'<?php echo $url ?>')">
+            <input type="radio" >Non-Halal</label>
+        <?php }else{ ?>
+            <label class="btn btn-default btn-on-pc  btn-sm " onclick="halalstatus(1,'<?php echo $url ?>')">
+              <input type="radio">Halal</label>
+            <label class="btn btn-default btn-off-pc btn-sm active" onclick="halalstatus(0,'<?php echo $url ?>')">
+              <input type="radio" >Non-Halal</label>
+        <?php } ?>
+          
+      </div>
+
+      <!-- <span class="s" style="float:right;padding-left:10px;padding-right:10px;font-size: 24px;">|</span> -->
+	<!-- 	<?php echo Html::a(Yii::t('m-restaurant','Change Place'), ['/Restaurant/default/addsession','page'=>'index2'], ['id'=>'cp','class'=>'a-change','data-toggle'=>'modal','data-target'=>'#add-modal ','style'=>'font-size:14px']); ?>  
+			 <span class="area" style="float:right;padding-right:8px;"> <?php echo $session['area'] ?></span> -->
+  </div>
+
 	<input type="checkbox" id="sidebartoggler" name="" value="">
     <div class="page-wrap">
       <!-- <label for="sidebartoggler" class="toggle"><i class="fa fa-sliders" aria-hidden="true">&nbsp;Filter</i></label>-->
-	  <div class="tm">
+	 
+  <!-- Didn't where to use this function  -->
+   <!--   <div class="tm">
       <div id="menu">
         <ul>
           <li> <a class="toggle"><?= Yii::t('m-restaurant','Filter')?></a></li>
-				  <li><?php echo Html::a(Yii::t('m-restaurant','Cahnge Place'), ['/Restaurant/default/addsession','page'=>'index2'], ['data-toggle'=>'modal','data-target'=>'#add-modal']); ?></li>
+				  <li><?php echo Html::a(Yii::t('m-restaurant','Change Place'), ['/Restaurant/default/addsession','page'=>'index2'], ['data-toggle'=>'modal','data-target'=>'#add-modal']); ?></li>
           <li>
             <?php $cookies = Yii::$app->request->cookies;
                   $halal = $cookies->getValue('halal');
@@ -78,7 +113,8 @@ Modal::end();
          
         </ul>
       </div>
-	  </div>
+	  </div> -->
+    
 	  <a href="#top" class="scrollToTop"></a>
       <div class="filter">
         <div id="restaurant-food-switch" class="btn-group btn-group-justified" role="group">

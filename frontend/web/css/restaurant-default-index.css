@@ -13,10 +13,14 @@
   flex-direction: column;
 }
 
+.all-status{
+  width: 100%;
+  padding:25px;
+}
 .a-change{
   float:right;
   color:red;
-  font-style: italic;
+  padding-right: 25px;
 }
 
 .restaurant-name{
@@ -64,6 +68,11 @@
     display: none;
   }
 
+   #halal-btn{
+    display: none;
+  }
+
+
 @media (min-width: 1200px){
   .menu-container{
     width:775px;
@@ -94,7 +103,31 @@
     width: 300px;
     margin: auto;
   }
+
+  #halal-btn{
+    display: block;
+    width: 300px;
+    margin: auto;
+    margin-top: 15px;
+  }
+
+  .btn-on-ph,.btn-off-ph{
+     width: 150px;
+     font-size: 14px;
+  }
+
 }
+
+.btn-on-pc,.btn-off-pc{
+  width: 130px;
+  font-size: 14px;
+}
+
+.btn-default.btn-on-ph.active{background-color:#FFDA00;font-weight:bolder; font-size: 15px;margin-top:-1px;}
+.btn-default.btn-off-ph.active{background-color:#FFDA00;font-weight:bolder;font-size: 15px;margin-top:-1px; }
+
+.btn-default.btn-on-pc.active{background-color:#FFDA00;font-weight:bolder;font-size: 15px;margin-top:-1px;}
+.btn-default.btn-off-pc.active{background-color:#FFDA00;font-weight:bolder;font-size: 15px;margin-top:-1px;}
 
 .list{
   font-size: 18px;

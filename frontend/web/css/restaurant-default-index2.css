@@ -8,6 +8,29 @@
   text-decoration: none;
 }
 
+.all-status{
+  width: 100%;
+}
+
+.a-change{
+  float:right;
+}
+
+#halal-btn{
+  display: none;
+}
+
+.btn-on-pc,.btn-off-pc{
+  width: 130px;
+  font-size: 14px;
+}
+
+.btn-default.btn-on-ph.active{background-color:#FFDA00;font-weight:bolder; font-size: 15px;margin-top:-1px;}
+.btn-default.btn-off-ph.active{background-color:#FFDA00;font-weight:bolder;font-size: 15px;margin-top:-1px; }
+
+.btn-default.btn-on-pc.active{background-color:#FFDA00;font-weight:bolder;font-size: 15px;margin-top:-1px;}
+.btn-default.btn-off-pc.active{background-color:#FFDA00;font-weight:bolder;font-size: 15px;margin-top:-1px;}
+
 .detail-img{
   height:300px; 
   width:100%; 
@@ -185,6 +208,28 @@
     border-top-left-radius: 6px;
     border-bottom-left-radius: 0px;
   }
+
+
+  .restaurant-food{
+    width: 120px;
+    margin:auto;
+    margin-top: 25px;
+
+  }
+
+  #halal-btn{
+    display: block;
+    width: 300px;
+    margin: auto;
+    margin-top: 15px;
+ 
+  }
+
+  .btn-on-ph,.btn-off-ph{
+     width: 150px;
+     font-size: 14px;
+  }
+
 }
 
 @media(max-width: 620px){

@@ -47,11 +47,13 @@ Modal::end();
     Modal::end()
 
 ?>
-   <?php  $cookies = Yii::$app->request->cookies;
-            $halal = $cookies->getValue('halal');
-      $session = Yii::$app->session;
-       $url = Url::to(['/Restaurant/default/changecookie']);
-     ?> 
+<?php  
+    $cookies = Yii::$app->request->cookies;
+    $halal = $cookies->getValue('halal');
+    $session = Yii::$app->session;
+    
+    $url = Url::to(['/Restaurant/default/changecookie']);
+?> 
 <div class="container" id="group-area-index">
     <h1><?= Yii::t('m-restaurant','Order Food for Delivery')?></h1>
 

@@ -65,7 +65,17 @@ $this->title = "Invoice";
                             }
                         ?>
                         <tr>
-                            <td rowspan="5" style="border: 1px solid black;text-align: center;"><?= $value['Order_ID']; ?></td>
+                            <td rowspan="5" style="border: 1px solid black;text-align: center;">
+                                <?= $value['Order_ID']; ?>
+                                <?php if(!empty($nicknames)) : ?>
+                                    <hr>
+                                    Nickname(s):
+                                    <?php foreach ($nicknames[$value['Order_ID']] as $k => $nickname) : ?>
+                                        <br>
+                                        <?= ($k+1).'.'.$nickname; ?>
+                                    <?php endforeach; ?>
+                                <?php endif;?>
+                            </td>
                             <td style="width:15%;font-weight: bold;border-bottom: 1px solid #ddd;">Food</td>
                             <td style="width:50%;border-bottom: 1px solid #ddd;"><?= $food['originName']; ?></td>
                             <td style="width:10%;border-bottom: 1px solid #ddd;padding-right: 5%;text-align: right;">RM <?=  number_format($food['Price'],2); ?></td>
@@ -102,12 +112,13 @@ $this->title = "Invoice";
                         <td style="text-align: right;">RM <?=  number_format($order['Orders_DeliveryCharge'],2); ?></td>
                     </tr>
                     <tr>
-                        <td style="text-align: right;">Discounted:</td>
-                        <td style="text-align: right;">- RM
-                            <?php if (!empty($order['Orders_DiscountEarlyAmount'])): echo number_format($order['Orders_DiscountEarlyAmount'],2); ?>
-                            <?php elseif(!empty($order['Orders_DiscountTotalAmount'])): echo number_format($order['Orders_DiscountTotalAmount'],2); ?>
-                            <?php endif ?>
-                        </td>
+                        <?php if (!empty($order['Orders_DiscountEarlyAmount'])): ?>
+                            <td style="text-align: right;">Discounted:</td>
+                            <td style="text-align: right;">- RM<?= number_format($order['Orders_DiscountEarlyAmount'],2); ?></td>
+                        <?php elseif(!empty($order['Orders_DiscountTotalAmount'])): ?>
+                            <td style="text-align: right;">Discounted:</td>
+                            <td style="text-align: right;"><?php echo number_format($order['Orders_DiscountTotalAmount'],2); ?></td>
+                        <?php endif ?>
                     </tr>
                     <?php if($order['Orders_TotalPrice'] != CartController::actionRoundoff1decimal($order['Orders_TotalPrice'])): ?>
                     <tr>

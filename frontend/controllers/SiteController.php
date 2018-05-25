@@ -147,10 +147,8 @@ class SiteController extends CommonController
     {
         //$user = User::find()->andWhere(['not', ['email' => null]])->all();
         $users = array();
-        $users[0]['username'] = 'lynnchew';
-        $users[0]['email'] = 'chew.leyching@sgshop.com.my';
-        $users[1]['username'] = 'Destinyy92';
-        $users[1]['email'] = 'che.binghuang@sgshop.com.my';
+        $users[0]['username'] = 'username';
+        $users[0]['email'] = 'soonws97@gmail.com';
         foreach ($users as $k => $user) {
             $email = \Yii::$app->mailer->compose(['html' => 'event-html'],
                 ['username' => $user['username']])
@@ -159,6 +157,8 @@ class SiteController extends CommonController
                     ->setSubject('30% Discount on Food Price')
                     ->send();
         }
+
+        return $this->redirect(['/user/user-profile']);
     }
 
     public function actionNotify()

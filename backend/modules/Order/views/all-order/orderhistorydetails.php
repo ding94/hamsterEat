@@ -67,7 +67,7 @@ $this->title = "Invoice";
                         <tr>
                             <td rowspan="5" style="border: 1px solid black;text-align: center;">
                                 <?= $value['Order_ID']; ?>
-                                <?php if(!empty($nicknames)) : ?>
+                                <?php if(!empty($nicknames) && !empty($nicknames[$value['Order_ID']])) : ?>
                                     <hr>
                                     Nickname(s):
                                     <?php foreach ($nicknames[$value['Order_ID']] as $k => $nickname) : ?>

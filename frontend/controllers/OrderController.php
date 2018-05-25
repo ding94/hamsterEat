@@ -16,6 +16,7 @@ use kartik\mpdf\Pdf;
 use yii\helpers\ArrayHelper;
 use frontend\controllers\CommonController;
 use yii\filters\AccessControl;
+use common\models\OrderCartNickName;
 
 class OrderController extends CommonController
 {
@@ -147,7 +148,7 @@ class OrderController extends CommonController
         $order['Orders_TotalPrice'] = number_format($order['Orders_TotalPrice'],2);
         $order['Orders_DiscountTotalAmount'] = number_format($order['Orders_DiscountTotalAmount'],2);
         $order['Orders_DiscountEarlyAmount'] = number_format($order['Orders_DiscountEarlyAmount'],2);
-
+        
         $this->layout = 'user';
         return $this->render('orderdetails', ['order'=>$order, 'orderitems'=>$orderitems, 'did'=>$did, 'label'=>$label]);
     }
@@ -163,10 +164,17 @@ class OrderController extends CommonController
         }
         $orderitem = Orderitem::find()->where('Delivery_ID = :did and OrderItem_Status != 8 and OrderItem_Status != 9', [':did'=>$did])->all();
         $address = DeliveryAddress::find()->where('delivery_id=:did',[':did'=>$did])->one();
+        $nicknames = array();
+        foreach ($orderitem as $k => $oid) {
+            $names = OrderCartNickName::find()->where('tid = :t',[':t'=>$oid['Order_ID']])->andWhere(['=','type',2])->all();
+            foreach ($names as $ke => $name) {
+                $nicknames[$oid['Order_ID']][] = $name['nickname'];
+            }
+        }
         
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
-            'content' => $this->renderPartial('orderhistorydetails',['order'=>$order, 'orderitem' => $orderitem ,'address'=>$address,'did'=>$did]),
+            'content' => $this->renderPartial('orderhistorydetails',['order'=>$order, 'orderitem' => $orderitem ,'address'=>$address,'nicknames'=>$nicknames,'did'=>$did]),
             'options' => [
                 'title' => 'Invoice',
                 'subject' => 'Sample Subject',

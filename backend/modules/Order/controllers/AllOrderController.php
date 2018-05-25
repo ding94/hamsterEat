@@ -21,6 +21,7 @@ use common\models\Order\Orderitem;
 use common\models\food\Food;
 use backend\models\ItemSearch;
 use backend\models\OrderstatusSearch;
+use common\models\OrderCartNickName;
 
 class AllOrderController extends CommonController
 {
@@ -57,10 +58,17 @@ class AllOrderController extends CommonController
         }
         $orderitem = Orderitem::find()->where('Delivery_ID = :did and OrderItem_Status != 8 and OrderItem_Status != 9', [':did'=>$did])->all();
         $address = DeliveryAddress::find()->where('delivery_id=:did',[':did'=>$did])->one();
-      
+        $nicknames = array();
+        foreach ($orderitem as $k => $oid) {
+            $names = OrderCartNickName::find()->where('tid = :t',[':t'=>$oid['Order_ID']])->andWhere(['=','type',2])->all();
+            foreach ($names as $ke => $name) {
+                $nicknames[$oid['Order_ID']][] = $name['nickname'];
+            }
+        }
+        
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
-            'content' => $this->renderPartial('orderhistorydetails',['order'=>$order, 'orderitem' => $orderitem ,'address'=>$address,'did'=>$did]),
+            'content' => $this->renderPartial('orderhistorydetails',['order'=>$order, 'orderitem' => $orderitem ,'address'=>$address,'nicknames'=>$nicknames,'did'=>$did]),
             'options' => [
                 'title' => 'Invoice',
                 'subject' => 'Sample Subject',

@@ -59,37 +59,39 @@ Modal::end();
 
     <!--  For Phone View-->
     <div id="filter-btn" class="btn raised-btn main-btn"><i class="fa fa-sliders"></i> <?php echo Yii::t('m-restaurant','Filter') ?></div>  
-       <div class="btn-group" id="halal-btn" data-toggle="buttons"> 
-        <?php if($name = $halal == 1){ ?>
-          <label class="btn btn-default btn-on-ph btn-sm active" onclick="halalstatus(1,'<?php echo $url ?>')">
-            <input type="radio" >Halal</label>
-          <label class="btn btn-default btn-on-ph btn-sm " onclick="halalstatus(0,'<?php echo $url ?>')">
-            <input type="radio" >Non-Halal</label>
-        <?php }else{ ?>
-            <label class="btn btn-default btn-on-ph  btn-sm " onclick="halalstatus(1,'<?php echo $url ?>')">
-              <input type="radio">Halal</label>
-            <label class="btn btn-default btn-on-ph btn-sm active" onclick="halalstatus(0,'<?php echo $url ?>')">
+        <div class="btn-group" id="halal-btn" data-toggle="buttons"> 
+          <?php if($name = $halal == 1){ ?>
+            <label class="btn btn-default btn-on-ph btn-sm active" onclick="halalstatus(1,'<?php echo $url ?>','<?php echo $halal ?>')">
+              <input type="radio" >Halal</label>
+            <label class="btn btn-default btn-on-ph btn-sm " onclick="halalstatus(0,'<?php echo $url ?>','<?php echo $halal ?>')">
               <input type="radio" >Non-Halal</label>
-        <?php } ?>  
-    </div>
-     
+          <?php }else{ ?>
+              <label class="btn btn-default btn-on-ph  btn-sm " onclick="halalstatus(1,'<?php echo $url ?>','<?php echo $halal ?>')">
+                <input type="radio">Halal</label>
+              <label class="btn btn-default btn-on-ph btn-sm active" onclick="halalstatus(0,'<?php echo $url ?>','<?php echo $halal ?>')">
+                <input type="radio" >Non-Halal</label>
+          <?php } ?>  
+           
+        </div>
+     <i class="fa fa-spinner fa-spin halal-ph-spin" style="font-size:24px"></i>
 	
   <div class="all-status">
      
       <div class="btn-group hl a-change" data-toggle="buttons"> 
         <?php if($name = $halal == 1){ ?>
-          <label class="btn btn-default btn-on-pc btn-sm active" onclick="halalstatus(1,'<?php echo $url ?>')">
+          <label class="btn btn-default btn-on-pc btn-sm active" onclick="halalstatus(1,'<?php echo $url ?>','<?php echo $halal ?>')">
             <input type="radio" >Halal</label>
-          <label class="btn btn-default btn-off-pc btn-sm " onclick="halalstatus(0,'<?php echo $url ?>')">
+          <label class="btn btn-default btn-off-pc btn-sm " onclick="halalstatus(0,'<?php echo $url ?>','<?php echo $halal ?>')">
             <input type="radio" >Non-Halal</label>
         <?php }else{ ?>
-            <label class="btn btn-default btn-on-pc  btn-sm " onclick="halalstatus(1,'<?php echo $url ?>')">
+            <label class="btn btn-default btn-on-pc  btn-sm " onclick="halalstatus(1,'<?php echo $url ?>','<?php echo $halal ?>')">
               <input type="radio">Halal</label>
-            <label class="btn btn-default btn-off-pc btn-sm active" onclick="halalstatus(0,'<?php echo $url ?>')">
+            <label class="btn btn-default btn-off-pc btn-sm active" onclick="halalstatus(0,'<?php echo $url ?>','<?php echo $halal ?>')">
               <input type="radio" >Non-Halal</label>
         <?php } ?>
-          
+        <i class="fa fa-spinner fa-spin halal-spin" style="font-size:24px"></i>
       </div>
+        
 
       <!-- <span class="s" style="float:right;padding-left:10px;padding-right:10px;font-size: 24px;">|</span> -->
 	<!-- 	<?php echo Html::a(Yii::t('m-restaurant','Change Place'), ['/Restaurant/default/addsession','page'=>'index2'], ['id'=>'cp','class'=>'a-change','data-toggle'=>'modal','data-target'=>'#add-modal ','style'=>'font-size:14px']); ?>  

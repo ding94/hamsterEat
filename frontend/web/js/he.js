@@ -17,23 +17,28 @@ $(document).ready(function() {
 });
 
 $(".halal").children('a').click(function(){
-  passType(1,$(this).attr('data-url'));
+  passType(1,$(this).attr('data-url'),$(this).attr('refresh'));
 });
 
 $(".non-halal").children('a').click(function(){
-  passType(0,$(this).attr('data-url'));
+  passType(0,$(this).attr('data-url'),$(this).attr('refresh'));
 });
 
 
-function passType(type,url){
+function passType(type,url,refresh){
   $.ajax({
       url :url,
       type: "post",
       data :{
         type :type,
+        refresh:refresh,
     },  
     success: function (data) {
       $("#type-modal").modal('hide');
+      if(refresh==1){
+        console.log(data);
+         location.reload();
+      }
       //closeNew();
     },
     error: function (request, status, error) {

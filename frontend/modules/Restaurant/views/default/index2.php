@@ -76,6 +76,7 @@ Modal::end();
                 <input type="radio" >Non-Halal</label>
           <?php } ?>  
         </div> 
+        <i class="fa fa-spinner fa-spin halal-ph-spin" style="font-size:24px"></i>
     <div class="all-status">
         <div id="restaurant-food-switch" class="btn-group " role="group">
             <?php echo Html::a('<i class="fa fa-home">'.Yii::t('m-restaurant','Restaurant').'</i>', ['index'], ['type'=>'button','class'=>'btn btn-default restaurant-food']); ?>
@@ -94,6 +95,7 @@ Modal::end();
               <label class="btn btn-default btn-off-pc btn-sm active" onclick="halalstatus(0,'<?php echo $url ?>')">
                 <input type="radio" >Non-Halal</label>
           <?php } ?>
+          <i class="fa fa-spinner fa-spin halal-spin" style="font-size:24px"></i>
         </div>
     </div>
   

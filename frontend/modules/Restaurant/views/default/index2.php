@@ -65,14 +65,14 @@ Modal::end();
      <!--  For Phone View-->
         <div class="btn-group" id="halal-btn" data-toggle="buttons"> 
           <?php if($name = $halal == 1){ ?>
-            <label class="btn btn-default btn-on-ph btn-sm active" onclick="halalstatus(1,'<?php echo $url ?>')">
+            <label class="btn btn-default btn-on-ph btn-sm active" onclick="halalstatus(1,'<?php echo $url ?>','<?php echo $halal ?>')">
               <input type="radio" >Halal</label>
-            <label class="btn btn-default btn-on-ph btn-sm " onclick="halalstatus(0,'<?php echo $url ?>')">
+            <label class="btn btn-default btn-on-ph btn-sm " onclick="halalstatus(0,'<?php echo $url ?>','<?php echo $halal ?>')">
               <input type="radio" >Non-Halal</label>
           <?php }else{ ?>
-              <label class="btn btn-default btn-on-ph  btn-sm " onclick="halalstatus(1,'<?php echo $url ?>')">
+              <label class="btn btn-default btn-on-ph  btn-sm " onclick="halalstatus(1,'<?php echo $url ?>','<?php echo $halal ?>')">
                 <input type="radio">Halal</label>
-              <label class="btn btn-default btn-on-ph btn-sm active" onclick="halalstatus(0,'<?php echo $url ?>')">
+              <label class="btn btn-default btn-on-ph btn-sm active" onclick="halalstatus(0,'<?php echo $url ?>','<?php echo $halal ?>')">
                 <input type="radio" >Non-Halal</label>
           <?php } ?>  
         </div> 
@@ -85,14 +85,14 @@ Modal::end();
 
         <div class="btn-group hl a-change" data-toggle="buttons"> 
           <?php if($name = $halal == 1){ ?>
-            <label class="btn btn-default btn-on-pc btn-sm active" onclick="halalstatus(1,'<?php echo $url ?>')">
+            <label class="btn btn-default btn-on-pc btn-sm active" onclick="halalstatus(1,'<?php echo $url ?>','<?php echo $halal ?>')">
               <input type="radio" >Halal</label>
-            <label class="btn btn-default btn-off-pc btn-sm " onclick="halalstatus(0,'<?php echo $url ?>')">
+            <label class="btn btn-default btn-off-pc btn-sm " onclick="halalstatus(0,'<?php echo $url ?>','<?php echo $halal ?>')">
               <input type="radio" >Non-Halal</label>
           <?php }else{ ?>
-              <label class="btn btn-default btn-on-pc  btn-sm " onclick="halalstatus(1,'<?php echo $url ?>')">
+              <label class="btn btn-default btn-on-pc  btn-sm " onclick="halalstatus(1,'<?php echo $url ?>','<?php echo $halal ?>')">
                 <input type="radio">Halal</label>
-              <label class="btn btn-default btn-off-pc btn-sm active" onclick="halalstatus(0,'<?php echo $url ?>')">
+              <label class="btn btn-default btn-off-pc btn-sm active" onclick="halalstatus(0,'<?php echo $url ?>','<?php echo $halal ?>')">
                 <input type="radio" >Non-Halal</label>
           <?php } ?>
           <i class="fa fa-spinner fa-spin halal-spin" style="font-size:24px"></i>

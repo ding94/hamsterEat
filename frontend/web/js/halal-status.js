@@ -1,8 +1,3 @@
-
- 
-
-  
-
 function halalstatus(type,url,halal){
   var x = window.matchMedia("(max-width: 767px)")
   x.addListener(spinnerView)

@@ -13,6 +13,7 @@ $(document).ready(function() {
   user_valid = $("input[name='user-validation']").val()
   if (user_valid == 10) {
     detectPayment();
+    detectPendingPayment();
   }
 });
 
@@ -123,9 +124,30 @@ function detectPayment()
   
 }
 
+function detectPendingPayment(){
+   $.ajax({
+    url: $("input[name=detect-pending-payment-url]").val(),
+    type: 'POST',
+    data:{
+      action : $("input[name=current-url]").val(),
+    },
+  })
+  .done(function(obj) {
+      data = JSON.parse(obj);
+      if (data['valid']==1) {
+        if (confirm('Do You Want To Continue To Proceed Your payment')) {
+           window.location.href = data['url'];
+        }
+      }
+  })
+  .fail(function(e) {
+    console.log(e);
+  });
+}
+
 function alertPayment(link)
 {
-  if (confirm('Do You Want To Continue To Procee Your payment')) {
+  if (confirm('Do You Want To Continue To Proceed Your payment')) {
      window.location.href = link;
   } else {
     console.log($("input[name=close-payment-url]").val());

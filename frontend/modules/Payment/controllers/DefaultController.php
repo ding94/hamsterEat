@@ -10,7 +10,7 @@ use frontend\controllers\CommonController;
 use common\models\Order\{Orders};
 use common\models\Account\Accountbalance;
 use common\models\Payment;
-
+use yii\helpers\Url;
 /**
  * Default controller for the `Payment` module
  */
@@ -23,7 +23,7 @@ class DefaultController extends CommonController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['process','payment-post','payment-cancel'],
+                        'actions' => ['process','payment-post','payment-cancel','detect-pending-payment'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -52,6 +52,23 @@ class DefaultController extends CommonController
     	}
 
     	return $this->render('process',['order'=>$order,'balance'=>$balance]);
+    }
+
+    public static function actionDetectPendingPayment()
+    {
+        $data = array(
+            'valid' =>0,
+            'url' =>'',
+        );
+        if (Yii::$app->request->post('action') != 'default/process') {
+            if (!Yii::$app->user->isGuest) {
+                $order = Orders::find()->where('User_Username = :u',[':u'=>Yii::$app->user->identity->username])->andWhere(['=','Orders_Status',1])->one();
+                $data['valid'] = 1;
+                $data['url'] = Url::to(['/payment/default/process','did'=>$order['Delivery_ID']]);
+            }
+        }
+
+        return Json::encode($data);
     }
 
     /*

@@ -249,6 +249,8 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
             }
         }
         echo Html::hiddenInput('detect-payment-url',Url::to(['/payment/online-banking/detect-payment']));
+        echo Html::hiddenInput('detect-pending-payment-url',Url::to(['/payment/default/detect-pending-payment']));
+        echo Html::hiddenInput('current-url',(Yii::$app->controller->id.'/'.Yii::$app->controller->action->id));
         echo Html::hiddenInput('close-payment-url',Url::to(['/payment/default/close-session']));
     ?>
     </div>

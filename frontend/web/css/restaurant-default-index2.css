@@ -16,7 +16,18 @@
   float:right;
 }
 
+.halal-spin{
+  margin-left: 265px;
+  margin-top: 5px;
+  position: absolute;
+  display: none;
+}
+
 #halal-btn{
+  display: none;
+}
+
+.halal-ph-spin { 
   display: none;
 }
 
@@ -213,7 +224,7 @@
   .restaurant-food{
     width: 120px;
     margin:auto;
-    margin-top: 25px;
+    margin-top: 30px;
 
   }
 
@@ -223,6 +234,14 @@
     margin: auto;
     margin-top: 15px;
  
+  }
+
+  .halal-ph-spin{
+    margin: auto;
+    margin-top: 35px;
+    position: absolute;
+    text-align:center;
+    width:92.5%;
   }
 
   .btn-on-ph,.btn-off-ph{

@@ -322,10 +322,10 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                         ?>
                         <div class="row">
                             <div class="col-xs-6 non-halal box">
-                                <?php echo Html::a('<span>Non-HALAL<i class="fa fa-check"></i></span>','#',['data-url'=>$url])?>
+                                <?php echo Html::a('<span>Non-HALAL<i class="fa fa-check"></i></span>','#',['data-url'=>$url,'refresh'=>1])?>
                             </div>
                             <div class="col-xs-6 halal box">
-                                <?php echo Html::a('<span>HALAL<i class="fa fa-check"></i></span>','#',['data-url'=>$url])?>
+                                <?php echo Html::a('<span>HALAL<i class="fa fa-check"></i></span>','#',['data-url'=>$url,'refresh'=>1])?>
                             </div>
                         </div>       
                     </div>

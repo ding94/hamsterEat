@@ -253,29 +253,35 @@ class CommonController extends Controller
 
         if (!empty($time)) {
             foreach ($time as $k => $value) {
+            	/*
+            	db->date ?? now->date
+            	answer must be false
+            	e.g: (db) 7 >= 10(now) << false
+            	(db)11 <= 10 (now) << false
+            	*/
                 switch ($value['symbol']) {
                     case '==':
-                        if (date($value['date_format']) == $value['time']) {
+                        if ($value['time'] == date($value['date_format'])) {
                             $data['valid'] = false;
                         }
                         break;
                     case '>':
-                        if (date($value['date_format']) > $value['time']) {
+                        if ($value['time'] > date($value['date_format'])) {
                             $data['valid'] = false;
                         }
                         break;
                     case '>=':
-                        if (date($value['date_format']) >= $value['time']) {
+                        if ($value['time'] >= date($value['date_format'])) {
                             $data['valid'] = false;
                         }
                         break;
                     case '<':
-                        if (date($value['date_format']) < $value['time']) {
+                        if ($value['time'] < date($value['date_format'])) {
                             $data['valid'] = false;
                         }
                         break;
                     case '<=':
-                        if (date($value['date_format']) <= $value['time']) {
+                        if ($value['time'] <= date($value['date_format'])) {
                             $data['valid'] = false;
                         }
                         break;

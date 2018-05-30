@@ -63,8 +63,10 @@ class DefaultController extends CommonController
         if (Yii::$app->request->post('action') != 'default/process') {
             if (!Yii::$app->user->isGuest) {
                 $order = Orders::find()->where('User_Username = :u',[':u'=>Yii::$app->user->identity->username])->andWhere(['=','Orders_Status',1])->one();
-                $data['valid'] = 1;
-                $data['url'] = Url::to(['/payment/default/process','did'=>$order['Delivery_ID']]);
+                if (!empty($order)) {
+                    $data['valid'] = 1;
+                    $data['url'] = Url::to(['/payment/default/process','did'=>$order['Delivery_ID']]);
+                }
             }
         }
 

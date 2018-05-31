@@ -32,7 +32,7 @@ RestaurantServiceAsset::register($this);
               </div>  	
             </div>
       		</a>
-          <?= Html::a(Yii::t('m-restaurant','Placed Orders'),['/Restaurant/restaurant/cooking-detail','rid'=>$restaurant['Restaurant_ID']],['class'=>'raised-btn btn-success success-btn placed-orders-btn']);?>
+          <?= Html::a(Yii::t('m-restaurant','Placed Orders'),['/Restaurant/restaurantorder/index','status'=>2,'rid'=>$restaurant['Restaurant_ID']],['class'=>'raised-btn btn-success success-btn placed-orders-btn']);?>
         </div>
       <?php endif;?>
       <?php } ?>

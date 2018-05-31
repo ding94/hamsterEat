@@ -100,22 +100,22 @@ OrderDetailsAsset::register($this);
                 <div class="tab-content col-md-6">
                     <table class="table">
                         <tr>
-                            <th><?= Yii::t('common','Subtotal (RM)') ?>:</th>
+                            <th><?= Yii::t('common','Subtotal').' (RM)' ?>:</th>
                             <td><?= $order['Orders_Subtotal']; ?></td>
                         </tr>
                         <tr>
-                            <th><?= Yii::t('common','Delivery Charge (RM)') ?>:</th>
+                            <th><?= Yii::t('common','Delivery Charge').' (RM)' ?>:</th>
                             <td><?= $order['Orders_DeliveryCharge']; ?></td>
                         </tr>
                         <?php if ($order['Orders_DiscountEarlyAmount'] >0): ?>
                             <tr>
-                                <th><?= Yii::t('common','Early Discount (RM)') ?>:</th>
+                                <th><?= Yii::t('common','Early Discount'.' (RM)') ?>:</th>
                                 <td style="color: red;">- <?= $order['Orders_DiscountEarlyAmount']; ?></td>
                             </tr>
                         <?php endif ?>
                         <?php if ($order['Orders_DiscountTotalAmount'] >0): ?>
                             <tr>
-                                <th><?= Yii::t('common','Discount (RM)') ?>:</th>
+                                <th><?= Yii::t('common','Discount').' (RM)' ?>:</th>
                                 <td style="color: red;">- <?= $order['Orders_DiscountTotalAmount']; ?></td>
                             </tr>
                         <?php endif ?>
@@ -131,7 +131,7 @@ OrderDetailsAsset::register($this);
                             </tr>
                         <?php endif ?>
                         <tr>
-                            <th><?= Yii::t('common','Total (RM)') ?>:</th>
+                            <th><?= Yii::t('common','Total').' (RM)' ?>:</th>
                             <td><?=  CartController::actionRoundoff1decimal($order['Orders_TotalPrice']); ?></td>
                         </tr>
                     </table>

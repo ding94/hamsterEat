@@ -117,12 +117,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
             'id' => 'uppernavbar'
         ],
     ]);
-   /* $menuItems = [
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Guide', 'url' => ['/site/faq']],
-       
-         //['label' => '<span class="glyphicon glyphicon-shopping-cart"><span class="badge">'.Yii::$app->view->params['number'].'</span></span> ', 'url' => ['/cart/view-cart']],
-    ];*/
+    
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => '<span class="fa fa-building fa-lg" aria-hidden="true"></span>'.Yii::t('common','Company Signup'), 'url' => ['/site/companysignup']];
         $menuItems[] = ['label' => '<span class="glyphicon glyphicon-user"></span>'.Yii::t('common','Signup'), 'url' => ['/site/signup']];
@@ -203,31 +198,8 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
                 $menuItems[end($keys)]['items'][] =['label' => Yii::t('layouts','Delivery Orders'), 'url' => ['/Delivery/deliveryorder/order']];
                 $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
         }
-        /*if ($company = Company::find()->where('owner_id=:id',[':id'=>Yii::$app->user->identity->id])->one()) {
-            $menuItems[end($keys)]['items'][] =['label' => 'Company', 'url' => ['/company/index']];
-            $menuItems[end($keys)]['items'][] = '<li class="divider"></li>';
-        }*/
 
         $menuItems[end($keys)]['items'][] = ['label' => Yii::t('common','Logout'), 'url' => ['/site/logout'],'linkOptions'=>['data-method'=>'post']];
-        // $menuItems[] = ['label' => '<i class="fa fa-globe"></i><span class="language"> Language </span>', 'items' => [
-        //                 ['label' => 'English', 'url' => Url::to(['/site/changelanguage','lang'=>'en'])],
-        //                 '<li class="divider"></li>',
-        //                 ['label' => '中文', 'url' => Url::to(['/site/changelanguage','lang'=>'zh'])]
-        //                 ]];
-       
-                    //var_dump($menuItems);exit;
-        
-       //  $menuItems = ['label' => 'Create Restaurant', 'url' => ['Restaurant/default/new-restaurant-location'],'visible'=>Yii::$app->user->can('restaurant manager')];
-      
-        // $menuItems[] = '<li>'
-        //     . Html::beginForm(['/site/logout'], 'post')
-        //     . Html::submitButton(
-        //         'Logout (' . Yii::$app->user->identity->username . ')',
-        //         ['class' => 'btn btn-link logout']
-        //     )
-        //     . Html::endForm()
-        //     . '</li>';
-        //     ['label' => 'My Profile', 'url' => ['/user/user-profile']];
          
     }
     $menuItems[] = '<li class="special-nav-item">'.Html::a('EN',['/site/changelanguage','lang'=>'en']).'<span>|</span>'.Html::a('中文',['/site/changelanguage','lang'=>'zh']).'</li>';

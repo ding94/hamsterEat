@@ -11,6 +11,9 @@ $quantity = 0;
 
 <div class="container">
 	<?php echo Html::a(Yii::t('m-restaurant','Show PDF'),['/Delivery/deliveryorder/restaurant-orders-pdf'], ['class'=>'raised-btn'])?><?php echo Html::button(Yii::t('m-restaurant','View Nicknames'), ['class'=>'raised-btn btn-default fa fa-exchange swap-button pull-right switch name'])?>
+	<?php echo Html::a('Show Today Invoice',['/Delivery/deliveryorder/todayinvoicepdf'], ['target'=>'_blank','class'=>'raised-btn'])?>
+
+	<?php echo Html::a('View All order',['/Restaurant/restaurantorder/index','status'=>2,'rid'=>Yii::$app->request->get('rid')], ['class'=>'raised-btn btn-default  pull-right'])?>
 <div class="panel">
 	<div class="panel-heading">
 		<ul class="nav nav-tabs">

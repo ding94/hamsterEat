@@ -78,7 +78,7 @@ $this->title = "Invoice";
                             </td>
                             <td style="width:15%;font-weight: bold;border-bottom: 1px solid #ddd;">Food</td>
                             <td style="width:50%;border-bottom: 1px solid #ddd;"><?= $food['originName']; ?></td>
-                            <td style="width:10%;border-bottom: 1px solid #ddd;padding-right: 5%;text-align: right;">RM <?=  number_format($food['Price'],2); ?></td>
+                            <td style="width:10%;border-bottom: 1px solid #ddd;padding-right: 5%;text-align: right;">RM <?=  number_format($value['OrderItem_LineTotal']-$value['OrderItem_SelectionTotal'],2); ?></td>
                         </tr>
                         <tr>
                             <td style="font-weight: bold;border-bottom: 1px solid #ddd;">Selections</td>
@@ -93,7 +93,7 @@ $this->title = "Invoice";
                         <tr>
                             <td style="font-weight: bold;border-bottom: 1px solid #ddd;">Line Total</td>
                             <td style="border-bottom: 1px solid #ddd;"></td>
-                            <td style="border-bottom: 1px solid #ddd;padding-right: 5%;text-align: right;">RM <?=  number_format(($value['OrderItem_LineTotal']+$value['OrderItem_SelectionTotal'])*$value['OrderItem_Quantity'],2); ?></td>
+                            <td style="border-bottom: 1px solid #ddd;padding-right: 5%;text-align: right;">RM <?=  number_format(($value['OrderItem_LineTotal'])*$value['OrderItem_Quantity'],2); ?></td>
                         </tr>
                         <tr>
                             <td style="font-weight: bold;border-bottom: 1px solid black">Remarks</td>
